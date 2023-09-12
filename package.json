@@ -1,0 +1,25 @@
+{
+  "name": "@ajvincent/ts-morph-structures",
+  "version": "1.0.0",
+  "description": "Structure classes for ts-morph, including type structure classes.",
+  "main": "exports.js",
+  "typings": "exports.d.ts",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajvincent/ts-morph-structures.git"
+  },
+  "keywords": [
+    "ts-morph",
+    "typescript"
+  ],
+  "author": "Alexander J. Vincent <ajvincent@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajvincent/ts-morph-structures/issues"
+  },
+  "homepage": "https://github.com/ajvincent/ts-morph-structures#readme"
+}
