@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "module": "es2022",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "declaration": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "#utilities/*": ["./utilities/*"],
+    }
+  },
+
+  "extends": "@tsconfig/node18/tsconfig.json"
+}
