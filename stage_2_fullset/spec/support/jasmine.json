@@ -1,0 +1,6 @@
+{
+  "spec_files": [
+    "stage_2_fullset/spec/**/*.ts"
+  ],
+  "stopSpecOnExpectationFailure": false
+}

@@ -6,6 +6,7 @@
   "typings": "exports.d.ts",
   "type": "module",
   "scripts": {
+    "build": "ts-node-esm ./build.ts",
     "eslint": "eslint utilities/**/*.ts",
     "test": "ts-node-esm node_modules/jasmine/bin/jasmine.js --config=spec/support/jasmine.json"
   },
