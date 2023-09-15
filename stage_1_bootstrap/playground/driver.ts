@@ -2,7 +2,7 @@ import getTS_SourceFile from "#utilities/source/getTS_SourceFile.js";
 
 import structureToNodeMap, {
   type NodeWithStructures
-} from "../source/bootstrap/structureToNodeMap.js";
+} from "../prototype-snapshot/bootstrap/structureToNodeMap.js";
 
 import {
   type ModuleSourceDirectory,
