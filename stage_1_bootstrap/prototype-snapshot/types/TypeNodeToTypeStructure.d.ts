@@ -9,7 +9,7 @@ import type {
 
 import type {
   NodeWithStructures
-} from "../bootstrap/structureToNodeMap.mts";
+} from "../bootstrap/structureToNodeMap.ts";
 
 /**
  * @param message - The failure message.

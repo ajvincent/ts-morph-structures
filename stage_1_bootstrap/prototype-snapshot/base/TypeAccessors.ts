@@ -35,7 +35,7 @@ import WriterTypedStructureImpl from "../typeStructures/WriterTypedStructureImpl
  * `TypeAccessors` as a private class field, and provide getters and setters for type and typeStructure
  * referring to the private TypeAccessors.
  *
- * See `../decorators/TypedNode.mts` for an example.
+ * See `../decorators/TypedNode.ts` for an example.
  */
 export default class TypeAccessors
 extends StructureBase

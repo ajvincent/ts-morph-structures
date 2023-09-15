@@ -67,7 +67,7 @@ export default async function(): Promise<void> {
 
   const syntaxKindToStructureKinds = new Map<SyntaxKind, Set<StructureKind>>;
 
-  fileWriter.writeLine("// This file is generated.  Do not edit.  See ../../build/structureToSyntax.mts instead.");
+  fileWriter.writeLine("// This file is generated.  Do not edit.  See ../../build/structureToSyntax.ts instead.");
 
   fileWriter.writeLine(`import { StructureKind, SyntaxKind } from "ts-morph";`);
   fileWriter.writeLine("const StructureKindToSyntaxKindMap: ReadonlyMap<StructureKind, SyntaxKind> = new Map<StructureKind, SyntaxKind>([");
@@ -102,7 +102,7 @@ export default async function(): Promise<void> {
   fileWriter.writeLine("]);");
   fileWriter.writeLine("export default StructureKindToSyntaxKindMap;");
 
-  const pathToMapFile = pathToModule(stageDir, "source/generated/structureToSyntax.mts");
+  const pathToMapFile = pathToModule(stageDir, "prototype-snapshot/generated/structureToSyntax.ts");
   await fs.mkdir(path.dirname(pathToMapFile), { recursive: true });
   await fs.writeFile(pathToMapFile, fileWriter.toString(), { encoding: "utf-8" });
 }

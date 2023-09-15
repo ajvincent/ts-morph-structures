@@ -22,7 +22,7 @@ import {
   PromiseAllParallel
 } from "../../fixtures/stage_utilities/PromiseTypes.js";
 
-import StructureKindToSyntaxKindMap from "../../source/generated/structureToSyntax.js";
+import StructureKindToSyntaxKindMap from "../../prototype-snapshot/generated/structureToSyntax.js";
 import structureToNodeMap from "../../prototype-snapshot/bootstrap/structureToNodeMap.js";
 
 import {
@@ -35,10 +35,10 @@ async function getSupportedKindSet(): Promise<Set<StructureKind>> {
     pathToDirectory: "../../.."
   };
 
-  const pathToStructuresDir = pathToModule(stageDir, "source/structures");
+  const pathToStructuresDir = pathToModule(stageDir, "prototype-snapshot/structures");
 
   const moduleList = (await fs.readdir(pathToStructuresDir)).filter(
-    fileName => fileName.endsWith("Impl.mts")
+    fileName => fileName.endsWith("Impl.ts")
   );
 
   const StructureKindRE = /StructureKind\.([A-Za-z]+)/g;
@@ -111,14 +111,14 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
     });
   }
 
-  checkMap("ecma_references/classDecorators.mts");
-  checkMap("ecma_references/NumberStringClass.mts");
-  checkMap("stage_utilities/assert.mts");
-  checkMap("stage_utilities/DefaultMap.mts");
-  checkMap("stage_utilities/PromiseTypes.mts");
-  checkMap("stage_utilities/PropertyKeySorter.mts");
-  checkMap("stage_utilities/WeakRefSet.mts");
-  checkMap("grab-bag.mts");
+  checkMap("ecma_references/classDecorators.ts");
+  checkMap("ecma_references/NumberStringClass.ts");
+  checkMap("stage_utilities/assert.ts");
+  checkMap("stage_utilities/DefaultMap.ts");
+  checkMap("stage_utilities/PromiseTypes.ts");
+  checkMap("stage_utilities/PropertyKeySorter.ts");
+  checkMap("stage_utilities/WeakRefSet.ts");
+  checkMap("grab-bag.ts");
 
   let remainingKinds = Array.from(remainingKeys.keys()).map(
     (kind) => StructureKind[kind] + ": " + SyntaxKind[StructureKindToSyntaxKindMap.get(kind)!]
@@ -147,14 +147,14 @@ it("structureToNodeMap can use the type-aware structures", () => {
     }
   }
 
-  checkMap("ecma_references/classDecorators.mts");
-  checkMap("stage_utilities/assert.mts");
-  checkMap("stage_utilities/DefaultMap.mts");
-  checkMap("stage_utilities/PromiseTypes.mts");
-  checkMap("stage_utilities/PropertyKeySorter.mts");
-  checkMap("grab-bag.mts");
+  checkMap("ecma_references/classDecorators.ts");
+  checkMap("stage_utilities/assert.ts");
+  checkMap("stage_utilities/DefaultMap.ts");
+  checkMap("stage_utilities/PromiseTypes.ts");
+  checkMap("stage_utilities/PropertyKeySorter.ts");
+  checkMap("grab-bag.ts");
 
-  const structureMap = checkMap("stage_utilities/WeakRefSet.mts");
+  const structureMap = checkMap("stage_utilities/WeakRefSet.ts");
   const liveElementsSignature = Array.from(structureMap.keys()).find(
     structure => structure.kind === StructureKind.MethodSignature && structure.name === "liveElements"
   );

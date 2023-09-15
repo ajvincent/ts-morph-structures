@@ -1,4 +1,4 @@
-/* This test fixture is very finicky.  Please see spec/integration.mts before changing it. */
+/* This test fixture is very finicky.  Please see spec/integration.ts before changing it. */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { SetReturnType } from "type-fest";

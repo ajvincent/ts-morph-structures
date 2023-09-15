@@ -50,7 +50,7 @@ it("ts-morph-structures: integration test", () => {
   let NST_InterfaceStructure = new InterfaceDeclarationImpl("notUsed");
   {
     const NumberStringClassFile = getTS_SourceFile(
-      stageDir, "fixtures/ecma_references/NumberStringClass.mts"
+      stageDir, "fixtures/ecma_references/NumberStringClass.ts"
     );
     const NST_Node = NumberStringClassFile.getInterfaceOrThrow("NumberStringType");
 
@@ -225,17 +225,17 @@ it("ts-morph-structures: integration test", () => {
     };
 
     const project = new Project(TSC_CONFIG);
-    NumberStringWrapper_File = project.createSourceFile("NumberStringWrapper.mts", newSourceStructure);
+    NumberStringWrapper_File = project.createSourceFile("NumberStringWrapper.ts", newSourceStructure);
 
     const source = NumberStringWrapper_File.print();
     project.removeSourceFile(NumberStringWrapper_File);
 
-    NumberStringWrapper_File = project.createSourceFile("NumberStringWrapper.mts", source);
+    NumberStringWrapper_File = project.createSourceFile("NumberStringWrapper.ts", source);
   }
 
   // reference structure
   const referenceStructure = getTS_SourceFile(
-    stageDir, "fixtures/ecma_references/NumberStringWrapped.mts"
+    stageDir, "fixtures/ecma_references/NumberStringWrapped.ts"
   ).getStructure();
 
   const actualStructure = NumberStringWrapper_File.getStructure();

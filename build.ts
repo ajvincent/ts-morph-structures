@@ -44,6 +44,16 @@ const BPSet = new BuildPromiseSet;
 }
 
 { // stage 2
+  const target = BPSet.get("stage_1_bootstrap");
+
+  target.addTask(async () => {
+    console.log("starting stage_1_bootstrap");
+    await recursiveBuild("stage_1_bootstrap", "buildStage.ts");
+    console.log("completed stage_1_bootstrap");
+  });
+}
+
+{ // stage 2
   const target = BPSet.get("stage_2_fullset");
 
   target.addTask(async () => {
@@ -57,6 +67,7 @@ BPSet.markReady();
 {
   BPSet.main.addSubtarget("build:jasmine");
   BPSet.main.addSubtarget("build:eslint");
+  BPSet.main.addSubtarget("stage_1_bootstrap");
   BPSet.main.addSubtarget("stage_2_fullset");
 }
 await BPSet.main.run();

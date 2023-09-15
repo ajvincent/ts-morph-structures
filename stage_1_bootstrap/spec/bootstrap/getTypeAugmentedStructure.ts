@@ -25,7 +25,7 @@ it("getTypeAugmentedStructure gets structures having type structures for types",
     pathToDirectory: "../../.."
   };
 
-  const sourceFile = getTS_SourceFile(stageDir, "fixtures/stage_utilities/DefaultMap.mts");
+  const sourceFile = getTS_SourceFile(stageDir, "fixtures/stage_utilities/DefaultMap.ts");
   const DefaultWeakMapClass = sourceFile.getClassOrThrow("DefaultWeakMap");
 
   function typeStructureConsole(
