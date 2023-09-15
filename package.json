@@ -6,7 +6,8 @@
   "typings": "exports.d.ts",
   "type": "module",
   "scripts": {
-    "build": "ts-node-esm ./build.ts"
+    "build": "ts-node-esm ./build.ts",
+    "import-stage1": "ts-node-esm ./utilities/source/importAndRenameFiles.ts /Users/ajvincent/membranes/es-membrane/"
   },
   "repository": {
     "type": "git",
