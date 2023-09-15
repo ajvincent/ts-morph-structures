@@ -24,18 +24,18 @@ The es-membrane prototype was a rush job, basically enough to be usable.  This i
   - fixtures: Test fixtures for the snapshot or prototype snapshot.
   - refactors: Tools using the snapshot to do useful changes to source / fixtures.
   - source: Code to create the output set.
-  - dist: The full output set, git-ignored, including exports.
+  - output: The full output set, git-ignored, including exports.
 - stage_2_fullset:
   - build: Stage-build files.
-  - snapshot: Copied from stage_1_bootstrap/dist
+  - snapshot: Copied from stage_1_bootstrap/output
   - spec: Test files for the snapshot.
   - fixtures: Test fixtures for the snapshot.
   - source: Code to create the output set.
   - refactors: Tools using the snapshot to do useful changes to source / fixtures.
-  - dist: The full output set, git-ignored, including exports.
+  - output: The full output set, git-ignored, including exports.
 - stage_3_fullset:
   - build: Stage-build files, including export.
-  - snapshot: Copied from stage_2_fullset/dist, git-ignored
+  - snapshot: Copied from stage_2_fullset/output, git-ignored
   - spec: Test files for the snapshot.
 - dist: the final snapshot.
 - utilities: Shared utilities for internal use.
