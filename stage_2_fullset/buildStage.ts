@@ -15,7 +15,7 @@ const BPSet = new BuildPromiseSet;
     "../node_modules/jasmine/bin/jasmine.js",
     [
       //"--parallel=auto",
-      "--config=./spec/support/jasmine.json",
+      "--config=./spec-snapshot/support/jasmine.json",
     ]
   ));
 }

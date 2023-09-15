@@ -1,6 +1,6 @@
 {
   "spec_files": [
-    "spec/**/*.ts"
+    "spec-snapshot/**/*.ts"
   ],
   "stopSpecOnExpectationFailure": false
 }

@@ -15,7 +15,7 @@ const BPSet = new BuildPromiseSet;
     "../node_modules/jasmine/bin/jasmine.js",
     [
       //"--parallel=auto",
-      "--config=./spec/support/jasmine.json",
+      "--config=./spec-snapshot/support/jasmine.json",
     ]
   ));
 }
@@ -32,7 +32,7 @@ const BPSet = new BuildPromiseSet;
   args.push("build/**/*.ts");
   args.push("fixtures/**/*.ts");
   args.push("prototype-snapshot/**/*.ts");
-  args.push("spec/**/*.ts");
+  args.push("spec-snapshot/**/*.ts");
 
   target.addTask(() => {
     console.log("starting build:eslint");
