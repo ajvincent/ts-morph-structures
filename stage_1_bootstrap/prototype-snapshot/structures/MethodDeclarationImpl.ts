@@ -17,7 +17,7 @@ import {
   ParameterDeclarationImpl,
   TypeParameterDeclarationImpl,
   TypeStructures,
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 import StructureBase from "../base/StructureBase.js";
 

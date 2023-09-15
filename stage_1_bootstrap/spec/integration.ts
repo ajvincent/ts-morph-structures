@@ -36,7 +36,7 @@ import {
   TypeArgumentedTypedStructureImpl,
   TypeParameterDeclarationImpl,
   getTypeAugmentedStructure
-} from "../exports.js";
+} from "../prototype-exports.js";
 
 // #endregion preamble
 

@@ -16,7 +16,7 @@ import {
   IndexSignatureDeclarationImpl,
   MethodSignatureImpl,
   PropertySignatureImpl
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 it("ts-morph structure decorators: TypeElementMemberedNode", () => {
   const Foo = MultiMixinBuilder<[

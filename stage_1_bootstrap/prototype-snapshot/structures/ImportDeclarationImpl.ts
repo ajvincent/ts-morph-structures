@@ -8,7 +8,7 @@ import {
 import {
   AssertEntryImpl,
   ImportSpecifierImpl,
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 import StructureBase from "../base/StructureBase.js";
 

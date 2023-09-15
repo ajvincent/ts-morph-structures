@@ -11,7 +11,7 @@ import type {
 import {
   LiteralTypedStructureImpl,
   TypeStructures,
-} from '../../exports.js';
+} from '../../prototype-exports.js';
 
 it("ts-morph structures: implements array and set, integration test", () => {
   class ImplementsArrayOwner implements Required<ImplementsClauseableNodeStructure>

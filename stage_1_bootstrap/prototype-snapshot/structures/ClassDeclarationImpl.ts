@@ -18,7 +18,7 @@ import {
   MethodDeclarationImpl,
   PropertyDeclarationImpl,
   SetAccessorDeclarationImpl,
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 import ReadonlyArrayProxyHandler from "../array-utilities/ReadonlyArrayProxyHandler.js";
 

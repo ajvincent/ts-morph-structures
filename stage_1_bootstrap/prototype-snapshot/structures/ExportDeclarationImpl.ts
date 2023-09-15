@@ -7,7 +7,7 @@ import {
 import {
   AssertEntryImpl,
   ExportSpecifierImpl,
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 import StatementClassesMap from "../base/StatementClassesMap.js";
 

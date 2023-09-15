@@ -9,7 +9,7 @@ import {
 
 import {
   JSDocTagImpl
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 import StructureBase from "../base/StructureBase.js";
 

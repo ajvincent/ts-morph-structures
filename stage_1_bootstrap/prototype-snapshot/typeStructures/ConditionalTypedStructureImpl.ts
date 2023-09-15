@@ -6,7 +6,7 @@ import type {
 
 import {
   LiteralTypedStructureImpl
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 import type {
   ConditionalTypeStructureParts,

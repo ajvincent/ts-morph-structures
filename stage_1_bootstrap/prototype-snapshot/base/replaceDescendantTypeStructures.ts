@@ -1,7 +1,7 @@
 import {
   TypeStructureClassesMap,
   type TypeStructures,
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 export default function replaceDescendantTypeStructures<
   ParentTypeStructure extends TypeStructures | TypeStructures[]

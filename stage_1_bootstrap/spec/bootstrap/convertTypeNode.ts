@@ -29,7 +29,7 @@ import {
   TypeStructures,
   UnionTypedStructureImpl,
   createCodeBlockWriter
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 import { TypeNodeToTypeStructureConsole } from "../../prototype-snapshot/types/TypeNodeToTypeStructure.js";
 
 describe("convertTypeNode generates correct type structures, with type", () => {

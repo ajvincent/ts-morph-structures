@@ -8,7 +8,7 @@ export const stageDir: ModuleSourceDirectory = {
   pathToDirectory: "../.."
 };
 
-const sourceGeneratedDir = pathToModule(stageDir, "source/generated");
+const sourceGeneratedDir = pathToModule(stageDir, "prototype-snapshot/generated");
 
 export {
   sourceGeneratedDir,

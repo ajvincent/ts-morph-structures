@@ -47,7 +47,7 @@ import {
   stringOrWriterFunction
 } from "../types/ts-morph-native.js";
 import { InterfaceDeclarationWithExtendsTypeStructures } from "../typeStructures/TypeAndTypeStructureInterfaces.js";
-import { TypeStructures } from "../../exports.js";
+import { TypeStructures } from "../../prototype-exports.js";
 // #endregion preamble
 
 const InterfaceDeclarationBase = MultiMixinBuilder<

@@ -12,7 +12,7 @@ import DecoratableNode, {
 
 import {
   DecoratorImpl
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 it("ts-morph structure decorators: DecoratableNode", () => {
   const Foo = MultiMixinBuilder<[

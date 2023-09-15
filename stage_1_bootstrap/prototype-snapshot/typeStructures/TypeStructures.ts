@@ -24,7 +24,7 @@ import {
   type TypePrinterSettings,
   type TypePrinterSettingsBase,
   TypeParameterDeclarationImpl,
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 export type WriterTypedStructure = Simplify<
   KindedTypeStructure<TypeStructureKind.Writer> &

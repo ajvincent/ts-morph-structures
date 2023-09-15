@@ -26,7 +26,7 @@ import type {
 import {
   TypeParameterConstraintMode,
   TypeParameterDeclarationImpl,
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 // #endregion preamble
 

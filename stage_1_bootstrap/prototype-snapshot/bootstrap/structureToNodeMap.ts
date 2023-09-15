@@ -15,7 +15,7 @@ import StructureKindToSyntaxKindMap from "../generated/structureToSyntax.js";
 
 import {
   StructuresClassesMap
-} from "../../exports.js"
+} from "../../prototype-exports.js"
 // #endregion preamble
 
 const knownSyntaxKinds = new Set<SyntaxKind>(StructureKindToSyntaxKindMap.values());

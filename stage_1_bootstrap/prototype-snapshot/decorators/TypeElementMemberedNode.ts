@@ -25,7 +25,7 @@ import {
   IndexSignatureDeclarationImpl,
   MethodSignatureImpl,
   PropertySignatureImpl,
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 import StructureBase from "../base/StructureBase.js";
 

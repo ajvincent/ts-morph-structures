@@ -9,7 +9,7 @@ import JSDocableNode, {
 import {
   JSDocImpl,
   JSDocTagImpl,
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 it("ts-morph structure decorators: JSDocableNode", () => {
   const Foo = MultiMixinBuilder<[

@@ -13,7 +13,7 @@ import ReturnTypedNode, {
 import {
   LiteralTypedStructureImpl,
   StringTypedStructureImpl,
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 it("ts-morph structure decorators: ReturnTypedNode", () => {
   const Foo = MultiMixinBuilder<[

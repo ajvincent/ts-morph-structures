@@ -29,7 +29,7 @@ import {
 
   MethodSignatureImpl,
   ParameterDeclarationImpl,
-} from "../exports.js";
+} from "../prototype-exports.js";
 
 describe("TypeStructure for ts-morph: ", () => {
   let writer: CodeBlockWriter = createCodeBlockWriter()

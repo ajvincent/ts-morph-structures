@@ -9,7 +9,7 @@ import {
   LiteralTypedStructureImpl,
   StringTypedStructureImpl,
   WriterTypedStructureImpl,
-} from "../../exports.js";
+} from "../../prototype-exports.js";
 
 import {
   getTypeStructureForCallback
