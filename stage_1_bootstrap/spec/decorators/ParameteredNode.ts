@@ -12,7 +12,7 @@ import ParameteredNode, {
 
 import {
   ParameterDeclarationImpl
-} from "../../prototype-exports.js";
+} from "../../prototype-snapshot/exports.js";
 
 it("ts-morph structure decorators: ParameteredNode", () => {
   const Foo = MultiMixinBuilder<[

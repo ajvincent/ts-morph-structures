@@ -11,7 +11,7 @@ import {
 
 import {
   VariableDeclarationImpl,
-} from "../../prototype-exports.js";
+} from "../exports.js";
 
 import StatementClassesMap from "../base/StatementClassesMap.js";
 

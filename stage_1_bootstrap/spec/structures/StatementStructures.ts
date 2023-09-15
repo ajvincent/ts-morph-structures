@@ -11,7 +11,7 @@ import {
   ModuleDeclarationImpl,
   TypeAliasDeclarationImpl,
   VariableStatementImpl
-} from "../../prototype-exports.js";
+} from "../../prototype-snapshot/exports.js";
 import { StructureKind } from "ts-morph";
 
 it("ts-morph-structures: StatementClassesMap is complete", () => {

@@ -15,7 +15,7 @@ import type {
 
 import {
   TypeParameterDeclarationImpl
-}from "../../prototype-exports.js";
+}from "../exports.js";
 
 import StructureBase from "../base/StructureBase.js";
 // #endregion preamble

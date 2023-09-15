@@ -21,7 +21,7 @@ import {
   TypeParameterWithTypeStructures,
   TypeStructures,
   TypedNodeTypeStructure,
-} from "../../prototype-exports.js";
+} from "../exports.js";
 import { NodeWithStructures } from "./structureToNodeMap.js";
 
 // #endregion preamble

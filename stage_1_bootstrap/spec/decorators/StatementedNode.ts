@@ -13,7 +13,7 @@ import StatementedNode, {
 
 import {
   ExportDeclarationImpl
-} from "../../prototype-exports.js";
+} from "../../prototype-snapshot/exports.js";
 
 it("ts-morph structure decorators: StatementedNode", () => {
   const Foo = MultiMixinBuilder<[

@@ -6,7 +6,7 @@ import {
   LiteralTypedStructureImpl,
   TypeParameterDeclarationImpl,
   VariableDeclarationImpl
-} from "../../prototype-exports.js";
+} from "../../prototype-snapshot/exports.js";
 
 import buildTypesForStructures from "../../prototype-snapshot/bootstrap/buildTypesForStructures.js";
 import { NodeWithStructures } from "../../prototype-snapshot/bootstrap/structureToNodeMap.js";

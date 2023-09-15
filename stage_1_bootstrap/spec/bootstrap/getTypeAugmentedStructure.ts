@@ -17,7 +17,7 @@ import {
   TypeArgumentedTypedStructureImpl,
   TypeNodeToTypeStructureConsole,
   TypeParameterDeclarationImpl,
-} from "../../prototype-exports.js";
+} from "../../prototype-snapshot/exports.js";
 
 it("getTypeAugmentedStructure gets structures having type structures for types", () => {
   const stageDir: ModuleSourceDirectory = {

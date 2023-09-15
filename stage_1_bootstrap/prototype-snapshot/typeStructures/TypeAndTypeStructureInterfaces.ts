@@ -14,7 +14,7 @@ import type {
 
 import {
    TypeParameterConstraintMode
-} from "../../prototype-exports.js";
+} from "../exports.js";
 
 export interface TypedNodeTypeStructure
 {

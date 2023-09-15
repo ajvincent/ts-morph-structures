@@ -27,7 +27,7 @@ import structureToNodeMap from "../../prototype-snapshot/bootstrap/structureToNo
 
 import {
   MethodSignatureImpl,
-} from "../../prototype-exports.js";
+} from "../../prototype-snapshot/exports.js";
 
 async function getSupportedKindSet(): Promise<Set<StructureKind>> {
   const stageDir: ModuleSourceDirectory = {

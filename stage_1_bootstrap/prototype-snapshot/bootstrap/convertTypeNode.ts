@@ -48,7 +48,7 @@ import {
   PropertySignatureImpl,
   InferTypedStructureImpl,
   TypePrinterSettingsBase,
-} from "../../prototype-exports.js"
+} from "../exports.js"
 
 import {
   TypeNodeToTypeStructureConsole,

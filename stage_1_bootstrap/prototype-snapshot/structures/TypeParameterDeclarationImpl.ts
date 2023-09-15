@@ -11,7 +11,7 @@ import {
 import {
   TypeStructureClassesMap,
   type TypeStructures,
-} from "../../prototype-exports.js";
+} from "../exports.js";
 
 import StructureBase from "../base/StructureBase.js";
 

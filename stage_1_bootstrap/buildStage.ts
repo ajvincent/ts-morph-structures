@@ -33,7 +33,6 @@ const BPSet = new BuildPromiseSet;
   args.push("fixtures/**/*.ts");
   args.push("prototype-snapshot/**/*.ts");
   args.push("spec/**/*.ts");
-  args.push("prototype-exports.ts");
 
   target.addTask(() => {
     console.log("starting build:eslint");

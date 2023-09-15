@@ -10,7 +10,7 @@ import {
 
 import {
   EnumMemberImpl
-} from "../../prototype-exports.js";
+} from "../exports.js";
 
 import {
   cloneArrayOrUndefined,

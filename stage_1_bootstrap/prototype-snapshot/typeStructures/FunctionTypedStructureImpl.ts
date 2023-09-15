@@ -19,7 +19,7 @@ import {
   TypeParameterDeclarationImpl,
   TypePrinterSettingsBase,
   TypeStructureKind,
-} from "../../prototype-exports.js";
+} from "../exports.js";
 
 import TypeStructureClassesMap from "../base/TypeStructureClassesMap.js";
 

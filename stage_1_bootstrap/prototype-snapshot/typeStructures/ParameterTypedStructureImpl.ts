@@ -5,7 +5,7 @@ import type {
 
 import {
   LiteralTypedStructureImpl
-} from "../../prototype-exports.js";
+} from "../exports.js";
 
 import type {
   ParameterTypedStructure,

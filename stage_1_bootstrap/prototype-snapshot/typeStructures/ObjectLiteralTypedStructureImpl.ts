@@ -22,7 +22,7 @@ import {
   TypeStructureKind,
   TypeStructureClassesMap,
   TypeStructures,
-} from "../../prototype-exports.js"
+} from "../exports.js"
 
 import {
   registerCallbackForTypeStructure

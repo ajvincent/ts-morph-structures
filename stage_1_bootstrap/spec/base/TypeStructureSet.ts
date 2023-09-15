@@ -1,7 +1,7 @@
 import TypeStructureSet from "../../prototype-snapshot/base/TypeStructureSet.js";
 import { stringOrWriterFunction } from "../../prototype-snapshot/types/ts-morph-native.js";
 import { CodeBlockWriter } from "ts-morph";
-import { LiteralTypedStructureImpl } from "../../prototype-exports.js";
+import { LiteralTypedStructureImpl } from "../../prototype-snapshot/exports.js";
 
 describe("TypeStructureSet", () => {
   let backingArray: stringOrWriterFunction[];

@@ -8,7 +8,7 @@ import TypeParameteredNode, {
 
 import {
   TypeParameterDeclarationImpl
-} from "../../prototype-exports.js";
+} from "../../prototype-snapshot/exports.js";
 
 it("ts-morph structure decorators: TypeParameterdNode", () => {
   const Foo = MultiMixinBuilder<[
