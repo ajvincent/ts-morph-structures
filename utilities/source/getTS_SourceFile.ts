@@ -23,13 +23,14 @@ const TSC_CONFIG = {
   skipAddingFilesFromTsConfig: true,
 };
 
+const project = new Project(TSC_CONFIG);
+
 export default function getTS_SourceFile(
   startDir: ModuleSourceDirectory,
   sourceLocation: string,
 ) : SourceFile
 {
   const pathToSourceFile = pathToModule(startDir, sourceLocation);
-  const project = new Project(TSC_CONFIG);
   project.addSourceFileAtPath(pathToSourceFile);
   project.resolveSourceFileDependencies();
 
