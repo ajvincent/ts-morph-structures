@@ -19,24 +19,27 @@ The es-membrane prototype was a rush job, basically enough to be usable.  This i
   - build: Stage-build files.
   - prototype-snapshot: The es-membrane prototype
   - snapshot: reserved for when we have a stable, complete set.
-  - spec: Test files for the snapshot or prototype snapshot.
-    - meta:
+  - spec-snapshot: Test files for the snapshot or prototype snapshot.
   - fixtures: Test fixtures for the snapshot or prototype snapshot.
   - refactors: Tools using the snapshot to do useful changes to source / fixtures.
   - source: Code to create the output set.
-  - output: The full output set, git-ignored, including exports.
+  - dist: The full output set, git-ignored, including exports.
+    - source
+    - bundle
 - stage_2_fullset:
   - build: Stage-build files.
-  - snapshot: Copied from stage_1_bootstrap/output
-  - spec: Test files for the snapshot.
+  - snapshot: Copied from stage_1_bootstrap/dist
+  - spec-snapshot: Test files for the snapshot.
   - fixtures: Test fixtures for the snapshot.
   - source: Code to create the output set.
   - refactors: Tools using the snapshot to do useful changes to source / fixtures.
-  - output: The full output set, git-ignored, including exports.
+  - dist: The full output set, git-ignored, including exports.
+    - source
+    - bundle
 - stage_3_fullset:
   - build: Stage-build files, including export.
-  - snapshot: Copied from stage_2_fullset/output, git-ignored
-  - spec: Test files for the snapshot.
+  - snapshot: Copied from stage_2_fullset/dist
+  - spec-snapshot: Test files for the snapshot.
 - dist: the final snapshot.
 - utilities: Shared utilities for internal use.
 
