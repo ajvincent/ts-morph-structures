@@ -7,7 +7,7 @@ const BPSet = new BuildPromiseSet;
   const target = BPSet.get("test");
 
   target.addTask(() => {
-    console.log("starting stage_1_bootstrap:jasmine");
+    console.log("starting stage_1_bootstrap:test");
     return Promise.resolve();
   });
 
@@ -35,7 +35,7 @@ const BPSet = new BuildPromiseSet;
   args.push("spec-snapshot/**/*.ts");
 
   target.addTask(() => {
-    console.log("starting build:eslint");
+    console.log("starting stage_1_bootstrap:eslint");
     return Promise.resolve();
   });
 
@@ -46,10 +46,21 @@ const BPSet = new BuildPromiseSet;
   );
 }
 
+{ // build
+  const target = BPSet.get("build");
+
+  target.addTask(async (): Promise<void> => {
+    console.log("starting stage_1_bootstrap:build");
+    const support = (await import("./build/support.js")).default;
+    await support();
+  });
+}
+
 BPSet.markReady();
 {
   BPSet.main.addSubtarget("test");
   BPSet.main.addSubtarget("eslint");
+  BPSet.main.addSubtarget("build");
 }
 await BPSet.main.run();
 export default Promise.resolve();
