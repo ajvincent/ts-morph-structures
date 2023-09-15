@@ -4,6 +4,7 @@ import { Deferred } from "./PromiseTypes.js";
 
 export default async function recursiveBuild(
   dirname: string,
+  relativePathToModule: string,
 ): Promise<void>
 {
   const d = new Deferred<void>;
@@ -12,7 +13,7 @@ export default async function recursiveBuild(
     "node",
     [
       "../node_modules/ts-node/dist/bin-esm.js",
-      "build.ts"
+      relativePathToModule
     ],
     {
       stdio: ["ignore", "inherit", "inherit", "ipc"],

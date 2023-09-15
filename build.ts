@@ -48,7 +48,7 @@ const BPSet = new BuildPromiseSet;
 
   target.addTask(async () => {
     console.log("starting stage_2_fullset");
-    await recursiveBuild("stage_2_fullset");
+    await recursiveBuild("stage_2_fullset", "buildStage.ts");
     console.log("completed stage_2_fullset");
   });
 }
