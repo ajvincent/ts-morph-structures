@@ -1,12 +1,13 @@
 import { BuildPromiseSet } from "#utilities/source/BuildPromise.js";
 import { runModule } from "#utilities/source/runModule.js";
+import recursiveBuild from "#utilities/source/recursiveBuild.js";
 
 const BPSet = new BuildPromiseSet;
-{ // test
-  const target = BPSet.get("test");
+{
+  const target = BPSet.get("build:jasmine");
 
   target.addTask(() => {
-    console.log("starting jasmine");
+    console.log("starting build:jasmine");
     return Promise.resolve();
   });
 
@@ -20,7 +21,7 @@ const BPSet = new BuildPromiseSet;
 }
 
 { // eslint
-  const target = BPSet.get("eslint");
+  const target = BPSet.get("build:eslint");
 
   const args = [
     "-c", "./.eslintrc.json",
@@ -31,7 +32,7 @@ const BPSet = new BuildPromiseSet;
   args.push("build.ts");
 
   target.addTask(() => {
-    console.log("starting eslint");
+    console.log("starting build:eslint");
     return Promise.resolve();
   });
 
@@ -45,22 +46,17 @@ const BPSet = new BuildPromiseSet;
 { // stage 2
   const target = BPSet.get("stage_2_fullset");
 
-  target.addTask(() => {
+  target.addTask(async () => {
     console.log("starting stage_2_fullset");
-    return Promise.resolve();
+    await recursiveBuild("stage_2_fullset");
+    console.log("completed stage_2_fullset");
   });
-
-  target.addTask(
-    async () => {
-      await import("./stage_2_fullset/build.js");
-    }
-  );
 }
 
 BPSet.markReady();
 {
-  BPSet.main.addSubtarget("test");
-  BPSet.main.addSubtarget("eslint");
+  BPSet.main.addSubtarget("build:jasmine");
+  BPSet.main.addSubtarget("build:eslint");
   BPSet.main.addSubtarget("stage_2_fullset");
 }
 await BPSet.main.run();

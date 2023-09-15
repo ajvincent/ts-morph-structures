@@ -12,10 +12,10 @@ const BPSet = new BuildPromiseSet;
   });
 
   target.addTask(async () => await runModule(
-    "./node_modules/jasmine/bin/jasmine.js",
+    "../node_modules/jasmine/bin/jasmine.js",
     [
       //"--parallel=auto",
-      "--config=stage_2_fullset/spec/support/jasmine.json",
+      "--config=./spec/support/jasmine.json",
     ]
   ));
 }
