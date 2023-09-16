@@ -9,19 +9,23 @@ import type {
   StructureKind,
 } from "ts-morph";
 
+/*
 import type {
   stringOrWriter
 } from "./stringOrWriter.js";
+*/
 
 export interface StructureImplementation<
   Kind extends StructureKind,
   StructureBase extends KindedStructure<Kind>,
 >
 {
+  /*
   readonly kind: Kind;
 
   leadingTrivia: stringOrWriter[];
   trailingTrivia: stringOrWriter[];
+  */
 
   /** This is more for debugging purposes than actual code usage. */
   toJSON(): StructureBase;
