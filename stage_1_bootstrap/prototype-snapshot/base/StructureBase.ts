@@ -1,4 +1,4 @@
-import { stringOrWriterFunction } from "../../prototype-snapshot/types/ts-morph-native.js";
+import { stringOrWriterFunction } from "../types/ts-morph-native.js";
 import { Structure } from "ts-morph";
 import { stringOrWriterFunctionArray } from "./utilities.js";
 

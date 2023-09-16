@@ -12,22 +12,16 @@ import {
 
 import {
   ModuleSourceDirectory,
-  pathToModule,
 } from "#utilities/source/AsyncSpecModules.js";
 
 import getTS_SourceFile from "#utilities/source/getTS_SourceFile.js";
-
-const stageDir: ModuleSourceDirectory = {
-  importMeta: import.meta,
-  pathToDirectory: "../.."
-};
 
 const projectRoot: ModuleSourceDirectory = {
   importMeta: import.meta,
   pathToDirectory: "../../.."
 };
 
-export default async function(): Promise<void> {
+export default async function(pathToDirectory: string): Promise<void> {
   const fileWriter: CodeBlockWriter = new CodeBlockWriter({
     indentNumberOfSpaces: 2
   });
@@ -104,7 +98,7 @@ export default async function(): Promise<void> {
   fileWriter.writeLine("]);");
   fileWriter.writeLine("export default StructureKindToSyntaxKindMap;");
 
-  const pathToMapFile = pathToModule(stageDir, "source/generated/structureToSyntax.ts");
+  const pathToMapFile = path.join(pathToDirectory, "structureToSyntax.ts");
   await fs.mkdir(path.dirname(pathToMapFile), { recursive: true });
   await fs.writeFile(pathToMapFile, fileWriter.toString(), { encoding: "utf-8" });
 }

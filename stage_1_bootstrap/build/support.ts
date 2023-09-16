@@ -1,14 +1,13 @@
-import cleanGenerated from "./cleanSourceGenerated.js";
-import structureToSyntax from "./structureToSyntax.js";
+import {
+  PromiseAllParallel
+} from "#utilities/source/PromiseTypes.js";
+
+import generatedDirs from "./generatedDirs.js";
 
 export default async function support(): Promise<void>
 {
-  // this has to happen first
-  await cleanGenerated();
-
-  await Promise.all([
-    structureToSyntax(),
-  ]);
+  await PromiseAllParallel(Object.values(generatedDirs.clean), cleanCallback => cleanCallback());
+  await PromiseAllParallel(Object.values(generatedDirs.build), buildCallback => buildCallback());
 
   const dist = (await import("./dist.js")).default;
   await dist();
