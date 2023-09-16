@@ -16,6 +16,10 @@ import {
 
 import getTS_SourceFile from "#utilities/source/getTS_SourceFile.js";
 
+import {
+  InternalExports
+} from "./exportsManager.js";
+
 const projectRoot: ModuleSourceDirectory = {
   importMeta: import.meta,
   pathToDirectory: "../../.."
@@ -101,4 +105,11 @@ export default async function(pathToDirectory: string): Promise<void> {
   const pathToMapFile = path.join(pathToDirectory, "structureToSyntax.ts");
   await fs.mkdir(path.dirname(pathToMapFile), { recursive: true });
   await fs.writeFile(pathToMapFile, fileWriter.toString(), { encoding: "utf-8" });
+
+  InternalExports.addExport({
+    relativePathToModule: "./base/generated/structureToSyntax.ts",
+    exportNames: ["StructureKindToSyntaxKindMap"],
+    isDefaultExport: true,
+    isType: false,
+  });
 }

@@ -2,6 +2,7 @@ import {
   ModuleKind,
   ModuleResolutionKind,
   Project,
+  type ProjectOptions,
   ScriptTarget,
   SourceFile,
 } from "ts-morph";
@@ -11,7 +12,7 @@ import {
   pathToModule,
 } from "./AsyncSpecModules.js";
 
-const TSC_CONFIG = {
+const TSC_CONFIG: ProjectOptions = {
   "compilerOptions": {
     "lib": ["es2022"],
     "module": ModuleKind.ESNext,
@@ -24,6 +25,7 @@ const TSC_CONFIG = {
 };
 
 const project = new Project(TSC_CONFIG);
+project.resolveSourceFileDependencies();
 
 export default function getTS_SourceFile(
   startDir: ModuleSourceDirectory,
@@ -31,8 +33,10 @@ export default function getTS_SourceFile(
 ) : SourceFile
 {
   const pathToSourceFile = pathToModule(startDir, sourceLocation);
-  project.addSourceFileAtPath(pathToSourceFile);
-  project.resolveSourceFileDependencies();
 
-  return project.getSourceFileOrThrow(pathToSourceFile);
+  const sourceFile = project.addSourceFileAtPathIfExists(pathToSourceFile);
+  if (sourceFile)
+    return sourceFile;
+
+    return project.createSourceFile(pathToSourceFile);
 }
