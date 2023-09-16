@@ -7,7 +7,9 @@ The es-membrane prototype was a rush job, basically enough to be usable.  This i
 - [Bootstrapping](https://en.wikipedia.org/wiki/Bootstrapping_(compilers)): taking an existing snapshot (the prototype for now) to generate the final set of classes and exports.
 - Engine: ts-node, ts-morph
 - Testing: jasmine
-- Build: gulp
+  - I lost parallel testing with ts-node.  I may try switching to ts-jest, or using `child_process.spawn()` instead.
+- Build: my own custom
+  - I looked at gulp (npm audit failures), grunt (learning curve) and jake (no ESM support yet).  Crafting my own a couple years ago wasn't _that_ hard.
 - Linting: typescript-eslint
 - Code documentation: tsdoc
 - Bundling: rollup
