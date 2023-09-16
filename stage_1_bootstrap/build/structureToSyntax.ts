@@ -10,34 +10,24 @@ import {
   Type,
 } from "ts-morph";
 
-import {
-  ModuleSourceDirectory,
-} from "#utilities/source/AsyncSpecModules.js";
-
-import getTS_SourceFile from "#utilities/source/getTS_SourceFile.js";
+import TS_MORPH_D from "./ts-morph-d-file.js";
 
 import {
   InternalExports
 } from "./exportsManager.js";
-
-const projectRoot: ModuleSourceDirectory = {
-  importMeta: import.meta,
-  pathToDirectory: "../../.."
-};
 
 export default async function(pathToDirectory: string): Promise<void> {
   const fileWriter: CodeBlockWriter = new CodeBlockWriter({
     indentNumberOfSpaces: 2
   });
 
-  const tsMorphSource = getTS_SourceFile(projectRoot, "node_modules/ts-morph/lib/ts-morph.d.ts");
   type SyntaxKindProperty = `SyntaxKind.${string}`;
 
   const classToSyntaxKindMap = new Map<ClassDeclaration, SyntaxKind>;
   const classToSyntaxKind_NameMap = new Map<ClassDeclaration, SyntaxKindProperty>;
 
   {
-    const classProperties = tsMorphSource.getInterfaceOrThrow("ImplementedKindToNodeMappings").getProperties();
+    const classProperties = TS_MORPH_D.getInterfaceOrThrow("ImplementedKindToNodeMappings").getProperties();
     classProperties.forEach(_classProp => {
       const computedName = _classProp.getNameNode().asKindOrThrow(SyntaxKind.ComputedPropertyName);
 
@@ -49,7 +39,7 @@ export default async function(pathToDirectory: string): Promise<void> {
       // still need to get the class declaration
       const _reference = _classProp.getTypeNodeOrThrow().asKindOrThrow(SyntaxKind.TypeReference);
       const _className = _reference.getTypeName().getText();
-      const _class = tsMorphSource.getClassOrThrow(_className);
+      const _class = TS_MORPH_D.getClassOrThrow(_className);
 
       classToSyntaxKindMap.set(_class, kind);
       classToSyntaxKind_NameMap.set(_class, expressionFullName);
@@ -57,7 +47,7 @@ export default async function(pathToDirectory: string): Promise<void> {
   }
 
   const classesToStructureMethods = new Map<ClassDeclaration, MethodDeclaration>;
-  for (const _class of tsMorphSource.getClasses()) {
+  for (const _class of TS_MORPH_D.getClasses()) {
     const _getStructure = _class.getMethod("getStructure");
     if (_getStructure)
       classesToStructureMethods.set(_class, _getStructure);
