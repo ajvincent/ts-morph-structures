@@ -107,7 +107,7 @@ export default async function(pathToDirectory: string): Promise<void> {
   await fs.writeFile(pathToMapFile, fileWriter.toString(), { encoding: "utf-8" });
 
   InternalExports.addExport({
-    relativePathToModule: "./base/generated/structureToSyntax.ts",
+    absolutePathToModule: pathToMapFile,
     exportNames: ["StructureKindToSyntaxKindMap"],
     isDefaultExport: true,
     isType: false,

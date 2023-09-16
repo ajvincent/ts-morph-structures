@@ -16,8 +16,12 @@ import {
   stageDir,
 } from "./constants.js";
 
+import {
+  pathToModule
+} from "#utilities/source/AsyncSpecModules.js";
+
 export interface AddExportContext {
-  relativePathToModule: `./${string}.ts`,
+  absolutePathToModule: string,
   exportNames: readonly string[],
   isDefaultExport: boolean,
   isType: boolean,
@@ -43,16 +47,16 @@ export class ExportManager
     return a.name.localeCompare(b.name);
   }
 
-  readonly #pathToExportFile: string;
+  readonly #absolutePathToExportFile: string;
   readonly #pathToDeclarationMap = new DefaultMap<string, ExportDeclarationImpl>;
 
   #committed = false;
 
   constructor(
-    pathToExportFile: string
+    absolutePathToExportFile: string,
   )
   {
-    this.#pathToExportFile = pathToExportFile;
+    this.#absolutePathToExportFile = absolutePathToExportFile;
   }
 
   addExport(
@@ -61,14 +65,17 @@ export class ExportManager
   {
     if (this.#committed)
       throw new Error("file has been committed");
-    const { relativePathToModule, exportNames, isDefaultExport, isType } = context;
+
+    const { absolutePathToModule, exportNames, isDefaultExport, isType } = context;
+    if (!absolutePathToModule.endsWith(".ts"))
+      throw new Error("path to module must end with .ts");
 
     if (isDefaultExport && (exportNames.length !== 1)) {
       throw new Error("at most one default export name");
     }
 
     const declaration = this.#pathToDeclarationMap.getDefault(
-      relativePathToModule, () => this.#buildDeclaration(relativePathToModule)
+      absolutePathToModule, () => this.#buildDeclaration(absolutePathToModule)
     );
 
     const specifiers = exportNames.map(exportName => {
@@ -93,11 +100,14 @@ export class ExportManager
   }
 
   #buildDeclaration(
-    relativePathToModule: string
+    absolutePathToModule: string
   ): ExportDeclarationImpl
   {
     const decl = new ExportDeclarationImpl;
-    decl.moduleSpecifier = relativePathToModule.replace(/(?<!\.d)\.ts$/, ".js");
+    decl.moduleSpecifier = "./" + path.relative(
+      path.dirname(this.#absolutePathToExportFile),
+      absolutePathToModule.replace(/(?<!\.d)\.ts$/, ".js")
+    );
     decl.isTypeOnly = true;
     decl.assertElements = undefined;
     return decl;
@@ -122,18 +132,18 @@ export class ExportManager
       ...declarations
     );
 
-    const sourceFile = getTS_SourceFile(stageDir, path.join("source", this.#pathToExportFile));
+    const sourceFile = getTS_SourceFile(stageDir, this.#absolutePathToExportFile);
     sourceFile.removeText();
     sourceFile.set(source);
     await sourceFile.save();
   }
 }
 
-export const InternalExports = new ExportManager("./internal-exports.ts");
-export const PublicExports = new ExportManager("./exports.ts");
+export const InternalExports = new ExportManager("./source/internal-exports.ts");
+export const PublicExports = new ExportManager("./source/exports.ts");
 
 InternalExports.addExport({
-  relativePathToModule: "./exports.ts",
+  absolutePathToModule: pathToModule(stageDir, "./source/exports.ts"),
   exportNames: [],
   isDefaultExport: false,
   isType: false,
