@@ -41,18 +41,23 @@ export async function TimeoutPromise(delay = 5000) : Promise<never>
 
 export class SingletonPromise<T> {
   #resolve: PromiseResolver<void>;
-  #promise;
-  constructor(thenable: () => Promise<T>) {
+
+  readonly promise: Promise<T>;
+
+  constructor(
+    thenable: () => Promise<T>
+  )
+  {
     this.#resolve = (value): void => {
       void(value);
     };
-    this.#promise = (new Promise(res => this.#resolve = res)).then(thenable);
+    this.promise = (new Promise(res => this.#resolve = res)).then(thenable);
   }
 
   async run() : Promise<T>
   {
     this.#resolve();
-    return await this.#promise;
+    return await this.promise;
   }
 }
 

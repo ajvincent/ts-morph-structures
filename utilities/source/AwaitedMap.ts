@@ -45,3 +45,8 @@ export class AwaitedMapError<K> extends Error
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly errorMap: ReadonlyMap<K, any>;
 }
+
+export type ReadonlyAwaitedMap<K, V> =
+  ReadonlyMap<K, Promise<V>> &
+  Pick<AwaitedMap<K, V>, "allSettled" | "allResolved">
+;
