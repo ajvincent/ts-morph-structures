@@ -1,4 +1,6 @@
-import { setTimeout } from "timers/promises";
+import {
+  setTimeout,
+} from "timers/promises";
 
 export type PromiseResolver<T> = (value: T | PromiseLike<T>) => unknown;
 export type PromiseRejecter = (reason?: unknown) => unknown;
@@ -64,7 +66,7 @@ export class SingletonPromise<T> {
  * @see Array.prototype.reduce
  */
 export async function PromiseAllSequence<E, V>(
-  elementArray: E[],
+  elementArray: readonly E[],
   callback: (value: E) => Promise<V>
 ) : Promise<V[]>
 {
@@ -85,7 +87,7 @@ export async function PromiseAllSequence<E, V>(
  * @see Array.prototype.map
  */
 export async function PromiseAllParallel<E, V>(
-  elementArray: E[],
+  elementArray: readonly E[],
   callback: (value: E) => Promise<V>
 ) : Promise<V[]>
 {
