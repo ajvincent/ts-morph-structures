@@ -1,4 +1,4 @@
-/** 
+/**
  * @remarks
  *
  * This code is not meant to be used in production.  It's a mockup of how I would write code to actually extract structure data.
@@ -20,7 +20,7 @@ import {
   PropertyValue,
   DecoratorImplMeta,
   StructureImplMeta,
-  StructureUnion,
+  StructureUnionMeta,
 } from "./DataClasses.js";
 
 // AmbientableNodeStructure
@@ -208,7 +208,7 @@ export type StatementStructures =
     return refNode.getTypeName().getText();
   });
 
-  const data = new StructureUnion;
+  const data = new StructureUnionMeta;
   identifiers.forEach(id => {
     const idSet = id.endsWith("Structures") ? data.unionKeys : data.structureNames;
     idSet.add(id);

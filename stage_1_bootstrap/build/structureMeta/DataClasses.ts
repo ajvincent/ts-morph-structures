@@ -4,7 +4,18 @@ export type StructureUnionName = string;
 
 export type TSMorphTypeIdentifier = string;
 
-export class PropertyValue {
+export enum MetaType {
+  Decorator,
+  Structure,
+  StructureUnion
+}
+
+export interface MetaImplementation {
+  readonly metaType: MetaType;
+}
+
+export class PropertyValue
+{
   fromTypeName: string | undefined = undefined;
 
   structureName: StructureName | undefined = undefined;
@@ -56,12 +67,13 @@ class BaseMetadata
   }
 }
 
-export class DecoratorImplMeta extends BaseMetadata
+export class DecoratorImplMeta extends BaseMetadata implements MetaImplementation
 {
-  readonly structureName: string;
+  readonly metaType = MetaType.Decorator;
+  readonly structureName: StructureName;
 
   constructor(
-    structureName: string
+    structureName: StructureName
   )
   {
     super();
@@ -69,8 +81,9 @@ export class DecoratorImplMeta extends BaseMetadata
   }
 }
 
-export class StructureImplMeta extends BaseMetadata
+export class StructureImplMeta extends BaseMetadata implements MetaImplementation
 {
+  readonly metaType = MetaType.Structure;
   readonly structureName: StructureName;
   structureKindName = "";
 
@@ -88,8 +101,37 @@ export class StructureImplMeta extends BaseMetadata
     this.structureName = structureName;
   }
 }
-
-export class StructureUnion {
+export class StructureUnionMeta implements MetaImplementation
+{
+  readonly metaType = MetaType.StructureUnion;
+  readonly unionName: StructureName = "";
   readonly structureNames = new Set<StructureName>;
   readonly unionKeys = new Set<StructureUnionName>;
+}
+
+export type StructuresMeta = DecoratorImplMeta | StructureImplMeta | StructureUnionMeta;
+
+export class StructureMetaDictionaries {
+  readonly decorators = new Map<StructureName, DecoratorImplMeta>;
+  readonly structures = new Map<StructureName, StructureImplMeta>;
+  readonly unions = new Map<StructureName, StructureUnionMeta>;
+
+  constructor(
+    metaArray: readonly StructuresMeta[]
+  )
+  {
+    metaArray.forEach(meta => {
+      switch (meta.metaType) {
+        case MetaType.Decorator:
+          this.decorators.set(meta.structureName, meta);
+          return;
+        case MetaType.Structure:
+          this.structures.set(meta.structureName, meta);
+          return;
+        case MetaType.StructureUnion:
+          this.unions.set(meta.unionName, meta);
+          return;
+      }
+    });
+  }
 }
