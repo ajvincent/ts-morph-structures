@@ -22,10 +22,11 @@ const TSC_CONFIG: ProjectOptions = {
     "declaration": true,
   },
   skipAddingFilesFromTsConfig: true,
+  skipFileDependencyResolution: true,
 };
 
 const project = new Project(TSC_CONFIG);
-project.resolveSourceFileDependencies();
+//project.resolveSourceFileDependencies();
 
 export default function getTS_SourceFile(
   startDir: ModuleSourceDirectory,
@@ -38,5 +39,5 @@ export default function getTS_SourceFile(
   if (sourceFile)
     return sourceFile;
 
-    return project.createSourceFile(pathToSourceFile);
+  return project.createSourceFile(pathToSourceFile);
 }
