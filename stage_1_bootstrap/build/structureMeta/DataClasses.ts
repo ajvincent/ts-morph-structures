@@ -111,27 +111,26 @@ export class StructureUnionMeta implements MetaImplementation
 
 export type StructuresMeta = DecoratorImplMeta | StructureImplMeta | StructureUnionMeta;
 
-export class StructureMetaDictionaries {
+export class StructureMetaDictionaries
+{
   readonly decorators = new Map<StructureName, DecoratorImplMeta>;
   readonly structures = new Map<StructureName, StructureImplMeta>;
   readonly unions = new Map<StructureName, StructureUnionMeta>;
 
-  constructor(
-    metaArray: readonly StructuresMeta[]
-  )
+  addDefinition(
+    meta: StructuresMeta
+  ): void
   {
-    metaArray.forEach(meta => {
-      switch (meta.metaType) {
-        case MetaType.Decorator:
-          this.decorators.set(meta.structureName, meta);
-          return;
-        case MetaType.Structure:
-          this.structures.set(meta.structureName, meta);
-          return;
-        case MetaType.StructureUnion:
-          this.unions.set(meta.unionName, meta);
-          return;
-      }
-    });
+    switch (meta.metaType) {
+      case MetaType.Decorator:
+        this.decorators.set(meta.structureName, meta);
+        return;
+      case MetaType.Structure:
+        this.structures.set(meta.structureName, meta);
+        return;
+      case MetaType.StructureUnion:
+        this.unions.set(meta.unionName, meta);
+        return;
+    }
   }
 }
