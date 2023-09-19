@@ -14,7 +14,7 @@ import TS_MORPH_D from "./ts-morph-d-file.js";
 
 import {
   InternalExports
-} from "./exportsManager.js";
+} from "./ExportManager.js";
 
 export default async function(pathToDirectory: string): Promise<void> {
   const fileWriter: CodeBlockWriter = new CodeBlockWriter({
