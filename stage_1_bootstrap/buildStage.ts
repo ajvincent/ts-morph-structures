@@ -50,6 +50,17 @@ const BPSet = new BuildPromiseSet;
   const target = BPSet.get("build");
 
   target.addTask(async (): Promise<void> => {
+    console.log("starting stage_1_bootstrap:build:test");
+    await runModule(
+      "../node_modules/jasmine/bin/jasmine.js",
+      [
+        //"--parallel=auto",
+        "--config=./build/spec/support/jasmine.json",
+      ]
+    )
+  });
+
+  target.addTask(async (): Promise<void> => {
     console.log("starting stage_1_bootstrap:build");
     const support = (await import("./build/support.js")).default;
     await support();

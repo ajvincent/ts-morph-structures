@@ -7,7 +7,7 @@ import generatedDirs from "./generatedDirs.js";
 import {
   InternalExports,
   PublicExports
-} from "./exportsManager.js";
+} from "./ExportManager.js";
 
 export default async function support(): Promise<void>
 {
