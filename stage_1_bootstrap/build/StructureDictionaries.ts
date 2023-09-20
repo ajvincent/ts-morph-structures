@@ -12,7 +12,7 @@ import {
   type StructuresMeta,
 } from "./structureMeta/DataClasses.js";
 
-import ImportManager from "./ImportManager.mjs";
+import ImportManager from "./ImportManager.js";
 
 export default
 class StructureDictionaries extends StructureMetaDictionaries
