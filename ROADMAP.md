@@ -18,12 +18,11 @@ The es-membrane prototype was a rush job, basically enough to be usable.  This i
 ## Directory layout
 
 - stage_1_bootstrap:
-  - build: Stage-build files.
   - prototype-snapshot: The es-membrane prototype
-  - snapshot: reserved for when we have a stable, complete set.
   - spec-snapshot: Test files for the snapshot or prototype snapshot.
   - fixtures: Test fixtures for the snapshot or prototype snapshot.
-  - refactors: Tools using the snapshot to do useful changes to source / fixtures.
+  - build: Stage-build files.
+    - hooks: Tools using the snapshot to create dist/source files.
   - source: Code to create the output set.
   - dist: The full output set, git-ignored, including exports.
     - source
