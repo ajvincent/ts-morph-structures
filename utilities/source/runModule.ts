@@ -11,14 +11,19 @@ import { fork } from 'child_process';
 export function runModule(
   pathToModule: string,
   moduleArgs: string[] = [],
-  cwd: string = process.cwd(),
-  //extraNodeArgs: string[] = [] // commented out for ts-node incompatibility
+  extraNodeArgs: string[] = []
 ) : Promise<void>
 {
   const d = new Deferred<void>;
 
+  const env = {
+    ...process.env,
+    NODE_OPTIONS: process.env.NODE_OPTIONS ?? ""
+  }
+  env.NODE_OPTIONS += extraNodeArgs.join(" ");
+
   const child = fork(pathToModule, moduleArgs, {
-    cwd,
+    env,
     //execArgv: process.execArgv.concat(...extraNodeArgs),
     silent: false
   });
