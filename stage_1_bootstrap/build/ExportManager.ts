@@ -1,4 +1,9 @@
+// #region preamble
 import path from "path";
+
+import {
+  pathToModule
+} from "#utilities/source/AsyncSpecModules.js";
 
 import {
   DefaultMap,
@@ -16,9 +21,8 @@ import {
   stageDir,
 } from "./constants.js";
 
-import {
-  pathToModule
-} from "#utilities/source/AsyncSpecModules.js";
+
+// #endregion preamble
 
 export interface AddExportContext {
   absolutePathToModule: string,
@@ -27,6 +31,9 @@ export interface AddExportContext {
   isType: boolean,
 }
 
+/**
+ * This represents a tool for generating an exports file.
+ */
 export class ExportManager
 {
   static #compareDeclarations(
@@ -78,9 +85,17 @@ export class ExportManager
       absolutePathToModule, () => this.#buildDeclaration(absolutePathToModule)
     );
 
+    if (!isType && declaration.isTypeOnly) {
+      declaration.namedExports.forEach((specifier): void => {
+        (specifier as ExportSpecifierImpl).isTypeOnly = true;
+      });
+      declaration.isTypeOnly = false;
+    }
+
     const specifiers = exportNames.map(exportName => {
       const specifier = new ExportSpecifierImpl(exportName);
-      specifier.isTypeOnly = isType;
+      if (isType && !declaration.isTypeOnly)
+        specifier.isTypeOnly = isType;
       return specifier;
     });
 
@@ -89,12 +104,6 @@ export class ExportManager
       specifiers[0].alias = exportNames[0];
     }
 
-    if (!isType && declaration.isTypeOnly) {
-      declaration.namedExports.forEach((specifier): void => {
-        (specifier as ExportSpecifierImpl).isTypeOnly = true;
-      });
-      declaration.isTypeOnly = false;
-    }
 
     declaration.namedExports.push(...specifiers);
   }
@@ -113,13 +122,7 @@ export class ExportManager
     return decl;
   }
 
-  async commit(): Promise<void> {
-    if (this.#committed)
-      throw new Error("file has been committed");
-    this.#committed = true;
-
-    const source = new SourceFileImpl;
-
+  getStatements(): ExportDeclarationImpl[] {
     const declarationEntries = Array.from(this.#pathToDeclarationMap.entries());
     declarationEntries.sort(ExportManager.#compareDeclarations);
 
@@ -127,14 +130,26 @@ export class ExportManager
     declarations.forEach(decl => {
       (decl.namedExports as ExportSpecifierImpl[]).sort(ExportManager.#compareSpecifiers);
     });
-    source.statements.push(
+
+    return declarations;
+  }
+
+  async commit(): Promise<void> {
+    if (this.#committed)
+      throw new Error("file has been committed");
+    this.#committed = true;
+
+    const sourceStructure = new SourceFileImpl;
+    const declarations = this.getStatements();
+
+    sourceStructure.statements.push(
       "// This file is generated.  Do not edit.",
       ...declarations
     );
 
     const sourceFile = getTS_SourceFile(stageDir, this.#absolutePathToExportFile);
     sourceFile.removeText();
-    sourceFile.set(source);
+    sourceFile.set(sourceStructure);
     await sourceFile.save();
   }
 }
