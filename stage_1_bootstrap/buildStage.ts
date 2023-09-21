@@ -6,18 +6,16 @@ const BPSet = new BuildPromiseSet;
 { // test
   const target = BPSet.get("test");
 
-  target.addTask(() => {
+  target.addTask(async () => {
     console.log("starting stage_1_bootstrap:test");
-    return Promise.resolve();
+    await runModule(
+      "../node_modules/jasmine/bin/jasmine.js",
+      [
+        //"--parallel=auto",
+        "--config=./spec-snapshot/support/jasmine.json",
+      ]
+    );
   });
-
-  target.addTask(async () => await runModule(
-    "../node_modules/jasmine/bin/jasmine.js",
-    [
-      //"--parallel=auto",
-      "--config=./spec-snapshot/support/jasmine.json",
-    ]
-  ));
 }
 
 { // eslint
@@ -56,7 +54,7 @@ const BPSet = new BuildPromiseSet;
       [
         //"--parallel=auto",
         "--config=./build/spec/support/jasmine.json",
-      ]
+      ],
     )
   });
 
