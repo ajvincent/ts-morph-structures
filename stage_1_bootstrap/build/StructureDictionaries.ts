@@ -1,3 +1,4 @@
+//#region preamble
 import {
   PromiseAllParallel,
   PromiseAllSequence,
@@ -8,13 +9,13 @@ import {
 } from "#utilities/source/AsyncSpecModules.js";
 
 import {
-  stageDir,
-} from "./constants.js";
-
-import {
   ClassDeclarationImpl,
   SourceFileImpl,
 } from "../prototype-snapshot/exports.js";
+
+import {
+  stageDir,
+} from "./constants.js";
 
 import {
   DecoratorImplMeta,
@@ -25,6 +26,11 @@ import {
 } from "./structureMeta/DataClasses.js";
 
 import ImportManager from "./ImportManager.js";
+import {
+  PublicExports,
+  InternalExports,
+} from "./ExportManager.js";
+//#endregion preamble
 
 export type DecoratorHook = (
   name: string,
@@ -44,6 +50,9 @@ class StructureDictionaries extends StructureMetaDictionaries
   readonly metaToClassMap = new WeakMap<StructuresMeta, ClassDeclarationImpl>;
   readonly classToImportsMap = new WeakMap<ClassDeclarationImpl, ImportManager>;
   readonly classToSourceMap = new WeakMap<ClassDeclarationImpl, SourceFileImpl>;
+
+  readonly publicExports = PublicExports;
+  readonly internalExports = InternalExports;
 
   readonly #decoratorHooks = new Map<string, DecoratorHook>;
   readonly #structureHooks = new Map<string, StructureHook>;
