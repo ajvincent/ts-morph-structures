@@ -1,23 +1,16 @@
 import { BuildPromiseSet } from "#utilities/source/BuildPromise.js";
 import { runModule } from "#utilities/source/runModule.js";
+import runJasmine from "#utilities/source/runJasmine.js";
 import recursiveBuild from "#utilities/source/recursiveBuild.js";
 
 const BPSet = new BuildPromiseSet;
 {
   const target = BPSet.get("build:jasmine");
 
-  target.addTask(() => {
+  target.addTask(async () => {
     console.log("starting build:jasmine");
-    return Promise.resolve();
+    await runJasmine("./spec/support/jasmine.json", "build");
   });
-
-  target.addTask(async () => await runModule(
-    "./node_modules/jasmine/bin/jasmine.js",
-    [
-      //"--parallel=auto",
-      "--config=spec/support/jasmine.json",
-    ]
-  ));
 }
 
 { // eslint
@@ -43,7 +36,7 @@ const BPSet = new BuildPromiseSet;
   );
 }
 
-{ // stage 2
+{ // stage 1
   const target = BPSet.get("stage_1_bootstrap");
 
   target.addTask(async () => {

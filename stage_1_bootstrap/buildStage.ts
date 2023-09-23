@@ -1,5 +1,6 @@
 import { BuildPromiseSet } from "#utilities/source/BuildPromise.js";
 import { runModule } from "#utilities/source/runModule.js";
+import runJasmine from "#utilities/source/runJasmine.js";
 
 const BPSet = new BuildPromiseSet;
 
@@ -8,13 +9,7 @@ const BPSet = new BuildPromiseSet;
 
   target.addTask(async () => {
     console.log("starting stage_1_bootstrap:test");
-    await runModule(
-      "../node_modules/jasmine/bin/jasmine.js",
-      [
-        //"--parallel=auto",
-        "--config=./spec-snapshot/support/jasmine.json",
-      ]
-    );
+    await runJasmine("./spec-snapshot/support/jasmine.json", "stage_one_test");
   });
 }
 
@@ -49,18 +44,8 @@ const BPSet = new BuildPromiseSet;
 
   target.addTask(async (): Promise<void> => {
     console.log("starting stage_1_bootstrap:build:test");
-    await runModule(
-      "../node_modules/jasmine/bin/jasmine.js",
-      [
-        //"--parallel=auto",
-        "--config=./build/spec/support/jasmine.json",
-      ],
-      /*
-      [
-        "--inspect-brk",
-      ]
-      */
-    )
+
+    await runJasmine("./build/spec/support/jasmine.json", "stage_one_build");
   });
 
   target.addTask(async (): Promise<void> => {
