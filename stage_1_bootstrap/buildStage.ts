@@ -55,6 +55,11 @@ const BPSet = new BuildPromiseSet;
         //"--parallel=auto",
         "--config=./build/spec/support/jasmine.json",
       ],
+      /*
+      [
+        "--inspect-brk",
+      ]
+      */
     )
   });
 
@@ -68,8 +73,8 @@ const BPSet = new BuildPromiseSet;
 BPSet.markReady();
 {
   BPSet.main.addSubtarget("test");
-  BPSet.main.addSubtarget("eslint");
   BPSet.main.addSubtarget("build");
+  BPSet.main.addSubtarget("eslint");
 }
 await BPSet.main.run();
 export default Promise.resolve();

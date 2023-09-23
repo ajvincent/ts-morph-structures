@@ -1,13 +1,13 @@
 import path from "path";
 
 import {
+  pathToModule
+} from "#utilities/source/AsyncSpecModules.js";
+
+import {
   ExportManager,
   //type AddExportContext,
 } from "../ExportManager.js";
-
-import {
-  pathToModule
-} from "#utilities/source/AsyncSpecModules.js";
 
 import {
   stageDir,
@@ -18,40 +18,40 @@ import {
   ExportSpecifierImpl,
 } from "../../prototype-snapshot/exports.js";
 
-it("can export values from submodules", () => {
+it("ExportManager can export values from submodules", () => {
   const baseDir = pathToModule(stageDir, "non-existent");
   const pathToExport = path.join(baseDir, "foo.js");
-  const manager = new ExportManager(pathToExport)
+  const manager = new ExportManager(pathToExport);
 
-  manager.addExport({
+  manager.addExports({
     absolutePathToModule: path.join(baseDir, "source/foo.ts"),
     exportNames: ["Foo"],
     isDefaultExport: true,
     isType: false,
   });
 
-  manager.addExport({
+  manager.addExports({
     absolutePathToModule: path.join(baseDir, "source/foo.ts"),
     exportNames: ["FooInterface", "FooType"],
     isDefaultExport: false,
     isType: true,
   });
 
-  manager.addExport({
+  manager.addExports({
     absolutePathToModule: path.join(baseDir, "source/foo.ts"),
     exportNames: ["LittleFoo"],
     isDefaultExport: false,
     isType: false
   });
 
-  manager.addExport({
+  manager.addExports({
     absolutePathToModule: path.join(baseDir, "source/bar.ts"),
     exportNames: ["BarType", "BarInterface"],
     isDefaultExport: false,
     isType: true
   });
 
-  const declarations: ExportDeclarationImpl[] = manager.getStatements();
+  const declarations: ExportDeclarationImpl[] = manager.getDeclarations();
   expect(declarations.length).toBe(2);
 
   const [firstDecl, secondDecl] = declarations;

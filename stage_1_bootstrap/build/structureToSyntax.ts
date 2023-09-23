@@ -96,7 +96,7 @@ export default async function(pathToDirectory: string): Promise<void> {
   await fs.mkdir(path.dirname(pathToMapFile), { recursive: true });
   await fs.writeFile(pathToMapFile, fileWriter.toString(), { encoding: "utf-8" });
 
-  InternalExports.addExport({
+  InternalExports.addExports({
     absolutePathToModule: pathToMapFile,
     exportNames: ["StructureKindToSyntaxKindMap"],
     isDefaultExport: true,

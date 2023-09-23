@@ -1,7 +1,17 @@
+import path from "path";
+
 import {
   ImportDeclarationImpl,
   ImportSpecifierImpl,
 } from "../prototype-snapshot/exports.js";
+
+export interface AddImportContext {
+  pathToImportedModule: string,
+  isPackageImport: boolean,
+  importNames: readonly string[],
+  isDefaultImport: boolean,
+  isTypeOnly: boolean,
+}
 
 export default class ImportManager
 {
@@ -23,41 +33,99 @@ export default class ImportManager
     return a.name.localeCompare(b.name);
   }
 
+  readonly #absolutePathToModule: string;
   readonly #declarationsMap = new Map<string, ImportDeclarationImpl>;
   readonly #knownSpecifiers = new Set<string>;
 
-  addImport(
-    pathToSourceFile: string,
-    nameToImport: string,
-    isDefaultImport: boolean,
-    isTypeOnly: boolean,
+  constructor(
+    absolutePathToModule: string,
+  )
+  {
+    if (!absolutePathToModule.endsWith(".ts")) {
+      throw new Error("path to module must end with .ts");
+    }
+
+    if (!path.isAbsolute(absolutePathToModule))
+      throw new Error("path to module must be absolute");
+
+    this.#absolutePathToModule = path.normalize(absolutePathToModule);
+  }
+
+  addImports(
+    context: AddImportContext
   ): void
   {
-    if (this.#knownSpecifiers.has(nameToImport))
-      throw new Error("this import is already known.");
+    const { importNames, isPackageImport, isDefaultImport, isTypeOnly } = context;
+    let { pathToImportedModule } = context;
 
-    let importDecl = this.#declarationsMap.get(pathToSourceFile);
+    if (!isPackageImport) {
+      if (!pathToImportedModule.endsWith(".ts")) {
+        throw new Error("path to module must end with .ts, or use isPackageImport: true to specify package import");
+      }
+
+      if (!isPackageImport && !path.isAbsolute(pathToImportedModule)) {
+        throw new Error("path to module must be absolute, or use isPackageImport: true to specify package import");
+      }
+    }
+
+    pathToImportedModule = path.normalize(
+      pathToImportedModule.replace(/(\.d)?\.(m?)ts$/, ".$2js")
+    );
+    if (!isPackageImport) {
+      pathToImportedModule = "./" + path.relative(
+        path.dirname(this.#absolutePathToModule), pathToImportedModule
+      );
+    }
+
+    importNames.forEach(nameToImport => {
+      if (this.#knownSpecifiers.has(nameToImport))
+        throw new Error(`the import "${nameToImport}" is already known.`);
+    });
+
+    let importDecl = this.#declarationsMap.get(pathToImportedModule);
     if (!importDecl) {
-      importDecl = new ImportDeclarationImpl(pathToSourceFile);
-      this.#declarationsMap.set(pathToSourceFile, importDecl);
+      importDecl = new ImportDeclarationImpl(pathToImportedModule);
+      importDecl.isTypeOnly = true;
+      this.#declarationsMap.set(pathToImportedModule, importDecl);
     }
 
     if (isDefaultImport) {
       if (importDecl.defaultImport) {
         throw new Error("You already have a default import.");
       }
-      importDecl.defaultImport = nameToImport;
+      if (importNames.length !== 1) {
+        throw new Error("There must be one import name for a default import!")
+      }
+      this.#moveTypeOnlyToSpecifiers(importDecl);
+      importDecl.defaultImport = importNames[0];
     }
     else {
-      const specifier = new ImportSpecifierImpl(nameToImport);
-      specifier.isTypeOnly = isTypeOnly;
-      importDecl.namedImports.push(specifier);
+      if (!isTypeOnly) {
+        this.#moveTypeOnlyToSpecifiers(importDecl);
+      }
+      importNames.forEach(nameToImport => {
+        const specifier = new ImportSpecifierImpl(nameToImport);
+        if (isTypeOnly && !(importDecl!.isTypeOnly))
+          specifier.isTypeOnly = isTypeOnly;
+        importDecl!.namedImports.push(specifier);
+        this.#knownSpecifiers.add(nameToImport);
+      });
     }
-
-    this.#knownSpecifiers.add(nameToImport);
   }
 
-  getStatements(): ImportDeclarationImpl[]
+  #moveTypeOnlyToSpecifiers(
+    importDecl: ImportDeclarationImpl
+  ): void
+  {
+    if (!importDecl.isTypeOnly)
+      return;
+    importDecl.namedImports.forEach((namedImport): void => {
+      (namedImport as ImportSpecifierImpl).isTypeOnly = true;
+    });
+    importDecl.isTypeOnly = false;
+  }
+
+  getDeclarations(): ImportDeclarationImpl[]
   {
     const entries = Array.from(this.#declarationsMap);
     entries.sort(ImportManager.#compareDeclarations);

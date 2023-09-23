@@ -66,7 +66,7 @@ export class ExportManager
     this.#absolutePathToExportFile = absolutePathToExportFile;
   }
 
-  addExport(
+  addExports(
     context: AddExportContext
   ): void
   {
@@ -115,14 +115,14 @@ export class ExportManager
     const decl = new ExportDeclarationImpl;
     decl.moduleSpecifier = "./" + path.relative(
       path.dirname(this.#absolutePathToExportFile),
-      absolutePathToModule.replace(/(?<!\.d)\.ts$/, ".js")
+      absolutePathToModule.replace(/(\.d)?\.(m?)ts$/, ".$2js")
     );
     decl.isTypeOnly = true;
     decl.assertElements = undefined;
     return decl;
   }
 
-  getStatements(): ExportDeclarationImpl[] {
+  getDeclarations(): ExportDeclarationImpl[] {
     const declarationEntries = Array.from(this.#pathToDeclarationMap.entries());
     declarationEntries.sort(ExportManager.#compareDeclarations);
 
@@ -140,7 +140,7 @@ export class ExportManager
     this.#committed = true;
 
     const sourceStructure = new SourceFileImpl;
-    const declarations = this.getStatements();
+    const declarations = this.getDeclarations();
 
     sourceStructure.statements.push(
       "// This file is generated.  Do not edit.",
@@ -157,7 +157,7 @@ export class ExportManager
 export const InternalExports = new ExportManager("./source/internal-exports.ts");
 export const PublicExports = new ExportManager("./source/exports.ts");
 
-InternalExports.addExport({
+InternalExports.addExports({
   absolutePathToModule: pathToModule(stageDir, "./source/exports.ts"),
   exportNames: [],
   isDefaultExport: false,
