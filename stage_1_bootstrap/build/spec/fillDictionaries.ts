@@ -1,5 +1,8 @@
+import {
+  StructureMetaDictionaries,
+} from "../structureMeta/DataClasses.js";
+
 import fillDictionaries from "../structureMeta/fillDictionaries.js";
-import { StructureMetaDictionaries } from "../structureMeta/DataClasses.js";
 
 it("fillDictionaries works", () => {
   const dictionaries = new StructureMetaDictionaries;
@@ -120,5 +123,48 @@ it("fillDictionaries works", () => {
     expect(typeProperty.mayBeUndefined).toBeFalse();
     expect(typeProperty.mayBeWriter).toBeTrue();
     expect(typeProperty.otherTypes.length).toBe(0);
+  }
+
+  { // test Structure
+    const decoratorDef = dictionaries.decorators.get("Structure")!;
+    expect(decoratorDef.booleanKeys.size).toBe(0);
+    expect(decoratorDef.structureFields.size).toBe(0);
+    expect(decoratorDef.decoratorKeys.size).toBe(0);
+
+    expect(Array.from(decoratorDef.structureFieldArrays.keys()).sort()).toEqual([
+      "leadingTrivia", "trailingTrivia"
+    ]);
+
+    const leadingTrivia = decoratorDef.structureFieldArrays.get("leadingTrivia")!;
+    expect(leadingTrivia.mayBeString).toBeTrue();
+    expect(leadingTrivia.mayBeWriter).toBeTrue();
+    expect(leadingTrivia.hasQuestionToken).toBeTrue();
+    expect(leadingTrivia.mayBeUndefined).toBeFalse();
+    expect(leadingTrivia.otherTypes).toEqual([]);
+
+    expect(decoratorDef.structureFields.size).toBe(0);
+
+    // trailingTrivial test is redundant
+  }
+
+  { // test SignaturedDeclarationStructure
+    const decoratorDef = dictionaries.decorators.get("SignaturedDeclarationStructure")!;
+    expect(decoratorDef.booleanKeys.size).toBe(0);
+    expect(Array.from(decoratorDef.decoratorKeys).sort()).toEqual([
+      "ParameteredNodeStructure", "ReturnTypedNodeStructure"
+    ]);
+    expect(decoratorDef.structureFieldArrays.size).toBe(0);
+    expect(decoratorDef.structureFields.size).toBe(0);
+  }
+
+  { // test ExportableNodeStructure
+    const decoratorDef = dictionaries.decorators.get("ExportableNodeStructure")!;
+    expect(decoratorDef.decoratorKeys.size).toBe(0);
+    expect(decoratorDef.structureFieldArrays.size).toBe(0);
+    expect(decoratorDef.structureFields.size).toBe(0);
+
+    expect(Array.from(decoratorDef.booleanKeys).sort()).toEqual([
+      "isDefaultExport", "isExported"
+    ]);
   }
 });

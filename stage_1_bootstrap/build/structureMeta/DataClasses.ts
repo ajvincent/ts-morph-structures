@@ -48,6 +48,7 @@ class BaseMetadata
   readonly booleanKeys = new Set<string>;
   readonly structureFields = new Map<PropertyName, PropertyValue>;
   readonly structureFieldArrays = new Map<PropertyName, PropertyValue>;
+  readonly decoratorKeys = new Set<StructureName>;
 
   addField(
     propertyName: PropertyName,
@@ -78,14 +79,6 @@ class BaseMetadata
       map.set(propertyName, propertyValue);
     }
   }
-
-  toJSON(): object {
-    return {
-      booleanKeys: Array.from(this.booleanKeys),
-      structureFields: Object.fromEntries(this.structureFields),
-      structureFieldArrays: Object.fromEntries(this.structureFieldArrays)
-    };
-  }
 }
 
 export class DecoratorImplMeta extends BaseMetadata implements MetaImplementation
@@ -106,13 +99,11 @@ export class StructureImplMeta extends BaseMetadata implements MetaImplementatio
 {
   readonly metaType = MetaType.Structure;
   readonly structureName: StructureName;
+
   structureKindName = "";
 
   /** This may appear later. */
   syntaxKindName = "";
-
-  decoratorKeys = new Set<StructureName>;
-  inheritedProperties = new Map<StructureName, Set<StructureName>>;
 
   constructor(
     structureName: StructureName

@@ -14,6 +14,7 @@ import TS_MORPH_D from "../ts-morph-d-file.js";
 
 import {
   DecoratorImplMeta,
+  MetaType,
   PropertyName,
   PropertyValue,
   PropertyValueInUnion,
@@ -28,7 +29,13 @@ function fillDictionaries(
 ): void
 {
   const structureNames = new Set<string>(addStructureUnion(dictionary, "Structures").sort());
-  structureNames.forEach(name => addStructure(dictionary, name, name));
+  const decoratorNameEntries: string[] = [];
+  structureNames.forEach(name => {
+    decoratorNameEntries.push(...addStructure(dictionary, name, name));
+  });
+
+  const decoratorNames = new Set<string>(decoratorNameEntries);
+  decoratorNames.forEach(name => addDecorator(dictionary, name));
 }
 
 function addStructureUnion(
@@ -82,7 +89,7 @@ function addStructure(
   dictionary: StructureMetaDictionaries,
   interfaceName: string,
   targetInterfaceName: string,
-): void
+): string[]
 {
   const decl: InterfaceDeclaration = TS_MORPH_D.getInterfaceOrThrow(interfaceName);
 
@@ -90,26 +97,56 @@ function addStructure(
     return new StructureImplMeta(targetInterfaceName);
   });
 
+  addExtendsToStructureMeta(targetInterfaceName, decl, structureMeta, dictionary);
+  addMembersToStructureMeta(interfaceName, targetInterfaceName, decl, structureMeta);
+
+  return Array.from(structureMeta.decoratorKeys);
+}
+
+function addDecorator(
+  dictionary: StructureMetaDictionaries,
+  interfaceName: string,
+): void
+{
+  void(dictionary);
+  const decl: InterfaceDeclaration = TS_MORPH_D.getInterfaceOrThrow(interfaceName);
+
+  const decoratorMeta = new DecoratorImplMeta(interfaceName);
+  dictionary.decorators.set(interfaceName, decoratorMeta);
+
+  addExtendsToStructureMeta(interfaceName, decl, decoratorMeta, dictionary);
+  addMembersToStructureMeta(interfaceName, interfaceName, decl, decoratorMeta);
+}
+
+function addExtendsToStructureMeta(
+  targetInterfaceName: string,
+  decl: InterfaceDeclaration,
+  structureMeta: StructureImplMeta | DecoratorImplMeta,
+  dictionary: StructureMetaDictionaries
+): void
+{
   const _extendsArray: ExpressionWithTypeArguments[] = decl.getExtends();
   for (const _extends of _extendsArray) {
     // Handle KindedStructure<StructureKind.Foo>
     const expression = _extends.getExpression().asKindOrThrow(SyntaxKind.Identifier);
     const idText = expression.getText();
     if (idText === "KindedStructure") {
+      if (structureMeta.metaType === MetaType.Decorator)
+        throw new Error("shouldn't be reachable");
       const qualifiedName = _extends.getTypeArguments()[0].asKindOrThrow(SyntaxKind.TypeReference).getTypeName().asKindOrThrow(SyntaxKind.QualifiedName);
       structureMeta.structureKindName = qualifiedName.getRight().getText();
       continue;
     }
 
     if (idText.endsWith("SpecificStructure") || idText.endsWith("BaseStructure")) {
+      if (structureMeta.metaType === MetaType.Decorator)
+        throw new Error("shouldn't be reachable");
       addStructure(dictionary, idText, targetInterfaceName);
       continue;
     }
 
     structureMeta.decoratorKeys.add(idText);
   }
-
-  addMembersToStructureMeta(interfaceName, targetInterfaceName, decl, structureMeta);
 }
 
 function addMembersToStructureMeta(
