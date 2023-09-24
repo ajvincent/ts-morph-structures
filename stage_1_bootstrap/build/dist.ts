@@ -10,6 +10,8 @@ import {
   stageDir,
 } from "./constants.js";
 
+import BuildClassesDriver from "./BuildClassesDriver.js";
+
 const distDir = pathToModule(stageDir, "dist");
 
 // #endregion preamble
@@ -38,4 +40,6 @@ export default async function buildDist(): Promise<void>
     path.join(distDir, "source"),
     { recursive: true }
   );
+
+  await BuildClassesDriver();
 }

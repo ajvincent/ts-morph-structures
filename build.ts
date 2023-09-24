@@ -24,16 +24,10 @@ const BPSet = new BuildPromiseSet;
   args.push("utilities/**/*.ts");
   args.push("build.ts");
 
-  target.addTask(() => {
+  target.addTask(async () => {
     console.log("starting build:eslint");
-    return Promise.resolve();
+    await runModule("./node_modules/eslint/bin/eslint.js", args);
   });
-
-  target.addTask(
-    async () => {
-      await runModule("./node_modules/eslint/bin/eslint.js", args);
-    }
-  );
 }
 
 { // stage 1

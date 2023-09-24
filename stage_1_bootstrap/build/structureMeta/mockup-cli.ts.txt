@@ -208,7 +208,7 @@ export type StatementStructures =
     return refNode.getTypeName().getText();
   });
 
-  const data = new StructureUnionMeta;
+  const data = new StructureUnionMeta("StatementStructures");
   identifiers.forEach(id => {
     const idSet = id.endsWith("Structures") ? data.unionKeys : data.structureNames;
     idSet.add(id);

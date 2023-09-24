@@ -1,3 +1,5 @@
+import { DefaultMap } from "#utilities/source/DefaultMap.js";
+
 export type StructureName = string;
 export type PropertyName = string;
 export type StructureUnionName = string;
@@ -14,26 +16,31 @@ export interface MetaImplementation {
   readonly metaType: MetaType;
 }
 
-export class PropertyValue
-{
-  fromTypeName: string | undefined = undefined;
-
+export class PropertyValueInUnion {
   structureName: StructureName | undefined = undefined;
   isOptionalKind = false;
 
   unionName: StructureUnionName | undefined = undefined;
-
-  mayBeString = false;
-  mayBeWriter = false;
-  mayBeUndefined = false;
-  representsType = false;
 
   /**
    * @example
    * `scope?: Scope;`
    * From ScopedNodeStructure, applies to ConstructorDeclarationStructure
    */
-  tsmorph_Types = new Set<TSMorphTypeIdentifier>;
+  tsmorph_Type: string | undefined = undefined;
+}
+
+export class PropertyValue
+{
+  fromTypeName: string | undefined = undefined;
+
+  mayBeString = false;
+  mayBeWriter = false;
+  hasQuestionToken = false;
+  mayBeUndefined = false;
+  representsType = false;
+
+  otherTypes: PropertyValueInUnion[] = [];
 }
 
 class BaseMetadata
@@ -49,13 +56,27 @@ class BaseMetadata
   ): void
   {
     const map = isArray ? this.structureFieldArrays : this.structureFields;
-    if (map.has(propertyName)) {
-      // I may hit this for TypeAliasDeclarationStructure::type.
-      // This is largely just a matter of writing good code to handle this case.
-      throw new Error("you've been here before with the name " + propertyName);
-    }
+    const existing = map.get(propertyName);
+    if (existing) {
+      if (propertyValue.otherTypes.length || existing.otherTypes.length) {
+        throw new Error("property name conflict for existing versus added in otherTypes: " + propertyName);
+      }
 
-    map.set(propertyName, propertyValue);
+      existing.mayBeString &&= propertyValue.mayBeString;
+      existing.mayBeWriter &&= propertyValue.mayBeWriter;
+      existing.mayBeUndefined &&= propertyValue.mayBeUndefined;
+      if (!propertyValue.hasQuestionToken)
+        existing.hasQuestionToken = false;
+
+      if (!propertyValue.fromTypeName) {
+        existing.fromTypeName = undefined;
+      }
+      else if (existing.fromTypeName && existing.fromTypeName) {
+        throw new Error("property name conflict for existing versus added in fromTypeName: " + propertyName);
+      }
+    } else {
+      map.set(propertyName, propertyValue);
+    }
   }
 
   toJSON(): object {
@@ -100,13 +121,35 @@ export class StructureImplMeta extends BaseMetadata implements MetaImplementatio
     super();
     this.structureName = structureName;
   }
+
+  addField(
+    propertyName: PropertyName,
+    isArray: boolean,
+    propertyValue: PropertyValue
+  ): void
+  {
+    try {
+      return super.addField(propertyName, isArray, propertyValue);
+    }
+    catch (ex) {
+      console.error("this.structureName = " + this.structureName);
+      throw ex;
+    }
+  }
 }
 export class StructureUnionMeta implements MetaImplementation
 {
   readonly metaType = MetaType.StructureUnion;
-  readonly unionName: StructureName = "";
+  readonly unionName: StructureName;
   readonly structureNames = new Set<StructureName>;
   readonly unionKeys = new Set<StructureUnionName>;
+
+  constructor(
+    name: StructureName
+  )
+  {
+    this.unionName = name;
+  }
 }
 
 export type StructuresMeta = DecoratorImplMeta | StructureImplMeta | StructureUnionMeta;
@@ -114,7 +157,7 @@ export type StructuresMeta = DecoratorImplMeta | StructureImplMeta | StructureUn
 export class StructureMetaDictionaries
 {
   readonly decorators = new Map<StructureName, DecoratorImplMeta>;
-  readonly structures = new Map<StructureName, StructureImplMeta>;
+  readonly structures = new DefaultMap<StructureName, StructureImplMeta>;
   readonly unions = new Map<StructureName, StructureUnionMeta>;
 
   addDefinition(
@@ -128,9 +171,13 @@ export class StructureMetaDictionaries
       case MetaType.Structure:
         this.structures.set(meta.structureName, meta);
         return;
-      case MetaType.StructureUnion:
+
+      case MetaType.StructureUnion: {
         this.unions.set(meta.unionName, meta);
+        const names = Array.from(meta.unionKeys);
+        names.push(...Array.from(meta.structureNames));
         return;
+      }
     }
   }
 }

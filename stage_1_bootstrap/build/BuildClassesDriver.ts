@@ -9,7 +9,7 @@ export default
 async function BuildClassesDriver(): Promise<void>
 {
   const dictionary = new StructureDictionaries;
-  await fillDictionaries(dictionary);
+  fillDictionaries(dictionary);
 
   // #region boolean decorators
   // create class, including implements
@@ -43,5 +43,6 @@ async function BuildClassesDriver(): Promise<void>
 
   // #endregion write to filesystem
 
-  await dictionary.build();
+  //await dictionary.build();
+  await Promise.resolve();
 }
