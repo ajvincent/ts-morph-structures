@@ -38,6 +38,7 @@ function fillDictionaries(
   decoratorNames.forEach(name => addDecorator(dictionary, name));
 
   resolveDecoratorKeys(dictionary);
+  countDecoratorUsage(dictionary);
 }
 
 function addStructureUnion(
@@ -110,7 +111,9 @@ function addDecorator(
   interfaceName: string,
 ): void
 {
-  void(dictionary);
+  if (dictionary.decorators.has(interfaceName))
+    return;
+
   const decl: InterfaceDeclaration = TS_MORPH_D.getInterfaceOrThrow(interfaceName);
 
   const decoratorMeta = new DecoratorImplMeta(interfaceName);
@@ -118,6 +121,10 @@ function addDecorator(
 
   addExtendsToStructureMeta(interfaceName, decl, decoratorMeta, dictionary);
   addMembersToStructureMeta(interfaceName, interfaceName, decl, decoratorMeta);
+
+  decoratorMeta.decoratorKeys.forEach(
+    subDecoratorName => addDecorator(dictionary, subDecoratorName)
+  );
 }
 
 function addExtendsToStructureMeta(
@@ -296,5 +303,19 @@ function resolveDecoratorKeys(
 
   for (const name of resolvables.keys()) {
     dictionary.decorators.delete(name);
+  }
+}
+
+function countDecoratorUsage(
+  dictionary: StructureMetaDictionaries
+): void
+{
+  for (const str of dictionary.structures.values()) {
+    for (const decName of str.decoratorKeys) {
+      const dec = dictionary.decorators.get(decName)!;
+      if (!dec)
+        throw new Error(str.structureName + ": " + decName);
+      dec.incrementCount();
+    }
   }
 }

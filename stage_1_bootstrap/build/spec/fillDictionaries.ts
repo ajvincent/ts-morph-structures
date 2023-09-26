@@ -167,4 +167,7 @@ it("fillDictionaries works", () => {
       "isDefaultExport", "isExported"
     ]);
   }
+
+  const countMap = dictionaries.getDecoratorCountMap();
+  expect(countMap.get("Structure")).toBeGreaterThan(countMap.get("JSDocableNodeStructure")!);
 });

@@ -83,8 +83,13 @@ class BaseMetadata
 
 export class DecoratorImplMeta extends BaseMetadata implements MetaImplementation
 {
+  #useCount = 0;
   readonly metaType = MetaType.Decorator;
   readonly structureName: StructureName;
+
+  get useCount(): number {
+    return this.#useCount;
+  }
 
   constructor(
     structureName: StructureName
@@ -92,6 +97,10 @@ export class DecoratorImplMeta extends BaseMetadata implements MetaImplementatio
   {
     super();
     this.structureName = structureName;
+  }
+
+  incrementCount(): void {
+    this.#useCount++;
   }
 }
 
@@ -170,5 +179,12 @@ export class StructureMetaDictionaries
         return;
       }
     }
+  }
+
+  getDecoratorCountMap(): ReadonlyMap<StructureName, number>
+  {
+    const map = new Map<StructureName, number>;
+    this.decorators.forEach((dec, name) => map.set(name, dec.useCount));
+    return map;
   }
 }
