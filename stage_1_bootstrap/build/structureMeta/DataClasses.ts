@@ -129,7 +129,10 @@ export class StructureImplMeta extends BaseMetadata implements MetaImplementatio
   ): void
   {
     try {
-      return super.addField(propertyName, isArray, propertyValue);
+      super.addField(propertyName, isArray, propertyValue);
+      if ((propertyName === "kind") && !this.structureKindName) {
+        this.structureKindName = propertyValue.otherTypes[0]!.tsmorph_Type!.replace("StructureKind.", "");
+      }
     }
     catch (ex) {
       console.error("this.structureName = " + this.structureName);

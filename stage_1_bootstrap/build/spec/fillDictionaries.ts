@@ -170,4 +170,11 @@ it("fillDictionaries works", () => {
 
   const countMap = dictionaries.getDecoratorCountMap();
   expect(countMap.get("Structure")).toBeGreaterThan(countMap.get("JSDocableNodeStructure")!);
+
+  const unknownNames: string[] = [];
+  for (const [key, str] of dictionaries.structures) {
+    if (!str.structureKindName)
+      unknownNames.push(key)
+  }
+  expect(unknownNames).toEqual([]);
 });

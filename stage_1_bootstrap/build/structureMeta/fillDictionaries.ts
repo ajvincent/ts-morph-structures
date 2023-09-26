@@ -37,6 +37,7 @@ function fillDictionaries(
   const decoratorNames = new Set<string>(decoratorNameEntries);
   decoratorNames.forEach(name => addDecorator(dictionary, name));
 
+  consolidateNameDecorators(dictionary);
   resolveDecoratorKeys(dictionary);
   countDecoratorUsage(dictionary);
 }
@@ -274,6 +275,34 @@ function fillPropertyValueWithTypeNodes(
   });
 
   return isArray;
+}
+
+function consolidateNameDecorators(
+  dictionary: StructureMetaDictionaries
+): void
+{
+  for (const oldDecorator of [
+    "AssertionKeyNamedNodeStructure",
+    "BindingNamedNodeStructure",
+    "JsxTagNamedNodeStructure",
+    "ModuleNamedNodeStructure",
+    "PropertyNamedNodeStructure",
+  ])
+  {
+    for (const str of dictionary.structures.values()) {
+      if (str.decoratorKeys.has(oldDecorator)) {
+        str.decoratorKeys.add("NamedNodeStructure");
+        str.decoratorKeys.delete(oldDecorator);
+      }
+    }
+
+    for (const dec of dictionary.decorators.values()) {
+      if (dec.decoratorKeys.has(oldDecorator)) {
+        dec.decoratorKeys.add("NamedNodeStructure");
+        dec.decoratorKeys.delete(oldDecorator);
+      }
+    }
+  }
 }
 
 function resolveDecoratorKeys(
