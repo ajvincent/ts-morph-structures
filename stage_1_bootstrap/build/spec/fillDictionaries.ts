@@ -125,6 +125,13 @@ it("fillDictionaries works", () => {
     expect(typeProperty.otherTypes.length).toBe(0);
   }
 
+  { // test CallSignatureDeclarationStructure: SignaturedDeclarationStructure should be replaced
+    const structureDef = dictionaries.structures.get("CallSignatureDeclarationStructure")!;
+    expect(structureDef.decoratorKeys.has("SignaturedDeclarationStructure")).toBeFalse();
+    expect(structureDef.decoratorKeys.has("ParameteredNodeStructure")).toBeTrue();
+    expect(structureDef.decoratorKeys.has("ReturnTypedNodeStructure")).toBeTrue();
+  }
+
   { // test Structure
     const decoratorDef = dictionaries.decorators.get("Structure")!;
     expect(decoratorDef.booleanKeys.size).toBe(0);
@@ -147,15 +154,8 @@ it("fillDictionaries works", () => {
     // trailingTrivial test is redundant
   }
 
-  { // test SignaturedDeclarationStructure
-    const decoratorDef = dictionaries.decorators.get("SignaturedDeclarationStructure")!;
-    expect(decoratorDef.booleanKeys.size).toBe(0);
-    expect(Array.from(decoratorDef.decoratorKeys).sort()).toEqual([
-      "ParameteredNodeStructure", "ReturnTypedNodeStructure"
-    ]);
-    expect(decoratorDef.structureFieldArrays.size).toBe(0);
-    expect(decoratorDef.structureFields.size).toBe(0);
-  }
+  // replaced by its constituent decorators
+  expect(dictionaries.decorators.has("SignaturedDeclarationStructure")).toBeFalse();
 
   { // test ExportableNodeStructure
     const decoratorDef = dictionaries.decorators.get("ExportableNodeStructure")!;

@@ -36,6 +36,8 @@ function fillDictionaries(
 
   const decoratorNames = new Set<string>(decoratorNameEntries);
   decoratorNames.forEach(name => addDecorator(dictionary, name));
+
+  resolveDecoratorKeys(dictionary);
 }
 
 function addStructureUnion(
@@ -265,4 +267,34 @@ function fillPropertyValueWithTypeNodes(
   });
 
   return isArray;
+}
+
+function resolveDecoratorKeys(
+  dictionary: StructureMetaDictionaries
+): void
+{
+  const resolvables = new Map<string, string[]>;
+  for (const dec of dictionary.decorators.values()) {
+    if (dec.decoratorKeys.size === 0)
+      continue;
+    resolvables.set(dec.structureName, Array.from(dec.decoratorKeys));
+  }
+
+  let found: boolean;
+  do {
+    found = false;
+    for (const str of dictionary.structures.values()) {
+      for (const [name, subnames] of resolvables) {
+        if (str.decoratorKeys.has(name)) {
+          subnames.forEach(subname => str.decoratorKeys.add(subname));
+          str.decoratorKeys.delete(name);
+          found = true;
+        }
+      }
+    }
+  } while (found);
+
+  for (const name of resolvables.keys()) {
+    dictionary.decorators.delete(name);
+  }
 }
