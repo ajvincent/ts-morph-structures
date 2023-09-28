@@ -99,7 +99,8 @@ export class DecoratorImplMeta extends BaseMetadata implements MetaImplementatio
     this.structureName = structureName;
   }
 
-  incrementCount(): void {
+  incrementCount(): void
+  {
     this.#useCount++;
   }
 }

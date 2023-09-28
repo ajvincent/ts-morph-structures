@@ -3,6 +3,8 @@ import fillDictionaries from "./structureMeta/fillDictionaries.js";
 
 // #region hooks
 
+import BooleanDecoratorHook from "./hooks/BooleanDecorator.js";
+
 // #endregion hooks
 
 export default
@@ -11,23 +13,7 @@ async function BuildClassesDriver(): Promise<void>
   const dictionary = new StructureDictionaries;
   fillDictionaries(dictionary);
 
-  // #region boolean decorators
-  // create class, including implements
-  // apply type structure changes
-  // apply decorator-specific changes
-  // wrap in exported subclass decorator
-  // add to internal exports
-  // create source file
-  // #endregion boolean decorators
-
-  // #region other decorators
-  // create class, including implements
-  // apply type structure changes
-  // apply decorator-specific changes
-  // wrap in exported subclass decorator
-  // add to internal imports
-  // create source file
-  // #endregion other decorators
+  dictionary.addDecoratorHook("boolean decorators", BooleanDecoratorHook);
 
   // #region structure classes
   // add decorator imports

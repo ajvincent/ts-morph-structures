@@ -1,5 +1,6 @@
 import {
   type ModuleSourceDirectory,
+  pathToModule,
 } from "#utilities/source/AsyncSpecModules.js";
 
 const projectDir: ModuleSourceDirectory = {
@@ -12,7 +13,10 @@ const stageDir: ModuleSourceDirectory = {
   pathToDirectory: "../.."
 };
 
+const distDir = pathToModule(stageDir, "dist");
+
 export {
+  distDir,
   projectDir,
   stageDir,
 };
