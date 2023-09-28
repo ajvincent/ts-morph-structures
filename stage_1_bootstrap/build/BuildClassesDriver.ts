@@ -29,6 +29,5 @@ async function BuildClassesDriver(): Promise<void>
 
   // #endregion write to filesystem
 
-  //await dictionary.build();
-  await Promise.resolve();
+  await dictionary.build();
 }

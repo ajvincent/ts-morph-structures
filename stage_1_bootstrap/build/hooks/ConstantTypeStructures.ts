@@ -1,19 +1,21 @@
 import {
   LiteralTypedStructureImpl,
   PrefixOperatorsTypedStructureImpl,
+  StringTypedStructureImpl,
   type TypeStructures,
 } from "../../prototype-snapshot/exports.js";
 
 const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
   "ClassDecoratorContext": new LiteralTypedStructureImpl("ClassDecoratorContext"),
   "MixinClass": new LiteralTypedStructureImpl("MixinClass"),
-  "StaticAndInstance": new LiteralTypedStructureImpl("StaticAndInstance"),
   "Required": new LiteralTypedStructureImpl("Required"),
   "RightExtendsLeft": new LiteralTypedStructureImpl("RightExtendsLeft"),
+  "StaticAndInstance": new LiteralTypedStructureImpl("StaticAndInstance"),
+  "SubclassDecorator": new LiteralTypedStructureImpl("SubclassDecorator"),
   "false": new LiteralTypedStructureImpl("false"),
-  "instanceFields": new LiteralTypedStructureImpl("instanceFields"),
+  "instanceFields": new StringTypedStructureImpl("instanceFields"),
   "object": new LiteralTypedStructureImpl("object"),
-  "staticFields": new LiteralTypedStructureImpl("staticFields"),
+  "staticFields": new StringTypedStructureImpl("staticFields"),
   "typeof StructureBase": new PrefixOperatorsTypedStructureImpl(
     ["typeof"], new LiteralTypedStructureImpl("StructureBase")
   ),

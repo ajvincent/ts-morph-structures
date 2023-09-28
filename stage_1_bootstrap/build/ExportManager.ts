@@ -136,7 +136,7 @@ export class ExportManager
 
   async commit(): Promise<void> {
     if (this.#committed)
-      throw new Error("file has been committed");
+      throw new Error("exports file has been committed");
     this.#committed = true;
 
     const sourceStructure = new SourceFileImpl;

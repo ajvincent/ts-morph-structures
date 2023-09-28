@@ -1,20 +1,31 @@
+// #region preamble
 import path from "path";
 
 import {
-  Scope, StatementStructures, WriterFunction,
+  ModuleKind,
+  ModuleResolutionKind,
+  Project,
+  type ProjectOptions,
+  Scope,
+  ScriptTarget,
+  StatementStructures,
+  WriterFunction,
 } from "ts-morph";
 
 import {
   ClassDeclarationImpl,
-  PropertyDeclarationImpl,
-  MethodDeclarationImpl,
-  ParameterDeclarationImpl,
+  FunctionDeclarationImpl,
+  IndexedAccessTypedStructureImpl,
   LiteralTypedStructureImpl,
+  MethodDeclarationImpl,
+  ObjectLiteralTypedStructureImpl,
+  ParameterDeclarationImpl,
+  PrefixOperatorsTypedStructureImpl,
+  PropertyDeclarationImpl,
+  PropertySignatureImpl,
+  SourceFileImpl,
   TypeArgumentedTypedStructureImpl,
   TypeAliasDeclarationImpl,
-  PrefixOperatorsTypedStructureImpl,
-  ObjectLiteralTypedStructureImpl,
-  PropertySignatureImpl,
 } from "../../prototype-snapshot/exports.js";
 
 import ImportManager from "../ImportManager.js";
@@ -33,6 +44,8 @@ import {
 
 import ConstantTypeStructures from "./ConstantTypeStructures.js";
 
+// #endregion preamble
+
 export default async function BooleanDecoratorHook(
   name: string,
   meta: DecoratorImplMeta,
@@ -48,11 +61,10 @@ export default async function BooleanDecoratorHook(
   classDecl.name = meta.structureName.replace(/Structure$/, "DecoratorImpl");
   classDecl.extends = "baseClass";
 
-  dictionaries.classToImportsMap.set(classDecl, defineImports(meta, classDecl.name));
+  const importMgr = defineImports(meta, classDecl.name);
+  dictionaries.classToImportsMap.set(classDecl, importMgr);
 
   const copyFields = addCopyFieldsMethod(meta, classDecl);
-
-  // apply type structure changes
 
   // apply decorator-specific changes
   meta.booleanKeys.forEach(key => {
@@ -66,16 +78,42 @@ export default async function BooleanDecoratorHook(
     );
   });
 
+  const alias = defineFieldsType(meta.structureName);
+  const fnDecl = defineFunctionWrapper(meta, classDecl, alias);
+
   // wrap in exported subclass decorator
-  const leadingStatements: (WriterFunction | StatementStructures)[] = [
+  const statements: (WriterFunction | StatementStructures)[] = [
     declareConstSymbol(meta.structureName),
-    defineFieldsType(meta.structureName),
+    alias,
+    fnDecl,
+    defineSatisfiesWriter(fnDecl, alias),
   ];
-  void(leadingStatements);
 
   // add to internal exports
+  const sourceFilePath = path.join(distDir, `source/decorators/${classDecl.name}.ts`);
+  dictionaries.internalExports.addExports({
+    absolutePathToModule: sourceFilePath,
+    isDefaultExport: true,
+    isType: false,
+    exportNames: [
+      classDecl.name
+    ]
+  });
 
   // create source file
+  const source = new SourceFileImpl;
+  source.statements = [
+    "//#region preamble",
+    ...importMgr.getDeclarations(),
+    "//#endregion preamble",
+    ...statements,
+  ];
+  dictionaries.classToSourceMap.set(classDecl, source);
+
+  await saveSourceFile(
+    sourceFilePath,
+    source
+  );
 
   return Promise.resolve();
 }
@@ -113,7 +151,7 @@ function defineImports(
   });
 
   importManager.addImports({
-    pathToImportedModule: path.join(distDir, "source/_types/RightExtendsLeft.ts"),
+    pathToImportedModule: path.join(distDir, "source/types/RightExtendsLeft.ts"),
     isPackageImport: false,
     isDefaultImport: false,
     isTypeOnly: true,
@@ -140,7 +178,7 @@ function declareConstSymbol(
 ): WriterFunction
 {
   return writer => {
-    writer.write("declare const " + name + "StructureKey: ");
+    writer.write("declare const " + name + "Key: ");
     ConstantTypeStructures.uniqueSymbol.writerFunction(writer);
     writer.writeLine(";");
   };
@@ -212,9 +250,96 @@ function addCopyFieldsMethod(
   copyFields.returnTypeStructure = ConstantTypeStructures.void;
 
   copyFields.statements.push(
-    `super(source, target);`
+    `super.copyFields(source, target);`
   );
 
   classDecl.methods.push(copyFields);
   return copyFields;
+}
+
+function defineFunctionWrapper(
+  meta: DecoratorImplMeta,
+  classDecl: ClassDeclarationImpl,
+  alias: TypeAliasDeclarationImpl
+): FunctionDeclarationImpl
+{
+  const fnDecl = new FunctionDeclarationImpl;
+  fnDecl.name = meta.structureName.replace(/Structure$/, "");
+  fnDecl.isDefaultExport = true;
+
+  const baseClassParam = new ParameterDeclarationImpl("baseClass");
+  baseClassParam.typeStructure = ConstantTypeStructures["typeof StructureBase"];
+
+  const contextParam = new ParameterDeclarationImpl("context");
+  contextParam.typeStructure = ConstantTypeStructures.ClassDecoratorContext;
+
+  const aliasName = new LiteralTypedStructureImpl(alias.name);
+
+  fnDecl.parameters.push(baseClassParam, contextParam);
+  fnDecl.returnTypeStructure = new TypeArgumentedTypedStructureImpl(
+    ConstantTypeStructures.MixinClass,
+    [
+      new IndexedAccessTypedStructureImpl(
+        aliasName,
+        ConstantTypeStructures.staticFields
+      ),
+      new IndexedAccessTypedStructureImpl(
+        aliasName,
+        ConstantTypeStructures.instanceFields
+      ),
+      baseClassParam.typeStructure
+    ]
+  );
+
+  fnDecl.statements.push(
+    "void(context);",
+    classDecl,
+    "return " + classDecl.name + ";",
+  );
+
+  return fnDecl;
+}
+
+function defineSatisfiesWriter(
+  fnDecl: FunctionDeclarationImpl,
+  alias: TypeAliasDeclarationImpl,
+): WriterFunction
+{
+  const subclass = new TypeArgumentedTypedStructureImpl(
+    ConstantTypeStructures.SubclassDecorator,
+    [
+      new LiteralTypedStructureImpl(alias.name),
+      ConstantTypeStructures["typeof StructureBase"],
+      ConstantTypeStructures.false,
+    ]
+  )
+  return writer => {
+    writer.write(fnDecl.name!);
+    writer.write(" satisfies ");
+    subclass.writerFunction(writer);
+    writer.writeLine(";");
+  };
+}
+
+async function saveSourceFile(
+  pathToSourceFile: string,
+  structure: SourceFileImpl
+): Promise<void>
+{
+  const TSC_CONFIG: ProjectOptions = {
+    "compilerOptions": {
+      "lib": ["es2022"],
+      "module": ModuleKind.ESNext,
+      "target": ScriptTarget.ESNext,
+      "moduleResolution": ModuleResolutionKind.NodeNext,
+      "sourceMap": true,
+      "declaration": true,
+    },
+    skipAddingFilesFromTsConfig: true,
+    skipFileDependencyResolution: true,
+  };
+  
+  const project = new Project(TSC_CONFIG);
+  const source = project.createSourceFile(pathToSourceFile, structure);
+  await source.save();
 }
