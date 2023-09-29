@@ -1,5 +1,3 @@
-import type {
-  WriterFunction,
-} from "ts-morph";
+import type { WriterFunction } from "ts-morph";
 
 export type stringOrWriter = string | WriterFunction;

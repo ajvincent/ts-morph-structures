@@ -1,6 +1,4 @@
-import type {
-  Class,
-} from "type-fest";
+import type { Class } from "type-fest";
 
 import type {
   KindedStructure,
@@ -18,8 +16,7 @@ import type {
 export interface StructureImplementation<
   Kind extends StructureKind,
   StructureBase extends KindedStructure<Kind>,
->
-{
+> {
   /*
   readonly kind: Kind;
 
@@ -32,20 +29,17 @@ export interface StructureImplementation<
 }
 
 export interface NodeWithStructure<Kind extends StructureKind> extends Node {
-  getStructure(): KindedStructure<Kind>
+  getStructure(): KindedStructure<Kind>;
 }
 
 export interface StructureImplementationStatic<
   Kind extends StructureKind,
   StructureBase extends KindedStructure<Kind>,
-  NodeBase extends NodeWithStructure<Kind>
-> extends Class<StructureImplementation<Kind, StructureBase>>
-{
+  NodeBase extends NodeWithStructure<Kind>,
+> extends Class<StructureImplementation<Kind, StructureBase>> {
   fromStructure(
-    source: OptionalKind<StructureBase>
+    source: OptionalKind<StructureBase>,
   ): StructureImplementation<Kind, StructureBase>;
 
-  fromNode(
-    source: NodeBase
-  ): StructureImplementation<Kind, StructureBase>;
+  fromNode(source: NodeBase): StructureImplementation<Kind, StructureBase>;
 }
