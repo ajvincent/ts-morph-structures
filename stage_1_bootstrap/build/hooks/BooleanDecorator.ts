@@ -100,6 +100,14 @@ export default async function BooleanDecoratorHook(
       classDecl.name
     ]
   });
+  dictionaries.internalExports.addExports({
+    absolutePathToModule: sourceFilePath,
+    isDefaultExport: false,
+    isType: true,
+    exportNames: [
+      alias.name
+    ]
+  });
 
   // create source file
   const source = new SourceFileImpl;
@@ -234,7 +242,7 @@ function addCopyFieldsMethod(
 ): MethodDeclarationImpl
 {
   const copyFields = new MethodDeclarationImpl("copyFields");
-  copyFields.scope = Scope.Protected;
+  copyFields.scope = Scope.Public;
   copyFields.isStatic = true;
 
   const sourceParam = new ParameterDeclarationImpl("source");

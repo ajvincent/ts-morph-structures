@@ -41,6 +41,13 @@ function defineExistingExports(
   distDir: string,
 ): void
 {
+  dictionary.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/base/PlaceholderExport.ts"),
+    exportNames: ["Placeholder"],
+    isDefaultExport: true,
+    isType: false
+  });
+
   dictionary.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/base/generated/structureToSyntax.ts"),
     exportNames: ["StructureKindToSyntaxKindMap"],
