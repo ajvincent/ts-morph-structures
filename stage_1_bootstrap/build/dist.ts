@@ -6,6 +6,8 @@ import {
   pathToModule,
 } from "#utilities/source/AsyncSpecModules.js";
 
+import runPrettify from "#utilities/source/runPrettify.js";
+
 import {
   stageDir,
 } from "./constants.js";
@@ -42,4 +44,6 @@ export default async function buildDist(): Promise<void>
   );
 
   await BuildClassesDriver(distDir);
+
+  await runPrettify(distDir);
 }

@@ -4,11 +4,6 @@ import {
 
 import generatedDirs from "./generatedDirs.js";
 
-import {
-  InternalExports,
-  PublicExports
-} from "./ExportManager.js";
-
 export default async function support(): Promise<void>
 {
   await PromiseAllParallel(Object.values(generatedDirs.clean), cleanCallback => cleanCallback());
@@ -16,6 +11,4 @@ export default async function support(): Promise<void>
 
   const dist = (await import("./dist.js")).default;
   await dist();
-
-  await PromiseAllParallel([InternalExports, PublicExports], exportManager => exportManager.commit());
 }

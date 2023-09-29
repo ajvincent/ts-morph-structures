@@ -34,6 +34,10 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   // #endregion write to filesystem
 
   await dictionary.build();
+  await Promise.all([
+    dictionary.publicExports.commit(),
+    dictionary.internalExports.commit()
+  ]);
 }
 
 function defineExistingExports(
