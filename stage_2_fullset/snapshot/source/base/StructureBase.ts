@@ -1,7 +1,7 @@
 import { Structures } from "ts-morph";
 
 export default class StructureBase {
-  protected static copyFields(
+  public static copyFields(
     source: Structures,
     target: Structures
   ): void
