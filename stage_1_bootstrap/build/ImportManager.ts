@@ -72,9 +72,11 @@ export default class ImportManager
       pathToImportedModule.replace(/(\.d)?\.(m?)ts$/, ".$2js")
     );
     if (!isPackageImport) {
-      pathToImportedModule = "./" + path.relative(
+      pathToImportedModule = path.relative(
         path.dirname(this.#absolutePathToModule), pathToImportedModule
       );
+      if (!pathToImportedModule.startsWith("../"))
+        pathToImportedModule = "./" + pathToImportedModule;
     }
 
     importNames.forEach(nameToImport => {

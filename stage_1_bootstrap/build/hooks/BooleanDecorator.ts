@@ -26,6 +26,7 @@ import {
   SourceFileImpl,
   TypeArgumentedTypedStructureImpl,
   TypeAliasDeclarationImpl,
+  IntersectionTypedStructureImpl,
 } from "../../prototype-snapshot/exports.js";
 
 import ImportManager from "../ImportManager.js";
@@ -146,12 +147,13 @@ function defineImports(
     isDefaultImport: false,
     isTypeOnly: true,
     importNames: [
-      meta.structureName
+      meta.structureName,
+      "Structures",
     ]
   });
 
   importManager.addImports({
-    pathToImportedModule: path.join(distDir, "source/types/RightExtendsLeft.ts"),
+    pathToImportedModule: path.join(distDir, "source/internal-exports.ts"),
     isPackageImport: false,
     isDefaultImport: false,
     isTypeOnly: true,
@@ -161,9 +163,9 @@ function defineImports(
   });
 
   importManager.addImports({
-    pathToImportedModule: path.join(distDir, "source/base/StructureBase.ts"),
+    pathToImportedModule: path.join(distDir, "source/internal-exports.ts"),
     isPackageImport: false,
-    isDefaultImport: true,
+    isDefaultImport: false,
     isTypeOnly: false,
     importNames: [
       "StructureBase"
@@ -236,15 +238,21 @@ function addCopyFieldsMethod(
   copyFields.isStatic = true;
 
   const sourceParam = new ParameterDeclarationImpl("source");
-  sourceParam.typeStructure = new LiteralTypedStructureImpl(meta.structureName);
+  sourceParam.typeStructure = new IntersectionTypedStructureImpl([
+    new LiteralTypedStructureImpl(meta.structureName),
+    ConstantTypeStructures.Structures
+  ]);
 
   const targetParam = new ParameterDeclarationImpl("target");
-  targetParam.typeStructure = new TypeArgumentedTypedStructureImpl(
-    ConstantTypeStructures.Required,
-    [
-      new LiteralTypedStructureImpl(classDecl.name!),
-    ]
-  );
+  targetParam.typeStructure = new IntersectionTypedStructureImpl([
+    new TypeArgumentedTypedStructureImpl(
+      ConstantTypeStructures.Required,
+      [
+        new LiteralTypedStructureImpl(classDecl.name!),
+      ]
+    ),
+    ConstantTypeStructures.Structures
+  ]);
 
   copyFields.parameters.push(sourceParam, targetParam);
   copyFields.returnTypeStructure = ConstantTypeStructures.void;
@@ -317,7 +325,7 @@ function defineSatisfiesWriter(
     writer.write(fnDecl.name!);
     writer.write(" satisfies ");
     subclass.writerFunction(writer);
-    writer.writeLine(";");
+    writer.write(";");
   };
 }
 

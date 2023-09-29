@@ -11,6 +11,7 @@ const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
   "Required": new LiteralTypedStructureImpl("Required"),
   "RightExtendsLeft": new LiteralTypedStructureImpl("RightExtendsLeft"),
   "StaticAndInstance": new LiteralTypedStructureImpl("StaticAndInstance"),
+  "Structures": new LiteralTypedStructureImpl("Structures"),
   "SubclassDecorator": new LiteralTypedStructureImpl("SubclassDecorator"),
   "false": new LiteralTypedStructureImpl("false"),
   "instanceFields": new StringTypedStructureImpl("instanceFields"),

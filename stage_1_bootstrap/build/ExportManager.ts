@@ -21,7 +21,6 @@ import {
   stageDir,
 } from "./constants.js";
 
-
 // #endregion preamble
 
 export interface AddExportContext {
@@ -113,10 +112,14 @@ export class ExportManager
   ): ExportDeclarationImpl
   {
     const decl = new ExportDeclarationImpl;
-    decl.moduleSpecifier = "./" + path.relative(
+
+    decl.moduleSpecifier = path.relative(
       path.dirname(this.#absolutePathToExportFile),
       absolutePathToModule.replace(/(\.d)?\.(m?)ts$/, ".$2js")
     );
+    if (!decl.moduleSpecifier.startsWith("../"))
+      decl.moduleSpecifier = "./" + decl.moduleSpecifier;
+
     decl.isTypeOnly = true;
     decl.assertElements = undefined;
     return decl;
@@ -154,11 +157,15 @@ export class ExportManager
   }
 }
 
-export const InternalExports = new ExportManager("./source/internal-exports.ts");
-export const PublicExports = new ExportManager("./source/exports.ts");
+export const InternalExports = new ExportManager(
+  pathToModule(stageDir, "dist/source/internal-exports.ts")
+);
+export const PublicExports = new ExportManager(
+  pathToModule(stageDir, "dist/source/exports.ts")
+);
 
 InternalExports.addExports({
-  absolutePathToModule: pathToModule(stageDir, "./source/exports.ts"),
+  absolutePathToModule: pathToModule(stageDir, "dist/source/exports.ts"),
   exportNames: [],
   isDefaultExport: false,
   isType: false,

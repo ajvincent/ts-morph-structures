@@ -12,10 +12,6 @@ import {
 
 import TS_MORPH_D from "./ts-morph-d-file.js";
 
-import {
-  InternalExports
-} from "./ExportManager.js";
-
 export default async function(pathToDirectory: string): Promise<void> {
   const fileWriter: CodeBlockWriter = new CodeBlockWriter({
     indentNumberOfSpaces: 2
@@ -95,11 +91,4 @@ export default async function(pathToDirectory: string): Promise<void> {
   const pathToMapFile = path.join(pathToDirectory, "structureToSyntax.ts");
   await fs.mkdir(path.dirname(pathToMapFile), { recursive: true });
   await fs.writeFile(pathToMapFile, fileWriter.toString(), { encoding: "utf-8" });
-
-  InternalExports.addExports({
-    absolutePathToModule: pathToMapFile,
-    exportNames: ["StructureKindToSyntaxKindMap"],
-    isDefaultExport: true,
-    isType: false,
-  });
 }

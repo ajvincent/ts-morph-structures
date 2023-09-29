@@ -41,5 +41,5 @@ export default async function buildDist(): Promise<void>
     { recursive: true }
   );
 
-  await BuildClassesDriver();
+  await BuildClassesDriver(distDir);
 }
