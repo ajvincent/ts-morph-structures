@@ -27,19 +27,19 @@ export default function AbstractableNode(
 > {
   void context;
 
-  class AbstractableNodeDecoratorImpl extends baseClass {
+  class AbstractableNodeMixin extends baseClass {
     isAbstract = false;
 
     public static copyFields(
       source: AbstractableNodeStructure & Structures,
-      target: Required<AbstractableNodeDecoratorImpl> & Structures,
+      target: Required<AbstractableNodeMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.isAbstract = source.isAbstract ?? false;
     }
   }
 
-  return AbstractableNodeDecoratorImpl;
+  return AbstractableNodeMixin;
 }
 
 AbstractableNode satisfies SubclassDecorator<

@@ -53,13 +53,13 @@ export default async function BooleanDecoratorHook(
   dictionaries: StructureDictionaries
 ): Promise<void>
 {
-  if (meta.structureFieldArrays.size + meta.structureFields.size + meta.decoratorKeys.size > 0) {
+  if (!meta.isBooleanKeysOnly()) {
     return Promise.resolve();
   }
 
   const classDecl = new ClassDeclarationImpl;
   dictionaries.metaToClassMap.set(meta, classDecl);
-  classDecl.name = meta.structureName.replace(/Structure$/, "DecoratorImpl");
+  classDecl.name = meta.structureName.replace(/Structure$/, "Mixin");
   classDecl.extends = "baseClass";
 
   const importMgr = defineImports(meta, classDecl.name);

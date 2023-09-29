@@ -27,19 +27,19 @@ export default function AsyncableNode(
 > {
   void context;
 
-  class AsyncableNodeDecoratorImpl extends baseClass {
+  class AsyncableNodeMixin extends baseClass {
     isAsync = false;
 
     public static copyFields(
       source: AsyncableNodeStructure & Structures,
-      target: Required<AsyncableNodeDecoratorImpl> & Structures,
+      target: Required<AsyncableNodeMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.isAsync = source.isAsync ?? false;
     }
   }
 
-  return AsyncableNodeDecoratorImpl;
+  return AsyncableNodeMixin;
 }
 
 AsyncableNode satisfies SubclassDecorator<

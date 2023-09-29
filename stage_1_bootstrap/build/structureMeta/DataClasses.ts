@@ -103,6 +103,10 @@ export class DecoratorImplMeta extends BaseMetadata implements MetaImplementatio
   {
     this.#useCount++;
   }
+
+  isBooleanKeysOnly(): boolean {
+    return this.structureFieldArrays.size + this.structureFields.size + this.decoratorKeys.size === 0;
+  }
 }
 
 export class StructureImplMeta extends BaseMetadata implements MetaImplementation

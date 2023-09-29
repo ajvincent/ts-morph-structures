@@ -27,19 +27,19 @@ export default function ReadonlyableNode(
 > {
   void context;
 
-  class ReadonlyableNodeDecoratorImpl extends baseClass {
+  class ReadonlyableNodeMixin extends baseClass {
     isReadonly = false;
 
     public static copyFields(
       source: ReadonlyableNodeStructure & Structures,
-      target: Required<ReadonlyableNodeDecoratorImpl> & Structures,
+      target: Required<ReadonlyableNodeMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.isReadonly = source.isReadonly ?? false;
     }
   }
 
-  return ReadonlyableNodeDecoratorImpl;
+  return ReadonlyableNodeMixin;
 }
 
 ReadonlyableNode satisfies SubclassDecorator<

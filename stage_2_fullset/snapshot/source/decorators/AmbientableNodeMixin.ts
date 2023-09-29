@@ -27,19 +27,19 @@ export default function AmbientableNode(
 > {
   void context;
 
-  class AmbientableNodeDecoratorImpl extends baseClass {
+  class AmbientableNodeMixin extends baseClass {
     hasDeclareKeyword = false;
 
     public static copyFields(
       source: AmbientableNodeStructure & Structures,
-      target: Required<AmbientableNodeDecoratorImpl> & Structures,
+      target: Required<AmbientableNodeMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.hasDeclareKeyword = source.hasDeclareKeyword ?? false;
     }
   }
 
-  return AmbientableNodeDecoratorImpl;
+  return AmbientableNodeMixin;
 }
 
 AmbientableNode satisfies SubclassDecorator<

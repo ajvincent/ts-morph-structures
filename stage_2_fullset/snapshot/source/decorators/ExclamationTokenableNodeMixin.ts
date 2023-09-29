@@ -27,19 +27,19 @@ export default function ExclamationTokenableNode(
 > {
   void context;
 
-  class ExclamationTokenableNodeDecoratorImpl extends baseClass {
+  class ExclamationTokenableNodeMixin extends baseClass {
     hasExclamationToken = false;
 
     public static copyFields(
       source: ExclamationTokenableNodeStructure & Structures,
-      target: Required<ExclamationTokenableNodeDecoratorImpl> & Structures,
+      target: Required<ExclamationTokenableNodeMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.hasExclamationToken = source.hasExclamationToken ?? false;
     }
   }
 
-  return ExclamationTokenableNodeDecoratorImpl;
+  return ExclamationTokenableNodeMixin;
 }
 
 ExclamationTokenableNode satisfies SubclassDecorator<

@@ -27,13 +27,13 @@ export default function ExportableNode(
 > {
   void context;
 
-  class ExportableNodeDecoratorImpl extends baseClass {
+  class ExportableNodeMixin extends baseClass {
     isExported = false;
     isDefaultExport = false;
 
     public static copyFields(
       source: ExportableNodeStructure & Structures,
-      target: Required<ExportableNodeDecoratorImpl> & Structures,
+      target: Required<ExportableNodeMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.isExported = source.isExported ?? false;
@@ -41,7 +41,7 @@ export default function ExportableNode(
     }
   }
 
-  return ExportableNodeDecoratorImpl;
+  return ExportableNodeMixin;
 }
 
 ExportableNode satisfies SubclassDecorator<

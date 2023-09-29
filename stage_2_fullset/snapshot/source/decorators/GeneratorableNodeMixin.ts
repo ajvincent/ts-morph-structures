@@ -27,19 +27,19 @@ export default function GeneratorableNode(
 > {
   void context;
 
-  class GeneratorableNodeDecoratorImpl extends baseClass {
+  class GeneratorableNodeMixin extends baseClass {
     isGenerator = false;
 
     public static copyFields(
       source: GeneratorableNodeStructure & Structures,
-      target: Required<GeneratorableNodeDecoratorImpl> & Structures,
+      target: Required<GeneratorableNodeMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.isGenerator = source.isGenerator ?? false;
     }
   }
 
-  return GeneratorableNodeDecoratorImpl;
+  return GeneratorableNodeMixin;
 }
 
 GeneratorableNode satisfies SubclassDecorator<

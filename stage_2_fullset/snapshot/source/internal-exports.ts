@@ -3,43 +3,43 @@ export { default as StructureKindToSyntaxKindMap } from "./base/generated/struct
 export { default as StructureBase } from "./base/StructureBase.js";
 export {
   type AbstractableNodeStructureFields,
-  default as AbstractableNodeDecoratorImpl,
-} from "./decorators/AbstractableNodeDecoratorImpl.js";
+  default as AbstractableNodeMixin,
+} from "./decorators/AbstractableNodeMixin.js";
 export {
   type AmbientableNodeStructureFields,
-  default as AmbientableNodeDecoratorImpl,
-} from "./decorators/AmbientableNodeDecoratorImpl.js";
+  default as AmbientableNodeMixin,
+} from "./decorators/AmbientableNodeMixin.js";
 export {
   type AsyncableNodeStructureFields,
-  default as AsyncableNodeDecoratorImpl,
-} from "./decorators/AsyncableNodeDecoratorImpl.js";
+  default as AsyncableNodeMixin,
+} from "./decorators/AsyncableNodeMixin.js";
 export {
-  default as ExclamationTokenableNodeDecoratorImpl,
+  default as ExclamationTokenableNodeMixin,
   type ExclamationTokenableNodeStructureFields,
-} from "./decorators/ExclamationTokenableNodeDecoratorImpl.js";
+} from "./decorators/ExclamationTokenableNodeMixin.js";
 export {
-  default as ExportableNodeDecoratorImpl,
+  default as ExportableNodeMixin,
   type ExportableNodeStructureFields,
-} from "./decorators/ExportableNodeDecoratorImpl.js";
+} from "./decorators/ExportableNodeMixin.js";
 export {
-  default as GeneratorableNodeDecoratorImpl,
+  default as GeneratorableNodeMixin,
   type GeneratorableNodeStructureFields,
-} from "./decorators/GeneratorableNodeDecoratorImpl.js";
+} from "./decorators/GeneratorableNodeMixin.js";
 export {
-  default as OverrideableNodeDecoratorImpl,
+  default as OverrideableNodeMixin,
   type OverrideableNodeStructureFields,
-} from "./decorators/OverrideableNodeDecoratorImpl.js";
+} from "./decorators/OverrideableNodeMixin.js";
 export {
-  default as QuestionTokenableNodeDecoratorImpl,
+  default as QuestionTokenableNodeMixin,
   type QuestionTokenableNodeStructureFields,
-} from "./decorators/QuestionTokenableNodeDecoratorImpl.js";
+} from "./decorators/QuestionTokenableNodeMixin.js";
 export {
-  default as ReadonlyableNodeDecoratorImpl,
+  default as ReadonlyableNodeMixin,
   type ReadonlyableNodeStructureFields,
-} from "./decorators/ReadonlyableNodeDecoratorImpl.js";
+} from "./decorators/ReadonlyableNodeMixin.js";
 export {
-  default as StaticableNodeDecoratorImpl,
+  default as StaticableNodeMixin,
   type StaticableNodeStructureFields,
-} from "./decorators/StaticableNodeDecoratorImpl.js";
+} from "./decorators/StaticableNodeMixin.js";
 export * from "./exports.js";
 export type { RightExtendsLeft } from "./types/RightExtendsLeft.js";

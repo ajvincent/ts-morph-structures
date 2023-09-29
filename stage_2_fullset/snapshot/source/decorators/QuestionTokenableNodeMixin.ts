@@ -27,19 +27,19 @@ export default function QuestionTokenableNode(
 > {
   void context;
 
-  class QuestionTokenableNodeDecoratorImpl extends baseClass {
+  class QuestionTokenableNodeMixin extends baseClass {
     hasQuestionToken = false;
 
     public static copyFields(
       source: QuestionTokenableNodeStructure & Structures,
-      target: Required<QuestionTokenableNodeDecoratorImpl> & Structures,
+      target: Required<QuestionTokenableNodeMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.hasQuestionToken = source.hasQuestionToken ?? false;
     }
   }
 
-  return QuestionTokenableNodeDecoratorImpl;
+  return QuestionTokenableNodeMixin;
 }
 
 QuestionTokenableNode satisfies SubclassDecorator<

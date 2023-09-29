@@ -27,19 +27,19 @@ export default function OverrideableNode(
 > {
   void context;
 
-  class OverrideableNodeDecoratorImpl extends baseClass {
+  class OverrideableNodeMixin extends baseClass {
     hasOverrideKeyword = false;
 
     public static copyFields(
       source: OverrideableNodeStructure & Structures,
-      target: Required<OverrideableNodeDecoratorImpl> & Structures,
+      target: Required<OverrideableNodeMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.hasOverrideKeyword = source.hasOverrideKeyword ?? false;
     }
   }
 
-  return OverrideableNodeDecoratorImpl;
+  return OverrideableNodeMixin;
 }
 
 OverrideableNode satisfies SubclassDecorator<

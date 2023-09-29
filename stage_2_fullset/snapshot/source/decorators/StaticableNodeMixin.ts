@@ -27,19 +27,19 @@ export default function StaticableNode(
 > {
   void context;
 
-  class StaticableNodeDecoratorImpl extends baseClass {
+  class StaticableNodeMixin extends baseClass {
     isStatic = false;
 
     public static copyFields(
       source: StaticableNodeStructure & Structures,
-      target: Required<StaticableNodeDecoratorImpl> & Structures,
+      target: Required<StaticableNodeMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.isStatic = source.isStatic ?? false;
     }
   }
 
-  return StaticableNodeDecoratorImpl;
+  return StaticableNodeMixin;
 }
 
 StaticableNode satisfies SubclassDecorator<
