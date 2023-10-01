@@ -17,7 +17,7 @@ export type AsyncableNodeStructureFields = RightExtendsLeft<
   }
 >;
 
-export default function AsyncableNode(
+export default function AsyncableNodeStructureMixin(
   baseClass: typeof StructureBase,
   context: ClassDecoratorContext,
 ): MixinClass<
@@ -27,22 +27,22 @@ export default function AsyncableNode(
 > {
   void context;
 
-  class AsyncableNodeMixin extends baseClass {
+  class AsyncableNodeStructureMixin extends baseClass {
     isAsync = false;
 
     public static copyFields(
       source: AsyncableNodeStructure & Structures,
-      target: Required<AsyncableNodeMixin> & Structures,
+      target: Required<AsyncableNodeStructureMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.isAsync = source.isAsync ?? false;
     }
   }
 
-  return AsyncableNodeMixin;
+  return AsyncableNodeStructureMixin;
 }
 
-AsyncableNode satisfies SubclassDecorator<
+AsyncableNodeStructureMixin satisfies SubclassDecorator<
   AsyncableNodeStructureFields,
   typeof StructureBase,
   false

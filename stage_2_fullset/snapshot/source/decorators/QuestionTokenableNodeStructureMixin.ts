@@ -17,7 +17,7 @@ export type QuestionTokenableNodeStructureFields = RightExtendsLeft<
   }
 >;
 
-export default function QuestionTokenableNode(
+export default function QuestionTokenableNodeStructureMixin(
   baseClass: typeof StructureBase,
   context: ClassDecoratorContext,
 ): MixinClass<
@@ -27,22 +27,22 @@ export default function QuestionTokenableNode(
 > {
   void context;
 
-  class QuestionTokenableNodeMixin extends baseClass {
+  class QuestionTokenableNodeStructureMixin extends baseClass {
     hasQuestionToken = false;
 
     public static copyFields(
       source: QuestionTokenableNodeStructure & Structures,
-      target: Required<QuestionTokenableNodeMixin> & Structures,
+      target: Required<QuestionTokenableNodeStructureMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.hasQuestionToken = source.hasQuestionToken ?? false;
     }
   }
 
-  return QuestionTokenableNodeMixin;
+  return QuestionTokenableNodeStructureMixin;
 }
 
-QuestionTokenableNode satisfies SubclassDecorator<
+QuestionTokenableNodeStructureMixin satisfies SubclassDecorator<
   QuestionTokenableNodeStructureFields,
   typeof StructureBase,
   false

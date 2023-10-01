@@ -17,7 +17,7 @@ export type ReadonlyableNodeStructureFields = RightExtendsLeft<
   }
 >;
 
-export default function ReadonlyableNode(
+export default function ReadonlyableNodeStructureMixin(
   baseClass: typeof StructureBase,
   context: ClassDecoratorContext,
 ): MixinClass<
@@ -27,22 +27,22 @@ export default function ReadonlyableNode(
 > {
   void context;
 
-  class ReadonlyableNodeMixin extends baseClass {
+  class ReadonlyableNodeStructureMixin extends baseClass {
     isReadonly = false;
 
     public static copyFields(
       source: ReadonlyableNodeStructure & Structures,
-      target: Required<ReadonlyableNodeMixin> & Structures,
+      target: Required<ReadonlyableNodeStructureMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.isReadonly = source.isReadonly ?? false;
     }
   }
 
-  return ReadonlyableNodeMixin;
+  return ReadonlyableNodeStructureMixin;
 }
 
-ReadonlyableNode satisfies SubclassDecorator<
+ReadonlyableNodeStructureMixin satisfies SubclassDecorator<
   ReadonlyableNodeStructureFields,
   typeof StructureBase,
   false

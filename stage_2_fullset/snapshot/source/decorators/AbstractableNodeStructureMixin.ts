@@ -17,7 +17,7 @@ export type AbstractableNodeStructureFields = RightExtendsLeft<
   }
 >;
 
-export default function AbstractableNode(
+export default function AbstractableNodeStructureMixin(
   baseClass: typeof StructureBase,
   context: ClassDecoratorContext,
 ): MixinClass<
@@ -27,22 +27,22 @@ export default function AbstractableNode(
 > {
   void context;
 
-  class AbstractableNodeMixin extends baseClass {
+  class AbstractableNodeStructureMixin extends baseClass {
     isAbstract = false;
 
     public static copyFields(
       source: AbstractableNodeStructure & Structures,
-      target: Required<AbstractableNodeMixin> & Structures,
+      target: Required<AbstractableNodeStructureMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.isAbstract = source.isAbstract ?? false;
     }
   }
 
-  return AbstractableNodeMixin;
+  return AbstractableNodeStructureMixin;
 }
 
-AbstractableNode satisfies SubclassDecorator<
+AbstractableNodeStructureMixin satisfies SubclassDecorator<
   AbstractableNodeStructureFields,
   typeof StructureBase,
   false

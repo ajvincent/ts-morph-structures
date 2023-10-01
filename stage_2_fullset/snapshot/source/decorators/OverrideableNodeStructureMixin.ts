@@ -17,7 +17,7 @@ export type OverrideableNodeStructureFields = RightExtendsLeft<
   }
 >;
 
-export default function OverrideableNode(
+export default function OverrideableNodeStructureMixin(
   baseClass: typeof StructureBase,
   context: ClassDecoratorContext,
 ): MixinClass<
@@ -27,22 +27,22 @@ export default function OverrideableNode(
 > {
   void context;
 
-  class OverrideableNodeMixin extends baseClass {
+  class OverrideableNodeStructureMixin extends baseClass {
     hasOverrideKeyword = false;
 
     public static copyFields(
       source: OverrideableNodeStructure & Structures,
-      target: Required<OverrideableNodeMixin> & Structures,
+      target: Required<OverrideableNodeStructureMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.hasOverrideKeyword = source.hasOverrideKeyword ?? false;
     }
   }
 
-  return OverrideableNodeMixin;
+  return OverrideableNodeStructureMixin;
 }
 
-OverrideableNode satisfies SubclassDecorator<
+OverrideableNodeStructureMixin satisfies SubclassDecorator<
   OverrideableNodeStructureFields,
   typeof StructureBase,
   false

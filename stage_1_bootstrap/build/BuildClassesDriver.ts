@@ -5,7 +5,9 @@ import fillDictionaries from "./structureMeta/fillDictionaries.js";
 
 // #region hooks
 
-import BooleanDecoratorHook from "./hooks/BooleanDecorator.js";
+import createDecoratorParts from "./hooks/decorator/createParts.js";
+import addBooleanFields from "./hooks/decorator/booleanFields.js";
+import saveDecoratorFile from "./hooks/decorator/save.js";
 
 // #endregion hooks
 
@@ -17,7 +19,9 @@ async function BuildClassesDriver(distDir: string): Promise<void>
 
   fillDictionaries(dictionary);
 
-  dictionary.addDecoratorHook("boolean decorators", BooleanDecoratorHook);
+  dictionary.addDecoratorHook("create decorator parts", createDecoratorParts);
+  dictionary.addDecoratorHook("add boolean fields", addBooleanFields);
+  dictionary.addDecoratorHook("save decorator file", saveDecoratorFile);
 
   // #region structure classes
   // add decorator imports

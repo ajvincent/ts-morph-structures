@@ -1,9 +1,9 @@
 import MultiMixinBuilder from "mixin-decorators";
 
 import {
-  AsyncableNodeMixin,
+  AsyncableNodeStructureMixin,
   type AsyncableNodeStructureFields,
-  ExportableNodeMixin,
+  ExportableNodeStructureMixin,
   type ExportableNodeStructureFields,
   StructureBase,
 } from "../../../snapshot/source/internal-exports.js"
@@ -15,8 +15,8 @@ it("We can mix and match boolean decorators", () => {
     ExportableNodeStructureFields,
   ], typeof StructureBase>(
     [
-      AsyncableNodeMixin,
-      ExportableNodeMixin,
+      AsyncableNodeStructureMixin,
+      ExportableNodeStructureMixin,
     ],
     StructureBase
   );

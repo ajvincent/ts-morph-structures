@@ -17,7 +17,7 @@ export type ExclamationTokenableNodeStructureFields = RightExtendsLeft<
   }
 >;
 
-export default function ExclamationTokenableNode(
+export default function ExclamationTokenableNodeStructureMixin(
   baseClass: typeof StructureBase,
   context: ClassDecoratorContext,
 ): MixinClass<
@@ -27,22 +27,22 @@ export default function ExclamationTokenableNode(
 > {
   void context;
 
-  class ExclamationTokenableNodeMixin extends baseClass {
+  class ExclamationTokenableNodeStructureMixin extends baseClass {
     hasExclamationToken = false;
 
     public static copyFields(
       source: ExclamationTokenableNodeStructure & Structures,
-      target: Required<ExclamationTokenableNodeMixin> & Structures,
+      target: Required<ExclamationTokenableNodeStructureMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.hasExclamationToken = source.hasExclamationToken ?? false;
     }
   }
 
-  return ExclamationTokenableNodeMixin;
+  return ExclamationTokenableNodeStructureMixin;
 }
 
-ExclamationTokenableNode satisfies SubclassDecorator<
+ExclamationTokenableNodeStructureMixin satisfies SubclassDecorator<
   ExclamationTokenableNodeStructureFields,
   typeof StructureBase,
   false

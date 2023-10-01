@@ -18,6 +18,13 @@ export default function defineSatisfiesWriter(
   alias: TypeAliasDeclarationImpl,
 ): WriterFunction
 {
+  if (!fnDecl.name) {
+    throw new Error("no name for function?");
+  }
+  if (!alias.name) {
+    throw new Error("no alias name for function?");
+  }
+
   const subclass = new TypeArgumentedTypedStructureImpl(
     ConstantTypeStructures.SubclassDecorator,
     [

@@ -17,7 +17,7 @@ export type AmbientableNodeStructureFields = RightExtendsLeft<
   }
 >;
 
-export default function AmbientableNode(
+export default function AmbientableNodeStructureMixin(
   baseClass: typeof StructureBase,
   context: ClassDecoratorContext,
 ): MixinClass<
@@ -27,22 +27,22 @@ export default function AmbientableNode(
 > {
   void context;
 
-  class AmbientableNodeMixin extends baseClass {
+  class AmbientableNodeStructureMixin extends baseClass {
     hasDeclareKeyword = false;
 
     public static copyFields(
       source: AmbientableNodeStructure & Structures,
-      target: Required<AmbientableNodeMixin> & Structures,
+      target: Required<AmbientableNodeStructureMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.hasDeclareKeyword = source.hasDeclareKeyword ?? false;
     }
   }
 
-  return AmbientableNodeMixin;
+  return AmbientableNodeStructureMixin;
 }
 
-AmbientableNode satisfies SubclassDecorator<
+AmbientableNodeStructureMixin satisfies SubclassDecorator<
   AmbientableNodeStructureFields,
   typeof StructureBase,
   false

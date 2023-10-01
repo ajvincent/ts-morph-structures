@@ -24,7 +24,7 @@ export default function defineDecoratorWrapper(
 ): FunctionDeclarationImpl
 {
   const fnDecl = new FunctionDeclarationImpl;
-  fnDecl.name = meta.structureName.replace(/Structure$/, "");
+  fnDecl.name = meta.structureName.replace(/Structure$/, "StructureMixin");
   fnDecl.isDefaultExport = true;
 
   const baseClassParam = new ParameterDeclarationImpl("baseClass");

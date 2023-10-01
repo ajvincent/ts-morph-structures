@@ -17,7 +17,7 @@ export type StaticableNodeStructureFields = RightExtendsLeft<
   }
 >;
 
-export default function StaticableNode(
+export default function StaticableNodeStructureMixin(
   baseClass: typeof StructureBase,
   context: ClassDecoratorContext,
 ): MixinClass<
@@ -27,22 +27,22 @@ export default function StaticableNode(
 > {
   void context;
 
-  class StaticableNodeMixin extends baseClass {
+  class StaticableNodeStructureMixin extends baseClass {
     isStatic = false;
 
     public static copyFields(
       source: StaticableNodeStructure & Structures,
-      target: Required<StaticableNodeMixin> & Structures,
+      target: Required<StaticableNodeStructureMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.isStatic = source.isStatic ?? false;
     }
   }
 
-  return StaticableNodeMixin;
+  return StaticableNodeStructureMixin;
 }
 
-StaticableNode satisfies SubclassDecorator<
+StaticableNodeStructureMixin satisfies SubclassDecorator<
   StaticableNodeStructureFields,
   typeof StructureBase,
   false

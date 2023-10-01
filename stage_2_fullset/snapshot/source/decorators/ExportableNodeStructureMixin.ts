@@ -17,7 +17,7 @@ export type ExportableNodeStructureFields = RightExtendsLeft<
   }
 >;
 
-export default function ExportableNode(
+export default function ExportableNodeStructureMixin(
   baseClass: typeof StructureBase,
   context: ClassDecoratorContext,
 ): MixinClass<
@@ -27,13 +27,13 @@ export default function ExportableNode(
 > {
   void context;
 
-  class ExportableNodeMixin extends baseClass {
+  class ExportableNodeStructureMixin extends baseClass {
     isExported = false;
     isDefaultExport = false;
 
     public static copyFields(
       source: ExportableNodeStructure & Structures,
-      target: Required<ExportableNodeMixin> & Structures,
+      target: Required<ExportableNodeStructureMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.isExported = source.isExported ?? false;
@@ -41,10 +41,10 @@ export default function ExportableNode(
     }
   }
 
-  return ExportableNodeMixin;
+  return ExportableNodeStructureMixin;
 }
 
-ExportableNode satisfies SubclassDecorator<
+ExportableNodeStructureMixin satisfies SubclassDecorator<
   ExportableNodeStructureFields,
   typeof StructureBase,
   false

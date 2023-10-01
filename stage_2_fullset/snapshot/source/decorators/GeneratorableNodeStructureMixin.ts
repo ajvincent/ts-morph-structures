@@ -17,7 +17,7 @@ export type GeneratorableNodeStructureFields = RightExtendsLeft<
   }
 >;
 
-export default function GeneratorableNode(
+export default function GeneratorableNodeStructureMixin(
   baseClass: typeof StructureBase,
   context: ClassDecoratorContext,
 ): MixinClass<
@@ -27,22 +27,22 @@ export default function GeneratorableNode(
 > {
   void context;
 
-  class GeneratorableNodeMixin extends baseClass {
+  class GeneratorableNodeStructureMixin extends baseClass {
     isGenerator = false;
 
     public static copyFields(
       source: GeneratorableNodeStructure & Structures,
-      target: Required<GeneratorableNodeMixin> & Structures,
+      target: Required<GeneratorableNodeStructureMixin> & Structures,
     ): void {
       super.copyFields(source, target);
       target.isGenerator = source.isGenerator ?? false;
     }
   }
 
-  return GeneratorableNodeMixin;
+  return GeneratorableNodeStructureMixin;
 }
 
-GeneratorableNode satisfies SubclassDecorator<
+GeneratorableNodeStructureMixin satisfies SubclassDecorator<
   GeneratorableNodeStructureFields,
   typeof StructureBase,
   false
