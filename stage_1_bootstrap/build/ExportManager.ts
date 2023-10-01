@@ -7,9 +7,8 @@ import {
 
 import {
   DefaultMap,
+  DefaultWeakMap,
 } from "#utilities/source/DefaultMap.js";
-
-import getTS_SourceFile from "#utilities/source/getTS_SourceFile.js";
 
 import {
   ExportDeclarationImpl,
@@ -20,6 +19,8 @@ import {
 import {
   stageDir,
 } from "./constants.js";
+
+import saveSourceFile from "./utilities/saveSourceFile.js";
 
 // #endregion preamble
 
@@ -55,6 +56,7 @@ export class ExportManager
 
   readonly #absolutePathToExportFile: string;
   readonly #pathToDeclarationMap = new DefaultMap<string, ExportDeclarationImpl>;
+  readonly #declarationToNamesMap = new DefaultWeakMap<ExportDeclarationImpl, Map<string, ExportSpecifierImpl>>;
 
   #committed = false;
 
@@ -91,18 +93,29 @@ export class ExportManager
       declaration.isTypeOnly = false;
     }
 
-    const specifiers = exportNames.map(exportName => {
-      const specifier = new ExportSpecifierImpl(exportName);
-      if (isType && !declaration.isTypeOnly)
-        specifier.isTypeOnly = isType;
-      return specifier;
+    const specifiers: ExportSpecifierImpl[] = [];
+    const namesMap = this.#declarationToNamesMap.getDefault(declaration, () => new Map);
+    exportNames.forEach(exportName => {
+      let specifier: ExportSpecifierImpl | undefined = namesMap.get(exportName);
+
+      if (specifier) {
+        if (specifier.isTypeOnly && !isType) {
+          specifier.isTypeOnly = false;
+        }
+      }
+      else {
+        specifier = new ExportSpecifierImpl(exportName);
+        if (isType && !declaration.isTypeOnly)
+          specifier.isTypeOnly = true;
+        namesMap.set(exportName, specifier);
+        specifiers.push(specifier);
+      }
     });
 
     if (isDefaultExport) {
       specifiers[0].name = "default";
       specifiers[0].alias = exportNames[0];
     }
-
 
     declaration.namedExports.push(...specifiers);
   }
@@ -150,10 +163,7 @@ export class ExportManager
       ...declarations
     );
 
-    const sourceFile = getTS_SourceFile(stageDir, this.#absolutePathToExportFile);
-    sourceFile.removeText();
-    sourceFile.set(sourceStructure);
-    await sourceFile.save();
+    await saveSourceFile(this.#absolutePathToExportFile, sourceStructure);
   }
 }
 

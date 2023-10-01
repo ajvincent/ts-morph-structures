@@ -12,7 +12,7 @@ export type ExportableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof ExportableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: Required<ExportableNodeStructure>;
+    instanceFields: ExportableNodeStructure;
     symbolKey: typeof ExportableNodeStructureKey;
   }
 >;
@@ -33,7 +33,7 @@ export default function ExportableNodeStructureMixin(
 
     public static copyFields(
       source: ExportableNodeStructure & Structures,
-      target: Required<ExportableNodeStructureMixin> & Structures,
+      target: ExportableNodeStructureMixin & Structures,
     ): void {
       super.copyFields(source, target);
       target.isExported = source.isExported ?? false;

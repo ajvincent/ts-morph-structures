@@ -9,7 +9,7 @@ import {
   LiteralTypedStructureImpl,
   MethodDeclarationImpl,
   ParameterDeclarationImpl,
-  TypeArgumentedTypedStructureImpl,
+  //TypeArgumentedTypedStructureImpl,
   IntersectionTypedStructureImpl,
 } from "../../prototype-snapshot/exports.js";
 
@@ -39,12 +39,16 @@ export default function defineCopyFieldsMethod(
 
   const targetParam = new ParameterDeclarationImpl("target");
   targetParam.typeStructure = new IntersectionTypedStructureImpl([
+    /*
     new TypeArgumentedTypedStructureImpl(
       ConstantTypeStructures.Required,
       [
+    */
         new LiteralTypedStructureImpl(classDecl.name!),
+    /*
       ]
     ),
+    */
     ConstantTypeStructures.Structures
   ]);
 

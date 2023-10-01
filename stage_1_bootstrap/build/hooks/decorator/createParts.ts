@@ -20,9 +20,6 @@ export default function createDecoratorParts(
   dictionaries: StructureDictionaries
 ): Promise<void>
 {
-  if (!meta.isBooleanKeysOnly())
-    return Promise.resolve();
-
   const parts: Partial<DecoratorStructureParts> = {};
   parts.classDecl = new ClassDeclarationImpl;
   parts.classDecl.name = meta.structureName.replace(/Structure$/, "StructureMixin");

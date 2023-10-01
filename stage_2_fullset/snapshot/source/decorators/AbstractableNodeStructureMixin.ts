@@ -12,7 +12,7 @@ export type AbstractableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof AbstractableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: Required<AbstractableNodeStructure>;
+    instanceFields: AbstractableNodeStructure;
     symbolKey: typeof AbstractableNodeStructureKey;
   }
 >;
@@ -32,7 +32,7 @@ export default function AbstractableNodeStructureMixin(
 
     public static copyFields(
       source: AbstractableNodeStructure & Structures,
-      target: Required<AbstractableNodeStructureMixin> & Structures,
+      target: AbstractableNodeStructureMixin & Structures,
     ): void {
       super.copyFields(source, target);
       target.isAbstract = source.isAbstract ?? false;

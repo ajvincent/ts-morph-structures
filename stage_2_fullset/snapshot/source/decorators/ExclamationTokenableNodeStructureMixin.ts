@@ -12,7 +12,7 @@ export type ExclamationTokenableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof ExclamationTokenableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: Required<ExclamationTokenableNodeStructure>;
+    instanceFields: ExclamationTokenableNodeStructure;
     symbolKey: typeof ExclamationTokenableNodeStructureKey;
   }
 >;
@@ -32,7 +32,7 @@ export default function ExclamationTokenableNodeStructureMixin(
 
     public static copyFields(
       source: ExclamationTokenableNodeStructure & Structures,
-      target: Required<ExclamationTokenableNodeStructureMixin> & Structures,
+      target: ExclamationTokenableNodeStructureMixin & Structures,
     ): void {
       super.copyFields(source, target);
       target.hasExclamationToken = source.hasExclamationToken ?? false;

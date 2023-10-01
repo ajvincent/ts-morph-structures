@@ -12,7 +12,7 @@ export type ReadonlyableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof ReadonlyableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: Required<ReadonlyableNodeStructure>;
+    instanceFields: ReadonlyableNodeStructure;
     symbolKey: typeof ReadonlyableNodeStructureKey;
   }
 >;
@@ -32,7 +32,7 @@ export default function ReadonlyableNodeStructureMixin(
 
     public static copyFields(
       source: ReadonlyableNodeStructure & Structures,
-      target: Required<ReadonlyableNodeStructureMixin> & Structures,
+      target: ReadonlyableNodeStructureMixin & Structures,
     ): void {
       super.copyFields(source, target);
       target.isReadonly = source.isReadonly ?? false;

@@ -12,7 +12,7 @@ export type AmbientableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof AmbientableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: Required<AmbientableNodeStructure>;
+    instanceFields: AmbientableNodeStructure;
     symbolKey: typeof AmbientableNodeStructureKey;
   }
 >;
@@ -32,7 +32,7 @@ export default function AmbientableNodeStructureMixin(
 
     public static copyFields(
       source: AmbientableNodeStructure & Structures,
-      target: Required<AmbientableNodeStructureMixin> & Structures,
+      target: AmbientableNodeStructureMixin & Structures,
     ): void {
       super.copyFields(source, target);
       target.hasDeclareKeyword = source.hasDeclareKeyword ?? false;

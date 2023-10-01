@@ -12,7 +12,7 @@ export type GeneratorableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof GeneratorableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: Required<GeneratorableNodeStructure>;
+    instanceFields: GeneratorableNodeStructure;
     symbolKey: typeof GeneratorableNodeStructureKey;
   }
 >;
@@ -32,7 +32,7 @@ export default function GeneratorableNodeStructureMixin(
 
     public static copyFields(
       source: GeneratorableNodeStructure & Structures,
-      target: Required<GeneratorableNodeStructureMixin> & Structures,
+      target: GeneratorableNodeStructureMixin & Structures,
     ): void {
       super.copyFields(source, target);
       target.isGenerator = source.isGenerator ?? false;

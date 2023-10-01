@@ -13,13 +13,17 @@ const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
   "StaticAndInstance": new LiteralTypedStructureImpl("StaticAndInstance"),
   "Structures": new LiteralTypedStructureImpl("Structures"),
   "SubclassDecorator": new LiteralTypedStructureImpl("SubclassDecorator"),
+  "WriterFunction": new LiteralTypedStructureImpl("WriterFunction"),
   "false": new LiteralTypedStructureImpl("false"),
   "instanceFields": new StringTypedStructureImpl("instanceFields"),
   "object": new LiteralTypedStructureImpl("object"),
   "staticFields": new StringTypedStructureImpl("staticFields"),
+  "string": new LiteralTypedStructureImpl("string"),
+  "stringOrWriter": new LiteralTypedStructureImpl("stringOrWriter"),
   "typeof StructureBase": new PrefixOperatorsTypedStructureImpl(
     ["typeof"], new LiteralTypedStructureImpl("StructureBase")
   ),
+  "undefined": new LiteralTypedStructureImpl("undefined"),
   "uniqueSymbol": new PrefixOperatorsTypedStructureImpl(
     ["unique"], new LiteralTypedStructureImpl("symbol")
   ),

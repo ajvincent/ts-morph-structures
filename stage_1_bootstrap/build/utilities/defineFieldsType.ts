@@ -23,12 +23,15 @@ export default function defineFieldsType(
   staticFields.typeStructure = ConstantTypeStructures.object;
 
   const instanceFields = new PropertySignatureImpl("instanceFields");
+  instanceFields.typeStructure = new LiteralTypedStructureImpl(name);
+  /*
   instanceFields.typeStructure = new TypeArgumentedTypedStructureImpl(
     ConstantTypeStructures.Required,
     [
       new LiteralTypedStructureImpl(name)
     ]
   );
+  */
 
   const symbolKey = new PropertySignatureImpl("symbolKey");
   symbolKey.typeStructure = new PrefixOperatorsTypedStructureImpl(

@@ -12,7 +12,7 @@ export type AsyncableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof AsyncableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: Required<AsyncableNodeStructure>;
+    instanceFields: AsyncableNodeStructure;
     symbolKey: typeof AsyncableNodeStructureKey;
   }
 >;
@@ -32,7 +32,7 @@ export default function AsyncableNodeStructureMixin(
 
     public static copyFields(
       source: AsyncableNodeStructure & Structures,
-      target: Required<AsyncableNodeStructureMixin> & Structures,
+      target: AsyncableNodeStructureMixin & Structures,
     ): void {
       super.copyFields(source, target);
       target.isAsync = source.isAsync ?? false;

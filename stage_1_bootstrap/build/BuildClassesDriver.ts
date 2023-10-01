@@ -6,7 +6,7 @@ import fillDictionaries from "./structureMeta/fillDictionaries.js";
 // #region hooks
 
 import createDecoratorParts from "./hooks/decorator/createParts.js";
-import addBooleanFields from "./hooks/decorator/booleanFields.js";
+import addClassProperties from "./hooks/decorator/classProperties.js";
 import saveDecoratorFile from "./hooks/decorator/save.js";
 
 // #endregion hooks
@@ -20,7 +20,7 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   fillDictionaries(dictionary);
 
   dictionary.addDecoratorHook("create decorator parts", createDecoratorParts);
-  dictionary.addDecoratorHook("add boolean fields", addBooleanFields);
+  dictionary.addDecoratorHook("add class properties", addClassProperties);
   dictionary.addDecoratorHook("save decorator file", saveDecoratorFile);
 
   // #region structure classes
@@ -45,32 +45,32 @@ async function BuildClassesDriver(distDir: string): Promise<void>
 }
 
 function defineExistingExports(
-  dictionary: StructureDictionaries,
+  dictionaries: StructureDictionaries,
   distDir: string,
 ): void
 {
-  dictionary.publicExports.addExports({
+  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/base/PlaceholderExport.ts"),
     exportNames: ["Placeholder"],
     isDefaultExport: true,
     isType: false
   });
 
-  dictionary.internalExports.addExports({
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/base/generated/structureToSyntax.ts"),
     exportNames: ["StructureKindToSyntaxKindMap"],
     isDefaultExport: true,
     isType: false,
   });
 
-  dictionary.internalExports.addExports({
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/base/StructureBase.ts"),
     exportNames: ["StructureBase"],
     isDefaultExport: true,
     isType: false
   });
 
-  dictionary.internalExports.addExports({
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/types/RightExtendsLeft.ts"),
     exportNames: ["RightExtendsLeft"],
     isDefaultExport: false,

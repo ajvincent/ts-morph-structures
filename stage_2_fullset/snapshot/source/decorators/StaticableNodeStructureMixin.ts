@@ -12,7 +12,7 @@ export type StaticableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof StaticableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: Required<StaticableNodeStructure>;
+    instanceFields: StaticableNodeStructure;
     symbolKey: typeof StaticableNodeStructureKey;
   }
 >;
@@ -32,7 +32,7 @@ export default function StaticableNodeStructureMixin(
 
     public static copyFields(
       source: StaticableNodeStructure & Structures,
-      target: Required<StaticableNodeStructureMixin> & Structures,
+      target: StaticableNodeStructureMixin & Structures,
     ): void {
       super.copyFields(source, target);
       target.isStatic = source.isStatic ?? false;

@@ -12,7 +12,7 @@ export type OverrideableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof OverrideableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: Required<OverrideableNodeStructure>;
+    instanceFields: OverrideableNodeStructure;
     symbolKey: typeof OverrideableNodeStructureKey;
   }
 >;
@@ -32,7 +32,7 @@ export default function OverrideableNodeStructureMixin(
 
     public static copyFields(
       source: OverrideableNodeStructure & Structures,
-      target: Required<OverrideableNodeStructureMixin> & Structures,
+      target: OverrideableNodeStructureMixin & Structures,
     ): void {
       super.copyFields(source, target);
       target.hasOverrideKeyword = source.hasOverrideKeyword ?? false;

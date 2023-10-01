@@ -55,7 +55,7 @@ export default class ImportManager
     context: AddImportContext
   ): void
   {
-    const { importNames, isPackageImport, isDefaultImport, isTypeOnly } = context;
+    const { isPackageImport, isDefaultImport, isTypeOnly } = context;
     let { pathToImportedModule } = context;
 
     if (!isPackageImport) {
@@ -79,10 +79,9 @@ export default class ImportManager
         pathToImportedModule = "./" + pathToImportedModule;
     }
 
-    importNames.forEach(nameToImport => {
-      if (this.#knownSpecifiers.has(nameToImport))
-        throw new Error(`the import "${nameToImport}" is already known.`);
-    });
+    const importNames = context.importNames.filter(nameToImport => !this.#knownSpecifiers.has(nameToImport));
+    if (importNames.length === 0)
+      return;
 
     let importDecl = this.#declarationsMap.get(pathToImportedModule);
     if (!importDecl) {

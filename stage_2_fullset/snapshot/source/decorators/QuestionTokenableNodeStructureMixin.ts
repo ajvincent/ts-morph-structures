@@ -12,7 +12,7 @@ export type QuestionTokenableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof QuestionTokenableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: Required<QuestionTokenableNodeStructure>;
+    instanceFields: QuestionTokenableNodeStructure;
     symbolKey: typeof QuestionTokenableNodeStructureKey;
   }
 >;
@@ -32,7 +32,7 @@ export default function QuestionTokenableNodeStructureMixin(
 
     public static copyFields(
       source: QuestionTokenableNodeStructure & Structures,
-      target: Required<QuestionTokenableNodeStructureMixin> & Structures,
+      target: QuestionTokenableNodeStructureMixin & Structures,
     ): void {
       super.copyFields(source, target);
       target.hasQuestionToken = source.hasQuestionToken ?? false;
