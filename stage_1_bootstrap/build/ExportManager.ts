@@ -54,7 +54,7 @@ export class ExportManager
     return a.name.localeCompare(b.name);
   }
 
-  readonly #absolutePathToExportFile: string;
+  readonly absolutePathToExportFile: string;
   readonly #pathToDeclarationMap = new DefaultMap<string, ExportDeclarationImpl>;
   readonly #declarationToNamesMap = new DefaultWeakMap<ExportDeclarationImpl, Map<string, ExportSpecifierImpl>>;
 
@@ -64,7 +64,7 @@ export class ExportManager
     absolutePathToExportFile: string,
   )
   {
-    this.#absolutePathToExportFile = absolutePathToExportFile;
+    this.absolutePathToExportFile = absolutePathToExportFile;
   }
 
   addExports(
@@ -127,7 +127,7 @@ export class ExportManager
     const decl = new ExportDeclarationImpl;
 
     decl.moduleSpecifier = path.relative(
-      path.dirname(this.#absolutePathToExportFile),
+      path.dirname(this.absolutePathToExportFile),
       absolutePathToModule.replace(/(\.d)?\.(m?)ts$/, ".$2js")
     );
     if (!decl.moduleSpecifier.startsWith("../"))
@@ -163,7 +163,7 @@ export class ExportManager
       ...declarations
     );
 
-    await saveSourceFile(this.#absolutePathToExportFile, sourceStructure);
+    await saveSourceFile(this.absolutePathToExportFile, sourceStructure);
   }
 }
 

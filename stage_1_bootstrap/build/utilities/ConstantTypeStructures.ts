@@ -7,10 +7,13 @@ import {
 
 const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
   "ClassDecoratorContext": new LiteralTypedStructureImpl("ClassDecoratorContext"),
+  "KindedStructure": new LiteralTypedStructureImpl("KindedStructure"),
   "MixinClass": new LiteralTypedStructureImpl("MixinClass"),
   "Required": new LiteralTypedStructureImpl("Required"),
   "RightExtendsLeft": new LiteralTypedStructureImpl("RightExtendsLeft"),
   "StaticAndInstance": new LiteralTypedStructureImpl("StaticAndInstance"),
+  "StructureBase": new LiteralTypedStructureImpl("StructureBase"),
+  "StructureKind": new LiteralTypedStructureImpl("StructureKind"),
   "Structures": new LiteralTypedStructureImpl("Structures"),
   "SubclassDecorator": new LiteralTypedStructureImpl("SubclassDecorator"),
   "WriterFunction": new LiteralTypedStructureImpl("WriterFunction"),

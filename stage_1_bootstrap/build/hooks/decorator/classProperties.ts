@@ -12,7 +12,7 @@ import {
   UnionTypedStructureImpl,
 } from "../../../prototype-snapshot/exports.js";
 
-import StructureDictionaries, { DecoratorStructureParts } from "../../StructureDictionaries.js";
+import StructureDictionaries, { DecoratorParts } from "../../StructureDictionaries.js";
 import type {
   DecoratorImplMeta,
   PropertyName,
@@ -99,7 +99,7 @@ export default function addClassProperties(
 
 function getTypeStructureForValue(
   value: PropertyValue,
-  parts: DecoratorStructureParts,
+  parts: DecoratorParts,
   dictionaries: StructureDictionaries,
 ): TypeStructures
 {
@@ -114,7 +114,7 @@ const stringOrWriterModule = path.join(distDir, "source/types/stringOrWriter.d.t
 
 function getTypeStructureArrayForValue(
   value: PropertyValue,
-  parts: DecoratorStructureParts,
+  parts: DecoratorParts,
   dictionaries: StructureDictionaries
 ): TypeStructures[]
 {
@@ -200,7 +200,7 @@ function getTypeStructureArrayForValue(
 function getInitializerForValue(
   key: PropertyName,
   value: PropertyValue,
-  parts: DecoratorStructureParts,
+  parts: DecoratorParts,
   dictionaries: StructureDictionaries
 ): string | undefined
 {

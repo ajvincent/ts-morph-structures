@@ -3,7 +3,7 @@ import {
 } from "../../../prototype-snapshot/exports.js";
 
 import StructureDictionaries, {
-  DecoratorStructureParts,
+  DecoratorParts,
 } from "../../StructureDictionaries.js";
 import type {
   DecoratorImplMeta
@@ -20,7 +20,7 @@ export default function createDecoratorParts(
   dictionaries: StructureDictionaries
 ): Promise<void>
 {
-  const parts: Partial<DecoratorStructureParts> = {};
+  const parts: Partial<DecoratorParts> = {};
   parts.classDecl = new ClassDeclarationImpl;
   parts.classDecl.name = meta.structureName.replace(/Structure$/, "StructureMixin");
   parts.classDecl.extends = "baseClass";
@@ -29,15 +29,15 @@ export default function createDecoratorParts(
   parts.sourceFile = new SourceFileImpl;
 
   parts.copyFields = defineCopyFieldsMethod(meta, parts.classDecl);
-  parts.typeAlias = defineFieldsType(meta.structureName);
-  if (!parts.typeAlias.name) {
+  parts.fieldsTypeAlias = defineFieldsType(meta.structureName);
+  if (!parts.fieldsTypeAlias.name) {
     throw new Error("no type alias name?  " + name);
   }
-  parts.wrapperFunction = defineDecoratorWrapper(meta, parts.classDecl, parts.typeAlias);
+  parts.wrapperFunction = defineDecoratorWrapper(meta, parts.classDecl, parts.fieldsTypeAlias);
   if (!parts.wrapperFunction.name) {
     throw new Error("no name for wrapper function? " + name);
   }
 
-  dictionaries.decoratorParts.set(meta, parts as DecoratorStructureParts);
+  dictionaries.decoratorParts.set(meta, parts as DecoratorParts);
   return Promise.resolve();
 }

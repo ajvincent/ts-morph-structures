@@ -25,6 +25,7 @@ import {
   PublicExports,
   InternalExports,
 } from "./ExportManager.js";
+import { WriterFunction } from "ts-morph";
 //#endregion preamble
 
 export type DecoratorHook = (
@@ -39,19 +40,28 @@ export type StructureHook = (
   dictionaries: StructureDictionaries
 ) => Promise<void>;
 
-export interface DecoratorStructureParts {
+export interface DecoratorParts {
   classDecl: ClassDeclarationImpl;
   importsManager: ImportManager;
   sourceFile: SourceFileImpl;
   copyFields: MethodDeclarationImpl;
-  typeAlias: TypeAliasDeclarationImpl;
+  fieldsTypeAlias: TypeAliasDeclarationImpl;
   wrapperFunction: FunctionDeclarationImpl;
+}
+
+export interface StructureParts {
+  mixinBaseWriter: WriterFunction;
+  classDecl: ClassDeclarationImpl;
+  importsManager: ImportManager;
+  sourceFile: SourceFileImpl;
+  copyFields: MethodDeclarationImpl;
 }
 
 export default
 class StructureDictionaries extends StructureMetaDictionaries
 {
-  readonly decoratorParts = new WeakMap<DecoratorImplMeta, DecoratorStructureParts>;
+  readonly decoratorParts = new WeakMap<DecoratorImplMeta, DecoratorParts>;
+  readonly structureParts = new WeakMap<StructureImplMeta, StructureParts>;
 
   readonly publicExports = PublicExports;
   readonly internalExports = InternalExports;

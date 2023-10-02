@@ -29,9 +29,9 @@ export default async function saveDecoratorFile(
     ...parts.importsManager.getDeclarations(),
     "//#endregion preamble",
     declareConstSymbol(meta.structureName),
-    parts.typeAlias,
+    parts.fieldsTypeAlias,
     parts.wrapperFunction,
-    defineSatisfiesWriter(parts.wrapperFunction, parts.typeAlias),
+    defineSatisfiesWriter(parts.wrapperFunction, parts.fieldsTypeAlias),
   ];
 
   const sourceFilePath = path.join(distDir, `source/decorators/${parts.classDecl.name!}.ts`);
@@ -48,7 +48,7 @@ export default async function saveDecoratorFile(
     isDefaultExport: false,
     isType: true,
     exportNames: [
-      parts.typeAlias.name
+      parts.fieldsTypeAlias.name
     ]
   });
 
