@@ -14,7 +14,8 @@ import {
 } from "../../prototype-snapshot/exports.js";
 
 import type {
-  DecoratorImplMeta
+  DecoratorImplMeta,
+  StructureImplMeta,
 } from "../structureMeta/DataClasses.js";
 
 
@@ -23,7 +24,7 @@ import ConstantTypeStructures from "./ConstantTypeStructures.js";
 // #endregion preamble
 
 export default function defineCopyFieldsMethod(
-  meta: DecoratorImplMeta,
+  meta: DecoratorImplMeta | StructureImplMeta,
   classDecl: ClassDeclarationImpl
 ): MethodDeclarationImpl
 {

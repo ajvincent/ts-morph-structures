@@ -12,21 +12,31 @@ import {
   UnionTypedStructureImpl,
 } from "../../../prototype-snapshot/exports.js";
 
-import StructureDictionaries, { DecoratorParts } from "../../StructureDictionaries.js";
-import type {
+import StructureDictionaries, {
+  DecoratorParts,
+  StructureParts,
+} from "../../StructureDictionaries.js";
+
+import {
   DecoratorImplMeta,
   PropertyName,
   PropertyValue,
+  StructureImplMeta,
 } from "../../structureMeta/DataClasses.js";
 import { WriterFunction } from "ts-morph";
 
 export default function addClassProperties(
   name: string,
-  meta: DecoratorImplMeta,
+  meta: DecoratorImplMeta | StructureImplMeta,
   dictionaries: StructureDictionaries
 ): Promise<void>
 {
-  const parts = dictionaries.decoratorParts.get(meta);
+  let parts: DecoratorParts | StructureParts;
+  if (meta instanceof DecoratorImplMeta) {
+    parts = dictionaries.decoratorParts.get(meta)!;
+  } else {
+    parts = dictionaries.structureParts.get(meta)!;
+  }
   if (!parts)
     return Promise.resolve();
 
@@ -84,6 +94,8 @@ export default function addClassProperties(
     prop.typeStructure = typeStructure;
 
     prop.initializer = getInitializerForValue(key, propertyValue, parts, dictionaries);
+    if (key === "kind")
+      prop.isReadonly = true;
 
     parts.classDecl.properties.push(prop);
     parts.copyFields.statements.push(
@@ -99,7 +111,7 @@ export default function addClassProperties(
 
 function getTypeStructureForValue(
   value: PropertyValue,
-  parts: DecoratorParts,
+  parts: DecoratorParts | StructureParts,
   dictionaries: StructureDictionaries,
 ): TypeStructures
 {
@@ -114,7 +126,7 @@ const stringOrWriterModule = path.join(distDir, "source/types/stringOrWriter.d.t
 
 function getTypeStructureArrayForValue(
   value: PropertyValue,
-  parts: DecoratorParts,
+  parts: DecoratorParts | StructureParts,
   dictionaries: StructureDictionaries
 ): TypeStructures[]
 {
@@ -184,13 +196,15 @@ function getTypeStructureArrayForValue(
     }
 
     if (valueInUnion.tsmorph_Type) {
-      parts.importsManager.addImports({
-        pathToImportedModule: "ts-morph",
-        isPackageImport: true,
-        importNames: [valueInUnion.tsmorph_Type],
-        isDefaultImport: false,
-        isTypeOnly: true
-      });
+      if (valueInUnion.tsmorph_Type !== "number") {
+        parts.importsManager.addImports({
+          pathToImportedModule: "ts-morph",
+          isPackageImport: true,
+          importNames: [valueInUnion.tsmorph_Type.replace(/\..*/g, "")],
+          isDefaultImport: false,
+          isTypeOnly: false
+        });
+      }
     }
   });
 
@@ -200,7 +214,7 @@ function getTypeStructureArrayForValue(
 function getInitializerForValue(
   key: PropertyName,
   value: PropertyValue,
-  parts: DecoratorParts,
+  parts: DecoratorParts | StructureParts,
   dictionaries: StructureDictionaries
 ): string | undefined
 {
@@ -210,6 +224,10 @@ function getInitializerForValue(
 
   if (value.mayBeString) {
     return `""`;
+  }
+
+  if (key === "kind") {
+    return value.otherTypes[0].tsmorph_Type!;
   }
 
   /*

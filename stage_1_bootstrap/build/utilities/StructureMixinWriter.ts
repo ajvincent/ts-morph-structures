@@ -3,17 +3,16 @@ import type {
 } from "ts-morph";
 
 import { StructureImplMeta, StructureName } from "../structureMeta/DataClasses.js";
-import StructureDictionaries, {
-  StructureParts
-} from "../StructureDictionaries.js";
+import StructureDictionaries from "../StructureDictionaries.js";
 
 import pairedWrite from "./pairedWrite.js";
 import { LiteralTypedStructureImpl, TupleTypedStructureImpl } from "../../prototype-snapshot/exports.js";
 import ConstantTypeStructures from "./ConstantTypeStructures.js";
+import ImportManager from "../ImportManager.js";
 
 export default function StructureMixinWriter(
   meta: StructureImplMeta,
-  structureParts: StructureParts,
+  importManager: ImportManager,
   dictionaries: StructureDictionaries,
   countMap: ReadonlyMap<StructureName, number>,
 ): WriterFunction
@@ -29,7 +28,7 @@ export default function StructureMixinWriter(
   const fieldTypeNames: string[] = decoratorPartsArray.map(parts => parts.fieldsTypeAlias.name);
   const decoratorFunctionNames: string[] = decoratorPartsArray.map(parts => parts.wrapperFunction.name!);
 
-  structureParts.importsManager.addImports({
+  importManager.addImports({
     pathToImportedModule: "mixin-decorators",
     isPackageImport: true,
     isDefaultImport: true,
@@ -39,7 +38,7 @@ export default function StructureMixinWriter(
     ]
   });
 
-  structureParts.importsManager.addImports({
+  importManager.addImports({
     pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
     isPackageImport: false,
     importNames: fieldTypeNames,
@@ -47,7 +46,7 @@ export default function StructureMixinWriter(
     isTypeOnly: true
   });
 
-  structureParts.importsManager.addImports({
+  importManager.addImports({
     pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
     isPackageImport: false,
     importNames: decoratorFunctionNames.concat("StructureBase"),

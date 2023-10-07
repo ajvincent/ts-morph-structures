@@ -8,6 +8,8 @@ import fillDictionaries from "./structureMeta/fillDictionaries.js";
 import createDecoratorParts from "./hooks/decorator/createParts.js";
 import addClassProperties from "./hooks/decorator/classProperties.js";
 import saveDecoratorFile from "./hooks/decorator/save.js";
+import createStructureParts from "./hooks/structure/createParts.js";
+import saveStructureFile from "./hooks/structure/save.js";
 
 // #endregion hooks
 
@@ -24,6 +26,9 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addDecoratorHook("save decorator file", saveDecoratorFile);
 
   // #region structure classes
+  dictionary.addStructureHook("create structure parts", createStructureParts);
+  dictionary.addStructureHook("add class properties", addClassProperties);
+  dictionary.addStructureHook("save structure file", saveStructureFile);
   // add decorator imports
   // create class, including implements, export default
   // apply type structure changes
@@ -49,13 +54,6 @@ function defineExistingExports(
   distDir: string,
 ): void
 {
-  dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/base/PlaceholderExport.ts"),
-    exportNames: ["Placeholder"],
-    isDefaultExport: true,
-    isType: false
-  });
-
   dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/base/generated/structureToSyntax.ts"),
     exportNames: ["StructureKindToSyntaxKindMap"],

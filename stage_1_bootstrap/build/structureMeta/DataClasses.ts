@@ -79,6 +79,15 @@ class BaseMetadata
       map.set(propertyName, propertyValue);
     }
   }
+
+  toJSON(): object {
+    return {
+      booleanKeys: Array.from(this.booleanKeys),
+      structureFields: Object.fromEntries(this.structureFields),
+      structureFieldArrays: Object.fromEntries(this.structureFieldArrays),
+      decoratorKeys: Array.from(this.decoratorKeys),
+    }
+  }
 }
 
 export class DecoratorImplMeta extends BaseMetadata implements MetaImplementation
@@ -142,6 +151,16 @@ export class StructureImplMeta extends BaseMetadata implements MetaImplementatio
     catch (ex) {
       console.error("this.structureName = " + this.structureName);
       throw ex;
+    }
+  }
+
+  toJSON(): object {
+    return {
+      ...super.toJSON(),
+      metaType: this.metaType,
+      structureName: this.structureName,
+      structureKindName: this.structureKindName,
+      syntaxKindName: this.syntaxKindName,
     }
   }
 }
