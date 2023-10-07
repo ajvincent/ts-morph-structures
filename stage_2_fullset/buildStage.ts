@@ -1,6 +1,7 @@
 import { BuildPromiseSet } from "#utilities/source/BuildPromise.js";
 //import { runModule } from "#utilities/source/runModule.js";
 import runJasmine from "#utilities/source/runJasmine.js";
+import { runModule } from "#utilities/source/runModule.js";
 
 import copySnapshot from "./build/copySnapshot.js";
 
@@ -9,7 +10,7 @@ const BPSet = new BuildPromiseSet;
 {  // copySnapshot
   const target = BPSet.get("copySnapshot");
   target.addTask(async () => {
-    console.log("starting stage2_fullset:copySnapshot");
+    console.log("starting stage_2_fullset:copySnapshot");
     await copySnapshot();
   });
 }
@@ -21,6 +22,32 @@ const BPSet = new BuildPromiseSet;
     console.log("starting stage2_fullset:jasmine");
     await runJasmine("./spec-snapshot/support/jasmine.json", "stage_two_test");
   });
+}
+
+{ // eslint
+  const target = BPSet.get("eslint");
+
+  const args = [
+    "-c", "./.eslintrc.json",
+    "--max-warnings=0",
+  ];
+
+  args.push("buildStage.ts");
+  args.push("build/**/*.ts");
+  //args.push("fixtures/**/*.ts");
+  args.push("snapshot/**/*.ts");
+  args.push("spec-snapshot/**/*.ts");
+
+  target.addTask(() => {
+    console.log("starting stage_2_fullset:eslint");
+    return Promise.resolve();
+  });
+
+  target.addTask(
+    async () => {
+      await runModule("../node_modules/eslint/bin/eslint.js", args);
+    }
+  );
 }
 
 { // build
@@ -36,6 +63,7 @@ const BPSet = new BuildPromiseSet;
 BPSet.markReady();
 {
   BPSet.main.addSubtarget("copySnapshot");
+  BPSet.main.addSubtarget("eslint");
   BPSet.main.addSubtarget("test");
 }
 await BPSet.main.run();
