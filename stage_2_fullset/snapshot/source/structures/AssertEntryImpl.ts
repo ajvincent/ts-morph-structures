@@ -15,7 +15,7 @@ const AssertEntryStructureBase = MultiMixinBuilder<
 >([NamedNodeStructureMixin, StructureMixin], StructureBase);
 
 export default class AssertEntryImpl extends AssertEntryStructureBase {
-  value: string = "";
+  value = "";
 
   public static copyFields(
     source: AssertEntryStructure & Structures,

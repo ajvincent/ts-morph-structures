@@ -28,7 +28,7 @@ export default function NamedNodeStructureMixin(
   void context;
 
   class NamedNodeStructureMixin extends baseClass {
-    name: string = "";
+    name = "";
 
     public static copyFields(
       source: NamedNodeStructure & Structures,

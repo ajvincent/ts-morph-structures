@@ -16,7 +16,7 @@ const DecoratorStructureBase = MultiMixinBuilder<
 export default class DecoratorImpl extends DecoratorStructureBase {
   arguments: stringOrWriter[] = [];
   typeArguments: string[] = [];
-  name: string = "";
+  name = "";
 
   public static copyFields(
     source: DecoratorStructure & Structures,

@@ -21,7 +21,7 @@ const JsxElementStructureBase = MultiMixinBuilder<
 export default class JsxElementImpl extends JsxElementStructureBase {
   attributes: (JsxAttributeStructure | JsxSpreadAttributeStructure)[] = [];
   children: (JsxElementStructure | JsxSelfClosingElementStructure)[] = [];
-  name: string = "";
+  name = "";
   bodyText?: string = undefined;
 
   public static copyFields(

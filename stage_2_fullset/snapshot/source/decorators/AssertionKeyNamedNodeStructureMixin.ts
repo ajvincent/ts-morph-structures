@@ -28,7 +28,7 @@ export default function AssertionKeyNamedNodeStructureMixin(
   void context;
 
   class AssertionKeyNamedNodeStructureMixin extends baseClass {
-    name: string = "";
+    name = "";
 
     public static copyFields(
       source: AssertionKeyNamedNodeStructure & Structures,

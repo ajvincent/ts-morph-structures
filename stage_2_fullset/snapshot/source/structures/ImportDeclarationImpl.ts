@@ -24,7 +24,7 @@ export default class ImportDeclarationImpl extends ImportDeclarationStructureBas
   assertElements: AssertEntryStructure[] = [];
   defaultImport?: string = undefined;
   namespaceImport?: string = undefined;
-  moduleSpecifier: string = "";
+  moduleSpecifier = "";
 
   public static copyFields(
     source: ImportDeclarationStructure & Structures,

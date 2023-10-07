@@ -28,7 +28,7 @@ export default function BindingNamedNodeStructureMixin(
   void context;
 
   class BindingNamedNodeStructureMixin extends baseClass {
-    name: string = "";
+    name = "";
 
     public static copyFields(
       source: BindingNamedNodeStructure & Structures,

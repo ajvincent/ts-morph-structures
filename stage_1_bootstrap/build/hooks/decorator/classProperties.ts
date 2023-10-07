@@ -91,7 +91,8 @@ export default function addClassProperties(
     if (typeStructure.kind === TypeStructureKind.Union)
       typeStructure = new ParenthesesTypedStructureImpl(typeStructure);
 
-    prop.typeStructure = typeStructure;
+    if ((typeStructure !== ConstantTypeStructures.string) || prop.hasQuestionToken)
+      prop.typeStructure = typeStructure;
 
     prop.initializer = getInitializerForValue(key, propertyValue, parts, dictionaries);
     if (key === "kind")

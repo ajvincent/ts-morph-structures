@@ -14,7 +14,7 @@ const JSDocTagStructureBase = MultiMixinBuilder<
 >([StructureMixin], StructureBase);
 
 export default class JSDocTagImpl extends JSDocTagStructureBase {
-  tagName: string = "";
+  tagName = "";
   text?: stringOrWriter = undefined;
 
   public static copyFields(

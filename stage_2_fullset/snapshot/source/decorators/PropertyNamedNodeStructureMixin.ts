@@ -28,7 +28,7 @@ export default function PropertyNamedNodeStructureMixin(
   void context;
 
   class PropertyNamedNodeStructureMixin extends baseClass {
-    name: string = "";
+    name = "";
 
     public static copyFields(
       source: PropertyNamedNodeStructure & Structures,

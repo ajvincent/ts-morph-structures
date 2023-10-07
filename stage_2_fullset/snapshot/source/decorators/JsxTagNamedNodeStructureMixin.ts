@@ -28,7 +28,7 @@ export default function JsxTagNamedNodeStructureMixin(
   void context;
 
   class JsxTagNamedNodeStructureMixin extends baseClass {
-    name: string = "";
+    name = "";
 
     public static copyFields(
       source: JsxTagNamedNodeStructure & Structures,

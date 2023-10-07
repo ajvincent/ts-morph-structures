@@ -14,7 +14,7 @@ const ExportSpecifierStructureBase = MultiMixinBuilder<
 
 export default class ExportSpecifierImpl extends ExportSpecifierStructureBase {
   isTypeOnly = false;
-  name: string = "";
+  name = "";
   alias?: string = undefined;
 
   public static copyFields(

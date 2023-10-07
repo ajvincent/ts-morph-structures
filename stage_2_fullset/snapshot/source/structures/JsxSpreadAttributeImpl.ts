@@ -13,7 +13,7 @@ const JsxSpreadAttributeStructureBase = MultiMixinBuilder<
 >([StructureMixin], StructureBase);
 
 export default class JsxSpreadAttributeImpl extends JsxSpreadAttributeStructureBase {
-  expression: string = "";
+  expression = "";
 
   public static copyFields(
     source: JsxSpreadAttributeStructure & Structures,
