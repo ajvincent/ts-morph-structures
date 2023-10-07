@@ -21,7 +21,11 @@ import {
   TypedNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { ParameterDeclarationStructure, Structures } from "ts-morph";
+import {
+  type ParameterDeclarationStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const ParameterDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -51,7 +55,11 @@ const ParameterDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class ParameterDeclarationImpl extends ParameterDeclarationStructureBase {
+export default class ParameterDeclarationImpl
+  extends ParameterDeclarationStructureBase
+  implements ParameterDeclarationStructure
+{
+  readonly kind: StructureKind.Parameter = StructureKind.Parameter;
   isRestParameter = false;
 
   public static copyFields(

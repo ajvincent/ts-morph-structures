@@ -34,6 +34,7 @@ export default function createStructureParts(
   parts.classDecl.name = meta.structureName.replace(/Structure$/, "Impl");
   parts.classDecl.isDefaultExport = true;
   parts.classDecl.extendsStructure = new LiteralTypedStructureImpl(name + "Base");
+  parts.classDecl.implementsSet.add(meta.structureName);
 
   parts.sourceFile = new SourceFileImpl;
 

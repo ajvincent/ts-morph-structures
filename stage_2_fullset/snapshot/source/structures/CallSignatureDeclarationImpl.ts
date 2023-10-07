@@ -13,7 +13,11 @@ import {
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { CallSignatureDeclarationStructure, Structures } from "ts-morph";
+import {
+  type CallSignatureDeclarationStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const CallSignatureDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -35,7 +39,12 @@ const CallSignatureDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class CallSignatureDeclarationImpl extends CallSignatureDeclarationStructureBase {
+export default class CallSignatureDeclarationImpl
+  extends CallSignatureDeclarationStructureBase
+  implements CallSignatureDeclarationStructure
+{
+  readonly kind: StructureKind.CallSignature = StructureKind.CallSignature;
+
   public static copyFields(
     source: CallSignatureDeclarationStructure & Structures,
     target: CallSignatureDeclarationImpl & Structures,

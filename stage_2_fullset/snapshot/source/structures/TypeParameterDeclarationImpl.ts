@@ -9,6 +9,7 @@ import {
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  StructureKind,
   type Structures,
   type TypeParameterDeclarationStructure,
   TypeParameterVariance,
@@ -19,7 +20,11 @@ const TypeParameterDeclarationStructureBase = MultiMixinBuilder<
   typeof StructureBase
 >([NamedNodeStructureMixin, StructureMixin], StructureBase);
 
-export default class TypeParameterDeclarationImpl extends TypeParameterDeclarationStructureBase {
+export default class TypeParameterDeclarationImpl
+  extends TypeParameterDeclarationStructureBase
+  implements TypeParameterDeclarationStructure
+{
+  readonly kind: StructureKind.TypeParameter = StructureKind.TypeParameter;
   isConst = false;
   constraint?: stringOrWriter = undefined;
   default?: stringOrWriter = undefined;

@@ -15,9 +15,10 @@ import {
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type {
-  ConstructorDeclarationOverloadStructure,
-  Structures,
+import {
+  type ConstructorDeclarationOverloadStructure,
+  StructureKind,
+  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ConstructorDeclarationOverloadStructureBase = MultiMixinBuilder<
@@ -42,7 +43,13 @@ const ConstructorDeclarationOverloadStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class ConstructorDeclarationOverloadImpl extends ConstructorDeclarationOverloadStructureBase {
+export default class ConstructorDeclarationOverloadImpl
+  extends ConstructorDeclarationOverloadStructureBase
+  implements ConstructorDeclarationOverloadStructure
+{
+  readonly kind: StructureKind.ConstructorOverload =
+    StructureKind.ConstructorOverload;
+
   public static copyFields(
     source: ConstructorDeclarationOverloadStructure & Structures,
     target: ConstructorDeclarationOverloadImpl & Structures,

@@ -5,12 +5,13 @@ import {
   StructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type {
-  JsxAttributeStructure,
-  JsxElementStructure,
-  JsxSelfClosingElementStructure,
-  JsxSpreadAttributeStructure,
-  Structures,
+import {
+  type JsxAttributeStructure,
+  type JsxElementStructure,
+  type JsxSelfClosingElementStructure,
+  type JsxSpreadAttributeStructure,
+  StructureKind,
+  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const JsxElementStructureBase = MultiMixinBuilder<
@@ -18,7 +19,11 @@ const JsxElementStructureBase = MultiMixinBuilder<
   typeof StructureBase
 >([StructureMixin], StructureBase);
 
-export default class JsxElementImpl extends JsxElementStructureBase {
+export default class JsxElementImpl
+  extends JsxElementStructureBase
+  implements JsxElementStructure
+{
+  readonly kind: StructureKind.JsxElement = StructureKind.JsxElement;
   attributes: (JsxAttributeStructure | JsxSpreadAttributeStructure)[] = [];
   children: (JsxElementStructure | JsxSelfClosingElementStructure)[] = [];
   name = "";

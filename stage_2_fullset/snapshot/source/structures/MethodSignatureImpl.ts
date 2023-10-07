@@ -17,7 +17,11 @@ import {
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { MethodSignatureStructure, Structures } from "ts-morph";
+import {
+  type MethodSignatureStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const MethodSignatureStructureBase = MultiMixinBuilder<
   [
@@ -43,7 +47,12 @@ const MethodSignatureStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class MethodSignatureImpl extends MethodSignatureStructureBase {
+export default class MethodSignatureImpl
+  extends MethodSignatureStructureBase
+  implements MethodSignatureStructure
+{
+  readonly kind: StructureKind.MethodSignature = StructureKind.MethodSignature;
+
   public static copyFields(
     source: MethodSignatureStructure & Structures,
     target: MethodSignatureImpl & Structures,

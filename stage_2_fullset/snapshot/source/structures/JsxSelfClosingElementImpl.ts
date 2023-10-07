@@ -9,7 +9,11 @@ import {
   StructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { JsxSelfClosingElementStructure, Structures } from "ts-morph";
+import {
+  type JsxSelfClosingElementStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const JsxSelfClosingElementStructureBase = MultiMixinBuilder<
   [JsxAttributedNodeStructureFields, NamedNodeStructureFields, StructureFields],
@@ -19,7 +23,13 @@ const JsxSelfClosingElementStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class JsxSelfClosingElementImpl extends JsxSelfClosingElementStructureBase {
+export default class JsxSelfClosingElementImpl
+  extends JsxSelfClosingElementStructureBase
+  implements JsxSelfClosingElementStructure
+{
+  readonly kind: StructureKind.JsxSelfClosingElement =
+    StructureKind.JsxSelfClosingElement;
+
   public static copyFields(
     source: JsxSelfClosingElementStructure & Structures,
     target: JsxSelfClosingElementImpl & Structures,

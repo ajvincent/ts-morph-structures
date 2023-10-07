@@ -18,7 +18,11 @@ import {
 } from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { Structures, TypeAliasDeclarationStructure } from "ts-morph";
+import {
+  StructureKind,
+  type Structures,
+  type TypeAliasDeclarationStructure,
+} from "ts-morph";
 //#endregion preamble
 const TypeAliasDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -44,7 +48,11 @@ const TypeAliasDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class TypeAliasDeclarationImpl extends TypeAliasDeclarationStructureBase {
+export default class TypeAliasDeclarationImpl
+  extends TypeAliasDeclarationStructureBase
+  implements TypeAliasDeclarationStructure
+{
+  readonly kind: StructureKind.TypeAlias = StructureKind.TypeAlias;
   type: stringOrWriter = "";
 
   public static copyFields(

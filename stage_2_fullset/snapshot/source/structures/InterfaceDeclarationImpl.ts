@@ -19,7 +19,11 @@ import {
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { InterfaceDeclarationStructure, Structures } from "ts-morph";
+import {
+  type InterfaceDeclarationStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const InterfaceDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -47,7 +51,12 @@ const InterfaceDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase {
+export default class InterfaceDeclarationImpl
+  extends InterfaceDeclarationStructureBase
+  implements InterfaceDeclarationStructure
+{
+  readonly kind: StructureKind.Interface = StructureKind.Interface;
+
   public static copyFields(
     source: InterfaceDeclarationStructure & Structures,
     target: InterfaceDeclarationImpl & Structures,

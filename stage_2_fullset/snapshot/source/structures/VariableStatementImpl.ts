@@ -12,6 +12,7 @@ import {
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  StructureKind,
   type Structures,
   VariableDeclarationKind,
   type VariableDeclarationStructure,
@@ -36,7 +37,12 @@ const VariableStatementStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class VariableStatementImpl extends VariableStatementStructureBase {
+export default class VariableStatementImpl
+  extends VariableStatementStructureBase
+  implements VariableStatementStructure
+{
+  readonly kind: StructureKind.VariableStatement =
+    StructureKind.VariableStatement;
   declarations: VariableDeclarationStructure[] = [];
   declarationKind?: VariableDeclarationKind = undefined;
 

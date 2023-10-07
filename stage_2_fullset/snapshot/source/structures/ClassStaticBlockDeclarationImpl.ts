@@ -9,9 +9,10 @@ import {
   StructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type {
-  ClassStaticBlockDeclarationStructure,
-  Structures,
+import {
+  type ClassStaticBlockDeclarationStructure,
+  StructureKind,
+  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ClassStaticBlockDeclarationStructureBase = MultiMixinBuilder<
@@ -26,7 +27,13 @@ const ClassStaticBlockDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class ClassStaticBlockDeclarationImpl extends ClassStaticBlockDeclarationStructureBase {
+export default class ClassStaticBlockDeclarationImpl
+  extends ClassStaticBlockDeclarationStructureBase
+  implements ClassStaticBlockDeclarationStructure
+{
+  readonly kind: StructureKind.ClassStaticBlock =
+    StructureKind.ClassStaticBlock;
+
   public static copyFields(
     source: ClassStaticBlockDeclarationStructure & Structures,
     target: ClassStaticBlockDeclarationImpl & Structures,

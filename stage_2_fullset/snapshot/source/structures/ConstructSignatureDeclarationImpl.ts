@@ -13,9 +13,10 @@ import {
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type {
-  ConstructSignatureDeclarationStructure,
-  Structures,
+import {
+  type ConstructSignatureDeclarationStructure,
+  StructureKind,
+  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ConstructSignatureDeclarationStructureBase = MultiMixinBuilder<
@@ -38,7 +39,13 @@ const ConstructSignatureDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class ConstructSignatureDeclarationImpl extends ConstructSignatureDeclarationStructureBase {
+export default class ConstructSignatureDeclarationImpl
+  extends ConstructSignatureDeclarationStructureBase
+  implements ConstructSignatureDeclarationStructure
+{
+  readonly kind: StructureKind.ConstructSignature =
+    StructureKind.ConstructSignature;
+
   public static copyFields(
     source: ConstructSignatureDeclarationStructure & Structures,
     target: ConstructSignatureDeclarationImpl & Structures,

@@ -18,6 +18,7 @@ import MultiMixinBuilder from "mixin-decorators";
 import {
   ModuleDeclarationKind,
   type ModuleDeclarationStructure,
+  StructureKind,
   type Structures,
 } from "ts-morph";
 //#endregion preamble
@@ -43,7 +44,11 @@ const ModuleDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class ModuleDeclarationImpl extends ModuleDeclarationStructureBase {
+export default class ModuleDeclarationImpl
+  extends ModuleDeclarationStructureBase
+  implements ModuleDeclarationStructure
+{
+  readonly kind: StructureKind.Module = StructureKind.Module;
   declarationKind?: ModuleDeclarationKind = undefined;
 
   public static copyFields(

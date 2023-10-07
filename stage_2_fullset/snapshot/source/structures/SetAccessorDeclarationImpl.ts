@@ -25,7 +25,11 @@ import {
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { SetAccessorDeclarationStructure, Structures } from "ts-morph";
+import {
+  type SetAccessorDeclarationStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const SetAccessorDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -59,7 +63,12 @@ const SetAccessorDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class SetAccessorDeclarationImpl extends SetAccessorDeclarationStructureBase {
+export default class SetAccessorDeclarationImpl
+  extends SetAccessorDeclarationStructureBase
+  implements SetAccessorDeclarationStructure
+{
+  readonly kind: StructureKind.SetAccessor = StructureKind.SetAccessor;
+
   public static copyFields(
     source: SetAccessorDeclarationStructure & Structures,
     target: SetAccessorDeclarationImpl & Structures,

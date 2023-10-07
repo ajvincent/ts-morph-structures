@@ -6,11 +6,12 @@ import {
 } from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type {
-  AssertEntryStructure,
-  ExportDeclarationStructure,
-  ExportSpecifierStructure,
-  Structures,
+import {
+  type AssertEntryStructure,
+  type ExportDeclarationStructure,
+  type ExportSpecifierStructure,
+  StructureKind,
+  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ExportDeclarationStructureBase = MultiMixinBuilder<
@@ -18,7 +19,12 @@ const ExportDeclarationStructureBase = MultiMixinBuilder<
   typeof StructureBase
 >([StructureMixin], StructureBase);
 
-export default class ExportDeclarationImpl extends ExportDeclarationStructureBase {
+export default class ExportDeclarationImpl
+  extends ExportDeclarationStructureBase
+  implements ExportDeclarationStructure
+{
+  readonly kind: StructureKind.ExportDeclaration =
+    StructureKind.ExportDeclaration;
   isTypeOnly = false;
   namedExports: (stringOrWriter | ExportSpecifierStructure)[] = [];
   assertElements: AssertEntryStructure[] = [];

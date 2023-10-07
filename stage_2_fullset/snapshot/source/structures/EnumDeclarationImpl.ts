@@ -13,10 +13,11 @@ import {
   StructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type {
-  EnumDeclarationStructure,
-  EnumMemberStructure,
-  Structures,
+import {
+  type EnumDeclarationStructure,
+  type EnumMemberStructure,
+  StructureKind,
+  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const EnumDeclarationStructureBase = MultiMixinBuilder<
@@ -39,7 +40,11 @@ const EnumDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class EnumDeclarationImpl extends EnumDeclarationStructureBase {
+export default class EnumDeclarationImpl
+  extends EnumDeclarationStructureBase
+  implements EnumDeclarationStructure
+{
+  readonly kind: StructureKind.Enum = StructureKind.Enum;
   isConst = false;
   members: EnumMemberStructure[] = [];
 

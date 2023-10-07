@@ -17,7 +17,11 @@ import {
   TypedNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { PropertySignatureStructure, Structures } from "ts-morph";
+import {
+  type PropertySignatureStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const PropertySignatureStructureBase = MultiMixinBuilder<
   [
@@ -43,7 +47,13 @@ const PropertySignatureStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class PropertySignatureImpl extends PropertySignatureStructureBase {
+export default class PropertySignatureImpl
+  extends PropertySignatureStructureBase
+  implements PropertySignatureStructure
+{
+  readonly kind: StructureKind.PropertySignature =
+    StructureKind.PropertySignature;
+
   public static copyFields(
     source: PropertySignatureStructure & Structures,
     target: PropertySignatureImpl & Structures,

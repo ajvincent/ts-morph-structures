@@ -5,10 +5,11 @@ import {
   StructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type {
-  JsxAttributeStructure,
-  JsxNamespacedNameStructure,
-  Structures,
+import {
+  type JsxAttributeStructure,
+  type JsxNamespacedNameStructure,
+  StructureKind,
+  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const JsxAttributeStructureBase = MultiMixinBuilder<
@@ -16,7 +17,11 @@ const JsxAttributeStructureBase = MultiMixinBuilder<
   typeof StructureBase
 >([StructureMixin], StructureBase);
 
-export default class JsxAttributeImpl extends JsxAttributeStructureBase {
+export default class JsxAttributeImpl
+  extends JsxAttributeStructureBase
+  implements JsxAttributeStructure
+{
+  readonly kind: StructureKind.JsxAttribute = StructureKind.JsxAttribute;
   name: string | JsxNamespacedNameStructure = "";
   initializer?: string = undefined;
 

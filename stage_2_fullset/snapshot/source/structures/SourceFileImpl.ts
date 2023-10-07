@@ -18,7 +18,10 @@ const SourceFileStructureBase = MultiMixinBuilder<
   typeof StructureBase
 >([StatementedNodeStructureMixin, StructureMixin], StructureBase);
 
-export default class SourceFileImpl extends SourceFileStructureBase {
+export default class SourceFileImpl
+  extends SourceFileStructureBase
+  implements SourceFileStructure
+{
   readonly kind: StructureKind.SourceFile = StructureKind.SourceFile;
 
   public static copyFields(

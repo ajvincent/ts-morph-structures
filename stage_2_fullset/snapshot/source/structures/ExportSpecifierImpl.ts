@@ -5,14 +5,22 @@ import {
   StructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { ExportSpecifierStructure, Structures } from "ts-morph";
+import {
+  type ExportSpecifierStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const ExportSpecifierStructureBase = MultiMixinBuilder<
   [StructureFields],
   typeof StructureBase
 >([StructureMixin], StructureBase);
 
-export default class ExportSpecifierImpl extends ExportSpecifierStructureBase {
+export default class ExportSpecifierImpl
+  extends ExportSpecifierStructureBase
+  implements ExportSpecifierStructure
+{
+  readonly kind: StructureKind.ExportSpecifier = StructureKind.ExportSpecifier;
   isTypeOnly = false;
   name = "";
   alias?: string = undefined;

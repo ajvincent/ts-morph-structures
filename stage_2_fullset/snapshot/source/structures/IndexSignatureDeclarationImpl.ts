@@ -11,7 +11,11 @@ import {
   StructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { IndexSignatureDeclarationStructure, Structures } from "ts-morph";
+import {
+  type IndexSignatureDeclarationStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const IndexSignatureDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -31,7 +35,11 @@ const IndexSignatureDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class IndexSignatureDeclarationImpl extends IndexSignatureDeclarationStructureBase {
+export default class IndexSignatureDeclarationImpl
+  extends IndexSignatureDeclarationStructureBase
+  implements IndexSignatureDeclarationStructure
+{
+  readonly kind: StructureKind.IndexSignature = StructureKind.IndexSignature;
   keyName?: string = undefined;
   keyType?: string = undefined;
 

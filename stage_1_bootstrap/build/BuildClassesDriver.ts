@@ -9,6 +9,7 @@ import createDecoratorParts from "./hooks/decorator/createParts.js";
 import addClassProperties from "./hooks/decorator/classProperties.js";
 import saveDecoratorFile from "./hooks/decorator/save.js";
 import createStructureParts from "./hooks/structure/createParts.js";
+import defineKindProperty from "./hooks/structure/defineKind.js";
 import saveStructureFile from "./hooks/structure/save.js";
 
 // #endregion hooks
@@ -28,6 +29,7 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   // #region structure classes
   dictionary.addStructureHook("create structure parts", createStructureParts);
   dictionary.addStructureHook("add class properties", addClassProperties);
+  dictionary.addStructureHook("define structure kind", defineKindProperty);
   dictionary.addStructureHook("save structure file", saveStructureFile);
   // add decorator imports
   // create class, including implements, export default

@@ -6,14 +6,22 @@ import {
 } from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { JSDocTagStructure, Structures } from "ts-morph";
+import {
+  type JSDocTagStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const JSDocTagStructureBase = MultiMixinBuilder<
   [StructureFields],
   typeof StructureBase
 >([StructureMixin], StructureBase);
 
-export default class JSDocTagImpl extends JSDocTagStructureBase {
+export default class JSDocTagImpl
+  extends JSDocTagStructureBase
+  implements JSDocTagStructure
+{
+  readonly kind: StructureKind.JSDocTag = StructureKind.JSDocTag;
   tagName = "";
   text?: stringOrWriter = undefined;
 

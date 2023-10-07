@@ -13,7 +13,11 @@ import {
   TypedNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { Structures, VariableDeclarationStructure } from "ts-morph";
+import {
+  StructureKind,
+  type Structures,
+  type VariableDeclarationStructure,
+} from "ts-morph";
 //#endregion preamble
 const VariableDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -35,7 +39,13 @@ const VariableDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class VariableDeclarationImpl extends VariableDeclarationStructureBase {
+export default class VariableDeclarationImpl
+  extends VariableDeclarationStructureBase
+  implements VariableDeclarationStructure
+{
+  readonly kind: StructureKind.VariableDeclaration =
+    StructureKind.VariableDeclaration;
+
   public static copyFields(
     source: VariableDeclarationStructure & Structures,
     target: VariableDeclarationImpl & Structures,

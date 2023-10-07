@@ -22,14 +22,15 @@ import {
 } from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type {
-  ClassDeclarationStructure,
-  ConstructorDeclarationStructure,
-  GetAccessorDeclarationStructure,
-  MethodDeclarationStructure,
-  PropertyDeclarationStructure,
-  SetAccessorDeclarationStructure,
-  Structures,
+import {
+  type ClassDeclarationStructure,
+  type ConstructorDeclarationStructure,
+  type GetAccessorDeclarationStructure,
+  type MethodDeclarationStructure,
+  type PropertyDeclarationStructure,
+  type SetAccessorDeclarationStructure,
+  StructureKind,
+  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ClassDeclarationStructureBase = MultiMixinBuilder<
@@ -60,7 +61,11 @@ const ClassDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class ClassDeclarationImpl extends ClassDeclarationStructureBase {
+export default class ClassDeclarationImpl
+  extends ClassDeclarationStructureBase
+  implements ClassDeclarationStructure
+{
+  readonly kind: StructureKind.Class = StructureKind.Class;
   ctors: ConstructorDeclarationStructure[] = [];
   properties: PropertyDeclarationStructure[] = [];
   getAccessors: GetAccessorDeclarationStructure[] = [];

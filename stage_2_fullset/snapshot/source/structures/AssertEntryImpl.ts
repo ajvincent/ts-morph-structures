@@ -7,14 +7,22 @@ import {
   StructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { AssertEntryStructure, Structures } from "ts-morph";
+import {
+  type AssertEntryStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const AssertEntryStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
   typeof StructureBase
 >([NamedNodeStructureMixin, StructureMixin], StructureBase);
 
-export default class AssertEntryImpl extends AssertEntryStructureBase {
+export default class AssertEntryImpl
+  extends AssertEntryStructureBase
+  implements AssertEntryStructure
+{
+  readonly kind: StructureKind.AssertEntry = StructureKind.AssertEntry;
   value = "";
 
   public static copyFields(

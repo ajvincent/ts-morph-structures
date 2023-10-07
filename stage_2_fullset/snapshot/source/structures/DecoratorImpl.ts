@@ -6,14 +6,22 @@ import {
 } from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { DecoratorStructure, Structures } from "ts-morph";
+import {
+  type DecoratorStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const DecoratorStructureBase = MultiMixinBuilder<
   [StructureFields],
   typeof StructureBase
 >([StructureMixin], StructureBase);
 
-export default class DecoratorImpl extends DecoratorStructureBase {
+export default class DecoratorImpl
+  extends DecoratorStructureBase
+  implements DecoratorStructure
+{
+  readonly kind: StructureKind.Decorator = StructureKind.Decorator;
   arguments: stringOrWriter[] = [];
   typeArguments: string[] = [];
   name = "";

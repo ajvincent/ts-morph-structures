@@ -33,10 +33,11 @@ import {
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type {
-  MethodDeclarationOverloadStructure,
-  MethodDeclarationStructure,
-  Structures,
+import {
+  type MethodDeclarationOverloadStructure,
+  type MethodDeclarationStructure,
+  StructureKind,
+  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const MethodDeclarationStructureBase = MultiMixinBuilder<
@@ -79,7 +80,11 @@ const MethodDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class MethodDeclarationImpl extends MethodDeclarationStructureBase {
+export default class MethodDeclarationImpl
+  extends MethodDeclarationStructureBase
+  implements MethodDeclarationStructure
+{
+  readonly kind: StructureKind.Method = StructureKind.Method;
   overloads: MethodDeclarationOverloadStructure[] = [];
 
   public static copyFields(

@@ -8,14 +8,23 @@ import {
 } from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { PropertyAssignmentStructure, Structures } from "ts-morph";
+import {
+  type PropertyAssignmentStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const PropertyAssignmentStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
   typeof StructureBase
 >([NamedNodeStructureMixin, StructureMixin], StructureBase);
 
-export default class PropertyAssignmentImpl extends PropertyAssignmentStructureBase {
+export default class PropertyAssignmentImpl
+  extends PropertyAssignmentStructureBase
+  implements PropertyAssignmentStructure
+{
+  readonly kind: StructureKind.PropertyAssignment =
+    StructureKind.PropertyAssignment;
   initializer: stringOrWriter = "";
 
   public static copyFields(

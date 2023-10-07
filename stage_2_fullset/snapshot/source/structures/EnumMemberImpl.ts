@@ -11,7 +11,11 @@ import {
   StructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { EnumMemberStructure, Structures } from "ts-morph";
+import {
+  type EnumMemberStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const EnumMemberStructureBase = MultiMixinBuilder<
   [
@@ -31,7 +35,11 @@ const EnumMemberStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class EnumMemberImpl extends EnumMemberStructureBase {
+export default class EnumMemberImpl
+  extends EnumMemberStructureBase
+  implements EnumMemberStructure
+{
+  readonly kind: StructureKind.EnumMember = StructureKind.EnumMember;
   value?: string | number = undefined;
 
   public static copyFields(

@@ -31,7 +31,11 @@ import {
   TypedNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import type { PropertyDeclarationStructure, Structures } from "ts-morph";
+import {
+  type PropertyDeclarationStructure,
+  StructureKind,
+  type Structures,
+} from "ts-morph";
 //#endregion preamble
 const PropertyDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -71,7 +75,11 @@ const PropertyDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-export default class PropertyDeclarationImpl extends PropertyDeclarationStructureBase {
+export default class PropertyDeclarationImpl
+  extends PropertyDeclarationStructureBase
+  implements PropertyDeclarationStructure
+{
+  readonly kind: StructureKind.Property = StructureKind.Property;
   hasAccessorKeyword = false;
 
   public static copyFields(
