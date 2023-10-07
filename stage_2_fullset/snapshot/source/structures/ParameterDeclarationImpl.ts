@@ -1,5 +1,6 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type InitializerExpressionableNodeStructureFields,
@@ -17,14 +18,15 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  OptionalKind,
   type ParameterDeclarationStructure,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ParameterDeclarationStructureBase = MultiMixinBuilder<
@@ -63,10 +65,21 @@ export default class ParameterDeclarationImpl
   isRestParameter = false;
 
   public static copyFields(
-    source: ParameterDeclarationStructure & Structures,
-    target: ParameterDeclarationImpl & Structures,
+    source: OptionalKind<ParameterDeclarationStructure>,
+    target: ParameterDeclarationImpl,
   ): void {
     super.copyFields(source, target);
     target.isRestParameter = source.isRestParameter ?? false;
   }
+
+  public static clone(
+    source: OptionalKind<ParameterDeclarationStructure>,
+  ): ParameterDeclarationImpl {
+    const target = new ParameterDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+ParameterDeclarationImpl satisfies CloneableStructure<ParameterDeclarationStructure>;
+StructuresClassesMap.set(StructureKind.Parameter, ParameterDeclarationImpl);

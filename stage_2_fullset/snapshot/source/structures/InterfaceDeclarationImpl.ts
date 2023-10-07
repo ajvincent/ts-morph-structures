@@ -2,6 +2,7 @@
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
+  type CloneableStructure,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type ExtendsClauseableNodeStructureFields,
@@ -13,6 +14,7 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypeElementMemberedNodeStructureFields,
   TypeElementMemberedNodeStructureMixin,
   type TypeParameteredNodeStructureFields,
@@ -21,8 +23,8 @@ import {
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type InterfaceDeclarationStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const InterfaceDeclarationStructureBase = MultiMixinBuilder<
@@ -58,9 +60,20 @@ export default class InterfaceDeclarationImpl
   readonly kind: StructureKind.Interface = StructureKind.Interface;
 
   public static copyFields(
-    source: InterfaceDeclarationStructure & Structures,
-    target: InterfaceDeclarationImpl & Structures,
+    source: OptionalKind<InterfaceDeclarationStructure>,
+    target: InterfaceDeclarationImpl,
   ): void {
     super.copyFields(source, target);
   }
+
+  public static clone(
+    source: OptionalKind<InterfaceDeclarationStructure>,
+  ): InterfaceDeclarationImpl {
+    const target = new InterfaceDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+InterfaceDeclarationImpl satisfies CloneableStructure<InterfaceDeclarationStructure>;
+StructuresClassesMap.set(StructureKind.Interface, InterfaceDeclarationImpl);

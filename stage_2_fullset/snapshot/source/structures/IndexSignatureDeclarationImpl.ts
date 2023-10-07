@@ -1,5 +1,6 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ReadonlyableNodeStructureFields,
@@ -9,12 +10,13 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type IndexSignatureDeclarationStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const IndexSignatureDeclarationStructureBase = MultiMixinBuilder<
@@ -44,8 +46,8 @@ export default class IndexSignatureDeclarationImpl
   keyType?: string = undefined;
 
   public static copyFields(
-    source: IndexSignatureDeclarationStructure & Structures,
-    target: IndexSignatureDeclarationImpl & Structures,
+    source: OptionalKind<IndexSignatureDeclarationStructure>,
+    target: IndexSignatureDeclarationImpl,
   ): void {
     super.copyFields(source, target);
     if (source.keyName) {
@@ -56,4 +58,18 @@ export default class IndexSignatureDeclarationImpl
       target.keyType = source.keyType;
     }
   }
+
+  public static clone(
+    source: OptionalKind<IndexSignatureDeclarationStructure>,
+  ): IndexSignatureDeclarationImpl {
+    const target = new IndexSignatureDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+IndexSignatureDeclarationImpl satisfies CloneableStructure<IndexSignatureDeclarationStructure>;
+StructuresClassesMap.set(
+  StructureKind.IndexSignature,
+  IndexSignatureDeclarationImpl,
+);

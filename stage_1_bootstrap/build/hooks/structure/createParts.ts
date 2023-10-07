@@ -47,7 +47,6 @@ export default function createStructureParts(
     isDefaultImport: false,
     isTypeOnly: true,
     importNames: [
-      "Structures",
       name,
     ]
   });

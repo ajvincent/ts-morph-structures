@@ -1,5 +1,6 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
@@ -13,6 +14,7 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
@@ -20,8 +22,8 @@ import MultiMixinBuilder from "mixin-decorators";
 import {
   type ConstructorDeclarationOverloadStructure,
   type ConstructorDeclarationStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ConstructorDeclarationStructureBase = MultiMixinBuilder<
@@ -56,9 +58,20 @@ export default class ConstructorDeclarationImpl
   overloads: ConstructorDeclarationOverloadStructure[] = [];
 
   public static copyFields(
-    source: ConstructorDeclarationStructure & Structures,
-    target: ConstructorDeclarationImpl & Structures,
+    source: OptionalKind<ConstructorDeclarationStructure>,
+    target: ConstructorDeclarationImpl,
   ): void {
     super.copyFields(source, target);
   }
+
+  public static clone(
+    source: OptionalKind<ConstructorDeclarationStructure>,
+  ): ConstructorDeclarationImpl {
+    const target = new ConstructorDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+ConstructorDeclarationImpl satisfies CloneableStructure<ConstructorDeclarationStructure>;
+StructuresClassesMap.set(StructureKind.Constructor, ConstructorDeclarationImpl);

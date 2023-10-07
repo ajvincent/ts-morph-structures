@@ -4,6 +4,7 @@ import {
   AbstractableNodeStructureMixin,
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
+  type CloneableStructure,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type ExportableNodeStructureFields,
@@ -17,6 +18,7 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
@@ -27,10 +29,10 @@ import {
   type ConstructorDeclarationStructure,
   type GetAccessorDeclarationStructure,
   type MethodDeclarationStructure,
+  OptionalKind,
   type PropertyDeclarationStructure,
   type SetAccessorDeclarationStructure,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ClassDeclarationStructureBase = MultiMixinBuilder<
@@ -75,8 +77,8 @@ export default class ClassDeclarationImpl
   name?: string = undefined;
 
   public static copyFields(
-    source: ClassDeclarationStructure & Structures,
-    target: ClassDeclarationImpl & Structures,
+    source: OptionalKind<ClassDeclarationStructure>,
+    target: ClassDeclarationImpl,
   ): void {
     super.copyFields(source, target);
     if (source.extends) {
@@ -87,4 +89,15 @@ export default class ClassDeclarationImpl
       target.name = source.name;
     }
   }
+
+  public static clone(
+    source: OptionalKind<ClassDeclarationStructure>,
+  ): ClassDeclarationImpl {
+    const target = new ClassDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+ClassDeclarationImpl satisfies CloneableStructure<ClassDeclarationStructure>;
+StructuresClassesMap.set(StructureKind.Class, ClassDeclarationImpl);

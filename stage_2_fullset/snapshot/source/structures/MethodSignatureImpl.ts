@@ -1,5 +1,6 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
@@ -13,14 +14,15 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type MethodSignatureStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const MethodSignatureStructureBase = MultiMixinBuilder<
@@ -54,9 +56,20 @@ export default class MethodSignatureImpl
   readonly kind: StructureKind.MethodSignature = StructureKind.MethodSignature;
 
   public static copyFields(
-    source: MethodSignatureStructure & Structures,
-    target: MethodSignatureImpl & Structures,
+    source: OptionalKind<MethodSignatureStructure>,
+    target: MethodSignatureImpl,
   ): void {
     super.copyFields(source, target);
   }
+
+  public static clone(
+    source: OptionalKind<MethodSignatureStructure>,
+  ): MethodSignatureImpl {
+    const target = new MethodSignatureImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+MethodSignatureImpl satisfies CloneableStructure<MethodSignatureStructure>;
+StructuresClassesMap.set(StructureKind.MethodSignature, MethodSignatureImpl);

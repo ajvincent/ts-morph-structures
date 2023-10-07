@@ -1,5 +1,6 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type InitializerExpressionableNodeStructureFields,
   InitializerExpressionableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -13,14 +14,15 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  OptionalKind,
   type PropertySignatureStructure,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const PropertySignatureStructureBase = MultiMixinBuilder<
@@ -55,9 +57,23 @@ export default class PropertySignatureImpl
     StructureKind.PropertySignature;
 
   public static copyFields(
-    source: PropertySignatureStructure & Structures,
-    target: PropertySignatureImpl & Structures,
+    source: OptionalKind<PropertySignatureStructure>,
+    target: PropertySignatureImpl,
   ): void {
     super.copyFields(source, target);
   }
+
+  public static clone(
+    source: OptionalKind<PropertySignatureStructure>,
+  ): PropertySignatureImpl {
+    const target = new PropertySignatureImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+PropertySignatureImpl satisfies CloneableStructure<PropertySignatureStructure>;
+StructuresClassesMap.set(
+  StructureKind.PropertySignature,
+  PropertySignatureImpl,
+);

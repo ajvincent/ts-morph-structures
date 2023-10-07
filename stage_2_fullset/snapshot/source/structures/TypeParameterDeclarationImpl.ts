@@ -1,16 +1,18 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  OptionalKind,
   StructureKind,
-  type Structures,
   type TypeParameterDeclarationStructure,
   TypeParameterVariance,
 } from "ts-morph";
@@ -31,8 +33,8 @@ export default class TypeParameterDeclarationImpl
   variance?: TypeParameterVariance = undefined;
 
   public static copyFields(
-    source: TypeParameterDeclarationStructure & Structures,
-    target: TypeParameterDeclarationImpl & Structures,
+    source: OptionalKind<TypeParameterDeclarationStructure>,
+    target: TypeParameterDeclarationImpl,
   ): void {
     super.copyFields(source, target);
     target.isConst = source.isConst ?? false;
@@ -48,4 +50,18 @@ export default class TypeParameterDeclarationImpl
       target.variance = source.variance;
     }
   }
+
+  public static clone(
+    source: OptionalKind<TypeParameterDeclarationStructure>,
+  ): TypeParameterDeclarationImpl {
+    const target = new TypeParameterDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+TypeParameterDeclarationImpl satisfies CloneableStructure<TypeParameterDeclarationStructure>;
+StructuresClassesMap.set(
+  StructureKind.TypeParameter,
+  TypeParameterDeclarationImpl,
+);

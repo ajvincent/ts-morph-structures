@@ -2,6 +2,7 @@
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
+  type CloneableStructure,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -9,11 +10,12 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  OptionalKind,
   StructureKind,
-  type Structures,
   VariableDeclarationKind,
   type VariableDeclarationStructure,
   type VariableStatementStructure,
@@ -47,12 +49,26 @@ export default class VariableStatementImpl
   declarationKind?: VariableDeclarationKind = undefined;
 
   public static copyFields(
-    source: VariableStatementStructure & Structures,
-    target: VariableStatementImpl & Structures,
+    source: OptionalKind<VariableStatementStructure>,
+    target: VariableStatementImpl,
   ): void {
     super.copyFields(source, target);
     if (source.declarationKind) {
       target.declarationKind = source.declarationKind;
     }
   }
+
+  public static clone(
+    source: OptionalKind<VariableStatementStructure>,
+  ): VariableStatementImpl {
+    const target = new VariableStatementImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+VariableStatementImpl satisfies CloneableStructure<VariableStatementStructure>;
+StructuresClassesMap.set(
+  StructureKind.VariableStatement,
+  VariableStatementImpl,
+);

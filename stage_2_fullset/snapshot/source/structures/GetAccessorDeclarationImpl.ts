@@ -2,6 +2,7 @@
 import {
   type AbstractableNodeStructureFields,
   AbstractableNodeStructureMixin,
+  type CloneableStructure,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -21,14 +22,15 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type GetAccessorDeclarationStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const GetAccessorDeclarationStructureBase = MultiMixinBuilder<
@@ -70,9 +72,20 @@ export default class GetAccessorDeclarationImpl
   readonly kind: StructureKind.GetAccessor = StructureKind.GetAccessor;
 
   public static copyFields(
-    source: GetAccessorDeclarationStructure & Structures,
-    target: GetAccessorDeclarationImpl & Structures,
+    source: OptionalKind<GetAccessorDeclarationStructure>,
+    target: GetAccessorDeclarationImpl,
   ): void {
     super.copyFields(source, target);
   }
+
+  public static clone(
+    source: OptionalKind<GetAccessorDeclarationStructure>,
+  ): GetAccessorDeclarationImpl {
+    const target = new GetAccessorDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+GetAccessorDeclarationImpl satisfies CloneableStructure<GetAccessorDeclarationStructure>;
+StructuresClassesMap.set(StructureKind.GetAccessor, GetAccessorDeclarationImpl);

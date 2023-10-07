@@ -2,6 +2,7 @@
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
+  type CloneableStructure,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -11,6 +12,7 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
   type TypeParameteredNodeStructureFields,
@@ -19,8 +21,8 @@ import {
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  OptionalKind,
   StructureKind,
-  type Structures,
   type TypeAliasDeclarationStructure,
 } from "ts-morph";
 //#endregion preamble
@@ -56,12 +58,23 @@ export default class TypeAliasDeclarationImpl
   type: stringOrWriter = "";
 
   public static copyFields(
-    source: TypeAliasDeclarationStructure & Structures,
-    target: TypeAliasDeclarationImpl & Structures,
+    source: OptionalKind<TypeAliasDeclarationStructure>,
+    target: TypeAliasDeclarationImpl,
   ): void {
     super.copyFields(source, target);
     if (source.type) {
       target.type = source.type;
     }
   }
+
+  public static clone(
+    source: OptionalKind<TypeAliasDeclarationStructure>,
+  ): TypeAliasDeclarationImpl {
+    const target = new TypeAliasDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+TypeAliasDeclarationImpl satisfies CloneableStructure<TypeAliasDeclarationStructure>;
+StructuresClassesMap.set(StructureKind.TypeAlias, TypeAliasDeclarationImpl);

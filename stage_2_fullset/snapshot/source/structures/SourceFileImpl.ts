@@ -1,16 +1,18 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  OptionalKind,
   type SourceFileStructure,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const SourceFileStructureBase = MultiMixinBuilder<
@@ -25,12 +27,20 @@ export default class SourceFileImpl
   readonly kind: StructureKind.SourceFile = StructureKind.SourceFile;
 
   public static copyFields(
-    source: SourceFileStructure & Structures,
-    target: SourceFileImpl & Structures,
+    source: OptionalKind<SourceFileStructure>,
+    target: SourceFileImpl,
   ): void {
     super.copyFields(source, target);
-    if (source.kind) {
-      target.kind = source.kind;
-    }
+  }
+
+  public static clone(
+    source: OptionalKind<SourceFileStructure>,
+  ): SourceFileImpl {
+    const target = new SourceFileImpl();
+    this.copyFields(source, target);
+    return target;
   }
 }
+
+SourceFileImpl satisfies CloneableStructure<SourceFileStructure>;
+StructuresClassesMap.set(StructureKind.SourceFile, SourceFileImpl);

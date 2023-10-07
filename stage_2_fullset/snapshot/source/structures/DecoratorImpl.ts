@@ -1,16 +1,14 @@
 //#region preamble
 import {
+  type CloneableStructure,
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
-import {
-  type DecoratorStructure,
-  StructureKind,
-  type Structures,
-} from "ts-morph";
+import { type DecoratorStructure, OptionalKind, StructureKind } from "ts-morph";
 //#endregion preamble
 const DecoratorStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -27,8 +25,8 @@ export default class DecoratorImpl
   name = "";
 
   public static copyFields(
-    source: DecoratorStructure & Structures,
-    target: DecoratorImpl & Structures,
+    source: OptionalKind<DecoratorStructure>,
+    target: DecoratorImpl,
   ): void {
     super.copyFields(source, target);
     if (Array.isArray(source.arguments)) {
@@ -47,4 +45,13 @@ export default class DecoratorImpl
       target.name = source.name;
     }
   }
+
+  public static clone(source: OptionalKind<DecoratorStructure>): DecoratorImpl {
+    const target = new DecoratorImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+DecoratorImpl satisfies CloneableStructure<DecoratorStructure>;
+StructuresClassesMap.set(StructureKind.Decorator, DecoratorImpl);

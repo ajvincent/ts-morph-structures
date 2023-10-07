@@ -4,6 +4,7 @@ import {
   AbstractableNodeStructureMixin,
   type AsyncableNodeStructureFields,
   AsyncableNodeStructureMixin,
+  type CloneableStructure,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type GeneratorableNodeStructureFields,
@@ -29,6 +30,7 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
@@ -36,8 +38,8 @@ import MultiMixinBuilder from "mixin-decorators";
 import {
   type MethodDeclarationOverloadStructure,
   type MethodDeclarationStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const MethodDeclarationStructureBase = MultiMixinBuilder<
@@ -88,9 +90,20 @@ export default class MethodDeclarationImpl
   overloads: MethodDeclarationOverloadStructure[] = [];
 
   public static copyFields(
-    source: MethodDeclarationStructure & Structures,
-    target: MethodDeclarationImpl & Structures,
+    source: OptionalKind<MethodDeclarationStructure>,
+    target: MethodDeclarationImpl,
   ): void {
     super.copyFields(source, target);
   }
+
+  public static clone(
+    source: OptionalKind<MethodDeclarationStructure>,
+  ): MethodDeclarationImpl {
+    const target = new MethodDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+MethodDeclarationImpl satisfies CloneableStructure<MethodDeclarationStructure>;
+StructuresClassesMap.set(StructureKind.Method, MethodDeclarationImpl);

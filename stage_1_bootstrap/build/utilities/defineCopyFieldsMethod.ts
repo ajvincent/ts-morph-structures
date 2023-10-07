@@ -11,9 +11,10 @@ import {
   ParameterDeclarationImpl,
   //TypeArgumentedTypedStructureImpl,
   IntersectionTypedStructureImpl,
+  TypeArgumentedTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
-import type {
+import {
   DecoratorImplMeta,
   StructureImplMeta,
 } from "#stage_one/build/structureMeta/DataClasses.js";
@@ -33,25 +34,34 @@ export default function defineCopyFieldsMethod(
   copyFields.isStatic = true;
 
   const sourceParam = new ParameterDeclarationImpl("source");
-  sourceParam.typeStructure = new IntersectionTypedStructureImpl([
-    new LiteralTypedStructureImpl(meta.structureName),
-    ConstantTypeStructures.Structures
-  ]);
-
   const targetParam = new ParameterDeclarationImpl("target");
-  targetParam.typeStructure = new IntersectionTypedStructureImpl([
-    /*
-    new TypeArgumentedTypedStructureImpl(
-      ConstantTypeStructures.Required,
-      [
-    */
-        new LiteralTypedStructureImpl(classDecl.name!),
-    /*
-      ]
-    ),
-    */
-    ConstantTypeStructures.Structures
-  ]);
+
+  if (meta instanceof DecoratorImplMeta) {
+    sourceParam.typeStructure = new IntersectionTypedStructureImpl([
+      new LiteralTypedStructureImpl(meta.structureName),
+      ConstantTypeStructures.Structures
+    ]);
+    targetParam.typeStructure = new IntersectionTypedStructureImpl([
+      /*
+      new TypeArgumentedTypedStructureImpl(
+        ConstantTypeStructures.Required,
+        [
+      */
+          new LiteralTypedStructureImpl(classDecl.name!),
+      /*
+        ]
+      ),
+      */
+      ConstantTypeStructures.Structures
+    ]);
+  }
+  else {
+    sourceParam.typeStructure = new TypeArgumentedTypedStructureImpl(
+      ConstantTypeStructures.OptionalKind,
+      [new LiteralTypedStructureImpl(meta.structureName)]
+    );
+    targetParam.typeStructure = new LiteralTypedStructureImpl(classDecl.name!);
+  }
 
   copyFields.parameters.push(sourceParam, targetParam);
   copyFields.returnTypeStructure = ConstantTypeStructures.void;

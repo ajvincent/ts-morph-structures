@@ -1,17 +1,19 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  OptionalKind,
   type PropertyAssignmentStructure,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const PropertyAssignmentStructureBase = MultiMixinBuilder<
@@ -28,12 +30,26 @@ export default class PropertyAssignmentImpl
   initializer: stringOrWriter = "";
 
   public static copyFields(
-    source: PropertyAssignmentStructure & Structures,
-    target: PropertyAssignmentImpl & Structures,
+    source: OptionalKind<PropertyAssignmentStructure>,
+    target: PropertyAssignmentImpl,
   ): void {
     super.copyFields(source, target);
     if (source.initializer) {
       target.initializer = source.initializer;
     }
   }
+
+  public static clone(
+    source: OptionalKind<PropertyAssignmentStructure>,
+  ): PropertyAssignmentImpl {
+    const target = new PropertyAssignmentImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+PropertyAssignmentImpl satisfies CloneableStructure<PropertyAssignmentStructure>;
+StructuresClassesMap.set(
+  StructureKind.PropertyAssignment,
+  PropertyAssignmentImpl,
+);

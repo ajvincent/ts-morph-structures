@@ -102,12 +102,15 @@ export default function addClassProperties(
       prop.isReadonly = true;
 
     parts.classDecl.properties.push(prop);
-    parts.copyFields.statements.push(
-      (writer) => {
-        writer.write(`if (source.${key}) `);
-        writer.block(() => writer.write(`target.${key} = source.${key};`));
-      }
-    );
+
+    if (key !== "kind") {
+      parts.copyFields.statements.push(
+        (writer) => {
+          writer.write(`if (source.${key}) `);
+          writer.block(() => writer.write(`target.${key} = source.${key};`));
+        }
+      );
+    }
   });
 
   return Promise.resolve();

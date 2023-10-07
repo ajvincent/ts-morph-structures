@@ -1,16 +1,18 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type AssertEntryStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const AssertEntryStructureBase = MultiMixinBuilder<
@@ -26,12 +28,23 @@ export default class AssertEntryImpl
   value = "";
 
   public static copyFields(
-    source: AssertEntryStructure & Structures,
-    target: AssertEntryImpl & Structures,
+    source: OptionalKind<AssertEntryStructure>,
+    target: AssertEntryImpl,
   ): void {
     super.copyFields(source, target);
     if (source.value) {
       target.value = source.value;
     }
   }
+
+  public static clone(
+    source: OptionalKind<AssertEntryStructure>,
+  ): AssertEntryImpl {
+    const target = new AssertEntryImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+AssertEntryImpl satisfies CloneableStructure<AssertEntryStructure>;
+StructuresClassesMap.set(StructureKind.AssertEntry, AssertEntryImpl);

@@ -1,6 +1,7 @@
 // This file is generated.  Do not edit.
 export { default as StructureKindToSyntaxKindMap } from "./base/generated/structureToSyntax.js";
 export { default as StructureBase } from "./base/StructureBase.js";
+export { default as StructuresClassesMap } from "./base/StructuresClassesMap.js";
 export {
   type AbstractableNodeStructureFields,
   default as AbstractableNodeStructureMixin,
@@ -134,4 +135,5 @@ export {
   type TypeParameteredNodeStructureFields,
 } from "./decorators/TypeParameteredNodeStructureMixin.js";
 export * from "./exports.js";
+export type { CloneableStructure } from "./types/CloneableStructure.js";
 export type { RightExtendsLeft } from "./types/RightExtendsLeft.js";

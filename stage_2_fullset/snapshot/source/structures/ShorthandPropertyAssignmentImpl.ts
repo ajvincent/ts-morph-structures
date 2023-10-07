@@ -1,16 +1,18 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  OptionalKind,
   type ShorthandPropertyAssignmentStructure,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ShorthandPropertyAssignmentStructureBase = MultiMixinBuilder<
@@ -26,9 +28,23 @@ export default class ShorthandPropertyAssignmentImpl
     StructureKind.ShorthandPropertyAssignment;
 
   public static copyFields(
-    source: ShorthandPropertyAssignmentStructure & Structures,
-    target: ShorthandPropertyAssignmentImpl & Structures,
+    source: OptionalKind<ShorthandPropertyAssignmentStructure>,
+    target: ShorthandPropertyAssignmentImpl,
   ): void {
     super.copyFields(source, target);
   }
+
+  public static clone(
+    source: OptionalKind<ShorthandPropertyAssignmentStructure>,
+  ): ShorthandPropertyAssignmentImpl {
+    const target = new ShorthandPropertyAssignmentImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+ShorthandPropertyAssignmentImpl satisfies CloneableStructure<ShorthandPropertyAssignmentStructure>;
+StructuresClassesMap.set(
+  StructureKind.ShorthandPropertyAssignment,
+  ShorthandPropertyAssignmentImpl,
+);

@@ -10,6 +10,7 @@ import addClassProperties from "./hooks/decorator/classProperties.js";
 import saveDecoratorFile from "./hooks/decorator/save.js";
 import createStructureParts from "./hooks/structure/createParts.js";
 import defineKindProperty from "./hooks/structure/defineKind.js";
+import addStaticClone from "./hooks/structure/addStaticClone.js";
 import saveStructureFile from "./hooks/structure/save.js";
 
 // #endregion hooks
@@ -30,6 +31,7 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addStructureHook("create structure parts", createStructureParts);
   dictionary.addStructureHook("add class properties", addClassProperties);
   dictionary.addStructureHook("define structure kind", defineKindProperty);
+  dictionary.addStructureHook("add static clone method", addStaticClone);
   dictionary.addStructureHook("save structure file", saveStructureFile);
   // add decorator imports
   // create class, including implements, export default
@@ -71,8 +73,22 @@ function defineExistingExports(
   });
 
   dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/base/StructuresClassesMap.ts"),
+    exportNames: ["StructuresClassesMap"],
+    isDefaultExport: true,
+    isType: false
+  });
+
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/types/RightExtendsLeft.ts"),
     exportNames: ["RightExtendsLeft"],
+    isDefaultExport: false,
+    isType: true
+  });
+
+  dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/types/CloneableStructure.ts"),
+    exportNames: ["CloneableStructure"],
     isDefaultExport: false,
     isType: true
   });

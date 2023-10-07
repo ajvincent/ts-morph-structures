@@ -1,4 +1,8 @@
 import path from "path";
+import {
+  WriterFunction,
+  type CodeBlockWriter
+} from "ts-morph";
 
 import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
 import { distDir } from "#stage_one/build/constants.js";
@@ -7,6 +11,7 @@ import saveSourceFile from "#stage_one/build/utilities/saveSourceFile.js";
 import type {
   StructureImplMeta
 } from "#stage_one/build/structureMeta/DataClasses.js";
+import { ClassDeclarationImpl } from "#stage_one/prototype-snapshot/exports";
 
 export default async function saveDecoratorFile(
   name: string,
@@ -24,8 +29,8 @@ export default async function saveDecoratorFile(
     "//#endregion preamble",
     parts.mixinBaseWriter,
     parts.classDecl,
-    //satisfiesCloneableWriter(parts.classDecl, buildCloneable)
-    //addToCloneableMapWriter(parts.classDecl)
+    satisfiesCloneableWriter(meta.structureName, parts.classDecl),
+    addToCloneableMapWriter(meta.structureKindName, parts.classDecl)
   ];
 
   const sourceFilePath = path.join(distDir, `source/structures/${parts.classDecl.name!}.ts`);
@@ -42,4 +47,24 @@ export default async function saveDecoratorFile(
     sourceFilePath,
     parts.sourceFile
   );
+}
+
+function satisfiesCloneableWriter(
+  structureName: string,
+  classDecl: ClassDeclarationImpl
+): WriterFunction
+{
+  return function(writer: CodeBlockWriter): void {
+    writer.writeLine(`${classDecl.name!} satisfies CloneableStructure<${structureName}>;`);
+  }
+}
+
+function addToCloneableMapWriter(
+  structureKindName: string,
+  classDecl: ClassDeclarationImpl
+): WriterFunction
+{
+  return function(writer: CodeBlockWriter): void {
+    writer.writeLine(`StructuresClassesMap.set(StructureKind.${structureKindName}, ${classDecl.name!});`);
+  }
 }

@@ -1,14 +1,16 @@
 //#region preamble
 import {
+  type CloneableStructure,
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type ExportSpecifierStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ExportSpecifierStructureBase = MultiMixinBuilder<
@@ -26,8 +28,8 @@ export default class ExportSpecifierImpl
   alias?: string = undefined;
 
   public static copyFields(
-    source: ExportSpecifierStructure & Structures,
-    target: ExportSpecifierImpl & Structures,
+    source: OptionalKind<ExportSpecifierStructure>,
+    target: ExportSpecifierImpl,
   ): void {
     super.copyFields(source, target);
     target.isTypeOnly = source.isTypeOnly ?? false;
@@ -39,4 +41,15 @@ export default class ExportSpecifierImpl
       target.alias = source.alias;
     }
   }
+
+  public static clone(
+    source: OptionalKind<ExportSpecifierStructure>,
+  ): ExportSpecifierImpl {
+    const target = new ExportSpecifierImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+ExportSpecifierImpl satisfies CloneableStructure<ExportSpecifierStructure>;
+StructuresClassesMap.set(StructureKind.ExportSpecifier, ExportSpecifierImpl);

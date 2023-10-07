@@ -1,5 +1,6 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
@@ -9,14 +10,15 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type CallSignatureDeclarationStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const CallSignatureDeclarationStructureBase = MultiMixinBuilder<
@@ -46,9 +48,23 @@ export default class CallSignatureDeclarationImpl
   readonly kind: StructureKind.CallSignature = StructureKind.CallSignature;
 
   public static copyFields(
-    source: CallSignatureDeclarationStructure & Structures,
-    target: CallSignatureDeclarationImpl & Structures,
+    source: OptionalKind<CallSignatureDeclarationStructure>,
+    target: CallSignatureDeclarationImpl,
   ): void {
     super.copyFields(source, target);
   }
+
+  public static clone(
+    source: OptionalKind<CallSignatureDeclarationStructure>,
+  ): CallSignatureDeclarationImpl {
+    const target = new CallSignatureDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+CallSignatureDeclarationImpl satisfies CloneableStructure<CallSignatureDeclarationStructure>;
+StructuresClassesMap.set(
+  StructureKind.CallSignature,
+  CallSignatureDeclarationImpl,
+);

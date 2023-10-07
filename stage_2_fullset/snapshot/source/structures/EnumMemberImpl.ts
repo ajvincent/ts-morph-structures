@@ -1,5 +1,6 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type InitializerExpressionableNodeStructureFields,
   InitializerExpressionableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -9,12 +10,13 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type EnumMemberStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const EnumMemberStructureBase = MultiMixinBuilder<
@@ -43,12 +45,23 @@ export default class EnumMemberImpl
   value?: string | number = undefined;
 
   public static copyFields(
-    source: EnumMemberStructure & Structures,
-    target: EnumMemberImpl & Structures,
+    source: OptionalKind<EnumMemberStructure>,
+    target: EnumMemberImpl,
   ): void {
     super.copyFields(source, target);
     if (source.value) {
       target.value = source.value;
     }
   }
+
+  public static clone(
+    source: OptionalKind<EnumMemberStructure>,
+  ): EnumMemberImpl {
+    const target = new EnumMemberImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+EnumMemberImpl satisfies CloneableStructure<EnumMemberStructure>;
+StructuresClassesMap.set(StructureKind.EnumMember, EnumMemberImpl);

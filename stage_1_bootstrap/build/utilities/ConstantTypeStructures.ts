@@ -9,6 +9,7 @@ const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
   "ClassDecoratorContext": new LiteralTypedStructureImpl("ClassDecoratorContext"),
   "KindedStructure": new LiteralTypedStructureImpl("KindedStructure"),
   "MixinClass": new LiteralTypedStructureImpl("MixinClass"),
+  "OptionalKind": new LiteralTypedStructureImpl("OptionalKind"),
   "Required": new LiteralTypedStructureImpl("Required"),
   "RightExtendsLeft": new LiteralTypedStructureImpl("RightExtendsLeft"),
   "StaticAndInstance": new LiteralTypedStructureImpl("StaticAndInstance"),

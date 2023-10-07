@@ -1,5 +1,6 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
@@ -9,14 +10,15 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type ConstructSignatureDeclarationStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ConstructSignatureDeclarationStructureBase = MultiMixinBuilder<
@@ -47,9 +49,23 @@ export default class ConstructSignatureDeclarationImpl
     StructureKind.ConstructSignature;
 
   public static copyFields(
-    source: ConstructSignatureDeclarationStructure & Structures,
-    target: ConstructSignatureDeclarationImpl & Structures,
+    source: OptionalKind<ConstructSignatureDeclarationStructure>,
+    target: ConstructSignatureDeclarationImpl,
   ): void {
     super.copyFields(source, target);
   }
+
+  public static clone(
+    source: OptionalKind<ConstructSignatureDeclarationStructure>,
+  ): ConstructSignatureDeclarationImpl {
+    const target = new ConstructSignatureDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+ConstructSignatureDeclarationImpl satisfies CloneableStructure<ConstructSignatureDeclarationStructure>;
+StructuresClassesMap.set(
+  StructureKind.ConstructSignature,
+  ConstructSignatureDeclarationImpl,
+);

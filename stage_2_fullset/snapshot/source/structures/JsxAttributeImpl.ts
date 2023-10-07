@@ -1,15 +1,17 @@
 //#region preamble
 import {
+  type CloneableStructure,
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type JsxAttributeStructure,
   type JsxNamespacedNameStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const JsxAttributeStructureBase = MultiMixinBuilder<
@@ -26,8 +28,8 @@ export default class JsxAttributeImpl
   initializer?: string = undefined;
 
   public static copyFields(
-    source: JsxAttributeStructure & Structures,
-    target: JsxAttributeImpl & Structures,
+    source: OptionalKind<JsxAttributeStructure>,
+    target: JsxAttributeImpl,
   ): void {
     super.copyFields(source, target);
     if (source.name) {
@@ -38,4 +40,15 @@ export default class JsxAttributeImpl
       target.initializer = source.initializer;
     }
   }
+
+  public static clone(
+    source: OptionalKind<JsxAttributeStructure>,
+  ): JsxAttributeImpl {
+    const target = new JsxAttributeImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+JsxAttributeImpl satisfies CloneableStructure<JsxAttributeStructure>;
+StructuresClassesMap.set(StructureKind.JsxAttribute, JsxAttributeImpl);

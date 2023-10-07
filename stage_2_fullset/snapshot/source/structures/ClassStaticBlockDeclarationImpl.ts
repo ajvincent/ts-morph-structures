@@ -1,5 +1,6 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type StatementedNodeStructureFields,
@@ -7,12 +8,13 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type ClassStaticBlockDeclarationStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ClassStaticBlockDeclarationStructureBase = MultiMixinBuilder<
@@ -35,9 +37,23 @@ export default class ClassStaticBlockDeclarationImpl
     StructureKind.ClassStaticBlock;
 
   public static copyFields(
-    source: ClassStaticBlockDeclarationStructure & Structures,
-    target: ClassStaticBlockDeclarationImpl & Structures,
+    source: OptionalKind<ClassStaticBlockDeclarationStructure>,
+    target: ClassStaticBlockDeclarationImpl,
   ): void {
     super.copyFields(source, target);
   }
+
+  public static clone(
+    source: OptionalKind<ClassStaticBlockDeclarationStructure>,
+  ): ClassStaticBlockDeclarationImpl {
+    const target = new ClassStaticBlockDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+ClassStaticBlockDeclarationImpl satisfies CloneableStructure<ClassStaticBlockDeclarationStructure>;
+StructuresClassesMap.set(
+  StructureKind.ClassStaticBlock,
+  ClassStaticBlockDeclarationImpl,
+);

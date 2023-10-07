@@ -1,8 +1,11 @@
-import { Structures } from "ts-morph";
+import {
+  type OptionalKind,
+  Structures
+} from "ts-morph";
 
 export default class StructureBase {
   public static copyFields(
-    source: Structures,
+    source: OptionalKind<Structures>,
     target: Structures
   ): void
   {

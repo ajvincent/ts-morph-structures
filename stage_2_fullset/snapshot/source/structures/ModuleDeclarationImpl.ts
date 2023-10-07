@@ -2,6 +2,7 @@
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
+  type CloneableStructure,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -13,13 +14,14 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   ModuleDeclarationKind,
   type ModuleDeclarationStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ModuleDeclarationStructureBase = MultiMixinBuilder<
@@ -52,12 +54,23 @@ export default class ModuleDeclarationImpl
   declarationKind?: ModuleDeclarationKind = undefined;
 
   public static copyFields(
-    source: ModuleDeclarationStructure & Structures,
-    target: ModuleDeclarationImpl & Structures,
+    source: OptionalKind<ModuleDeclarationStructure>,
+    target: ModuleDeclarationImpl,
   ): void {
     super.copyFields(source, target);
     if (source.declarationKind) {
       target.declarationKind = source.declarationKind;
     }
   }
+
+  public static clone(
+    source: OptionalKind<ModuleDeclarationStructure>,
+  ): ModuleDeclarationImpl {
+    const target = new ModuleDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+ModuleDeclarationImpl satisfies CloneableStructure<ModuleDeclarationStructure>;
+StructuresClassesMap.set(StructureKind.Module, ModuleDeclarationImpl);

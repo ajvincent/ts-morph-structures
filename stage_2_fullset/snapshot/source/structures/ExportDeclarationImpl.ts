@@ -1,8 +1,10 @@
 //#region preamble
 import {
+  type CloneableStructure,
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
 } from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -10,8 +12,8 @@ import {
   type AssertEntryStructure,
   type ExportDeclarationStructure,
   type ExportSpecifierStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const ExportDeclarationStructureBase = MultiMixinBuilder<
@@ -32,8 +34,8 @@ export default class ExportDeclarationImpl
   moduleSpecifier?: string = undefined;
 
   public static copyFields(
-    source: ExportDeclarationStructure & Structures,
-    target: ExportDeclarationImpl & Structures,
+    source: OptionalKind<ExportDeclarationStructure>,
+    target: ExportDeclarationImpl,
   ): void {
     super.copyFields(source, target);
     target.isTypeOnly = source.isTypeOnly ?? false;
@@ -45,4 +47,18 @@ export default class ExportDeclarationImpl
       target.moduleSpecifier = source.moduleSpecifier;
     }
   }
+
+  public static clone(
+    source: OptionalKind<ExportDeclarationStructure>,
+  ): ExportDeclarationImpl {
+    const target = new ExportDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+ExportDeclarationImpl satisfies CloneableStructure<ExportDeclarationStructure>;
+StructuresClassesMap.set(
+  StructureKind.ExportDeclaration,
+  ExportDeclarationImpl,
+);

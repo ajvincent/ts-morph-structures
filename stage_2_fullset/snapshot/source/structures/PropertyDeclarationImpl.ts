@@ -4,6 +4,7 @@ import {
   AbstractableNodeStructureMixin,
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
+  type CloneableStructure,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type ExclamationTokenableNodeStructureFields,
@@ -27,14 +28,15 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  OptionalKind,
   type PropertyDeclarationStructure,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const PropertyDeclarationStructureBase = MultiMixinBuilder<
@@ -83,10 +85,21 @@ export default class PropertyDeclarationImpl
   hasAccessorKeyword = false;
 
   public static copyFields(
-    source: PropertyDeclarationStructure & Structures,
-    target: PropertyDeclarationImpl & Structures,
+    source: OptionalKind<PropertyDeclarationStructure>,
+    target: PropertyDeclarationImpl,
   ): void {
     super.copyFields(source, target);
     target.hasAccessorKeyword = source.hasAccessorKeyword ?? false;
   }
+
+  public static clone(
+    source: OptionalKind<PropertyDeclarationStructure>,
+  ): PropertyDeclarationImpl {
+    const target = new PropertyDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+PropertyDeclarationImpl satisfies CloneableStructure<PropertyDeclarationStructure>;
+StructuresClassesMap.set(StructureKind.Property, PropertyDeclarationImpl);

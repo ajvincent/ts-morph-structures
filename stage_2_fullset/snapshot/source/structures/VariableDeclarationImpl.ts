@@ -1,5 +1,6 @@
 //#region preamble
 import {
+  type CloneableStructure,
   type ExclamationTokenableNodeStructureFields,
   ExclamationTokenableNodeStructureMixin,
   type InitializerExpressionableNodeStructureFields,
@@ -9,13 +10,14 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  OptionalKind,
   StructureKind,
-  type Structures,
   type VariableDeclarationStructure,
 } from "ts-morph";
 //#endregion preamble
@@ -47,9 +49,23 @@ export default class VariableDeclarationImpl
     StructureKind.VariableDeclaration;
 
   public static copyFields(
-    source: VariableDeclarationStructure & Structures,
-    target: VariableDeclarationImpl & Structures,
+    source: OptionalKind<VariableDeclarationStructure>,
+    target: VariableDeclarationImpl,
   ): void {
     super.copyFields(source, target);
   }
+
+  public static clone(
+    source: OptionalKind<VariableDeclarationStructure>,
+  ): VariableDeclarationImpl {
+    const target = new VariableDeclarationImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+VariableDeclarationImpl satisfies CloneableStructure<VariableDeclarationStructure>;
+StructuresClassesMap.set(
+  StructureKind.VariableDeclaration,
+  VariableDeclarationImpl,
+);

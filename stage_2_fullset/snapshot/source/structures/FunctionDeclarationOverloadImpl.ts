@@ -4,6 +4,7 @@ import {
   AmbientableNodeStructureMixin,
   type AsyncableNodeStructureFields,
   AsyncableNodeStructureMixin,
+  type CloneableStructure,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type GeneratorableNodeStructureFields,
@@ -17,14 +18,15 @@ import {
   StructureBase,
   type StructureFields,
   StructureMixin,
+  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type FunctionDeclarationOverloadStructure,
+  OptionalKind,
   StructureKind,
-  type Structures,
 } from "ts-morph";
 //#endregion preamble
 const FunctionDeclarationOverloadStructureBase = MultiMixinBuilder<
@@ -63,9 +65,23 @@ export default class FunctionDeclarationOverloadImpl
     StructureKind.FunctionOverload;
 
   public static copyFields(
-    source: FunctionDeclarationOverloadStructure & Structures,
-    target: FunctionDeclarationOverloadImpl & Structures,
+    source: OptionalKind<FunctionDeclarationOverloadStructure>,
+    target: FunctionDeclarationOverloadImpl,
   ): void {
     super.copyFields(source, target);
   }
+
+  public static clone(
+    source: OptionalKind<FunctionDeclarationOverloadStructure>,
+  ): FunctionDeclarationOverloadImpl {
+    const target = new FunctionDeclarationOverloadImpl();
+    this.copyFields(source, target);
+    return target;
+  }
 }
+
+FunctionDeclarationOverloadImpl satisfies CloneableStructure<FunctionDeclarationOverloadStructure>;
+StructuresClassesMap.set(
+  StructureKind.FunctionOverload,
+  FunctionDeclarationOverloadImpl,
+);
