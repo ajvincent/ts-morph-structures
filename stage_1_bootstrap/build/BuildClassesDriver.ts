@@ -6,7 +6,7 @@ import fillDictionaries from "./structureMeta/fillDictionaries.js";
 // #region hooks
 
 import createDecoratorParts from "./hooks/decorator/createParts.js";
-import addClassProperties from "./hooks/decorator/classProperties.js";
+import addClassProperties from "./hooks/classProperties.js";
 import saveDecoratorFile from "./hooks/decorator/save.js";
 import createStructureParts from "./hooks/structure/createParts.js";
 import defineKindProperty from "./hooks/structure/defineKind.js";
