@@ -6,7 +6,7 @@ import {
   ExportableNodeStructureMixin,
   type ExportableNodeStructureFields,
   StructureBase,
-} from "#stage_two/snapshot/source/internal-exports.js"
+} from "#stage_two/snapshot/source/internal-exports.js";
 import { Structures } from "ts-morph";
 
 it("We can mix and match boolean decorators", () => {
