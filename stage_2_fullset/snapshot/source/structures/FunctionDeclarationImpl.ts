@@ -1,4 +1,5 @@
 //#region preamble
+import { FunctionDeclarationOverloadImpl } from "../exports.js";
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
@@ -28,7 +29,6 @@ import {
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  type FunctionDeclarationOverloadStructure,
   type FunctionDeclarationStructure,
   OptionalKind,
   StructureKind,
@@ -71,7 +71,7 @@ export default class FunctionDeclarationImpl
   implements FunctionDeclarationStructure
 {
   readonly kind: StructureKind.Function = StructureKind.Function;
-  overloads: FunctionDeclarationOverloadStructure[] = [];
+  overloads: FunctionDeclarationOverloadImpl[] = [];
 
   public static copyFields(
     source: OptionalKind<FunctionDeclarationStructure>,

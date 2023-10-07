@@ -1,19 +1,18 @@
 //#region preamble
+import {
+  CallSignatureDeclarationImpl,
+  ConstructSignatureDeclarationImpl,
+  IndexSignatureDeclarationImpl,
+  MethodSignatureImpl,
+  PropertySignatureImpl,
+} from "../exports.js";
 import { type RightExtendsLeft, StructureBase } from "../internal-exports.js";
 import type {
   MixinClass,
   StaticAndInstance,
   SubclassDecorator,
 } from "mixin-decorators";
-import type {
-  CallSignatureDeclarationStructure,
-  ConstructSignatureDeclarationStructure,
-  IndexSignatureDeclarationStructure,
-  MethodSignatureStructure,
-  PropertySignatureStructure,
-  Structures,
-  TypeElementMemberedNodeStructure,
-} from "ts-morph";
+import type { Structures, TypeElementMemberedNodeStructure } from "ts-morph";
 //#endregion preamble
 declare const TypeElementMemberedNodeStructureKey: unique symbol;
 export type TypeElementMemberedNodeStructureFields = RightExtendsLeft<
@@ -36,11 +35,11 @@ export default function TypeElementMemberedNodeStructureMixin(
   void context;
 
   class TypeElementMemberedNodeStructureMixin extends baseClass {
-    callSignatures: CallSignatureDeclarationStructure[] = [];
-    constructSignatures: ConstructSignatureDeclarationStructure[] = [];
-    indexSignatures: IndexSignatureDeclarationStructure[] = [];
-    methods: MethodSignatureStructure[] = [];
-    properties: PropertySignatureStructure[] = [];
+    callSignatures: CallSignatureDeclarationImpl[] = [];
+    constructSignatures: ConstructSignatureDeclarationImpl[] = [];
+    indexSignatures: IndexSignatureDeclarationImpl[] = [];
+    methods: MethodSignatureImpl[] = [];
+    properties: PropertySignatureImpl[] = [];
 
     public static copyFields(
       source: TypeElementMemberedNodeStructure & Structures,

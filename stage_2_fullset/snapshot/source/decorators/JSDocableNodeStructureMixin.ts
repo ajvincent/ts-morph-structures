@@ -1,15 +1,12 @@
 //#region preamble
+import { JSDocImpl } from "../exports.js";
 import { type RightExtendsLeft, StructureBase } from "../internal-exports.js";
 import type {
   MixinClass,
   StaticAndInstance,
   SubclassDecorator,
 } from "mixin-decorators";
-import type {
-  JSDocableNodeStructure,
-  JSDocStructure,
-  Structures,
-} from "ts-morph";
+import type { JSDocableNodeStructure, Structures } from "ts-morph";
 //#endregion preamble
 declare const JSDocableNodeStructureKey: unique symbol;
 export type JSDocableNodeStructureFields = RightExtendsLeft<
@@ -32,7 +29,7 @@ export default function JSDocableNodeStructureMixin(
   void context;
 
   class JSDocableNodeStructureMixin extends baseClass {
-    docs: (string | JSDocStructure)[] = [];
+    docs: (string | JSDocImpl)[] = [];
 
     public static copyFields(
       source: JSDocableNodeStructure & Structures,

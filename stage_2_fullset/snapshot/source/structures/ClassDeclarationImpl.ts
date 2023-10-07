@@ -1,5 +1,12 @@
 //#region preamble
 import {
+  ConstructorDeclarationImpl,
+  GetAccessorDeclarationImpl,
+  MethodDeclarationImpl,
+  PropertyDeclarationImpl,
+  SetAccessorDeclarationImpl,
+} from "../exports.js";
+import {
   type AbstractableNodeStructureFields,
   AbstractableNodeStructureMixin,
   type AmbientableNodeStructureFields,
@@ -26,12 +33,7 @@ import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type ClassDeclarationStructure,
-  type ConstructorDeclarationStructure,
-  type GetAccessorDeclarationStructure,
-  type MethodDeclarationStructure,
   OptionalKind,
-  type PropertyDeclarationStructure,
-  type SetAccessorDeclarationStructure,
   StructureKind,
 } from "ts-morph";
 //#endregion preamble
@@ -68,11 +70,11 @@ export default class ClassDeclarationImpl
   implements ClassDeclarationStructure
 {
   readonly kind: StructureKind.Class = StructureKind.Class;
-  ctors: ConstructorDeclarationStructure[] = [];
-  properties: PropertyDeclarationStructure[] = [];
-  getAccessors: GetAccessorDeclarationStructure[] = [];
-  setAccessors: SetAccessorDeclarationStructure[] = [];
-  methods: MethodDeclarationStructure[] = [];
+  ctors: ConstructorDeclarationImpl[] = [];
+  properties: PropertyDeclarationImpl[] = [];
+  getAccessors: GetAccessorDeclarationImpl[] = [];
+  setAccessors: SetAccessorDeclarationImpl[] = [];
+  methods: MethodDeclarationImpl[] = [];
   extends?: stringOrWriter = undefined;
   name?: string = undefined;
 

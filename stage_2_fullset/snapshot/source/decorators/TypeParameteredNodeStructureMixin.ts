@@ -1,15 +1,12 @@
 //#region preamble
+import { TypeParameterDeclarationImpl } from "../exports.js";
 import { type RightExtendsLeft, StructureBase } from "../internal-exports.js";
 import type {
   MixinClass,
   StaticAndInstance,
   SubclassDecorator,
 } from "mixin-decorators";
-import type {
-  Structures,
-  TypeParameterDeclarationStructure,
-  TypeParameteredNodeStructure,
-} from "ts-morph";
+import type { Structures, TypeParameteredNodeStructure } from "ts-morph";
 //#endregion preamble
 declare const TypeParameteredNodeStructureKey: unique symbol;
 export type TypeParameteredNodeStructureFields = RightExtendsLeft<
@@ -32,7 +29,7 @@ export default function TypeParameteredNodeStructureMixin(
   void context;
 
   class TypeParameteredNodeStructureMixin extends baseClass {
-    typeParameters: (string | TypeParameterDeclarationStructure)[] = [];
+    typeParameters: (string | TypeParameterDeclarationImpl)[] = [];
 
     public static copyFields(
       source: TypeParameteredNodeStructure & Structures,

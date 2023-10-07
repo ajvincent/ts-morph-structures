@@ -1,15 +1,12 @@
 //#region preamble
+import { DecoratorImpl } from "../exports.js";
 import { type RightExtendsLeft, StructureBase } from "../internal-exports.js";
 import type {
   MixinClass,
   StaticAndInstance,
   SubclassDecorator,
 } from "mixin-decorators";
-import type {
-  DecoratableNodeStructure,
-  DecoratorStructure,
-  Structures,
-} from "ts-morph";
+import type { DecoratableNodeStructure, Structures } from "ts-morph";
 //#endregion preamble
 declare const DecoratableNodeStructureKey: unique symbol;
 export type DecoratableNodeStructureFields = RightExtendsLeft<
@@ -32,7 +29,7 @@ export default function DecoratableNodeStructureMixin(
   void context;
 
   class DecoratableNodeStructureMixin extends baseClass {
-    decorators: DecoratorStructure[] = [];
+    decorators: DecoratorImpl[] = [];
 
     public static copyFields(
       source: DecoratableNodeStructure & Structures,

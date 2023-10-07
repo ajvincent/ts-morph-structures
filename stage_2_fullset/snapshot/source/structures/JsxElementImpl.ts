@@ -1,5 +1,10 @@
 //#region preamble
 import {
+  JsxAttributeImpl,
+  JsxSelfClosingElementImpl,
+  JsxSpreadAttributeImpl,
+} from "../exports.js";
+import {
   type CloneableStructure,
   StructureBase,
   type StructureFields,
@@ -8,10 +13,7 @@ import {
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  type JsxAttributeStructure,
   type JsxElementStructure,
-  type JsxSelfClosingElementStructure,
-  type JsxSpreadAttributeStructure,
   OptionalKind,
   StructureKind,
 } from "ts-morph";
@@ -26,8 +28,8 @@ export default class JsxElementImpl
   implements JsxElementStructure
 {
   readonly kind: StructureKind.JsxElement = StructureKind.JsxElement;
-  attributes: (JsxAttributeStructure | JsxSpreadAttributeStructure)[] = [];
-  children: (JsxElementStructure | JsxSelfClosingElementStructure)[] = [];
+  attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[] = [];
+  children: (JsxElementImpl | JsxSelfClosingElementImpl)[] = [];
   name = "";
   bodyText?: string = undefined;
 

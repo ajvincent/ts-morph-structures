@@ -1,4 +1,5 @@
 //#region preamble
+import { VariableDeclarationImpl } from "../exports.js";
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
@@ -17,7 +18,6 @@ import {
   OptionalKind,
   StructureKind,
   VariableDeclarationKind,
-  type VariableDeclarationStructure,
   type VariableStatementStructure,
 } from "ts-morph";
 //#endregion preamble
@@ -45,7 +45,7 @@ export default class VariableStatementImpl
 {
   readonly kind: StructureKind.VariableStatement =
     StructureKind.VariableStatement;
-  declarations: VariableDeclarationStructure[] = [];
+  declarations: VariableDeclarationImpl[] = [];
   declarationKind?: VariableDeclarationKind = undefined;
 
   public static copyFields(

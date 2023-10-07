@@ -176,6 +176,23 @@ function getTypeStructureArrayForValue(
   }
 
   value.otherTypes.forEach(valueInUnion => {
+    if (valueInUnion.structureName && dictionaries.structures.has(valueInUnion.structureName)) {
+      const implName = valueInUnion.structureName.replace(/Structure$/, "Impl");
+      structures.push(new LiteralTypedStructureImpl(implName));
+
+      if (implName !== parts.classDecl.name) {
+        parts.importsManager.addImports({
+          pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+          isPackageImport: false,
+          importNames: [implName],
+          isDefaultImport: false,
+          isTypeOnly: false,
+        });
+      }
+
+      return;
+    }
+
     structures.push(new LiteralTypedStructureImpl(
       valueInUnion.structureName ??
       valueInUnion.unionName ??

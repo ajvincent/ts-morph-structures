@@ -1,4 +1,5 @@
 //#region preamble
+import { MethodDeclarationOverloadImpl } from "../exports.js";
 import {
   type AbstractableNodeStructureFields,
   AbstractableNodeStructureMixin,
@@ -36,7 +37,6 @@ import {
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  type MethodDeclarationOverloadStructure,
   type MethodDeclarationStructure,
   OptionalKind,
   StructureKind,
@@ -87,7 +87,7 @@ export default class MethodDeclarationImpl
   implements MethodDeclarationStructure
 {
   readonly kind: StructureKind.Method = StructureKind.Method;
-  overloads: MethodDeclarationOverloadStructure[] = [];
+  overloads: MethodDeclarationOverloadImpl[] = [];
 
   public static copyFields(
     source: OptionalKind<MethodDeclarationStructure>,

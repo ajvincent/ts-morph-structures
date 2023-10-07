@@ -1,4 +1,5 @@
 //#region preamble
+import { ConstructorDeclarationOverloadImpl } from "../exports.js";
 import {
   type CloneableStructure,
   type JSDocableNodeStructureFields,
@@ -20,7 +21,6 @@ import {
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  type ConstructorDeclarationOverloadStructure,
   type ConstructorDeclarationStructure,
   OptionalKind,
   StructureKind,
@@ -55,7 +55,7 @@ export default class ConstructorDeclarationImpl
   implements ConstructorDeclarationStructure
 {
   readonly kind: StructureKind.Constructor = StructureKind.Constructor;
-  overloads: ConstructorDeclarationOverloadStructure[] = [];
+  overloads: ConstructorDeclarationOverloadImpl[] = [];
 
   public static copyFields(
     source: OptionalKind<ConstructorDeclarationStructure>,

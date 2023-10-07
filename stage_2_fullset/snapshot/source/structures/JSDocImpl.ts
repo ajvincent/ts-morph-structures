@@ -1,4 +1,5 @@
 //#region preamble
+import { JSDocTagImpl } from "../exports.js";
 import {
   type CloneableStructure,
   StructureBase,
@@ -8,12 +9,7 @@ import {
 } from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
-import {
-  type JSDocStructure,
-  type JSDocTagStructure,
-  OptionalKind,
-  StructureKind,
-} from "ts-morph";
+import { type JSDocStructure, OptionalKind, StructureKind } from "ts-morph";
 //#endregion preamble
 const JSDocStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -25,7 +21,7 @@ export default class JSDocImpl
   implements JSDocStructure
 {
   readonly kind: StructureKind.JSDoc = StructureKind.JSDoc;
-  tags: JSDocTagStructure[] = [];
+  tags: JSDocTagImpl[] = [];
   description?: stringOrWriter = undefined;
 
   public static copyFields(

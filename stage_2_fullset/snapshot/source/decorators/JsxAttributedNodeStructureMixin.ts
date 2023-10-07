@@ -1,16 +1,12 @@
 //#region preamble
+import { JsxAttributeImpl, JsxSpreadAttributeImpl } from "../exports.js";
 import { type RightExtendsLeft, StructureBase } from "../internal-exports.js";
 import type {
   MixinClass,
   StaticAndInstance,
   SubclassDecorator,
 } from "mixin-decorators";
-import type {
-  JsxAttributedNodeStructure,
-  JsxAttributeStructure,
-  JsxSpreadAttributeStructure,
-  Structures,
-} from "ts-morph";
+import type { JsxAttributedNodeStructure, Structures } from "ts-morph";
 //#endregion preamble
 declare const JsxAttributedNodeStructureKey: unique symbol;
 export type JsxAttributedNodeStructureFields = RightExtendsLeft<
@@ -33,7 +29,7 @@ export default function JsxAttributedNodeStructureMixin(
   void context;
 
   class JsxAttributedNodeStructureMixin extends baseClass {
-    attributes: (JsxAttributeStructure | JsxSpreadAttributeStructure)[] = [];
+    attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[] = [];
 
     public static copyFields(
       source: JsxAttributedNodeStructure & Structures,

@@ -1,4 +1,5 @@
 //#region preamble
+import { AssertEntryImpl, ImportSpecifierImpl } from "../exports.js";
 import {
   type CloneableStructure,
   StructureBase,
@@ -9,9 +10,7 @@ import {
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  type AssertEntryStructure,
   type ImportDeclarationStructure,
-  type ImportSpecifierStructure,
   OptionalKind,
   StructureKind,
 } from "ts-morph";
@@ -28,8 +27,8 @@ export default class ImportDeclarationImpl
   readonly kind: StructureKind.ImportDeclaration =
     StructureKind.ImportDeclaration;
   isTypeOnly = false;
-  namedImports: (stringOrWriter | ImportSpecifierStructure)[] = [];
-  assertElements: AssertEntryStructure[] = [];
+  namedImports: (stringOrWriter | ImportSpecifierImpl)[] = [];
+  assertElements: AssertEntryImpl[] = [];
   defaultImport?: string = undefined;
   namespaceImport?: string = undefined;
   moduleSpecifier = "";

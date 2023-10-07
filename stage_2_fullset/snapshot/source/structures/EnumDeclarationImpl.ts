@@ -1,4 +1,5 @@
 //#region preamble
+import { EnumMemberImpl } from "../exports.js";
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
@@ -17,7 +18,6 @@ import {
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type EnumDeclarationStructure,
-  type EnumMemberStructure,
   OptionalKind,
   StructureKind,
 } from "ts-morph";
@@ -48,7 +48,7 @@ export default class EnumDeclarationImpl
 {
   readonly kind: StructureKind.Enum = StructureKind.Enum;
   isConst = false;
-  members: EnumMemberStructure[] = [];
+  members: EnumMemberImpl[] = [];
 
   public static copyFields(
     source: OptionalKind<EnumDeclarationStructure>,
