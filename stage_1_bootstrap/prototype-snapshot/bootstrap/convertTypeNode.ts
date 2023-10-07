@@ -154,8 +154,7 @@ export default function convertTypeNode(
     return prependPrefixOperator("typeof", structure);
   }
 
-  // Node.isRestTypeNode(typeNode)
-  if (kind === SyntaxKind.RestType) {
+  if (Node.isRestTypeNode(typeNode)) {
     const structure = convertTypeNode(
       typeNode.getLastChildOrThrow(),
       conversionFailCallback,
