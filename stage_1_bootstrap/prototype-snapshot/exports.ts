@@ -87,6 +87,7 @@ export { default as ObjectLiteralTypedStructureImpl } from "./typeStructures/Obj
 export { default as ParameterTypedStructureImpl } from "./typeStructures/ParameterTypedStructureImpl.js";
 export { default as ParenthesesTypedStructureImpl } from "./typeStructures/ParenthesesTypedStructureImpl.js";
 export { default as PrefixOperatorsTypedStructureImpl } from "./typeStructures/PrefixOperatorsTypedStructureImpl.js";
+export { default as QualifiedNameTypedStructureImpl } from "./typeStructures/QualifiedNameTypedStructureImpl.js";
 export { default as StringTypedStructureImpl } from "./typeStructures/StringTypedStructureImpl.js";
 export { default as SymbolKeyTypedStructureImpl } from "./typeStructures/SymbolKeyTypedStructureImpl.js";
 export { default as TemplateLiteralTypedStructureImpl } from "./typeStructures/TemplateLiteralTypedStructureImpl.js";

@@ -126,6 +126,12 @@ export type TupleTypedStructure = Simplify<
   AppendableStructure<TypeStructures[]>
 >;
 
+export type QualifiedNameTypedStructure = Simplify<
+  TypedStructureWithChildren<TypeStructureKind.QualifiedName> &
+  ReplaceableDescendants &
+  AppendableStructure<TypeStructures[]>
+>;
+
 export type ArrayTypedStructure = Simplify<
   KindedTypeStructure<TypeStructureKind.Array> &
   TypedStructureWithObjectType &
@@ -281,5 +287,6 @@ export type TypeStructures = (
   ParameterTypedStructure |
   TemplateLiteralTypedStructure |
   ObjectLiteralTypedStructure |
-  InferTypedStructure
+  InferTypedStructure |
+  QualifiedNameTypedStructure
 );

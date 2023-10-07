@@ -10,6 +10,9 @@ enum NumberString {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+type One = NumberString.one;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface HasConstructSignature {
 
   // eslint-disable-next-line @typescript-eslint/no-misused-new, @typescript-eslint/prefer-function-type

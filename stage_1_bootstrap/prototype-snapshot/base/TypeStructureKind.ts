@@ -22,6 +22,7 @@ export enum TypeStructureKind {
   TemplateLiteral,
   ObjectLiteral,
   Infer,
+  QualifiedName,
 }
 
 export interface KindedTypeStructure<

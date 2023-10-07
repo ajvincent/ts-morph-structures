@@ -22,6 +22,7 @@ import {
   ObjectLiteralTypedStructureImpl,
   ParenthesesTypedStructureImpl,
   PrefixOperatorsTypedStructureImpl,
+  QualifiedNameTypedStructureImpl,
   StringTypedStructureImpl,
   TemplateLiteralTypedStructureImpl,
   TupleTypedStructureImpl,
@@ -66,6 +67,12 @@ describe("convertTypeNode generates correct type structures, with type", () => {
     const project = new Project(TSC_CONFIG);
     const sourceFile = project.createSourceFile("file.ts", `
 const refSymbol = Symbol("reference symbol");
+enum NumberEnum {
+  one = 1,
+  two,
+  three,
+}
+
 const A: string;
     `.trim() + "\n");
     declaration = sourceFile.getVariableDeclarationOrThrow("A");
@@ -378,6 +385,21 @@ const A: string;
     expect(
       types.map(type => (type as LiteralTypedStructureImpl).stringValue)
     ).toEqual(["true", "ReturnsModified", "BaseClassType", "void"]);
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
+  it(`NumberEnum.one (qualified name)`, () => {
+    setTypeStructure(`NumberEnum.one`, failCallback);
+    expect(structure).toBeInstanceOf(QualifiedNameTypedStructureImpl);
+
+    if (structure instanceof QualifiedNameTypedStructureImpl) {
+      expect(structure.childTypes.length).toBe(2);
+      expect(structure.childTypes[0]).toBeInstanceOf(LiteralTypedStructureImpl);
+      expect((structure.childTypes[0] as LiteralTypedStructureImpl).stringValue).toBe("NumberEnum");
+      expect(structure.childTypes[1]).toBeInstanceOf(LiteralTypedStructureImpl);
+      expect((structure.childTypes[1] as LiteralTypedStructureImpl).stringValue).toBe("one");
+    }
     expect(failMessage).toBe(undefined);
     expect(failNode).toBe(null);
   });

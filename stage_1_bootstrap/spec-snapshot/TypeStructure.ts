@@ -15,6 +15,7 @@ import {
   ParameterTypedStructureImpl,
   ParenthesesTypedStructureImpl,
   PrefixOperatorsTypedStructureImpl,
+  QualifiedNameTypedStructureImpl,
   StringTypedStructureImpl,
   SymbolKeyTypedStructureImpl,
   TemplateLiteralTypedStructureImpl,
@@ -120,6 +121,15 @@ describe("TypeStructure for ts-morph: ", () => {
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe(`[foo, NumberStringType]`);
     expect(typedWriter.kind).toBe(TypeStructureKind.Tuple);
+  });
+
+  it("QualifiedNameTypedStructureImpl", () => {
+    const typedWriter = new QualifiedNameTypedStructureImpl;
+    typedWriter.childTypes.push(nstTyped, fooTyped);
+
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`NumberStringType.foo`);
+    expect(typedWriter.kind).toBe(TypeStructureKind.QualifiedName);
   });
 
   it("ArrayTypedStructureImpl", () => {

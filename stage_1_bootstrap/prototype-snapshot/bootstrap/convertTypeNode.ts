@@ -32,6 +32,7 @@ import {
   ParenthesesTypedStructureImpl,
   PrefixOperatorsTypedStructureImpl,
   PrefixUnaryOperator,
+  QualifiedNameTypedStructureImpl,
   StringTypedStructureImpl,
   TupleTypedStructureImpl,
   TypeArgumentedTypedStructureImpl,
@@ -149,7 +150,7 @@ export default function convertTypeNode(
   }
 
   if (Node.isTypeQuery(typeNode)) {
-    const structure = buildLiteralForEntityName(typeNode.getExprName());
+    const structure = buildStructureForEntityName(typeNode.getExprName());
     return prependPrefixOperator("typeof", structure);
   }
 
@@ -220,7 +221,7 @@ export default function convertTypeNode(
     childTypeNodes = typeNode.getElements();
   }
   else if (Node.isTypeReference(typeNode)) {
-    const objectType = buildLiteralForEntityName(typeNode.getTypeName());
+    const objectType = buildStructureForEntityName(typeNode.getTypeName());
 
     childTypeNodes = typeNode.getTypeArguments();
     if (childTypeNodes.length === 0)
@@ -256,10 +257,21 @@ export default function convertTypeNode(
   );
 }
 
-function buildLiteralForEntityName(
+function buildStructureForEntityName(
   entity: EntityName
-): LiteralTypedStructureImpl
+): LiteralTypedStructureImpl | QualifiedNameTypedStructureImpl
 {
+  if (Node.isQualifiedName(entity)) {
+    const leftStructure = buildStructureForEntityName(entity.getLeft());
+    const rightStructure = buildStructureForEntityName(entity.getRight()) as LiteralTypedStructureImpl;
+    if (leftStructure instanceof QualifiedNameTypedStructureImpl) {
+      leftStructure.appendStructures([rightStructure]);
+      return leftStructure;
+    }
+
+    return new QualifiedNameTypedStructureImpl([leftStructure, rightStructure]);
+  }
+
   return new LiteralTypedStructureImpl(entity.getText());
 }
 

@@ -36,7 +36,7 @@ For decorators which implement anything more complicated than simple booleans, I
 
 ### `StructureBase`
 
-All ts-morph structure classes inherit from [`StructureBase`](./source/base/StructureBase.mts), for `leadingTrivia` and `trailingTrivia` support.  (These are comments before and after a structure).
+All ts-morph structure classes inherit from [`StructureBase`](./prototype-snapshot/base/StructureBase.mts), for `leadingTrivia` and `trailingTrivia` support.  (These are comments before and after a structure).
 
 ### Classes maps
 
@@ -131,7 +131,7 @@ The setter for `type` is somewhat smarter:
 
 ### Using `TypeAccessors` in structure classes and decorators
 
-Here's the class which [the `@ReturnTypedNode` decorator](./source/decorators/ReturnTypedNode.mts) provides:
+Here's the class which [the `@ReturnTypedNode` decorator](./prototype-snapshot/decorators/ReturnTypedNode.mts) provides:
 
 ```typescript
 return class extends baseClass {
@@ -197,7 +197,7 @@ That said, proxies are pretty obscure (and difficult to get right), and I felt f
 
 ### `ReadonlyProxyArrayHandler`
 
-[`ReadonlyProxyArrayHandler.mts`](./source/array-utilities/ReadonlyArrayProxyHandler.mts) provides a minimalist proxy handler for reading index properties, and getting readonly methods (and the length) of a backing array of real strings and writer functions.  
+[`ReadonlyProxyArrayHandler.mts`](./prototype-snapshot/array-utilities/ReadonlyArrayProxyHandler.mts) provides a minimalist proxy handler for reading index properties, and getting readonly methods (and the length) of a backing array of real strings and writer functions.  
 
 When the user tries to set a property through the array, or access a method which would modify the array, the proxy handler throws an exception with a specific message.  The message comes from the proxy handler constructor.  The idea is the creator of the proxy handler will tell the user about the safe alternative for setting values.
 
@@ -239,11 +239,11 @@ class ClassDeclarationImpl
 
 We get structures from ts-morph's `getStructures()` method, which ts-morph defines on `SourceFile` and several other node classes.  Given any node with a `getStructures()` method, and ts-morph's utilities for traversing structure trees and node trees, I can build the rest.
 
-The source code for these lives in the [source/bootstrap](./source/bootstrap/) directory.
+The source code for these lives in the [source/bootstrap](./prototype-snapshot/bootstrap/) directory.
 
 ### Structure-to-node map
 
-First I have to match [ts-morph structures to ts-morph nodes](./source/bootstrap/structureToNodeMap.mts).  This involves a multi-step process:
+First I have to match [ts-morph structures to ts-morph nodes](./prototype-snapshot/bootstrap/structureToNodeMap.mts).  This involves a multi-step process:
 
 1. Walk the tree of nodes from a root node, generating string hashes for each node.  Collect the nodes by hash in a `Map<string, Set<Node>>`.
 1. Get the structure from the root node, then clone it using the structure classes map.
@@ -259,7 +259,7 @@ There are nuances to both node trees and structure trees which make this a speci
 
 ### Finding the type nodes for a given node
 
-Next we need to [find where the type nodes are](./source/bootstrap/buildTypesForStructures.mts) for each structure we care about.  This takes a `Map<Structures, Node>`, and a special type node converter (which I describe in the next section) and for each structure-node pair, runs the following algorithm:
+Next we need to [find where the type nodes are](./prototype-snapshot/bootstrap/buildTypesForStructures.mts) for each structure we care about.  This takes a `Map<Structures, Node>`, and a special type node converter (which I describe in the next section) and for each structure-node pair, runs the following algorithm:
 
 1. Check the structure's kind property for structure-specific interfaces.
 1. Assert the node is of the same type as the structure.  If it isn't, throw an exception.
@@ -269,7 +269,7 @@ At the end of the run, it returns all the failures the type node converter repor
 
 ### Convert one type node to a type structure
 
-Once we have a type node, we need to create a type structure for it.  [This is the purpose of `convertTypeNode()`](./source/bootstrap/convertTypeNode.mts).
+Once we have a type node, we need to create a type structure for it.  [This is the purpose of `convertTypeNode()`](./prototype-snapshot/bootstrap/convertTypeNode.mts).
 
 1. Check what kind of type node it is.
 2. Gather child type nodes belonging to the type node.
@@ -295,7 +295,7 @@ The `buildTypesForStructures()` function handles a null return from `convertType
 
 ### Driving with `getTypeAugmentedStructure()`
 
-[The `getTypeAugmentedStructure()` function](./source/bootstrap/getTypeAugmentedStructure.mts) integrates all the above together.
+[The `getTypeAugmentedStructure()` function](./prototype-snapshot/bootstrap/getTypeAugmentedStructure.mts) integrates all the above together.
 
 1. It takes a callback function for type-to-type-structure conversion failures.
 1. It calls `structureToNodeMap()` to get a `Map<Structures, Node>`.
@@ -389,9 +389,11 @@ Augmenting structures with type structures, and cloning structures, was really t
 
 ### Checklist for adding a new type structure class
 
-- In [source/base/TypeStructureKind.mts](./source/base/TypeStructureKind.mts), append a new enum member of `TypeStructureKind`
-- In [TypeStructures.mts](./source/typeStructures/TypeStructures.mts), define the type alias your type structure class will implement
+- In [source/base/TypeStructureKind.mts](./prototype-snapshot/base/TypeStructureKind.mts), append a new enum member of `TypeStructureKind`
+- In [TypeStructures.mts](./prototype-snapshot/typeStructures/TypeStructures.mts), define the type alias your type structure class will implement
   - Include `KindedStructure<TypeStructureKind.YourNewType>`
+    - Depending on child types, this may be `TypedStructureWithChildren` or `TypedStructureWithOneChild`.
+  - Include `ReplaceableDescendants`
   - Wrap the alias's type in the `Simplify` type, to make it easier to read when someone hovers over it in an IDE
   - Append your new type to `TypeStructures`
 - Import what you need:
@@ -400,6 +402,7 @@ Augmenting structures with type structures, and cloning structures, was really t
   - `TypeStructureKind` from `TypeStructureKind.mjs`
   - `registerCallbackForTypeStructure` from `callbackToTypeStructureRegistry`
   - `TypeStructureClassesMap`, `CloneableStructure` for cloneable classes support
+  - `replaceDescendantTypeStructures` if there will be descendant types
 - Implement your type structure class.
   - `implements YourTypeStructureTypeAlias`
   - `readonly kind: TypeStructureKind<Foo> = TypeStructureKind<Foo>`
@@ -408,12 +411,13 @@ Augmenting structures with type structures, and cloning structures, was really t
   - References to regular structures should be instances of existing structure classes
   - `#writerFunction(writer: CodeBlockWriter): void`
   - `readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);`
+  - `replaceDescendantTypes()` if there are descendant types
   - Implement `public static clone()`
     - The source parameter should be of the same type as your type alias
-    - [ ] Use `TypeStructureClassesMap.clone()` and your decorators' `cloneFoo(source, target)` functions where practical
+    - [ ] Use `TypeStructureClassesMap.clone()` (or `cloneArray()`) and your decorators' `cloneFoo(source, target)` functions where practical
   - [ ] Add a `satisfies` constraint for your class for the static clone method:  `ConditionalTypedStructureImpl satisfies CloneableStructure<ConditionalTypedStructure>;` for example
   - [ ] Add your class to the `TypeStructureClassesMap`, with your key being your `TypeStructureKind`
   - [ ] Add your class as an export from `exports.mts`
   - [ ] Write whatever tests and/or documentation you feel is appropriate
-- Update [convertTypeNode.mts](./source/bootstrap/convertTypeNode.mts) and its corresponding [test file](./spec/bootstrap/convertTypeNode.mts) for the new structure and its matching type node.
+- Update [convertTypeNode.ts](./prototype-snapshot/bootstrap/convertTypeNode.ts) and its corresponding [test file](./spec-snapshot/bootstrap/convertTypeNode.ts) for the new structure and its matching type node.
 - Update the [README.md](./README.md) file for the new type structure.
