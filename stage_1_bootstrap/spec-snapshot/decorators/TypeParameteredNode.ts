@@ -1,14 +1,14 @@
 import MultiMixinBuilder from "mixin-decorators";
 
-import StructureBase from "../../prototype-snapshot/base/StructureBase.js";
+import StructureBase from "#stage_one/prototype-snapshot/base/StructureBase.js";
 
 import TypeParameteredNode, {
   TypeParameteredNodeStructureFields,
-} from "../../prototype-snapshot/decorators/TypeParameteredNode.js";
+} from "#stage_one/prototype-snapshot/decorators/TypeParameteredNode.js";
 
 import {
   TypeParameterDeclarationImpl
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 it("ts-morph structure decorators: TypeParameterdNode", () => {
   const Foo = MultiMixinBuilder<[

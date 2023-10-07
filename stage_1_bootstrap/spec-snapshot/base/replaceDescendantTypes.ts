@@ -14,7 +14,7 @@ import {
   MethodSignatureImpl,
   ParameterDeclarationImpl,
   PropertySignatureImpl,
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 describe("replaceDescendantTypes", () => {
   const FooBaseLiteral = new LiteralTypedStructureImpl("foo");

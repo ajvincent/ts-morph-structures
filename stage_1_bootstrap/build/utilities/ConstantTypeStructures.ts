@@ -3,7 +3,7 @@ import {
   PrefixOperatorsTypedStructureImpl,
   StringTypedStructureImpl,
   type TypeStructures,
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
   "ClassDecoratorContext": new LiteralTypedStructureImpl("ClassDecoratorContext"),

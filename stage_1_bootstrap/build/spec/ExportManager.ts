@@ -7,16 +7,16 @@ import {
 import {
   ExportManager,
   //type AddExportContext,
-} from "../ExportManager.js";
+} from "#stage_one/build/ExportManager.js";
 
 import {
   stageDir,
-} from "../constants.js";
+} from "#stage_one/build/constants.js";
 
 import {
   ExportDeclarationImpl,
   ExportSpecifierImpl,
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 it("ExportManager can export values from submodules", () => {
   const baseDir = pathToModule(stageDir, "non-existent");

@@ -8,7 +8,7 @@ import {
   LiteralTypedStructureImpl,
   TypeArgumentedTypedStructureImpl,
   TypeAliasDeclarationImpl,
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 import ConstantTypeStructures from "./ConstantTypeStructures.js";
 // #endregion preamble

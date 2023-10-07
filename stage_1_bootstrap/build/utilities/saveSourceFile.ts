@@ -9,7 +9,7 @@ import {
 
 import {
   SourceFileImpl,
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 // #endregion preamble
 
 export default async function saveSourceFile(

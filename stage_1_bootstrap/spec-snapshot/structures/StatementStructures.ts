@@ -1,4 +1,4 @@
-import StatementClassesMap from "../../prototype-snapshot/base/StatementClassesMap.js";
+import StatementClassesMap from "#stage_one/prototype-snapshot/base/StatementClassesMap.js";
 
 import {
   ClassDeclarationImpl,
@@ -11,7 +11,7 @@ import {
   ModuleDeclarationImpl,
   TypeAliasDeclarationImpl,
   VariableStatementImpl
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 import { StructureKind } from "ts-morph";
 
 it("ts-morph-structures: StatementClassesMap is complete", () => {

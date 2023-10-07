@@ -4,15 +4,15 @@ import {
   StructureKind
 } from "ts-morph";
 
-import StructureBase from "../../prototype-snapshot/base/StructureBase.js";
+import StructureBase from "#stage_one/prototype-snapshot/base/StructureBase.js";
 
 import DecoratableNode, {
   type DecoratableNodeStructureFields
-} from "../../prototype-snapshot/decorators/DecoratableNode.js";
+} from "#stage_one/prototype-snapshot/decorators/DecoratableNode.js";
 
 import {
   DecoratorImpl
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 it("ts-morph structure decorators: DecoratableNode", () => {
   const Foo = MultiMixinBuilder<[

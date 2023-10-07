@@ -6,7 +6,10 @@ import { StructureImplMeta, StructureName } from "../structureMeta/DataClasses.j
 import StructureDictionaries from "../StructureDictionaries.js";
 
 import pairedWrite from "./pairedWrite.js";
-import { LiteralTypedStructureImpl, TupleTypedStructureImpl } from "../../prototype-snapshot/exports.js";
+import {
+  LiteralTypedStructureImpl,
+  TupleTypedStructureImpl,
+} from "#stage_one/prototype-snapshot/exports.js";
 import ConstantTypeStructures from "./ConstantTypeStructures.js";
 import ImportManager from "../ImportManager.js";
 

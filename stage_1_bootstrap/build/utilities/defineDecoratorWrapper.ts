@@ -7,7 +7,7 @@ import {
   ParameterDeclarationImpl,
   TypeArgumentedTypedStructureImpl,
   TypeAliasDeclarationImpl,
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 import type {
   DecoratorImplMeta

@@ -1,7 +1,11 @@
 import path from "path";
-import { distDir } from "../../constants.js";
+import {
+  WriterFunction
+} from "ts-morph";
 
-import ConstantTypeStructures from "../../utilities/ConstantTypeStructures.js";
+import { distDir } from "#stage_one/build/constants.js";
+
+import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 import {
   ArrayTypedStructureImpl,
   LiteralTypedStructureImpl,
@@ -10,20 +14,19 @@ import {
   TypeStructureKind,
   TypeStructures,
   UnionTypedStructureImpl,
-} from "../../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 import StructureDictionaries, {
   DecoratorParts,
   StructureParts,
-} from "../../StructureDictionaries.js";
+} from "#stage_one/build/StructureDictionaries.js";
 
 import {
   DecoratorImplMeta,
   PropertyName,
   PropertyValue,
   StructureImplMeta,
-} from "../../structureMeta/DataClasses.js";
-import { WriterFunction } from "ts-morph";
+} from "#stage_one/build/structureMeta/DataClasses.js";
 
 export default function addClassProperties(
   name: string,

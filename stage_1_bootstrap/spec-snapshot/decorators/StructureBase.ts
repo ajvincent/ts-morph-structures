@@ -1,4 +1,4 @@
-import StructureBase from "../../prototype-snapshot/base/StructureBase.js";
+import StructureBase from "#stage_one/prototype-snapshot/base/StructureBase.js";
 
 import type {
   WriterFunction

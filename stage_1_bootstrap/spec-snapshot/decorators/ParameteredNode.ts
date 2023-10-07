@@ -4,15 +4,15 @@ import {
   Scope,
 } from "ts-morph";
 
-import StructureBase from "../../prototype-snapshot/base/StructureBase.js";
+import StructureBase from "#stage_one/prototype-snapshot/base/StructureBase.js";
 
 import ParameteredNode, {
   type ParameteredNodeStructureFields,
-} from "../../prototype-snapshot/decorators/ParameteredNode.js";
+} from "#stage_one/prototype-snapshot/decorators/ParameteredNode.js";
 
 import {
   ParameterDeclarationImpl
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 it("ts-morph structure decorators: ParameteredNode", () => {
   const Foo = MultiMixinBuilder<[

@@ -52,6 +52,8 @@
     "ts-morph": "^20.0.0"
   },
   "imports": {
+    "#stage_one/*": "./stage_1_bootstrap/*",
+    "#stage_two/*": "./stage_2_fullset/*",
     "#utilities/*": "./utilities/*"
   }
 }

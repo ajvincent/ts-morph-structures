@@ -20,19 +20,19 @@ import {
 
 import {
   PromiseAllParallel
-} from "../../fixtures/stage_utilities/PromiseTypes.js";
+} from "#stage_one/fixtures/stage_utilities/PromiseTypes.js";
 
-import StructureKindToSyntaxKindMap from "../../prototype-snapshot/generated/structureToSyntax.js";
-import structureToNodeMap from "../../prototype-snapshot/bootstrap/structureToNodeMap.js";
+import StructureKindToSyntaxKindMap from "#stage_one/prototype-snapshot/generated/structureToSyntax.js";
+import structureToNodeMap from "#stage_one/prototype-snapshot/bootstrap/structureToNodeMap.js";
 
 import {
   MethodSignatureImpl,
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 async function getSupportedKindSet(): Promise<Set<StructureKind>> {
   const stageDir: ModuleSourceDirectory = {
-    importMeta: import.meta,
-    pathToDirectory: "../../.."
+    pathToDirectory: "#stage_one",
+    isAbsolutePath: true
   };
 
   const pathToStructuresDir = pathToModule(stageDir, "prototype-snapshot/structures");

@@ -8,7 +8,8 @@ import {
   VariableDeclaration,
 } from "ts-morph";
 
-import convertTypeNode from "../../prototype-snapshot/bootstrap/convertTypeNode.js";
+import convertTypeNode from "#stage_one/prototype-snapshot/bootstrap/convertTypeNode.js";
+
 import {
   ArrayTypedStructureImpl,
   ConditionalTypedStructureImpl,
@@ -29,8 +30,11 @@ import {
   TypeStructures,
   UnionTypedStructureImpl,
   createCodeBlockWriter
-} from "../../prototype-snapshot/exports.js";
-import { TypeNodeToTypeStructureConsole } from "../../prototype-snapshot/types/TypeNodeToTypeStructure.js";
+} from "#stage_one/prototype-snapshot/exports.js";
+
+import {
+  TypeNodeToTypeStructureConsole
+} from "#stage_one/prototype-snapshot/types/TypeNodeToTypeStructure.js";
 
 describe("convertTypeNode generates correct type structures, with type", () => {
   let declaration: VariableDeclaration;

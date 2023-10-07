@@ -3,17 +3,17 @@ import {
   WriterFunction
 } from "ts-morph";
 
-import TypeAccessors from "../../prototype-snapshot/base/TypeAccessors.js";
+import TypeAccessors from "#stage_one/prototype-snapshot/base/TypeAccessors.js";
 
 import {
   LiteralTypedStructureImpl,
   StringTypedStructureImpl,
   WriterTypedStructureImpl,
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 import {
   getTypeStructureForCallback
-} from "../../prototype-snapshot/base/callbackToTypeStructureRegistry.js";
+} from "#stage_one/prototype-snapshot/base/callbackToTypeStructureRegistry.js";
 
 describe("TypeAccessors with", () => {
   let manager: TypeAccessors;

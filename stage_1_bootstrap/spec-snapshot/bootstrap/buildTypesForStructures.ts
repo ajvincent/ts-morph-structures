@@ -6,13 +6,13 @@ import {
   LiteralTypedStructureImpl,
   TypeParameterDeclarationImpl,
   VariableDeclarationImpl
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
-import buildTypesForStructures from "../../prototype-snapshot/bootstrap/buildTypesForStructures.js";
-import { NodeWithStructures } from "../../prototype-snapshot/bootstrap/structureToNodeMap.js";
+import buildTypesForStructures from "#stage_one/prototype-snapshot/bootstrap/buildTypesForStructures.js";
+import { NodeWithStructures } from "#stage_one/prototype-snapshot/bootstrap/structureToNodeMap.js";
 import type {
   TypeNodeToTypeStructureConsole
-} from "../../prototype-snapshot/types/TypeNodeToTypeStructure.js";
+} from "#stage_one/prototype-snapshot/types/TypeNodeToTypeStructure.js";
 import {
   IndexSignatureDeclaration,
   ModuleKind,

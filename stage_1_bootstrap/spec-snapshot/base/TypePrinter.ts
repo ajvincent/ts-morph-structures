@@ -10,7 +10,7 @@ import {
   TypeParameterDeclarationImpl,
 
   createCodeBlockWriter,
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 describe("TypePrinter for type structures", () => {
   let writer: CodeBlockWriter = createCodeBlockWriter();

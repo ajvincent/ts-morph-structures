@@ -14,7 +14,7 @@ import {
   ExportDeclarationImpl,
   ExportSpecifierImpl,
   SourceFileImpl,
-} from "../prototype-snapshot/exports.js"
+} from "#stage_one/prototype-snapshot/exports.js"
 
 import {
   stageDir,

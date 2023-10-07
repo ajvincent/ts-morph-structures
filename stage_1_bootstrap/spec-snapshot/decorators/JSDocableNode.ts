@@ -1,15 +1,15 @@
 import MultiMixinBuilder from "mixin-decorators";
 
-import StructureBase from "../../prototype-snapshot/base/StructureBase.js";
+import StructureBase from "#stage_one/prototype-snapshot/base/StructureBase.js";
 
 import JSDocableNode, {
   type JSDocableNodeStructureFields
-} from "../../prototype-snapshot/decorators/JSDocableNode.js";
+} from "#stage_one/prototype-snapshot/decorators/JSDocableNode.js";
 
 import {
   JSDocImpl,
   JSDocTagImpl,
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 it("ts-morph structure decorators: JSDocableNode", () => {
   const Foo = MultiMixinBuilder<[

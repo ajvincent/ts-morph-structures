@@ -1,18 +1,18 @@
 import {
   ClassDeclarationImpl, SourceFileImpl,
-} from "../../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 import StructureDictionaries, {
   DecoratorParts,
-} from "../../StructureDictionaries.js";
+} from "#stage_one/build/StructureDictionaries.js";
 import type {
   DecoratorImplMeta
-} from "../../structureMeta/DataClasses.js";
+} from "#stage_one/build/structureMeta/DataClasses.js";
 
-import defineCopyFieldsMethod from "../../utilities/defineCopyFieldsMethod.js";
-import defineDecoratorImports from "../../utilities/defineDecoratorImports.js";
-import defineDecoratorWrapper from "../../utilities/defineDecoratorWrapper.js";
-import defineFieldsType from "../../utilities/defineFieldsType.js";
+import defineCopyFieldsMethod from "#stage_one/build/utilities/defineCopyFieldsMethod.js";
+import defineDecoratorImports from "#stage_one/build/utilities/defineDecoratorImports.js";
+import defineDecoratorWrapper from "#stage_one/build/utilities/defineDecoratorWrapper.js";
+import defineFieldsType from "#stage_one/build/utilities/defineFieldsType.js";
 
 export default function createDecoratorParts(
   name: string,

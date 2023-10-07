@@ -4,16 +4,16 @@ import type {
   WriterFunction
 } from "ts-morph";
 
-import StructureBase from "../../prototype-snapshot/base/StructureBase.js";
+import StructureBase from "#stage_one/prototype-snapshot/base/StructureBase.js";
 
 import ReturnTypedNode, {
   type ReturnTypedNodeStructureFields
-} from "../../prototype-snapshot/decorators/ReturnTypedNode.js";
+} from "#stage_one/prototype-snapshot/decorators/ReturnTypedNode.js";
 
 import {
   LiteralTypedStructureImpl,
   StringTypedStructureImpl,
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 it("ts-morph structure decorators: ReturnTypedNode", () => {
   const Foo = MultiMixinBuilder<[

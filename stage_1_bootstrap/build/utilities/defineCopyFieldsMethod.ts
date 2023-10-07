@@ -11,12 +11,12 @@ import {
   ParameterDeclarationImpl,
   //TypeArgumentedTypedStructureImpl,
   IntersectionTypedStructureImpl,
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 import type {
   DecoratorImplMeta,
   StructureImplMeta,
-} from "../structureMeta/DataClasses.js";
+} from "#stage_one/build/structureMeta/DataClasses.js";
 
 
 import ConstantTypeStructures from "./ConstantTypeStructures.js";

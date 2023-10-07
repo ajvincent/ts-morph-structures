@@ -1,5 +1,9 @@
 //#region preamble
 import {
+  WriterFunction,
+} from "ts-morph";
+
+import {
   PromiseAllParallel,
   PromiseAllSequence,
 } from "#utilities/source/PromiseTypes.js";
@@ -11,7 +15,7 @@ import {
   MethodDeclarationImpl,
   SourceFileImpl,
   TypeAliasDeclarationImpl,
-} from "../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 
 import {
@@ -25,7 +29,6 @@ import {
   PublicExports,
   InternalExports,
 } from "./ExportManager.js";
-import { WriterFunction } from "ts-morph";
 //#endregion preamble
 
 export type DecoratorHook = (

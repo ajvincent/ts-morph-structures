@@ -36,14 +36,14 @@ import {
   TypeArgumentedTypedStructureImpl,
   TypeParameterDeclarationImpl,
   getTypeAugmentedStructure
-} from "../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 // #endregion preamble
 
 it("ts-morph-structures: integration test", () => {
   const stageDir: ModuleSourceDirectory = {
-    importMeta: import.meta,
-    pathToDirectory: "../.."
+    pathToDirectory: "#stage_one",
+    isAbsolutePath: true
   };
 
   // get the NumberStringType interface

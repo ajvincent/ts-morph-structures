@@ -1,5 +1,5 @@
-import ReadonlyArrayProxyHandler from "../../prototype-snapshot/array-utilities/ReadonlyArrayProxyHandler.js";
-import { stringOrWriterFunction } from "../../prototype-snapshot/types/ts-morph-native.js";
+import ReadonlyArrayProxyHandler from "#stage_one/prototype-snapshot/array-utilities/ReadonlyArrayProxyHandler.js";
+import { stringOrWriterFunction } from "#stage_one/prototype-snapshot/types/ts-morph-native.js";
 
 it("ReadonlyArrayProxyHandler builds proxies which appear read-only", () => {
   let array: stringOrWriterFunction[] = ["boolean", "string"];

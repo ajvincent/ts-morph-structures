@@ -1,27 +1,27 @@
 import path from "path";
 
-import ImportManager from "../../ImportManager.js";
+import ImportManager from "#stage_one/build/ImportManager.js";
 
 import {
   ClassDeclarationImpl,
   LiteralTypedStructureImpl,
   SourceFileImpl,
-} from "../../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 import StructureDictionaries, {
   type StructureParts
-} from "../../StructureDictionaries.js";
+} from "#stage_one/build/StructureDictionaries.js";
 
 import type {
   StructureImplMeta
-} from "../../structureMeta/DataClasses.js";
+} from "#stage_one/build/structureMeta/DataClasses.js";
 
-import StructureMixinWriter from "../../utilities/StructureMixinWriter.js";
+import StructureMixinWriter from "#stage_one/build/utilities/StructureMixinWriter.js";
 
 import {
   distDir
-} from "../../constants.js";
-import defineCopyFieldsMethod from "../../utilities/defineCopyFieldsMethod.js";
+} from "#stage_one/build/constants.js";
+import defineCopyFieldsMethod from "#stage_one/build/utilities/defineCopyFieldsMethod.js";
 
 export default function createStructureParts(
   name: string,

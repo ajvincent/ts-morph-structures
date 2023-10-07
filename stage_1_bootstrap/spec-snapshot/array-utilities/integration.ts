@@ -3,15 +3,15 @@ import type {
   ImplementsClauseableNodeStructure
 } from 'ts-morph'
 
-import TypeStructureSet from "../../prototype-snapshot/base/TypeStructureSet.js";
-import ReadonlyArrayProxyHandler from "../../prototype-snapshot/array-utilities/ReadonlyArrayProxyHandler.js";
+import TypeStructureSet from "#stage_one/prototype-snapshot/base/TypeStructureSet.js";
+import ReadonlyArrayProxyHandler from "#stage_one/prototype-snapshot/array-utilities/ReadonlyArrayProxyHandler.js";
 import type {
   stringOrWriterFunction
-} from '../../prototype-snapshot/types/ts-morph-native.js';
+} from '#stage_one/prototype-snapshot/types/ts-morph-native.js';
 import {
   LiteralTypedStructureImpl,
   TypeStructures,
-} from '../../prototype-snapshot/exports.js';
+} from '#stage_one/prototype-snapshot/exports.js';
 
 it("ts-morph structures: implements array and set, integration test", () => {
   class ImplementsArrayOwner implements Required<ImplementsClauseableNodeStructure>

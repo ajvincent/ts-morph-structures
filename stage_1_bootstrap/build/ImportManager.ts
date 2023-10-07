@@ -3,7 +3,7 @@ import path from "path";
 import {
   ImportDeclarationImpl,
   ImportSpecifierImpl,
-} from "../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 export interface AddImportContext {
   pathToImportedModule: string,

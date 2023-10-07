@@ -4,11 +4,11 @@ import {
   TypeElementMemberedNodeStructure,
 } from "ts-morph";
 
-import StructureBase from "../../prototype-snapshot/base/StructureBase.js";
+import StructureBase from "#stage_one/prototype-snapshot/base/StructureBase.js";
 
 import TypeElementMemberedNode, {
   type TypeElementMemberedNodeStructureFields
-} from "../../prototype-snapshot/decorators/TypeElementMemberedNode.js";
+} from "#stage_one/prototype-snapshot/decorators/TypeElementMemberedNode.js";
 
 import {
   CallSignatureDeclarationImpl,
@@ -16,7 +16,7 @@ import {
   IndexSignatureDeclarationImpl,
   MethodSignatureImpl,
   PropertySignatureImpl
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 it("ts-morph structure decorators: TypeElementMemberedNode", () => {
   const Foo = MultiMixinBuilder<[

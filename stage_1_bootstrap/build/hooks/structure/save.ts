@@ -1,12 +1,12 @@
 import path from "path";
 
-import StructureDictionaries from "../../StructureDictionaries.js";
-import { distDir } from "../../constants.js";
-import saveSourceFile from "../../utilities/saveSourceFile.js";
+import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
+import { distDir } from "#stage_one/build/constants.js";
+import saveSourceFile from "#stage_one/build/utilities/saveSourceFile.js";
 
 import type {
   StructureImplMeta
-} from "../../structureMeta/DataClasses.js";
+} from "#stage_one/build/structureMeta/DataClasses.js";
 
 export default async function saveDecoratorFile(
   name: string,

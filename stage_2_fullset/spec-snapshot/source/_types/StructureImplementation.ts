@@ -8,11 +8,11 @@ import  {
 import type {
   StructureImplementation,
   StructureImplementationStatic
-} from "../../../snapshot/source/types/StructureImplementation.js";
+} from "#stage_two/snapshot/source/types/StructureImplementation.js";
 
 import type {
   stringOrWriter,
-} from "../../../snapshot/source/types/stringOrWriter.js";
+} from "#stage_two/snapshot/source/types/stringOrWriter.js";
 
 class ImplStub implements StructureImplementation<
   StructureKind.JSDocTag,

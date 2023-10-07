@@ -4,15 +4,15 @@ import {
   pathToModule
 } from "#utilities/source/AsyncSpecModules.js";
 
-import ImportManager from "../ImportManager.js";
+import ImportManager from "#stage_one/build/ImportManager.js";
 
 import {
   stageDir,
-} from "../constants.js";
+} from "#stage_one/build/constants.js";
 
 import {
   ImportSpecifierImpl
-} from "../../prototype-snapshot/exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 it("ImportManager can import values from submodules", () => {
   const baseDir = pathToModule(stageDir, "non-existent");

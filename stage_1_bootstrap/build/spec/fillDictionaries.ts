@@ -1,8 +1,8 @@
 import {
   StructureMetaDictionaries,
-} from "../structureMeta/DataClasses.js";
+} from "#stage_one/build/structureMeta/DataClasses.js";
 
-import fillDictionaries from "../structureMeta/fillDictionaries.js";
+import fillDictionaries from "#stage_one/build/structureMeta/fillDictionaries.js";
 
 it("fillDictionaries works", () => {
   const dictionaries = new StructureMetaDictionaries;

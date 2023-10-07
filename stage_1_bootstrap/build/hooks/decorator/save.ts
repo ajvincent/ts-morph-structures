@@ -4,15 +4,15 @@ import {
   WriterFunction,
 } from "ts-morph";
 
-import StructureDictionaries from "../../StructureDictionaries.js";
-import { distDir } from "../../constants.js";
-import ConstantTypeStructures from "../../utilities/ConstantTypeStructures.js";
-import defineSatisfiesWriter from "../../utilities/defineSatisfiesWriter.js";
-import saveSourceFile from "../../utilities/saveSourceFile.js";
+import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
+import { distDir } from "#stage_one/build/constants.js";
+import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
+import defineSatisfiesWriter from "#stage_one/build/utilities/defineSatisfiesWriter.js";
+import saveSourceFile from "#stage_one/build/utilities/saveSourceFile.js";
 
 import type {
   DecoratorImplMeta
-} from "../../structureMeta/DataClasses.js";
+} from "#stage_one/build/structureMeta/DataClasses.js";
 
 export default async function saveDecoratorFile(
   name: string,
