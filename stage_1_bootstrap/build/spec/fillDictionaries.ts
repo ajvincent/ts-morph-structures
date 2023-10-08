@@ -24,7 +24,6 @@ it("fillDictionaries works", () => {
       "AmbientableNodeStructure",
       "DecoratableNodeStructure",
       "ExportableNodeStructure",
-      "ImplementsClauseableNodeStructure",
       "JSDocableNodeStructure",
       "NameableNodeStructure",
       "Structure",
@@ -56,7 +55,7 @@ it("fillDictionaries works", () => {
     }
 
     expect(Array.from(structureDef.structureFieldArrays.keys()).sort()).toEqual([
-      "ctors", "getAccessors", "methods", "properties", "setAccessors"
+      "ctors", "getAccessors", "implements", "methods", "properties", "setAccessors"
     ]);
 
     const ctors = structureDef.structureFieldArrays.get("ctors");

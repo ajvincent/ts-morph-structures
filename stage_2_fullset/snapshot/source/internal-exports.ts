@@ -33,21 +33,9 @@ export {
   type ExportableNodeStructureFields,
 } from "./decorators/ExportableNodeStructureMixin.js";
 export {
-  default as ExpressionedNodeStructureMixin,
-  type ExpressionedNodeStructureFields,
-} from "./decorators/ExpressionedNodeStructureMixin.js";
-export {
-  default as ExtendsClauseableNodeStructureMixin,
-  type ExtendsClauseableNodeStructureFields,
-} from "./decorators/ExtendsClauseableNodeStructureMixin.js";
-export {
   default as GeneratorableNodeStructureMixin,
   type GeneratorableNodeStructureFields,
 } from "./decorators/GeneratorableNodeStructureMixin.js";
-export {
-  default as ImplementsClauseableNodeStructureMixin,
-  type ImplementsClauseableNodeStructureFields,
-} from "./decorators/ImplementsClauseableNodeStructureMixin.js";
 export {
   default as InitializerExpressionableNodeStructureMixin,
   type InitializerExpressionableNodeStructureFields,
@@ -56,10 +44,6 @@ export {
   default as JSDocableNodeStructureMixin,
   type JSDocableNodeStructureFields,
 } from "./decorators/JSDocableNodeStructureMixin.js";
-export {
-  default as JsxAttributedNodeStructureMixin,
-  type JsxAttributedNodeStructureFields,
-} from "./decorators/JsxAttributedNodeStructureMixin.js";
 export {
   default as NameableNodeStructureMixin,
   type NameableNodeStructureFields,
@@ -89,10 +73,6 @@ export {
   type ReturnTypedNodeStructureFields,
 } from "./decorators/ReturnTypedNodeStructureMixin.js";
 export {
-  default as ScopeableNodeStructureMixin,
-  type ScopeableNodeStructureFields,
-} from "./decorators/ScopeableNodeStructureMixin.js";
-export {
   default as ScopedNodeStructureMixin,
   type ScopedNodeStructureFields,
 } from "./decorators/ScopedNodeStructureMixin.js";
@@ -112,10 +92,6 @@ export {
   default as TypedNodeStructureMixin,
   type TypedNodeStructureFields,
 } from "./decorators/TypedNodeStructureMixin.js";
-export {
-  default as TypeElementMemberedNodeStructureMixin,
-  type TypeElementMemberedNodeStructureFields,
-} from "./decorators/TypeElementMemberedNodeStructureMixin.js";
 export {
   default as TypeParameteredNodeStructureMixin,
   type TypeParameteredNodeStructureFields,

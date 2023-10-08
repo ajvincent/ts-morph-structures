@@ -1,8 +1,8 @@
 //#region preamble
+import { JsxAttributeImpl, JsxSpreadAttributeImpl } from "../exports.js";
 import {
   type CloneableStructure,
-  type JsxAttributedNodeStructureFields,
-  JsxAttributedNodeStructureMixin,
+  cloneRequiredAndOptionalArray,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
@@ -12,18 +12,17 @@ import {
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  type JsxAttributeStructure,
   type JsxSelfClosingElementStructure,
-  OptionalKind,
+  type JsxSpreadAttributeStructure,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 //#endregion preamble
 const JsxSelfClosingElementStructureBase = MultiMixinBuilder<
-  [JsxAttributedNodeStructureFields, NamedNodeStructureFields, StructureFields],
+  [NamedNodeStructureFields, StructureFields],
   typeof StructureBase
->(
-  [JsxAttributedNodeStructureMixin, NamedNodeStructureMixin, StructureMixin],
-  StructureBase,
-);
+>([NamedNodeStructureMixin, StructureMixin], StructureBase);
 
 export default class JsxSelfClosingElementImpl
   extends JsxSelfClosingElementStructureBase
@@ -31,12 +30,29 @@ export default class JsxSelfClosingElementImpl
 {
   readonly kind: StructureKind.JsxSelfClosingElement =
     StructureKind.JsxSelfClosingElement;
+  readonly attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[] = [];
 
   public static copyFields(
     source: OptionalKind<JsxSelfClosingElementStructure>,
     target: JsxSelfClosingElementImpl,
   ): void {
     super.copyFields(source, target);
+    if (source.attributes) {
+      target.attributes.push(
+        ...cloneRequiredAndOptionalArray<
+          JsxSpreadAttributeStructure,
+          StructureKind.JsxSpreadAttribute,
+          OptionalKind<JsxAttributeStructure>,
+          StructureKind.JsxAttribute,
+          JsxSpreadAttributeImpl,
+          JsxAttributeImpl
+        >(
+          source.attributes,
+          StructureKind.JsxSpreadAttribute,
+          StructureKind.JsxAttribute,
+        ),
+      );
+    }
   }
 
   public static clone(

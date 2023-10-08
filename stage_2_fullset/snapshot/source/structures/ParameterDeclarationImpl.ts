@@ -13,8 +13,6 @@ import {
   QuestionTokenableNodeStructureMixin,
   type ReadonlyableNodeStructureFields,
   ReadonlyableNodeStructureMixin,
-  type ScopeableNodeStructureFields,
-  ScopeableNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -26,12 +24,12 @@ import MultiMixinBuilder from "mixin-decorators";
 import {
   OptionalKind,
   type ParameterDeclarationStructure,
+  Scope,
   StructureKind,
 } from "ts-morph";
 //#endregion preamble
 const ParameterDeclarationStructureBase = MultiMixinBuilder<
   [
-    ScopeableNodeStructureFields,
     ReadonlyableNodeStructureFields,
     OverrideableNodeStructureFields,
     TypedNodeStructureFields,
@@ -44,7 +42,6 @@ const ParameterDeclarationStructureBase = MultiMixinBuilder<
   typeof StructureBase
 >(
   [
-    ScopeableNodeStructureMixin,
     ReadonlyableNodeStructureMixin,
     OverrideableNodeStructureMixin,
     TypedNodeStructureMixin,
@@ -63,6 +60,7 @@ export default class ParameterDeclarationImpl
 {
   readonly kind: StructureKind.Parameter = StructureKind.Parameter;
   isRestParameter = false;
+  scope?: Scope = undefined;
 
   public static copyFields(
     source: OptionalKind<ParameterDeclarationStructure>,
@@ -70,6 +68,9 @@ export default class ParameterDeclarationImpl
   ): void {
     super.copyFields(source, target);
     target.isRestParameter = source.isRestParameter ?? false;
+    if (source.scope) {
+      target.scope = source.scope;
+    }
   }
 
   public static clone(

@@ -40,6 +40,7 @@ function fillDictionaries(
   consolidateNameDecorators(dictionary);
   resolveDecoratorKeys(dictionary);
   countDecoratorUsage(dictionary);
+  consolidateSingleUseDecorators(dictionary);
 }
 
 function addStructureUnion(
@@ -364,7 +365,35 @@ function countDecoratorUsage(
       const dec = dictionary.decorators.get(decName)!;
       if (!dec)
         throw new Error(str.structureName + ": " + decName);
-      dec.incrementCount();
+      dec.addStructureUsing(str.structureName);
     }
+  }
+}
+
+function consolidateSingleUseDecorators(
+  dictionary: StructureMetaDictionaries
+): void
+{
+  for (const [name, dec] of dictionary.decorators.entries()) {
+    const { structuresUsing } = dec;
+    if (structuresUsing.size >= 2)
+      continue;
+
+    if (structuresUsing.size === 1) {
+      const structureName = Array.from(structuresUsing.values())[0];
+      const structure = dictionary.structures.get(structureName)!;
+      for (const subname of dec.booleanKeys.values()) {
+        structure.booleanKeys.add(subname);
+      }
+      for (const [subname, value] of dec.structureFieldArrays) {
+        structure.structureFieldArrays.set(subname, value);
+      }
+      for (const [subname, value] of dec.structureFields) {
+        structure.structureFields.set(subname, value);
+      }
+      structure.decoratorKeys.delete(name);
+    }
+
+    dictionary.decorators.delete(name);
   }
 }

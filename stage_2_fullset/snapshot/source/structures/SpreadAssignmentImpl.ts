@@ -1,13 +1,12 @@
 //#region preamble
 import {
   type CloneableStructure,
-  type ExpressionedNodeStructureFields,
-  ExpressionedNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
 } from "../internal-exports.js";
+import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   OptionalKind,
@@ -16,9 +15,9 @@ import {
 } from "ts-morph";
 //#endregion preamble
 const SpreadAssignmentStructureBase = MultiMixinBuilder<
-  [ExpressionedNodeStructureFields, StructureFields],
+  [StructureFields],
   typeof StructureBase
->([ExpressionedNodeStructureMixin, StructureMixin], StructureBase);
+>([StructureMixin], StructureBase);
 
 export default class SpreadAssignmentImpl
   extends SpreadAssignmentStructureBase
@@ -26,12 +25,16 @@ export default class SpreadAssignmentImpl
 {
   readonly kind: StructureKind.SpreadAssignment =
     StructureKind.SpreadAssignment;
+  expression: stringOrWriter = "";
 
   public static copyFields(
     source: OptionalKind<SpreadAssignmentStructure>,
     target: SpreadAssignmentImpl,
   ): void {
     super.copyFields(source, target);
+    if (source.expression) {
+      target.expression = source.expression;
+    }
   }
 
   public static clone(

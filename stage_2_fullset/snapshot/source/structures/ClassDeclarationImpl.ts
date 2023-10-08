@@ -17,8 +17,6 @@ import {
   DecoratableNodeStructureMixin,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
-  type ImplementsClauseableNodeStructureFields,
-  ImplementsClauseableNodeStructureMixin,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type NameableNodeStructureFields,
@@ -45,7 +43,6 @@ import {
 //#endregion preamble
 const ClassDeclarationStructureBase = MultiMixinBuilder<
   [
-    ImplementsClauseableNodeStructureFields,
     NameableNodeStructureFields,
     DecoratableNodeStructureFields,
     AbstractableNodeStructureFields,
@@ -58,7 +55,6 @@ const ClassDeclarationStructureBase = MultiMixinBuilder<
   typeof StructureBase
 >(
   [
-    ImplementsClauseableNodeStructureMixin,
     NameableNodeStructureMixin,
     DecoratableNodeStructureMixin,
     AbstractableNodeStructureMixin,
@@ -81,6 +77,7 @@ export default class ClassDeclarationImpl
   readonly getAccessors: GetAccessorDeclarationImpl[] = [];
   readonly setAccessors: SetAccessorDeclarationImpl[] = [];
   readonly methods: MethodDeclarationImpl[] = [];
+  readonly implements: stringOrWriter[] = [];
   extends?: stringOrWriter = undefined;
 
   public static copyFields(
@@ -136,6 +133,12 @@ export default class ClassDeclarationImpl
           MethodDeclarationImpl
         >(source.methods, StructureKind.Method),
       );
+    }
+
+    if (Array.isArray(source.implements)) {
+      target.implements.push(...source.implements);
+    } else if (source.implements !== undefined) {
+      target.implements.push(source.implements);
     }
 
     if (source.extends) {
