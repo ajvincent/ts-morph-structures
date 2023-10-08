@@ -32,7 +32,7 @@ it("fillDictionaries works", () => {
     ]);
 
     expect(Array.from(structureDef.structureFields.keys()).sort()).toEqual([
-      "extends", "name"
+      "extends"
     ]);
 
     const _extends = structureDef.structureFields.get("extends");

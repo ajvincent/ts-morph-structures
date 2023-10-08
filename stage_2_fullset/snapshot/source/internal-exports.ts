@@ -17,17 +17,9 @@ export {
   default as AmbientableNodeStructureMixin,
 } from "./decorators/AmbientableNodeStructureMixin.js";
 export {
-  type AssertionKeyNamedNodeStructureFields,
-  default as AssertionKeyNamedNodeStructureMixin,
-} from "./decorators/AssertionKeyNamedNodeStructureMixin.js";
-export {
   type AsyncableNodeStructureFields,
   default as AsyncableNodeStructureMixin,
 } from "./decorators/AsyncableNodeStructureMixin.js";
-export {
-  type BindingNamedNodeStructureFields,
-  default as BindingNamedNodeStructureMixin,
-} from "./decorators/BindingNamedNodeStructureMixin.js";
 export {
   type DecoratableNodeStructureFields,
   default as DecoratableNodeStructureMixin,
@@ -69,14 +61,6 @@ export {
   type JsxAttributedNodeStructureFields,
 } from "./decorators/JsxAttributedNodeStructureMixin.js";
 export {
-  default as JsxTagNamedNodeStructureMixin,
-  type JsxTagNamedNodeStructureFields,
-} from "./decorators/JsxTagNamedNodeStructureMixin.js";
-export {
-  default as ModuleNamedNodeStructureMixin,
-  type ModuleNamedNodeStructureFields,
-} from "./decorators/ModuleNamedNodeStructureMixin.js";
-export {
   default as NameableNodeStructureMixin,
   type NameableNodeStructureFields,
 } from "./decorators/NameableNodeStructureMixin.js";
@@ -92,10 +76,6 @@ export {
   default as ParameteredNodeStructureMixin,
   type ParameteredNodeStructureFields,
 } from "./decorators/ParameteredNodeStructureMixin.js";
-export {
-  default as PropertyNamedNodeStructureMixin,
-  type PropertyNamedNodeStructureFields,
-} from "./decorators/PropertyNamedNodeStructureMixin.js";
 export {
   default as QuestionTokenableNodeStructureMixin,
   type QuestionTokenableNodeStructureFields,

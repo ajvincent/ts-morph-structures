@@ -7,6 +7,8 @@ import {
 import {
   type CloneableStructure,
   cloneRequiredAndOptionalArray,
+  type NamedNodeStructureFields,
+  NamedNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -23,9 +25,9 @@ import {
 } from "ts-morph";
 //#endregion preamble
 const JsxElementStructureBase = MultiMixinBuilder<
-  [StructureFields],
+  [NamedNodeStructureFields, StructureFields],
   typeof StructureBase
->([StructureMixin], StructureBase);
+>([NamedNodeStructureMixin, StructureMixin], StructureBase);
 
 export default class JsxElementImpl
   extends JsxElementStructureBase
@@ -34,7 +36,6 @@ export default class JsxElementImpl
   readonly kind: StructureKind.JsxElement = StructureKind.JsxElement;
   readonly attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[] = [];
   readonly children: (JsxElementImpl | JsxSelfClosingElementImpl)[] = [];
-  name = "";
   bodyText?: string = undefined;
 
   public static copyFields(
@@ -74,10 +75,6 @@ export default class JsxElementImpl
           StructureKind.JsxElement,
         ),
       );
-    }
-
-    if (source.name) {
-      target.name = source.name;
     }
 
     if (source.bodyText) {

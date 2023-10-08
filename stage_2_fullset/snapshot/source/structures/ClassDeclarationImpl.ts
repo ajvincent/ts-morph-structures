@@ -82,7 +82,6 @@ export default class ClassDeclarationImpl
   readonly setAccessors: SetAccessorDeclarationImpl[] = [];
   readonly methods: MethodDeclarationImpl[] = [];
   extends?: stringOrWriter = undefined;
-  name?: string = undefined;
 
   public static copyFields(
     source: OptionalKind<ClassDeclarationStructure>,
@@ -141,10 +140,6 @@ export default class ClassDeclarationImpl
 
     if (source.extends) {
       target.extends = source.extends;
-    }
-
-    if (source.name) {
-      target.name = source.name;
     }
   }
 

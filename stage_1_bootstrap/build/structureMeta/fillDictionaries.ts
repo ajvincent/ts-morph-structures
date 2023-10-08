@@ -302,6 +302,26 @@ function consolidateNameDecorators(
         dec.decoratorKeys.delete(oldDecorator);
       }
     }
+
+    dictionary.decorators.delete(oldDecorator);
+  }
+
+  {
+    const classStructure = dictionary.structures.get("ClassDeclarationStructure")!
+    classStructure.decoratorKeys.add("NameableNodeStructure");
+    classStructure.structureFields.delete("name");
+  }
+
+  for (const structureName of [
+    "DecoratorStructure",
+    "ExportSpecifierStructure",
+    "ImportSpecifierStructure",
+    "JsxElementStructure",
+  ])
+  {
+    const structure = dictionary.structures.get(structureName)!;
+    structure.decoratorKeys.add("NamedNodeStructure");
+    structure.structureFields.delete("name");
   }
 }
 

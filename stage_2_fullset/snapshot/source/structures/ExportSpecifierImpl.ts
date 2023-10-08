@@ -1,6 +1,8 @@
 //#region preamble
 import {
   type CloneableStructure,
+  type NamedNodeStructureFields,
+  NamedNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -14,9 +16,9 @@ import {
 } from "ts-morph";
 //#endregion preamble
 const ExportSpecifierStructureBase = MultiMixinBuilder<
-  [StructureFields],
+  [NamedNodeStructureFields, StructureFields],
   typeof StructureBase
->([StructureMixin], StructureBase);
+>([NamedNodeStructureMixin, StructureMixin], StructureBase);
 
 export default class ExportSpecifierImpl
   extends ExportSpecifierStructureBase
@@ -24,7 +26,6 @@ export default class ExportSpecifierImpl
 {
   readonly kind: StructureKind.ExportSpecifier = StructureKind.ExportSpecifier;
   isTypeOnly = false;
-  name = "";
   alias?: string = undefined;
 
   public static copyFields(
@@ -33,10 +34,6 @@ export default class ExportSpecifierImpl
   ): void {
     super.copyFields(source, target);
     target.isTypeOnly = source.isTypeOnly ?? false;
-    if (source.name) {
-      target.name = source.name;
-    }
-
     if (source.alias) {
       target.alias = source.alias;
     }

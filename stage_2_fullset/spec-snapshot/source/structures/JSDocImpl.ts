@@ -21,7 +21,7 @@ describe("JSDocImpl", () => {
     expect(doc.kind).toBe(StructureKind.JSDoc);
   });
 
-  it("sanity check: we can create one via JSDoc", () => {
+  it("sanity check: we can create one via JSDocImpl.clone()", () => {
     const docStructure: OptionalKind<JSDocStructure> = {
       description: "Hello World",
       tags: [tag],
