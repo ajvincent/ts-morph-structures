@@ -76,13 +76,6 @@ export default class MethodDeclarationOverloadImpl
 {
   readonly kind: StructureKind.MethodOverload = StructureKind.MethodOverload;
 
-  public static [COPY_FIELDS](
-    source: OptionalKind<MethodDeclarationOverloadStructure>,
-    target: MethodDeclarationOverloadImpl,
-  ): void {
-    super[COPY_FIELDS](source, target);
-  }
-
   public static clone(
     source: OptionalKind<MethodDeclarationOverloadStructure>,
   ): MethodDeclarationOverloadImpl {

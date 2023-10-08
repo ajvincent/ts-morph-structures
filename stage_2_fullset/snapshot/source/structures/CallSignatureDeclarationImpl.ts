@@ -48,13 +48,6 @@ export default class CallSignatureDeclarationImpl
 {
   readonly kind: StructureKind.CallSignature = StructureKind.CallSignature;
 
-  public static [COPY_FIELDS](
-    source: OptionalKind<CallSignatureDeclarationStructure>,
-    target: CallSignatureDeclarationImpl,
-  ): void {
-    super[COPY_FIELDS](source, target);
-  }
-
   public static clone(
     source: OptionalKind<CallSignatureDeclarationStructure>,
   ): CallSignatureDeclarationImpl {

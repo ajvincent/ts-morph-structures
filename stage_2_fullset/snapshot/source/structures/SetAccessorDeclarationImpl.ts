@@ -77,13 +77,6 @@ export default class SetAccessorDeclarationImpl
     this.name = name;
   }
 
-  public static [COPY_FIELDS](
-    source: OptionalKind<SetAccessorDeclarationStructure>,
-    target: SetAccessorDeclarationImpl,
-  ): void {
-    super[COPY_FIELDS](source, target);
-  }
-
   public static clone(
     source: OptionalKind<SetAccessorDeclarationStructure>,
   ): SetAccessorDeclarationImpl {

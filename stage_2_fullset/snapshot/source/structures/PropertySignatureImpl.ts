@@ -62,13 +62,6 @@ export default class PropertySignatureImpl
     this.name = name;
   }
 
-  public static [COPY_FIELDS](
-    source: OptionalKind<PropertySignatureStructure>,
-    target: PropertySignatureImpl,
-  ): void {
-    super[COPY_FIELDS](source, target);
-  }
-
   public static clone(
     source: OptionalKind<PropertySignatureStructure>,
   ): PropertySignatureImpl {

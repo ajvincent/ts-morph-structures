@@ -65,13 +65,6 @@ export default class FunctionDeclarationOverloadImpl
   readonly kind: StructureKind.FunctionOverload =
     StructureKind.FunctionOverload;
 
-  public static [COPY_FIELDS](
-    source: OptionalKind<FunctionDeclarationOverloadStructure>,
-    target: FunctionDeclarationOverloadImpl,
-  ): void {
-    super[COPY_FIELDS](source, target);
-  }
-
   public static clone(
     source: OptionalKind<FunctionDeclarationOverloadStructure>,
   ): FunctionDeclarationOverloadImpl {

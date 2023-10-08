@@ -13,6 +13,7 @@ import defineKindProperty from "./hooks/structure/defineKind.js";
 import addConstructor from "./hooks/structure/addConstructor.js";
 import addStaticClone from "./hooks/structure/addStaticClone.js";
 import saveStructureFile from "./hooks/structure/save.js";
+import removeUselessCopyFields from "./hooks/structure/removeUselessCopyFields.js";
 
 // #endregion hooks
 
@@ -34,6 +35,7 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addStructureHook("define structure kind", defineKindProperty);
   dictionary.addStructureHook("add constructor", addConstructor);
   dictionary.addStructureHook("add static clone method", addStaticClone);
+  dictionary.addStructureHook("remove useless copy-fields method", removeUselessCopyFields);
   dictionary.addStructureHook("save structure file", saveStructureFile);
   // add decorator imports
   // create class, including implements, export default

@@ -27,13 +27,6 @@ export default class SourceFileImpl
 {
   readonly kind: StructureKind.SourceFile = StructureKind.SourceFile;
 
-  public static [COPY_FIELDS](
-    source: OptionalKind<SourceFileStructure>,
-    target: SourceFileImpl,
-  ): void {
-    super[COPY_FIELDS](source, target);
-  }
-
   public static clone(
     source: OptionalKind<SourceFileStructure>,
   ): SourceFileImpl {

@@ -77,13 +77,6 @@ export default class GetAccessorDeclarationImpl
     this.name = name;
   }
 
-  public static [COPY_FIELDS](
-    source: OptionalKind<GetAccessorDeclarationStructure>,
-    target: GetAccessorDeclarationImpl,
-  ): void {
-    super[COPY_FIELDS](source, target);
-  }
-
   public static clone(
     source: OptionalKind<GetAccessorDeclarationStructure>,
   ): GetAccessorDeclarationImpl {

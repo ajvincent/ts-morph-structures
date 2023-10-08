@@ -53,13 +53,6 @@ export default class ConstructorDeclarationOverloadImpl
   readonly kind: StructureKind.ConstructorOverload =
     StructureKind.ConstructorOverload;
 
-  public static [COPY_FIELDS](
-    source: OptionalKind<ConstructorDeclarationOverloadStructure>,
-    target: ConstructorDeclarationOverloadImpl,
-  ): void {
-    super[COPY_FIELDS](source, target);
-  }
-
   public static clone(
     source: OptionalKind<ConstructorDeclarationOverloadStructure>,
   ): ConstructorDeclarationOverloadImpl {

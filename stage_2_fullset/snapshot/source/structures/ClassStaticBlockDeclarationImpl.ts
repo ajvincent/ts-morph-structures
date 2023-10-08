@@ -37,13 +37,6 @@ export default class ClassStaticBlockDeclarationImpl
   readonly kind: StructureKind.ClassStaticBlock =
     StructureKind.ClassStaticBlock;
 
-  public static [COPY_FIELDS](
-    source: OptionalKind<ClassStaticBlockDeclarationStructure>,
-    target: ClassStaticBlockDeclarationImpl,
-  ): void {
-    super[COPY_FIELDS](source, target);
-  }
-
   public static clone(
     source: OptionalKind<ClassStaticBlockDeclarationStructure>,
   ): ClassStaticBlockDeclarationImpl {

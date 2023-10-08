@@ -49,13 +49,6 @@ export default class ConstructSignatureDeclarationImpl
   readonly kind: StructureKind.ConstructSignature =
     StructureKind.ConstructSignature;
 
-  public static [COPY_FIELDS](
-    source: OptionalKind<ConstructSignatureDeclarationStructure>,
-    target: ConstructSignatureDeclarationImpl,
-  ): void {
-    super[COPY_FIELDS](source, target);
-  }
-
   public static clone(
     source: OptionalKind<ConstructSignatureDeclarationStructure>,
   ): ConstructSignatureDeclarationImpl {

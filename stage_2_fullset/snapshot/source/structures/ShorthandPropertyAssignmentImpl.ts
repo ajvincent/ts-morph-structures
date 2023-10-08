@@ -33,13 +33,6 @@ export default class ShorthandPropertyAssignmentImpl
     this.name = name;
   }
 
-  public static [COPY_FIELDS](
-    source: OptionalKind<ShorthandPropertyAssignmentStructure>,
-    target: ShorthandPropertyAssignmentImpl,
-  ): void {
-    super[COPY_FIELDS](source, target);
-  }
-
   public static clone(
     source: OptionalKind<ShorthandPropertyAssignmentStructure>,
   ): ShorthandPropertyAssignmentImpl {

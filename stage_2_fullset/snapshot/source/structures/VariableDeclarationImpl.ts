@@ -54,13 +54,6 @@ export default class VariableDeclarationImpl
     this.name = name;
   }
 
-  public static [COPY_FIELDS](
-    source: OptionalKind<VariableDeclarationStructure>,
-    target: VariableDeclarationImpl,
-  ): void {
-    super[COPY_FIELDS](source, target);
-  }
-
   public static clone(
     source: OptionalKind<VariableDeclarationStructure>,
   ): VariableDeclarationImpl {
