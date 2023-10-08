@@ -42,3 +42,4 @@ export { default as TypeParameterDeclarationImpl } from "./structures/TypeParame
 export { default as VariableDeclarationImpl } from "./structures/VariableDeclarationImpl.js";
 export { default as VariableStatementImpl } from "./structures/VariableStatementImpl.js";
 export type { stringOrWriter } from "./types/stringOrWriter.js";
+export type * from "./types/StructureImplUnions.js";

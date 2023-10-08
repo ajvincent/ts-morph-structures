@@ -14,6 +14,7 @@ import addConstructor from "./hooks/structure/addConstructor.js";
 import addStaticClone from "./hooks/structure/addStaticClone.js";
 import saveStructureFile from "./hooks/structure/save.js";
 import removeUselessCopyFields from "./hooks/structure/removeUselessCopyFields.js";
+import buildImplUnions from "./utilities/buildImplUnions.js";
 
 // #endregion hooks
 
@@ -51,6 +52,8 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   // #endregion write to filesystem
 
   await dictionary.build();
+  await buildImplUnions(dictionary, distDir);
+
   await Promise.all([
     dictionary.publicExports.commit(),
     dictionary.internalExports.commit()
