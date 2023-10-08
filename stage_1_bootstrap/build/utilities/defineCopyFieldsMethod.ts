@@ -21,17 +21,31 @@ import {
 
 
 import ConstantTypeStructures from "./ConstantTypeStructures.js";
+import ImportManager from "../ImportManager.js";
+import StructureDictionaries from "../StructureDictionaries.js";
 
 // #endregion preamble
 
 export default function defineCopyFieldsMethod(
   meta: DecoratorImplMeta | StructureImplMeta,
-  classDecl: ClassDeclarationImpl
+  classDecl: ClassDeclarationImpl,
+  importManager: ImportManager,
+  dictionaries: StructureDictionaries
 ): MethodDeclarationImpl
 {
-  const copyFields = new MethodDeclarationImpl("copyFields");
+  const copyFields = new MethodDeclarationImpl("[COPY_FIELDS]");
   copyFields.scope = Scope.Public;
   copyFields.isStatic = true;
+
+  importManager.addImports({
+    pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
+    isDefaultImport: false,
+    isPackageImport: false,
+    isTypeOnly: false,
+    importNames: [
+      "COPY_FIELDS"
+    ]
+  });
 
   const sourceParam = new ParameterDeclarationImpl("source");
   const targetParam = new ParameterDeclarationImpl("target");
@@ -67,7 +81,7 @@ export default function defineCopyFieldsMethod(
   copyFields.returnTypeStructure = ConstantTypeStructures.void;
 
   copyFields.statements.push(
-    `super.copyFields(source, target);`
+    `super[COPY_FIELDS](source, target);`
   );
 
   classDecl.methods.push(copyFields);

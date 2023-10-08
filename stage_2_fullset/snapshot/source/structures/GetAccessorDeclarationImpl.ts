@@ -3,6 +3,7 @@ import {
   type AbstractableNodeStructureFields,
   AbstractableNodeStructureMixin,
   type CloneableStructure,
+  COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -76,18 +77,18 @@ export default class GetAccessorDeclarationImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<GetAccessorDeclarationStructure>,
     target: GetAccessorDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
   }
 
   public static clone(
     source: OptionalKind<GetAccessorDeclarationStructure>,
   ): GetAccessorDeclarationImpl {
     const target = new GetAccessorDeclarationImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

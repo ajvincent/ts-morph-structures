@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -32,11 +33,11 @@ export default class SpreadAssignmentImpl
     this.expression = expression;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<SpreadAssignmentStructure>,
     target: SpreadAssignmentImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.expression) {
       target.expression = source.expression;
     }
@@ -46,7 +47,7 @@ export default class SpreadAssignmentImpl
     source: OptionalKind<SpreadAssignmentStructure>,
   ): SpreadAssignmentImpl {
     const target = new SpreadAssignmentImpl(source.expression);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

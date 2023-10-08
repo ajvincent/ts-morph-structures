@@ -28,7 +28,12 @@ export default function createDecoratorParts(
   parts.importsManager = defineDecoratorImports(meta, parts.classDecl.name);
   parts.sourceFile = new SourceFileImpl;
 
-  parts.copyFields = defineCopyFieldsMethod(meta, parts.classDecl);
+  parts.copyFields = defineCopyFieldsMethod(
+    meta,
+    parts.classDecl,
+    parts.importsManager,
+    dictionaries
+  );
   parts.fieldsTypeAlias = defineFieldsType(meta.structureName);
   if (!parts.fieldsTypeAlias.name) {
     throw new Error("no type alias name?  " + name);

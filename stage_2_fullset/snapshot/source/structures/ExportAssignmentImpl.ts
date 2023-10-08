@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   StructureBase,
@@ -35,11 +36,11 @@ export default class ExportAssignmentImpl
     this.expression = expression;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<ExportAssignmentStructure>,
     target: ExportAssignmentImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     target.isExportEquals = source.isExportEquals ?? false;
     if (source.expression) {
       target.expression = source.expression;
@@ -50,7 +51,7 @@ export default class ExportAssignmentImpl
     source: OptionalKind<ExportAssignmentStructure>,
   ): ExportAssignmentImpl {
     const target = new ExportAssignmentImpl(source.expression);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

@@ -1,5 +1,9 @@
 //#region preamble
-import { type RightExtendsLeft, StructureBase } from "../internal-exports.js";
+import {
+  COPY_FIELDS,
+  type RightExtendsLeft,
+  StructureBase,
+} from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import type {
   MixinClass,
@@ -32,11 +36,11 @@ export default function StructureMixin(
     readonly leadingTrivia: stringOrWriter[] = [];
     readonly trailingTrivia: stringOrWriter[] = [];
 
-    public static copyFields(
+    public static [COPY_FIELDS](
       source: Structure & Structures,
       target: StructureMixin & Structures,
     ): void {
-      super.copyFields(source, target);
+      super[COPY_FIELDS](source, target);
       if (Array.isArray(source.leadingTrivia)) {
         target.leadingTrivia.push(...source.leadingTrivia);
       } else if (source.leadingTrivia !== undefined) {

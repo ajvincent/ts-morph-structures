@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
@@ -52,18 +53,18 @@ export default class ConstructorDeclarationOverloadImpl
   readonly kind: StructureKind.ConstructorOverload =
     StructureKind.ConstructorOverload;
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<ConstructorDeclarationOverloadStructure>,
     target: ConstructorDeclarationOverloadImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
   }
 
   public static clone(
     source: OptionalKind<ConstructorDeclarationOverloadStructure>,
   ): ConstructorDeclarationOverloadImpl {
     const target = new ConstructorDeclarationOverloadImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

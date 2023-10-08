@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
@@ -26,18 +27,18 @@ export default class SourceFileImpl
 {
   readonly kind: StructureKind.SourceFile = StructureKind.SourceFile;
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<SourceFileStructure>,
     target: SourceFileImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
   }
 
   public static clone(
     source: OptionalKind<SourceFileStructure>,
   ): SourceFileImpl {
     const target = new SourceFileImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

@@ -11,6 +11,7 @@ import {
   AmbientableNodeStructureMixin,
   type CloneableStructure,
   cloneStructureArray,
+  COPY_FIELDS,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -76,11 +77,11 @@ export default class InterfaceDeclarationImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<InterfaceDeclarationStructure>,
     target: InterfaceDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (Array.isArray(source.extends)) {
       target.extends.push(...source.extends);
     } else if (source.extends !== undefined) {
@@ -142,7 +143,7 @@ export default class InterfaceDeclarationImpl
     source: OptionalKind<InterfaceDeclarationStructure>,
   ): InterfaceDeclarationImpl {
     const target = new InterfaceDeclarationImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

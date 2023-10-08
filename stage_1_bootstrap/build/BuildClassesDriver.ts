@@ -82,6 +82,13 @@ function defineExistingExports(
   });
 
   dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/base/symbolKeys.ts"),
+    exportNames: ["COPY_FIELDS"],
+    isDefaultExport: false,
+    isType: false
+  });
+
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/types/RightExtendsLeft.ts"),
     exportNames: ["RightExtendsLeft"],
     isDefaultExport: false,

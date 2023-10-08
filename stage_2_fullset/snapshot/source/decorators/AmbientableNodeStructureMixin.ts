@@ -1,5 +1,9 @@
 //#region preamble
-import { type RightExtendsLeft, StructureBase } from "../internal-exports.js";
+import {
+  COPY_FIELDS,
+  type RightExtendsLeft,
+  StructureBase,
+} from "../internal-exports.js";
 import type {
   MixinClass,
   StaticAndInstance,
@@ -30,11 +34,11 @@ export default function AmbientableNodeStructureMixin(
   class AmbientableNodeStructureMixin extends baseClass {
     hasDeclareKeyword = false;
 
-    public static copyFields(
+    public static [COPY_FIELDS](
       source: AmbientableNodeStructure & Structures,
       target: AmbientableNodeStructureMixin & Structures,
     ): void {
-      super.copyFields(source, target);
+      super[COPY_FIELDS](source, target);
       target.hasDeclareKeyword = source.hasDeclareKeyword ?? false;
     }
   }

@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type InitializerExpressionableNodeStructureFields,
   InitializerExpressionableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -49,11 +50,11 @@ export default class EnumMemberImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<EnumMemberStructure>,
     target: EnumMemberImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.value) {
       target.value = source.value;
     }
@@ -63,7 +64,7 @@ export default class EnumMemberImpl
     source: OptionalKind<EnumMemberStructure>,
   ): EnumMemberImpl {
     const target = new EnumMemberImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
@@ -35,11 +36,11 @@ export default class PropertyAssignmentImpl
     this.initializer = initializer;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<PropertyAssignmentStructure>,
     target: PropertyAssignmentImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.initializer) {
       target.initializer = source.initializer;
     }
@@ -49,7 +50,7 @@ export default class PropertyAssignmentImpl
     source: OptionalKind<PropertyAssignmentStructure>,
   ): PropertyAssignmentImpl {
     const target = new PropertyAssignmentImpl(source.name, source.initializer);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

@@ -1,5 +1,9 @@
 //#region preamble
-import { type RightExtendsLeft, StructureBase } from "../internal-exports.js";
+import {
+  COPY_FIELDS,
+  type RightExtendsLeft,
+  StructureBase,
+} from "../internal-exports.js";
 import type {
   MixinClass,
   StaticAndInstance,
@@ -30,11 +34,11 @@ export default function NamedNodeStructureMixin(
   class NamedNodeStructureMixin extends baseClass {
     name = "";
 
-    public static copyFields(
+    public static [COPY_FIELDS](
       source: NamedNodeStructure & Structures,
       target: NamedNodeStructureMixin & Structures,
     ): void {
-      super.copyFields(source, target);
+      super[COPY_FIELDS](source, target);
       if (source.name) {
         target.name = source.name;
       }

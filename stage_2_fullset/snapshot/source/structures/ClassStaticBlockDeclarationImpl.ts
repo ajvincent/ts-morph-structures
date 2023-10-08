@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type StatementedNodeStructureFields,
@@ -36,18 +37,18 @@ export default class ClassStaticBlockDeclarationImpl
   readonly kind: StructureKind.ClassStaticBlock =
     StructureKind.ClassStaticBlock;
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<ClassStaticBlockDeclarationStructure>,
     target: ClassStaticBlockDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
   }
 
   public static clone(
     source: OptionalKind<ClassStaticBlockDeclarationStructure>,
   ): ClassStaticBlockDeclarationImpl {
     const target = new ClassStaticBlockDeclarationImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

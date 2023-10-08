@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -28,11 +29,11 @@ export default class JSDocTagImpl
     this.tagName = tagName;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<JSDocTagStructure>,
     target: JSDocTagImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.tagName) {
       target.tagName = source.tagName;
     }
@@ -44,7 +45,7 @@ export default class JSDocTagImpl
 
   public static clone(source: OptionalKind<JSDocTagStructure>): JSDocTagImpl {
     const target = new JSDocTagImpl(source.tagName);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

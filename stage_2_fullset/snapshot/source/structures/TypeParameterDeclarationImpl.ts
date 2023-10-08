@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
@@ -37,11 +38,11 @@ export default class TypeParameterDeclarationImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<TypeParameterDeclarationStructure>,
     target: TypeParameterDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     target.isConst = source.isConst ?? false;
     if (source.constraint) {
       target.constraint = source.constraint;
@@ -60,7 +61,7 @@ export default class TypeParameterDeclarationImpl
     source: OptionalKind<TypeParameterDeclarationStructure>,
   ): TypeParameterDeclarationImpl {
     const target = new TypeParameterDeclarationImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

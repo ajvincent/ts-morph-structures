@@ -7,6 +7,7 @@ import {
 import {
   type CloneableStructure,
   cloneRequiredAndOptionalArray,
+  COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
@@ -43,11 +44,11 @@ export default class JsxElementImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<JsxElementStructure>,
     target: JsxElementImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.attributes) {
       target.attributes.push(
         ...cloneRequiredAndOptionalArray<
@@ -91,7 +92,7 @@ export default class JsxElementImpl
     source: OptionalKind<JsxElementStructure>,
   ): JsxElementImpl {
     const target = new JsxElementImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

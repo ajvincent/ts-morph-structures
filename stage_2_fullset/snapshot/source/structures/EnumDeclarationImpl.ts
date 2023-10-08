@@ -5,6 +5,7 @@ import {
   AmbientableNodeStructureMixin,
   type CloneableStructure,
   cloneStructureArray,
+  COPY_FIELDS,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -57,11 +58,11 @@ export default class EnumDeclarationImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<EnumDeclarationStructure>,
     target: EnumDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     target.isConst = source.isConst ?? false;
     if (source.members) {
       target.members.push(
@@ -78,7 +79,7 @@ export default class EnumDeclarationImpl
     source: OptionalKind<EnumDeclarationStructure>,
   ): EnumDeclarationImpl {
     const target = new EnumDeclarationImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

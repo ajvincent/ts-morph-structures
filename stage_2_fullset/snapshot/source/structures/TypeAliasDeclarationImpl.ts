@@ -3,6 +3,7 @@ import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
   type CloneableStructure,
+  COPY_FIELDS,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -63,11 +64,11 @@ export default class TypeAliasDeclarationImpl
     this.type = type;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<TypeAliasDeclarationStructure>,
     target: TypeAliasDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.type) {
       target.type = source.type;
     }
@@ -77,7 +78,7 @@ export default class TypeAliasDeclarationImpl
     source: OptionalKind<TypeAliasDeclarationStructure>,
   ): TypeAliasDeclarationImpl {
     const target = new TypeAliasDeclarationImpl(source.name, source.type);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

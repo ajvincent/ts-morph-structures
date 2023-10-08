@@ -5,6 +5,7 @@ import {
   type AsyncableNodeStructureFields,
   AsyncableNodeStructureMixin,
   type CloneableStructure,
+  COPY_FIELDS,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type GeneratorableNodeStructureFields,
@@ -64,18 +65,18 @@ export default class FunctionDeclarationOverloadImpl
   readonly kind: StructureKind.FunctionOverload =
     StructureKind.FunctionOverload;
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<FunctionDeclarationOverloadStructure>,
     target: FunctionDeclarationOverloadImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
   }
 
   public static clone(
     source: OptionalKind<FunctionDeclarationOverloadStructure>,
   ): FunctionDeclarationOverloadImpl {
     const target = new FunctionDeclarationOverloadImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

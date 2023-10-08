@@ -5,6 +5,7 @@ import {
   type AsyncableNodeStructureFields,
   AsyncableNodeStructureMixin,
   type CloneableStructure,
+  COPY_FIELDS,
   type GeneratorableNodeStructureFields,
   GeneratorableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -75,18 +76,18 @@ export default class MethodDeclarationOverloadImpl
 {
   readonly kind: StructureKind.MethodOverload = StructureKind.MethodOverload;
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<MethodDeclarationOverloadStructure>,
     target: MethodDeclarationOverloadImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
   }
 
   public static clone(
     source: OptionalKind<MethodDeclarationOverloadStructure>,
   ): MethodDeclarationOverloadImpl {
     const target = new MethodDeclarationOverloadImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

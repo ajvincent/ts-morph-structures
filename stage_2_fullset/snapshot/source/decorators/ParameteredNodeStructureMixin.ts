@@ -2,6 +2,7 @@
 import { ParameterDeclarationImpl } from "../exports.js";
 import {
   cloneStructureArray,
+  COPY_FIELDS,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -41,11 +42,11 @@ export default function ParameteredNodeStructureMixin(
   class ParameteredNodeStructureMixin extends baseClass {
     readonly parameters: ParameterDeclarationImpl[] = [];
 
-    public static copyFields(
+    public static [COPY_FIELDS](
       source: ParameteredNodeStructure & Structures,
       target: ParameteredNodeStructureMixin & Structures,
     ): void {
-      super.copyFields(source, target);
+      super[COPY_FIELDS](source, target);
       if (source.parameters) {
         target.parameters.push(
           ...cloneStructureArray<

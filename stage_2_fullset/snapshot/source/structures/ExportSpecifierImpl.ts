@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
@@ -33,11 +34,11 @@ export default class ExportSpecifierImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<ExportSpecifierStructure>,
     target: ExportSpecifierImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     target.isTypeOnly = source.isTypeOnly ?? false;
     if (source.alias) {
       target.alias = source.alias;
@@ -48,7 +49,7 @@ export default class ExportSpecifierImpl
     source: OptionalKind<ExportSpecifierStructure>,
   ): ExportSpecifierImpl {
     const target = new ExportSpecifierImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

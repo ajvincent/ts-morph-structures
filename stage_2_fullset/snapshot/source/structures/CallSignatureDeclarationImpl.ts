@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
@@ -47,18 +48,18 @@ export default class CallSignatureDeclarationImpl
 {
   readonly kind: StructureKind.CallSignature = StructureKind.CallSignature;
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<CallSignatureDeclarationStructure>,
     target: CallSignatureDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
   }
 
   public static clone(
     source: OptionalKind<CallSignatureDeclarationStructure>,
   ): CallSignatureDeclarationImpl {
     const target = new CallSignatureDeclarationImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

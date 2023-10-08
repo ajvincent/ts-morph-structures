@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
@@ -33,11 +34,11 @@ export default class AssertEntryImpl
     this.value = value;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<AssertEntryStructure>,
     target: AssertEntryImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.value) {
       target.value = source.value;
     }
@@ -47,7 +48,7 @@ export default class AssertEntryImpl
     source: OptionalKind<AssertEntryStructure>,
   ): AssertEntryImpl {
     const target = new AssertEntryImpl(source.name, source.value);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

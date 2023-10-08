@@ -1,5 +1,9 @@
 //#region preamble
-import { type RightExtendsLeft, StructureBase } from "../internal-exports.js";
+import {
+  COPY_FIELDS,
+  type RightExtendsLeft,
+  StructureBase,
+} from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import type {
   MixinClass,
@@ -34,11 +38,11 @@ export default function InitializerExpressionableNodeStructureMixin(
   class InitializerExpressionableNodeStructureMixin extends baseClass {
     initializer?: stringOrWriter = undefined;
 
-    public static copyFields(
+    public static [COPY_FIELDS](
       source: InitializerExpressionableNodeStructure & Structures,
       target: InitializerExpressionableNodeStructureMixin & Structures,
     ): void {
-      super.copyFields(source, target);
+      super[COPY_FIELDS](source, target);
       if (source.initializer) {
         target.initializer = source.initializer;
       }

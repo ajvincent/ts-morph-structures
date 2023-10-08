@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -31,11 +32,11 @@ export default class JsxSpreadAttributeImpl
     this.expression = expression;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<JsxSpreadAttributeStructure>,
     target: JsxSpreadAttributeImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.expression) {
       target.expression = source.expression;
     }
@@ -45,7 +46,7 @@ export default class JsxSpreadAttributeImpl
     source: OptionalKind<JsxSpreadAttributeStructure>,
   ): JsxSpreadAttributeImpl {
     const target = new JsxSpreadAttributeImpl(source.expression);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

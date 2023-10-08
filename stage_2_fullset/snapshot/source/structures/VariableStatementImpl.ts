@@ -5,6 +5,7 @@ import {
   AmbientableNodeStructureMixin,
   type CloneableStructure,
   cloneStructureArray,
+  COPY_FIELDS,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -50,11 +51,11 @@ export default class VariableStatementImpl
   readonly declarations: VariableDeclarationImpl[] = [];
   declarationKind?: VariableDeclarationKind = undefined;
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<VariableStatementStructure>,
     target: VariableStatementImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     target.declarations.push(
       ...cloneStructureArray<
         OptionalKind<VariableDeclarationStructure>,
@@ -71,7 +72,7 @@ export default class VariableStatementImpl
     source: OptionalKind<VariableStatementStructure>,
   ): VariableStatementImpl {
     const target = new VariableStatementImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

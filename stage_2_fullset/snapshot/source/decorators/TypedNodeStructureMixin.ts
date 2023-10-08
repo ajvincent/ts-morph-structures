@@ -1,5 +1,9 @@
 //#region preamble
-import { type RightExtendsLeft, StructureBase } from "../internal-exports.js";
+import {
+  COPY_FIELDS,
+  type RightExtendsLeft,
+  StructureBase,
+} from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import type {
   MixinClass,
@@ -31,11 +35,11 @@ export default function TypedNodeStructureMixin(
   class TypedNodeStructureMixin extends baseClass {
     type?: stringOrWriter = undefined;
 
-    public static copyFields(
+    public static [COPY_FIELDS](
       source: TypedNodeStructure & Structures,
       target: TypedNodeStructureMixin & Structures,
     ): void {
-      super.copyFields(source, target);
+      super[COPY_FIELDS](source, target);
       if (source.type) {
         target.type = source.type;
       }

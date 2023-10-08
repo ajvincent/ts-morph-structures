@@ -2,6 +2,7 @@
 import { TypeParameterDeclarationImpl } from "../exports.js";
 import {
   cloneStructureOrStringArray,
+  COPY_FIELDS,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -41,11 +42,11 @@ export default function TypeParameteredNodeStructureMixin(
   class TypeParameteredNodeStructureMixin extends baseClass {
     readonly typeParameters: (string | TypeParameterDeclarationImpl)[] = [];
 
-    public static copyFields(
+    public static [COPY_FIELDS](
       source: TypeParameteredNodeStructure & Structures,
       target: TypeParameteredNodeStructureMixin & Structures,
     ): void {
-      super.copyFields(source, target);
+      super[COPY_FIELDS](source, target);
       if (source.typeParameters) {
         target.typeParameters.push(
           ...cloneStructureOrStringArray<

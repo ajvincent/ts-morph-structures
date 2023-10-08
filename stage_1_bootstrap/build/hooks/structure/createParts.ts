@@ -55,7 +55,12 @@ export default function createStructureParts(
     meta, parts.importsManager, dictionaries, dictionaries.getDecoratorCountMap()
   );
 
-  parts.copyFields = defineCopyFieldsMethod(meta, parts.classDecl);
+  parts.copyFields = defineCopyFieldsMethod(
+    meta,
+    parts.classDecl,
+    parts.importsManager,
+    dictionaries
+  );
 
   dictionaries.structureParts.set(meta, parts as StructureParts);
   return Promise.resolve();

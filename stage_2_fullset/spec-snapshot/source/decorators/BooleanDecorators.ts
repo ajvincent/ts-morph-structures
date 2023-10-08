@@ -3,6 +3,7 @@ import MultiMixinBuilder from "mixin-decorators";
 import {
   AsyncableNodeStructureMixin,
   type AsyncableNodeStructureFields,
+  COPY_FIELDS,
   ExportableNodeStructureMixin,
   type ExportableNodeStructureFields,
   StructureBase,
@@ -25,12 +26,12 @@ it("We can mix and match boolean decorators", () => {
     static copy(source: Foo): Foo {
       const target = new Foo;
 
-      Foo.copyFields(source as Foo & Structures, target as Foo & Structures);
+      Foo[COPY_FIELDS](source as Foo & Structures, target as Foo & Structures);
       return target;
     }
 
-    static copyFields(source: Foo & Structures, target: Foo & Structures): void {
-      super.copyFields(source, target);
+    static [COPY_FIELDS](source: Foo & Structures, target: Foo & Structures): void {
+      super[COPY_FIELDS](source, target);
     }
   }
 

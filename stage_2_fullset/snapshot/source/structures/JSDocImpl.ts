@@ -3,6 +3,7 @@ import { JSDocTagImpl } from "../exports.js";
 import {
   type CloneableStructure,
   cloneStructureArray,
+  COPY_FIELDS,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -30,11 +31,11 @@ export default class JSDocImpl
   readonly tags: JSDocTagImpl[] = [];
   description?: stringOrWriter = undefined;
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<JSDocStructure>,
     target: JSDocImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.tags) {
       target.tags.push(
         ...cloneStructureArray<
@@ -52,7 +53,7 @@ export default class JSDocImpl
 
   public static clone(source: OptionalKind<JSDocStructure>): JSDocImpl {
     const target = new JSDocImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

@@ -7,6 +7,7 @@ import {
   AsyncableNodeStructureMixin,
   type CloneableStructure,
   cloneStructureArray,
+  COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type GeneratorableNodeStructureFields,
@@ -96,11 +97,11 @@ export default class MethodDeclarationImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<MethodDeclarationStructure>,
     target: MethodDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.overloads) {
       target.overloads.push(
         ...cloneStructureArray<
@@ -116,7 +117,7 @@ export default class MethodDeclarationImpl
     source: OptionalKind<MethodDeclarationStructure>,
   ): MethodDeclarationImpl {
     const target = new MethodDeclarationImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

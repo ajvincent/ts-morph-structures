@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ReadonlyableNodeStructureFields,
@@ -45,11 +46,11 @@ export default class IndexSignatureDeclarationImpl
   keyName?: string = undefined;
   keyType?: string = undefined;
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<IndexSignatureDeclarationStructure>,
     target: IndexSignatureDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.keyName) {
       target.keyName = source.keyName;
     }
@@ -63,7 +64,7 @@ export default class IndexSignatureDeclarationImpl
     source: OptionalKind<IndexSignatureDeclarationStructure>,
   ): IndexSignatureDeclarationImpl {
     const target = new IndexSignatureDeclarationImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

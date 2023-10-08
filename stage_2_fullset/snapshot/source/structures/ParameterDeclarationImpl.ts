@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type InitializerExpressionableNodeStructureFields,
@@ -67,11 +68,11 @@ export default class ParameterDeclarationImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<ParameterDeclarationStructure>,
     target: ParameterDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     target.isRestParameter = source.isRestParameter ?? false;
     if (source.scope) {
       target.scope = source.scope;
@@ -82,7 +83,7 @@ export default class ParameterDeclarationImpl
     source: OptionalKind<ParameterDeclarationStructure>,
   ): ParameterDeclarationImpl {
     const target = new ParameterDeclarationImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

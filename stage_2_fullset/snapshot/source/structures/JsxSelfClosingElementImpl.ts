@@ -3,6 +3,7 @@ import { JsxAttributeImpl, JsxSpreadAttributeImpl } from "../exports.js";
 import {
   type CloneableStructure,
   cloneRequiredAndOptionalArray,
+  COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
@@ -37,11 +38,11 @@ export default class JsxSelfClosingElementImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<JsxSelfClosingElementStructure>,
     target: JsxSelfClosingElementImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.attributes) {
       target.attributes.push(
         ...cloneRequiredAndOptionalArray<
@@ -64,7 +65,7 @@ export default class JsxSelfClosingElementImpl
     source: OptionalKind<JsxSelfClosingElementStructure>,
   ): JsxSelfClosingElementImpl {
     const target = new JsxSelfClosingElementImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

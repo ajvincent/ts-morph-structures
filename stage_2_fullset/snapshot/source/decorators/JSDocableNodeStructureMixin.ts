@@ -2,6 +2,7 @@
 import { JSDocImpl } from "../exports.js";
 import {
   cloneStructureOrStringArray,
+  COPY_FIELDS,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -41,11 +42,11 @@ export default function JSDocableNodeStructureMixin(
   class JSDocableNodeStructureMixin extends baseClass {
     readonly docs: (string | JSDocImpl)[] = [];
 
-    public static copyFields(
+    public static [COPY_FIELDS](
       source: JSDocableNodeStructure & Structures,
       target: JSDocableNodeStructureMixin & Structures,
     ): void {
-      super.copyFields(source, target);
+      super[COPY_FIELDS](source, target);
       if (source.docs) {
         target.docs.push(
           ...cloneStructureOrStringArray<

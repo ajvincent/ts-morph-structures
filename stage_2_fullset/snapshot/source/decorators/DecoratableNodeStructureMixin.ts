@@ -2,6 +2,7 @@
 import { DecoratorImpl } from "../exports.js";
 import {
   cloneStructureArray,
+  COPY_FIELDS,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -41,11 +42,11 @@ export default function DecoratableNodeStructureMixin(
   class DecoratableNodeStructureMixin extends baseClass {
     readonly decorators: DecoratorImpl[] = [];
 
-    public static copyFields(
+    public static [COPY_FIELDS](
       source: DecoratableNodeStructure & Structures,
       target: DecoratableNodeStructureMixin & Structures,
     ): void {
-      super.copyFields(source, target);
+      super[COPY_FIELDS](source, target);
       if (source.decorators) {
         target.decorators.push(
           ...cloneStructureArray<

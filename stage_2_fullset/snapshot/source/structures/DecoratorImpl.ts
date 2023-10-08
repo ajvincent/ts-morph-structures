@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
@@ -30,11 +31,11 @@ export default class DecoratorImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<DecoratorStructure>,
     target: DecoratorImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (Array.isArray(source.arguments)) {
       target.arguments.push(...source.arguments);
     } else if (source.arguments !== undefined) {
@@ -50,7 +51,7 @@ export default class DecoratorImpl
 
   public static clone(source: OptionalKind<DecoratorStructure>): DecoratorImpl {
     const target = new DecoratorImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
@@ -48,18 +49,18 @@ export default class ConstructSignatureDeclarationImpl
   readonly kind: StructureKind.ConstructSignature =
     StructureKind.ConstructSignature;
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<ConstructSignatureDeclarationStructure>,
     target: ConstructSignatureDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
   }
 
   public static clone(
     source: OptionalKind<ConstructSignatureDeclarationStructure>,
   ): ConstructSignatureDeclarationImpl {
     const target = new ConstructSignatureDeclarationImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

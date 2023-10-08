@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type ExclamationTokenableNodeStructureFields,
   ExclamationTokenableNodeStructureMixin,
   type InitializerExpressionableNodeStructureFields,
@@ -53,18 +54,18 @@ export default class VariableDeclarationImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<VariableDeclarationStructure>,
     target: VariableDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
   }
 
   public static clone(
     source: OptionalKind<VariableDeclarationStructure>,
   ): VariableDeclarationImpl {
     const target = new VariableDeclarationImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

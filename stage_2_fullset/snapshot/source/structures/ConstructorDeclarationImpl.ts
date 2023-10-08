@@ -3,6 +3,7 @@ import { ConstructorDeclarationOverloadImpl } from "../exports.js";
 import {
   type CloneableStructure,
   cloneStructureArray,
+  COPY_FIELDS,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
@@ -59,11 +60,11 @@ export default class ConstructorDeclarationImpl
   readonly kind: StructureKind.Constructor = StructureKind.Constructor;
   readonly overloads: ConstructorDeclarationOverloadImpl[] = [];
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<ConstructorDeclarationStructure>,
     target: ConstructorDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.overloads) {
       target.overloads.push(
         ...cloneStructureArray<
@@ -79,7 +80,7 @@ export default class ConstructorDeclarationImpl
     source: OptionalKind<ConstructorDeclarationStructure>,
   ): ConstructorDeclarationImpl {
     const target = new ConstructorDeclarationImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

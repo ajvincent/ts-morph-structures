@@ -78,7 +78,7 @@ export default function addStaticClone(
 
   cloneMethod.statements.push(
     `const target = new ${classDecl.name}(${constructorArgs.join(", ")});`,
-    `this.copyFields(source, target);`,
+    `this[COPY_FIELDS](source, target);`,
     `return target;`,
   );
 

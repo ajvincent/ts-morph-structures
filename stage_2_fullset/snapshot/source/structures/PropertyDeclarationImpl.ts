@@ -5,6 +5,7 @@ import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
   type CloneableStructure,
+  COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type ExclamationTokenableNodeStructureFields,
@@ -89,11 +90,11 @@ export default class PropertyDeclarationImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<PropertyDeclarationStructure>,
     target: PropertyDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     target.hasAccessorKeyword = source.hasAccessorKeyword ?? false;
   }
 
@@ -101,7 +102,7 @@ export default class PropertyDeclarationImpl
     source: OptionalKind<PropertyDeclarationStructure>,
   ): PropertyDeclarationImpl {
     const target = new PropertyDeclarationImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

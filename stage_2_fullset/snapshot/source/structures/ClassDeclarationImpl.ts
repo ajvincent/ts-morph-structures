@@ -13,6 +13,7 @@ import {
   AmbientableNodeStructureMixin,
   type CloneableStructure,
   cloneStructureArray,
+  COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type ExportableNodeStructureFields,
@@ -80,11 +81,11 @@ export default class ClassDeclarationImpl
   readonly implements: stringOrWriter[] = [];
   extends?: stringOrWriter = undefined;
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<ClassDeclarationStructure>,
     target: ClassDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.ctors) {
       target.ctors.push(
         ...cloneStructureArray<
@@ -150,7 +151,7 @@ export default class ClassDeclarationImpl
     source: OptionalKind<ClassDeclarationStructure>,
   ): ClassDeclarationImpl {
     const target = new ClassDeclarationImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

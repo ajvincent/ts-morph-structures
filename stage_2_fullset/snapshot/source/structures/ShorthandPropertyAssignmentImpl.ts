@@ -1,6 +1,7 @@
 //#region preamble
 import {
   type CloneableStructure,
+  COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
@@ -32,18 +33,18 @@ export default class ShorthandPropertyAssignmentImpl
     this.name = name;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<ShorthandPropertyAssignmentStructure>,
     target: ShorthandPropertyAssignmentImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
   }
 
   public static clone(
     source: OptionalKind<ShorthandPropertyAssignmentStructure>,
   ): ShorthandPropertyAssignmentImpl {
     const target = new ShorthandPropertyAssignmentImpl(source.name);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

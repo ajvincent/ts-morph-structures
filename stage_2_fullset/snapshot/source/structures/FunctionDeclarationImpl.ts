@@ -7,6 +7,7 @@ import {
   AsyncableNodeStructureMixin,
   type CloneableStructure,
   cloneStructureArray,
+  COPY_FIELDS,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type GeneratorableNodeStructureFields,
@@ -75,11 +76,11 @@ export default class FunctionDeclarationImpl
   readonly kind: StructureKind.Function = StructureKind.Function;
   readonly overloads: FunctionDeclarationOverloadImpl[] = [];
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<FunctionDeclarationStructure>,
     target: FunctionDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     if (source.overloads) {
       target.overloads.push(
         ...cloneStructureArray<
@@ -95,7 +96,7 @@ export default class FunctionDeclarationImpl
     source: OptionalKind<FunctionDeclarationStructure>,
   ): FunctionDeclarationImpl {
     const target = new FunctionDeclarationImpl();
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }

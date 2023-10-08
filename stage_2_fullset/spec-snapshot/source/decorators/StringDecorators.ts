@@ -2,6 +2,7 @@ import MultiMixinBuilder from "mixin-decorators";
 import { Structures } from "ts-morph";
 
 import {
+  COPY_FIELDS,
   type InitializerExpressionableNodeStructureFields,
   InitializerExpressionableNodeStructureMixin,
   type NamedNodeStructureFields,
@@ -24,7 +25,7 @@ it("We can mix and match string decorators", () => {
   class Foo extends FooBase {
     static copy(source: Foo): Foo {
       const target = new Foo;
-      Foo.copyFields(source as Foo & Structures, target as Foo & Structures);
+      Foo[COPY_FIELDS](source as Foo & Structures, target as Foo & Structures);
       return target;
     }
   }

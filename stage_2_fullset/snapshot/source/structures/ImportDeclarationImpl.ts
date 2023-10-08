@@ -4,6 +4,7 @@ import {
   type CloneableStructure,
   cloneStructureArray,
   cloneStructureStringOrWriterArray,
+  COPY_FIELDS,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -42,11 +43,11 @@ export default class ImportDeclarationImpl
     this.moduleSpecifier = moduleSpecifier;
   }
 
-  public static copyFields(
+  public static [COPY_FIELDS](
     source: OptionalKind<ImportDeclarationStructure>,
     target: ImportDeclarationImpl,
   ): void {
-    super.copyFields(source, target);
+    super[COPY_FIELDS](source, target);
     target.isTypeOnly = source.isTypeOnly ?? false;
     if (source.namedImports) {
       target.namedImports.push(
@@ -85,7 +86,7 @@ export default class ImportDeclarationImpl
     source: OptionalKind<ImportDeclarationStructure>,
   ): ImportDeclarationImpl {
     const target = new ImportDeclarationImpl(source.moduleSpecifier);
-    this.copyFields(source, target);
+    this[COPY_FIELDS](source, target);
     return target;
   }
 }
