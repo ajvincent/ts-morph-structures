@@ -2,6 +2,8 @@
 import { AssertEntryImpl, ExportSpecifierImpl } from "../exports.js";
 import {
   type CloneableStructure,
+  cloneStructureArray,
+  cloneStructureStringOrWriterArray,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -10,8 +12,10 @@ import {
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  type AssertEntryStructure,
   type ExportDeclarationStructure,
-  OptionalKind,
+  type ExportSpecifierStructure,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 //#endregion preamble
@@ -27,8 +31,8 @@ export default class ExportDeclarationImpl
   readonly kind: StructureKind.ExportDeclaration =
     StructureKind.ExportDeclaration;
   isTypeOnly = false;
-  namedExports: (stringOrWriter | ExportSpecifierImpl)[] = [];
-  assertElements: AssertEntryImpl[] = [];
+  readonly namedExports: (stringOrWriter | ExportSpecifierImpl)[] = [];
+  readonly assertElements: AssertEntryImpl[] = [];
   namespaceExport?: string = undefined;
   moduleSpecifier?: string = undefined;
 
@@ -38,6 +42,26 @@ export default class ExportDeclarationImpl
   ): void {
     super.copyFields(source, target);
     target.isTypeOnly = source.isTypeOnly ?? false;
+    if (source.namedExports) {
+      target.namedExports.push(
+        ...cloneStructureStringOrWriterArray<
+          OptionalKind<ExportSpecifierStructure>,
+          StructureKind.ExportSpecifier,
+          ExportSpecifierImpl
+        >(source.namedExports, StructureKind.ExportSpecifier),
+      );
+    }
+
+    if (source.assertElements) {
+      target.assertElements.push(
+        ...cloneStructureArray<
+          OptionalKind<AssertEntryStructure>,
+          StructureKind.AssertEntry,
+          AssertEntryImpl
+        >(source.assertElements, StructureKind.AssertEntry),
+      );
+    }
+
     if (source.namespaceExport) {
       target.namespaceExport = source.namespaceExport;
     }

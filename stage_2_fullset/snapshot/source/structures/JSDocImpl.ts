@@ -2,6 +2,7 @@
 import { JSDocTagImpl } from "../exports.js";
 import {
   type CloneableStructure,
+  cloneStructureArray,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -9,7 +10,12 @@ import {
 } from "../internal-exports.js";
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
-import { type JSDocStructure, OptionalKind, StructureKind } from "ts-morph";
+import {
+  type JSDocStructure,
+  type JSDocTagStructure,
+  type OptionalKind,
+  StructureKind,
+} from "ts-morph";
 //#endregion preamble
 const JSDocStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -21,7 +27,7 @@ export default class JSDocImpl
   implements JSDocStructure
 {
   readonly kind: StructureKind.JSDoc = StructureKind.JSDoc;
-  tags: JSDocTagImpl[] = [];
+  readonly tags: JSDocTagImpl[] = [];
   description?: stringOrWriter = undefined;
 
   public static copyFields(
@@ -29,6 +35,16 @@ export default class JSDocImpl
     target: JSDocImpl,
   ): void {
     super.copyFields(source, target);
+    if (source.tags) {
+      target.tags.push(
+        ...cloneStructureArray<
+          OptionalKind<JSDocTagStructure>,
+          StructureKind.JSDocTag,
+          JSDocTagImpl
+        >(source.tags, StructureKind.JSDocTag),
+      );
+    }
+
     if (source.description) {
       target.description = source.description;
     }

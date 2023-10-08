@@ -6,6 +6,7 @@ import {
   type AsyncableNodeStructureFields,
   AsyncableNodeStructureMixin,
   type CloneableStructure,
+  cloneStructureArray,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type GeneratorableNodeStructureFields,
@@ -29,8 +30,9 @@ import {
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  type FunctionDeclarationOverloadStructure,
   type FunctionDeclarationStructure,
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 //#endregion preamble
@@ -71,13 +73,22 @@ export default class FunctionDeclarationImpl
   implements FunctionDeclarationStructure
 {
   readonly kind: StructureKind.Function = StructureKind.Function;
-  overloads: FunctionDeclarationOverloadImpl[] = [];
+  readonly overloads: FunctionDeclarationOverloadImpl[] = [];
 
   public static copyFields(
     source: OptionalKind<FunctionDeclarationStructure>,
     target: FunctionDeclarationImpl,
   ): void {
     super.copyFields(source, target);
+    if (source.overloads) {
+      target.overloads.push(
+        ...cloneStructureArray<
+          OptionalKind<FunctionDeclarationOverloadStructure>,
+          StructureKind.FunctionOverload,
+          FunctionDeclarationOverloadImpl
+        >(source.overloads, StructureKind.FunctionOverload),
+      );
+    }
   }
 
   public static clone(

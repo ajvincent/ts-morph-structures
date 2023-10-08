@@ -33,7 +33,7 @@ export default function StatementedNodeStructureMixin(
   void context;
 
   class StatementedNodeStructureMixin extends baseClass {
-    statements: (stringOrWriter | StatementStructures)[] = [];
+    readonly statements: (stringOrWriter | StatementStructures)[] = [];
 
     public static copyFields(
       source: StatementedNodeStructure & Structures,
@@ -41,9 +41,9 @@ export default function StatementedNodeStructureMixin(
     ): void {
       super.copyFields(source, target);
       if (Array.isArray(source.statements)) {
-        target.statements = source.statements.slice();
+        target.statements.push(...source.statements);
       } else if (source.statements !== undefined) {
-        target.statements = [source.statements];
+        target.statements.push(source.statements);
       }
     }
   }

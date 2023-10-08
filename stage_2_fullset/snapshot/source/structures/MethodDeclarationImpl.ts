@@ -6,6 +6,7 @@ import {
   type AsyncableNodeStructureFields,
   AsyncableNodeStructureMixin,
   type CloneableStructure,
+  cloneStructureArray,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type GeneratorableNodeStructureFields,
@@ -37,8 +38,9 @@ import {
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  type MethodDeclarationOverloadStructure,
   type MethodDeclarationStructure,
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 //#endregion preamble
@@ -87,13 +89,22 @@ export default class MethodDeclarationImpl
   implements MethodDeclarationStructure
 {
   readonly kind: StructureKind.Method = StructureKind.Method;
-  overloads: MethodDeclarationOverloadImpl[] = [];
+  readonly overloads: MethodDeclarationOverloadImpl[] = [];
 
   public static copyFields(
     source: OptionalKind<MethodDeclarationStructure>,
     target: MethodDeclarationImpl,
   ): void {
     super.copyFields(source, target);
+    if (source.overloads) {
+      target.overloads.push(
+        ...cloneStructureArray<
+          OptionalKind<MethodDeclarationOverloadStructure>,
+          StructureKind.MethodOverload,
+          MethodDeclarationOverloadImpl
+        >(source.overloads, StructureKind.MethodOverload),
+      );
+    }
   }
 
   public static clone(

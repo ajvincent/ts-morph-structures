@@ -20,8 +20,8 @@ export default class DecoratorImpl
   implements DecoratorStructure
 {
   readonly kind: StructureKind.Decorator = StructureKind.Decorator;
-  arguments: stringOrWriter[] = [];
-  typeArguments: string[] = [];
+  readonly arguments: stringOrWriter[] = [];
+  readonly typeArguments: string[] = [];
   name = "";
 
   public static copyFields(
@@ -30,15 +30,15 @@ export default class DecoratorImpl
   ): void {
     super.copyFields(source, target);
     if (Array.isArray(source.arguments)) {
-      target.arguments = source.arguments.slice();
+      target.arguments.push(...source.arguments);
     } else if (source.arguments !== undefined) {
-      target.arguments = [source.arguments];
+      target.arguments.push(source.arguments);
     }
 
     if (Array.isArray(source.typeArguments)) {
-      target.typeArguments = source.typeArguments.slice();
+      target.typeArguments.push(...source.typeArguments);
     } else if (source.typeArguments !== undefined) {
-      target.typeArguments = [source.typeArguments];
+      target.typeArguments.push(source.typeArguments);
     }
 
     if (source.name) {

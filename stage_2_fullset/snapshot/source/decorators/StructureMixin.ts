@@ -29,8 +29,8 @@ export default function StructureMixin(
   void context;
 
   class StructureMixin extends baseClass {
-    leadingTrivia: stringOrWriter[] = [];
-    trailingTrivia: stringOrWriter[] = [];
+    readonly leadingTrivia: stringOrWriter[] = [];
+    readonly trailingTrivia: stringOrWriter[] = [];
 
     public static copyFields(
       source: Structure & Structures,
@@ -38,15 +38,15 @@ export default function StructureMixin(
     ): void {
       super.copyFields(source, target);
       if (Array.isArray(source.leadingTrivia)) {
-        target.leadingTrivia = source.leadingTrivia.slice();
+        target.leadingTrivia.push(...source.leadingTrivia);
       } else if (source.leadingTrivia !== undefined) {
-        target.leadingTrivia = [source.leadingTrivia];
+        target.leadingTrivia.push(source.leadingTrivia);
       }
 
       if (Array.isArray(source.trailingTrivia)) {
-        target.trailingTrivia = source.trailingTrivia.slice();
+        target.trailingTrivia.push(...source.trailingTrivia);
       } else if (source.trailingTrivia !== undefined) {
-        target.trailingTrivia = [source.trailingTrivia];
+        target.trailingTrivia.push(source.trailingTrivia);
       }
     }
   }

@@ -1,4 +1,10 @@
 // This file is generated.  Do not edit.
+export {
+  cloneRequiredAndOptionalArray,
+  cloneStructureArray,
+  cloneStructureOrStringArray,
+  cloneStructureStringOrWriterArray,
+} from "./base/cloneStructureArray.js";
 export { default as StructureKindToSyntaxKindMap } from "./base/generated/structureToSyntax.js";
 export { default as StructureBase } from "./base/StructureBase.js";
 export { default as StructuresClassesMap } from "./base/StructuresClassesMap.js";

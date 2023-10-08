@@ -2,6 +2,8 @@
 import { AssertEntryImpl, ImportSpecifierImpl } from "../exports.js";
 import {
   type CloneableStructure,
+  cloneStructureArray,
+  cloneStructureStringOrWriterArray,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -10,8 +12,10 @@ import {
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  type AssertEntryStructure,
   type ImportDeclarationStructure,
-  OptionalKind,
+  type ImportSpecifierStructure,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 //#endregion preamble
@@ -27,8 +31,8 @@ export default class ImportDeclarationImpl
   readonly kind: StructureKind.ImportDeclaration =
     StructureKind.ImportDeclaration;
   isTypeOnly = false;
-  namedImports: (stringOrWriter | ImportSpecifierImpl)[] = [];
-  assertElements: AssertEntryImpl[] = [];
+  readonly namedImports: (stringOrWriter | ImportSpecifierImpl)[] = [];
+  readonly assertElements: AssertEntryImpl[] = [];
   defaultImport?: string = undefined;
   namespaceImport?: string = undefined;
   moduleSpecifier = "";
@@ -39,6 +43,26 @@ export default class ImportDeclarationImpl
   ): void {
     super.copyFields(source, target);
     target.isTypeOnly = source.isTypeOnly ?? false;
+    if (source.namedImports) {
+      target.namedImports.push(
+        ...cloneStructureStringOrWriterArray<
+          OptionalKind<ImportSpecifierStructure>,
+          StructureKind.ImportSpecifier,
+          ImportSpecifierImpl
+        >(source.namedImports, StructureKind.ImportSpecifier),
+      );
+    }
+
+    if (source.assertElements) {
+      target.assertElements.push(
+        ...cloneStructureArray<
+          OptionalKind<AssertEntryStructure>,
+          StructureKind.AssertEntry,
+          AssertEntryImpl
+        >(source.assertElements, StructureKind.AssertEntry),
+      );
+    }
+
     if (source.defaultImport) {
       target.defaultImport = source.defaultImport;
     }

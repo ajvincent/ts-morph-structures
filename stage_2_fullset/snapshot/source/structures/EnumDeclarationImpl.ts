@@ -4,6 +4,7 @@ import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
   type CloneableStructure,
+  cloneStructureArray,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -18,7 +19,8 @@ import {
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type EnumDeclarationStructure,
-  OptionalKind,
+  type EnumMemberStructure,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 //#endregion preamble
@@ -48,7 +50,7 @@ export default class EnumDeclarationImpl
 {
   readonly kind: StructureKind.Enum = StructureKind.Enum;
   isConst = false;
-  members: EnumMemberImpl[] = [];
+  readonly members: EnumMemberImpl[] = [];
 
   public static copyFields(
     source: OptionalKind<EnumDeclarationStructure>,
@@ -56,6 +58,15 @@ export default class EnumDeclarationImpl
   ): void {
     super.copyFields(source, target);
     target.isConst = source.isConst ?? false;
+    if (source.members) {
+      target.members.push(
+        ...cloneStructureArray<
+          OptionalKind<EnumMemberStructure>,
+          StructureKind.EnumMember,
+          EnumMemberImpl
+        >(source.members, StructureKind.EnumMember),
+      );
+    }
   }
 
   public static clone(

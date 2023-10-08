@@ -29,7 +29,7 @@ export default function ExtendsClauseableNodeStructureMixin(
   void context;
 
   class ExtendsClauseableNodeStructureMixin extends baseClass {
-    extends: stringOrWriter[] = [];
+    readonly extends: stringOrWriter[] = [];
 
     public static copyFields(
       source: ExtendsClauseableNodeStructure & Structures,
@@ -37,9 +37,9 @@ export default function ExtendsClauseableNodeStructureMixin(
     ): void {
       super.copyFields(source, target);
       if (Array.isArray(source.extends)) {
-        target.extends = source.extends.slice();
+        target.extends.push(...source.extends);
       } else if (source.extends !== undefined) {
-        target.extends = [source.extends];
+        target.extends.push(source.extends);
       }
     }
   }

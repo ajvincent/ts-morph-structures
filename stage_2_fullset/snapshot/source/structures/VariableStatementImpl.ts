@@ -4,6 +4,7 @@ import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
   type CloneableStructure,
+  cloneStructureArray,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -15,9 +16,10 @@ import {
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
   VariableDeclarationKind,
+  type VariableDeclarationStructure,
   type VariableStatementStructure,
 } from "ts-morph";
 //#endregion preamble
@@ -45,7 +47,7 @@ export default class VariableStatementImpl
 {
   readonly kind: StructureKind.VariableStatement =
     StructureKind.VariableStatement;
-  declarations: VariableDeclarationImpl[] = [];
+  readonly declarations: VariableDeclarationImpl[] = [];
   declarationKind?: VariableDeclarationKind = undefined;
 
   public static copyFields(
@@ -53,6 +55,13 @@ export default class VariableStatementImpl
     target: VariableStatementImpl,
   ): void {
     super.copyFields(source, target);
+    target.declarations.push(
+      ...cloneStructureArray<
+        OptionalKind<VariableDeclarationStructure>,
+        StructureKind.VariableDeclaration,
+        VariableDeclarationImpl
+      >(source.declarations, StructureKind.VariableDeclaration),
+    );
     if (source.declarationKind) {
       target.declarationKind = source.declarationKind;
     }

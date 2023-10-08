@@ -6,6 +6,7 @@ import {
 } from "../exports.js";
 import {
   type CloneableStructure,
+  cloneRequiredAndOptionalArray,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -13,8 +14,11 @@ import {
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
+  type JsxAttributeStructure,
   type JsxElementStructure,
-  OptionalKind,
+  type JsxSelfClosingElementStructure,
+  type JsxSpreadAttributeStructure,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 //#endregion preamble
@@ -28,8 +32,8 @@ export default class JsxElementImpl
   implements JsxElementStructure
 {
   readonly kind: StructureKind.JsxElement = StructureKind.JsxElement;
-  attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[] = [];
-  children: (JsxElementImpl | JsxSelfClosingElementImpl)[] = [];
+  readonly attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[] = [];
+  readonly children: (JsxElementImpl | JsxSelfClosingElementImpl)[] = [];
   name = "";
   bodyText?: string = undefined;
 
@@ -38,6 +42,40 @@ export default class JsxElementImpl
     target: JsxElementImpl,
   ): void {
     super.copyFields(source, target);
+    if (source.attributes) {
+      target.attributes.push(
+        ...cloneRequiredAndOptionalArray<
+          JsxSpreadAttributeStructure,
+          StructureKind.JsxSpreadAttribute,
+          OptionalKind<JsxAttributeStructure>,
+          StructureKind.JsxAttribute,
+          JsxSpreadAttributeImpl,
+          JsxAttributeImpl
+        >(
+          source.attributes,
+          StructureKind.JsxSpreadAttribute,
+          StructureKind.JsxAttribute,
+        ),
+      );
+    }
+
+    if (source.children) {
+      target.children.push(
+        ...cloneRequiredAndOptionalArray<
+          JsxSelfClosingElementStructure,
+          StructureKind.JsxSelfClosingElement,
+          OptionalKind<JsxElementStructure>,
+          StructureKind.JsxElement,
+          JsxSelfClosingElementImpl,
+          JsxElementImpl
+        >(
+          source.children,
+          StructureKind.JsxSelfClosingElement,
+          StructureKind.JsxElement,
+        ),
+      );
+    }
+
     if (source.name) {
       target.name = source.name;
     }

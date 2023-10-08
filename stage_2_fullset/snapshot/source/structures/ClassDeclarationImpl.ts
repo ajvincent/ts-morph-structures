@@ -12,6 +12,7 @@ import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
   type CloneableStructure,
+  cloneStructureArray,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type ExportableNodeStructureFields,
@@ -33,7 +34,12 @@ import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type ClassDeclarationStructure,
-  OptionalKind,
+  type ConstructorDeclarationStructure,
+  type GetAccessorDeclarationStructure,
+  type MethodDeclarationStructure,
+  type OptionalKind,
+  type PropertyDeclarationStructure,
+  type SetAccessorDeclarationStructure,
   StructureKind,
 } from "ts-morph";
 //#endregion preamble
@@ -70,11 +76,11 @@ export default class ClassDeclarationImpl
   implements ClassDeclarationStructure
 {
   readonly kind: StructureKind.Class = StructureKind.Class;
-  ctors: ConstructorDeclarationImpl[] = [];
-  properties: PropertyDeclarationImpl[] = [];
-  getAccessors: GetAccessorDeclarationImpl[] = [];
-  setAccessors: SetAccessorDeclarationImpl[] = [];
-  methods: MethodDeclarationImpl[] = [];
+  readonly ctors: ConstructorDeclarationImpl[] = [];
+  readonly properties: PropertyDeclarationImpl[] = [];
+  readonly getAccessors: GetAccessorDeclarationImpl[] = [];
+  readonly setAccessors: SetAccessorDeclarationImpl[] = [];
+  readonly methods: MethodDeclarationImpl[] = [];
   extends?: stringOrWriter = undefined;
   name?: string = undefined;
 
@@ -83,6 +89,56 @@ export default class ClassDeclarationImpl
     target: ClassDeclarationImpl,
   ): void {
     super.copyFields(source, target);
+    if (source.ctors) {
+      target.ctors.push(
+        ...cloneStructureArray<
+          OptionalKind<ConstructorDeclarationStructure>,
+          StructureKind.Constructor,
+          ConstructorDeclarationImpl
+        >(source.ctors, StructureKind.Constructor),
+      );
+    }
+
+    if (source.properties) {
+      target.properties.push(
+        ...cloneStructureArray<
+          OptionalKind<PropertyDeclarationStructure>,
+          StructureKind.Property,
+          PropertyDeclarationImpl
+        >(source.properties, StructureKind.Property),
+      );
+    }
+
+    if (source.getAccessors) {
+      target.getAccessors.push(
+        ...cloneStructureArray<
+          OptionalKind<GetAccessorDeclarationStructure>,
+          StructureKind.GetAccessor,
+          GetAccessorDeclarationImpl
+        >(source.getAccessors, StructureKind.GetAccessor),
+      );
+    }
+
+    if (source.setAccessors) {
+      target.setAccessors.push(
+        ...cloneStructureArray<
+          OptionalKind<SetAccessorDeclarationStructure>,
+          StructureKind.SetAccessor,
+          SetAccessorDeclarationImpl
+        >(source.setAccessors, StructureKind.SetAccessor),
+      );
+    }
+
+    if (source.methods) {
+      target.methods.push(
+        ...cloneStructureArray<
+          OptionalKind<MethodDeclarationStructure>,
+          StructureKind.Method,
+          MethodDeclarationImpl
+        >(source.methods, StructureKind.Method),
+      );
+    }
+
     if (source.extends) {
       target.extends = source.extends;
     }
