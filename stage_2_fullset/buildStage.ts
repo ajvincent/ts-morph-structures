@@ -19,7 +19,7 @@ const BPSet = new BuildPromiseSet;
   const target = BPSet.get("test");
 
   target.addTask(async () => {
-    console.log("starting stage2_fullset:jasmine");
+    console.log("starting stage_2_fullset:jasmine");
     await runJasmine("./spec-snapshot/support/jasmine.json", "stage_two_test");
   });
 }
