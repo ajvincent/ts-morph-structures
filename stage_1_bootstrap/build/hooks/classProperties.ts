@@ -352,13 +352,6 @@ function write_cloneRequiredAndOptionalArray(
     `expected second structure name to exist for structure name ${structureName}, property name ${propertyKey}`
   );
 
-  console.warn(JSON.stringify({
-    mixinName: structureName,
-    propertyName: propertyKey,
-    isArray: false,
-    ...propertyValue,
-  }, null, 2) + ",");
-
   const requiredName = propertyValue.otherTypes[1].structureName!
   const requiredKind = dictionaries.structures.get(requiredName)!.structureKindName;
   const requiredImpl = requiredName.replace(/Structure$/, "Impl");
