@@ -84,12 +84,6 @@ export default function addClassProperties(
         valueInUnion => valueInUnion.structureName && dictionaries.structures.has(valueInUnion.structureName)
       );
       if (hasAStructure) {
-        console.warn(JSON.stringify({
-          mixinName: name,
-          propertyName: key,
-          isArray: false,
-          ...propertyValue,
-        }, null, 2) + ",");
         assert(false, "structure found and needs entry in copyFields");
       }
       else {
