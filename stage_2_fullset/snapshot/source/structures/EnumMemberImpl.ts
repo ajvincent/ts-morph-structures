@@ -44,6 +44,11 @@ export default class EnumMemberImpl
   readonly kind: StructureKind.EnumMember = StructureKind.EnumMember;
   value?: string | number = undefined;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<EnumMemberStructure>,
     target: EnumMemberImpl,
@@ -57,7 +62,7 @@ export default class EnumMemberImpl
   public static clone(
     source: OptionalKind<EnumMemberStructure>,
   ): EnumMemberImpl {
-    const target = new EnumMemberImpl();
+    const target = new EnumMemberImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

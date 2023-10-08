@@ -56,6 +56,11 @@ export default class PropertySignatureImpl
   readonly kind: StructureKind.PropertySignature =
     StructureKind.PropertySignature;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<PropertySignatureStructure>,
     target: PropertySignatureImpl,
@@ -66,7 +71,7 @@ export default class PropertySignatureImpl
   public static clone(
     source: OptionalKind<PropertySignatureStructure>,
   ): PropertySignatureImpl {
-    const target = new PropertySignatureImpl();
+    const target = new PropertySignatureImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

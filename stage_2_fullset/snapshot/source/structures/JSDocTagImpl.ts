@@ -20,8 +20,13 @@ export default class JSDocTagImpl
   implements JSDocTagStructure
 {
   readonly kind: StructureKind.JSDocTag = StructureKind.JSDocTag;
-  tagName = "";
+  tagName: string;
   text?: stringOrWriter = undefined;
+
+  constructor(tagName: string) {
+    super();
+    this.tagName = tagName;
+  }
 
   public static copyFields(
     source: OptionalKind<JSDocTagStructure>,
@@ -38,7 +43,7 @@ export default class JSDocTagImpl
   }
 
   public static clone(source: OptionalKind<JSDocTagStructure>): JSDocTagImpl {
-    const target = new JSDocTagImpl();
+    const target = new JSDocTagImpl(source.tagName);
     this.copyFields(source, target);
     return target;
   }

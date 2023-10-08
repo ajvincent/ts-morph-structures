@@ -38,6 +38,11 @@ export default class JsxElementImpl
   readonly children: (JsxElementImpl | JsxSelfClosingElementImpl)[] = [];
   bodyText?: string = undefined;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<JsxElementStructure>,
     target: JsxElementImpl,
@@ -85,7 +90,7 @@ export default class JsxElementImpl
   public static clone(
     source: OptionalKind<JsxElementStructure>,
   ): JsxElementImpl {
-    const target = new JsxElementImpl();
+    const target = new JsxElementImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

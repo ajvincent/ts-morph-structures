@@ -71,6 +71,11 @@ export default class SetAccessorDeclarationImpl
 {
   readonly kind: StructureKind.SetAccessor = StructureKind.SetAccessor;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<SetAccessorDeclarationStructure>,
     target: SetAccessorDeclarationImpl,
@@ -81,7 +86,7 @@ export default class SetAccessorDeclarationImpl
   public static clone(
     source: OptionalKind<SetAccessorDeclarationStructure>,
   ): SetAccessorDeclarationImpl {
-    const target = new SetAccessorDeclarationImpl();
+    const target = new SetAccessorDeclarationImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

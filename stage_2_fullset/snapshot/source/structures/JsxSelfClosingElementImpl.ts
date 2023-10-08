@@ -32,6 +32,11 @@ export default class JsxSelfClosingElementImpl
     StructureKind.JsxSelfClosingElement;
   readonly attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[] = [];
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<JsxSelfClosingElementStructure>,
     target: JsxSelfClosingElementImpl,
@@ -58,7 +63,7 @@ export default class JsxSelfClosingElementImpl
   public static clone(
     source: OptionalKind<JsxSelfClosingElementStructure>,
   ): JsxSelfClosingElementImpl {
-    const target = new JsxSelfClosingElementImpl();
+    const target = new JsxSelfClosingElementImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

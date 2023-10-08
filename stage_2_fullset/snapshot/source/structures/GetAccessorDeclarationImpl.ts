@@ -71,6 +71,11 @@ export default class GetAccessorDeclarationImpl
 {
   readonly kind: StructureKind.GetAccessor = StructureKind.GetAccessor;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<GetAccessorDeclarationStructure>,
     target: GetAccessorDeclarationImpl,
@@ -81,7 +86,7 @@ export default class GetAccessorDeclarationImpl
   public static clone(
     source: OptionalKind<GetAccessorDeclarationStructure>,
   ): GetAccessorDeclarationImpl {
-    const target = new GetAccessorDeclarationImpl();
+    const target = new GetAccessorDeclarationImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

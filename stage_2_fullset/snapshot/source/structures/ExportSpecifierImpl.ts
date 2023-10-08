@@ -28,6 +28,11 @@ export default class ExportSpecifierImpl
   isTypeOnly = false;
   alias?: string = undefined;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<ExportSpecifierStructure>,
     target: ExportSpecifierImpl,
@@ -42,7 +47,7 @@ export default class ExportSpecifierImpl
   public static clone(
     source: OptionalKind<ExportSpecifierStructure>,
   ): ExportSpecifierImpl {
-    const target = new ExportSpecifierImpl();
+    const target = new ExportSpecifierImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

@@ -24,7 +24,12 @@ export default class JsxSpreadAttributeImpl
 {
   readonly kind: StructureKind.JsxSpreadAttribute =
     StructureKind.JsxSpreadAttribute;
-  expression = "";
+  expression: string;
+
+  constructor(expression: string) {
+    super();
+    this.expression = expression;
+  }
 
   public static copyFields(
     source: OptionalKind<JsxSpreadAttributeStructure>,
@@ -39,7 +44,7 @@ export default class JsxSpreadAttributeImpl
   public static clone(
     source: OptionalKind<JsxSpreadAttributeStructure>,
   ): JsxSpreadAttributeImpl {
-    const target = new JsxSpreadAttributeImpl();
+    const target = new JsxSpreadAttributeImpl(source.expression);
     this.copyFields(source, target);
     return target;
   }

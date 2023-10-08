@@ -29,6 +29,12 @@ export default class PropertyAssignmentImpl
     StructureKind.PropertyAssignment;
   initializer: stringOrWriter = "";
 
+  constructor(name: string, initializer: stringOrWriter) {
+    super();
+    this.name = name;
+    this.initializer = initializer;
+  }
+
   public static copyFields(
     source: OptionalKind<PropertyAssignmentStructure>,
     target: PropertyAssignmentImpl,
@@ -42,7 +48,7 @@ export default class PropertyAssignmentImpl
   public static clone(
     source: OptionalKind<PropertyAssignmentStructure>,
   ): PropertyAssignmentImpl {
-    const target = new PropertyAssignmentImpl();
+    const target = new PropertyAssignmentImpl(source.name, source.initializer);
     this.copyFields(source, target);
     return target;
   }

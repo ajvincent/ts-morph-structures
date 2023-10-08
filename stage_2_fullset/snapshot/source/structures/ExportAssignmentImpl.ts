@@ -30,6 +30,11 @@ export default class ExportAssignmentImpl
   isExportEquals = false;
   expression: stringOrWriter = "";
 
+  constructor(expression: stringOrWriter) {
+    super();
+    this.expression = expression;
+  }
+
   public static copyFields(
     source: OptionalKind<ExportAssignmentStructure>,
     target: ExportAssignmentImpl,
@@ -44,7 +49,7 @@ export default class ExportAssignmentImpl
   public static clone(
     source: OptionalKind<ExportAssignmentStructure>,
   ): ExportAssignmentImpl {
-    const target = new ExportAssignmentImpl();
+    const target = new ExportAssignmentImpl(source.expression);
     this.copyFields(source, target);
     return target;
   }

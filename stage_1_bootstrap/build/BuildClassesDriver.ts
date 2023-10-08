@@ -10,6 +10,7 @@ import addClassProperties from "./hooks/classProperties.js";
 import saveDecoratorFile from "./hooks/decorator/save.js";
 import createStructureParts from "./hooks/structure/createParts.js";
 import defineKindProperty from "./hooks/structure/defineKind.js";
+import addConstructor from "./hooks/structure/addConstructor.js";
 import addStaticClone from "./hooks/structure/addStaticClone.js";
 import saveStructureFile from "./hooks/structure/save.js";
 
@@ -31,6 +32,7 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addStructureHook("create structure parts", createStructureParts);
   dictionary.addStructureHook("add class properties", addClassProperties);
   dictionary.addStructureHook("define structure kind", defineKindProperty);
+  dictionary.addStructureHook("add constructor", addConstructor);
   dictionary.addStructureHook("add static clone method", addStaticClone);
   dictionary.addStructureHook("save structure file", saveStructureFile);
   // add decorator imports

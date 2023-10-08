@@ -84,6 +84,11 @@ export default class PropertyDeclarationImpl
   readonly kind: StructureKind.Property = StructureKind.Property;
   hasAccessorKeyword = false;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<PropertyDeclarationStructure>,
     target: PropertyDeclarationImpl,
@@ -95,7 +100,7 @@ export default class PropertyDeclarationImpl
   public static clone(
     source: OptionalKind<PropertyDeclarationStructure>,
   ): PropertyDeclarationImpl {
-    const target = new PropertyDeclarationImpl();
+    const target = new PropertyDeclarationImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

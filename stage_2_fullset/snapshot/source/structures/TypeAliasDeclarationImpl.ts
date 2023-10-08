@@ -57,6 +57,12 @@ export default class TypeAliasDeclarationImpl
   readonly kind: StructureKind.TypeAlias = StructureKind.TypeAlias;
   type: stringOrWriter = "";
 
+  constructor(name: string, type: stringOrWriter) {
+    super();
+    this.name = name;
+    this.type = type;
+  }
+
   public static copyFields(
     source: OptionalKind<TypeAliasDeclarationStructure>,
     target: TypeAliasDeclarationImpl,
@@ -70,7 +76,7 @@ export default class TypeAliasDeclarationImpl
   public static clone(
     source: OptionalKind<TypeAliasDeclarationStructure>,
   ): TypeAliasDeclarationImpl {
-    const target = new TypeAliasDeclarationImpl();
+    const target = new TypeAliasDeclarationImpl(source.name, source.type);
     this.copyFields(source, target);
     return target;
   }

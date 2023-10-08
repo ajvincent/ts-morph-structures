@@ -25,6 +25,11 @@ export default class DecoratorImpl
   readonly arguments: stringOrWriter[] = [];
   readonly typeArguments: string[] = [];
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<DecoratorStructure>,
     target: DecoratorImpl,
@@ -44,7 +49,7 @@ export default class DecoratorImpl
   }
 
   public static clone(source: OptionalKind<DecoratorStructure>): DecoratorImpl {
-    const target = new DecoratorImpl();
+    const target = new DecoratorImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

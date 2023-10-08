@@ -55,6 +55,11 @@ export default class MethodSignatureImpl
 {
   readonly kind: StructureKind.MethodSignature = StructureKind.MethodSignature;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<MethodSignatureStructure>,
     target: MethodSignatureImpl,
@@ -65,7 +70,7 @@ export default class MethodSignatureImpl
   public static clone(
     source: OptionalKind<MethodSignatureStructure>,
   ): MethodSignatureImpl {
-    const target = new MethodSignatureImpl();
+    const target = new MethodSignatureImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

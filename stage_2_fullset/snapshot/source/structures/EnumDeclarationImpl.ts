@@ -52,6 +52,11 @@ export default class EnumDeclarationImpl
   isConst = false;
   readonly members: EnumMemberImpl[] = [];
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<EnumDeclarationStructure>,
     target: EnumDeclarationImpl,
@@ -72,7 +77,7 @@ export default class EnumDeclarationImpl
   public static clone(
     source: OptionalKind<EnumDeclarationStructure>,
   ): EnumDeclarationImpl {
-    const target = new EnumDeclarationImpl();
+    const target = new EnumDeclarationImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

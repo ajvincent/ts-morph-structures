@@ -9,8 +9,7 @@ import {
 } from "ts-morph";
 
 describe("JSDocImpl", () => {
-  const tag = new JSDocTagImpl;
-  tag.tagName = "param";
+  const tag = new JSDocTagImpl("param");
   tag.text = "Hi Mom";
 
   it("sanity check: we can create one via constructor", () => {

@@ -35,7 +35,12 @@ export default class ImportDeclarationImpl
   readonly assertElements: AssertEntryImpl[] = [];
   defaultImport?: string = undefined;
   namespaceImport?: string = undefined;
-  moduleSpecifier = "";
+  moduleSpecifier: string;
+
+  constructor(moduleSpecifier: string) {
+    super();
+    this.moduleSpecifier = moduleSpecifier;
+  }
 
   public static copyFields(
     source: OptionalKind<ImportDeclarationStructure>,
@@ -79,7 +84,7 @@ export default class ImportDeclarationImpl
   public static clone(
     source: OptionalKind<ImportDeclarationStructure>,
   ): ImportDeclarationImpl {
-    const target = new ImportDeclarationImpl();
+    const target = new ImportDeclarationImpl(source.moduleSpecifier);
     this.copyFields(source, target);
     return target;
   }

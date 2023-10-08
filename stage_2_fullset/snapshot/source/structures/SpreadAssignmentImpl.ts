@@ -27,6 +27,11 @@ export default class SpreadAssignmentImpl
     StructureKind.SpreadAssignment;
   expression: stringOrWriter = "";
 
+  constructor(expression: stringOrWriter) {
+    super();
+    this.expression = expression;
+  }
+
   public static copyFields(
     source: OptionalKind<SpreadAssignmentStructure>,
     target: SpreadAssignmentImpl,
@@ -40,7 +45,7 @@ export default class SpreadAssignmentImpl
   public static clone(
     source: OptionalKind<SpreadAssignmentStructure>,
   ): SpreadAssignmentImpl {
-    const target = new SpreadAssignmentImpl();
+    const target = new SpreadAssignmentImpl(source.expression);
     this.copyFields(source, target);
     return target;
   }

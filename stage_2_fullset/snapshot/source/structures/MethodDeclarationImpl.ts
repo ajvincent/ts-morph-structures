@@ -91,6 +91,11 @@ export default class MethodDeclarationImpl
   readonly kind: StructureKind.Method = StructureKind.Method;
   readonly overloads: MethodDeclarationOverloadImpl[] = [];
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<MethodDeclarationStructure>,
     target: MethodDeclarationImpl,
@@ -110,7 +115,7 @@ export default class MethodDeclarationImpl
   public static clone(
     source: OptionalKind<MethodDeclarationStructure>,
   ): MethodDeclarationImpl {
-    const target = new MethodDeclarationImpl();
+    const target = new MethodDeclarationImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

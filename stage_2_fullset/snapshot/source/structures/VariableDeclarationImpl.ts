@@ -48,6 +48,11 @@ export default class VariableDeclarationImpl
   readonly kind: StructureKind.VariableDeclaration =
     StructureKind.VariableDeclaration;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<VariableDeclarationStructure>,
     target: VariableDeclarationImpl,
@@ -58,7 +63,7 @@ export default class VariableDeclarationImpl
   public static clone(
     source: OptionalKind<VariableDeclarationStructure>,
   ): VariableDeclarationImpl {
-    const target = new VariableDeclarationImpl();
+    const target = new VariableDeclarationImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

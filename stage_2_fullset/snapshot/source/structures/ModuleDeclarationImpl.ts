@@ -53,6 +53,11 @@ export default class ModuleDeclarationImpl
   readonly kind: StructureKind.Module = StructureKind.Module;
   declarationKind?: ModuleDeclarationKind = undefined;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<ModuleDeclarationStructure>,
     target: ModuleDeclarationImpl,
@@ -66,7 +71,7 @@ export default class ModuleDeclarationImpl
   public static clone(
     source: OptionalKind<ModuleDeclarationStructure>,
   ): ModuleDeclarationImpl {
-    const target = new ModuleDeclarationImpl();
+    const target = new ModuleDeclarationImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

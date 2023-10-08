@@ -32,6 +32,11 @@ export default class TypeParameterDeclarationImpl
   default?: stringOrWriter = undefined;
   variance?: TypeParameterVariance = undefined;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<TypeParameterDeclarationStructure>,
     target: TypeParameterDeclarationImpl,
@@ -54,7 +59,7 @@ export default class TypeParameterDeclarationImpl
   public static clone(
     source: OptionalKind<TypeParameterDeclarationStructure>,
   ): TypeParameterDeclarationImpl {
-    const target = new TypeParameterDeclarationImpl();
+    const target = new TypeParameterDeclarationImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

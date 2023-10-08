@@ -27,6 +27,11 @@ export default class ShorthandPropertyAssignmentImpl
   readonly kind: StructureKind.ShorthandPropertyAssignment =
     StructureKind.ShorthandPropertyAssignment;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<ShorthandPropertyAssignmentStructure>,
     target: ShorthandPropertyAssignmentImpl,
@@ -37,7 +42,7 @@ export default class ShorthandPropertyAssignmentImpl
   public static clone(
     source: OptionalKind<ShorthandPropertyAssignmentStructure>,
   ): ShorthandPropertyAssignmentImpl {
-    const target = new ShorthandPropertyAssignmentImpl();
+    const target = new ShorthandPropertyAssignmentImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

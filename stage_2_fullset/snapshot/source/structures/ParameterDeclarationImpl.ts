@@ -62,6 +62,11 @@ export default class ParameterDeclarationImpl
   isRestParameter = false;
   scope?: Scope = undefined;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<ParameterDeclarationStructure>,
     target: ParameterDeclarationImpl,
@@ -76,7 +81,7 @@ export default class ParameterDeclarationImpl
   public static clone(
     source: OptionalKind<ParameterDeclarationStructure>,
   ): ParameterDeclarationImpl {
-    const target = new ParameterDeclarationImpl();
+    const target = new ParameterDeclarationImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

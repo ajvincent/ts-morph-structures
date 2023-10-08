@@ -71,9 +71,13 @@ export default function addStaticClone(
   cloneMethod.parameters.push(sourceParam);
 
   cloneMethod.returnTypeStructure = new LiteralTypedStructureImpl(classDecl.name!);
+  let constructorArgs: string[] = [];
+  if (classDecl.ctors.length) {
+    constructorArgs = classDecl.ctors[0].parameters.map(param => "source." + param.name);
+  }
 
   cloneMethod.statements.push(
-    `const target = new ${classDecl.name}();`,
+    `const target = new ${classDecl.name}(${constructorArgs.join(", ")});`,
     `this.copyFields(source, target);`,
     `return target;`,
   );

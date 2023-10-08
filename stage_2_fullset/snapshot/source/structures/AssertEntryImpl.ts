@@ -25,7 +25,13 @@ export default class AssertEntryImpl
   implements AssertEntryStructure
 {
   readonly kind: StructureKind.AssertEntry = StructureKind.AssertEntry;
-  value = "";
+  value: string;
+
+  constructor(name: string, value: string) {
+    super();
+    this.name = name;
+    this.value = value;
+  }
 
   public static copyFields(
     source: OptionalKind<AssertEntryStructure>,
@@ -40,7 +46,7 @@ export default class AssertEntryImpl
   public static clone(
     source: OptionalKind<AssertEntryStructure>,
   ): AssertEntryImpl {
-    const target = new AssertEntryImpl();
+    const target = new AssertEntryImpl(source.name, source.value);
     this.copyFields(source, target);
     return target;
   }

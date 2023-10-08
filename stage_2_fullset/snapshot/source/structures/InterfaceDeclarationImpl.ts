@@ -71,6 +71,11 @@ export default class InterfaceDeclarationImpl
   readonly methods: MethodSignatureImpl[] = [];
   readonly properties: PropertySignatureImpl[] = [];
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<InterfaceDeclarationStructure>,
     target: InterfaceDeclarationImpl,
@@ -136,7 +141,7 @@ export default class InterfaceDeclarationImpl
   public static clone(
     source: OptionalKind<InterfaceDeclarationStructure>,
   ): InterfaceDeclarationImpl {
-    const target = new InterfaceDeclarationImpl();
+    const target = new InterfaceDeclarationImpl(source.name);
     this.copyFields(source, target);
     return target;
   }

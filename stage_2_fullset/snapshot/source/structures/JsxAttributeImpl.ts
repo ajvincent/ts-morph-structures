@@ -27,6 +27,11 @@ export default class JsxAttributeImpl
   name: string | JsxNamespacedNameStructure = "";
   initializer?: string = undefined;
 
+  constructor(name: string | JsxNamespacedNameStructure) {
+    super();
+    this.name = name;
+  }
+
   public static copyFields(
     source: OptionalKind<JsxAttributeStructure>,
     target: JsxAttributeImpl,
@@ -44,7 +49,7 @@ export default class JsxAttributeImpl
   public static clone(
     source: OptionalKind<JsxAttributeStructure>,
   ): JsxAttributeImpl {
-    const target = new JsxAttributeImpl();
+    const target = new JsxAttributeImpl(source.name);
     this.copyFields(source, target);
     return target;
   }
