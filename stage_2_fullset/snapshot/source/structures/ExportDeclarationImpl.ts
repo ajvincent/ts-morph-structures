@@ -33,7 +33,7 @@ export default class ExportDeclarationImpl
     StructureKind.ExportDeclaration;
   isTypeOnly = false;
   readonly namedExports: (stringOrWriter | ExportSpecifierImpl)[] = [];
-  readonly assertElements: AssertEntryImpl[] = [];
+  assertElements?: AssertEntryImpl[] = undefined;
   namespaceExport?: string = undefined;
   moduleSpecifier?: string = undefined;
 
@@ -54,6 +54,7 @@ export default class ExportDeclarationImpl
     }
 
     if (source.assertElements) {
+      target.assertElements = [];
       target.assertElements.push(
         ...cloneStructureArray<
           OptionalKind<AssertEntryStructure>,
