@@ -1,4 +1,6 @@
 node_modules
 stage_1_bootstrap/dist
 stage_2_fullset/dist
+stage_2_fullset/snapshot/docs
 stage_3_fullset/dist
+stage_3_fullset/snapshot/docs
