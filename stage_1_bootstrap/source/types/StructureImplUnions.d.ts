@@ -1,1 +1,3 @@
-export type StructureImpls = Structures;
+export type {
+  Structures as StructureImpls,
+} from "ts-morph";
