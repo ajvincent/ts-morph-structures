@@ -10,8 +10,11 @@ import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStruc
 import {
   ArrayTypedStructureImpl,
   LiteralTypedStructureImpl,
+  MethodDeclarationImpl,
+  ParameterDeclarationImpl,
   ParenthesesTypedStructureImpl,
   PropertyDeclarationImpl,
+  TypeStructureClassesMap,
   TypeStructureKind,
   TypeStructures,
   UnionTypedStructureImpl,
@@ -136,6 +139,11 @@ function addStructureFieldArray(
         structureName, dictionaries, parts, propertyValue, propertyKey
       );
     }
+  }
+  else if (propertyKey === "statements") {
+    statement = write_cloneStatementsArray(
+      structureName, dictionaries, parts, propertyValue, propertyKey
+    );
   }
   else {
     statement = (writer: CodeBlockWriter): void => {
@@ -543,4 +551,88 @@ function write_cloneStructureArray(
   }
 
   return statement;
+}
+
+function write_cloneStatementsArray(
+  structureName: string,
+  dictionaries: StructureDictionaries,
+  parts: DecoratorParts | StructureParts,
+  propertyValue: PropertyValue,
+  propertyKey: PropertyName
+): WriterFunction
+{
+  void(propertyKey);
+  void(propertyValue);
+
+  parts.importsManager.addImports({
+    pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
+    isDefaultImport: false,
+    isPackageImport: false,
+    isTypeOnly: false,
+    importNames: [
+      "StructuresClassesMap",
+    ]
+  });
+
+  parts.importsManager.addImports({
+    pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+    isDefaultImport: false,
+    isPackageImport: false,
+    isTypeOnly: true,
+    importNames: [
+      "StatementStructureImpls",
+    ]
+  });
+
+  let sourceParamType: UnionTypedStructureImpl, returnType: UnionTypedStructureImpl;
+  {
+    const statementsArrayType = parts.classDecl.properties[0].typeStructure!;
+    assert(statementsArrayType.kind === TypeStructureKind.Array, `expected Array type structure`);
+    const parensType = (statementsArrayType as ArrayTypedStructureImpl).objectType;
+    assert(parensType.kind === TypeStructureKind.Parentheses, `expected Parenthese type structure`);
+    const unionType = (parensType as ParenthesesTypedStructureImpl).childTypes[0];
+    assert(unionType.kind === TypeStructureKind.Union, `expected Union type structure`);
+    const literalType = (unionType as UnionTypedStructureImpl).childTypes[1];
+    assert((literalType.kind === TypeStructureKind.Literal) && (literalType.stringValue === "StatementStructures"),
+      `expected "StatementStructures" literal type`);
+
+    sourceParamType = TypeStructureClassesMap.clone(unionType) as UnionTypedStructureImpl;
+
+    (unionType as UnionTypedStructureImpl).childTypes.splice(
+      1, 1, new LiteralTypedStructureImpl("StatementStructureImpls")
+    );
+
+    returnType = TypeStructureClassesMap.clone(unionType) as UnionTypedStructureImpl;
+  }
+
+  const cloneStatementMethod = new MethodDeclarationImpl("#cloneStatement");
+  cloneStatementMethod.isStatic = true;
+  const sourceParam = new ParameterDeclarationImpl("source");
+  sourceParam.typeStructure = sourceParamType;
+  cloneStatementMethod.parameters.push(sourceParam);
+  cloneStatementMethod.returnTypeStructure = returnType;
+
+  cloneStatementMethod.statements.push(writer => {
+    writer.write(`if (typeof source !== "object") `);
+    writer.block(() => writer.write("return source;"));
+    writer.writeLine(`return StructuresClassesMap.clone(source) as StatementStructureImpls;`);
+  });
+
+  parts.classDecl.methods.push(cloneStatementMethod);
+
+  return (writer: CodeBlockWriter) => {
+    // this is one time where it's just faster and clearer to write the code than to spell out the contents in structures
+    writer.write(`
+let statementsArray: (stringOrWriter | StatementStructureImpls)[] = [];
+if (Array.isArray(source.statements)) {
+  statementsArray = source.statements as (stringOrWriter | StatementStructureImpls)[];
+}
+else if (source.statements !== undefined) {
+  statementsArray = [source.statements];
+}
+target.statements.push(
+  ...statementsArray.map(statement => this.#cloneStatement(statement))
+);
+    `);
+  };
 }
