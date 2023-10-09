@@ -83,5 +83,8 @@ export default class TypeAliasDeclarationImpl
   }
 }
 
-TypeAliasDeclarationImpl satisfies CloneableStructure<TypeAliasDeclarationStructure>;
+TypeAliasDeclarationImpl satisfies CloneableStructure<
+  TypeAliasDeclarationStructure,
+  TypeAliasDeclarationImpl
+>;
 StructuresClassesMap.set(StructureKind.TypeAlias, TypeAliasDeclarationImpl);

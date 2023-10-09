@@ -36,5 +36,8 @@ export default class SourceFileImpl
   }
 }
 
-SourceFileImpl satisfies CloneableStructure<SourceFileStructure>;
+SourceFileImpl satisfies CloneableStructure<
+  SourceFileStructure,
+  SourceFileImpl
+>;
 StructuresClassesMap.set(StructureKind.SourceFile, SourceFileImpl);

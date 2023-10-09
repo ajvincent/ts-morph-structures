@@ -56,5 +56,8 @@ export default class JsxAttributeImpl
   }
 }
 
-JsxAttributeImpl satisfies CloneableStructure<JsxAttributeStructure>;
+JsxAttributeImpl satisfies CloneableStructure<
+  JsxAttributeStructure,
+  JsxAttributeImpl
+>;
 StructuresClassesMap.set(StructureKind.JsxAttribute, JsxAttributeImpl);

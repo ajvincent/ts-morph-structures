@@ -56,5 +56,8 @@ export default class ExportAssignmentImpl
   }
 }
 
-ExportAssignmentImpl satisfies CloneableStructure<ExportAssignmentStructure>;
+ExportAssignmentImpl satisfies CloneableStructure<
+  ExportAssignmentStructure,
+  ExportAssignmentImpl
+>;
 StructuresClassesMap.set(StructureKind.ExportAssignment, ExportAssignmentImpl);

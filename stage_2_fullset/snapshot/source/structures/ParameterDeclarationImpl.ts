@@ -88,5 +88,8 @@ export default class ParameterDeclarationImpl
   }
 }
 
-ParameterDeclarationImpl satisfies CloneableStructure<ParameterDeclarationStructure>;
+ParameterDeclarationImpl satisfies CloneableStructure<
+  ParameterDeclarationStructure,
+  ParameterDeclarationImpl
+>;
 StructuresClassesMap.set(StructureKind.Parameter, ParameterDeclarationImpl);

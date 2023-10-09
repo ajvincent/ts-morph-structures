@@ -69,5 +69,8 @@ export default class EnumMemberImpl
   }
 }
 
-EnumMemberImpl satisfies CloneableStructure<EnumMemberStructure>;
+EnumMemberImpl satisfies CloneableStructure<
+  EnumMemberStructure,
+  EnumMemberImpl
+>;
 StructuresClassesMap.set(StructureKind.EnumMember, EnumMemberImpl);

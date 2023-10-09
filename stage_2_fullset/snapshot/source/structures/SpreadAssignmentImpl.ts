@@ -52,5 +52,8 @@ export default class SpreadAssignmentImpl
   }
 }
 
-SpreadAssignmentImpl satisfies CloneableStructure<SpreadAssignmentStructure>;
+SpreadAssignmentImpl satisfies CloneableStructure<
+  SpreadAssignmentStructure,
+  SpreadAssignmentImpl
+>;
 StructuresClassesMap.set(StructureKind.SpreadAssignment, SpreadAssignmentImpl);

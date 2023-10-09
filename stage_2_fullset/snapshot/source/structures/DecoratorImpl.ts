@@ -56,5 +56,5 @@ export default class DecoratorImpl
   }
 }
 
-DecoratorImpl satisfies CloneableStructure<DecoratorStructure>;
+DecoratorImpl satisfies CloneableStructure<DecoratorStructure, DecoratorImpl>;
 StructuresClassesMap.set(StructureKind.Decorator, DecoratorImpl);

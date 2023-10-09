@@ -122,5 +122,8 @@ export default class MethodDeclarationImpl
   }
 }
 
-MethodDeclarationImpl satisfies CloneableStructure<MethodDeclarationStructure>;
+MethodDeclarationImpl satisfies CloneableStructure<
+  MethodDeclarationStructure,
+  MethodDeclarationImpl
+>;
 StructuresClassesMap.set(StructureKind.Method, MethodDeclarationImpl);

@@ -51,7 +51,10 @@ export default class JsxSpreadAttributeImpl
   }
 }
 
-JsxSpreadAttributeImpl satisfies CloneableStructure<JsxSpreadAttributeStructure>;
+JsxSpreadAttributeImpl satisfies CloneableStructure<
+  JsxSpreadAttributeStructure,
+  JsxSpreadAttributeImpl
+>;
 StructuresClassesMap.set(
   StructureKind.JsxSpreadAttribute,
   JsxSpreadAttributeImpl,

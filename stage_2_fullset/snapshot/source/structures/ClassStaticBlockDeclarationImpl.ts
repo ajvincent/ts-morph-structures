@@ -46,7 +46,10 @@ export default class ClassStaticBlockDeclarationImpl
   }
 }
 
-ClassStaticBlockDeclarationImpl satisfies CloneableStructure<ClassStaticBlockDeclarationStructure>;
+ClassStaticBlockDeclarationImpl satisfies CloneableStructure<
+  ClassStaticBlockDeclarationStructure,
+  ClassStaticBlockDeclarationImpl
+>;
 StructuresClassesMap.set(
   StructureKind.ClassStaticBlock,
   ClassStaticBlockDeclarationImpl,

@@ -55,7 +55,7 @@ function satisfiesCloneableWriter(
 ): WriterFunction
 {
   return function(writer: CodeBlockWriter): void {
-    writer.writeLine(`${classDecl.name!} satisfies CloneableStructure<${structureName}>;`);
+    writer.writeLine(`${classDecl.name!} satisfies CloneableStructure<${structureName}, ${classDecl.name!}>;`);
   }
 }
 

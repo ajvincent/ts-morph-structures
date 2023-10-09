@@ -54,5 +54,8 @@ export default class ImportSpecifierImpl
   }
 }
 
-ImportSpecifierImpl satisfies CloneableStructure<ImportSpecifierStructure>;
+ImportSpecifierImpl satisfies CloneableStructure<
+  ImportSpecifierStructure,
+  ImportSpecifierImpl
+>;
 StructuresClassesMap.set(StructureKind.ImportSpecifier, ImportSpecifierImpl);

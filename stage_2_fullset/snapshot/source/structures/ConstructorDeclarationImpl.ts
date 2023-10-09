@@ -85,5 +85,8 @@ export default class ConstructorDeclarationImpl
   }
 }
 
-ConstructorDeclarationImpl satisfies CloneableStructure<ConstructorDeclarationStructure>;
+ConstructorDeclarationImpl satisfies CloneableStructure<
+  ConstructorDeclarationStructure,
+  ConstructorDeclarationImpl
+>;
 StructuresClassesMap.set(StructureKind.Constructor, ConstructorDeclarationImpl);

@@ -148,5 +148,8 @@ export default class InterfaceDeclarationImpl
   }
 }
 
-InterfaceDeclarationImpl satisfies CloneableStructure<InterfaceDeclarationStructure>;
+InterfaceDeclarationImpl satisfies CloneableStructure<
+  InterfaceDeclarationStructure,
+  InterfaceDeclarationImpl
+>;
 StructuresClassesMap.set(StructureKind.Interface, InterfaceDeclarationImpl);

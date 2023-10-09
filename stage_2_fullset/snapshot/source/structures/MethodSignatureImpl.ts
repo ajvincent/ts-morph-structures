@@ -70,5 +70,8 @@ export default class MethodSignatureImpl
   }
 }
 
-MethodSignatureImpl satisfies CloneableStructure<MethodSignatureStructure>;
+MethodSignatureImpl satisfies CloneableStructure<
+  MethodSignatureStructure,
+  MethodSignatureImpl
+>;
 StructuresClassesMap.set(StructureKind.MethodSignature, MethodSignatureImpl);

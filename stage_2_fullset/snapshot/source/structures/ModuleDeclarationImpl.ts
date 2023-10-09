@@ -78,5 +78,8 @@ export default class ModuleDeclarationImpl
   }
 }
 
-ModuleDeclarationImpl satisfies CloneableStructure<ModuleDeclarationStructure>;
+ModuleDeclarationImpl satisfies CloneableStructure<
+  ModuleDeclarationStructure,
+  ModuleDeclarationImpl
+>;
 StructuresClassesMap.set(StructureKind.Module, ModuleDeclarationImpl);

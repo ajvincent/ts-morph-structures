@@ -57,7 +57,10 @@ export default class CallSignatureDeclarationImpl
   }
 }
 
-CallSignatureDeclarationImpl satisfies CloneableStructure<CallSignatureDeclarationStructure>;
+CallSignatureDeclarationImpl satisfies CloneableStructure<
+  CallSignatureDeclarationStructure,
+  CallSignatureDeclarationImpl
+>;
 StructuresClassesMap.set(
   StructureKind.CallSignature,
   CallSignatureDeclarationImpl,

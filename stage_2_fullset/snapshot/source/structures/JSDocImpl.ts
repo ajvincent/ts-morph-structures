@@ -58,5 +58,5 @@ export default class JSDocImpl
   }
 }
 
-JSDocImpl satisfies CloneableStructure<JSDocStructure>;
+JSDocImpl satisfies CloneableStructure<JSDocStructure, JSDocImpl>;
 StructuresClassesMap.set(StructureKind.JSDoc, JSDocImpl);

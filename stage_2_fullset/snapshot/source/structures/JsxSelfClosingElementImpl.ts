@@ -70,7 +70,10 @@ export default class JsxSelfClosingElementImpl
   }
 }
 
-JsxSelfClosingElementImpl satisfies CloneableStructure<JsxSelfClosingElementStructure>;
+JsxSelfClosingElementImpl satisfies CloneableStructure<
+  JsxSelfClosingElementStructure,
+  JsxSelfClosingElementImpl
+>;
 StructuresClassesMap.set(
   StructureKind.JsxSelfClosingElement,
   JsxSelfClosingElementImpl,

@@ -86,5 +86,8 @@ export default class SetAccessorDeclarationImpl
   }
 }
 
-SetAccessorDeclarationImpl satisfies CloneableStructure<SetAccessorDeclarationStructure>;
+SetAccessorDeclarationImpl satisfies CloneableStructure<
+  SetAccessorDeclarationStructure,
+  SetAccessorDeclarationImpl
+>;
 StructuresClassesMap.set(StructureKind.SetAccessor, SetAccessorDeclarationImpl);

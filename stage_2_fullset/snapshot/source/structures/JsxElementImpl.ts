@@ -97,5 +97,8 @@ export default class JsxElementImpl
   }
 }
 
-JsxElementImpl satisfies CloneableStructure<JsxElementStructure>;
+JsxElementImpl satisfies CloneableStructure<
+  JsxElementStructure,
+  JsxElementImpl
+>;
 StructuresClassesMap.set(StructureKind.JsxElement, JsxElementImpl);

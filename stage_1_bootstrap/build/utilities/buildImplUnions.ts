@@ -1,4 +1,5 @@
 import path from "path";
+import fs from "fs/promises";
 
 import StructureDictionaries from "../StructureDictionaries.js";
 
@@ -63,5 +64,7 @@ export default async function buildImplUnions(
   });
 
   sourceFile.statements.unshift(...importManager.getDeclarations());
+  await fs.rm(sourcePath, { force: true });
+
   await saveSourceFile(sourcePath, sourceFile);
 }

@@ -42,7 +42,10 @@ export default class ShorthandPropertyAssignmentImpl
   }
 }
 
-ShorthandPropertyAssignmentImpl satisfies CloneableStructure<ShorthandPropertyAssignmentStructure>;
+ShorthandPropertyAssignmentImpl satisfies CloneableStructure<
+  ShorthandPropertyAssignmentStructure,
+  ShorthandPropertyAssignmentImpl
+>;
 StructuresClassesMap.set(
   StructureKind.ShorthandPropertyAssignment,
   ShorthandPropertyAssignmentImpl,

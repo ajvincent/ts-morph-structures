@@ -53,5 +53,8 @@ export default class AssertEntryImpl
   }
 }
 
-AssertEntryImpl satisfies CloneableStructure<AssertEntryStructure>;
+AssertEntryImpl satisfies CloneableStructure<
+  AssertEntryStructure,
+  AssertEntryImpl
+>;
 StructuresClassesMap.set(StructureKind.AssertEntry, AssertEntryImpl);

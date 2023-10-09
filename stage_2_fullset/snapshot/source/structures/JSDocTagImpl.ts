@@ -50,5 +50,5 @@ export default class JSDocTagImpl
   }
 }
 
-JSDocTagImpl satisfies CloneableStructure<JSDocTagStructure>;
+JSDocTagImpl satisfies CloneableStructure<JSDocTagStructure, JSDocTagImpl>;
 StructuresClassesMap.set(StructureKind.JSDocTag, JSDocTagImpl);

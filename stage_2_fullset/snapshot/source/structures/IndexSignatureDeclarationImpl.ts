@@ -69,7 +69,10 @@ export default class IndexSignatureDeclarationImpl
   }
 }
 
-IndexSignatureDeclarationImpl satisfies CloneableStructure<IndexSignatureDeclarationStructure>;
+IndexSignatureDeclarationImpl satisfies CloneableStructure<
+  IndexSignatureDeclarationStructure,
+  IndexSignatureDeclarationImpl
+>;
 StructuresClassesMap.set(
   StructureKind.IndexSignature,
   IndexSignatureDeclarationImpl,

@@ -71,7 +71,10 @@ export default class PropertySignatureImpl
   }
 }
 
-PropertySignatureImpl satisfies CloneableStructure<PropertySignatureStructure>;
+PropertySignatureImpl satisfies CloneableStructure<
+  PropertySignatureStructure,
+  PropertySignatureImpl
+>;
 StructuresClassesMap.set(
   StructureKind.PropertySignature,
   PropertySignatureImpl,

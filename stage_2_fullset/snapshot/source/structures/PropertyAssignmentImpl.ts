@@ -55,7 +55,10 @@ export default class PropertyAssignmentImpl
   }
 }
 
-PropertyAssignmentImpl satisfies CloneableStructure<PropertyAssignmentStructure>;
+PropertyAssignmentImpl satisfies CloneableStructure<
+  PropertyAssignmentStructure,
+  PropertyAssignmentImpl
+>;
 StructuresClassesMap.set(
   StructureKind.PropertyAssignment,
   PropertyAssignmentImpl,

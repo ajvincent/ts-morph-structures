@@ -84,5 +84,8 @@ export default class EnumDeclarationImpl
   }
 }
 
-EnumDeclarationImpl satisfies CloneableStructure<EnumDeclarationStructure>;
+EnumDeclarationImpl satisfies CloneableStructure<
+  EnumDeclarationStructure,
+  EnumDeclarationImpl
+>;
 StructuresClassesMap.set(StructureKind.Enum, EnumDeclarationImpl);

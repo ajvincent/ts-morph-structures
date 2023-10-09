@@ -66,7 +66,10 @@ export default class TypeParameterDeclarationImpl
   }
 }
 
-TypeParameterDeclarationImpl satisfies CloneableStructure<TypeParameterDeclarationStructure>;
+TypeParameterDeclarationImpl satisfies CloneableStructure<
+  TypeParameterDeclarationStructure,
+  TypeParameterDeclarationImpl
+>;
 StructuresClassesMap.set(
   StructureKind.TypeParameter,
   TypeParameterDeclarationImpl,

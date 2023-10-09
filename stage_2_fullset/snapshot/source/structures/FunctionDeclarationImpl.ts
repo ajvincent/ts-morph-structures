@@ -101,5 +101,8 @@ export default class FunctionDeclarationImpl
   }
 }
 
-FunctionDeclarationImpl satisfies CloneableStructure<FunctionDeclarationStructure>;
+FunctionDeclarationImpl satisfies CloneableStructure<
+  FunctionDeclarationStructure,
+  FunctionDeclarationImpl
+>;
 StructuresClassesMap.set(StructureKind.Function, FunctionDeclarationImpl);

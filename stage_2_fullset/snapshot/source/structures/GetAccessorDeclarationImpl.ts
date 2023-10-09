@@ -86,5 +86,8 @@ export default class GetAccessorDeclarationImpl
   }
 }
 
-GetAccessorDeclarationImpl satisfies CloneableStructure<GetAccessorDeclarationStructure>;
+GetAccessorDeclarationImpl satisfies CloneableStructure<
+  GetAccessorDeclarationStructure,
+  GetAccessorDeclarationImpl
+>;
 StructuresClassesMap.set(StructureKind.GetAccessor, GetAccessorDeclarationImpl);

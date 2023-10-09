@@ -58,7 +58,10 @@ export default class ConstructSignatureDeclarationImpl
   }
 }
 
-ConstructSignatureDeclarationImpl satisfies CloneableStructure<ConstructSignatureDeclarationStructure>;
+ConstructSignatureDeclarationImpl satisfies CloneableStructure<
+  ConstructSignatureDeclarationStructure,
+  ConstructSignatureDeclarationImpl
+>;
 StructuresClassesMap.set(
   StructureKind.ConstructSignature,
   ConstructSignatureDeclarationImpl,

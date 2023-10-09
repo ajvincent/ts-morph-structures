@@ -77,7 +77,10 @@ export default class VariableStatementImpl
   }
 }
 
-VariableStatementImpl satisfies CloneableStructure<VariableStatementStructure>;
+VariableStatementImpl satisfies CloneableStructure<
+  VariableStatementStructure,
+  VariableStatementImpl
+>;
 StructuresClassesMap.set(
   StructureKind.VariableStatement,
   VariableStatementImpl,

@@ -107,5 +107,8 @@ export default class PropertyDeclarationImpl
   }
 }
 
-PropertyDeclarationImpl satisfies CloneableStructure<PropertyDeclarationStructure>;
+PropertyDeclarationImpl satisfies CloneableStructure<
+  PropertyDeclarationStructure,
+  PropertyDeclarationImpl
+>;
 StructuresClassesMap.set(StructureKind.Property, PropertyDeclarationImpl);

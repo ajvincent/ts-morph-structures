@@ -74,7 +74,10 @@ export default class FunctionDeclarationOverloadImpl
   }
 }
 
-FunctionDeclarationOverloadImpl satisfies CloneableStructure<FunctionDeclarationOverloadStructure>;
+FunctionDeclarationOverloadImpl satisfies CloneableStructure<
+  FunctionDeclarationOverloadStructure,
+  FunctionDeclarationOverloadImpl
+>;
 StructuresClassesMap.set(
   StructureKind.FunctionOverload,
   FunctionDeclarationOverloadImpl,

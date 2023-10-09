@@ -91,7 +91,10 @@ export default class ImportDeclarationImpl
   }
 }
 
-ImportDeclarationImpl satisfies CloneableStructure<ImportDeclarationStructure>;
+ImportDeclarationImpl satisfies CloneableStructure<
+  ImportDeclarationStructure,
+  ImportDeclarationImpl
+>;
 StructuresClassesMap.set(
   StructureKind.ImportDeclaration,
   ImportDeclarationImpl,

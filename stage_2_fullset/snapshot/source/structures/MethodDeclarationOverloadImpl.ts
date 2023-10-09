@@ -85,7 +85,10 @@ export default class MethodDeclarationOverloadImpl
   }
 }
 
-MethodDeclarationOverloadImpl satisfies CloneableStructure<MethodDeclarationOverloadStructure>;
+MethodDeclarationOverloadImpl satisfies CloneableStructure<
+  MethodDeclarationOverloadStructure,
+  MethodDeclarationOverloadImpl
+>;
 StructuresClassesMap.set(
   StructureKind.MethodOverload,
   MethodDeclarationOverloadImpl,

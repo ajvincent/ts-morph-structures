@@ -54,5 +54,8 @@ export default class ExportSpecifierImpl
   }
 }
 
-ExportSpecifierImpl satisfies CloneableStructure<ExportSpecifierStructure>;
+ExportSpecifierImpl satisfies CloneableStructure<
+  ExportSpecifierStructure,
+  ExportSpecifierImpl
+>;
 StructuresClassesMap.set(StructureKind.ExportSpecifier, ExportSpecifierImpl);

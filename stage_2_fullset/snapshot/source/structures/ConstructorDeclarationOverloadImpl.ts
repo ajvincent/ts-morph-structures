@@ -62,7 +62,10 @@ export default class ConstructorDeclarationOverloadImpl
   }
 }
 
-ConstructorDeclarationOverloadImpl satisfies CloneableStructure<ConstructorDeclarationOverloadStructure>;
+ConstructorDeclarationOverloadImpl satisfies CloneableStructure<
+  ConstructorDeclarationOverloadStructure,
+  ConstructorDeclarationOverloadImpl
+>;
 StructuresClassesMap.set(
   StructureKind.ConstructorOverload,
   ConstructorDeclarationOverloadImpl,
