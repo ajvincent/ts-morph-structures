@@ -13,7 +13,7 @@ The es-membrane prototype was a rush job, basically enough to be usable.  This i
 - Linting: typescript-eslint
 - Code documentation: tsdoc
 - Bundling: rollup
-- Code pretty-printing: Prettier, [ts-pretty](https://www.npmjs.com/package/prettier-plugin-ts-pretty)
+- Code pretty-printing: Prettier
 
 ## Directory layout
 
