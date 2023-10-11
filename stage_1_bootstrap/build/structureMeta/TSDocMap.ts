@@ -14,11 +14,16 @@ interface JSDocData {
 type JSDocRequired = Required<Pick<JSDocStructure, "description" | "tags">>;
 
 class JSDocMap {
-  static #hasher(data: JSDocData): string {
-    return JSON.stringify(data);
+  #hasher(data: JSDocData): string {
+    const hash = JSON.stringify(data);
+    if (!this.#hashToKeysMap.has(hash)) {
+      this.#hashToKeysMap.set(hash, data);
+    }
+    return hash;
   }
 
-  readonly #map = new Map<string, JSDocImpl | null>;
+  readonly #hashToDocMap = new Map<string, JSDocImpl | undefined | null>;
+  readonly #hashToKeysMap = new Map<string, JSDocData>;
   readonly #decoratorClassNames = new Set<string>;
   readonly #structureClassNames = new Set<string>;
 
@@ -30,14 +35,14 @@ class JSDocMap {
   {
     this.#structureClassNames.add(className);
     for (const [fieldName, doc] of Object.entries(staticFields)) {
-      const hash = JSDocMap.#hasher({isStructureDef: true, className, isStatic: true, fieldName});
+      const hash = this.#hasher({isStructureDef: true, className, isStatic: true, fieldName});
       const impl = JSDocImpl.clone(doc);
-      this.#map.set(hash, impl);
+      this.#hashToDocMap.set(hash, impl);
     }
     for (const [fieldName, doc] of Object.entries(instanceFields)) {
-      const hash = JSDocMap.#hasher({isStructureDef: true, className, isStatic: false, fieldName});
+      const hash = this.#hasher({isStructureDef: true, className, isStatic: false, fieldName});
       const impl = JSDocImpl.clone(doc);
-      this.#map.set(hash, impl);
+      this.#hashToDocMap.set(hash, impl);
     }
   }
 
@@ -49,14 +54,14 @@ class JSDocMap {
   {
     this.#decoratorClassNames.add(className);
     for (const [fieldName, doc] of Object.entries(staticFields)) {
-      const hash = JSDocMap.#hasher({isStructureDef: false, className, isStatic: true, fieldName});
+      const hash = this.#hasher({isStructureDef: false, className, isStatic: true, fieldName});
       const impl = JSDocImpl.clone(doc);
-      this.#map.set(hash, impl);
+      this.#hashToDocMap.set(hash, impl);
     }
     for (const [fieldName, doc] of Object.entries(instanceFields)) {
-      const hash = JSDocMap.#hasher({isStructureDef: false, className, isStatic: false, fieldName});
+      const hash = this.#hasher({isStructureDef: false, className, isStatic: false, fieldName});
       const impl = JSDocImpl.clone(doc);
-      this.#map.set(hash, impl);
+      this.#hashToDocMap.set(hash, impl);
     }
   }
 
@@ -67,17 +72,41 @@ class JSDocMap {
     instanceFields: readonly string[]
   ): void {
     staticFields.forEach(fieldName => {
-      const hash = JSDocMap.#hasher({isStructureDef, className, isStatic: true, fieldName});
-      const starHash = JSDocMap.#hasher({isStructureDef, className: "*", isStatic: true, fieldName});
-      if (!this.#map.has(hash) && !this.#map.has(starHash))
-        this.#map.set(hash, null);
+      const classMap = isStructureDef ? this.#structureClassNames : this.#decoratorClassNames;
+      const hash = this.#hasher({isStructureDef, className, isStatic: true, fieldName});
+      if (!classMap.has(className)) {
+        this.#hashToDocMap.set(hash, undefined);
+      }
+
+      if (this.#hashToDocMap.has(hash))
+        return;
+
+      const starHash = this.#hasher({isStructureDef, className: "*", isStatic: true, fieldName});
+      if (this.#hashToDocMap.has(starHash)) {
+        this.#hashToDocMap.set(hash, this.#hashToDocMap.get(starHash));
+        return;
+      }
+
+      this.#hashToDocMap.set(hash, null);
     });
 
     instanceFields.forEach(fieldName => {
-      const hash = JSDocMap.#hasher({isStructureDef, className, isStatic: false, fieldName});
-      const starHash = JSDocMap.#hasher({isStructureDef, className: "*", isStatic: false, fieldName});
-      if (!this.#map.has(hash) && !this.#map.has(starHash))
-        this.#map.set(hash, null);
+      const classMap = isStructureDef ? this.#structureClassNames : this.#decoratorClassNames;
+      const hash = this.#hasher({isStructureDef, className, isStatic: false, fieldName});
+      if (!classMap.has(className)) {
+        this.#hashToDocMap.set(hash, undefined);
+      }
+
+      if (this.#hashToDocMap.has(hash))
+        return;
+
+      const starHash = this.#hasher({isStructureDef, className: "*", isStatic: false, fieldName});
+      if (this.#hashToDocMap.has(starHash)) {
+        this.#hashToDocMap.set(hash, this.#hashToDocMap.get(starHash));
+        return;
+      }
+
+      this.#hashToDocMap.set(hash, null);
     });
   }
 
@@ -110,17 +139,22 @@ class JSDocMap {
     if (!hasClass)
       return undefined;
 
-    const hash = JSDocMap.#hasher({isStructureDef, className, isStatic, fieldName});
-    const starHash = JSDocMap.#hasher({isStructureDef, className: "*", isStatic, fieldName});
-    return this.#map.get(hash) ?? this.#map.get(starHash);
+    const hash = this.#hasher({isStructureDef, className, isStatic, fieldName});
+    const starHash = this.#hasher({isStructureDef, className: "*", isStatic, fieldName});
+    return this.#hashToDocMap.get(hash) ?? this.#hashToDocMap.get(starHash);
   }
 
-  toJSON(): never {
-    throw new Error("not yet implemented");
-  }
+  toJSON(): Record<string, Record<string, JSDocImpl | undefined | null>>
+  {
+    const dict: Record<string, Record<string, JSDocImpl | undefined | null>> = {};
+    this.#hashToDocMap.forEach((value, hash) => {
+      const key = this.#hashToKeysMap.get(hash)!;
+      const topKey = `${key.isStructureDef ? "structure " : "decorator "}${key.className}`;
+      dict[topKey] ??= {};
+      dict[topKey][`${key.isStatic ? "static " : ""}'${key.fieldName}'`] = value;
+    });
 
-  static fromJSON(): never {
-    throw new Error("not yet implemented");
+    return dict;
   }
 }
 

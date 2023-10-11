@@ -11,7 +11,7 @@ export default async function runPrettify(
 ): Promise<void>
 {
   const { files } = await readDirsDeep(absolutePath);
-  await PromiseAllParallel(files, reformatFile);
+  await PromiseAllParallel(files.filter(file => file.endsWith(".ts")), reformatFile);
 }
 
 async function reformatFile(

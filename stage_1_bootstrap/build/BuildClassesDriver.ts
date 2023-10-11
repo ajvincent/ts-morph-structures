@@ -40,7 +40,7 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addStructureHook("add constructor", addConstructor);
   dictionary.addStructureHook("add static clone method", addStaticClone);
   dictionary.addStructureHook("remove useless copy-fields method", removeUselessCopyFields);
-  dictionary.addDecoratorHook("add TSDoc", addTSDoc);
+  dictionary.addStructureHook("add TSDoc", addTSDoc);
   dictionary.addStructureHook("special cases", structureSpecialCases);
   dictionary.addStructureHook("save structure file", saveStructureFile);
   // add decorator imports

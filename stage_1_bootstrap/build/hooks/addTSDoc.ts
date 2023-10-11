@@ -50,7 +50,8 @@ export default function addTSDoc(
     isStructureDef,
     className,
     members.staticFields.map(getMemberName),
-    members.instanceFields.map(getMemberName));
+    members.instanceFields.map(getMemberName)
+  );
 
   members.staticFields.forEach(member => {
     const doc = TSDocMap.getFieldDoc(isStructureDef, className, true, getMemberName(member));
@@ -71,21 +72,21 @@ function getMembers(
   classDecl: ClassDeclarationImpl
 ): StaticAndInstanceMembers {
   const members: StaticAndInstanceMembers = {
-    staticFields: classDecl.ctors.slice(),
-    instanceFields: [],
+    staticFields: [],
+    instanceFields: classDecl.ctors.slice(),
   };
 
-  classDecl.properties.forEach(prop => {
-    if (prop.isStatic)
-      members.staticFields.push(prop);
+  classDecl.properties.forEach(property => {
+    if (property.isStatic)
+      members.staticFields.push(property);
     else
-      members.instanceFields.push(prop);
+      members.instanceFields.push(property);
   });
-  classDecl.methods.forEach(prop => {
-    if (prop.isStatic)
-      members.staticFields.push(prop);
+  classDecl.methods.forEach(method => {
+    if (method.isStatic)
+      members.staticFields.push(method);
     else
-      members.instanceFields.push(prop);
+      members.instanceFields.push(method);
   });
 
   return members;
