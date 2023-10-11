@@ -49,7 +49,7 @@ export default async function buildDist(): Promise<void>
   {
     const results = TSDocMap.toJSON();
     await fs.mkdir(path.join(distDir, "coverage"));
-    await fs.writeFile(path.join(distDir, "coverage/docs.json"), JSON.stringify(results, null, 2), { encoding: "utf-8" });
+    await fs.writeFile(path.join(distDir, "coverage/tsdocs.json"), JSON.stringify(results, null, 2), { encoding: "utf-8" });
     reportTSDocsCoverage(true, results);
   }
 

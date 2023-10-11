@@ -144,17 +144,21 @@ class JSDocMap {
     return this.#hashToDocMap.get(hash) ?? this.#hashToDocMap.get(starHash);
   }
 
-  toJSON(): Record<string, Record<string, JSDocImpl | undefined | null>>
+  toJSON(): Record<string, Record<string, JSDocImpl | "(missing group)" | null>>
   {
-    const dict: Record<string, Record<string, JSDocImpl | undefined | null>> = {};
-    this.#hashToDocMap.forEach((value, hash) => {
+    const dict: Record<string, Record<string, JSDocImpl | "(missing group)" | null>> = {};
+    this.#hashToDocMap.forEach((rawValue, hash) => {
       const key = this.#hashToKeysMap.get(hash)!;
       const topKey = `${key.isStructureDef ? "structure " : "decorator "}${key.className}`;
       dict[topKey] ??= {};
-      dict[topKey][`${key.isStatic ? "static " : ""}'${key.fieldName}'`] = value;
+      const subKey = `${key.isStatic ? "static " : ""}${key.fieldName}`;
+      const value: JSDocImpl | "(missing group)" | null = (rawValue === undefined) ? "(missing group)" : rawValue;
+      dict[topKey][subKey] = value;
     });
 
-    return dict;
+    const entries = Object.entries(dict);
+    entries.sort((a, b) => a[0].localeCompare(b[0]));
+    return Object.fromEntries(entries);
   }
 }
 
