@@ -1,11 +1,11 @@
-import { JSDocImpl } from "#stage_one/prototype-snapshot/exports.js";
+import { JSDocStructure } from "ts-morph";
 import {
   reportTitle, reportResult
 } from "./reporter.js";
 
 export default function reportTSDocsCoverage(
   asSummary: boolean,
-  results: Record<string, Record<string, JSDocImpl | undefined | null>>,
+  results: Record<string, Record<string, JSDocStructure | "(missing group)" | null>>,
 ): void
 {
   reportTitle("Coverage report: TSDoc comments");
@@ -14,7 +14,7 @@ export default function reportTSDocsCoverage(
       process.stdout.write(className + ":\n");
 
     for (const [fieldName, value] of Object.entries(fields)) {
-      if (value === undefined) {
+      if (value === "(missing group)") {
         reportResult(asSummary, "missingGroup", "  (all)");
         break;
       }
