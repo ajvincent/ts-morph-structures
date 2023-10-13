@@ -1,4 +1,5 @@
 node_modules
+playground
 stage_1_bootstrap/dist
 stage_2_fullset/dist
 stage_2_fullset/snapshot/docs
