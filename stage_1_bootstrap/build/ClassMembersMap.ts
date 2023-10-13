@@ -15,9 +15,27 @@ type ClassMemberImpl = (
   MethodDeclarationImpl
 );
 
+/**
+ * @internal
+ * @privateRemarks
+ *
+ * Unfortunately, this can't be a public tool.  Users can switch isStatic out at any time on a member in the prototype snapshot.
+ */
 export default class ClassMembersMap
 extends Map<string | symbol, ClassMemberImpl>
 {
+  static getKey(member: Exclude<ClassMemberImpl, ConstructorDeclarationImpl>): string {
+    let rv = "";
+    if (member.isStatic)
+      rv = "static ";
+    if (member.kind === StructureKind.GetAccessor)
+      rv += "get ";
+    else if (member.kind === StructureKind.SetAccessor)
+      rv += "set ";
+    rv += member.name;
+    return rv;
+  }
+
   public addMembers(
     members: readonly ClassMemberImpl[]
   ): void
@@ -27,7 +45,7 @@ extends Map<string | symbol, ClassMemberImpl>
         this.set(Symbol("constructor"), member);
       }
       else {
-        this.set(member.name, member);
+        this.set(ClassMembersMap.getKey(member), member);
       }
     });
   }
