@@ -7,7 +7,8 @@ import type {
 
 import type {
   StatementStructures,
-  StatementedNodeStructure
+  StatementedNodeStructure,
+  Structure
 } from "ts-morph";
 
 import type {
@@ -16,12 +17,17 @@ import type {
 
 import StructureBase from "../base/StructureBase.js";
 import {
+  replaceWriterWithString,
   statementsArray
 } from "../base/utilities.js";
 
 import {
   stringOrWriterFunction
 } from "../types/ts-morph-native.js";
+
+import {
+  ReplaceWriterInProperties
+} from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 declare const StatementedNodeStructureKey: unique symbol;
@@ -57,7 +63,7 @@ export default function StatementedNode(
 {
   void(context);
   return class extends baseClass {
-    statements: (stringOrWriterFunction | StatementStructures)[] = [];
+    readonly statements: (stringOrWriterFunction | StatementStructures)[] = [];
 
     static cloneStatemented(
       source: StatementedNodeStructure,
@@ -65,6 +71,19 @@ export default function StatementedNode(
     ): void
     {
       target.statements = statementsArray(source);
+    }
+
+    public toJSON(): ReplaceWriterInProperties<StatementedNodeStructure & Structure>
+    {
+      const rv = super.toJSON() as ReplaceWriterInProperties<StatementedNodeStructure>;
+      rv.statements = this.statements.map(value => {
+        if (typeof value === "object") {
+          return value;
+        }
+        return replaceWriterWithString<string>(value);
+      });
+
+      return rv;
     }
   }
 }

@@ -6,7 +6,8 @@ import type {
 } from "mixin-decorators";
 
 import type {
-  InitializerExpressionableNodeStructure
+  InitializerExpressionableNodeStructure,
+  Structure,
 } from "ts-morph";
 
 import type {
@@ -14,6 +15,14 @@ import type {
 } from "#utilities/source/_types/Utility.js";
 
 import StructureBase from "../base/StructureBase.js";
+
+import {
+  replaceWriterWithString,
+} from "../base/utilities.js";
+
+import {
+  ReplaceWriterInProperties,
+} from "../types/ModifyWriterInTypes.js";
 
 import type {
   stringOrWriterFunction
@@ -57,6 +66,13 @@ export default function InitializerExpressionableNode(
     ): void
     {
       target.initializer = source.initializer;
+    }
+
+    public toJSON(): ReplaceWriterInProperties<InitializerExpressionableNodeStructure & Structure> {
+      const rv = super.toJSON() as ReplaceWriterInProperties<InitializerExpressionableNodeStructure>;
+      if (this.initializer)
+        rv.initializer = replaceWriterWithString<string>(this.initializer);
+      return rv;
     }
   }
 }

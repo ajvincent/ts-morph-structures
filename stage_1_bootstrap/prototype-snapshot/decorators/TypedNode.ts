@@ -6,6 +6,7 @@ import type {
 } from "mixin-decorators";
 
 import type {
+  Structure,
   TypedNodeStructure,
   WriterFunction,
 } from "ts-morph";
@@ -19,15 +20,23 @@ import TypeAccessors from "../base/TypeAccessors.js";
 import StructureBase from "../base/StructureBase.js";
 
 import {
+  replaceWriterWithString,
+} from "../base/utilities.js";
+
+import {
   TypeStructures
 } from "../typeStructures/TypeStructures.js";
-// #endregion preamble
-
-declare const TypedNodeStructureKey: unique symbol;
 
 import {
   TypedNodeTypeStructure
 } from "../typeStructures/TypeAndTypeStructureInterfaces.js";
+
+import {
+  ReplaceWriterInProperties
+} from "../types/ModifyWriterInTypes.js";
+// #endregion preamble
+
+declare const TypedNodeStructureKey: unique symbol;
 
 export type TypedNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof TypedNodeStructureKey>,
@@ -88,6 +97,13 @@ export default function TypedNode(
     ): void
     {
       target.type = TypeAccessors.cloneType(source.type);
+    }
+
+    public toJSON(): ReplaceWriterInProperties<TypedNodeStructure & Structure> {
+      const rv = super.toJSON() as ReplaceWriterInProperties<TypedNodeStructure>;
+      if (this.#typeWriterManager.type)
+        rv.type = replaceWriterWithString<string>(this.#typeWriterManager.type);
+      return rv;
     }
   }
 }

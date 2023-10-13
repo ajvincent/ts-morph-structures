@@ -7,6 +7,7 @@ import type {
 
 import type {
   ReturnTypedNodeStructure,
+  Structure,
   WriterFunction,
 } from "ts-morph";
 
@@ -19,12 +20,20 @@ import StructureBase from "../base/StructureBase.js";
 import TypeAccessors from "../base/TypeAccessors.js";
 
 import {
+  replaceWriterWithString,
+} from "../base/utilities.js";
+
+import {
   TypeStructures
 } from "../typeStructures/TypeStructures.js";
 
 import type {
   ReturnTypedNodeTypeStructure,
 } from "../typeStructures/TypeAndTypeStructureInterfaces.js";
+
+import {
+  ReplaceWriterInProperties,
+} from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 declare const ReturnTypedNodeStructureKey: unique symbol;
@@ -88,6 +97,13 @@ export default function ReturnTypedNode(
     ): void
     {
       target.returnType = TypeAccessors.cloneType(source.returnType);
+    }
+
+    public toJSON(): ReplaceWriterInProperties<ReturnTypedNodeStructure & Structure> {
+      const rv = super.toJSON() as ReplaceWriterInProperties<ReturnTypedNodeStructure>;
+      if (this.#typeWriterManager.type)
+        rv.returnType = replaceWriterWithString<string>(this.#typeWriterManager.type);
+      return rv;
     }
   }
 }
