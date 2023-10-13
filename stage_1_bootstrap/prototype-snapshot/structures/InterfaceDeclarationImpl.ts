@@ -48,6 +48,8 @@ import {
 } from "../types/ts-morph-native.js";
 import { InterfaceDeclarationWithExtendsTypeStructures } from "../typeStructures/TypeAndTypeStructureInterfaces.js";
 import { TypeStructures } from "../exports.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
+import { replaceWriterWithString } from "../base/utilities.js";
 // #endregion preamble
 
 const InterfaceDeclarationBase = MultiMixinBuilder<
@@ -154,6 +156,16 @@ implements InterfaceDeclarationStructure, InterfaceDeclarationWithExtendsTypeStr
     InterfaceDeclarationBase.cloneTypeParametered(other, clone);
 
     return clone;
+  }
+
+
+  public toJSON(): ReplaceWriterInProperties<InterfaceDeclarationStructure>
+  {
+    const rv = super.toJSON() as ReplaceWriterInProperties<InterfaceDeclarationStructure>;
+    if (this.#extendsProxyArray.length)
+      rv.extends = this.#extendsProxyArray.map(replaceWriterWithString);
+    Reflect.deleteProperty(rv, "extendsSet");
+    return rv;
   }
 }
 InterfaceDeclarationImpl satisfies CloneableStructure<InterfaceDeclarationStructure>;

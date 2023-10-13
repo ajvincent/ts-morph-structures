@@ -22,6 +22,8 @@ import type {
 import type {
   stringOrWriterFunction
 } from "../types/ts-morph-native.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
+import { replaceWriterWithString } from "../base/utilities.js";
 // #endregion preamble
 
 export default class ExportDeclarationImpl
@@ -64,8 +66,18 @@ implements ExportDeclarationStructure
       clone.assertElements = other.assertElements.map(element => AssertEntryImpl.clone(element));
     }
 
-
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<ExportDeclarationStructure>
+  {
+    const rv = super.toJSON() as ReplaceWriterInProperties<ExportDeclarationStructure>;
+    rv.namedExports = this.namedExports.map(value => {
+      if (typeof value === "object")
+        return value;
+      return replaceWriterWithString(value);
+    });
+    return rv;
   }
 }
 ExportDeclarationImpl satisfies CloneableStructure<ExportDeclarationStructure>;

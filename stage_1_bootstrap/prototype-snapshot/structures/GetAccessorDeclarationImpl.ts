@@ -48,6 +48,7 @@ import TypeParameteredNode, {
 import type {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 const GetAccessorDeclarationBase = MultiMixinBuilder<
@@ -112,6 +113,11 @@ implements GetAccessorDeclarationStructure
     GetAccessorDeclarationBase.cloneTypeParametered(other, clone);
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<GetAccessorDeclarationStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<GetAccessorDeclarationStructure>;
   }
 }
 GetAccessorDeclarationImpl satisfies CloneableStructure<GetAccessorDeclarationStructure>;

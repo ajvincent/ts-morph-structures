@@ -16,6 +16,7 @@ import type {
 import type {
   stringOrWriterFunction
 } from "../types/ts-morph-native.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 export default class JSDocTagImpl
@@ -42,6 +43,11 @@ implements JSDocTagStructure
     StructureBase.cloneTrivia(other, clone);
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<JSDocTagStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<JSDocTagStructure>;
   }
 }
 JSDocTagImpl satisfies CloneableStructure<JSDocTagStructure>;

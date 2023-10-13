@@ -12,6 +12,7 @@ import StructuresClassesMap from "../base/StructuresClassesMap.js";
 import {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 export default class AssertEntryImpl
@@ -39,6 +40,11 @@ implements AssertEntryStructure
     const clone = new AssertEntryImpl(other.name, other.value);
     StructureBase.cloneTrivia(other, clone);
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<AssertEntryStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<AssertEntryStructure>;
   }
 }
 AssertEntryImpl satisfies CloneableStructure<AssertEntryStructure>;

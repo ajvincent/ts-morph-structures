@@ -45,6 +45,8 @@ import {
 import {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
+import { replaceWriterWithString } from "../base/utilities.js";
 // #endregion preamble
 
 const PropertySignatureBase = MultiMixinBuilder<
@@ -112,6 +114,14 @@ implements PropertySignatureStructure
       else
         this.typeStructure.replaceDescendantTypes(filter, replacement);
     }
+  }
+
+  public toJSON(): ReplaceWriterInProperties<PropertySignatureStructure>
+  {
+    const rv = super.toJSON() as ReplaceWriterInProperties<PropertySignatureStructure>;
+    if (this.initializer)
+      rv.initializer = replaceWriterWithString(this.initializer);
+    return rv;
   }
 }
 PropertySignatureImpl satisfies CloneableStructure<PropertySignatureStructure>;

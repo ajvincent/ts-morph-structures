@@ -35,6 +35,8 @@ import TypeParameteredNode, {
 import type {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
+import { replaceWriterWithString } from "../base/utilities.js";
 
 // #endregion preamble
 
@@ -106,6 +108,16 @@ implements ConstructSignatureDeclarationStructure
     }
   }
 
+  public toJSON(): ReplaceWriterInProperties<ConstructSignatureDeclarationStructure>
+  {
+    const rv = super.toJSON() as ReplaceWriterInProperties<ConstructSignatureDeclarationStructure>;
+    rv.typeParameters = this.typeParameters.map(param => {
+      if (typeof param === "object")
+        return param;
+      return replaceWriterWithString(param);
+    });
+    return rv;
+  }
 }
 
 ConstructSignatureDeclarationImpl satisfies CloneableStructure<ConstructSignatureDeclarationStructure>;

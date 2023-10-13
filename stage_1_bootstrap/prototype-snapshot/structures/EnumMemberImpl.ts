@@ -11,7 +11,7 @@ import StructureBase from "../base/StructureBase.js";
 import StructuresClassesMap from "../base/StructuresClassesMap.js";
 
 import {
-  createCodeBlockWriter
+  createCodeBlockWriter, replaceWriterWithString
 } from "../base/utilities.js";
 
 import KindedStructure, {
@@ -34,6 +34,7 @@ import type {
 import type {
   stringOrWriterFunction
 } from "../types/ts-morph-native.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 const EnumMemberBase = MultiMixinBuilder<
@@ -110,6 +111,15 @@ implements EnumMemberStructure
     EnumMemberBase.cloneNamed(other, clone);
 
     return clone;
+  }
+
+
+  public toJSON(): ReplaceWriterInProperties<EnumMemberStructure>
+  {
+    const rv = super.toJSON() as ReplaceWriterInProperties<EnumMemberStructure>;
+    if (this.initializer)
+      rv.initializer = replaceWriterWithString(this.initializer);
+    return rv;
   }
 }
 EnumMemberImpl satisfies CloneableStructure<EnumMemberStructure>;

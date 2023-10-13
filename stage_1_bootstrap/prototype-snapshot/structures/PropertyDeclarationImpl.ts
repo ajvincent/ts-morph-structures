@@ -58,6 +58,7 @@ import TypedNode, {
 import {
   CloneableStructure,
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 const PropertyDeclarationBase = MultiMixinBuilder<
@@ -103,7 +104,7 @@ export default class PropertyDeclarationImpl
 extends PropertyDeclarationBase
 implements PropertyDeclarationStructure
 {
-  readonly kind: StructureKind.Property = StructureKind.Property
+  readonly kind: StructureKind.Property = StructureKind.Property;
   hasAccessorKeyword = false;
 
   constructor(name: string)
@@ -151,6 +152,11 @@ implements PropertyDeclarationStructure
     PropertyDeclarationBase.cloneTyped(signature, clone);
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<PropertyDeclarationStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<PropertyDeclarationStructure>;
   }
 }
 PropertyDeclarationImpl satisfies CloneableStructure<PropertyDeclarationStructure>;

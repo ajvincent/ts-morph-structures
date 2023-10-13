@@ -39,6 +39,8 @@ import TypedNode, {
 import type {
   CloneableStructure,
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
+import { replaceWriterWithString } from "../base/utilities.js";
 // #endregion preamble
 
 const TypeAliasDeclarationBase = MultiMixinBuilder<
@@ -83,7 +85,8 @@ implements TypeAliasDeclarationStructure
     return super.type ?? "";
   }
 
-  set type(value: string | WriterFunction) {
+  set type(value: string | WriterFunction)
+  {
     super.type = value;
   }
 
@@ -101,6 +104,13 @@ implements TypeAliasDeclarationStructure
     TypeAliasDeclarationBase.cloneTypeParametered(other, clone);
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<TypeAliasDeclarationStructure>
+  {
+    const rv = super.toJSON() as ReplaceWriterInProperties<TypeAliasDeclarationStructure>;
+    rv.type = replaceWriterWithString(this.type);
+    return rv;
   }
 }
 TypeAliasDeclarationImpl satisfies CloneableStructure<TypeAliasDeclarationStructure>;

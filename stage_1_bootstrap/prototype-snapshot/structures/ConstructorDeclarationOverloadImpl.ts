@@ -33,6 +33,7 @@ import TypeParameteredNode, {
 import type {
   CloneableStructure,
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 const ConstructorDeclarationOverloadBase = MultiMixinBuilder<
@@ -76,6 +77,12 @@ implements ConstructorDeclarationOverloadStructure
     ConstructorDeclarationOverloadBase.cloneTypeParametered(other, clone);
 
     return clone;
+  }
+
+
+  public toJSON(): ReplaceWriterInProperties<ConstructorDeclarationOverloadStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<ConstructorDeclarationOverloadStructure>;
   }
 }
 ConstructorDeclarationOverloadImpl satisfies CloneableStructure<ConstructorDeclarationOverloadStructure>;

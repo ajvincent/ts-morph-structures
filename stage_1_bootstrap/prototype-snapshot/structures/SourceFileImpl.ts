@@ -20,6 +20,7 @@ import StatementedNode, {
 import type {
   CloneableStructure,
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 const SourceFileBase = MultiMixinBuilder<
@@ -51,6 +52,11 @@ implements SourceFileStructure
     SourceFileBase.cloneStatemented(other, clone);
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<SourceFileStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<SourceFileStructure>;
   }
 }
 

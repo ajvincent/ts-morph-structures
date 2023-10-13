@@ -84,6 +84,7 @@ import type {
 import type {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 export type MethodDeclarationEnableFlags = (
@@ -256,6 +257,11 @@ implements
     MethodDeclarationBase.cloneTypeParametered(signature, clone);
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<MethodDeclarationStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<MethodDeclarationStructure>;
   }
 }
 MethodDeclarationImpl satisfies CloneableStructure<MethodDeclarationStructure>;

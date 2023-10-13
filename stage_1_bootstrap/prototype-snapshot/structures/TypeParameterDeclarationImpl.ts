@@ -30,6 +30,8 @@ import type {
 import type {
   stringOrWriterFunction
 } from "../types/ts-morph-native.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
+import { replaceWriterWithString } from "../base/utilities.js";
 // #endregion preamble
 
 export enum TypeParameterConstraintMode {
@@ -215,6 +217,15 @@ implements TypeParameterDeclarationStructure, TypeParameterWithTypeStructures
     });
   }
 
+  public toJSON(): ReplaceWriterInProperties<TypeParameterDeclarationStructure>
+  {
+    const rv = super.toJSON() as ReplaceWriterInProperties<TypeParameterDeclarationStructure>;
+    if (this.#constraintManager.type)
+      rv.constraint = replaceWriterWithString(this.#constraintManager.type);
+    if (this.#defaultManager.type)
+      rv.default = replaceWriterWithString(this.#defaultManager.type);
+    return rv;
+  }
 }
 TypeParameterDeclarationImpl satisfies CloneableStructure<TypeParameterDeclarationStructure>;
 

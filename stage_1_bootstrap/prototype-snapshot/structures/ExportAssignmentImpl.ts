@@ -26,6 +26,8 @@ import type {
 import type {
   stringOrWriterFunction
 } from "../types/ts-morph-native.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
+import { replaceWriterWithString } from "../base/utilities.js";
 // #endregion preamble
 
 const ExportAssignmentBase = MultiMixinBuilder<
@@ -68,6 +70,13 @@ implements Required<ExportAssignmentStructure>
     ExportAssignmentBase.cloneJSDocable(other, clone);
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<ExportAssignmentStructure>
+  {
+    const rv = super.toJSON() as ReplaceWriterInProperties<ExportAssignmentStructure>;
+    rv.expression = replaceWriterWithString(this.expression);
+    return rv;
   }
 }
 ExportAssignmentImpl satisfies CloneableStructure<ExportAssignmentStructure>;

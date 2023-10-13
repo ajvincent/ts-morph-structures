@@ -34,6 +34,10 @@ import ReturnTypedNode, {
 import {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+
+import {
+  ReplaceWriterInProperties
+} from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 const CallSignatureDeclarationBase = MultiMixinBuilder<
@@ -105,6 +109,11 @@ implements CallSignatureDeclarationStructure
       else
         this.returnTypeStructure.replaceDescendantTypes(filter, replacement);
     }
+  }
+
+  public toJSON(): ReplaceWriterInProperties<CallSignatureDeclarationStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<CallSignatureDeclarationStructure>;
   }
 }
 

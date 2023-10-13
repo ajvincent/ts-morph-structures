@@ -30,6 +30,7 @@ import TypedNode, {
 import type {
   CloneableStructure,
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 const VariableDeclarationBase = MultiMixinBuilder<
@@ -77,6 +78,11 @@ implements VariableDeclarationStructure
     VariableDeclarationBase.cloneTyped(other, clone);
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<VariableDeclarationStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<VariableDeclarationStructure>;
   }
 }
 

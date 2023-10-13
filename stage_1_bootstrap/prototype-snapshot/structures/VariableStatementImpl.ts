@@ -39,6 +39,7 @@ import JSDocableNode, {
 import type {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 const VariableStatementBase = MultiMixinBuilder<
@@ -88,6 +89,11 @@ implements VariableStatementStructure
     VariableStatementBase.cloneJSDocable(other, clone);
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<VariableStatementStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<VariableStatementStructure>;
   }
 }
 VariableStatementImpl satisfies CloneableStructure<VariableStatementStructure>;

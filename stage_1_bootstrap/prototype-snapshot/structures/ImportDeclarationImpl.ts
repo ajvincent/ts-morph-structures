@@ -23,6 +23,8 @@ import type {
 import type {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
+import { replaceWriterWithString } from "../base/utilities.js";
 // #endregion preamble
 
 export default class ImportDeclarationImpl
@@ -74,6 +76,17 @@ implements ImportDeclarationStructure
     }
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<ImportDeclarationStructure>
+  {
+    const rv = super.toJSON() as ReplaceWriterInProperties<ImportDeclarationStructure>;
+    rv.namedImports = this.namedImports.map(value => {
+      if (typeof value === "object")
+        return value;
+      return replaceWriterWithString(value);
+    });
+    return rv;
   }
 }
 ImportDeclarationImpl satisfies CloneableStructure<ImportDeclarationStructure>;

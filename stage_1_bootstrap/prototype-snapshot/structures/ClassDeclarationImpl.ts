@@ -33,7 +33,7 @@ import TypeAccessors from "../base/TypeAccessors.js";
 import TypeStructureSet from "../base/TypeStructureSet.js";
 
 import {
-  cloneArrayOrUndefined,
+  cloneArrayOrUndefined, replaceWriterWithString,
 } from "../base/utilities.js";
 
 import KindedStructure, {
@@ -76,6 +76,7 @@ import type {
 import {
   TypeStructures
 } from "../typeStructures/TypeStructures.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 const ClassDeclarationBase = MultiMixinBuilder<
@@ -209,6 +210,18 @@ implements ClassDeclarationStructure, ClassDeclarationWithImplementsTypeStructur
     ClassDeclarationBase.cloneTypeParametered(other, clone);
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<ClassDeclarationStructure>
+  {
+    const rv = super.toJSON() as ReplaceWriterInProperties<ClassDeclarationStructure>;
+    if (this.#extendsTypeManager.type) {
+      rv.extends = replaceWriterWithString(this.#extendsTypeManager.type);
+    }
+    if (this.#implementsProxyArray) {
+      rv.implements = this.#implementsProxyArray.map(replaceWriterWithString);
+    }
+    return rv;
   }
 }
 ClassDeclarationImpl satisfies CloneableStructure<ClassDeclarationStructure>;

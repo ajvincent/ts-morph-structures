@@ -12,6 +12,7 @@ import StructureBase from "../base/StructureBase.js";
 import StructuresClassesMap from "../base/StructuresClassesMap.js";
 
 import {
+  replaceWriterWithString,
   stringOrWriterFunctionArray
 } from "../base/utilities.js";
 
@@ -29,6 +30,7 @@ import type {
 import type {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 const DecoratorBase = MultiMixinBuilder<
@@ -73,6 +75,14 @@ implements DecoratorStructure
     clone.typeArguments = other.typeArguments?.slice() ?? [];
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<DecoratorStructure>
+  {
+    const rv = super.toJSON() as ReplaceWriterInProperties<DecoratorStructure>;
+    rv.arguments = this.arguments.map(replaceWriterWithString);
+    rv.typeArguments = this.typeArguments.slice();
+    return rv;
   }
 }
 DecoratorImpl satisfies CloneableStructure<DecoratorStructure>;

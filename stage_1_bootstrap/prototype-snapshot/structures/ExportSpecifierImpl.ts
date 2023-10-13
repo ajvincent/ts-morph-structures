@@ -11,6 +11,7 @@ import StructuresClassesMap from "../base/StructuresClassesMap.js";
 import type {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 export default class ExportSpecifierImpl
@@ -38,6 +39,11 @@ implements ExportSpecifierStructure
     clone.alias = other.alias;
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<ExportSpecifierStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<ExportSpecifierStructure>;
   }
 }
 ExportSpecifierImpl satisfies CloneableStructure<ExportSpecifierStructure>;

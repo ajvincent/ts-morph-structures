@@ -41,6 +41,7 @@ import NamedNode, {
 import type {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 const EnumDeclarationBase = MultiMixinBuilder<
@@ -95,6 +96,11 @@ implements EnumDeclarationStructure
     );
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<EnumDeclarationStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<EnumDeclarationStructure>;
   }
 }
 EnumDeclarationImpl satisfies CloneableStructure<EnumDeclarationStructure>;

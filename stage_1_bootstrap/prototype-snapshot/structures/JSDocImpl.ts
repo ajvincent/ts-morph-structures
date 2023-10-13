@@ -22,6 +22,8 @@ import type {
 import type {
   stringOrWriterFunction
 } from "../types/ts-morph-native.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
+import { replaceWriterWithString } from "../base/utilities.js";
 // #endregion preamble
 
 export default class JSDocImpl
@@ -58,6 +60,15 @@ implements JSDocStructure
         return doc;
       return JSDocImpl.clone(doc);
     });
+  }
+
+  public toJSON(): ReplaceWriterInProperties<JSDocStructure>
+  {
+    const rv = super.toJSON() as ReplaceWriterInProperties<JSDocStructure>;
+    if (this.description) {
+      rv.description = replaceWriterWithString(this.description);
+    }
+    return rv;
   }
 }
 

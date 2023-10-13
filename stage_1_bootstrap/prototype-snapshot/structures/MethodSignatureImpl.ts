@@ -41,6 +41,7 @@ import TypeParameteredNode, {
 import type {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion preamble
 
 const MethodSignatureBase = MultiMixinBuilder<
@@ -122,6 +123,11 @@ implements MethodSignatureStructure
     }
   }
 
+
+  public toJSON(): ReplaceWriterInProperties<MethodSignatureStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<MethodSignatureStructure>;
+  }
 }
 MethodSignatureImpl satisfies CloneableStructure<MethodSignatureStructure>;
 

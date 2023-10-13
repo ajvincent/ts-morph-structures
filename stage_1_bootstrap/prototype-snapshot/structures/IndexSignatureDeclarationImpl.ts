@@ -35,6 +35,7 @@ import ReturnTypedNode, {
 import type {
   CloneableStructure
 } from "../types/CloneableStructure.js";
+import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 // #endregion
 
 const IndexSignatureDeclarationBase = MultiMixinBuilder<
@@ -116,6 +117,11 @@ implements IndexSignatureDeclarationStructure
     IndexSignatureDeclarationBase.cloneReturnTyped(other, clone);
 
     return clone;
+  }
+
+  public toJSON(): ReplaceWriterInProperties<IndexSignatureDeclarationStructure>
+  {
+    return super.toJSON() as ReplaceWriterInProperties<IndexSignatureDeclarationStructure>;
   }
 }
 IndexSignatureDeclarationImpl satisfies CloneableStructure<IndexSignatureDeclarationStructure>;
