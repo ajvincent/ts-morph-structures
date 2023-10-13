@@ -1,12 +1,14 @@
 import {
-  Class
+  Class,
+  Jsonifiable,
 } from "type-fest";
 
 import {
+  CodeBlockWriter,
+  type CodeBlockWriterOptions,
   StatementStructures,
   StatementedNodeStructure,
-  CodeBlockWriter,
-  type CodeBlockWriterOptions
+  type WriterFunction,
 } from "ts-morph";
 
 import {
@@ -94,6 +96,22 @@ const writerOptions: Partial<CodeBlockWriterOptions> = Object.freeze({
 export function createCodeBlockWriter(): CodeBlockWriter
 {
   return new CodeBlockWriter(writerOptions);
+}
+
+export function replaceWriterWithString<
+  T extends Jsonifiable
+>
+(
+  value: T | WriterFunction,
+): T | string
+{
+  if (typeof value === "function") {
+    const writer = new CodeBlockWriter();
+    value(writer);
+    return writer.toString();
+  }
+
+  return value;
 }
 
 /**
