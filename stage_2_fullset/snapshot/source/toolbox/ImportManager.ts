@@ -2,14 +2,39 @@ import path from "path";
 
 import { ImportDeclarationImpl, ImportSpecifierImpl } from "../exports.js";
 
+/** A description of the imports to add. */
 export interface AddImportContext {
+  /** This could be an absolute path, or a package import like "ts-morph-structures". */
   pathToImportedModule: string;
+
+  /**
+   * True if `this.pathToImportedModule` represents a package import.
+   * False if the imported module path should be relative to the
+   * manager's absolute path in generated code.
+   */
   isPackageImport: boolean;
+
   importNames: readonly string[];
   isDefaultImport: boolean;
   isTypeOnly: boolean;
 }
 
+/**
+ * This manages import declarations and specifiers, for including in a source file.
+ *
+ * @example
+ * ```typescript
+ * importsManager.addImports({
+ *   pathToImportedModule: "ts-morph",
+ *   isPackageImport: true,
+ *   importNames: ["Structure", "StructureKind"],
+ *   isDefaultImport: false,
+ *   isTypeOnly: true
+ * });
+ * // ...
+ * sourceFile.statements.unshift(...importsManager.getDeclarations());
+ * ```
+ */
 export default class ImportManager {
   static #compareDeclarations(
     this: void,
@@ -27,10 +52,15 @@ export default class ImportManager {
     return a.name.localeCompare(b.name);
   }
 
-  readonly #absolutePathToModule: string;
+  /** Where the file will live on the file system. */
+  readonly absolutePathToModule: string;
+
   readonly #declarationsMap = new Map<string, ImportDeclarationImpl>();
   readonly #knownSpecifiers = new Set<string>();
 
+  /**
+   * @param absolutePathToModule - Where the file will live on the file system.
+   */
   constructor(absolutePathToModule: string) {
     if (!absolutePathToModule.endsWith(".ts")) {
       throw new Error("path to module must end with .ts");
@@ -39,9 +69,12 @@ export default class ImportManager {
     if (!path.isAbsolute(absolutePathToModule))
       throw new Error("path to module must be absolute");
 
-    this.#absolutePathToModule = path.normalize(absolutePathToModule);
+    this.absolutePathToModule = path.normalize(absolutePathToModule);
   }
 
+  /**
+   * @param context - a description of the imports to add.
+   */
   addImports(context: AddImportContext): void {
     const { isPackageImport, isDefaultImport, isTypeOnly } = context;
     let { pathToImportedModule } = context;
@@ -65,7 +98,7 @@ export default class ImportManager {
     );
     if (!isPackageImport) {
       pathToImportedModule = path.relative(
-        path.dirname(this.#absolutePathToModule),
+        path.dirname(this.absolutePathToModule),
         pathToImportedModule,
       );
       if (!pathToImportedModule.startsWith("../"))
@@ -115,6 +148,7 @@ export default class ImportManager {
     importDecl.isTypeOnly = false;
   }
 
+  /** Get the import declarations, sorted by path to file, then internally by specified import values. */
   getDeclarations(): ImportDeclarationImpl[] {
     const entries = Array.from(this.#declarationsMap);
     entries.sort(ImportManager.#compareDeclarations);

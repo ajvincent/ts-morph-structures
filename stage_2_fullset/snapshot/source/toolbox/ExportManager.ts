@@ -7,6 +7,7 @@ import { ExportDeclarationImpl, ExportSpecifierImpl } from "../exports.js";
 
 // #endregion preamble
 
+/** A description of the exports to add. */
 export interface AddExportContext {
   absolutePathToModule: string;
   exportNames: readonly string[];
@@ -15,7 +16,19 @@ export interface AddExportContext {
 }
 
 /**
- * This represents a tool for generating an exports file.
+ * This manages export declarations and specifiers, for including in a source file.
+ *
+ * @example
+ * ```typescript
+ * publicExports.addExports({
+ *   absolutePathToModule: path.join(distDir, "source/toolbox/ExportManager.ts"),
+ *   exportNames: ["ExportManager"],
+ *   isDefaultExport: true,
+ *   isType: false,
+ * });
+ * // ...
+ * sourceFile.statements.push(...publicExports.getDeclarations());
+ * ```
  */
 export default class ExportManager {
   static #compareDeclarations(
@@ -34,7 +47,9 @@ export default class ExportManager {
     return a.name.localeCompare(b.name);
   }
 
+  /** Where the file will live on the file system. */
   readonly absolutePathToExportFile: string;
+
   readonly #pathToDeclarationMap = new DefaultMap<
     string,
     ExportDeclarationImpl
@@ -44,10 +59,16 @@ export default class ExportManager {
     Map<string, ExportSpecifierImpl>
   >();
 
+  /**
+   * @param absolutePathToExportFile - Where the file will live on the file system.
+   */
   constructor(absolutePathToExportFile: string) {
     this.absolutePathToExportFile = absolutePathToExportFile;
   }
 
+  /**
+   * @param context - a description of the exports to add.
+   */
   addExports(context: AddExportContext): void {
     const { absolutePathToModule, exportNames, isDefaultExport, isType } =
       context;
@@ -113,6 +134,7 @@ export default class ExportManager {
     return decl;
   }
 
+  /** Get the export declarations, sorted by path to file, then internally by specified export values. */
   getDeclarations(): ExportDeclarationImpl[] {
     const declarationEntries = Array.from(this.#pathToDeclarationMap.entries());
     declarationEntries.sort(ExportManager.#compareDeclarations);
