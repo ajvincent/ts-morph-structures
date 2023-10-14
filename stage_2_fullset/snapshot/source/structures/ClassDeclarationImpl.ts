@@ -74,12 +74,12 @@ export default class ClassDeclarationImpl
 {
   readonly kind: StructureKind.Class = StructureKind.Class;
   readonly ctors: ConstructorDeclarationImpl[] = [];
-  readonly properties: PropertyDeclarationImpl[] = [];
-  readonly getAccessors: GetAccessorDeclarationImpl[] = [];
-  readonly setAccessors: SetAccessorDeclarationImpl[] = [];
-  readonly methods: MethodDeclarationImpl[] = [];
-  readonly implements: stringOrWriter[] = [];
   extends?: stringOrWriter = undefined;
+  readonly getAccessors: GetAccessorDeclarationImpl[] = [];
+  readonly implements: stringOrWriter[] = [];
+  readonly methods: MethodDeclarationImpl[] = [];
+  readonly properties: PropertyDeclarationImpl[] = [];
+  readonly setAccessors: SetAccessorDeclarationImpl[] = [];
 
   public static [COPY_FIELDS](
     source: OptionalKind<ClassDeclarationStructure>,

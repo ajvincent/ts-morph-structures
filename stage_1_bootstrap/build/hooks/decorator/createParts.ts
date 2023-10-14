@@ -14,6 +14,8 @@ import defineDecoratorImports from "#stage_one/build/utilities/defineDecoratorIm
 import defineDecoratorWrapper from "#stage_one/build/utilities/defineDecoratorWrapper.js";
 import defineFieldsType from "#stage_one/build/utilities/defineFieldsType.js";
 
+import ClassMembersMap from "#stage_one/build/ClassMembersMap.js";
+
 export default function createDecoratorParts(
   name: string,
   meta: DecoratorImplMeta,
@@ -25,12 +27,15 @@ export default function createDecoratorParts(
   parts.classDecl.name = meta.structureName.replace(/Structure$/, "StructureMixin");
   parts.classDecl.extends = "baseClass";
 
+  parts.classMembersMap = new ClassMembersMap;
+
   parts.importsManager = defineDecoratorImports(meta, parts.classDecl.name);
   parts.sourceFile = new SourceFileImpl;
 
   parts.copyFields = defineCopyFieldsMethod(
     meta,
     parts.classDecl,
+    parts.classMembersMap,
     parts.importsManager,
     dictionaries
   );

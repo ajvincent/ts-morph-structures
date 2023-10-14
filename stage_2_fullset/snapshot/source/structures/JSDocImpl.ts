@@ -28,8 +28,8 @@ export default class JSDocImpl
   implements JSDocStructure
 {
   readonly kind: StructureKind.JSDoc = StructureKind.JSDoc;
-  readonly tags: JSDocTagImpl[] = [];
   description?: stringOrWriter = undefined;
+  readonly tags: JSDocTagImpl[] = [];
 
   public static [COPY_FIELDS](
     source: OptionalKind<JSDocStructure>,

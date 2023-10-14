@@ -25,8 +25,8 @@ export default class JsxAttributeImpl
   implements JsxAttributeStructure
 {
   readonly kind: StructureKind.JsxAttribute = StructureKind.JsxAttribute;
-  name: string | JsxNamespacedNameStructure = "";
   initializer?: string = undefined;
+  name: string | JsxNamespacedNameStructure = "";
 
   constructor(name: string | JsxNamespacedNameStructure) {
     super();

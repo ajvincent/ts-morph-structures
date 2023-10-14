@@ -5,9 +5,7 @@ import {
 
 import {
   PromiseAllParallel,
-  PromiseAllSequence,
 } from "#utilities/source/PromiseTypes.js";
-
 
 import {
   ClassDeclarationImpl,
@@ -17,12 +15,13 @@ import {
   TypeAliasDeclarationImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
-
 import {
   DecoratorImplMeta,
   StructureImplMeta,
   StructureMetaDictionaries,
 } from "./structureMeta/DataClasses.js";
+
+import ClassMembersMap from "./ClassMembersMap.js";
 
 import ImportManager from "./ImportManager.js";
 import {
@@ -45,6 +44,7 @@ export type StructureHook = (
 
 export interface DecoratorParts {
   classDecl: ClassDeclarationImpl;
+  classMembersMap: ClassMembersMap;
   importsManager: ImportManager;
   sourceFile: SourceFileImpl;
   copyFields: MethodDeclarationImpl;
@@ -55,6 +55,7 @@ export interface DecoratorParts {
 export interface StructureParts {
   mixinBaseWriter: WriterFunction;
   classDecl: ClassDeclarationImpl;
+  classMembersMap: ClassMembersMap;
   importsManager: ImportManager;
   sourceFile: SourceFileImpl;
   copyFields: MethodDeclarationImpl;
@@ -106,15 +107,21 @@ class StructureDictionaries extends StructureMetaDictionaries
   {
     const entries = Array.from(this.#decoratorHooks.entries());
     const decorator: DecoratorImplMeta = this.decorators.get(name)!
-    await PromiseAllSequence(entries, async ([hookName, hook]): Promise<void> => {
+
+    const errors: unknown[] = [];
+    await PromiseAllParallel(entries, async ([hookName, hook]): Promise<void> => {
       try {
         await hook(name, decorator, this);
       }
       catch (ex) {
         console.error(`Failed on decorator ${name} with hook ${hookName}`);
-        throw ex;
+        errors.push(ex);
       }
     });
+
+    if (errors.length) {
+      throw new AggregateError(errors);
+    }
   }
 
   /** public for debugging purposes */
@@ -124,13 +131,21 @@ class StructureDictionaries extends StructureMetaDictionaries
   {
     const entries = Array.from(this.#structureHooks.entries());
     const structure: StructureImplMeta = this.structures.get(name)!;
-    await PromiseAllSequence(entries, async ([hookName, hook]): Promise<void> => {
+
+    const errors: unknown[] = [];
+
+    await PromiseAllParallel(entries, async ([hookName, hook]): Promise<void> => {
       try {
         await hook(name, structure, this);
       }
       catch (ex) {
         console.error(`Failed on structure ${name} with hook ${hookName}`);
+        errors.push(ex);
       }
     });
+
+    if (errors.length) {
+      throw new AggregateError(errors);
+    }
   }
 }

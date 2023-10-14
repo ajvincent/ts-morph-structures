@@ -17,8 +17,8 @@ export default function defineKindProperty(
   if (!parts)
     return Promise.resolve();
 
-  const { classDecl, importsManager } = parts;
-  if (classDecl.properties.map(prop => prop.name).includes("kind"))
+  const { classMembersMap, importsManager } = parts;
+  if (classMembersMap.has("kind"))
     return Promise.resolve();
 
   const kindProperty = new PropertyDeclarationImpl("kind");
@@ -29,7 +29,7 @@ export default function defineKindProperty(
   ]);
   kindProperty.initializer = "StructureKind." + meta.structureKindName;
 
-  classDecl.properties.unshift(kindProperty);
+  classMembersMap.addMembers([kindProperty]);
 
   importsManager.addImports({
     pathToImportedModule: "ts-morph",

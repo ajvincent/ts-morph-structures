@@ -31,11 +31,11 @@ export default class ExportDeclarationImpl
 {
   readonly kind: StructureKind.ExportDeclaration =
     StructureKind.ExportDeclaration;
-  isTypeOnly = false;
-  readonly namedExports: (stringOrWriter | ExportSpecifierImpl)[] = [];
   assertElements?: AssertEntryImpl[] = undefined;
-  namespaceExport?: string = undefined;
+  isTypeOnly = false;
   moduleSpecifier?: string = undefined;
+  readonly namedExports: (stringOrWriter | ExportSpecifierImpl)[] = [];
+  namespaceExport?: string = undefined;
 
   public static [COPY_FIELDS](
     source: OptionalKind<ExportDeclarationStructure>,

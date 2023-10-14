@@ -1,13 +1,14 @@
+import ClassMembersMap from "#stage_one/build/ClassMembersMap";
 import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
 
 import {
   StructureImplMeta
 } from "#stage_one/build/structureMeta/DataClasses.js";
 import {
-  ClassDeclarationImpl,
   createCodeBlockWriter
 } from "#stage_one/prototype-snapshot/exports.js";
 import { stringOrWriter } from "#stage_one/source/types/stringOrWriter.js";
+import { StructureKind } from "ts-morph";
 
 export default function structureSpecialCases(
   name: string,
@@ -18,25 +19,26 @@ export default function structureSpecialCases(
   const parts = dictionaries.structureParts.get(meta)!;
   switch (parts.classDecl.name) {
     case "ImportDeclarationImpl":
-      fixAssertElements(parts.classDecl);
+      fixAssertElements(parts.classMembersMap);
       break;
     case "ExportDeclarationImpl":
-      fixAssertElements(parts.classDecl);
+      fixAssertElements(parts.classMembersMap);
       break;
   }
   return Promise.resolve();
 }
 
 function fixAssertElements(
-  classDecl: ClassDeclarationImpl
+  classMembers: ClassMembersMap
 ): void
 {
-  const assertElementsProp = classDecl.properties.find(prop => prop.name === "assertElements")!;
+  const assertElementsProp = classMembers.getAsKind<StructureKind.Property>("assertElements", StructureKind.Property)!;
   assertElementsProp.initializer = "undefined";
   assertElementsProp.isReadonly = false;
   assertElementsProp.hasQuestionToken = true;
 
-  const copyFieldsMethod = classDecl.methods.find(prop => prop.name === "[COPY_FIELDS]")!;
+  const copyFieldsMethod = classMembers.getAsKind<StructureKind.Method>("static [COPY_FIELDS]", StructureKind.Method)!;
+
   const oldStatementIndex = copyFieldsMethod.statements.findIndex(value => {
     if (typeof value === "object") {
       return false;

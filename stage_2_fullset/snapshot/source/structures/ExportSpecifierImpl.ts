@@ -26,8 +26,8 @@ export default class ExportSpecifierImpl
   implements ExportSpecifierStructure
 {
   readonly kind: StructureKind.ExportSpecifier = StructureKind.ExportSpecifier;
-  isTypeOnly = false;
   alias?: string = undefined;
+  isTypeOnly = false;
 
   constructor(name: string) {
     super();

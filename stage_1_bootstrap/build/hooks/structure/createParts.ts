@@ -23,6 +23,8 @@ import {
 } from "#stage_one/build/constants.js";
 import defineCopyFieldsMethod from "#stage_one/build/utilities/defineCopyFieldsMethod.js";
 
+import ClassMembersMap from "#stage_one/build/ClassMembersMap.js";
+
 export default function createStructureParts(
   name: string,
   meta: StructureImplMeta,
@@ -35,6 +37,8 @@ export default function createStructureParts(
   parts.classDecl.isDefaultExport = true;
   parts.classDecl.extendsStructure = new LiteralTypedStructureImpl(name + "Base");
   parts.classDecl.implementsSet.add(meta.structureName);
+
+  parts.classMembersMap = new ClassMembersMap;
 
   parts.sourceFile = new SourceFileImpl;
 
@@ -58,6 +62,7 @@ export default function createStructureParts(
   parts.copyFields = defineCopyFieldsMethod(
     meta,
     parts.classDecl,
+    parts.classMembersMap,
     parts.importsManager,
     dictionaries
   );

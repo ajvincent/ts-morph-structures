@@ -1,5 +1,6 @@
 import {
-  Scope
+  Scope,
+  StructureKind
 } from "ts-morph";
 
 import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
@@ -27,7 +28,7 @@ export default function addStaticClone(
   if (!parts)
     return Promise.resolve();
 
-  const { classDecl, importsManager } = parts;
+  const { classDecl, classMembersMap, importsManager } = parts;
 
   importsManager.addImports({
     pathToImportedModule: "ts-morph",
@@ -72,17 +73,19 @@ export default function addStaticClone(
 
   cloneMethod.returnTypeStructure = new LiteralTypedStructureImpl(classDecl.name!);
   let constructorArgs: string[] = [];
-  if (classDecl.ctors.length) {
-    constructorArgs = classDecl.ctors[0].parameters.map(param => "source." + param.name);
+
+  const ctor = classMembersMap.getAsKind<StructureKind.Constructor>("constructor", StructureKind.Constructor);
+  if (ctor) {
+    constructorArgs = ctor.parameters.map(param => "source." + param.name);
   }
 
   cloneMethod.statements.push(
-    `const target = new ${classDecl.name}(${constructorArgs.join(", ")});`,
+    `const target = new ${classDecl.name!}(${constructorArgs.join(", ")});`,
     `this[COPY_FIELDS](source, target);`,
     `return target;`,
   );
 
-  classDecl.methods.push(cloneMethod);
+  classMembersMap.addMembers([cloneMethod]);
 
   return Promise.resolve();
 }

@@ -36,8 +36,8 @@ export default class JsxElementImpl
 {
   readonly kind: StructureKind.JsxElement = StructureKind.JsxElement;
   readonly attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[] = [];
-  readonly children: (JsxElementImpl | JsxSelfClosingElementImpl)[] = [];
   bodyText?: string = undefined;
+  readonly children: (JsxElementImpl | JsxSelfClosingElementImpl)[] = [];
 
   constructor(name: string) {
     super();

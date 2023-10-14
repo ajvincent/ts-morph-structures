@@ -9,21 +9,17 @@ import {
   StructureImplMeta,
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
-import type {
-  ClassDeclarationImpl,
-  PropertyDeclarationImpl,
-  MethodDeclarationImpl,
-  ConstructorDeclarationImpl,
-} from "#stage_one/prototype-snapshot/exports.js";
+import ClassMembersMap, {
+  ClassMemberImpl
+} from "../ClassMembersMap.js";
+
 import { StructureKind } from "ts-morph";
 
 import TSDocMap from "../structureMeta/TSDocMap.js";
 
-type ClassMember = PropertyDeclarationImpl | MethodDeclarationImpl | ConstructorDeclarationImpl;
-
 type StaticAndInstanceMembers = {
-  staticFields: ClassMember[];
-  instanceFields: ClassMember[];
+  staticFields: ClassMemberImpl[];
+  instanceFields: ClassMemberImpl[];
 }
 
 export default function addTSDoc(
@@ -41,8 +37,8 @@ export default function addTSDoc(
   if (!parts)
     return Promise.resolve();
 
-  const { classDecl } = parts;
-  const members = getMembers(classDecl);
+  const { classDecl, classMembersMap } = parts;
+  const members = getMembers(classMembersMap);
   const className = classDecl.name!;
 
   const isStructureDef = meta.metaType === MetaType.Structure;
@@ -69,31 +65,29 @@ export default function addTSDoc(
 }
 
 function getMembers(
-  classDecl: ClassDeclarationImpl
+  membersMap: ClassMembersMap
 ): StaticAndInstanceMembers {
   const members: StaticAndInstanceMembers = {
     staticFields: [],
-    instanceFields: classDecl.ctors.slice(),
+    instanceFields: [],
   };
 
-  classDecl.properties.forEach(property => {
-    if (property.isStatic)
-      members.staticFields.push(property);
+  membersMap.forEach(member => {
+    if (member.kind === StructureKind.Constructor) {
+      members.instanceFields.push(member);
+    }
+    else if (member.isStatic) {
+      members.staticFields.push(member);
+    }
     else
-      members.instanceFields.push(property);
-  });
-  classDecl.methods.forEach(method => {
-    if (method.isStatic)
-      members.staticFields.push(method);
-    else
-      members.instanceFields.push(method);
-  });
+      members.instanceFields.push(member);
+  })
 
   return members;
 }
 
 function getMemberName(
-  member: ClassMember
+  member: ClassMemberImpl
 ): string
 {
   if (member.kind === StructureKind.Constructor)

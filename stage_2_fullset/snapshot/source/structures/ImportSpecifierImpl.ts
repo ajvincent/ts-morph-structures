@@ -26,8 +26,8 @@ export default class ImportSpecifierImpl
   implements ImportSpecifierStructure
 {
   readonly kind: StructureKind.ImportSpecifier = StructureKind.ImportSpecifier;
-  isTypeOnly = false;
   alias?: string = undefined;
+  isTypeOnly = false;
 
   constructor(name: string) {
     super();

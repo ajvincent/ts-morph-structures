@@ -12,6 +12,7 @@ import {
   ConstructorDeclarationImpl,
   ParameterDeclarationImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
+import { StructureKind } from "ts-morph";
 
 export default function addConstructor(
   name: string,
@@ -42,7 +43,7 @@ export default function addConstructor(
     }
 
     const param = new ParameterDeclarationImpl(key);
-    const existingProp = parts.classDecl.properties.find(decl => decl.name === key)!;
+    const existingProp = parts.classMembersMap.getAsKind<StructureKind.Property>(key, StructureKind.Property)!
     if (existingProp.typeStructure)
       param.typeStructure = existingProp.typeStructure;
     else if (existingProp.initializer === `""`) {
@@ -56,7 +57,7 @@ export default function addConstructor(
   });
 
   if (constructor) {
-    parts.classDecl.ctors.push(constructor);
+    parts.classMembersMap.addMembers([constructor]);
   }
 
   return Promise.resolve();

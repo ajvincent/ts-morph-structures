@@ -8,6 +8,8 @@ import fillDictionaries from "./structureMeta/fillDictionaries.js";
 import createDecoratorParts from "./hooks/decorator/createParts.js";
 import addClassProperties from "./hooks/classProperties.js";
 import addTSDoc from "./hooks/addTSDoc.js";
+import moveMembersToClass from "./hooks/moveMembersToClass.js";
+import sortClassMembers from "./hooks/sortClassMembers.js";
 import saveDecoratorFile from "./hooks/decorator/save.js";
 import createStructureParts from "./hooks/structure/createParts.js";
 import defineKindProperty from "./hooks/structure/defineKind.js";
@@ -31,6 +33,8 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addDecoratorHook("create decorator parts", createDecoratorParts);
   dictionary.addDecoratorHook("add class properties", addClassProperties);
   dictionary.addDecoratorHook("add TSDoc", addTSDoc);
+  dictionary.addDecoratorHook("move members to class", moveMembersToClass);
+  dictionary.addDecoratorHook("sort class members", sortClassMembers);
   dictionary.addDecoratorHook("save decorator file", saveDecoratorFile);
 
   // #region structure classes
@@ -42,6 +46,8 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addStructureHook("remove useless copy-fields method", removeUselessCopyFields);
   dictionary.addStructureHook("add TSDoc", addTSDoc);
   dictionary.addStructureHook("special cases", structureSpecialCases);
+  dictionary.addStructureHook("move members to class", moveMembersToClass);
+  dictionary.addStructureHook("sort class members", sortClassMembers);
   dictionary.addStructureHook("save structure file", saveStructureFile);
   // add decorator imports
   // create class, including implements, export default

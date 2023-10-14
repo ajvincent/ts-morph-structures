@@ -31,12 +31,12 @@ export default class ImportDeclarationImpl
 {
   readonly kind: StructureKind.ImportDeclaration =
     StructureKind.ImportDeclaration;
-  isTypeOnly = false;
-  readonly namedImports: (stringOrWriter | ImportSpecifierImpl)[] = [];
   assertElements?: AssertEntryImpl[] = undefined;
   defaultImport?: string = undefined;
-  namespaceImport?: string = undefined;
+  isTypeOnly = false;
   moduleSpecifier: string;
+  readonly namedImports: (stringOrWriter | ImportSpecifierImpl)[] = [];
+  namespaceImport?: string = undefined;
 
   constructor(moduleSpecifier: string) {
     super();

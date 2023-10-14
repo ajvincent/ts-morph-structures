@@ -48,8 +48,8 @@ export default class VariableStatementImpl
 {
   readonly kind: StructureKind.VariableStatement =
     StructureKind.VariableStatement;
-  readonly declarations: VariableDeclarationImpl[] = [];
   declarationKind?: VariableDeclarationKind = undefined;
+  readonly declarations: VariableDeclarationImpl[] = [];
 
   public static [COPY_FIELDS](
     source: OptionalKind<VariableStatementStructure>,

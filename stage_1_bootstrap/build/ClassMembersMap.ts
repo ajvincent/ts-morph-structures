@@ -1,13 +1,14 @@
 import {
+  ClassDeclarationImpl,
   ConstructorDeclarationImpl,
   PropertyDeclarationImpl,
   GetAccessorDeclarationImpl,
   SetAccessorDeclarationImpl,
-  MethodDeclarationImpl
+  MethodDeclarationImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 import { StructureKind } from "ts-morph";
 
-type ClassMemberImpl = (
+export type ClassMemberImpl = (
   ConstructorDeclarationImpl |
   PropertyDeclarationImpl |
   GetAccessorDeclarationImpl |
@@ -24,7 +25,7 @@ type ClassMemberImpl = (
 export default class ClassMembersMap
 extends Map<string | symbol, ClassMemberImpl>
 {
-  static getKey(member: Exclude<ClassMemberImpl, ConstructorDeclarationImpl>): string {
+  static memberKey(member: Exclude<ClassMemberImpl, ConstructorDeclarationImpl>): string {
     let rv = "";
     if (member.isStatic)
       rv = "static ";
@@ -42,10 +43,10 @@ extends Map<string | symbol, ClassMemberImpl>
   {
     members.forEach(member => {
       if (member.kind === StructureKind.Constructor) {
-        this.set(Symbol("constructor"), member);
+        this.set("constructor", member);
       }
       else {
-        this.set(ClassMembersMap.getKey(member), member);
+        this.set(ClassMembersMap.memberKey(member), member);
       }
     });
   }
@@ -60,5 +61,53 @@ extends Map<string | symbol, ClassMemberImpl>
     let items = Array.from(this.values());
     items = items.filter(item => item.kind === kind);
     return items as (ClassMemberImpl & { kind: Kind })[];
+  }
+
+  getAsKind<
+    Kind extends ClassMemberImpl["kind"]
+  >
+  (
+    name: string,
+    kind: Kind
+  ): (ClassMemberImpl & { kind: Kind }) | undefined
+  {
+    const rv = this.get(name);
+    if (rv?.kind === kind)
+      return rv as ClassMemberImpl & { kind: Kind };
+    return undefined;
+  }
+
+  moveMembersToClass(
+    classDecl: ClassDeclarationImpl
+  ): void
+  {
+    this.forEach(member => this.#moveMemberToClass(classDecl, member));
+    this.clear();
+  }
+
+  #moveMemberToClass(
+    classDecl: ClassDeclarationImpl,
+    member: ClassMemberImpl
+  ): void
+  {
+    switch (member.kind) {
+      case StructureKind.Constructor:
+        classDecl.ctors.push(member);
+        return;
+      case StructureKind.Property:
+        classDecl.properties.push(member);
+        return;
+      case StructureKind.GetAccessor:
+        classDecl.getAccessors.push(member);
+        return;
+      case StructureKind.SetAccessor:
+        classDecl.setAccessors.push(member);
+        return;
+      case StructureKind.Method:
+        classDecl.methods.push(member);
+        return;
+      default:
+        throw new Error("unreachable");
+    }
   }
 }

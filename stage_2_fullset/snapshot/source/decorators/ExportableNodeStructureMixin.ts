@@ -32,8 +32,8 @@ export default function ExportableNodeStructureMixin(
   void context;
 
   class ExportableNodeStructureMixin extends baseClass {
-    isExported = false;
     isDefaultExport = false;
+    isExported = false;
 
     public static [COPY_FIELDS](
       source: ExportableNodeStructure & Structures,

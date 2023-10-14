@@ -28,8 +28,8 @@ export default class ExportAssignmentImpl
 {
   readonly kind: StructureKind.ExportAssignment =
     StructureKind.ExportAssignment;
-  isExportEquals = false;
   expression: stringOrWriter = "";
+  isExportEquals = false;
 
   constructor(expression: stringOrWriter) {
     super();

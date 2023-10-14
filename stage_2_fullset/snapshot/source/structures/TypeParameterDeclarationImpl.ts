@@ -28,9 +28,9 @@ export default class TypeParameterDeclarationImpl
   implements TypeParameterDeclarationStructure
 {
   readonly kind: StructureKind.TypeParameter = StructureKind.TypeParameter;
-  isConst = false;
   constraint?: stringOrWriter = undefined;
   default?: stringOrWriter = undefined;
+  isConst = false;
   variance?: TypeParameterVariance = undefined;
 
   constructor(name: string) {

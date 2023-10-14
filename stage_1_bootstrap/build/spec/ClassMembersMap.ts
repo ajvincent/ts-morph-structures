@@ -14,20 +14,21 @@ it("ClassMembersMap allows us to organize class members by kind", () => {
   const prop2 = new PropertyDeclarationImpl("two");
 
   const ctor_A = new ConstructorDeclarationImpl;
-  const ctor_B = new ConstructorDeclarationImpl;
 
   const method3 = new MethodDeclarationImpl("three");
+  method3.isStatic = true;
   const method4 = new MethodDeclarationImpl("four");
 
   memberMap.addMembers([
-    prop1, prop2, ctor_A, ctor_B, method3, method4
+    prop1, prop2, ctor_A, method3, method4
   ]);
 
   expect(memberMap.get("one")).toBe(prop1);
   expect(memberMap.get("two")).toBe(prop2);
-  expect(memberMap.get("three")).toBe(method3);
+  expect(memberMap.get("static three")).toBe(method3);
   expect(memberMap.get("four")).toBe(method4);
-  expect(memberMap.size).toBe(6);
+  expect(memberMap.get("constructor")).toBe(ctor_A);
+  expect(memberMap.size).toBe(5);
 
   expect<readonly PropertyDeclarationImpl[]>(
     memberMap.arrayOfKind<StructureKind.Property>(StructureKind.Property)
@@ -39,5 +40,5 @@ it("ClassMembersMap allows us to organize class members by kind", () => {
 
   expect<readonly ConstructorDeclarationImpl[]>(
     memberMap.arrayOfKind<StructureKind.Constructor>(StructureKind.Constructor)
-  ).toEqual([ctor_A, ctor_B]);
+  ).toEqual([ctor_A]);
 });

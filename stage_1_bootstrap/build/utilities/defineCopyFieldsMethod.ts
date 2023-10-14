@@ -23,12 +23,14 @@ import {
 import ConstantTypeStructures from "./ConstantTypeStructures.js";
 import ImportManager from "../ImportManager.js";
 import StructureDictionaries from "../StructureDictionaries.js";
+import ClassMembersMap from "../ClassMembersMap.js";
 
 // #endregion preamble
 
 export default function defineCopyFieldsMethod(
   meta: DecoratorImplMeta | StructureImplMeta,
   classDecl: ClassDeclarationImpl,
+  classMembers: ClassMembersMap,
   importManager: ImportManager,
   dictionaries: StructureDictionaries
 ): MethodDeclarationImpl
@@ -84,6 +86,6 @@ export default function defineCopyFieldsMethod(
     `super[COPY_FIELDS](source, target);`
   );
 
-  classDecl.methods.push(copyFields);
+  classMembers.addMembers([copyFields]);
   return copyFields;
 }

@@ -65,9 +65,9 @@ export default class InterfaceDeclarationImpl
   implements InterfaceDeclarationStructure
 {
   readonly kind: StructureKind.Interface = StructureKind.Interface;
-  readonly extends: stringOrWriter[] = [];
   readonly callSignatures: CallSignatureDeclarationImpl[] = [];
   readonly constructSignatures: ConstructSignatureDeclarationImpl[] = [];
+  readonly extends: stringOrWriter[] = [];
   readonly indexSignatures: IndexSignatureDeclarationImpl[] = [];
   readonly methods: MethodSignatureImpl[] = [];
   readonly properties: PropertySignatureImpl[] = [];

@@ -4,6 +4,11 @@ import {
   StructureImplMeta
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
+import type {
+  MethodDeclarationImpl
+} from "#stage_one/prototype-snapshot/exports.js";
+
+const COPY_FIELDS_NAME = "static [COPY_FIELDS]";
 
 export default function removeUselessCopyFields(
   name: string,
@@ -12,11 +17,10 @@ export default function removeUselessCopyFields(
 ): Promise<void>
 {
   const parts = dictionaries.structureParts.get(meta)!;
-  const index = parts.classDecl.methods.findIndex(m => m.name === "[COPY_FIELDS]");
-  const copyFields = parts.classDecl.methods[index]!;
+  const copyFields = parts.classMembersMap.get(COPY_FIELDS_NAME)! as MethodDeclarationImpl;
 
   if (copyFields.statements.length === 1) {
-    parts.classDecl.methods.splice(index, 1);
+    parts.classMembersMap.delete(COPY_FIELDS_NAME);
   }
 
   return Promise.resolve();

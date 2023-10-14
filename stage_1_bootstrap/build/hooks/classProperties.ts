@@ -1,6 +1,7 @@
 import path from "path";
 import {
   CodeBlockWriter,
+  StructureKind,
   WriterFunction
 } from "ts-morph";
 
@@ -50,11 +51,13 @@ export default function addClassProperties(
   if (!parts)
     return Promise.resolve();
 
+  const properties: PropertyDeclarationImpl[] = [];
+
   meta.booleanKeys.forEach(key => {
     const prop = new PropertyDeclarationImpl(key);
     prop.initializer = "false";
 
-    parts.classDecl.properties.push(prop);
+    properties.push(prop);
     parts.copyFields.statements.push(
       `target.${key} = source.${key} ?? false;`
     );
@@ -77,7 +80,8 @@ export default function addClassProperties(
       prop.typeStructure = typeStructure;
 
     prop.initializer = getInitializerForValue(key, propertyValue, parts, dictionaries);
-    parts.classDecl.properties.push(prop);
+
+    properties.push(prop);
 
     if (key === "kind") {
       prop.isReadonly = true;
@@ -99,6 +103,7 @@ export default function addClassProperties(
       }
     }
   });
+  parts.classMembersMap.addMembers(properties);
 
   return Promise.resolve();
 }
@@ -121,7 +126,7 @@ function addStructureFieldArray(
 
   prop.typeStructure = new ArrayTypedStructureImpl(typeStructure);
 
-  parts.classDecl.properties.push(prop);
+  parts.classMembersMap.addMembers([prop])
 
   const hasAStructure = propertyValue.otherTypes.some(
     valueInUnion => valueInUnion.structureName && dictionaries.structures.has(valueInUnion.structureName)
@@ -300,24 +305,6 @@ function getInitializerForValue(
     return value.otherTypes[0].tsmorph_Type!;
   }
 
-  /*
-  const { classDecl } = parts;
-  let ctor: ConstructorDeclarationImpl;
-  if (!classDecl.ctors.length) {
-    ctor = new ConstructorDeclarationImpl;
-    ctor.statements.push("super();");
-
-    classDecl.ctors.push(ctor);
-  } else {
-    ctor = classDecl.ctors[0];
-  }
-
-  const param = new ParameterDeclarationImpl(key);
-  param.typeStructure = getTypeStructureForValue(value, parts, dictionaries);
-
-  ctor.parameters.push(param);
-  ctor.statements.push(`this.${key} = ${key};`);
-  */
   void(parts);
   void(dictionaries);
   return undefined;
@@ -586,7 +573,8 @@ function write_cloneStatementsArray(
 
   let sourceParamType: UnionTypedStructureImpl, returnType: UnionTypedStructureImpl;
   {
-    const statementsArrayType = parts.classDecl.properties[0].typeStructure!;
+    const statementsProp = parts.classMembersMap.getAsKind<StructureKind.Property>("statements", StructureKind.Property)!
+    const statementsArrayType = statementsProp.typeStructure!;
     assert(statementsArrayType.kind === TypeStructureKind.Array, `expected Array type structure`);
     const parensType = (statementsArrayType as ArrayTypedStructureImpl).objectType;
     assert(parensType.kind === TypeStructureKind.Parentheses, `expected Parenthese type structure`);
@@ -618,7 +606,7 @@ function write_cloneStatementsArray(
     writer.writeLine(`return StructuresClassesMap.clone(source) as StatementStructureImpls;`);
   });
 
-  parts.classDecl.methods.push(cloneStatementMethod);
+  parts.classMembersMap.addMembers([cloneStatementMethod]);
 
   return (writer: CodeBlockWriter) => {
     // this is one time where it's just faster and clearer to write the code than to spell out the contents in structures
