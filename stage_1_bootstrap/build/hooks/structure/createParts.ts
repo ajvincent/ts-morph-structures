@@ -1,7 +1,5 @@
 import path from "path";
 
-import ImportManager from "#stage_one/build/ImportManager.js";
-
 import {
   ClassDeclarationImpl,
   LiteralTypedStructureImpl,
@@ -23,7 +21,8 @@ import {
 } from "#stage_one/build/constants.js";
 import defineCopyFieldsMethod from "#stage_one/build/utilities/defineCopyFieldsMethod.js";
 
-import ClassMembersMap from "#stage_one/build/ClassMembersMap.js";
+import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
+import ImportManager from "#stage_one/build/utilities/public/ImportManager.js";
 
 export default function createStructureParts(
   name: string,

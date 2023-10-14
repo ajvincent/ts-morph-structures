@@ -2,10 +2,6 @@
 import path from "path";
 
 import {
-  pathToModule
-} from "#utilities/source/AsyncSpecModules.js";
-
-import {
   DefaultMap,
   DefaultWeakMap,
 } from "#utilities/source/DefaultMap.js";
@@ -13,14 +9,7 @@ import {
 import {
   ExportDeclarationImpl,
   ExportSpecifierImpl,
-  SourceFileImpl,
 } from "#stage_one/prototype-snapshot/exports.js"
-
-import {
-  stageDir,
-} from "./constants.js";
-
-import saveSourceFile from "./utilities/saveSourceFile.js";
 
 // #endregion preamble
 
@@ -34,7 +23,7 @@ export interface AddExportContext {
 /**
  * This represents a tool for generating an exports file.
  */
-export class ExportManager
+export default class ExportManager
 {
   static #compareDeclarations(
     this: void,
@@ -58,8 +47,6 @@ export class ExportManager
   readonly #pathToDeclarationMap = new DefaultMap<string, ExportDeclarationImpl>;
   readonly #declarationToNamesMap = new DefaultWeakMap<ExportDeclarationImpl, Map<string, ExportSpecifierImpl>>;
 
-  #committed = false;
-
   constructor(
     absolutePathToExportFile: string,
   )
@@ -71,9 +58,6 @@ export class ExportManager
     context: AddExportContext
   ): void
   {
-    if (this.#committed)
-      throw new Error("file has been committed");
-
     const { absolutePathToModule, exportNames, isDefaultExport, isType } = context;
     if (!absolutePathToModule.endsWith(".ts"))
       throw new Error("path to module must end with .ts");
@@ -149,34 +133,4 @@ export class ExportManager
 
     return declarations;
   }
-
-  async commit(): Promise<void> {
-    if (this.#committed)
-      throw new Error("exports file has been committed");
-    this.#committed = true;
-
-    const sourceStructure = new SourceFileImpl;
-    const declarations = this.getDeclarations();
-
-    sourceStructure.statements.push(
-      "// This file is generated.  Do not edit.",
-      ...declarations
-    );
-
-    await saveSourceFile(this.absolutePathToExportFile, sourceStructure);
-  }
 }
-
-export const InternalExports = new ExportManager(
-  pathToModule(stageDir, "dist/source/internal-exports.ts")
-);
-export const PublicExports = new ExportManager(
-  pathToModule(stageDir, "dist/source/exports.ts")
-);
-
-InternalExports.addExports({
-  absolutePathToModule: pathToModule(stageDir, "dist/source/exports.ts"),
-  exportNames: [],
-  isDefaultExport: false,
-  isType: false,
-});

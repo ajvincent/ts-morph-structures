@@ -1,3 +1,7 @@
+import {
+  StructureKind
+} from "ts-morph";
+
 import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
 
 import {
@@ -12,7 +16,6 @@ import {
   ConstructorDeclarationImpl,
   ParameterDeclarationImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
-import { StructureKind } from "ts-morph";
 
 export default function addConstructor(
   name: string,

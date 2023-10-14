@@ -1,3 +1,5 @@
+import { StructureKind } from "ts-morph";
+
 import {
   ClassDeclarationImpl,
   ConstructorDeclarationImpl,
@@ -6,7 +8,6 @@ import {
   SetAccessorDeclarationImpl,
   MethodDeclarationImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
-import { StructureKind } from "ts-morph";
 
 export type ClassMemberImpl = (
   ConstructorDeclarationImpl |
@@ -16,12 +17,6 @@ export type ClassMemberImpl = (
   MethodDeclarationImpl
 );
 
-/**
- * @internal
- * @privateRemarks
- *
- * Unfortunately, this can't be a public tool.  Users can switch isStatic out at any time on a member in the prototype snapshot.
- */
 export default class ClassMembersMap
 extends Map<string | symbol, ClassMemberImpl>
 {

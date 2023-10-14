@@ -1,7 +1,7 @@
 // #region preamble
 import path from "path";
 
-import ImportManager from "../ImportManager.js";
+import ImportManager from "./public/ImportManager.js";
 
 import type {
   DecoratorImplMeta

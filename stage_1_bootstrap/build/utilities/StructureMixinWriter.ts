@@ -11,7 +11,7 @@ import {
   TupleTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 import ConstantTypeStructures from "./ConstantTypeStructures.js";
-import ImportManager from "../ImportManager.js";
+import ImportManager from "./public/ImportManager.js";
 
 export default function StructureMixinWriter(
   meta: StructureImplMeta,

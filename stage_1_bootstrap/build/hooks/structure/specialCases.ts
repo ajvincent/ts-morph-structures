@@ -1,4 +1,7 @@
-import ClassMembersMap from "#stage_one/build/ClassMembersMap";
+import {
+  StructureKind,
+} from "ts-morph";
+
 import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
 
 import {
@@ -7,8 +10,12 @@ import {
 import {
   createCodeBlockWriter
 } from "#stage_one/prototype-snapshot/exports.js";
-import { stringOrWriter } from "#stage_one/source/types/stringOrWriter.js";
-import { StructureKind } from "ts-morph";
+
+import type {
+  stringOrWriter
+} from "#stage_one/source/types/stringOrWriter.js";
+
+import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 
 export default function structureSpecialCases(
   name: string,

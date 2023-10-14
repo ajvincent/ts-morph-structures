@@ -15,8 +15,12 @@ import {
 import BuildClassesDriver from "./BuildClassesDriver.js";
 import TSDocMap from "./structureMeta/TSDocMap.js";
 import reportTSDocsCoverage from "#stage_one/coverage/tsdocs.js";
+import { PromiseAllParallel } from "#utilities/source/PromiseTypes.js";
+
+const sourceUtilitiesDir = pathToModule(stageDir, "build/utilities/public");
 
 const distDir = pathToModule(stageDir, "dist");
+const distToolboxDir = path.join(distDir, "source", "toolbox");
 
 // #endregion preamble
 
@@ -45,6 +49,12 @@ export default async function buildDist(): Promise<void>
     { recursive: true }
   );
 
+  await fs.mkdir(distToolboxDir, { recursive: true });
+  const files = (await fs.readdir(sourceUtilitiesDir)).filter(value => value.endsWith(".ts")).map(
+    file => path.join(sourceUtilitiesDir, file)
+  );
+  await PromiseAllParallel(files, exportPublicUtility);
+
   await BuildClassesDriver(distDir);
   {
     const results = TSDocMap.toJSON();
@@ -54,4 +64,17 @@ export default async function buildDist(): Promise<void>
   }
 
   await runPrettify(distDir);
+}
+
+async function exportPublicUtility(
+  pathToSourceFile: string,
+): Promise<void>
+{
+  let contents = await fs.readFile(pathToSourceFile, { encoding: "utf-8" });
+  contents = contents.replace(
+    "#stage_one/prototype-snapshot/exports.js",
+    "../exports.js"
+  );
+  const pathToDestFile = pathToSourceFile.replace(sourceUtilitiesDir, distToolboxDir);
+  await fs.writeFile(pathToDestFile, contents, { encoding: "utf-8" });
 }

@@ -14,7 +14,7 @@ import type {
 
 import type {
   ClassMemberImpl
-} from "../ClassMembersMap.js";
+} from "../utilities/public/ClassMembersMap.js";
 
 type ClassMemberImplExceptCtor = Exclude<ClassMemberImpl, ConstructorDeclarationImpl>;
 

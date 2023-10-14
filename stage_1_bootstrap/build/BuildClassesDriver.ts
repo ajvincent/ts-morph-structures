@@ -63,6 +63,27 @@ function defineExistingExports(
   distDir: string,
 ): void
 {
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/ClassMembersMap.ts"),
+    exportNames: ["ClassMembersMap"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/ExportManager.ts"),
+    exportNames: ["ExportManager"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/ImportManager.ts"),
+    exportNames: ["ImportManager"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
   dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/base/generated/structureToSyntax.ts"),
     exportNames: ["StructureKindToSyntaxKindMap"],

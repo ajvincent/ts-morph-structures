@@ -4,10 +4,7 @@ import {
   pathToModule
 } from "#utilities/source/AsyncSpecModules.js";
 
-import {
-  ExportManager,
-  //type AddExportContext,
-} from "#stage_one/build/ExportManager.js";
+import ExportManager from "#stage_one/build/utilities/public/ExportManager.js";
 
 import {
   stageDir,

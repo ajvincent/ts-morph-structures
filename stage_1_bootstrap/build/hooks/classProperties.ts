@@ -33,7 +33,7 @@ import {
   StructureImplMeta,
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
-import assert from "#stage_one/build/utilities/assert.js";
+import assert from "../utilities/assert.js";
 import pairedWrite from "../utilities/pairedWrite.js";
 
 export default function addClassProperties(

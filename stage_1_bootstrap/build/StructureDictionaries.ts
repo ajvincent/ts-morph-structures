@@ -21,13 +21,16 @@ import {
   StructureMetaDictionaries,
 } from "./structureMeta/DataClasses.js";
 
-import ClassMembersMap from "./ClassMembersMap.js";
+import ClassMembersMap from "./utilities/public/ClassMembersMap.js";
 
-import ImportManager from "./ImportManager.js";
+import ImportManager from "./utilities/public/ImportManager.js";
+
 import {
-  PublicExports,
-  InternalExports,
-} from "./ExportManager.js";
+  stageDir,
+} from "./constants.js";
+
+import { pathToModule } from "#utilities/source/AsyncSpecModules.js";
+import ExportManagerCommit from "./utilities/ExportManagerCommit.js";
 //#endregion preamble
 
 export type DecoratorHook = (
@@ -60,6 +63,20 @@ export interface StructureParts {
   sourceFile: SourceFileImpl;
   copyFields: MethodDeclarationImpl;
 }
+
+const InternalExports = new ExportManagerCommit(
+  pathToModule(stageDir, "dist/source/internal-exports.ts")
+);
+const PublicExports = new ExportManagerCommit(
+  pathToModule(stageDir, "dist/source/exports.ts")
+);
+
+InternalExports.addExports({
+  absolutePathToModule: pathToModule(stageDir, "dist/source/exports.ts"),
+  exportNames: [],
+  isDefaultExport: false,
+  isType: false,
+});
 
 export default
 class StructureDictionaries extends StructureMetaDictionaries

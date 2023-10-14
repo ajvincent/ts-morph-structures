@@ -1,3 +1,7 @@
+import {
+  StructureKind,
+} from "ts-morph";
+
 import StructureDictionaries, {
   DecoratorParts,
   StructureParts,
@@ -11,9 +15,7 @@ import {
 
 import ClassMembersMap, {
   ClassMemberImpl
-} from "../ClassMembersMap.js";
-
-import { StructureKind } from "ts-morph";
+} from "../utilities/public/ClassMembersMap.js";
 
 import TSDocMap from "../structureMeta/TSDocMap.js";
 

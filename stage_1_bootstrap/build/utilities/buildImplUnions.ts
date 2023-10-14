@@ -10,7 +10,7 @@ import {
   UnionTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
-import ImportManager from "../ImportManager.js";
+import ImportManager from "./public/ImportManager.js";
 
 import saveSourceFile from "./saveSourceFile.js";
 import type {

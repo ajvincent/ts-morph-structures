@@ -14,7 +14,7 @@ import defineDecoratorImports from "#stage_one/build/utilities/defineDecoratorIm
 import defineDecoratorWrapper from "#stage_one/build/utilities/defineDecoratorWrapper.js";
 import defineFieldsType from "#stage_one/build/utilities/defineFieldsType.js";
 
-import ClassMembersMap from "#stage_one/build/ClassMembersMap.js";
+import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 
 export default function createDecoratorParts(
   name: string,

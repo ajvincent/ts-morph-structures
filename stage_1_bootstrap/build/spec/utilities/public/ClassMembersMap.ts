@@ -5,7 +5,7 @@ import {
 } from "#stage_one/prototype-snapshot/exports.js";
 import { StructureKind } from "ts-morph";
 
-import ClassMembersMap from "../ClassMembersMap.js";
+import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 
 it("ClassMembersMap allows us to organize class members by kind", () => {
   const memberMap = new ClassMembersMap;

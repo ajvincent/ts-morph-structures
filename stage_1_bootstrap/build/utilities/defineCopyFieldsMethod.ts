@@ -21,9 +21,9 @@ import {
 
 
 import ConstantTypeStructures from "./ConstantTypeStructures.js";
-import ImportManager from "../ImportManager.js";
+import ImportManager from "./public/ImportManager.js";
 import StructureDictionaries from "../StructureDictionaries.js";
-import ClassMembersMap from "../ClassMembersMap.js";
+import ClassMembersMap from "./public/ClassMembersMap.js";
 
 // #endregion preamble
 

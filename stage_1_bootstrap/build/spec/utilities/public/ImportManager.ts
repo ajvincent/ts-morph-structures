@@ -4,7 +4,7 @@ import {
   pathToModule
 } from "#utilities/source/AsyncSpecModules.js";
 
-import ImportManager from "#stage_one/build/ImportManager.js";
+import ImportManager from "#stage_one/build/utilities/public/ImportManager.js";
 
 import {
   stageDir,
