@@ -3,10 +3,6 @@ import type {
 } from "crypto";
 
 import type {
-  Jsonify
-} from "type-fest";
-
-import type {
   SourceFileStructure
 } from "ts-morph";
 
@@ -15,12 +11,21 @@ export type SerializeRequest = {
   isRequest: true,
   token: ReturnType<typeof randomUUID>,
   absolutePathToFile: string,
-  structure: Jsonify<SourceFileStructure>
+  structure: SourceFileStructure
+};
+
+type SerializeResponseSuccess = {
+  success: true,
+  source: string,
+};
+
+type SerializeResponseFailure = {
+  success: false,
+  error: unknown
 };
 
 export type SerializeResponse = {
   command: "serializeSource",
   isResponse: true,
   token: ReturnType<typeof randomUUID>,
-  source: string,
-};
+} & (SerializeResponseSuccess | SerializeResponseFailure);

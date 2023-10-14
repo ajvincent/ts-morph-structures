@@ -43,16 +43,39 @@ async function serializeSource_child(
   return source;
 }
 
-parentPort!.on("message", (message: SerializeRequest): void => {
-  const sourcePromise = serializeSource_child(message.absolutePathToFile, message.structure);
-  const voidPromise = sourcePromise.then(source => {
+async function processRequest(
+  message: SerializeRequest
+): Promise<void>
+{
+  try {
+    const source = await serializeSource_child(
+      message.absolutePathToFile,
+      message.structure
+    );
+
     const response: SerializeResponse = {
       command: message.command,
       token: message.token,
       isResponse: true,
-      source,
+      success: true,
+      source
     };
-    parentPort?.postMessage(response);
-  });
-  void(voidPromise);
+
+    parentPort!.postMessage(response);
+  }
+  catch (ex) {
+    const response: SerializeResponse = {
+      command: message.command,
+      token: message.token,
+      isResponse: true,
+      success: false,
+      error: ex
+    };
+
+    parentPort!.postMessage(response);
+  }
+}
+
+parentPort!.on("message", (message: SerializeRequest): void => {
+  void(processRequest(message));
 });
