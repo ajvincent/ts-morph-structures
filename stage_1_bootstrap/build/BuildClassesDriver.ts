@@ -37,7 +37,6 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addDecoratorHook("sort class members", sortClassMembers);
   dictionary.addDecoratorHook("save decorator file", saveDecoratorFile);
 
-  // #region structure classes
   dictionary.addStructureHook("create structure parts", createStructureParts);
   dictionary.addStructureHook("add class properties", addClassProperties);
   dictionary.addStructureHook("define structure kind", defineKindProperty);
@@ -49,18 +48,6 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addStructureHook("move members to class", moveMembersToClass);
   dictionary.addStructureHook("sort class members", sortClassMembers);
   dictionary.addStructureHook("save structure file", saveStructureFile);
-  // add decorator imports
-  // create class, including implements, export default
-  // apply type structure changes
-  // create source file
-  // add to public exports
-  // #endregion structure classes
-
-  // #region write to filesystem
-  // write files
-  // prettify source
-
-  // #endregion write to filesystem
 
   await dictionary.build();
   await buildImplUnions(dictionary, distDir);
