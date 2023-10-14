@@ -41,5 +41,8 @@ export { default as TypeAliasDeclarationImpl } from "./structures/TypeAliasDecla
 export { default as TypeParameterDeclarationImpl } from "./structures/TypeParameterDeclarationImpl.js";
 export { default as VariableDeclarationImpl } from "./structures/VariableDeclarationImpl.js";
 export { default as VariableStatementImpl } from "./structures/VariableStatementImpl.js";
+export { default as ClassMembersMap } from "./toolbox/ClassMembersMap.js";
+export { default as ExportManager } from "./toolbox/ExportManager.js";
+export { default as ImportManager } from "./toolbox/ImportManager.js";
 export type { stringOrWriter } from "./types/stringOrWriter.js";
 export type * from "./types/StructureImplUnions.js";
