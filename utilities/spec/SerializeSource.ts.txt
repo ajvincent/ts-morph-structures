@@ -7,7 +7,7 @@ import {
   type SourceFileStructure
 } from "ts-morph";
 
-import SerializeSource from "#utilities/source/SerializeSource_Main.js";
+import SerializeSource from "#utilities/source/SerializeSource.js";
 
 describe("SerializeSource works", () => {
   let targetDir: string;

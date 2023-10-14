@@ -4,8 +4,6 @@
     "module": "es2022",
     "target": "esnext",
     "moduleResolution": "node",
-    "sourceMap": true,
-    "declaration": true,
 
     "baseUrl": ".",
     "paths": {

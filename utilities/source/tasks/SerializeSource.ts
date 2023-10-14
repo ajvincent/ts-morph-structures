@@ -14,7 +14,7 @@ import {
 import {
   SerializeRequest,
   SerializeResponse,
-} from "./_types/SerializeSourceMessages.js";
+} from "../_types/SerializeSourceMessages.js";
 
 const TSC_CONFIG: ProjectOptions = {
   "compilerOptions": {
@@ -22,8 +22,9 @@ const TSC_CONFIG: ProjectOptions = {
     "module": ModuleKind.ESNext,
     "target": ScriptTarget.ESNext,
     "moduleResolution": ModuleResolutionKind.NodeNext,
-    "sourceMap": true,
-    "declaration": true,
+    "sourceMap": false,
+    "declaration": false,
+    "inlineSourceMap": false,
   },
   skipAddingFilesFromTsConfig: true,
   skipFileDependencyResolution: true,
@@ -37,9 +38,10 @@ async function serializeSource_child(
   structure: SourceFileStructure
 ): Promise<string>
 {
-  const file = project.createSourceFile(absolutePathToFile, structure);
-  const source = file.print();
-  await file.deleteImmediately();
+  const sourceFile = project.createSourceFile(absolutePathToFile, structure);
+  await sourceFile.save();
+  const source = await project.getFileSystem().readFile(absolutePathToFile, "utf-8");
+  await sourceFile.deleteImmediately();
   return source;
 }
 

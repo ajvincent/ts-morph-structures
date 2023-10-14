@@ -10,7 +10,8 @@
     "debug-build": "TSMS_DEBUG='build' ts-node-esm ./build.ts",
     "debug-stage-one-test": "TSMS_DEBUG='stage_one_test' ts-node-esm ./build.ts",
     "debug-stage-one-build": "TSMS_DEBUG='stage_one_build' ts-node-esm ./build.ts",
-    "debug-stage-two-test": "TSMS_DEBUG='stage_two_test' ts-node-esm ./build.ts"
+    "debug-stage-two-test": "TSMS_DEBUG='stage_two_test' ts-node-esm ./build.ts",
+    "tsc-tasks": "tsc --project ./utilities/source/tasks/tsconfig.json"
   },
   "repository": {
     "type": "git",
