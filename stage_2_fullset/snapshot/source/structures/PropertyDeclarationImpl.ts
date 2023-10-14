@@ -24,8 +24,6 @@ import {
   ReadonlyableNodeStructureMixin,
   type ScopedNodeStructureFields,
   ScopedNodeStructureMixin,
-  type StaticableNodeStructureFields,
-  StaticableNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -46,7 +44,6 @@ const PropertyDeclarationStructureBase = MultiMixinBuilder<
     ReadonlyableNodeStructureFields,
     OverrideableNodeStructureFields,
     TypedNodeStructureFields,
-    StaticableNodeStructureFields,
     InitializerExpressionableNodeStructureFields,
     QuestionTokenableNodeStructureFields,
     DecoratableNodeStructureFields,
@@ -64,7 +61,6 @@ const PropertyDeclarationStructureBase = MultiMixinBuilder<
     ReadonlyableNodeStructureMixin,
     OverrideableNodeStructureMixin,
     TypedNodeStructureMixin,
-    StaticableNodeStructureMixin,
     InitializerExpressionableNodeStructureMixin,
     QuestionTokenableNodeStructureMixin,
     DecoratableNodeStructureMixin,
@@ -84,9 +80,11 @@ export default class PropertyDeclarationImpl
 {
   readonly kind: StructureKind.Property = StructureKind.Property;
   hasAccessorKeyword = false;
+  readonly isStatic: boolean;
 
-  constructor(name: string) {
+  constructor(isStatic: boolean, name: string) {
     super();
+    this.isStatic = isStatic;
     this.name = name;
   }
 
@@ -101,7 +99,10 @@ export default class PropertyDeclarationImpl
   public static clone(
     source: OptionalKind<PropertyDeclarationStructure>,
   ): PropertyDeclarationImpl {
-    const target = new PropertyDeclarationImpl(source.name);
+    const target = new PropertyDeclarationImpl(
+      source.isStatic ?? false,
+      source.name,
+    );
     this[COPY_FIELDS](source, target);
     return target;
   }

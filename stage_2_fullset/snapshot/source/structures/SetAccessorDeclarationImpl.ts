@@ -18,8 +18,6 @@ import {
   ScopedNodeStructureMixin,
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
-  type StaticableNodeStructureFields,
-  StaticableNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -36,7 +34,6 @@ import {
 //#endregion preamble
 const SetAccessorDeclarationStructureBase = MultiMixinBuilder<
   [
-    StaticableNodeStructureFields,
     DecoratableNodeStructureFields,
     AbstractableNodeStructureFields,
     ScopedNodeStructureFields,
@@ -51,7 +48,6 @@ const SetAccessorDeclarationStructureBase = MultiMixinBuilder<
   typeof StructureBase
 >(
   [
-    StaticableNodeStructureMixin,
     DecoratableNodeStructureMixin,
     AbstractableNodeStructureMixin,
     ScopedNodeStructureMixin,
@@ -71,16 +67,21 @@ export default class SetAccessorDeclarationImpl
   implements SetAccessorDeclarationStructure
 {
   readonly kind: StructureKind.SetAccessor = StructureKind.SetAccessor;
+  readonly isStatic: boolean;
 
-  constructor(name: string) {
+  constructor(isStatic: boolean, name: string) {
     super();
+    this.isStatic = isStatic;
     this.name = name;
   }
 
   public static clone(
     source: OptionalKind<SetAccessorDeclarationStructure>,
   ): SetAccessorDeclarationImpl {
-    const target = new SetAccessorDeclarationImpl(source.name);
+    const target = new SetAccessorDeclarationImpl(
+      source.isStatic ?? false,
+      source.name,
+    );
     this[COPY_FIELDS](source, target);
     return target;
   }

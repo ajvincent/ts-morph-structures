@@ -20,8 +20,6 @@ import {
   ReturnTypedNodeStructureMixin,
   type ScopedNodeStructureFields,
   ScopedNodeStructureMixin,
-  type StaticableNodeStructureFields,
-  StaticableNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -41,7 +39,6 @@ const MethodDeclarationOverloadStructureBase = MultiMixinBuilder<
     AsyncableNodeStructureFields,
     GeneratorableNodeStructureFields,
     OverrideableNodeStructureFields,
-    StaticableNodeStructureFields,
     AbstractableNodeStructureFields,
     QuestionTokenableNodeStructureFields,
     ScopedNodeStructureFields,
@@ -57,7 +54,6 @@ const MethodDeclarationOverloadStructureBase = MultiMixinBuilder<
     AsyncableNodeStructureMixin,
     GeneratorableNodeStructureMixin,
     OverrideableNodeStructureMixin,
-    StaticableNodeStructureMixin,
     AbstractableNodeStructureMixin,
     QuestionTokenableNodeStructureMixin,
     ScopedNodeStructureMixin,
@@ -75,11 +71,17 @@ export default class MethodDeclarationOverloadImpl
   implements MethodDeclarationOverloadStructure
 {
   readonly kind: StructureKind.MethodOverload = StructureKind.MethodOverload;
+  readonly isStatic: boolean;
+
+  constructor(isStatic: boolean) {
+    super();
+    this.isStatic = isStatic;
+  }
 
   public static clone(
     source: OptionalKind<MethodDeclarationOverloadStructure>,
   ): MethodDeclarationOverloadImpl {
-    const target = new MethodDeclarationOverloadImpl();
+    const target = new MethodDeclarationOverloadImpl(source.isStatic ?? false);
     this[COPY_FIELDS](source, target);
     return target;
   }

@@ -28,8 +28,6 @@ import {
   ScopedNodeStructureMixin,
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
-  type StaticableNodeStructureFields,
-  StaticableNodeStructureMixin,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -50,7 +48,6 @@ const MethodDeclarationStructureBase = MultiMixinBuilder<
     AsyncableNodeStructureFields,
     GeneratorableNodeStructureFields,
     OverrideableNodeStructureFields,
-    StaticableNodeStructureFields,
     DecoratableNodeStructureFields,
     AbstractableNodeStructureFields,
     QuestionTokenableNodeStructureFields,
@@ -69,7 +66,6 @@ const MethodDeclarationStructureBase = MultiMixinBuilder<
     AsyncableNodeStructureMixin,
     GeneratorableNodeStructureMixin,
     OverrideableNodeStructureMixin,
-    StaticableNodeStructureMixin,
     DecoratableNodeStructureMixin,
     AbstractableNodeStructureMixin,
     QuestionTokenableNodeStructureMixin,
@@ -90,10 +86,12 @@ export default class MethodDeclarationImpl
   implements MethodDeclarationStructure
 {
   readonly kind: StructureKind.Method = StructureKind.Method;
+  readonly isStatic: boolean;
   readonly overloads: MethodDeclarationOverloadImpl[] = [];
 
-  constructor(name: string) {
+  constructor(isStatic: boolean, name: string) {
     super();
+    this.isStatic = isStatic;
     this.name = name;
   }
 
@@ -116,7 +114,10 @@ export default class MethodDeclarationImpl
   public static clone(
     source: OptionalKind<MethodDeclarationStructure>,
   ): MethodDeclarationImpl {
-    const target = new MethodDeclarationImpl(source.name);
+    const target = new MethodDeclarationImpl(
+      source.isStatic ?? false,
+      source.name,
+    );
     this[COPY_FIELDS](source, target);
     return target;
   }

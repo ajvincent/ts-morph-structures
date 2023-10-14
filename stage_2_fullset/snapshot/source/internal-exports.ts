@@ -82,10 +82,6 @@ export {
   type StatementedNodeStructureFields,
 } from "./decorators/StatementedNodeStructureMixin.js";
 export {
-  default as StaticableNodeStructureMixin,
-  type StaticableNodeStructureFields,
-} from "./decorators/StaticableNodeStructureMixin.js";
-export {
   default as StructureMixin,
   type StructureFields,
 } from "./decorators/StructureMixin.js";

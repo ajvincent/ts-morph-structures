@@ -23,13 +23,30 @@ export default function addConstructor(
   const parts = dictionaries.structureParts.get(meta)!;
 
   let constructor: ConstructorDeclarationImpl | undefined;
-  if (meta.decoratorKeys.has("NamedNodeStructure")) {
+
+  const isStatic_property = parts.classMembersMap.getAsKind<StructureKind.Property>("isStatic", StructureKind.Property);
+  const hasNamed = meta.decoratorKeys.has("NamedNodeStructure");
+  if (Boolean(isStatic_property) || hasNamed) {
     constructor = new ConstructorDeclarationImpl;
     constructor.statements.push("super();");
-    const param = new ParameterDeclarationImpl("name");
-    param.typeStructure = ConstantTypeStructures.string;
-    constructor.parameters.push(param);
-    constructor.statements.push(`this.name = name;`);
+  }
+
+  if (isStatic_property) {
+    isStatic_property.isReadonly = true;
+    isStatic_property.initializer = undefined;
+    isStatic_property.typeStructure = ConstantTypeStructures.boolean;
+
+    const staticParam = new ParameterDeclarationImpl("isStatic");
+    staticParam.typeStructure = ConstantTypeStructures.boolean;
+    constructor!.parameters.push(staticParam);
+    constructor!.statements.push(`this.isStatic = isStatic;`);
+  }
+
+  if (hasNamed) {
+    const nameParam = new ParameterDeclarationImpl("name");
+    nameParam.typeStructure = ConstantTypeStructures.string;
+    constructor!.parameters.push(nameParam);
+    constructor!.statements.push(`this.name = name;`);
   }
 
   meta.structureFields.forEach((value: PropertyValue, key: PropertyName) => {
@@ -62,4 +79,3 @@ export default function addConstructor(
 
   return Promise.resolve();
 }
-

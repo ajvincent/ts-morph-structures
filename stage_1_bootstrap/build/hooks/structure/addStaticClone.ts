@@ -76,7 +76,13 @@ export default function addStaticClone(
 
   const ctor = classMembersMap.getAsKind<StructureKind.Constructor>("constructor", StructureKind.Constructor);
   if (ctor) {
-    constructorArgs = ctor.parameters.map(param => "source." + param.name);
+    constructorArgs = ctor.parameters.map(param => {
+      let rv = "source." + param.name;
+      if (param.name === "isStatic")
+        rv += " ?? false";
+      return rv;
+    });
+
   }
 
   cloneMethod.statements.push(

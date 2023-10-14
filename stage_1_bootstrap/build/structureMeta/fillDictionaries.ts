@@ -41,6 +41,7 @@ function fillDictionaries(
   resolveDecoratorKeys(dictionary);
   countDecoratorUsage(dictionary);
   consolidateSingleUseDecorators(dictionary);
+  consolidateDecorator(dictionary, "StaticableNodeStructure");
 }
 
 function addStructureUnion(
@@ -379,21 +380,38 @@ function consolidateSingleUseDecorators(
     if (structuresUsing.size >= 2)
       continue;
 
-    if (structuresUsing.size === 1) {
-      const structureName = Array.from(structuresUsing.values())[0];
-      const structure = dictionary.structures.get(structureName)!;
-      for (const subname of dec.booleanKeys.values()) {
-        structure.booleanKeys.add(subname);
-      }
-      for (const [subname, value] of dec.structureFieldArrays) {
-        structure.structureFieldArrays.set(subname, value);
-      }
-      for (const [subname, value] of dec.structureFields) {
-        structure.structureFields.set(subname, value);
-      }
-      structure.decoratorKeys.delete(name);
-    }
-
-    dictionary.decorators.delete(name);
+    consolidateDecorator(dictionary, name);
   }
+}
+
+function consolidateDecorator(
+  dictionary: StructureMetaDictionaries,
+  decoratorName: string
+): void
+{
+  const decorator = dictionary.decorators.get(decoratorName)!;
+  decorator.structuresUsing.forEach(structureName => {
+    moveDecoratorIntoStructure(
+      decorator,
+      dictionary.structures.get(structureName)!
+    )
+  });
+  dictionary.decorators.delete(decoratorName);
+}
+
+function moveDecoratorIntoStructure(
+  decorator: DecoratorImplMeta,
+  structure: StructureImplMeta,
+): void
+{
+  for (const subname of decorator.booleanKeys.values()) {
+    structure.booleanKeys.add(subname);
+  }
+  for (const [subname, value] of decorator.structureFieldArrays) {
+    structure.structureFieldArrays.set(subname, value);
+  }
+  for (const [subname, value] of decorator.structureFields) {
+    structure.structureFields.set(subname, value);
+  }
+  structure.decoratorKeys.delete(decorator.structureName);
 }

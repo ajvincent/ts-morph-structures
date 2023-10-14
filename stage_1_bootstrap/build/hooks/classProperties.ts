@@ -58,9 +58,12 @@ export default function addClassProperties(
     prop.initializer = "false";
 
     properties.push(prop);
-    parts.copyFields.statements.push(
-      `target.${key} = source.${key} ?? false;`
-    );
+
+    if (key !== "isStatic") {
+      parts.copyFields.statements.push(
+        `target.${key} = source.${key} ?? false;`
+      );
+    }
   });
 
   meta.structureFieldArrays.forEach((
