@@ -23,6 +23,7 @@ import {
   type VariableDeclarationStructure,
   type VariableStatementStructure,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const VariableStatementStructureBase = MultiMixinBuilder<
   [
@@ -76,7 +77,7 @@ export default class VariableStatementImpl
     return target;
   }
 
-  public toJSON(): VariableStatementStructure {
+  public toJSON(): Jsonify<VariableStatementStructure> {
     const rv = super.toJSON() as VariableStatementStructure;
     if (this.declarationKind) {
       rv.declarationKind = this.declarationKind;

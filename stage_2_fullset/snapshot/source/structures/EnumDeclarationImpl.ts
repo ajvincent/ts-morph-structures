@@ -24,6 +24,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const EnumDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -83,7 +84,7 @@ export default class EnumDeclarationImpl
     return target;
   }
 
-  public toJSON(): EnumDeclarationStructure {
+  public toJSON(): Jsonify<EnumDeclarationStructure> {
     const rv = super.toJSON() as EnumDeclarationStructure;
     rv.isConst = this.isConst;
     rv.kind = this.kind;

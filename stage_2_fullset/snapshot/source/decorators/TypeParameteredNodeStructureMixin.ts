@@ -18,6 +18,7 @@ import {
   type TypeParameterDeclarationStructure,
   type TypeParameteredNodeStructure,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const TypeParameteredNodeStructureKey: unique symbol;
 export type TypeParameteredNodeStructureFields = RightExtendsLeft<
@@ -58,7 +59,7 @@ export default function TypeParameteredNodeStructureMixin(
       }
     }
 
-    public toJSON(): TypeParameteredNodeStructure {
+    public toJSON(): Jsonify<TypeParameteredNodeStructure> {
       const rv = super.toJSON() as TypeParameteredNodeStructure;
       rv.typeParameters = this.typeParameters;
       return rv;

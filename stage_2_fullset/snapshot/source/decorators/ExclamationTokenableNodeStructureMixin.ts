@@ -10,6 +10,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { ExclamationTokenableNodeStructure, Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const ExclamationTokenableNodeStructureKey: unique symbol;
 export type ExclamationTokenableNodeStructureFields = RightExtendsLeft<
@@ -42,7 +43,7 @@ export default function ExclamationTokenableNodeStructureMixin(
       target.hasExclamationToken = source.hasExclamationToken ?? false;
     }
 
-    public toJSON(): ExclamationTokenableNodeStructure {
+    public toJSON(): Jsonify<ExclamationTokenableNodeStructure> {
       const rv = super.toJSON() as ExclamationTokenableNodeStructure;
       rv.hasExclamationToken = this.hasExclamationToken;
       return rv;

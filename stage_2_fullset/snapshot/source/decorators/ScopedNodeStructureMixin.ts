@@ -10,6 +10,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import { Scope, type ScopedNodeStructure, type Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const ScopedNodeStructureKey: unique symbol;
 export type ScopedNodeStructureFields = RightExtendsLeft<
@@ -44,7 +45,7 @@ export default function ScopedNodeStructureMixin(
       }
     }
 
-    public toJSON(): ScopedNodeStructure {
+    public toJSON(): Jsonify<ScopedNodeStructure> {
       const rv = super.toJSON() as ScopedNodeStructure;
       if (this.scope) {
         rv.scope = this.scope;

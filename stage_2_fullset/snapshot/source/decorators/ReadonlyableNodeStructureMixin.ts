@@ -10,6 +10,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { ReadonlyableNodeStructure, Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const ReadonlyableNodeStructureKey: unique symbol;
 export type ReadonlyableNodeStructureFields = RightExtendsLeft<
@@ -42,7 +43,7 @@ export default function ReadonlyableNodeStructureMixin(
       target.isReadonly = source.isReadonly ?? false;
     }
 
-    public toJSON(): ReadonlyableNodeStructure {
+    public toJSON(): Jsonify<ReadonlyableNodeStructure> {
       const rv = super.toJSON() as ReadonlyableNodeStructure;
       rv.isReadonly = this.isReadonly;
       return rv;

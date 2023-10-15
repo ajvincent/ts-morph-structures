@@ -18,6 +18,7 @@ import {
   StructureKind,
   type Structures,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const DecoratableNodeStructureKey: unique symbol;
 export type DecoratableNodeStructureFields = RightExtendsLeft<
@@ -58,7 +59,7 @@ export default function DecoratableNodeStructureMixin(
       }
     }
 
-    public toJSON(): DecoratableNodeStructure {
+    public toJSON(): Jsonify<DecoratableNodeStructure> {
       const rv = super.toJSON() as DecoratableNodeStructure;
       rv.decorators = this.decorators;
       return rv;

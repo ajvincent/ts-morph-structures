@@ -37,6 +37,7 @@ import {
   type PropertyDeclarationStructure,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const PropertyDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -107,7 +108,7 @@ export default class PropertyDeclarationImpl
     return target;
   }
 
-  public toJSON(): PropertyDeclarationStructure {
+  public toJSON(): Jsonify<PropertyDeclarationStructure> {
     const rv = super.toJSON() as PropertyDeclarationStructure;
     rv.hasAccessorKeyword = this.hasAccessorKeyword;
     rv.isStatic = this.isStatic;

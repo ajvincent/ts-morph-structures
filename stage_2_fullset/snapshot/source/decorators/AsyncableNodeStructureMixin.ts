@@ -10,6 +10,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { AsyncableNodeStructure, Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const AsyncableNodeStructureKey: unique symbol;
 export type AsyncableNodeStructureFields = RightExtendsLeft<
@@ -42,7 +43,7 @@ export default function AsyncableNodeStructureMixin(
       target.isAsync = source.isAsync ?? false;
     }
 
-    public toJSON(): AsyncableNodeStructure {
+    public toJSON(): Jsonify<AsyncableNodeStructure> {
       const rv = super.toJSON() as AsyncableNodeStructure;
       rv.isAsync = this.isAsync;
       return rv;

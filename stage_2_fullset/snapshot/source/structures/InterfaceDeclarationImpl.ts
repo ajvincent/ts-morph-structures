@@ -38,6 +38,7 @@ import {
   type PropertySignatureStructure,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const InterfaceDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -148,7 +149,7 @@ export default class InterfaceDeclarationImpl
     return target;
   }
 
-  public toJSON(): InterfaceDeclarationStructure {
+  public toJSON(): Jsonify<InterfaceDeclarationStructure> {
     const rv = super.toJSON() as InterfaceDeclarationStructure;
     rv.callSignatures = this.callSignatures;
     rv.constructSignatures = this.constructSignatures;

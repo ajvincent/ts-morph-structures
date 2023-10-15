@@ -15,6 +15,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const AssertEntryStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -52,7 +53,7 @@ export default class AssertEntryImpl
     return target;
   }
 
-  public toJSON(): AssertEntryStructure {
+  public toJSON(): Jsonify<AssertEntryStructure> {
     const rv = super.toJSON() as AssertEntryStructure;
     rv.kind = this.kind;
     rv.value = this.value;

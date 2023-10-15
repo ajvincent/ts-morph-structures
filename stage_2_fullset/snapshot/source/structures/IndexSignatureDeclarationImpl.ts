@@ -19,6 +19,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const IndexSignatureDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -68,7 +69,7 @@ export default class IndexSignatureDeclarationImpl
     return target;
   }
 
-  public toJSON(): IndexSignatureDeclarationStructure {
+  public toJSON(): Jsonify<IndexSignatureDeclarationStructure> {
     const rv = super.toJSON() as IndexSignatureDeclarationStructure;
     if (this.keyName) {
       rv.keyName = this.keyName;

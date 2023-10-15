@@ -14,6 +14,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const JsxAttributeStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -55,7 +56,7 @@ export default class JsxAttributeImpl
     return target;
   }
 
-  public toJSON(): JsxAttributeStructure {
+  public toJSON(): Jsonify<JsxAttributeStructure> {
     const rv = super.toJSON() as JsxAttributeStructure;
     if (this.initializer) {
       rv.initializer = this.initializer;

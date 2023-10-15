@@ -31,6 +31,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const GetAccessorDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -86,7 +87,7 @@ export default class GetAccessorDeclarationImpl
     return target;
   }
 
-  public toJSON(): GetAccessorDeclarationStructure {
+  public toJSON(): Jsonify<GetAccessorDeclarationStructure> {
     const rv = super.toJSON() as GetAccessorDeclarationStructure;
     rv.isStatic = this.isStatic;
     rv.kind = this.kind;

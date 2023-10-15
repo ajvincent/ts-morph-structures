@@ -4,6 +4,7 @@ import {
   type CloneableStructure,
   cloneStructureArray,
   COPY_FIELDS,
+  REPLACE_WRITER_WITH_STRING,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -17,6 +18,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const JSDocStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -57,10 +59,12 @@ export default class JSDocImpl
     return target;
   }
 
-  public toJSON(): JSDocStructure {
+  public toJSON(): Jsonify<JSDocStructure> {
     const rv = super.toJSON() as JSDocStructure;
     if (this.description) {
-      rv.description = this.description;
+      rv.description = StructureBase[REPLACE_WRITER_WITH_STRING](
+        this.description,
+      );
     }
 
     rv.kind = this.kind;

@@ -19,6 +19,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const JsxSelfClosingElementStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -69,7 +70,7 @@ export default class JsxSelfClosingElementImpl
     return target;
   }
 
-  public toJSON(): JsxSelfClosingElementStructure {
+  public toJSON(): Jsonify<JsxSelfClosingElementStructure> {
     const rv = super.toJSON() as JsxSelfClosingElementStructure;
     rv.attributes = this.attributes;
     rv.kind = this.kind;

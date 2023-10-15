@@ -13,6 +13,7 @@ import {
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import { type DecoratorStructure, OptionalKind, StructureKind } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const DecoratorStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -56,7 +57,7 @@ export default class DecoratorImpl
     return target;
   }
 
-  public toJSON(): DecoratorStructure {
+  public toJSON(): Jsonify<DecoratorStructure> {
     const rv = super.toJSON() as DecoratorStructure;
     rv.arguments = this.arguments.map((value) => {
       return StructureBase[REPLACE_WRITER_WITH_STRING](value);

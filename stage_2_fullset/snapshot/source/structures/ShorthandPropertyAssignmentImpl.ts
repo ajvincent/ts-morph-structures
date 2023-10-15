@@ -15,6 +15,7 @@ import {
   type ShorthandPropertyAssignmentStructure,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const ShorthandPropertyAssignmentStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -41,7 +42,7 @@ export default class ShorthandPropertyAssignmentImpl
     return target;
   }
 
-  public toJSON(): ShorthandPropertyAssignmentStructure {
+  public toJSON(): Jsonify<ShorthandPropertyAssignmentStructure> {
     const rv = super.toJSON() as ShorthandPropertyAssignmentStructure;
     rv.kind = this.kind;
     return rv;

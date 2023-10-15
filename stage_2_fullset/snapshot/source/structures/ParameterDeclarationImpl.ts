@@ -28,6 +28,7 @@ import {
   Scope,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const ParameterDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -87,7 +88,7 @@ export default class ParameterDeclarationImpl
     return target;
   }
 
-  public toJSON(): ParameterDeclarationStructure {
+  public toJSON(): Jsonify<ParameterDeclarationStructure> {
     const rv = super.toJSON() as ParameterDeclarationStructure;
     rv.isRestParameter = this.isRestParameter;
     rv.kind = this.kind;

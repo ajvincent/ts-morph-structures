@@ -17,6 +17,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const ClassStaticBlockDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -45,7 +46,7 @@ export default class ClassStaticBlockDeclarationImpl
     return target;
   }
 
-  public toJSON(): ClassStaticBlockDeclarationStructure {
+  public toJSON(): Jsonify<ClassStaticBlockDeclarationStructure> {
     const rv = super.toJSON() as ClassStaticBlockDeclarationStructure;
     rv.kind = this.kind;
     return rv;

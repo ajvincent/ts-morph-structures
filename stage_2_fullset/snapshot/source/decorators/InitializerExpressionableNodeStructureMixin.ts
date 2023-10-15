@@ -1,6 +1,7 @@
 //#region preamble
 import {
   COPY_FIELDS,
+  REPLACE_WRITER_WITH_STRING,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -14,6 +15,7 @@ import type {
   InitializerExpressionableNodeStructure,
   Structures,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const InitializerExpressionableNodeStructureKey: unique symbol;
 export type InitializerExpressionableNodeStructureFields = RightExtendsLeft<
@@ -48,10 +50,12 @@ export default function InitializerExpressionableNodeStructureMixin(
       }
     }
 
-    public toJSON(): InitializerExpressionableNodeStructure {
+    public toJSON(): Jsonify<InitializerExpressionableNodeStructure> {
       const rv = super.toJSON() as InitializerExpressionableNodeStructure;
       if (this.initializer) {
-        rv.initializer = this.initializer;
+        rv.initializer = StructureBase[REPLACE_WRITER_WITH_STRING](
+          this.initializer,
+        );
       }
 
       return rv;

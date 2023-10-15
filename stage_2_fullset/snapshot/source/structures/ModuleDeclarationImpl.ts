@@ -24,6 +24,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const ModuleDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -77,7 +78,7 @@ export default class ModuleDeclarationImpl
     return target;
   }
 
-  public toJSON(): ModuleDeclarationStructure {
+  public toJSON(): Jsonify<ModuleDeclarationStructure> {
     const rv = super.toJSON() as ModuleDeclarationStructure;
     if (this.declarationKind) {
       rv.declarationKind = this.declarationKind;

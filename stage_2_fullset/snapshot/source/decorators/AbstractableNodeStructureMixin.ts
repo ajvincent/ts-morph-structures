@@ -10,6 +10,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { AbstractableNodeStructure, Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const AbstractableNodeStructureKey: unique symbol;
 export type AbstractableNodeStructureFields = RightExtendsLeft<
@@ -42,7 +43,7 @@ export default function AbstractableNodeStructureMixin(
       target.isAbstract = source.isAbstract ?? false;
     }
 
-    public toJSON(): AbstractableNodeStructure {
+    public toJSON(): Jsonify<AbstractableNodeStructure> {
       const rv = super.toJSON() as AbstractableNodeStructure;
       rv.isAbstract = this.isAbstract;
       return rv;

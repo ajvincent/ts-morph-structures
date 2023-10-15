@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  REPLACE_WRITER_WITH_STRING,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -14,6 +15,7 @@ import {
   type SpreadAssignmentStructure,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const SpreadAssignmentStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -51,9 +53,9 @@ export default class SpreadAssignmentImpl
     return target;
   }
 
-  public toJSON(): SpreadAssignmentStructure {
+  public toJSON(): Jsonify<SpreadAssignmentStructure> {
     const rv = super.toJSON() as SpreadAssignmentStructure;
-    rv.expression = this.expression;
+    rv.expression = StructureBase[REPLACE_WRITER_WITH_STRING](this.expression);
     rv.kind = this.kind;
     return rv;
   }

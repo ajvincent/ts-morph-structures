@@ -10,6 +10,7 @@ import {
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  REPLACE_WRITER_WITH_STRING,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -26,6 +27,7 @@ import {
   StructureKind,
   type TypeAliasDeclarationStructure,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const TypeAliasDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -82,10 +84,10 @@ export default class TypeAliasDeclarationImpl
     return target;
   }
 
-  public toJSON(): TypeAliasDeclarationStructure {
+  public toJSON(): Jsonify<TypeAliasDeclarationStructure> {
     const rv = super.toJSON() as TypeAliasDeclarationStructure;
     rv.kind = this.kind;
-    rv.type = this.type;
+    rv.type = StructureBase[REPLACE_WRITER_WITH_STRING](this.type);
     return rv;
   }
 }

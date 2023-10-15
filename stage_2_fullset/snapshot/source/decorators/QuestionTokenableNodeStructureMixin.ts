@@ -10,6 +10,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { QuestionTokenableNodeStructure, Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const QuestionTokenableNodeStructureKey: unique symbol;
 export type QuestionTokenableNodeStructureFields = RightExtendsLeft<
@@ -43,7 +44,7 @@ export default function QuestionTokenableNodeStructureMixin(
       target.hasQuestionToken = source.hasQuestionToken ?? false;
     }
 
-    public toJSON(): QuestionTokenableNodeStructure {
+    public toJSON(): Jsonify<QuestionTokenableNodeStructure> {
       const rv = super.toJSON() as QuestionTokenableNodeStructure;
       rv.hasQuestionToken = this.hasQuestionToken;
       return rv;

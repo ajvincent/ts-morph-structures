@@ -10,6 +10,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { GeneratorableNodeStructure, Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const GeneratorableNodeStructureKey: unique symbol;
 export type GeneratorableNodeStructureFields = RightExtendsLeft<
@@ -42,7 +43,7 @@ export default function GeneratorableNodeStructureMixin(
       target.isGenerator = source.isGenerator ?? false;
     }
 
-    public toJSON(): GeneratorableNodeStructure {
+    public toJSON(): Jsonify<GeneratorableNodeStructure> {
       const rv = super.toJSON() as GeneratorableNodeStructure;
       rv.isGenerator = this.isGenerator;
       return rv;

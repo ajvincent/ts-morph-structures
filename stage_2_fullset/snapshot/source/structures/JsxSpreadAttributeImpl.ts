@@ -13,6 +13,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const JsxSpreadAttributeStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -50,7 +51,7 @@ export default class JsxSpreadAttributeImpl
     return target;
   }
 
-  public toJSON(): JsxSpreadAttributeStructure {
+  public toJSON(): Jsonify<JsxSpreadAttributeStructure> {
     const rv = super.toJSON() as JsxSpreadAttributeStructure;
     rv.expression = this.expression;
     rv.kind = this.kind;

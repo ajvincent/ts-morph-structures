@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  REPLACE_WRITER_WITH_STRING,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -10,6 +11,7 @@ import {
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import { type JSDocTagStructure, OptionalKind, StructureKind } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const JSDocTagStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -49,12 +51,12 @@ export default class JSDocTagImpl
     return target;
   }
 
-  public toJSON(): JSDocTagStructure {
+  public toJSON(): Jsonify<JSDocTagStructure> {
     const rv = super.toJSON() as JSDocTagStructure;
     rv.kind = this.kind;
     rv.tagName = this.tagName;
     if (this.text) {
-      rv.text = this.text;
+      rv.text = StructureBase[REPLACE_WRITER_WITH_STRING](this.text);
     }
 
     return rv;

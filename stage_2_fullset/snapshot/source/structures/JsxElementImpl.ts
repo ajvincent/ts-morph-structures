@@ -24,6 +24,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const JsxElementStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -96,7 +97,7 @@ export default class JsxElementImpl
     return target;
   }
 
-  public toJSON(): JsxElementStructure {
+  public toJSON(): Jsonify<JsxElementStructure> {
     const rv = super.toJSON() as JsxElementStructure;
     rv.attributes = this.attributes;
     if (this.bodyText) {

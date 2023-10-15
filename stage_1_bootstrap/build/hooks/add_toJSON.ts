@@ -41,7 +41,19 @@ export default function add_toJSON(
   const { classMembersMap, importsManager } = parts;
 
   const toJSONMethod = new MethodDeclarationImpl("toJSON");
-  toJSONMethod.returnType = name;
+
+  // It's faster and clearer to just write it, rather than use a type structure.
+  toJSONMethod.returnType = `Jsonify<${name}>`;
+  importsManager.addImports({
+    pathToImportedModule: "type-fest",
+    isPackageImport: true,
+    isDefaultImport: false,
+    isTypeOnly: true,
+    importNames: [
+      "Jsonify",
+    ]
+  });
+
   toJSONMethod.scope = Scope.Public;
 
   const properties = classMembersMap.arrayOfKind<StructureKind.Property>(
@@ -101,8 +113,9 @@ function getJSONPropertyCopy(
   }
 
   let typeStructure: TypeStructures | undefined = prop.typeStructure;
-  if (!typeStructure)
+  if (!typeStructure) {
     return [`this.${prop.name};`, false];
+  }
 
   let isMap = false;
   if (typeStructure.kind === TypeStructureKind.Array) {
@@ -121,8 +134,9 @@ function getJSONPropertyCopy(
     typeStructureSet.has(ConstantTypeStructures.stringOrWriter)
   );
 
-  if (!foundWriter)
+  if (!foundWriter) {
     return [`this.${prop.name};`, false];
+  }
 
   typeStructureSet.delete(ConstantTypeStructures.WriterFunction);
   typeStructureSet.delete(ConstantTypeStructures.stringOrWriter);
@@ -134,13 +148,14 @@ function getJSONPropertyCopy(
       writer.block(() => writer.writeLine("return value;"));
     }
 
-    writer.conditionalWrite(isMap, "return StructureBase[REPLACE_WRITER_WITH_STRING]");
+    writer.conditionalWrite(isMap, "return ");
+    writer.write("StructureBase[REPLACE_WRITER_WITH_STRING]");
     pairedWrite(writer, "(", ")", false, false, () => {
       writer.write(isMap ? `value` : `this.${prop.name}`);
     });
   });
 
-  return [writer.toString(), isMap];
+  return [writer.toString(), true];
 }
 
 /**
@@ -171,5 +186,17 @@ function pairedIfWrite(
   }
   else {
     block();
+  }
+}
+
+// this is really useful for debugging
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function logIfNameMatch(
+  prop: PropertyDeclarationImpl,
+  callback: () => readonly unknown[]
+): void
+{
+  if (prop.name === "") {
+    console.log(...callback());
   }
 }

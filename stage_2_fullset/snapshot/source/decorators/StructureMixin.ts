@@ -12,6 +12,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { Structure, Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const StructureKey: unique symbol;
 export type StructureFields = RightExtendsLeft<
@@ -55,7 +56,7 @@ export default function StructureMixin(
       }
     }
 
-    public toJSON(): Structure {
+    public toJSON(): Jsonify<Structure> {
       const rv = super.toJSON() as Structure;
       rv.leadingTrivia = this.leadingTrivia.map((value) => {
         return StructureBase[REPLACE_WRITER_WITH_STRING](value);

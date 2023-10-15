@@ -10,6 +10,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { NameableNodeStructure, Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const NameableNodeStructureKey: unique symbol;
 export type NameableNodeStructureFields = RightExtendsLeft<
@@ -44,7 +45,7 @@ export default function NameableNodeStructureMixin(
       }
     }
 
-    public toJSON(): NameableNodeStructure {
+    public toJSON(): Jsonify<NameableNodeStructure> {
       const rv = super.toJSON() as NameableNodeStructure;
       if (this.name) {
         rv.name = this.name;

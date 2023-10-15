@@ -28,6 +28,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const ConstructorDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -84,7 +85,7 @@ export default class ConstructorDeclarationImpl
     return target;
   }
 
-  public toJSON(): ConstructorDeclarationStructure {
+  public toJSON(): Jsonify<ConstructorDeclarationStructure> {
     const rv = super.toJSON() as ConstructorDeclarationStructure;
     rv.kind = this.kind;
     rv.overloads = this.overloads;

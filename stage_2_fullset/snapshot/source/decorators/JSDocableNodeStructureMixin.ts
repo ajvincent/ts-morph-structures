@@ -18,6 +18,7 @@ import {
   StructureKind,
   type Structures,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const JSDocableNodeStructureKey: unique symbol;
 export type JSDocableNodeStructureFields = RightExtendsLeft<
@@ -58,7 +59,7 @@ export default function JSDocableNodeStructureMixin(
       }
     }
 
-    public toJSON(): JSDocableNodeStructure {
+    public toJSON(): Jsonify<JSDocableNodeStructure> {
       const rv = super.toJSON() as JSDocableNodeStructure;
       rv.docs = this.docs;
       return rv;

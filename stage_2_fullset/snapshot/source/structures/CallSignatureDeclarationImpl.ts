@@ -21,6 +21,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const CallSignatureDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -56,7 +57,7 @@ export default class CallSignatureDeclarationImpl
     return target;
   }
 
-  public toJSON(): CallSignatureDeclarationStructure {
+  public toJSON(): Jsonify<CallSignatureDeclarationStructure> {
     const rv = super.toJSON() as CallSignatureDeclarationStructure;
     rv.kind = this.kind;
     return rv;

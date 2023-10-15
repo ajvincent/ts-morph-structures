@@ -15,6 +15,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const ExportSpecifierStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -53,7 +54,7 @@ export default class ExportSpecifierImpl
     return target;
   }
 
-  public toJSON(): ExportSpecifierStructure {
+  public toJSON(): Jsonify<ExportSpecifierStructure> {
     const rv = super.toJSON() as ExportSpecifierStructure;
     if (this.alias) {
       rv.alias = this.alias;

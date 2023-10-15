@@ -1,6 +1,7 @@
 //#region preamble
 import {
   COPY_FIELDS,
+  REPLACE_WRITER_WITH_STRING,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -11,6 +12,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { ReturnTypedNodeStructure, Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const ReturnTypedNodeStructureKey: unique symbol;
 export type ReturnTypedNodeStructureFields = RightExtendsLeft<
@@ -45,10 +47,12 @@ export default function ReturnTypedNodeStructureMixin(
       }
     }
 
-    public toJSON(): ReturnTypedNodeStructure {
+    public toJSON(): Jsonify<ReturnTypedNodeStructure> {
       const rv = super.toJSON() as ReturnTypedNodeStructure;
       if (this.returnType) {
-        rv.returnType = this.returnType;
+        rv.returnType = StructureBase[REPLACE_WRITER_WITH_STRING](
+          this.returnType,
+        );
       }
 
       return rv;

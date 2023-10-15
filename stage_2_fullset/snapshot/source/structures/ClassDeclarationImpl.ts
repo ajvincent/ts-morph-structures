@@ -42,6 +42,7 @@ import {
   type SetAccessorDeclarationStructure,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const ClassDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -156,11 +157,11 @@ export default class ClassDeclarationImpl
     return target;
   }
 
-  public toJSON(): ClassDeclarationStructure {
+  public toJSON(): Jsonify<ClassDeclarationStructure> {
     const rv = super.toJSON() as ClassDeclarationStructure;
     rv.ctors = this.ctors;
     if (this.extends) {
-      rv.extends = this.extends;
+      rv.extends = StructureBase[REPLACE_WRITER_WITH_STRING](this.extends);
     }
 
     rv.getAccessors = this.getAccessors;

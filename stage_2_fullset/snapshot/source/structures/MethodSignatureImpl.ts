@@ -25,6 +25,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const MethodSignatureStructureBase = MultiMixinBuilder<
   [
@@ -69,7 +70,7 @@ export default class MethodSignatureImpl
     return target;
   }
 
-  public toJSON(): MethodSignatureStructure {
+  public toJSON(): Jsonify<MethodSignatureStructure> {
     const rv = super.toJSON() as MethodSignatureStructure;
     rv.kind = this.kind;
     return rv;

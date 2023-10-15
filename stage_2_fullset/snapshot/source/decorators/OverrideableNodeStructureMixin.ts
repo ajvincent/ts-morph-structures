@@ -10,6 +10,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { OverrideableNodeStructure, Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const OverrideableNodeStructureKey: unique symbol;
 export type OverrideableNodeStructureFields = RightExtendsLeft<
@@ -42,7 +43,7 @@ export default function OverrideableNodeStructureMixin(
       target.hasOverrideKeyword = source.hasOverrideKeyword ?? false;
     }
 
-    public toJSON(): OverrideableNodeStructure {
+    public toJSON(): Jsonify<OverrideableNodeStructure> {
       const rv = super.toJSON() as OverrideableNodeStructure;
       rv.hasOverrideKeyword = this.hasOverrideKeyword;
       return rv;

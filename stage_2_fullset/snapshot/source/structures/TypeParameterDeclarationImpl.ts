@@ -4,6 +4,7 @@ import {
   COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  REPLACE_WRITER_WITH_STRING,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -17,6 +18,7 @@ import {
   type TypeParameterDeclarationStructure,
   TypeParameterVariance,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const TypeParameterDeclarationStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -65,14 +67,16 @@ export default class TypeParameterDeclarationImpl
     return target;
   }
 
-  public toJSON(): TypeParameterDeclarationStructure {
+  public toJSON(): Jsonify<TypeParameterDeclarationStructure> {
     const rv = super.toJSON() as TypeParameterDeclarationStructure;
     if (this.constraint) {
-      rv.constraint = this.constraint;
+      rv.constraint = StructureBase[REPLACE_WRITER_WITH_STRING](
+        this.constraint,
+      );
     }
 
     if (this.default) {
-      rv.default = this.default;
+      rv.default = StructureBase[REPLACE_WRITER_WITH_STRING](this.default);
     }
 
     rv.isConst = this.isConst;

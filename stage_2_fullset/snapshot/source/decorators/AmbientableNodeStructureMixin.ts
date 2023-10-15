@@ -10,6 +10,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { AmbientableNodeStructure, Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const AmbientableNodeStructureKey: unique symbol;
 export type AmbientableNodeStructureFields = RightExtendsLeft<
@@ -42,7 +43,7 @@ export default function AmbientableNodeStructureMixin(
       target.hasDeclareKeyword = source.hasDeclareKeyword ?? false;
     }
 
-    public toJSON(): AmbientableNodeStructure {
+    public toJSON(): Jsonify<AmbientableNodeStructure> {
       const rv = super.toJSON() as AmbientableNodeStructure;
       rv.hasDeclareKeyword = this.hasDeclareKeyword;
       return rv;

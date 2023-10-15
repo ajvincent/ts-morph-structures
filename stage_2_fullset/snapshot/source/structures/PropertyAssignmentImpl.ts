@@ -4,6 +4,7 @@ import {
   COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  REPLACE_WRITER_WITH_STRING,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -16,6 +17,7 @@ import {
   type PropertyAssignmentStructure,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const PropertyAssignmentStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -54,9 +56,11 @@ export default class PropertyAssignmentImpl
     return target;
   }
 
-  public toJSON(): PropertyAssignmentStructure {
+  public toJSON(): Jsonify<PropertyAssignmentStructure> {
     const rv = super.toJSON() as PropertyAssignmentStructure;
-    rv.initializer = this.initializer;
+    rv.initializer = StructureBase[REPLACE_WRITER_WITH_STRING](
+      this.initializer,
+    );
     rv.kind = this.kind;
     return rv;
   }

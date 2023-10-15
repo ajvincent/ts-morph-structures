@@ -15,6 +15,7 @@ import {
   type SourceFileStructure,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const SourceFileStructureBase = MultiMixinBuilder<
   [StatementedNodeStructureFields, StructureFields],
@@ -35,7 +36,7 @@ export default class SourceFileImpl
     return target;
   }
 
-  public toJSON(): SourceFileStructure {
+  public toJSON(): Jsonify<SourceFileStructure> {
     const rv = super.toJSON() as SourceFileStructure;
     rv.kind = this.kind;
     return rv;

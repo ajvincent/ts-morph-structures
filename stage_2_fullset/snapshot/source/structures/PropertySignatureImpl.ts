@@ -25,6 +25,7 @@ import {
   type PropertySignatureStructure,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const PropertySignatureStructureBase = MultiMixinBuilder<
   [
@@ -70,7 +71,7 @@ export default class PropertySignatureImpl
     return target;
   }
 
-  public toJSON(): PropertySignatureStructure {
+  public toJSON(): Jsonify<PropertySignatureStructure> {
     const rv = super.toJSON() as PropertySignatureStructure;
     rv.kind = this.kind;
     return rv;

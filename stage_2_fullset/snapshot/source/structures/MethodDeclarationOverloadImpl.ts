@@ -33,6 +33,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const MethodDeclarationOverloadStructureBase = MultiMixinBuilder<
   [
@@ -86,7 +87,7 @@ export default class MethodDeclarationOverloadImpl
     return target;
   }
 
-  public toJSON(): MethodDeclarationOverloadStructure {
+  public toJSON(): Jsonify<MethodDeclarationOverloadStructure> {
     const rv = super.toJSON() as MethodDeclarationOverloadStructure;
     rv.isStatic = this.isStatic;
     rv.kind = this.kind;

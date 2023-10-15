@@ -10,6 +10,7 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { ExportableNodeStructure, Structures } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const ExportableNodeStructureKey: unique symbol;
 export type ExportableNodeStructureFields = RightExtendsLeft<
@@ -44,7 +45,7 @@ export default function ExportableNodeStructureMixin(
       target.isDefaultExport = source.isDefaultExport ?? false;
     }
 
-    public toJSON(): ExportableNodeStructure {
+    public toJSON(): Jsonify<ExportableNodeStructure> {
       const rv = super.toJSON() as ExportableNodeStructure;
       rv.isDefaultExport = this.isDefaultExport;
       rv.isExported = this.isExported;

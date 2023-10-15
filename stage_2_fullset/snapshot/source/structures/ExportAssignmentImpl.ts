@@ -4,6 +4,7 @@ import {
   COPY_FIELDS,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
+  REPLACE_WRITER_WITH_STRING,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -16,6 +17,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const ExportAssignmentStructureBase = MultiMixinBuilder<
   [JSDocableNodeStructureFields, StructureFields],
@@ -55,9 +57,9 @@ export default class ExportAssignmentImpl
     return target;
   }
 
-  public toJSON(): ExportAssignmentStructure {
+  public toJSON(): Jsonify<ExportAssignmentStructure> {
     const rv = super.toJSON() as ExportAssignmentStructure;
-    rv.expression = this.expression;
+    rv.expression = StructureBase[REPLACE_WRITER_WITH_STRING](this.expression);
     rv.isExportEquals = this.isExportEquals;
     rv.kind = this.kind;
     return rv;

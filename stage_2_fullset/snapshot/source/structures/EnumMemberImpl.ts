@@ -19,6 +19,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const EnumMemberStructureBase = MultiMixinBuilder<
   [
@@ -68,7 +69,7 @@ export default class EnumMemberImpl
     return target;
   }
 
-  public toJSON(): EnumMemberStructure {
+  public toJSON(): Jsonify<EnumMemberStructure> {
     const rv = super.toJSON() as EnumMemberStructure;
     rv.kind = this.kind;
     if (this.value) {

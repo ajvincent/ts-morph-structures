@@ -20,6 +20,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
+import type { Jsonify } from "type-fest";
 //#endregion preamble
 const ImportDeclarationStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -92,7 +93,7 @@ export default class ImportDeclarationImpl
     return target;
   }
 
-  public toJSON(): ImportDeclarationStructure {
+  public toJSON(): Jsonify<ImportDeclarationStructure> {
     const rv = super.toJSON() as ImportDeclarationStructure;
     rv.assertElements = this.assertElements;
     if (this.defaultImport) {
