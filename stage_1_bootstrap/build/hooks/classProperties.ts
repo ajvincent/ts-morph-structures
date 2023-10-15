@@ -48,8 +48,6 @@ export default function addClassProperties(
   } else {
     parts = dictionaries.structureParts.get(meta)!;
   }
-  if (!parts)
-    return Promise.resolve();
 
   const properties: PropertyDeclarationImpl[] = [];
 
