@@ -44,6 +44,15 @@ export default function ReturnTypedNodeStructureMixin(
         target.returnType = source.returnType;
       }
     }
+
+    public toJSON(): ReturnTypedNodeStructure {
+      const rv = super.toJSON() as ReturnTypedNodeStructure;
+      if (this.returnType) {
+        rv.returnType = this.returnType;
+      }
+
+      return rv;
+    }
   }
 
   return ReturnTypedNodeStructureMixin;

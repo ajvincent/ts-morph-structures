@@ -174,5 +174,5 @@ function cloneStructure<
 ): TargetType
 {
   const CloneClass = StructuresClassesMap.get(sourceKind)!;
-  return CloneClass.clone(sourceValue) as TargetType;
+  return CloneClass.clone(sourceValue) as unknown as TargetType;
 }

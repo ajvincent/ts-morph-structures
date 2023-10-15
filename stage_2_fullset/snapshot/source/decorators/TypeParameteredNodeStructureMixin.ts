@@ -57,6 +57,12 @@ export default function TypeParameteredNodeStructureMixin(
         );
       }
     }
+
+    public toJSON(): TypeParameteredNodeStructure {
+      const rv = super.toJSON() as TypeParameteredNodeStructure;
+      rv.typeParameters = this.typeParameters;
+      return rv;
+    }
   }
 
   return TypeParameteredNodeStructureMixin;

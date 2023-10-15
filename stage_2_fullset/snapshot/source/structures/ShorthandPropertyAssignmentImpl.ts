@@ -40,6 +40,12 @@ export default class ShorthandPropertyAssignmentImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): ShorthandPropertyAssignmentStructure {
+    const rv = super.toJSON() as ShorthandPropertyAssignmentStructure;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 ShorthandPropertyAssignmentImpl satisfies CloneableStructure<

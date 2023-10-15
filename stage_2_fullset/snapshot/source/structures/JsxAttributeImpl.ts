@@ -54,6 +54,17 @@ export default class JsxAttributeImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): JsxAttributeStructure {
+    const rv = super.toJSON() as JsxAttributeStructure;
+    if (this.initializer) {
+      rv.initializer = this.initializer;
+    }
+
+    rv.kind = this.kind;
+    rv.name = this.name;
+    return rv;
+  }
 }
 
 JsxAttributeImpl satisfies CloneableStructure<

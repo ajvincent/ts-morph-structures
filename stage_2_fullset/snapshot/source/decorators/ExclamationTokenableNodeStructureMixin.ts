@@ -41,6 +41,12 @@ export default function ExclamationTokenableNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       target.hasExclamationToken = source.hasExclamationToken ?? false;
     }
+
+    public toJSON(): ExclamationTokenableNodeStructure {
+      const rv = super.toJSON() as ExclamationTokenableNodeStructure;
+      rv.hasExclamationToken = this.hasExclamationToken;
+      return rv;
+    }
   }
 
   return ExclamationTokenableNodeStructureMixin;

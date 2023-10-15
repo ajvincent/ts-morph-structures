@@ -41,6 +41,12 @@ export default function OverrideableNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       target.hasOverrideKeyword = source.hasOverrideKeyword ?? false;
     }
+
+    public toJSON(): OverrideableNodeStructure {
+      const rv = super.toJSON() as OverrideableNodeStructure;
+      rv.hasOverrideKeyword = this.hasOverrideKeyword;
+      return rv;
+    }
   }
 
   return OverrideableNodeStructureMixin;

@@ -57,6 +57,12 @@ export default function ParameteredNodeStructureMixin(
         );
       }
     }
+
+    public toJSON(): ParameteredNodeStructure {
+      const rv = super.toJSON() as ParameteredNodeStructure;
+      rv.parameters = this.parameters;
+      return rv;
+    }
   }
 
   return ParameteredNodeStructureMixin;

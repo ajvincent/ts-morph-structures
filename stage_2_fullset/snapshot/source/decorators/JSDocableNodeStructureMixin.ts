@@ -57,6 +57,12 @@ export default function JSDocableNodeStructureMixin(
         );
       }
     }
+
+    public toJSON(): JSDocableNodeStructure {
+      const rv = super.toJSON() as JSDocableNodeStructure;
+      rv.docs = this.docs;
+      return rv;
+    }
   }
 
   return JSDocableNodeStructureMixin;

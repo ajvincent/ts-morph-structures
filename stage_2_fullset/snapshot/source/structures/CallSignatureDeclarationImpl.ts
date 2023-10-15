@@ -55,6 +55,12 @@ export default class CallSignatureDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): CallSignatureDeclarationStructure {
+    const rv = super.toJSON() as CallSignatureDeclarationStructure;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 CallSignatureDeclarationImpl satisfies CloneableStructure<

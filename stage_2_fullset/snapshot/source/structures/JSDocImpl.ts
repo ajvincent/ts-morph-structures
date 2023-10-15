@@ -56,6 +56,17 @@ export default class JSDocImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): JSDocStructure {
+    const rv = super.toJSON() as JSDocStructure;
+    if (this.description) {
+      rv.description = this.description;
+    }
+
+    rv.kind = this.kind;
+    rv.tags = this.tags;
+    return rv;
+  }
 }
 
 JSDocImpl satisfies CloneableStructure<JSDocStructure, JSDocImpl>;

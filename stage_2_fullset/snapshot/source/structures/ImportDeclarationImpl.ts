@@ -5,6 +5,7 @@ import {
   cloneStructureArray,
   cloneStructureStringOrWriterArray,
   COPY_FIELDS,
+  REPLACE_WRITER_WITH_STRING,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -89,6 +90,29 @@ export default class ImportDeclarationImpl
     const target = new ImportDeclarationImpl(source.moduleSpecifier);
     this[COPY_FIELDS](source, target);
     return target;
+  }
+
+  public toJSON(): ImportDeclarationStructure {
+    const rv = super.toJSON() as ImportDeclarationStructure;
+    rv.assertElements = this.assertElements;
+    if (this.defaultImport) {
+      rv.defaultImport = this.defaultImport;
+    }
+
+    rv.isTypeOnly = this.isTypeOnly;
+    rv.kind = this.kind;
+    rv.moduleSpecifier = this.moduleSpecifier;
+    rv.namedImports = this.namedImports.map((value) => {
+      if (typeof value === "object") {
+        return value;
+      }
+      return StructureBase[REPLACE_WRITER_WITH_STRING](value);
+    });
+    if (this.namespaceImport) {
+      rv.namespaceImport = this.namespaceImport;
+    }
+
+    return rv;
   }
 }
 

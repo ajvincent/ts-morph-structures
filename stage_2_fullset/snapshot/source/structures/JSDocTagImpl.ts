@@ -48,6 +48,17 @@ export default class JSDocTagImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): JSDocTagStructure {
+    const rv = super.toJSON() as JSDocTagStructure;
+    rv.kind = this.kind;
+    rv.tagName = this.tagName;
+    if (this.text) {
+      rv.text = this.text;
+    }
+
+    return rv;
+  }
 }
 
 JSDocTagImpl satisfies CloneableStructure<JSDocTagStructure, JSDocTagImpl>;

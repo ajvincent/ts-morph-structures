@@ -85,6 +85,13 @@ export default class GetAccessorDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): GetAccessorDeclarationStructure {
+    const rv = super.toJSON() as GetAccessorDeclarationStructure;
+    rv.isStatic = this.isStatic;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 GetAccessorDeclarationImpl satisfies CloneableStructure<

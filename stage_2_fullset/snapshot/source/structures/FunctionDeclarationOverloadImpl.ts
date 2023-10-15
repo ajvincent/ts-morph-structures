@@ -72,6 +72,12 @@ export default class FunctionDeclarationOverloadImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): FunctionDeclarationOverloadStructure {
+    const rv = super.toJSON() as FunctionDeclarationOverloadStructure;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 FunctionDeclarationOverloadImpl satisfies CloneableStructure<

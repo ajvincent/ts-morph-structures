@@ -44,6 +44,12 @@ export default class ClassStaticBlockDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): ClassStaticBlockDeclarationStructure {
+    const rv = super.toJSON() as ClassStaticBlockDeclarationStructure;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 ClassStaticBlockDeclarationImpl satisfies CloneableStructure<

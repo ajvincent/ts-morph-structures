@@ -53,6 +53,13 @@ export default class PropertyAssignmentImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): PropertyAssignmentStructure {
+    const rv = super.toJSON() as PropertyAssignmentStructure;
+    rv.initializer = this.initializer;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 PropertyAssignmentImpl satisfies CloneableStructure<

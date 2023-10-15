@@ -86,6 +86,17 @@ export default class ParameterDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): ParameterDeclarationStructure {
+    const rv = super.toJSON() as ParameterDeclarationStructure;
+    rv.isRestParameter = this.isRestParameter;
+    rv.kind = this.kind;
+    if (this.scope) {
+      rv.scope = this.scope;
+    }
+
+    return rv;
+  }
 }
 
 ParameterDeclarationImpl satisfies CloneableStructure<

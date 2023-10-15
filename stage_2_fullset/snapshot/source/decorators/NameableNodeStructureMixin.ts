@@ -43,6 +43,15 @@ export default function NameableNodeStructureMixin(
         target.name = source.name;
       }
     }
+
+    public toJSON(): NameableNodeStructure {
+      const rv = super.toJSON() as NameableNodeStructure;
+      if (this.name) {
+        rv.name = this.name;
+      }
+
+      return rv;
+    }
   }
 
   return NameableNodeStructureMixin;

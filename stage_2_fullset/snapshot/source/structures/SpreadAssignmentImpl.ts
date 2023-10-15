@@ -50,6 +50,13 @@ export default class SpreadAssignmentImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): SpreadAssignmentStructure {
+    const rv = super.toJSON() as SpreadAssignmentStructure;
+    rv.expression = this.expression;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 SpreadAssignmentImpl satisfies CloneableStructure<

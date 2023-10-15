@@ -42,6 +42,12 @@ export default function QuestionTokenableNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       target.hasQuestionToken = source.hasQuestionToken ?? false;
     }
+
+    public toJSON(): QuestionTokenableNodeStructure {
+      const rv = super.toJSON() as QuestionTokenableNodeStructure;
+      rv.hasQuestionToken = this.hasQuestionToken;
+      return rv;
+    }
   }
 
   return QuestionTokenableNodeStructureMixin;

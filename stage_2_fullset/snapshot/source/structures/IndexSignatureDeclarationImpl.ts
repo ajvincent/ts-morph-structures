@@ -67,6 +67,20 @@ export default class IndexSignatureDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): IndexSignatureDeclarationStructure {
+    const rv = super.toJSON() as IndexSignatureDeclarationStructure;
+    if (this.keyName) {
+      rv.keyName = this.keyName;
+    }
+
+    if (this.keyType) {
+      rv.keyType = this.keyType;
+    }
+
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 IndexSignatureDeclarationImpl satisfies CloneableStructure<

@@ -68,6 +68,13 @@ export default class JsxSelfClosingElementImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): JsxSelfClosingElementStructure {
+    const rv = super.toJSON() as JsxSelfClosingElementStructure;
+    rv.attributes = this.attributes;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 JsxSelfClosingElementImpl satisfies CloneableStructure<

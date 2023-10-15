@@ -85,6 +85,13 @@ export default class MethodDeclarationOverloadImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): MethodDeclarationOverloadStructure {
+    const rv = super.toJSON() as MethodDeclarationOverloadStructure;
+    rv.isStatic = this.isStatic;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 MethodDeclarationOverloadImpl satisfies CloneableStructure<

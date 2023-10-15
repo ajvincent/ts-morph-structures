@@ -83,6 +83,13 @@ export default class ConstructorDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): ConstructorDeclarationStructure {
+    const rv = super.toJSON() as ConstructorDeclarationStructure;
+    rv.kind = this.kind;
+    rv.overloads = this.overloads;
+    return rv;
+  }
 }
 
 ConstructorDeclarationImpl satisfies CloneableStructure<

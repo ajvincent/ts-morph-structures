@@ -43,6 +43,15 @@ export default function ScopedNodeStructureMixin(
         target.scope = source.scope;
       }
     }
+
+    public toJSON(): ScopedNodeStructure {
+      const rv = super.toJSON() as ScopedNodeStructure;
+      if (this.scope) {
+        rv.scope = this.scope;
+      }
+
+      return rv;
+    }
   }
 
   return ScopedNodeStructureMixin;

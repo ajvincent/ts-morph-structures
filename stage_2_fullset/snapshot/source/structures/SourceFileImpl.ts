@@ -34,6 +34,12 @@ export default class SourceFileImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): SourceFileStructure {
+    const rv = super.toJSON() as SourceFileStructure;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 SourceFileImpl satisfies CloneableStructure<

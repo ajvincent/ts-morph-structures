@@ -43,6 +43,13 @@ export default function ExportableNodeStructureMixin(
       target.isExported = source.isExported ?? false;
       target.isDefaultExport = source.isDefaultExport ?? false;
     }
+
+    public toJSON(): ExportableNodeStructure {
+      const rv = super.toJSON() as ExportableNodeStructure;
+      rv.isDefaultExport = this.isDefaultExport;
+      rv.isExported = this.isExported;
+      return rv;
+    }
   }
 
   return ExportableNodeStructureMixin;

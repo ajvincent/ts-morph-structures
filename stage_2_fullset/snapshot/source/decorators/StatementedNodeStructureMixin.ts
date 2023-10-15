@@ -2,6 +2,7 @@
 import type { StatementStructureImpls } from "../exports.js";
 import {
   COPY_FIELDS,
+  REPLACE_WRITER_WITH_STRING,
   type RightExtendsLeft,
   StructureBase,
   StructuresClassesMap,
@@ -68,6 +69,17 @@ export default function StatementedNodeStructureMixin(
         return source;
       }
       return StructuresClassesMap.clone(source) as StatementStructureImpls;
+    }
+
+    public toJSON(): StatementedNodeStructure {
+      const rv = super.toJSON() as StatementedNodeStructure;
+      rv.statements = this.statements.map((value) => {
+        if (typeof value === "object") {
+          return value;
+        }
+        return StructureBase[REPLACE_WRITER_WITH_STRING](value);
+      });
+      return rv;
     }
   }
 

@@ -99,6 +99,13 @@ export default class FunctionDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): FunctionDeclarationStructure {
+    const rv = super.toJSON() as FunctionDeclarationStructure;
+    rv.kind = this.kind;
+    rv.overloads = this.overloads;
+    return rv;
+  }
 }
 
 FunctionDeclarationImpl satisfies CloneableStructure<

@@ -61,6 +61,12 @@ export default class VariableDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): VariableDeclarationStructure {
+    const rv = super.toJSON() as VariableDeclarationStructure;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 VariableDeclarationImpl satisfies CloneableStructure<

@@ -5,6 +5,7 @@ import {
   cloneStructureArray,
   cloneStructureStringOrWriterArray,
   COPY_FIELDS,
+  REPLACE_WRITER_WITH_STRING,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -79,6 +80,28 @@ export default class ExportDeclarationImpl
     const target = new ExportDeclarationImpl();
     this[COPY_FIELDS](source, target);
     return target;
+  }
+
+  public toJSON(): ExportDeclarationStructure {
+    const rv = super.toJSON() as ExportDeclarationStructure;
+    rv.assertElements = this.assertElements;
+    rv.isTypeOnly = this.isTypeOnly;
+    rv.kind = this.kind;
+    if (this.moduleSpecifier) {
+      rv.moduleSpecifier = this.moduleSpecifier;
+    }
+
+    rv.namedExports = this.namedExports.map((value) => {
+      if (typeof value === "object") {
+        return value;
+      }
+      return StructureBase[REPLACE_WRITER_WITH_STRING](value);
+    });
+    if (this.namespaceExport) {
+      rv.namespaceExport = this.namespaceExport;
+    }
+
+    return rv;
   }
 }
 

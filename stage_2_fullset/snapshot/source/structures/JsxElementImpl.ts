@@ -95,6 +95,18 @@ export default class JsxElementImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): JsxElementStructure {
+    const rv = super.toJSON() as JsxElementStructure;
+    rv.attributes = this.attributes;
+    if (this.bodyText) {
+      rv.bodyText = this.bodyText;
+    }
+
+    rv.children = this.children;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 JsxElementImpl satisfies CloneableStructure<

@@ -4,6 +4,7 @@ import {
   COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  REPLACE_WRITER_WITH_STRING,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -53,6 +54,16 @@ export default class DecoratorImpl
     const target = new DecoratorImpl(source.name);
     this[COPY_FIELDS](source, target);
     return target;
+  }
+
+  public toJSON(): DecoratorStructure {
+    const rv = super.toJSON() as DecoratorStructure;
+    rv.arguments = this.arguments.map((value) => {
+      return StructureBase[REPLACE_WRITER_WITH_STRING](value);
+    });
+    rv.kind = this.kind;
+    rv.typeArguments = this.typeArguments;
+    return rv;
   }
 }
 

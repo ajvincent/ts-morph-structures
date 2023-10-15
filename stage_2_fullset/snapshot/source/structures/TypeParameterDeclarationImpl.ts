@@ -64,6 +64,25 @@ export default class TypeParameterDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): TypeParameterDeclarationStructure {
+    const rv = super.toJSON() as TypeParameterDeclarationStructure;
+    if (this.constraint) {
+      rv.constraint = this.constraint;
+    }
+
+    if (this.default) {
+      rv.default = this.default;
+    }
+
+    rv.isConst = this.isConst;
+    rv.kind = this.kind;
+    if (this.variance) {
+      rv.variance = this.variance;
+    }
+
+    return rv;
+  }
 }
 
 TypeParameterDeclarationImpl satisfies CloneableStructure<

@@ -44,6 +44,15 @@ export default function TypedNodeStructureMixin(
         target.type = source.type;
       }
     }
+
+    public toJSON(): TypedNodeStructure {
+      const rv = super.toJSON() as TypedNodeStructure;
+      if (this.type) {
+        rv.type = this.type;
+      }
+
+      return rv;
+    }
   }
 
   return TypedNodeStructureMixin;

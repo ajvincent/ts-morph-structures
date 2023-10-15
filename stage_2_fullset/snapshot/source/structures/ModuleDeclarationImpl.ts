@@ -76,6 +76,16 @@ export default class ModuleDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): ModuleDeclarationStructure {
+    const rv = super.toJSON() as ModuleDeclarationStructure;
+    if (this.declarationKind) {
+      rv.declarationKind = this.declarationKind;
+    }
+
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 ModuleDeclarationImpl satisfies CloneableStructure<

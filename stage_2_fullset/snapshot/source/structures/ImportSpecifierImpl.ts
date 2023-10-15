@@ -52,6 +52,17 @@ export default class ImportSpecifierImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): ImportSpecifierStructure {
+    const rv = super.toJSON() as ImportSpecifierStructure;
+    if (this.alias) {
+      rv.alias = this.alias;
+    }
+
+    rv.isTypeOnly = this.isTypeOnly;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 ImportSpecifierImpl satisfies CloneableStructure<

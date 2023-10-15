@@ -57,6 +57,12 @@ export default function DecoratableNodeStructureMixin(
         );
       }
     }
+
+    public toJSON(): DecoratableNodeStructure {
+      const rv = super.toJSON() as DecoratableNodeStructure;
+      rv.decorators = this.decorators;
+      return rv;
+    }
   }
 
   return DecoratableNodeStructureMixin;

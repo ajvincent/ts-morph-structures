@@ -67,6 +67,16 @@ export default class EnumMemberImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): EnumMemberStructure {
+    const rv = super.toJSON() as EnumMemberStructure;
+    rv.kind = this.kind;
+    if (this.value) {
+      rv.value = this.value;
+    }
+
+    return rv;
+  }
 }
 
 EnumMemberImpl satisfies CloneableStructure<

@@ -81,6 +81,13 @@ export default class TypeAliasDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): TypeAliasDeclarationStructure {
+    const rv = super.toJSON() as TypeAliasDeclarationStructure;
+    rv.kind = this.kind;
+    rv.type = this.type;
+    return rv;
+  }
 }
 
 TypeAliasDeclarationImpl satisfies CloneableStructure<

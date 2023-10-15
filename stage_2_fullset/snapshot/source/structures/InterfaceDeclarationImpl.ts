@@ -18,6 +18,7 @@ import {
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  REPLACE_WRITER_WITH_STRING,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -145,6 +146,20 @@ export default class InterfaceDeclarationImpl
     const target = new InterfaceDeclarationImpl(source.name);
     this[COPY_FIELDS](source, target);
     return target;
+  }
+
+  public toJSON(): InterfaceDeclarationStructure {
+    const rv = super.toJSON() as InterfaceDeclarationStructure;
+    rv.callSignatures = this.callSignatures;
+    rv.constructSignatures = this.constructSignatures;
+    rv.extends = this.extends.map((value) => {
+      return StructureBase[REPLACE_WRITER_WITH_STRING](value);
+    });
+    rv.indexSignatures = this.indexSignatures;
+    rv.kind = this.kind;
+    rv.methods = this.methods;
+    rv.properties = this.properties;
+    return rv;
   }
 }
 

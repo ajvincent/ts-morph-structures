@@ -1,6 +1,7 @@
 //#region preamble
 import {
   COPY_FIELDS,
+  REPLACE_WRITER_WITH_STRING,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -52,6 +53,17 @@ export default function StructureMixin(
       } else if (source.trailingTrivia !== undefined) {
         target.trailingTrivia.push(source.trailingTrivia);
       }
+    }
+
+    public toJSON(): Structure {
+      const rv = super.toJSON() as Structure;
+      rv.leadingTrivia = this.leadingTrivia.map((value) => {
+        return StructureBase[REPLACE_WRITER_WITH_STRING](value);
+      });
+      rv.trailingTrivia = this.trailingTrivia.map((value) => {
+        return StructureBase[REPLACE_WRITER_WITH_STRING](value);
+      });
+      return rv;
     }
   }
 

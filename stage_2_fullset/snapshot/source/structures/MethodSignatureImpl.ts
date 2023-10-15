@@ -68,6 +68,12 @@ export default class MethodSignatureImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): MethodSignatureStructure {
+    const rv = super.toJSON() as MethodSignatureStructure;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 MethodSignatureImpl satisfies CloneableStructure<

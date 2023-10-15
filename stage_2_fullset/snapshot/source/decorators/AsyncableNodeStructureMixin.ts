@@ -41,6 +41,12 @@ export default function AsyncableNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       target.isAsync = source.isAsync ?? false;
     }
+
+    public toJSON(): AsyncableNodeStructure {
+      const rv = super.toJSON() as AsyncableNodeStructure;
+      rv.isAsync = this.isAsync;
+      return rv;
+    }
   }
 
   return AsyncableNodeStructureMixin;

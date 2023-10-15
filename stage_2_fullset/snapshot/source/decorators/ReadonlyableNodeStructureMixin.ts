@@ -41,6 +41,12 @@ export default function ReadonlyableNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       target.isReadonly = source.isReadonly ?? false;
     }
+
+    public toJSON(): ReadonlyableNodeStructure {
+      const rv = super.toJSON() as ReadonlyableNodeStructure;
+      rv.isReadonly = this.isReadonly;
+      return rv;
+    }
   }
 
   return ReadonlyableNodeStructureMixin;

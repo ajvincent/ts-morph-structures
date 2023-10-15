@@ -43,6 +43,12 @@ export default function NamedNodeStructureMixin(
         target.name = source.name;
       }
     }
+
+    public toJSON(): NamedNodeStructure {
+      const rv = super.toJSON() as NamedNodeStructure;
+      rv.name = this.name;
+      return rv;
+    }
   }
 
   return NamedNodeStructureMixin;

@@ -60,6 +60,12 @@ export default class ConstructorDeclarationOverloadImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): ConstructorDeclarationOverloadStructure {
+    const rv = super.toJSON() as ConstructorDeclarationOverloadStructure;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 ConstructorDeclarationOverloadImpl satisfies CloneableStructure<

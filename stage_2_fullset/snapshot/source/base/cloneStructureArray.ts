@@ -153,5 +153,5 @@ function cloneStructure<
   TargetType extends KindedStructure<StructureKind>,
 >(sourceValue: SourceType, sourceKind: Kind): TargetType {
   const CloneClass = StructuresClassesMap.get(sourceKind)!;
-  return CloneClass.clone(sourceValue) as TargetType;
+  return CloneClass.clone(sourceValue) as unknown as TargetType;
 }

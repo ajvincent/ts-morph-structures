@@ -51,6 +51,13 @@ export default class AssertEntryImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): AssertEntryStructure {
+    const rv = super.toJSON() as AssertEntryStructure;
+    rv.kind = this.kind;
+    rv.value = this.value;
+    return rv;
+  }
 }
 
 AssertEntryImpl satisfies CloneableStructure<

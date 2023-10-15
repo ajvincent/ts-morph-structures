@@ -41,6 +41,12 @@ export default function AbstractableNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       target.isAbstract = source.isAbstract ?? false;
     }
+
+    public toJSON(): AbstractableNodeStructure {
+      const rv = super.toJSON() as AbstractableNodeStructure;
+      rv.isAbstract = this.isAbstract;
+      return rv;
+    }
   }
 
   return AbstractableNodeStructureMixin;

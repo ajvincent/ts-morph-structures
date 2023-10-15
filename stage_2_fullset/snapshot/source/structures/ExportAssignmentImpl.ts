@@ -54,6 +54,14 @@ export default class ExportAssignmentImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): ExportAssignmentStructure {
+    const rv = super.toJSON() as ExportAssignmentStructure;
+    rv.expression = this.expression;
+    rv.isExportEquals = this.isExportEquals;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 ExportAssignmentImpl satisfies CloneableStructure<

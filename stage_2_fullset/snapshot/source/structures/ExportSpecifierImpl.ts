@@ -52,6 +52,17 @@ export default class ExportSpecifierImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): ExportSpecifierStructure {
+    const rv = super.toJSON() as ExportSpecifierStructure;
+    if (this.alias) {
+      rv.alias = this.alias;
+    }
+
+    rv.isTypeOnly = this.isTypeOnly;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 ExportSpecifierImpl satisfies CloneableStructure<

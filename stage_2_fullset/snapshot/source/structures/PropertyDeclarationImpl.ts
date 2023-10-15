@@ -106,6 +106,14 @@ export default class PropertyDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): PropertyDeclarationStructure {
+    const rv = super.toJSON() as PropertyDeclarationStructure;
+    rv.hasAccessorKeyword = this.hasAccessorKeyword;
+    rv.isStatic = this.isStatic;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 PropertyDeclarationImpl satisfies CloneableStructure<

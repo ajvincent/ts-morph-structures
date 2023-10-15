@@ -22,6 +22,7 @@ import {
   JSDocableNodeStructureMixin,
   type NameableNodeStructureFields,
   NameableNodeStructureMixin,
+  REPLACE_WRITER_WITH_STRING,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -153,6 +154,24 @@ export default class ClassDeclarationImpl
     const target = new ClassDeclarationImpl();
     this[COPY_FIELDS](source, target);
     return target;
+  }
+
+  public toJSON(): ClassDeclarationStructure {
+    const rv = super.toJSON() as ClassDeclarationStructure;
+    rv.ctors = this.ctors;
+    if (this.extends) {
+      rv.extends = this.extends;
+    }
+
+    rv.getAccessors = this.getAccessors;
+    rv.implements = this.implements.map((value) => {
+      return StructureBase[REPLACE_WRITER_WITH_STRING](value);
+    });
+    rv.kind = this.kind;
+    rv.methods = this.methods;
+    rv.properties = this.properties;
+    rv.setAccessors = this.setAccessors;
+    return rv;
   }
 }
 

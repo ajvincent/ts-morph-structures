@@ -82,6 +82,14 @@ export default class EnumDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): EnumDeclarationStructure {
+    const rv = super.toJSON() as EnumDeclarationStructure;
+    rv.isConst = this.isConst;
+    rv.kind = this.kind;
+    rv.members = this.members;
+    return rv;
+  }
 }
 
 EnumDeclarationImpl satisfies CloneableStructure<

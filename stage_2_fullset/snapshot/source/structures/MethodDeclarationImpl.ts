@@ -121,6 +121,14 @@ export default class MethodDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): MethodDeclarationStructure {
+    const rv = super.toJSON() as MethodDeclarationStructure;
+    rv.isStatic = this.isStatic;
+    rv.kind = this.kind;
+    rv.overloads = this.overloads;
+    return rv;
+  }
 }
 
 MethodDeclarationImpl satisfies CloneableStructure<

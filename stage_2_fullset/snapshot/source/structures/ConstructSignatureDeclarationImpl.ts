@@ -56,6 +56,12 @@ export default class ConstructSignatureDeclarationImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): ConstructSignatureDeclarationStructure {
+    const rv = super.toJSON() as ConstructSignatureDeclarationStructure;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 ConstructSignatureDeclarationImpl satisfies CloneableStructure<

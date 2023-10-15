@@ -41,6 +41,12 @@ export default function AmbientableNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       target.hasDeclareKeyword = source.hasDeclareKeyword ?? false;
     }
+
+    public toJSON(): AmbientableNodeStructure {
+      const rv = super.toJSON() as AmbientableNodeStructure;
+      rv.hasDeclareKeyword = this.hasDeclareKeyword;
+      return rv;
+    }
   }
 
   return AmbientableNodeStructureMixin;

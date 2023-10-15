@@ -47,6 +47,15 @@ export default function InitializerExpressionableNodeStructureMixin(
         target.initializer = source.initializer;
       }
     }
+
+    public toJSON(): InitializerExpressionableNodeStructure {
+      const rv = super.toJSON() as InitializerExpressionableNodeStructure;
+      if (this.initializer) {
+        rv.initializer = this.initializer;
+      }
+
+      return rv;
+    }
   }
 
   return InitializerExpressionableNodeStructureMixin;

@@ -69,6 +69,12 @@ export default class PropertySignatureImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): PropertySignatureStructure {
+    const rv = super.toJSON() as PropertySignatureStructure;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 PropertySignatureImpl satisfies CloneableStructure<

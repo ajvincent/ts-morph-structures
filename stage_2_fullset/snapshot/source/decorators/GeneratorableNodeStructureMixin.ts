@@ -41,6 +41,12 @@ export default function GeneratorableNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       target.isGenerator = source.isGenerator ?? false;
     }
+
+    public toJSON(): GeneratorableNodeStructure {
+      const rv = super.toJSON() as GeneratorableNodeStructure;
+      rv.isGenerator = this.isGenerator;
+      return rv;
+    }
   }
 
   return GeneratorableNodeStructureMixin;

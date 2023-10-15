@@ -49,6 +49,13 @@ export default class JsxSpreadAttributeImpl
     this[COPY_FIELDS](source, target);
     return target;
   }
+
+  public toJSON(): JsxSpreadAttributeStructure {
+    const rv = super.toJSON() as JsxSpreadAttributeStructure;
+    rv.expression = this.expression;
+    rv.kind = this.kind;
+    return rv;
+  }
 }
 
 JsxSpreadAttributeImpl satisfies CloneableStructure<
