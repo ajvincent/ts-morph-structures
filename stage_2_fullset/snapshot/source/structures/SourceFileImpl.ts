@@ -2,6 +2,8 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type PreferArrayFields,
+  type RequiredOmit,
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
@@ -24,7 +26,7 @@ const SourceFileStructureBase = MultiMixinBuilder<
 
 export default class SourceFileImpl
   extends SourceFileStructureBase
-  implements SourceFileStructure
+  implements RequiredOmit<PreferArrayFields<SourceFileStructure>>
 {
   readonly kind: StructureKind.SourceFile = StructureKind.SourceFile;
 

@@ -1,6 +1,8 @@
 //#region preamble
 import {
   COPY_FIELDS,
+  type PreferArrayFields,
+  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -17,7 +19,7 @@ export type OverrideableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof OverrideableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: OverrideableNodeStructure;
+    instanceFields: RequiredOmit<PreferArrayFields<OverrideableNodeStructure>>;
     symbolKey: typeof OverrideableNodeStructureKey;
   }
 >;

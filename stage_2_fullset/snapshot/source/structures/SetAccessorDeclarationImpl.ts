@@ -12,6 +12,8 @@ import {
   NamedNodeStructureMixin,
   type ParameteredNodeStructureFields,
   ParameteredNodeStructureMixin,
+  type PreferArrayFields,
+  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   type ScopedNodeStructureFields,
@@ -65,7 +67,11 @@ const SetAccessorDeclarationStructureBase = MultiMixinBuilder<
 
 export default class SetAccessorDeclarationImpl
   extends SetAccessorDeclarationStructureBase
-  implements SetAccessorDeclarationStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<SetAccessorDeclarationStructure>,
+      "scope" | "returnType"
+    >
 {
   readonly kind: StructureKind.SetAccessor = StructureKind.SetAccessor;
   readonly isStatic: boolean;

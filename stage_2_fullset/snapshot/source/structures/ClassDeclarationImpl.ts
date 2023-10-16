@@ -22,7 +22,9 @@ import {
   JSDocableNodeStructureMixin,
   type NameableNodeStructureFields,
   NameableNodeStructureMixin,
+  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -72,7 +74,11 @@ const ClassDeclarationStructureBase = MultiMixinBuilder<
 
 export default class ClassDeclarationImpl
   extends ClassDeclarationStructureBase
-  implements ClassDeclarationStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<ClassDeclarationStructure>,
+      "name" | "extends"
+    >
 {
   readonly kind: StructureKind.Class = StructureKind.Class;
   readonly ctors: ConstructorDeclarationImpl[] = [];

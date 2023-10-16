@@ -18,7 +18,9 @@ import {
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -64,7 +66,7 @@ const InterfaceDeclarationStructureBase = MultiMixinBuilder<
 
 export default class InterfaceDeclarationImpl
   extends InterfaceDeclarationStructureBase
-  implements InterfaceDeclarationStructure
+  implements RequiredOmit<PreferArrayFields<InterfaceDeclarationStructure>>
 {
   readonly kind: StructureKind.Interface = StructureKind.Interface;
   readonly callSignatures: CallSignatureDeclarationImpl[] = [];

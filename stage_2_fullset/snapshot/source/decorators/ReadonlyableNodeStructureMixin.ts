@@ -1,6 +1,8 @@
 //#region preamble
 import {
   COPY_FIELDS,
+  type PreferArrayFields,
+  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -17,7 +19,7 @@ export type ReadonlyableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof ReadonlyableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: ReadonlyableNodeStructure;
+    instanceFields: RequiredOmit<PreferArrayFields<ReadonlyableNodeStructure>>;
     symbolKey: typeof ReadonlyableNodeStructureKey;
   }
 >;

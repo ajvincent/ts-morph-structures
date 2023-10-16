@@ -3,6 +3,8 @@ import { DecoratorImpl } from "../exports.js";
 import {
   cloneStructureArray,
   COPY_FIELDS,
+  type PreferArrayFields,
+  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -25,7 +27,7 @@ export type DecoratableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof DecoratableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: DecoratableNodeStructure;
+    instanceFields: RequiredOmit<PreferArrayFields<DecoratableNodeStructure>>;
     symbolKey: typeof DecoratableNodeStructureKey;
   }
 >;

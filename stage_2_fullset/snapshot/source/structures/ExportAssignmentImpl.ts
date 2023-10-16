@@ -4,7 +4,9 @@ import {
   COPY_FIELDS,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
+  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -26,7 +28,7 @@ const ExportAssignmentStructureBase = MultiMixinBuilder<
 
 export default class ExportAssignmentImpl
   extends ExportAssignmentStructureBase
-  implements ExportAssignmentStructure
+  implements RequiredOmit<PreferArrayFields<ExportAssignmentStructure>>
 {
   readonly kind: StructureKind.ExportAssignment =
     StructureKind.ExportAssignment;

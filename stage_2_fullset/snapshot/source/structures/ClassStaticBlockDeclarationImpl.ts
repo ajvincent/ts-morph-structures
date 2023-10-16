@@ -4,6 +4,8 @@ import {
   COPY_FIELDS,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
+  type PreferArrayFields,
+  type RequiredOmit,
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
@@ -33,7 +35,8 @@ const ClassStaticBlockDeclarationStructureBase = MultiMixinBuilder<
 
 export default class ClassStaticBlockDeclarationImpl
   extends ClassStaticBlockDeclarationStructureBase
-  implements ClassStaticBlockDeclarationStructure
+  implements
+    RequiredOmit<PreferArrayFields<ClassStaticBlockDeclarationStructure>>
 {
   readonly kind: StructureKind.ClassStaticBlock =
     StructureKind.ClassStaticBlock;

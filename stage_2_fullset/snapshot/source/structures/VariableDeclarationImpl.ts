@@ -8,6 +8,8 @@ import {
   InitializerExpressionableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  type PreferArrayFields,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -45,7 +47,11 @@ const VariableDeclarationStructureBase = MultiMixinBuilder<
 
 export default class VariableDeclarationImpl
   extends VariableDeclarationStructureBase
-  implements VariableDeclarationStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<VariableDeclarationStructure>,
+      "initializer" | "type"
+    >
 {
   readonly kind: StructureKind.VariableDeclaration =
     StructureKind.VariableDeclaration;

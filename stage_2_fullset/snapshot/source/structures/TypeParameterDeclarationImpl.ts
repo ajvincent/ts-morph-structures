@@ -4,7 +4,9 @@ import {
   COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -27,7 +29,11 @@ const TypeParameterDeclarationStructureBase = MultiMixinBuilder<
 
 export default class TypeParameterDeclarationImpl
   extends TypeParameterDeclarationStructureBase
-  implements TypeParameterDeclarationStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<TypeParameterDeclarationStructure>,
+      "constraint" | "default" | "variance"
+    >
 {
   readonly kind: StructureKind.TypeParameter = StructureKind.TypeParameter;
   constraint?: stringOrWriter = undefined;

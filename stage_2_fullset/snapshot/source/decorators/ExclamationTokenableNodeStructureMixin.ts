@@ -1,6 +1,8 @@
 //#region preamble
 import {
   COPY_FIELDS,
+  type PreferArrayFields,
+  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -17,7 +19,9 @@ export type ExclamationTokenableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof ExclamationTokenableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: ExclamationTokenableNodeStructure;
+    instanceFields: RequiredOmit<
+      PreferArrayFields<ExclamationTokenableNodeStructure>
+    >;
     symbolKey: typeof ExclamationTokenableNodeStructureKey;
   }
 >;

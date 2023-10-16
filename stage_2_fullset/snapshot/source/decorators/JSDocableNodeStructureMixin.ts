@@ -3,6 +3,8 @@ import { JSDocImpl } from "../exports.js";
 import {
   cloneStructureOrStringArray,
   COPY_FIELDS,
+  type PreferArrayFields,
+  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -25,7 +27,7 @@ export type JSDocableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof JSDocableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: JSDocableNodeStructure;
+    instanceFields: RequiredOmit<PreferArrayFields<JSDocableNodeStructure>>;
     symbolKey: typeof JSDocableNodeStructureKey;
   }
 >;

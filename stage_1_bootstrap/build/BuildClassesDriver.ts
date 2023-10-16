@@ -119,6 +119,20 @@ function defineExistingExports(
   });
 
   dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/types/PreferArrayFields.ts"),
+    exportNames: ["PreferArrayFields"],
+    isDefaultExport: false,
+    isType: true
+  });
+
+  dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/types/RequiredOmit.ts"),
+    exportNames: ["RequiredOmit"],
+    isDefaultExport: false,
+    isType: true
+  });
+
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/types/RightExtendsLeft.ts"),
     exportNames: ["RightExtendsLeft"],
     isDefaultExport: false,

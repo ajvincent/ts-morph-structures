@@ -4,8 +4,10 @@ import {
   COPY_FIELDS,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
+  type PreferArrayFields,
   type ReadonlyableNodeStructureFields,
   ReadonlyableNodeStructureMixin,
+  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   StructureBase,
@@ -41,7 +43,11 @@ const IndexSignatureDeclarationStructureBase = MultiMixinBuilder<
 
 export default class IndexSignatureDeclarationImpl
   extends IndexSignatureDeclarationStructureBase
-  implements IndexSignatureDeclarationStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<IndexSignatureDeclarationStructure>,
+      "returnType" | "keyName" | "keyType"
+    >
 {
   readonly kind: StructureKind.IndexSignature = StructureKind.IndexSignature;
   keyName?: string = undefined;

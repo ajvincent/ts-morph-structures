@@ -3,6 +3,8 @@ import { ParameterDeclarationImpl } from "../exports.js";
 import {
   cloneStructureArray,
   COPY_FIELDS,
+  type PreferArrayFields,
+  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -25,7 +27,7 @@ export type ParameteredNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof ParameteredNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: ParameteredNodeStructure;
+    instanceFields: RequiredOmit<PreferArrayFields<ParameteredNodeStructure>>;
     symbolKey: typeof ParameteredNodeStructureKey;
   }
 >;

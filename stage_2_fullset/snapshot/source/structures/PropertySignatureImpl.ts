@@ -8,10 +8,12 @@ import {
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  type PreferArrayFields,
   type QuestionTokenableNodeStructureFields,
   QuestionTokenableNodeStructureMixin,
   type ReadonlyableNodeStructureFields,
   ReadonlyableNodeStructureMixin,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -53,7 +55,11 @@ const PropertySignatureStructureBase = MultiMixinBuilder<
 
 export default class PropertySignatureImpl
   extends PropertySignatureStructureBase
-  implements PropertySignatureStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<PropertySignatureStructure>,
+      "type" | "initializer"
+    >
 {
   readonly kind: StructureKind.PropertySignature =
     StructureKind.PropertySignature;

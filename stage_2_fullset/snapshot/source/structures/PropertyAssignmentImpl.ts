@@ -4,7 +4,9 @@ import {
   COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -26,7 +28,7 @@ const PropertyAssignmentStructureBase = MultiMixinBuilder<
 
 export default class PropertyAssignmentImpl
   extends PropertyAssignmentStructureBase
-  implements PropertyAssignmentStructure
+  implements RequiredOmit<PreferArrayFields<PropertyAssignmentStructure>>
 {
   readonly kind: StructureKind.PropertyAssignment =
     StructureKind.PropertyAssignment;

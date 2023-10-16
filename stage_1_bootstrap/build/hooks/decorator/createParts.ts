@@ -39,7 +39,14 @@ export default function createDecoratorParts(
     parts.importsManager,
     dictionaries
   );
-  parts.fieldsTypeAlias = defineFieldsType(meta.structureName);
+
+  const {
+    fieldType,
+    instanceFieldsArgumented
+  } = defineFieldsType(meta.structureName);
+
+  parts.fieldsTypeAlias = fieldType;
+  parts.fieldsInstanceType = instanceFieldsArgumented;
   if (!parts.fieldsTypeAlias.name) {
     throw new Error("no type alias name?  " + name);
   }

@@ -10,10 +10,12 @@ import {
   NamedNodeStructureMixin,
   type OverrideableNodeStructureFields,
   OverrideableNodeStructureMixin,
+  type PreferArrayFields,
   type QuestionTokenableNodeStructureFields,
   QuestionTokenableNodeStructureMixin,
   type ReadonlyableNodeStructureFields,
   ReadonlyableNodeStructureMixin,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -58,7 +60,11 @@ const ParameterDeclarationStructureBase = MultiMixinBuilder<
 
 export default class ParameterDeclarationImpl
   extends ParameterDeclarationStructureBase
-  implements ParameterDeclarationStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<ParameterDeclarationStructure>,
+      "type" | "initializer" | "scope"
+    >
 {
   readonly kind: StructureKind.Parameter = StructureKind.Parameter;
   isRestParameter = false;

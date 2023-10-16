@@ -2,7 +2,9 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -24,7 +26,7 @@ const SpreadAssignmentStructureBase = MultiMixinBuilder<
 
 export default class SpreadAssignmentImpl
   extends SpreadAssignmentStructureBase
-  implements SpreadAssignmentStructure
+  implements RequiredOmit<PreferArrayFields<SpreadAssignmentStructure>>
 {
   readonly kind: StructureKind.SpreadAssignment =
     StructureKind.SpreadAssignment;

@@ -6,6 +6,8 @@ import {
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
   ParameteredNodeStructureMixin,
+  type PreferArrayFields,
+  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   type ScopedNodeStructureFields,
@@ -49,7 +51,11 @@ const ConstructorDeclarationOverloadStructureBase = MultiMixinBuilder<
 
 export default class ConstructorDeclarationOverloadImpl
   extends ConstructorDeclarationOverloadStructureBase
-  implements ConstructorDeclarationOverloadStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<ConstructorDeclarationOverloadStructure>,
+      "scope" | "returnType"
+    >
 {
   readonly kind: StructureKind.ConstructorOverload =
     StructureKind.ConstructorOverload;

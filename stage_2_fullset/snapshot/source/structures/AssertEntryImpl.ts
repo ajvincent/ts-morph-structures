@@ -4,6 +4,8 @@ import {
   COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  type PreferArrayFields,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -24,7 +26,7 @@ const AssertEntryStructureBase = MultiMixinBuilder<
 
 export default class AssertEntryImpl
   extends AssertEntryStructureBase
-  implements AssertEntryStructure
+  implements RequiredOmit<PreferArrayFields<AssertEntryStructure>>
 {
   readonly kind: StructureKind.AssertEntry = StructureKind.AssertEntry;
   value: string;

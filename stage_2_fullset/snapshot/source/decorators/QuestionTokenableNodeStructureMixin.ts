@@ -1,6 +1,8 @@
 //#region preamble
 import {
   COPY_FIELDS,
+  type PreferArrayFields,
+  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
@@ -17,7 +19,9 @@ export type QuestionTokenableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof QuestionTokenableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: QuestionTokenableNodeStructure;
+    instanceFields: RequiredOmit<
+      PreferArrayFields<QuestionTokenableNodeStructure>
+    >;
     symbolKey: typeof QuestionTokenableNodeStructureKey;
   }
 >;

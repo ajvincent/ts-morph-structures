@@ -8,6 +8,8 @@ import {
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  type PreferArrayFields,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -41,7 +43,11 @@ const EnumMemberStructureBase = MultiMixinBuilder<
 
 export default class EnumMemberImpl
   extends EnumMemberStructureBase
-  implements EnumMemberStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<EnumMemberStructure>,
+      "initializer" | "value"
+    >
 {
   readonly kind: StructureKind.EnumMember = StructureKind.EnumMember;
   value?: string | number = undefined;

@@ -8,6 +8,8 @@ import {
   StructureImplMeta
 } from "#stage_one/build/structureMeta/DataClasses.js";
 import {
+  ClassDeclarationImpl,
+  TypeArgumentedTypedStructureImpl,
   createCodeBlockWriter
 } from "#stage_one/prototype-snapshot/exports.js";
 
@@ -16,6 +18,8 @@ import type {
 } from "#stage_one/source/types/stringOrWriter.js";
 
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
+
+import { omitPropertyFromRequired } from "../classProperties.js"
 
 export default function structureSpecialCases(
   name: string,
@@ -26,16 +30,17 @@ export default function structureSpecialCases(
   const parts = dictionaries.structureParts.get(meta)!;
   switch (parts.classDecl.name) {
     case "ImportDeclarationImpl":
-      fixAssertElements(parts.classMembersMap);
+      fixAssertElements(parts.classDecl, parts.classMembersMap);
       break;
     case "ExportDeclarationImpl":
-      fixAssertElements(parts.classMembersMap);
+      fixAssertElements(parts.classDecl, parts.classMembersMap);
       break;
   }
   return Promise.resolve();
 }
 
 function fixAssertElements(
+  classDecl: ClassDeclarationImpl,
   classMembers: ClassMembersMap
 ): void
 {
@@ -43,6 +48,9 @@ function fixAssertElements(
   assertElementsProp.initializer = "undefined";
   assertElementsProp.isReadonly = false;
   assertElementsProp.hasQuestionToken = true;
+
+  const requiredOmit = Array.from(classDecl.implementsSet)[0] as TypeArgumentedTypedStructureImpl;
+  omitPropertyFromRequired(requiredOmit, "assertElements");
 
   const copyFieldsMethod = classMembers.getAsKind<StructureKind.Method>("static [COPY_FIELDS]", StructureKind.Method)!;
 

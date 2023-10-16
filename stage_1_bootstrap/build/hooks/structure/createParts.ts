@@ -3,7 +3,11 @@ import path from "path";
 import {
   ClassDeclarationImpl,
   LiteralTypedStructureImpl,
+  TypeArgumentedTypedStructureImpl,
   SourceFileImpl,
+  UnionTypedStructureImpl,
+  TypeStructures,
+  StringTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import StructureDictionaries, {
@@ -11,7 +15,8 @@ import StructureDictionaries, {
 } from "#stage_one/build/StructureDictionaries.js";
 
 import type {
-  StructureImplMeta
+  DecoratorImplMeta,
+  StructureImplMeta,
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
 import StructureMixinWriter from "#stage_one/build/utilities/StructureMixinWriter.js";
@@ -23,6 +28,8 @@ import defineCopyFieldsMethod from "#stage_one/build/utilities/defineCopyFieldsM
 
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 import ImportManager from "#stage_one/build/utilities/public/ImportManager.js";
+import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
+
 
 export default function createStructureParts(
   name: string,
@@ -35,7 +42,8 @@ export default function createStructureParts(
   parts.classDecl.name = meta.structureName.replace(/Structure$/, "Impl");
   parts.classDecl.isDefaultExport = true;
   parts.classDecl.extendsStructure = new LiteralTypedStructureImpl(name + "Base");
-  parts.classDecl.implementsSet.add(meta.structureName);
+
+  parts.classDecl.implementsSet.add(defineRequiredOmit(meta, dictionaries));
 
   parts.classMembersMap = new ClassMembersMap;
 
@@ -53,6 +61,16 @@ export default function createStructureParts(
       name,
     ]
   });
+  parts.importsManager.addImports({
+    pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
+    isPackageImport: false,
+    isDefaultImport: false,
+    isTypeOnly: true,
+    importNames: [
+      "PreferArrayFields",
+      "RequiredOmit",
+    ]
+  });
 
   parts.mixinBaseWriter = StructureMixinWriter(
     meta, parts.importsManager, dictionaries, dictionaries.getDecoratorCountMap()
@@ -68,4 +86,35 @@ export default function createStructureParts(
 
   dictionaries.structureParts.set(meta, parts as StructureParts);
   return Promise.resolve();
+}
+
+function defineRequiredOmit(
+  meta: StructureImplMeta,
+  dictionaries: StructureDictionaries
+): TypeArgumentedTypedStructureImpl
+{
+  const literalType = new LiteralTypedStructureImpl(meta.structureName);
+  const typeArgumented = new TypeArgumentedTypedStructureImpl(
+    ConstantTypeStructures.PreferArrayFields, [literalType]
+  );
+
+  const requiredOmitChildren: TypeStructures[] = [typeArgumented];
+
+  const unionChildTypes: TypeStructures[] = [];
+  meta.decoratorKeys.forEach((decoratorName): void => {
+    const decoratorData: DecoratorImplMeta = dictionaries.decorators.get(decoratorName)!;
+    decoratorData.structureFields.forEach((propertyValue, key) => {
+      if (propertyValue.hasQuestionToken)
+        unionChildTypes.push(new StringTypedStructureImpl(key));
+    });
+  });
+
+  if (unionChildTypes.length > 0) {
+    requiredOmitChildren.push(new UnionTypedStructureImpl(unionChildTypes))
+  }
+
+  return new TypeArgumentedTypedStructureImpl(
+    ConstantTypeStructures.RequiredOmit,
+    requiredOmitChildren
+  );
 }

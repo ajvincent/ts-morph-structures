@@ -20,8 +20,10 @@ import {
   OverrideableNodeStructureMixin,
   type ParameteredNodeStructureFields,
   ParameteredNodeStructureMixin,
+  type PreferArrayFields,
   type QuestionTokenableNodeStructureFields,
   QuestionTokenableNodeStructureMixin,
+  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   type ScopedNodeStructureFields,
@@ -84,7 +86,11 @@ const MethodDeclarationStructureBase = MultiMixinBuilder<
 
 export default class MethodDeclarationImpl
   extends MethodDeclarationStructureBase
-  implements MethodDeclarationStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<MethodDeclarationStructure>,
+      "scope" | "returnType"
+    >
 {
   readonly kind: StructureKind.Method = StructureKind.Method;
   readonly isStatic: boolean;

@@ -4,6 +4,8 @@ import {
   COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  type PreferArrayFields,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -24,7 +26,8 @@ const ShorthandPropertyAssignmentStructureBase = MultiMixinBuilder<
 
 export default class ShorthandPropertyAssignmentImpl
   extends ShorthandPropertyAssignmentStructureBase
-  implements ShorthandPropertyAssignmentStructure
+  implements
+    RequiredOmit<PreferArrayFields<ShorthandPropertyAssignmentStructure>>
 {
   readonly kind: StructureKind.ShorthandPropertyAssignment =
     StructureKind.ShorthandPropertyAssignment;

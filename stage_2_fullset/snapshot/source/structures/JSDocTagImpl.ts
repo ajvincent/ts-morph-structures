@@ -2,7 +2,9 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -20,7 +22,7 @@ const JSDocTagStructureBase = MultiMixinBuilder<
 
 export default class JSDocTagImpl
   extends JSDocTagStructureBase
-  implements JSDocTagStructure
+  implements RequiredOmit<PreferArrayFields<JSDocTagStructure>, "text">
 {
   readonly kind: StructureKind.JSDocTag = StructureKind.JSDocTag;
   tagName: string;

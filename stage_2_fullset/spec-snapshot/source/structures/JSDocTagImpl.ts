@@ -33,9 +33,9 @@ describe("JSDocTagImpl", () => {
     expect(tag.kind).toBe(StructureKind.JSDocTag);
     expect(tag.tagName).toBe("param");
     expect(tag.text).toBe("Hi Mom");
-    expect(tag.leadingTrivia).not.toBe(structure.leadingTrivia);
-    expect(tag.leadingTrivia).toEqual(structure.leadingTrivia);
-    expect(tag.trailingTrivia).not.toBe(structure.trailingTrivia);
-    expect(tag.trailingTrivia).toEqual(structure.trailingTrivia);
+    expect(tag.leadingTrivia).not.toBe(structure.leadingTrivia as readonly string[]);
+    expect(tag.leadingTrivia).toEqual(structure.leadingTrivia as readonly string[]);
+    expect(tag.trailingTrivia).not.toBe(structure.trailingTrivia as readonly string[]);
+    expect(tag.trailingTrivia).toEqual(structure.trailingTrivia as readonly string[]);
   });
 });

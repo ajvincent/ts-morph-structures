@@ -2,7 +2,9 @@
 import type { StatementStructureImpls } from "../exports.js";
 import {
   COPY_FIELDS,
+  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
+  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   StructuresClassesMap,
@@ -25,7 +27,7 @@ export type StatementedNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof StatementedNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: StatementedNodeStructure;
+    instanceFields: RequiredOmit<PreferArrayFields<StatementedNodeStructure>>;
     symbolKey: typeof StatementedNodeStructureKey;
   }
 >;

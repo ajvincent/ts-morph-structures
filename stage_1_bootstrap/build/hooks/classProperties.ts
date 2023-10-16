@@ -10,11 +10,14 @@ import { distDir } from "#stage_one/build/constants.js";
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 import {
   ArrayTypedStructureImpl,
+  ClassDeclarationImpl,
   LiteralTypedStructureImpl,
   MethodDeclarationImpl,
   ParameterDeclarationImpl,
   ParenthesesTypedStructureImpl,
   PropertyDeclarationImpl,
+  StringTypedStructureImpl,
+  TypeArgumentedTypedStructureImpl,
   TypeStructureClassesMap,
   TypeStructureKind,
   TypeStructures,
@@ -72,6 +75,15 @@ export default function addClassProperties(
   meta.structureFields.forEach((propertyValue, key) => {
     const prop = new PropertyDeclarationImpl(key);
     prop.hasQuestionToken = propertyValue.hasQuestionToken;
+
+    if (prop.hasQuestionToken) {
+      if ("fieldsInstanceType" in parts) {
+        omitPropertyFromRequired(parts.fieldsInstanceType as TypeArgumentedTypedStructureImpl, key);
+      }
+      else {
+        omitFromClassRequired(parts.classDecl, key);
+      }
+    }
 
     let typeStructure = getTypeStructureForValue(propertyValue, parts, dictionaries);
     if (typeStructure.kind === TypeStructureKind.Union)
@@ -624,4 +636,31 @@ target.statements.push(
 );
     `);
   };
+}
+
+export function omitPropertyFromRequired(
+  requiredOmit: TypeArgumentedTypedStructureImpl,
+  propertyName: string
+): void
+{
+  let unionType: UnionTypedStructureImpl;
+  if (requiredOmit.childTypes.length < 2) {
+    unionType = new UnionTypedStructureImpl;
+    requiredOmit.childTypes.push(unionType);
+  } else {
+    unionType = requiredOmit.childTypes[1] as UnionTypedStructureImpl;
+  }
+
+  unionType.childTypes.push(new StringTypedStructureImpl(propertyName));
+}
+
+function omitFromClassRequired(
+  classDecl: ClassDeclarationImpl,
+  propertyName: string
+): void
+{
+  omitPropertyFromRequired(
+    Array.from(classDecl.implementsSet)[0] as TypeArgumentedTypedStructureImpl,
+    propertyName
+  );
 }

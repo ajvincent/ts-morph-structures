@@ -13,6 +13,7 @@ import {
   MethodDeclarationImpl,
   SourceFileImpl,
   TypeAliasDeclarationImpl,
+  TypeArgumentedTypedStructure,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import {
@@ -52,6 +53,7 @@ export interface DecoratorParts {
   sourceFile: SourceFileImpl;
   copyFields: MethodDeclarationImpl;
   fieldsTypeAlias: TypeAliasDeclarationImpl;
+  fieldsInstanceType: TypeArgumentedTypedStructure;
   wrapperFunction: FunctionDeclarationImpl;
 }
 

@@ -10,6 +10,8 @@ import {
   ExportableNodeStructureMixin,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
+  type PreferArrayFields,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -45,7 +47,11 @@ const VariableStatementStructureBase = MultiMixinBuilder<
 
 export default class VariableStatementImpl
   extends VariableStatementStructureBase
-  implements VariableStatementStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<VariableStatementStructure>,
+      "declarationKind"
+    >
 {
   readonly kind: StructureKind.VariableStatement =
     StructureKind.VariableStatement;

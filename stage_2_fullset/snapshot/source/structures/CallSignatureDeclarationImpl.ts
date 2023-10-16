@@ -6,6 +6,8 @@ import {
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
   ParameteredNodeStructureMixin,
+  type PreferArrayFields,
+  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   StructureBase,
@@ -45,7 +47,11 @@ const CallSignatureDeclarationStructureBase = MultiMixinBuilder<
 
 export default class CallSignatureDeclarationImpl
   extends CallSignatureDeclarationStructureBase
-  implements CallSignatureDeclarationStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<CallSignatureDeclarationStructure>,
+      "returnType"
+    >
 {
   readonly kind: StructureKind.CallSignature = StructureKind.CallSignature;
 

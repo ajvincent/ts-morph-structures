@@ -8,8 +8,10 @@ import {
   NamedNodeStructureMixin,
   type ParameteredNodeStructureFields,
   ParameteredNodeStructureMixin,
+  type PreferArrayFields,
   type QuestionTokenableNodeStructureFields,
   QuestionTokenableNodeStructureMixin,
+  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   StructureBase,
@@ -53,7 +55,8 @@ const MethodSignatureStructureBase = MultiMixinBuilder<
 
 export default class MethodSignatureImpl
   extends MethodSignatureStructureBase
-  implements MethodSignatureStructure
+  implements
+    RequiredOmit<PreferArrayFields<MethodSignatureStructure>, "returnType">
 {
   readonly kind: StructureKind.MethodSignature = StructureKind.MethodSignature;
 

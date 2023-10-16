@@ -4,6 +4,7 @@ import {
   ObjectLiteralTypedStructureImpl,
   PrefixOperatorsTypedStructureImpl,
   PropertySignatureImpl,
+  TypeArgumentedTypedStructure,
   TypeArgumentedTypedStructureImpl,
   TypeAliasDeclarationImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
@@ -12,9 +13,14 @@ import ConstantTypeStructures from "./ConstantTypeStructures.js";
 
 // #endregion preamble
 
+type FieldsTypeAliasContext = {
+  fieldType: TypeAliasDeclarationImpl;
+  instanceFieldsArgumented: TypeArgumentedTypedStructure;
+}
+
 export default function defineFieldsType(
   name: string
-): TypeAliasDeclarationImpl
+): FieldsTypeAliasContext
 {
   const alias = new TypeAliasDeclarationImpl(name + "Fields");
   alias.isExported = true;
@@ -23,7 +29,15 @@ export default function defineFieldsType(
   staticFields.typeStructure = ConstantTypeStructures.object;
 
   const instanceFields = new PropertySignatureImpl("instanceFields");
-  instanceFields.typeStructure = new LiteralTypedStructureImpl(name);
+
+  const literalType = new LiteralTypedStructureImpl(name);
+  let typeArgumented = new TypeArgumentedTypedStructureImpl(
+    ConstantTypeStructures.PreferArrayFields, [literalType]
+  );
+  typeArgumented = new TypeArgumentedTypedStructureImpl(
+    ConstantTypeStructures.RequiredOmit, [typeArgumented]
+  );
+  instanceFields.typeStructure = typeArgumented;
   /*
   instanceFields.typeStructure = new TypeArgumentedTypedStructureImpl(
     ConstantTypeStructures.Required,
@@ -54,5 +68,8 @@ export default function defineFieldsType(
     ]
   );
 
-  return alias;
+  return {
+    fieldType: alias,
+    instanceFieldsArgumented: instanceFields.typeStructure
+  }
 }

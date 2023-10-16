@@ -4,7 +4,9 @@ import {
   type CloneableStructure,
   cloneStructureArray,
   COPY_FIELDS,
+  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -27,7 +29,7 @@ const JSDocStructureBase = MultiMixinBuilder<
 
 export default class JSDocImpl
   extends JSDocStructureBase
-  implements JSDocStructure
+  implements RequiredOmit<PreferArrayFields<JSDocStructure>, "description">
 {
   readonly kind: StructureKind.JSDoc = StructureKind.JSDoc;
   description?: stringOrWriter = undefined;

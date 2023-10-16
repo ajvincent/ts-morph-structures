@@ -12,6 +12,8 @@ import {
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  type PreferArrayFields,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -48,7 +50,7 @@ const EnumDeclarationStructureBase = MultiMixinBuilder<
 
 export default class EnumDeclarationImpl
   extends EnumDeclarationStructureBase
-  implements EnumDeclarationStructure
+  implements RequiredOmit<PreferArrayFields<EnumDeclarationStructure>>
 {
   readonly kind: StructureKind.Enum = StructureKind.Enum;
   isConst = false;

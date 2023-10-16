@@ -14,6 +14,8 @@ import {
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
   ParameteredNodeStructureMixin,
+  type PreferArrayFields,
+  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   StructureBase,
@@ -61,7 +63,11 @@ const FunctionDeclarationOverloadStructureBase = MultiMixinBuilder<
 
 export default class FunctionDeclarationOverloadImpl
   extends FunctionDeclarationOverloadStructureBase
-  implements FunctionDeclarationOverloadStructure
+  implements
+    RequiredOmit<
+      PreferArrayFields<FunctionDeclarationOverloadStructure>,
+      "returnType"
+    >
 {
   readonly kind: StructureKind.FunctionOverload =
     StructureKind.FunctionOverload;

@@ -4,6 +4,8 @@ import {
   COPY_FIELDS,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
+  type PreferArrayFields,
+  type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
@@ -24,7 +26,7 @@ const ExportSpecifierStructureBase = MultiMixinBuilder<
 
 export default class ExportSpecifierImpl
   extends ExportSpecifierStructureBase
-  implements ExportSpecifierStructure
+  implements RequiredOmit<PreferArrayFields<ExportSpecifierStructure>, "alias">
 {
   readonly kind: StructureKind.ExportSpecifier = StructureKind.ExportSpecifier;
   alias?: string = undefined;
