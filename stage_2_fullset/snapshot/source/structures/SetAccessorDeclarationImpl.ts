@@ -70,7 +70,7 @@ export default class SetAccessorDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<SetAccessorDeclarationStructure>,
-      "scope" | "returnType"
+      "returnType" | "scope"
     >
 {
   readonly kind: StructureKind.SetAccessor = StructureKind.SetAccessor;

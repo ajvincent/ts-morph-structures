@@ -58,7 +58,7 @@ export default class PropertySignatureImpl
   implements
     RequiredOmit<
       PreferArrayFields<PropertySignatureStructure>,
-      "type" | "initializer"
+      "initializer" | "type"
     >
 {
   readonly kind: StructureKind.PropertySignature =

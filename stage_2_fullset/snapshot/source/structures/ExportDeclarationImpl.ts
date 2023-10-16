@@ -34,7 +34,7 @@ export default class ExportDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<ExportDeclarationStructure>,
-      "namespaceExport" | "moduleSpecifier" | "assertElements"
+      "assertElements" | "moduleSpecifier" | "namespaceExport"
     >
 {
   readonly kind: StructureKind.ExportDeclaration =

@@ -70,7 +70,7 @@ export default class GetAccessorDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<GetAccessorDeclarationStructure>,
-      "scope" | "returnType"
+      "returnType" | "scope"
     >
 {
   readonly kind: StructureKind.GetAccessor = StructureKind.GetAccessor;

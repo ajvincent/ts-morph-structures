@@ -82,7 +82,7 @@ export default class PropertyDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<PropertyDeclarationStructure>,
-      "type" | "scope" | "initializer"
+      "initializer" | "scope" | "type"
     >
 {
   readonly kind: StructureKind.Property = StructureKind.Property;

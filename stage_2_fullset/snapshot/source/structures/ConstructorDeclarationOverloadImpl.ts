@@ -54,7 +54,7 @@ export default class ConstructorDeclarationOverloadImpl
   implements
     RequiredOmit<
       PreferArrayFields<ConstructorDeclarationOverloadStructure>,
-      "scope" | "returnType"
+      "returnType" | "scope"
     >
 {
   readonly kind: StructureKind.ConstructorOverload =

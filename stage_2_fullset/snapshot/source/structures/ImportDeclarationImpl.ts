@@ -34,7 +34,7 @@ export default class ImportDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<ImportDeclarationStructure>,
-      "defaultImport" | "namespaceImport" | "assertElements"
+      "assertElements" | "defaultImport" | "namespaceImport"
     >
 {
   readonly kind: StructureKind.ImportDeclaration =

@@ -46,7 +46,7 @@ export default class IndexSignatureDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<IndexSignatureDeclarationStructure>,
-      "returnType" | "keyName" | "keyType"
+      "keyName" | "keyType" | "returnType"
     >
 {
   readonly kind: StructureKind.IndexSignature = StructureKind.IndexSignature;

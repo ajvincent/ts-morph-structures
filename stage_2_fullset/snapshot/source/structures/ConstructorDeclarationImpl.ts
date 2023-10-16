@@ -61,7 +61,7 @@ export default class ConstructorDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<ConstructorDeclarationStructure>,
-      "scope" | "returnType"
+      "returnType" | "scope"
     >
 {
   readonly kind: StructureKind.Constructor = StructureKind.Constructor;

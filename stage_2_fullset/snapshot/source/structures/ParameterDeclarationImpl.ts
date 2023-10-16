@@ -63,7 +63,7 @@ export default class ParameterDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<ParameterDeclarationStructure>,
-      "type" | "initializer" | "scope"
+      "initializer" | "scope" | "type"
     >
 {
   readonly kind: StructureKind.Parameter = StructureKind.Parameter;

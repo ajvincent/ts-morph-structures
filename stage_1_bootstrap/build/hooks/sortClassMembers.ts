@@ -1,6 +1,6 @@
 import StructureDictionaries, {
-  DecoratorParts,
-  StructureParts,
+  type DecoratorParts,
+  type StructureParts,
 } from "#stage_one/build/StructureDictionaries.js";
 
 import {

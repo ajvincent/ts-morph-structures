@@ -77,7 +77,7 @@ export default class ClassDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<ClassDeclarationStructure>,
-      "name" | "extends"
+      "extends" | "name"
     >
 {
   readonly kind: StructureKind.Class = StructureKind.Class;

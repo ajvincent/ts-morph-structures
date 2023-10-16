@@ -74,7 +74,7 @@ export default class MethodDeclarationOverloadImpl
   implements
     RequiredOmit<
       PreferArrayFields<MethodDeclarationOverloadStructure>,
-      "scope" | "returnType"
+      "returnType" | "scope"
     >
 {
   readonly kind: StructureKind.MethodOverload = StructureKind.MethodOverload;

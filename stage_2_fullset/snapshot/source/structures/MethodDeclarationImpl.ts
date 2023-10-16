@@ -89,7 +89,7 @@ export default class MethodDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<MethodDeclarationStructure>,
-      "scope" | "returnType"
+      "returnType" | "scope"
     >
 {
   readonly kind: StructureKind.Method = StructureKind.Method;
