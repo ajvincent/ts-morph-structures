@@ -1,4 +1,8 @@
 // This file is generated.  Do not edit.
+export {
+  type KindedTypeStructure,
+  TypeStructureKind,
+} from "./base/TypeStructureKind.js";
 export { default as AssertEntryImpl } from "./structures/AssertEntryImpl.js";
 export { default as CallSignatureDeclarationImpl } from "./structures/CallSignatureDeclarationImpl.js";
 export { default as ClassDeclarationImpl } from "./structures/ClassDeclarationImpl.js";
@@ -46,3 +50,4 @@ export { default as ExportManager } from "./toolbox/ExportManager.js";
 export { default as ImportManager } from "./toolbox/ImportManager.js";
 export type { stringOrWriter } from "./types/stringOrWriter.js";
 export type * from "./types/StructureImplUnions.js";
+export { default as WriterTypeStructureImpl } from "./typeStructures/WriterTypeStructureImpl.js";

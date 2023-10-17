@@ -1,3 +1,4 @@
+import fs from "fs/promises";
 import path from "path";
 
 import StructureDictionaries from "./StructureDictionaries.js";
@@ -28,7 +29,7 @@ export default
 async function BuildClassesDriver(distDir: string): Promise<void>
 {
   const dictionary = new StructureDictionaries;
-  defineExistingExports(dictionary, distDir);
+  await defineExistingExports(dictionary, distDir);
 
   fillDictionaries(dictionary);
 
@@ -64,11 +65,25 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   ]);
 }
 
-function defineExistingExports(
+async function defineExistingExports(
   dictionaries: StructureDictionaries,
   distDir: string,
-): void
+): Promise<void>
 {
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/base/TypeStructureKind.ts"),
+    exportNames: ["TypeStructureKind"],
+    isDefaultExport: false,
+    isType: false
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/base/TypeStructureKind.ts"),
+    exportNames: ["KindedTypeStructure"],
+    isDefaultExport: false,
+    isType: true
+  });
+
   dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/toolbox/ClassMembersMap.ts"),
     exportNames: ["ClassMembersMap"],
@@ -148,4 +163,19 @@ function defineExistingExports(
     isDefaultExport: false,
     isType: true
   });
+
+  const sourceDir = path.join(distDir, "source/typeStructures");
+  const typeStructureFiles = (await fs.readdir(
+    sourceDir
+  )).filter(f => f.endsWith("TypeStructureImpl.ts"));
+  typeStructureFiles.forEach((moduleFileName) => {
+    dictionaries.publicExports.addExports({
+      absolutePathToModule: path.join(sourceDir, moduleFileName),
+      exportNames: [moduleFileName.replace(".ts", "")],
+      isDefaultExport: true,
+      isType: false
+    });
+  });
+
+  return Promise.resolve();
 }

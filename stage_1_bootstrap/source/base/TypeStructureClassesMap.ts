@@ -12,12 +12,12 @@ import {
 } from "./TypeStructureKind.js";
 
 import {
-  CloneableStructure
+  CloneableTypeStructure
 } from "../types/CloneableStructure.js";
 
 class TypeStructureClassesMapClass extends Map<
   TypeStructureKind,
-  CloneableStructure<TypeStructures> & Class<KindedTypeStructure<TypeStructureKind>>
+  CloneableTypeStructure<TypeStructures> & Class<KindedTypeStructure<TypeStructureKind>>
 >
 {
   clone(
