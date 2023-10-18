@@ -15,7 +15,7 @@ export default class WriterTypeStructureImpl extends TypeStructuresBase<TypeStru
     return new WriterTypeStructureImpl(other.writerFunction);
   }
 
-  readonly kind: TypeStructureKind.Writer = TypeStructureKind.Writer;
+  readonly kind = TypeStructureKind.Writer;
   readonly writerFunction: WriterFunction;
 
   constructor(writer: WriterFunction) {

@@ -1,9 +1,9 @@
 import type { TypedNodeWriter } from "../types/ts-morph-typednodewriter.js";
 
 export enum TypeStructureKind {
-  Writer = 1000000,
+  Literal = 1000000,
   String,
-  SymbolKey,
+  Writer,
   QualifiedName,
   Parentheses,
   PrefixOperators,

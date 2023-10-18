@@ -26,7 +26,7 @@ extends TypeStructuresBase<TypeStructureKind.Writer>
     return new WriterTypeStructureImpl(other.writerFunction);
   }
 
-  readonly kind: TypeStructureKind.Writer = TypeStructureKind.Writer;
+  readonly kind = TypeStructureKind.Writer;
   readonly writerFunction: WriterFunction;
 
   constructor(writer: WriterFunction)
