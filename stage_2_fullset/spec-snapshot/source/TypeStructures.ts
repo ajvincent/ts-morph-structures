@@ -4,6 +4,7 @@ import {
 
 import {
   IndexedAccessTypeStructureImpl,
+  IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   StringTypeStructureImpl,
@@ -81,6 +82,16 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe(`foo | NumberStringType`);
     expect(typedWriter.kind).toBe(TypeStructureKind.Union);
+  });
+
+  it("IntersectionTypeStructureImpl", () => {
+    const typedWriter = new IntersectionTypeStructureImpl;
+    typedWriter.childTypes.push(fooTyped);
+    typedWriter.childTypes.push(nstTyped);
+
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`foo & NumberStringType`);
+    expect(typedWriter.kind).toBe(TypeStructureKind.Intersection);
   });
 
   xit("TypeStructureClassesMap is complete", () => {
