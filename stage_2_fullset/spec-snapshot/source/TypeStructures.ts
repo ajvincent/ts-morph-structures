@@ -8,6 +8,7 @@ import {
   LiteralTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   StringTypeStructureImpl,
+  TupleTypeStructureImpl,
   TypeStructureKind,
   UnionTypeStructureImpl,
   WriterTypeStructureImpl,
@@ -94,12 +95,24 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     expect(typedWriter.kind).toBe(TypeStructureKind.Intersection);
   });
 
+  it("TupleTypedStructureImpl", () => {
+    const typedWriter = new TupleTypeStructureImpl([fooTyped, nstTyped]);
+
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`[foo, NumberStringType]`);
+    expect(typedWriter.kind).toBe(TypeStructureKind.Tuple);
+  });
+
   xit("TypeStructureClassesMap is complete", () => {
     const kinds = Object.values(TypeStructureKind).filter(
       value => typeof value === "number"
     ) as TypeStructureKind[];
     for (const kind of kinds) {
-      expect<boolean>(TypeStructureClassesMap.has(kind)).withContext(TypeStructureKind[kind]).toBe(true);
+      const _class = TypeStructureClassesMap.get(kind);
+      expect(_class).withContext(TypeStructureKind[kind]).toBeTruthy();
+      if (_class) {
+        expect(_class.prototype.kind as TypeStructureKind).withContext(TypeStructureKind[kind]).toBe(kind);
+      }
     }
   });
 

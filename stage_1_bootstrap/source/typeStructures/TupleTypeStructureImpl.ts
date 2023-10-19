@@ -13,26 +13,31 @@ import type {
   CloneableTypeStructure
 } from "../types/CloneableStructure.js";
 
-/** Foo & Bar & ... */
+/**
+ * `[number, boolean]`
+ *
+ * @see `ArrayTypeStructureImpl` for `boolean[]`
+ * @see `IndexedAccessTypeStructureImpl` for `Foo["index"]`
+ */
 export default
-class IntersectionTypeStructureImpl
-extends TypeStructuresWithChildren<TypeStructureKind.Intersection, (string | TypeStructures)[]>
+class TupleTypeStructureImpl
+extends TypeStructuresWithChildren<TypeStructureKind.Tuple, (string | TypeStructures)[]>
 {
   static clone(
-    other: IntersectionTypeStructureImpl
-  ): IntersectionTypeStructureImpl
+    other: TupleTypeStructureImpl
+  ): TupleTypeStructureImpl
   {
-    return new IntersectionTypeStructureImpl(
+    return new TupleTypeStructureImpl(
       TypeStructureClassesMap.cloneArray(other.childTypes)
     );
   }
 
-  readonly kind = TypeStructureKind.Intersection;
+  readonly kind = TypeStructureKind.Tuple;
   protected readonly objectType: null = null;
   public childTypes: (string | TypeStructures)[];
-  protected readonly startToken = "";
-  protected readonly joinChildrenToken = " & ";
-  protected readonly endToken = "";
+  protected readonly startToken = "[";
+  protected readonly joinChildrenToken = ", ";
+  protected readonly endToken = "]";
   protected readonly maxChildCount = Infinity;
 
   constructor(
@@ -44,5 +49,5 @@ extends TypeStructuresWithChildren<TypeStructureKind.Intersection, (string | Typ
     this.registerCallbackForTypeStructure();
   }
 }
-IntersectionTypeStructureImpl satisfies CloneableTypeStructure<IntersectionTypeStructureImpl>;
-TypeStructureClassesMap.set(TypeStructureKind.Intersection, IntersectionTypeStructureImpl);
+TupleTypeStructureImpl satisfies CloneableTypeStructure<TupleTypeStructureImpl>;
+TypeStructureClassesMap.set(TypeStructureKind.Tuple, TupleTypeStructureImpl);

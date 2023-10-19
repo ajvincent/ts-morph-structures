@@ -7,25 +7,28 @@ import TypeStructuresWithChildren from "./TypeStructuresWithChildren.js";
 import TypeStructureClassesMap from "../base/TypeStructureClassesMap.js";
 import type { CloneableTypeStructure } from "../types/CloneableStructure.js";
 
-/** Foo & Bar & ... */
-export default class IntersectionTypeStructureImpl extends TypeStructuresWithChildren<
-  TypeStructureKind.Intersection,
+/**
+ * `[number, boolean]`
+ *
+ * @see `ArrayTypeStructureImpl` for `boolean[]`
+ * @see `IndexedAccessTypeStructureImpl` for `Foo["index"]`
+ */
+export default class TupleTypeStructureImpl extends TypeStructuresWithChildren<
+  TypeStructureKind.Tuple,
   (string | TypeStructures)[]
 > {
-  static clone(
-    other: IntersectionTypeStructureImpl,
-  ): IntersectionTypeStructureImpl {
-    return new IntersectionTypeStructureImpl(
+  static clone(other: TupleTypeStructureImpl): TupleTypeStructureImpl {
+    return new TupleTypeStructureImpl(
       TypeStructureClassesMap.cloneArray(other.childTypes),
     );
   }
 
-  readonly kind = TypeStructureKind.Intersection;
+  readonly kind = TypeStructureKind.Tuple;
   protected readonly objectType: null = null;
   public childTypes: (string | TypeStructures)[];
-  protected readonly startToken = "";
-  protected readonly joinChildrenToken = " & ";
-  protected readonly endToken = "";
+  protected readonly startToken = "[";
+  protected readonly joinChildrenToken = ", ";
+  protected readonly endToken = "]";
   protected readonly maxChildCount = Infinity;
 
   constructor(childTypes: (string | TypeStructures)[] = []) {
@@ -34,8 +37,5 @@ export default class IntersectionTypeStructureImpl extends TypeStructuresWithChi
     this.registerCallbackForTypeStructure();
   }
 }
-IntersectionTypeStructureImpl satisfies CloneableTypeStructure<IntersectionTypeStructureImpl>;
-TypeStructureClassesMap.set(
-  TypeStructureKind.Intersection,
-  IntersectionTypeStructureImpl,
-);
+TupleTypeStructureImpl satisfies CloneableTypeStructure<TupleTypeStructureImpl>;
+TypeStructureClassesMap.set(TypeStructureKind.Tuple, TupleTypeStructureImpl);
