@@ -3,6 +3,7 @@ import {
 } from "ts-morph";
 
 import {
+  ArrayTypeStructureImpl,
   IndexedAccessTypeStructureImpl,
   IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
@@ -30,6 +31,13 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
 
   const stringBarTyped = new StringTypeStructureImpl("bar");
 
+  it("ArrayTypedStructureImpl", () => {
+    const typedWriter = new ArrayTypeStructureImpl(fooTyped);
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe("foo[]");
+
+    expect(typedWriter.kind).toBe(TypeStructureKind.Array);
+  });
 
   it("IndexedAccessTypeStructureImpl", () => {
     const typedWriter = new IndexedAccessTypeStructureImpl(fooTyped, stringBarTyped);
