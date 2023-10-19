@@ -4,6 +4,7 @@ import {
 
 import {
   LiteralTypeStructureImpl,
+  ParenthesesTypeStructureImpl,
   StringTypeStructureImpl,
   TypeStructureKind,
   WriterTypeStructureImpl,
@@ -39,5 +40,25 @@ describe("TypeStructure for ts-morph: ", () => {
     stringBarTyped.writerFunction(writer);
     expect<string>(writer.toString()).toBe(`"bar"`);
     expect(stringBarTyped.kind).toBe(TypeStructureKind.String);
+  });
+
+  it("ParenthesesTypedStructureImpl", () => {
+    const typedWriter = new ParenthesesTypeStructureImpl("true");
+    typedWriter.writerFunction(writer);
+
+    expect<string>(writer.toString()).toBe("(true)");
+    expect(typedWriter.kind).toBe(TypeStructureKind.Parentheses);
+
+    // mutability test for the child type
+    writer = new CodeBlockWriter();
+    typedWriter.childTypes[0] = "false";
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe("(false)");
+
+    // mutability test: if someone puts in too many child types...
+    writer = new CodeBlockWriter();
+    typedWriter.childTypes.push("unknown")
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe("(false)");
   });
 });
