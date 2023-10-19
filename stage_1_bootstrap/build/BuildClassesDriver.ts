@@ -106,6 +106,13 @@ async function defineExistingExports(
   });
 
   dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/typeStructures/ConditionalTypeStructureImpl.ts"),
+    exportNames: ["ConditionalTypeStructureParts"],
+    isDefaultExport: false,
+    isType: true,
+  });
+
+  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/typeStructures/PrefixOperatorsTypeStructureImpl.ts"),
     exportNames: ["PrefixUnaryOperator"],
     isDefaultExport: false,

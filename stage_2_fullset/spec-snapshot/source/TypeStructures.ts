@@ -4,11 +4,14 @@ import {
 
 import {
   ArrayTypeStructureImpl,
+  ConditionalTypeStructureImpl,
+  type ConditionalTypeStructureParts,
   IndexedAccessTypeStructureImpl,
   IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   PrefixOperatorsTypeStructureImpl,
+  type PrefixUnaryOperator,
   QualifiedNameTypeStructureImpl,
   StringTypeStructureImpl,
   TupleTypeStructureImpl,
@@ -37,6 +40,29 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     expect<string>(writer.toString()).toBe("foo[]");
 
     expect(typedWriter.kind).toBe(TypeStructureKind.Array);
+  });
+
+  it("ConditionalTypedStructureImpl", () => {
+    const checkType = new LiteralTypeStructureImpl("true");
+    const extendsType = "ReturnsModified";
+    const trueType = new LiteralTypeStructureImpl("BaseClassType");
+    const falseType = "void";
+
+    const parts: ConditionalTypeStructureParts = {
+      checkType,
+      extendsType,
+      trueType,
+      falseType,
+    };
+
+    const typedWriter = new ConditionalTypeStructureImpl(parts);
+
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(
+      "true extends ReturnsModified ? BaseClassType : void"
+    );
+
+    expect(typedWriter.kind).toBe(TypeStructureKind.Conditional);
   });
 
   it("IndexedAccessTypeStructureImpl", () => {
@@ -84,8 +110,9 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
   });
 
   it("PrefixOperatorsTypeStructureImpl", () => {
+    const prefixes: readonly PrefixUnaryOperator[] = ["typeof", "readonly"];
     const typedWriter = new PrefixOperatorsTypeStructureImpl(
-      ["typeof", "readonly"],
+      prefixes,
       new LiteralTypeStructureImpl("NumberStringType")
     );
     typedWriter.writerFunction(writer);
@@ -148,13 +175,23 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     const kinds = Object.values(TypeStructureKind).filter(
       value => typeof value === "number"
     ) as TypeStructureKind[];
+
+    let count = 0;
     for (const kind of kinds) {
+      if (kind === TypeStructureKind.Infer) {
+        // cannot support Infer yet
+        continue;
+      }
+
       const _class = TypeStructureClassesMap.get(kind);
       expect(_class).withContext(TypeStructureKind[kind]).toBeTruthy();
       if (_class) {
         expect(_class.prototype.kind as TypeStructureKind).withContext(TypeStructureKind[kind]).toBe(kind);
       }
+      count++;
     }
+
+    expect(TypeStructureClassesMap.size).toBe(count);
   });
 
   xit("Each test covers a .clone() method", () => {
