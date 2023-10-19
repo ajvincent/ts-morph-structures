@@ -27,38 +27,6 @@ abstract class TypeStructuresWithChildren<
 >
 extends TypeStructuresBase<Kind>
 {
-  /**
-   * Write a start token, invoke a block, and write the end token, in that order.
-   * @param writer - the code block writer.
-   * @param startToken - the start token.
-   * @param endToken - the end token.
-   * @param newLine - true if we should call `.newLine()` after the start and before the end.
-   * @param indent - true if we should indent the block statements.
-   * @param block - the callback to execute for the block statements.
-   *
-   * @see {@link https://github.com/dsherret/code-block-writer/issues/44}
-   */
-  static #pairedWrite(
-    writer: CodeBlockWriter,
-    startToken: string,
-    endToken: string,
-    newLine: boolean,
-    indent: boolean,
-    block: () => void
-  ) : void
-  {
-    writer.write(startToken);
-    if (newLine)
-      writer.newLine();
-    if (indent)
-      writer.indent(block);
-    else
-      block();
-    if (newLine)
-      writer.newLine();
-    writer.write(endToken);
-  }
-
   abstract readonly kind: Kind;
 
   /** This lives outside the start and end tokens.  Think of this as a parent type for the children, ie. `Partial`. */
@@ -82,10 +50,10 @@ extends TypeStructuresBase<Kind>
   ): void
   {
     if (this.objectType) {
-      TypeStructuresWithChildren.writeStringOrType(writer, this.objectType);
+      TypeStructuresBase.writeStringOrType(writer, this.objectType);
     }
 
-    TypeStructuresWithChildren.#pairedWrite(
+    TypeStructuresBase.pairedWrite(
       writer,
       this.startToken,
       this.endToken,
@@ -107,7 +75,7 @@ extends TypeStructuresBase<Kind>
 
     const lastChild = childTypes[childTypes.length - 1];
     for (const child of childTypes) {
-      TypeStructuresWithChildren.writeStringOrType(writer, child);
+      TypeStructuresBase.writeStringOrType(writer, child);
       if (child === lastChild)
         return;
 

@@ -8,6 +8,7 @@ import ParenthesesTypeStructureImpl from "./ParenthesesTypeStructureImpl.js";
 import PrefixOperatorsTypeStructureImpl from "./PrefixOperatorsTypeStructureImpl.js";
 import QualifiedNameTypeStructureImpl from "./QualifiedNameTypeStructureImpl.js";
 import StringTypeStructureImpl from "./StringTypeStructureImpl.js";
+import TemplateLiteralTypeStructureImpl from "./TemplateLiteralTypeStructureImpl.js";
 import TupleTypeStructureImpl from "./TupleTypeStructureImpl.js";
 import TypeArgumentedTypeStructureImpl from "./TypeArgumentedTypeStructureImpl.js";
 import UnionTypeStructureImpl from "./UnionTypeStructureImpl.js";
@@ -24,6 +25,7 @@ export type TypeStructures = (
   PrefixOperatorsTypeStructureImpl |
   QualifiedNameTypeStructureImpl |
   StringTypeStructureImpl |
+  TemplateLiteralTypeStructureImpl |
   TupleTypeStructureImpl |
   TypeArgumentedTypeStructureImpl |
   UnionTypeStructureImpl |

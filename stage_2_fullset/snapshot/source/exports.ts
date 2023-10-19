@@ -66,6 +66,7 @@ export {
 } from "./typeStructures/PrefixOperatorsTypeStructureImpl.js";
 export { default as QualifiedNameTypeStructureImpl } from "./typeStructures/QualifiedNameTypeStructureImpl.js";
 export { default as StringTypeStructureImpl } from "./typeStructures/StringTypeStructureImpl.js";
+export { default as TemplateLiteralTypeStructureImpl } from "./typeStructures/TemplateLiteralTypeStructureImpl.js";
 export { default as TupleTypeStructureImpl } from "./typeStructures/TupleTypeStructureImpl.js";
 export { default as TypeArgumentedTypeStructureImpl } from "./typeStructures/TypeArgumentedTypeStructureImpl.js";
 export type { TypeStructures } from "./typeStructures/TypeStructures.js";

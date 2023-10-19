@@ -15,6 +15,7 @@ import {
   type PrefixUnaryOperator,
   QualifiedNameTypeStructureImpl,
   StringTypeStructureImpl,
+  TemplateLiteralTypeStructureImpl,
   TupleTypeStructureImpl,
   TypeArgumentedTypeStructureImpl,
   TypeStructureKind,
@@ -148,6 +149,23 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     stringBarTyped.writerFunction(writer);
     expect<string>(writer.toString()).toBe(`"bar"`);
     expect(stringBarTyped.kind).toBe(TypeStructureKind.String);
+  });
+
+  it("TemplateLiteralTypeStructureImpl", () => {
+    const AB = new UnionTypeStructureImpl;
+    AB.childTypes = [new StringTypeStructureImpl("A"), new StringTypeStructureImpl("B")];
+
+    const CD = new UnionTypeStructureImpl;
+    CD.childTypes = [new StringTypeStructureImpl("C"), new StringTypeStructureImpl("D")];
+
+    const typedWriter = new TemplateLiteralTypeStructureImpl(
+      "one", [[AB, "two"], [CD, "three"]]
+    );
+
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe('`one${"A" | "B"}two${"C" | "D"}three`');
+
+    expect(typedWriter.kind).toBe(TypeStructureKind.TemplateLiteral);
   });
 
   it("TupleTypeStructureImpl", () => {
