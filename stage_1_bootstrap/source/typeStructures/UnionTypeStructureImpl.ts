@@ -13,7 +13,7 @@ import type {
   CloneableTypeStructure
 } from "../types/CloneableStructure.js";
 
-/** Foo | Bar | ... */
+/** @example `Foo | Bar | ...` */
 export default
 class UnionTypeStructureImpl
 extends TypeStructuresWithChildren<TypeStructureKind.Union, (string | TypeStructures)[]>

@@ -14,6 +14,7 @@ import type {
 } from "../types/CloneableStructure.js";
 
 /**
+ * @example
  * `Foo["index"]`
  *
  * @see `ArrayTypeStructureImpl` for `boolean[]`

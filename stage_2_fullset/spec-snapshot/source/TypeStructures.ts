@@ -9,6 +9,7 @@ import {
   ParenthesesTypeStructureImpl,
   StringTypeStructureImpl,
   TupleTypeStructureImpl,
+  TypeArgumentedTypeStructureImpl,
   TypeStructureKind,
   UnionTypeStructureImpl,
   WriterTypeStructureImpl,
@@ -24,30 +25,32 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
 
   const fooTyped = new LiteralTypeStructureImpl("foo");
   const nstTyped = new LiteralTypeStructureImpl("NumberStringType");
-  void(nstTyped);
 
   const stringBarTyped = new StringTypeStructureImpl("bar");
+
+
+  it("IndexedAccessTypeStructureImpl", () => {
+    const typedWriter = new IndexedAccessTypeStructureImpl(fooTyped, stringBarTyped);
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`foo["bar"]`);
+
+    expect(typedWriter.kind).toBe(TypeStructureKind.IndexedAccess);
+  });
+
+  it("IntersectionTypeStructureImpl", () => {
+    const typedWriter = new IntersectionTypeStructureImpl;
+    typedWriter.childTypes.push(fooTyped);
+    typedWriter.childTypes.push(nstTyped);
+
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`foo & NumberStringType`);
+    expect(typedWriter.kind).toBe(TypeStructureKind.Intersection);
+  });
 
   it("LiteralTypeStructureImpl", () => {
     fooTyped.writerFunction(writer);
     expect<string>(writer.toString()).toBe("foo");
     expect(fooTyped.kind).toBe(TypeStructureKind.Literal);
-  });
-
-  it("WriterTypeStructureImpl", () => {
-    const typedWriter = new WriterTypeStructureImpl(
-      (writer: CodeBlockWriter) => writer.write("hi mom")
-    );
-
-    typedWriter.writerFunction(writer);
-    expect<string>(writer.toString()).toBe(`hi mom`);
-    expect(typedWriter.kind).toBe(TypeStructureKind.Writer);
-  });
-
-  it("StringTypeStructureImpl", () => {
-    stringBarTyped.writerFunction(writer);
-    expect<string>(writer.toString()).toBe(`"bar"`);
-    expect(stringBarTyped.kind).toBe(TypeStructureKind.String);
   });
 
   it("ParenthesesTypeStructureImpl", () => {
@@ -70,12 +73,27 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     expect<string>(writer.toString()).toBe("(false)");
   });
 
-  it("IndexedAccessTypeStructureImpl", () => {
-    const typedWriter = new IndexedAccessTypeStructureImpl(fooTyped, stringBarTyped);
-    typedWriter.writerFunction(writer);
-    expect<string>(writer.toString()).toBe(`foo["bar"]`);
+  it("StringTypeStructureImpl", () => {
+    stringBarTyped.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`"bar"`);
+    expect(stringBarTyped.kind).toBe(TypeStructureKind.String);
+  });
 
-    expect(typedWriter.kind).toBe(TypeStructureKind.IndexedAccess);
+  it("TupleTypeStructureImpl", () => {
+    const typedWriter = new TupleTypeStructureImpl([fooTyped, nstTyped]);
+
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`[foo, NumberStringType]`);
+    expect(typedWriter.kind).toBe(TypeStructureKind.Tuple);
+  });
+
+  it("TypeArgumentedTypeStructureImpl", () => {
+    const typedWriter = new TypeArgumentedTypeStructureImpl(fooTyped);
+    typedWriter.childTypes.push(stringBarTyped, nstTyped);
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`foo<"bar", NumberStringType>`);
+
+    expect(typedWriter.kind).toBe(TypeStructureKind.TypeArgumented);
   });
 
   it("UnionTypeStructureImpl", () => {
@@ -85,22 +103,14 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     expect(typedWriter.kind).toBe(TypeStructureKind.Union);
   });
 
-  it("IntersectionTypeStructureImpl", () => {
-    const typedWriter = new IntersectionTypeStructureImpl;
-    typedWriter.childTypes.push(fooTyped);
-    typedWriter.childTypes.push(nstTyped);
+  it("WriterTypeStructureImpl", () => {
+    const typedWriter = new WriterTypeStructureImpl(
+      (writer: CodeBlockWriter) => writer.write("hi mom")
+    );
 
     typedWriter.writerFunction(writer);
-    expect<string>(writer.toString()).toBe(`foo & NumberStringType`);
-    expect(typedWriter.kind).toBe(TypeStructureKind.Intersection);
-  });
-
-  it("TupleTypedStructureImpl", () => {
-    const typedWriter = new TupleTypeStructureImpl([fooTyped, nstTyped]);
-
-    typedWriter.writerFunction(writer);
-    expect<string>(writer.toString()).toBe(`[foo, NumberStringType]`);
-    expect(typedWriter.kind).toBe(TypeStructureKind.Tuple);
+    expect<string>(writer.toString()).toBe(`hi mom`);
+    expect(typedWriter.kind).toBe(TypeStructureKind.Writer);
   });
 
   xit("TypeStructureClassesMap is complete", () => {

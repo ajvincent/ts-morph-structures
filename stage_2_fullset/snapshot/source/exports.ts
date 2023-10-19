@@ -56,5 +56,6 @@ export { default as LiteralTypeStructureImpl } from "./typeStructures/LiteralTyp
 export { default as ParenthesesTypeStructureImpl } from "./typeStructures/ParenthesesTypeStructureImpl.js";
 export { default as StringTypeStructureImpl } from "./typeStructures/StringTypeStructureImpl.js";
 export { default as TupleTypeStructureImpl } from "./typeStructures/TupleTypeStructureImpl.js";
+export { default as TypeArgumentedTypeStructureImpl } from "./typeStructures/TypeArgumentedTypeStructureImpl.js";
 export { default as UnionTypeStructureImpl } from "./typeStructures/UnionTypeStructureImpl.js";
 export { default as WriterTypeStructureImpl } from "./typeStructures/WriterTypeStructureImpl.js";

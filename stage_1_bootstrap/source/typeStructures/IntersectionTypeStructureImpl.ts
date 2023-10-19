@@ -13,7 +13,7 @@ import type {
   CloneableTypeStructure
 } from "../types/CloneableStructure.js";
 
-/** Foo & Bar & ... */
+/** @example `Foo & Bar & ...` */
 export default
 class IntersectionTypeStructureImpl
 extends TypeStructuresWithChildren<TypeStructureKind.Intersection, (string | TypeStructures)[]>

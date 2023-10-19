@@ -4,6 +4,7 @@ import LiteralTypeStructureImpl from "./LiteralTypeStructureImpl.js";
 import ParenthesesTypeStructureImpl from "./ParenthesesTypeStructureImpl.js";
 import StringTypeStructureImpl from "./StringTypeStructureImpl.js";
 import TupleTypeStructureImpl from "./TupleTypeStructureImpl.js";
+import TypeArgumentedTypeStructureImpl from "./TypeArgumentedTypeStructureImpl.js";
 import UnionTypeStructureImpl from "./UnionTypeStructureImpl.js";
 import WriterTypeStructureImpl from "./WriterTypeStructureImpl.js";
 
@@ -14,6 +15,7 @@ export type TypeStructures = (
   ParenthesesTypeStructureImpl |
   StringTypeStructureImpl |
   TupleTypeStructureImpl |
+  TypeArgumentedTypeStructureImpl |
   UnionTypeStructureImpl |
   WriterTypeStructureImpl
 );

@@ -16,6 +16,7 @@ import type {
 } from "../types/CloneableStructure.js";
 // #endregion preamble
 
+/** Strings, encased in double quotes.  Leaf nodes. */
 export default class StringTypeStructureImpl
 extends TypeStructuresBase<TypeStructureKind.String>
 {
