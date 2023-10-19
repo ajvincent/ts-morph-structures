@@ -7,7 +7,7 @@ import {
   TypeStructureKind,
 } from "../base/TypeStructureKind.js";
 
-import TypeStructuresBase from "../base/TypeStructuresBase.js";
+import TypeStructuresBase from "./TypeStructuresBase.js";
 
 import type {
   TypeStructures
@@ -59,17 +59,6 @@ extends TypeStructuresBase<Kind>
     writer.write(endToken);
   }
 
-  static #writeStringOrType(
-    writer: CodeBlockWriter,
-    value: string | TypeStructures
-  ): void
-  {
-    if (typeof value === "string")
-      writer.write(value);
-    else
-      value.writerFunction(writer);
-  }
-
   abstract readonly kind: Kind;
 
   /** This lives outside the start and end tokens.  Think of this as a parent type for the children, ie. `Partial`. */
@@ -93,7 +82,7 @@ extends TypeStructuresBase<Kind>
   ): void
   {
     if (this.objectType) {
-      TypeStructuresWithChildren.#writeStringOrType(writer, this.objectType);
+      TypeStructuresWithChildren.writeStringOrType(writer, this.objectType);
     }
 
     TypeStructuresWithChildren.#pairedWrite(
@@ -118,7 +107,7 @@ extends TypeStructuresBase<Kind>
 
     const lastChild = childTypes[childTypes.length - 1];
     for (const child of childTypes) {
-      TypeStructuresWithChildren.#writeStringOrType(writer, child);
+      TypeStructuresWithChildren.writeStringOrType(writer, child);
       if (child === lastChild)
         return;
 

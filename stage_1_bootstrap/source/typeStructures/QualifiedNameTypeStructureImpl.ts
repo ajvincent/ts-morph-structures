@@ -8,7 +8,7 @@ import {
 } from "../base/TypeStructureKind.js";
 
 import TypeStructureClassesMap from "../base/TypeStructureClassesMap.js";
-import TypeStructuresBase from "../base/TypeStructuresBase.js";
+import TypeStructuresBase from "./TypeStructuresBase.js";
 
 import type {
   CloneableTypeStructure

@@ -7,6 +7,7 @@ import {
   IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
   ParenthesesTypeStructureImpl,
+  PrefixOperatorsTypeStructureImpl,
   QualifiedNameTypeStructureImpl,
   StringTypeStructureImpl,
   TupleTypeStructureImpl,
@@ -72,6 +73,17 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     typedWriter.childTypes.push("unknown")
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe("(false)");
+  });
+
+  it("PrefixOperatorsTypeStructureImpl", () => {
+    const typedWriter = new PrefixOperatorsTypeStructureImpl(
+      ["typeof", "readonly"],
+      new LiteralTypeStructureImpl("NumberStringType")
+    );
+    typedWriter.writerFunction(writer);
+
+    expect<string>(writer.toString()).toBe("typeof readonly NumberStringType");
+    expect(typedWriter.kind).toBe(TypeStructureKind.PrefixOperators);
   });
 
   it("QualifiedNameTypeStructureImpl", () => {

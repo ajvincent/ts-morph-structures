@@ -2,7 +2,7 @@ import type { CodeBlockWriter, WriterFunction } from "ts-morph";
 
 import { TypeStructureKind } from "../base/TypeStructureKind.js";
 
-import TypeStructuresBase from "../base/TypeStructuresBase.js";
+import TypeStructuresBase from "./TypeStructuresBase.js";
 
 import type { TypeStructures } from "./TypeStructures.js";
 
@@ -43,14 +43,6 @@ export default abstract class TypeStructuresWithChildren<
     writer.write(endToken);
   }
 
-  static #writeStringOrType(
-    writer: CodeBlockWriter,
-    value: string | TypeStructures,
-  ): void {
-    if (typeof value === "string") writer.write(value);
-    else value.writerFunction(writer);
-  }
-
   abstract readonly kind: Kind;
 
   /** This lives outside the start and end tokens.  Think of this as a parent type for the children, ie. `Partial`. */
@@ -71,7 +63,7 @@ export default abstract class TypeStructuresWithChildren<
 
   #writerFunctionOuter(writer: CodeBlockWriter): void {
     if (this.objectType) {
-      TypeStructuresWithChildren.#writeStringOrType(writer, this.objectType);
+      TypeStructuresWithChildren.writeStringOrType(writer, this.objectType);
     }
 
     TypeStructuresWithChildren.#pairedWrite(
@@ -95,7 +87,7 @@ export default abstract class TypeStructuresWithChildren<
 
     const lastChild = childTypes[childTypes.length - 1];
     for (const child of childTypes) {
-      TypeStructuresWithChildren.#writeStringOrType(writer, child);
+      TypeStructuresWithChildren.writeStringOrType(writer, child);
       if (child === lastChild) return;
 
       if (this.printerSettings.oneLinePerChild) {

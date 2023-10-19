@@ -1,11 +1,16 @@
 import type {
+  CodeBlockWriter,
   WriterFunction
 } from "ts-morph";
 
 import {
   KindedTypeStructure,
   TypeStructureKind,
-} from "./TypeStructureKind.js";
+} from "../base/TypeStructureKind.js";
+
+import type {
+  TypeStructures
+} from "./TypeStructures.js";
 
 export default
 abstract class TypeStructuresBase<Kind extends TypeStructureKind>
@@ -21,6 +26,17 @@ implements KindedTypeStructure<Kind>
   ): TypeStructuresBase<TypeStructureKind> | undefined
   {
     return this.#callbackToTypeStructureImpl.get(callback);
+  }
+
+  protected static writeStringOrType(
+    writer: CodeBlockWriter,
+    value: string | TypeStructures
+  ): void
+  {
+    if (typeof value === "string")
+      writer.write(value);
+    else
+      value.writerFunction(writer);
   }
 
   static deregisterCallbackForTypeStructure(
