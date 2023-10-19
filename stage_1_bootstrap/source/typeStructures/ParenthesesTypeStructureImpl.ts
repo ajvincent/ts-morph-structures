@@ -8,10 +8,23 @@ import type {
 
 import TypeStructuresWithChildren from "./TypeStructuresWithChildren.js";
 
+import TypeStructureClassesMap from "../base/TypeStructureClassesMap.js";
+import type {
+  CloneableTypeStructure
+} from "../types/CloneableStructure.js";
+
+/** Wrap the child type in parentheses. */
 export default
 class ParenthesesTypeStructureImpl
 extends TypeStructuresWithChildren<TypeStructureKind.Parentheses, [string | TypeStructures]>
 {
+  static clone(
+    other: ParenthesesTypeStructureImpl
+  ): ParenthesesTypeStructureImpl
+  {
+    return new ParenthesesTypeStructureImpl(other.childTypes[0]);
+  }
+
   public readonly kind = TypeStructureKind.Parentheses;
   protected readonly objectType: null = null;
   public readonly childTypes: [string | TypeStructures];
@@ -30,3 +43,5 @@ extends TypeStructuresWithChildren<TypeStructureKind.Parentheses, [string | Type
     this.registerCallbackForTypeStructure();
   }
 }
+ParenthesesTypeStructureImpl satisfies CloneableTypeStructure<ParenthesesTypeStructureImpl>;
+TypeStructureClassesMap.set(TypeStructureKind.Parentheses, ParenthesesTypeStructureImpl);

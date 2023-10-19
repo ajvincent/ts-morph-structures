@@ -6,7 +6,7 @@ import TypeStructuresBase from "../base/TypeStructuresBase.js";
 
 import type { TypeStructures } from "./TypeStructures.js";
 
-class TypePrinterSettingsBase {
+class TypePrinterSettings {
   indentChildren = false;
   newLinesAroundChildren = false;
   oneLinePerChild = false;
@@ -53,14 +53,21 @@ export default abstract class TypeStructuresWithChildren<
 
   abstract readonly kind: Kind;
 
+  /** This lives outside the start and end tokens.  Think of this as a parent type for the children, ie. `Partial`. */
   protected abstract objectType: string | TypeStructures | null;
+  /** The child types we join together, and wrap in the start and end tokens. */
   public abstract readonly childTypes: Children;
+  /** A very short string, one or two characters, before all child types. */
   protected abstract readonly startToken: string;
+  /** A very short string, between all child types. */
   protected abstract readonly joinChildrenToken: string;
+  /** A very short string, one or two characters, after all child types. */
   protected abstract readonly endToken: string;
+  /** The maximum number of children to support. */
   protected abstract readonly maxChildCount: number;
 
-  readonly printerSettings = new TypePrinterSettingsBase();
+  /** For customizing printing of the child types. */
+  readonly printerSettings = new TypePrinterSettings();
 
   #writerFunctionOuter(writer: CodeBlockWriter): void {
     if (this.objectType) {

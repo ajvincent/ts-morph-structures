@@ -137,6 +137,13 @@ async function defineExistingExports(
   });
 
   dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/base/TypeStructureClassesMap.ts"),
+    exportNames: ["TypeStructureClassesMap"],
+    isDefaultExport: true,
+    isType: false
+  });
+
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/types/PreferArrayFields.ts"),
     exportNames: ["PreferArrayFields"],
     isDefaultExport: false,

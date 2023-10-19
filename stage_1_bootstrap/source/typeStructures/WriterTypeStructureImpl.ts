@@ -10,7 +10,7 @@ import {
 } from "../base/TypeStructureKind.js";
 
 import TypeStructuresBase from "../base/TypeStructuresBase.js";
-import {
+import type {
   CloneableTypeStructure
 } from "../types/CloneableStructure.js";
 // #endregion preamble

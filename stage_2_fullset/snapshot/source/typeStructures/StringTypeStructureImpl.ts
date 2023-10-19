@@ -6,7 +6,7 @@ import TypeStructureClassesMap from "../base/TypeStructureClassesMap.js";
 import { TypeStructureKind } from "../base/TypeStructureKind.js";
 
 import TypeStructuresBase from "../base/TypeStructuresBase.js";
-import { CloneableTypeStructure } from "../types/CloneableStructure.js";
+import type { CloneableTypeStructure } from "../types/CloneableStructure.js";
 // #endregion preamble
 
 export default class StringTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.String> {

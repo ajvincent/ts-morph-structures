@@ -9,6 +9,7 @@ export { default as StructureKindToSyntaxKindMap } from "./base/generated/struct
 export { default as StructureBase } from "./base/StructureBase.js";
 export { default as StructuresClassesMap } from "./base/StructuresClassesMap.js";
 export { COPY_FIELDS, REPLACE_WRITER_WITH_STRING } from "./base/symbolKeys.js";
+export { default as TypeStructureClassesMap } from "./base/TypeStructureClassesMap.js";
 export {
   type AbstractableNodeStructureFields,
   default as AbstractableNodeStructureMixin,

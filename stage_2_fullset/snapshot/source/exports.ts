@@ -50,6 +50,7 @@ export { default as ExportManager } from "./toolbox/ExportManager.js";
 export { default as ImportManager } from "./toolbox/ImportManager.js";
 export type { stringOrWriter } from "./types/stringOrWriter.js";
 export type * from "./types/StructureImplUnions.js";
+export { default as IndexedAccessTypeStructureImpl } from "./typeStructures/IndexedAccessTypeStructureImpl.js";
 export { default as LiteralTypeStructureImpl } from "./typeStructures/LiteralTypeStructureImpl.js";
 export { default as ParenthesesTypeStructureImpl } from "./typeStructures/ParenthesesTypeStructureImpl.js";
 export { default as StringTypeStructureImpl } from "./typeStructures/StringTypeStructureImpl.js";

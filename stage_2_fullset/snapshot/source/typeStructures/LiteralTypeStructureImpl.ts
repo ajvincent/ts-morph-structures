@@ -6,7 +6,7 @@ import TypeStructureClassesMap from "../base/TypeStructureClassesMap.js";
 import { TypeStructureKind } from "../base/TypeStructureKind.js";
 
 import TypeStructuresBase from "../base/TypeStructuresBase.js";
-import { CloneableTypeStructure } from "../types/CloneableStructure.js";
+import type { CloneableTypeStructure } from "../types/CloneableStructure.js";
 // #endregion preamble
 
 /**
@@ -45,7 +45,6 @@ export default class LiteralTypeStructureImpl extends TypeStructuresBase<TypeStr
   readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);
 }
 LiteralTypeStructureImpl satisfies CloneableTypeStructure<LiteralTypeStructureImpl>;
-
 TypeStructureClassesMap.set(
   TypeStructureKind.Literal,
   LiteralTypeStructureImpl,
