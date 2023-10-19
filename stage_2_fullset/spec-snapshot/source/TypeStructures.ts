@@ -9,6 +9,7 @@ import {
   IndexedAccessTypeStructureImpl,
   IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
+  ParameterTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   PrefixOperatorsTypeStructureImpl,
   type PrefixUnaryOperator,
@@ -87,6 +88,18 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     fooTyped.writerFunction(writer);
     expect<string>(writer.toString()).toBe("foo");
     expect(fooTyped.kind).toBe(TypeStructureKind.Literal);
+  });
+
+  it("ParameterTypeStructureImpl", () => {
+    const typedWriter = new ParameterTypeStructureImpl("nst", undefined);
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe("nst");
+    expect(typedWriter.kind).toBe(TypeStructureKind.Parameter);
+
+    writer = new CodeBlockWriter();
+    typedWriter.typeStructure = nstTyped;
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe("nst: NumberStringType");
   });
 
   it("ParenthesesTypeStructureImpl", () => {
@@ -178,8 +191,10 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
 
     let count = 0;
     for (const kind of kinds) {
-      if (kind === TypeStructureKind.Infer) {
-        // cannot support Infer yet
+      if ((kind === TypeStructureKind.Infer) ||
+          (kind === TypeStructureKind.Function) ||
+          (kind === TypeStructureKind.Mapped)) {
+        // cannot support these yet
         continue;
       }
 

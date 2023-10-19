@@ -58,6 +58,7 @@ export {
 export { default as IndexedAccessTypeStructureImpl } from "./typeStructures/IndexedAccessTypeStructureImpl.js";
 export { default as IntersectionTypeStructureImpl } from "./typeStructures/IntersectionTypeStructureImpl.js";
 export { default as LiteralTypeStructureImpl } from "./typeStructures/LiteralTypeStructureImpl.js";
+export { default as ParameterTypeStructureImpl } from "./typeStructures/ParameterTypeStructureImpl.js";
 export { default as ParenthesesTypeStructureImpl } from "./typeStructures/ParenthesesTypeStructureImpl.js";
 export {
   default as PrefixOperatorsTypeStructureImpl,
