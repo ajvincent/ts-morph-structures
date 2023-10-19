@@ -52,4 +52,4 @@ extends TypeStructuresBase<TypeStructureKind.String>
 }
 StringTypeStructureImpl satisfies CloneableTypeStructure<StringTypeStructureImpl>;
 
-TypeStructureClassesMap.set(TypeStructureKind.Literal, StringTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.String, StringTypeStructureImpl);

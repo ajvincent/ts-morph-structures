@@ -55,4 +55,4 @@ extends TypeStructuresWithChildren<TypeStructureKind.TypeArgumented, (string | T
   }
 }
 TypeArgumentedTypeStructureImpl satisfies CloneableTypeStructure<TypeArgumentedTypeStructureImpl>;
-TypeStructureClassesMap.set(TypeStructureKind.Union, TypeArgumentedTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.TypeArgumented, TypeArgumentedTypeStructureImpl);

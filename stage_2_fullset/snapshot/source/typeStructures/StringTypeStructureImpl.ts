@@ -38,4 +38,4 @@ export default class StringTypeStructureImpl extends TypeStructuresBase<TypeStru
 }
 StringTypeStructureImpl satisfies CloneableTypeStructure<StringTypeStructureImpl>;
 
-TypeStructureClassesMap.set(TypeStructureKind.Literal, StringTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.String, StringTypeStructureImpl);

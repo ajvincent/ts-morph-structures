@@ -48,4 +48,4 @@ extends TypeStructuresBase<TypeStructureKind.QualifiedName>
   readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);
 }
 QualifiedNameTypeStructureImpl satisfies CloneableTypeStructure<QualifiedNameTypeStructureImpl>;
-TypeStructureClassesMap.set(TypeStructureKind.Union, QualifiedNameTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.QualifiedName, QualifiedNameTypeStructureImpl);

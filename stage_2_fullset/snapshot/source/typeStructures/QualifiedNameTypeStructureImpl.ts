@@ -32,6 +32,6 @@ export default class QualifiedNameTypeStructureImpl extends TypeStructuresBase<T
 }
 QualifiedNameTypeStructureImpl satisfies CloneableTypeStructure<QualifiedNameTypeStructureImpl>;
 TypeStructureClassesMap.set(
-  TypeStructureKind.Union,
+  TypeStructureKind.QualifiedName,
   QualifiedNameTypeStructureImpl,
 );

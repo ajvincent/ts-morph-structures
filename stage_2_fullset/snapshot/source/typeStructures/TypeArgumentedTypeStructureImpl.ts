@@ -48,6 +48,6 @@ export default class TypeArgumentedTypeStructureImpl extends TypeStructuresWithC
 }
 TypeArgumentedTypeStructureImpl satisfies CloneableTypeStructure<TypeArgumentedTypeStructureImpl>;
 TypeStructureClassesMap.set(
-  TypeStructureKind.Union,
+  TypeStructureKind.TypeArgumented,
   TypeArgumentedTypeStructureImpl,
 );
