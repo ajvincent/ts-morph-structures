@@ -63,8 +63,8 @@ const BPSet = new BuildPromiseSet;
 BPSet.markReady();
 {
   BPSet.main.addSubtarget("copySnapshot");
-  BPSet.main.addSubtarget("eslint");
   BPSet.main.addSubtarget("test");
+  BPSet.main.addSubtarget("eslint");
 }
 await BPSet.main.run();
 export default Promise.resolve();

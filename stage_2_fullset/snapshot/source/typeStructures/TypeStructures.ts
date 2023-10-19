@@ -3,6 +3,7 @@ import ConditionalTypeStructureImpl from "./ConditionalTypeStructureImpl.js";
 import IndexedAccessTypeStructureImpl from "./IndexedAccessTypeStructureImpl.js";
 import IntersectionTypeStructureImpl from "./IntersectionTypeStructureImpl.js";
 import LiteralTypeStructureImpl from "./LiteralTypeStructureImpl.js";
+import MemberedObjectTypeStructureImpl from "./MemberedObjectTypeStructureImpl.js";
 import ParameterTypeStructureImpl from "./ParameterTypeStructureImpl.js";
 import ParenthesesTypeStructureImpl from "./ParenthesesTypeStructureImpl.js";
 import PrefixOperatorsTypeStructureImpl from "./PrefixOperatorsTypeStructureImpl.js";
@@ -20,6 +21,7 @@ export type TypeStructures =
   | IndexedAccessTypeStructureImpl
   | IntersectionTypeStructureImpl
   | LiteralTypeStructureImpl
+  | MemberedObjectTypeStructureImpl
   | ParameterTypeStructureImpl
   | ParenthesesTypeStructureImpl
   | PrefixOperatorsTypeStructureImpl

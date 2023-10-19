@@ -49,6 +49,8 @@ export default async function buildDist(): Promise<void>
     { recursive: true }
   );
 
+  await fixMemberedObjectExports(distDir);
+
   await fs.mkdir(distToolboxDir, { recursive: true });
   const files = (await fs.readdir(sourceUtilitiesDir)).filter(value => value.endsWith(".ts")).map(
     file => path.join(sourceUtilitiesDir, file)
@@ -64,6 +66,16 @@ export default async function buildDist(): Promise<void>
   }
 
   await runPrettify(distDir);
+}
+
+async function fixMemberedObjectExports(
+  distDir: string
+): Promise<void>
+{
+  const modulePath = path.join(distDir, "source/typeStructures/MemberedObjectTypeStructureImpl.ts");
+  let contents: string = await fs.readFile(modulePath, { encoding: "utf-8" });
+  contents = contents.replace("#stage_one/prototype-snapshot/exports.js", "../exports.js");
+  await fs.writeFile(modulePath, contents, { encoding: "utf-8" });
 }
 
 async function exportPublicUtility(

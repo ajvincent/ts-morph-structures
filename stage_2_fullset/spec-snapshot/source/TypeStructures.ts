@@ -24,6 +24,9 @@ import {
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
+  MemberedObjectTypeStructureImpl,
+  MethodSignatureImpl,
+  ParameterDeclarationImpl,
   TypeStructureClassesMap
 } from "#stage_two/snapshot/source/internal-exports.js";
 
@@ -89,6 +92,25 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     fooTyped.writerFunction(writer);
     expect<string>(writer.toString()).toBe("foo");
     expect(fooTyped.kind).toBe(TypeStructureKind.Literal);
+  });
+
+  it("MemberedObjectTypeStructureImpl", () => {
+    const typedWriter = new MemberedObjectTypeStructureImpl;
+
+    const fooMethod = new MethodSignatureImpl("foo");
+    typedWriter.methods.push(fooMethod);
+
+    const param = new ParameterDeclarationImpl("firstArg");
+    fooMethod.parameters.push(param);
+    param.type = "string";
+
+    fooMethod.returnType = "void";
+    //fooMethod.returnTypeStructure = new LiteralTypedStructureImpl("void");
+
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`{\n    foo(firstArg: string): void;\n}`);
+
+    expect(typedWriter.kind).toBe(TypeStructureKind.MemberedObject);
   });
 
   it("ParameterTypeStructureImpl", () => {

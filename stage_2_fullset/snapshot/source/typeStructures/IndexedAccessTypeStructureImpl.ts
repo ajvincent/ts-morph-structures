@@ -12,8 +12,8 @@ import type { CloneableTypeStructure } from "../types/CloneableStructure.js";
  * `Foo["index"]`
  *
  * @see `ArrayTypeStructureImpl` for `boolean[]`
- * @see `MappedTypeTypeStructureImpl` for `{ [key in keyof Foo]: boolean}`
- * @see `ObjectLiteralTypeStructureImpl` for `{ [key: string]: boolean }`
+ * @see `MappedTypeStructureImpl` for `{ [key in keyof Foo]: boolean}`
+ * @see `MemberedObjectTypeStructureImpl` for `{ [key: string]: boolean }`
  */
 export default class IndexedAccessTypeStructureImpl extends TypeStructuresWithChildren<
   TypeStructureKind.IndexedAccess,

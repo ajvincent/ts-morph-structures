@@ -19,7 +19,7 @@ export enum TypeStructureKind {
   Function,
   Parameter,
   TemplateLiteral,
-  ObjectLiteral,
+  MemberedObject,
 }
 
 export interface KindedTypeStructure<TKind extends TypeStructureKind>
