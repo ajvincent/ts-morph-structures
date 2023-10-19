@@ -1,7 +1,7 @@
 // #region preamble
 import {
   LiteralTypedStructureImpl,
-  ObjectLiteralTypedStructureImpl,
+  MemberedObjectTypeStructureImpl,
   PrefixOperatorsTypedStructureImpl,
   PropertySignatureImpl,
   TypeArgumentedTypedStructure,
@@ -60,7 +60,7 @@ export default function defineFieldsType(
         [symbolKey.typeStructure]
       ),
 
-      new ObjectLiteralTypedStructureImpl([
+      new MemberedObjectTypeStructureImpl([
         staticFields,
         instanceFields,
         symbolKey,

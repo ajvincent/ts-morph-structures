@@ -40,7 +40,7 @@ import {
   type TypeStructures,
   UnionTypedStructureImpl,
   TemplateLiteralTypedStructureImpl,
-  ObjectLiteralTypedStructureImpl,
+  MemberedObjectTypeStructureImpl,
   StructuresClassesMap,
   CallSignatureDeclarationImpl,
   ConstructSignatureDeclarationImpl,
@@ -603,9 +603,9 @@ function convertTypeLiteralNode(
   memberedTypeNode: TypeLiteralNode,
   conversionFailCallback: TypeNodeToTypeStructureConsole,
   subStructureResolver: (node: NodeWithStructures) => Structures,
-): ObjectLiteralTypedStructureImpl | null
+): MemberedObjectTypeStructureImpl | null
 {
-  const structure = new ObjectLiteralTypedStructureImpl;
+  const structure = new MemberedObjectTypeStructureImpl;
   const members = memberedTypeNode.getMembers();
   for (const member of members) {
     let childStructure = subStructureResolver(member);

@@ -27,7 +27,7 @@ import {
   LiteralTypedStructureImpl,
   MappedTypeTypedStructureImpl,
   MethodDeclarationImpl,
-  ObjectLiteralTypedStructureImpl,
+  MemberedObjectTypeStructureImpl,
   ParameterTypedStructureImpl,
   PrefixOperatorsTypedStructureImpl,
   PropertySignatureImpl,
@@ -94,7 +94,7 @@ it("ts-morph-structures: integration test", () => {
 
     const valueProperty = new PropertySignatureImpl("value");
     valueProperty.type = "T";
-    ValueWrapperAlias.typeStructure = new ObjectLiteralTypedStructureImpl([
+    ValueWrapperAlias.typeStructure = new MemberedObjectTypeStructureImpl([
       valueProperty,
     ]);
   }

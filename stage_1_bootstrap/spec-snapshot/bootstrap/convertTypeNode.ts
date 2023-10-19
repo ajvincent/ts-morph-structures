@@ -19,7 +19,7 @@ import {
   IntersectionTypedStructureImpl,
   LiteralTypedStructureImpl,
   MappedTypeTypedStructureImpl,
-  ObjectLiteralTypedStructureImpl,
+  MemberedObjectTypeStructureImpl,
   ParenthesesTypedStructureImpl,
   PrefixOperatorsTypedStructureImpl,
   QualifiedNameTypedStructureImpl,
@@ -622,9 +622,9 @@ const A: string;
 
   it(`{ foo: true } (object literal)`, () => {
     setTypeStructure(`{ foo: true }`, failCallback);
-    expect(structure).toBeInstanceOf(ObjectLiteralTypedStructureImpl);
+    expect(structure).toBeInstanceOf(MemberedObjectTypeStructureImpl);
 
-    if (!(structure instanceof ObjectLiteralTypedStructureImpl))
+    if (!(structure instanceof MemberedObjectTypeStructureImpl))
       return;
     expect(structure.callSignatures.length).toBe(0);
     expect(structure.constructSignatures.length).toBe(0);

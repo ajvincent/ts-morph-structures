@@ -11,7 +11,7 @@ import {
   IntersectionTypedStructureImpl,
   LiteralTypedStructureImpl,
   MappedTypeTypedStructureImpl,
-  ObjectLiteralTypedStructureImpl,
+  MemberedObjectTypeStructureImpl,
   ParameterTypedStructureImpl,
   ParenthesesTypedStructureImpl,
   PrefixOperatorsTypedStructureImpl,
@@ -381,7 +381,7 @@ describe("TypeStructure for ts-morph (stage 1): ", () => {
   });
 
   it("ObjectLiteralTypedStructureImpl", () => {
-    const typedWriter = new ObjectLiteralTypedStructureImpl;
+    const typedWriter = new MemberedObjectTypeStructureImpl;
 
     const fooMethod = new MethodSignatureImpl("foo");
     typedWriter.methods.push(fooMethod);
@@ -395,6 +395,6 @@ describe("TypeStructure for ts-morph (stage 1): ", () => {
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe(`{\n  foo(firstArg: string): void;\n}`);
 
-    expect(typedWriter.kind).toBe(TypeStructureKind.ObjectLiteral);
+    expect(typedWriter.kind).toBe(TypeStructureKind.MemberedObject);
   });
 });

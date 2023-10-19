@@ -17,7 +17,7 @@ import {
   IndexSignatureDeclarationImpl,
   MethodSignatureImpl,
   type ObjectLiteralAppendables,
-  type ObjectLiteralTypedStructure,
+  type MemberedObjectTypedStructure,
   PropertySignatureImpl,
   TypeStructureKind,
   TypeStructureClassesMap,
@@ -50,10 +50,10 @@ import type {
  *
  * @see `MappedTypeTypedStructureImpl` for `{ readonly [key in keyof Foo]: boolean }`
  */
-export default class ObjectLiteralTypedStructureImpl
-implements ObjectLiteralTypedStructure
+export default class MemberedObjectTypeStructureImpl
+implements MemberedObjectTypedStructure
 {
-  readonly kind: TypeStructureKind.ObjectLiteral = TypeStructureKind.ObjectLiteral;
+  readonly kind: TypeStructureKind.MemberedObject = TypeStructureKind.MemberedObject;
 
   readonly callSignatures: CallSignatureDeclarationImpl[] = [];
   readonly constructSignatures: ConstructSignatureDeclarationImpl[] = [];
@@ -125,10 +125,10 @@ implements ObjectLiteralTypedStructure
   writerFunction = this.#writerFunction.bind(this);
 
   static clone(
-    other: ObjectLiteralTypedStructure
-  ): ObjectLiteralTypedStructureImpl
+    other: MemberedObjectTypedStructure
+  ): MemberedObjectTypeStructureImpl
   {
-    const clone = new ObjectLiteralTypedStructureImpl;
+    const clone = new MemberedObjectTypeStructureImpl;
 
     clone.callSignatures.push(...cloneArrayOrUndefined<
       OptionalKind<CallSignatureDeclarationStructure>,
@@ -179,5 +179,5 @@ implements ObjectLiteralTypedStructure
   }
 }
 
-ObjectLiteralTypedStructureImpl satisfies CloneableStructure<ObjectLiteralTypedStructure>;
-TypeStructureClassesMap.set(TypeStructureKind.ObjectLiteral, ObjectLiteralTypedStructureImpl);
+MemberedObjectTypeStructureImpl satisfies CloneableStructure<MemberedObjectTypedStructure>;
+TypeStructureClassesMap.set(TypeStructureKind.MemberedObject, MemberedObjectTypeStructureImpl);

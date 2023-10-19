@@ -251,8 +251,8 @@ export type ObjectLiteralAppendables = (
   }
 );
 
-export type ObjectLiteralTypedStructure = Simplify<
-  KindedTypeStructure<TypeStructureKind.ObjectLiteral> &
+export type MemberedObjectTypedStructure = Simplify<
+  KindedTypeStructure<TypeStructureKind.MemberedObject> &
   TypeElementMemberedNodeStructure &
   ReplaceableDescendants &
   AppendableStructure<ObjectLiteralAppendables>
@@ -286,7 +286,7 @@ export type TypeStructures = (
   FunctionTypedStructure |
   ParameterTypedStructure |
   TemplateLiteralTypedStructure |
-  ObjectLiteralTypedStructure |
+  MemberedObjectTypedStructure |
   InferTypedStructure |
   QualifiedNameTypedStructure
 );

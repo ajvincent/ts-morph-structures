@@ -3,7 +3,7 @@ import {
   FunctionTypedStructureImpl,
   InterfaceDeclarationImpl,
   LiteralTypedStructureImpl,
-  ObjectLiteralTypedStructureImpl,
+  MemberedObjectTypeStructureImpl,
   ParameterTypedStructureImpl,
   SymbolKeyTypedStructureImpl,
   TupleTypedStructureImpl,
@@ -112,7 +112,7 @@ describe("replaceDescendantTypes", () => {
     const prop = new PropertySignatureImpl("foo");
     prop.typeStructure = SymbolKeyTypedStructureImpl.clone(BarBaseLiteral);
 
-    const objectLiteral = new ObjectLiteralTypedStructureImpl({
+    const objectLiteral = new MemberedObjectTypeStructureImpl({
       methods: [
         firstMethod,
       ],

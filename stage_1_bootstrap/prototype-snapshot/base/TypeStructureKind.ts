@@ -20,7 +20,7 @@ export enum TypeStructureKind {
   Function,
   Parameter,
   TemplateLiteral,
-  ObjectLiteral,
+  MemberedObject,
   Infer,
   QualifiedName,
 }

@@ -83,7 +83,7 @@ export { default as InferTypedStructureImpl } from "./typeStructures/InferTypedS
 export { default as IntersectionTypedStructureImpl } from "./typeStructures/IntersectionTypedStructureImpl.js"
 export { default as LiteralTypedStructureImpl } from "./typeStructures/LiteralTypedStructureImpl.js";
 export { default as MappedTypeTypedStructureImpl } from "./typeStructures/MappedTypeTypedStructureImpl.js";
-export { default as ObjectLiteralTypedStructureImpl } from "./typeStructures/ObjectLiteralTypedStructureImpl.js";
+export { default as MemberedObjectTypeStructureImpl } from "./typeStructures/MemberedObjectTypeStructureImpl.js";
 export { default as ParameterTypedStructureImpl } from "./typeStructures/ParameterTypedStructureImpl.js";
 export { default as ParenthesesTypedStructureImpl } from "./typeStructures/ParenthesesTypedStructureImpl.js";
 export { default as PrefixOperatorsTypedStructureImpl } from "./typeStructures/PrefixOperatorsTypedStructureImpl.js";
