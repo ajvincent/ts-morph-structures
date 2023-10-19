@@ -8,6 +8,7 @@ import TypeStructureClassesMap from "../base/TypeStructureClassesMap.js";
 import type { CloneableTypeStructure } from "../types/CloneableStructure.js";
 
 /**
+ * @example
  * `Foo["index"]`
  *
  * @see `ArrayTypeStructureImpl` for `boolean[]`

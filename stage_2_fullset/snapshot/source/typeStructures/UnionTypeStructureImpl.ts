@@ -7,7 +7,7 @@ import TypeStructuresWithChildren from "./TypeStructuresWithChildren.js";
 import TypeStructureClassesMap from "../base/TypeStructureClassesMap.js";
 import type { CloneableTypeStructure } from "../types/CloneableStructure.js";
 
-/** Foo | Bar | ... */
+/** @example `Foo | Bar | ...` */
 export default class UnionTypeStructureImpl extends TypeStructuresWithChildren<
   TypeStructureKind.Union,
   (string | TypeStructures)[]

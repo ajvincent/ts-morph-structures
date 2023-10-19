@@ -7,6 +7,7 @@ import {
   IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
   ParenthesesTypeStructureImpl,
+  QualifiedNameTypeStructureImpl,
   StringTypeStructureImpl,
   TupleTypeStructureImpl,
   TypeArgumentedTypeStructureImpl,
@@ -71,6 +72,16 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     typedWriter.childTypes.push("unknown")
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe("(false)");
+  });
+
+  it("QualifiedNameTypeStructureImpl", () => {
+    const typedWriter = new QualifiedNameTypeStructureImpl([
+      nstTyped.stringValue,
+      fooTyped.stringValue
+    ]);
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`NumberStringType.foo`);
+    expect(typedWriter.kind).toBe(TypeStructureKind.QualifiedName);
   });
 
   it("StringTypeStructureImpl", () => {

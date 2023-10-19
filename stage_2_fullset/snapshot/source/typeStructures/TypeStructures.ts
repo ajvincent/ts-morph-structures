@@ -2,6 +2,7 @@ import IndexedAccessTypeStructureImpl from "./IndexedAccessTypeStructureImpl.js"
 import IntersectionTypeStructureImpl from "./IntersectionTypeStructureImpl.js";
 import LiteralTypeStructureImpl from "./LiteralTypeStructureImpl.js";
 import ParenthesesTypeStructureImpl from "./ParenthesesTypeStructureImpl.js";
+import QualifiedNameTypeStructureImpl from "./QualifiedNameTypeStructureImpl.js";
 import StringTypeStructureImpl from "./StringTypeStructureImpl.js";
 import TupleTypeStructureImpl from "./TupleTypeStructureImpl.js";
 import TypeArgumentedTypeStructureImpl from "./TypeArgumentedTypeStructureImpl.js";
@@ -13,6 +14,7 @@ export type TypeStructures =
   | IntersectionTypeStructureImpl
   | LiteralTypeStructureImpl
   | ParenthesesTypeStructureImpl
+  | QualifiedNameTypeStructureImpl
   | StringTypeStructureImpl
   | TupleTypeStructureImpl
   | TypeArgumentedTypeStructureImpl

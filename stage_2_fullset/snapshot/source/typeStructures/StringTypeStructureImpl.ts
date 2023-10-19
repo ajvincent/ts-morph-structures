@@ -9,6 +9,7 @@ import TypeStructuresBase from "../base/TypeStructuresBase.js";
 import type { CloneableTypeStructure } from "../types/CloneableStructure.js";
 // #endregion preamble
 
+/** Strings, encased in double quotes.  Leaf nodes. */
 export default class StringTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.String> {
   static clone(other: StringTypeStructureImpl): StringTypeStructureImpl {
     return new StringTypeStructureImpl(other.stringValue);

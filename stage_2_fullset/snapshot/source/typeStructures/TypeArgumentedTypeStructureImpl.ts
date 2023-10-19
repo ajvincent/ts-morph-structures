@@ -8,10 +8,10 @@ import TypeStructureClassesMap from "../base/TypeStructureClassesMap.js";
 import type { CloneableTypeStructure } from "../types/CloneableStructure.js";
 
 /**
+ * This resolves type parameters, as opposed to defining them.
+ *
  * @example
  * `Pick<NumberStringType, "repeatForward">`
- *
- * This resolves type parameters, as opposed to defining them.
  *
  * @see `TypeParameterDeclarationImpl` for `Type<Foo extends object>`
  */

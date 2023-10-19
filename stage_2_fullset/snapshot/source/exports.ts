@@ -54,6 +54,7 @@ export { default as IndexedAccessTypeStructureImpl } from "./typeStructures/Inde
 export { default as IntersectionTypeStructureImpl } from "./typeStructures/IntersectionTypeStructureImpl.js";
 export { default as LiteralTypeStructureImpl } from "./typeStructures/LiteralTypeStructureImpl.js";
 export { default as ParenthesesTypeStructureImpl } from "./typeStructures/ParenthesesTypeStructureImpl.js";
+export { default as QualifiedNameTypeStructureImpl } from "./typeStructures/QualifiedNameTypeStructureImpl.js";
 export { default as StringTypeStructureImpl } from "./typeStructures/StringTypeStructureImpl.js";
 export { default as TupleTypeStructureImpl } from "./typeStructures/TupleTypeStructureImpl.js";
 export { default as TypeArgumentedTypeStructureImpl } from "./typeStructures/TypeArgumentedTypeStructureImpl.js";
