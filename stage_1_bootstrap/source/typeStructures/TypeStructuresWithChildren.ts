@@ -1,5 +1,6 @@
 import type {
-  CodeBlockWriter, WriterFunction,
+  CodeBlockWriter,
+  WriterFunction,
 } from "ts-morph";
 
 import {

@@ -8,6 +8,7 @@ import {
   ParenthesesTypeStructureImpl,
   StringTypeStructureImpl,
   TypeStructureKind,
+  UnionTypeStructureImpl,
   WriterTypeStructureImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
@@ -15,7 +16,7 @@ import {
   TypeStructureClassesMap
 } from "#stage_two/snapshot/source/internal-exports.js";
 
-describe("TypeStructure for ts-morph: ", () => {
+describe("TypeStructure for ts-morph (stage 2): ", () => {
   let writer: CodeBlockWriter;
   beforeEach(() => writer = new CodeBlockWriter());
 
@@ -75,6 +76,13 @@ describe("TypeStructure for ts-morph: ", () => {
     expect(typedWriter.kind).toBe(TypeStructureKind.IndexedAccess);
   });
 
+  it("UnionTypeStructureImpl", () => {
+    const typedWriter = new UnionTypeStructureImpl([fooTyped, nstTyped]);
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`foo | NumberStringType`);
+    expect(typedWriter.kind).toBe(TypeStructureKind.Union);
+  });
+
   xit("TypeStructureClassesMap is complete", () => {
     const kinds = Object.values(TypeStructureKind).filter(
       value => typeof value === "number"
@@ -82,5 +90,13 @@ describe("TypeStructure for ts-morph: ", () => {
     for (const kind of kinds) {
       expect<boolean>(TypeStructureClassesMap.has(kind)).withContext(TypeStructureKind[kind]).toBe(true);
     }
+  });
+
+  xit("Each test covers a .clone() method", () => {
+    expect(true).toBe(false);
+  });
+
+  xit("Each test covers a registerCallback case", () => {
+    expect(true).toBe(false);
   });
 });

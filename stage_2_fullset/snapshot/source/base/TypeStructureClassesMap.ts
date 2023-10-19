@@ -11,11 +11,14 @@ class TypeStructureClassesMapClass extends Map<
   CloneableTypeStructure<TypeStructures> &
     Class<KindedTypeStructure<TypeStructureKind>>
 > {
-  clone(structure: TypeStructures): TypeStructures {
+  clone(structure: string | TypeStructures): string | TypeStructures {
+    if (typeof structure === "string") return structure;
     return this.get(structure.kind)!.clone(structure);
   }
 
-  cloneArray(structures: TypeStructures[]): TypeStructures[] {
+  cloneArray(
+    structures: (string | TypeStructures)[],
+  ): (string | TypeStructures)[] {
     return structures.map((structure) => this.clone(structure));
   }
 }
