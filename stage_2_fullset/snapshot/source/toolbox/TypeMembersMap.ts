@@ -24,8 +24,8 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
   static #uniqueKeyCounter = 0;
 
   /**
-   * Get a map key from a potential class member.
-   * @param member - the class member
+   * Get a map key from a potential type member.
+   * @param member - the type member
    */
   static keyFromMember(member: TypeMemberImpl): string {
     let key = TypeMembersMap.#uniqueKey.get(member);
@@ -39,7 +39,7 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
   static #keyFromMember(member: TypeMemberImpl): string {
     if (member.kind === StructureKind.ConstructSignature) return "constructor";
     if (member.kind === StructureKind.IndexSignature)
-      return `(index:${member.keyName} ${TypeMembersMap.#uniqueKeyCounter++})`;
+      return `(index ${TypeMembersMap.#uniqueKeyCounter++})`;
     if (member.kind === StructureKind.CallSignature)
       return `(callsignature ${TypeMembersMap.#uniqueKeyCounter++})`;
     return this.keyFromName(member.kind, member.name);
@@ -47,7 +47,7 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
 
   /**
    * @param kind - the structure kind.
-   * @param name - the name of the class member.
+   * @param name - the name of the type member.
    * @returns the map key to use.
    */
   static keyFromName(kind: NamedTypeMemberImpl["kind"], name: string): string {
@@ -62,12 +62,23 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
     return rv;
   }
 
+  /**
+   * Add type members as values of this map, using standard keys.
+   *
+   * @param members - the type members to add.
+   */
   public addMembers(members: readonly TypeMemberImpl[]): void {
     members.forEach((member) => {
       this.set(TypeMembersMap.keyFromMember(member), member);
     });
   }
 
+  /**
+   * Get type members of a particular kind.
+   *
+   * @param kind - the structure kind to get.
+   * @returns all current members of that kind.
+   */
   public arrayAsKind<Kind extends TypeMemberImpl["kind"]>(
     kind: Kind,
   ): readonly Extract<TypeMemberImpl, KindedStructure<Kind>>[] {
@@ -76,6 +87,14 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
     return items as Extract<TypeMemberImpl, KindedStructure<Kind>>[];
   }
 
+  /**
+   * A typed call to `this.get()` for a given kind.
+   * @param key - the key to get.
+   * @param kind - the structure kind.
+   * @returns - the type member, as the right type, or undefined if the wrong type.
+   *
+   * @see `ClassMembersMap::keyFromName`
+   */
   getAsKind<Kind extends TypeMemberImpl["kind"]>(
     key: string,
     kind: Kind,
@@ -86,6 +105,11 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
     return undefined;
   }
 
+  /**
+   * Move type members from this map to an interface or type literal, and clear this map.
+   *
+   * @param owner - the target interface or type literal declaration.
+   */
   moveMembersToType(
     owner: InterfaceDeclarationImpl | MemberedObjectTypeStructureImpl,
   ): void {
