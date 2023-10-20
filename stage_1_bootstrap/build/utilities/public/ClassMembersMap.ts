@@ -33,7 +33,7 @@ export type ClassMemberImpl = (
  * // classDecl.properties === [foo];
  */
 export default class ClassMembersMap
-extends Map<string | symbol, ClassMemberImpl>
+extends Map<string, ClassMemberImpl>
 {
   /**
    * Get a map key from a potential class member.
@@ -99,7 +99,7 @@ extends Map<string | symbol, ClassMemberImpl>
     Kind extends ClassMemberImpl["kind"]
   >
   (
-    kind: ClassMemberImpl["kind"]
+    kind: Kind
   ): readonly (ClassMemberImpl & { kind: Kind })[]
   {
     let items = Array.from(this.values());

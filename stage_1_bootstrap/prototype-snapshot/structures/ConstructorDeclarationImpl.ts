@@ -104,7 +104,6 @@ implements ConstructorDeclarationStructure
     return clone;
   }
 
-
   public toJSON(): ReplaceWriterInProperties<ConstructorDeclarationStructure>
   {
     return super.toJSON() as ReplaceWriterInProperties<ConstructorDeclarationStructure>;
