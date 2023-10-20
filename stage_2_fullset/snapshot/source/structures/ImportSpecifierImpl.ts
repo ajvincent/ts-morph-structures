@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   type PreferArrayFields,
@@ -17,7 +18,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const ImportSpecifierStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -71,5 +72,6 @@ export default class ImportSpecifierImpl
 ImportSpecifierImpl satisfies CloneableStructure<
   ImportSpecifierStructure,
   ImportSpecifierImpl
->;
+> &
+  Class<ExtractStructure<ImportSpecifierStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.ImportSpecifier, ImportSpecifierImpl);

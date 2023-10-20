@@ -10,6 +10,7 @@ import {
   DecoratableNodeStructureMixin,
   type ExclamationTokenableNodeStructureFields,
   ExclamationTokenableNodeStructureMixin,
+  type ExtractStructure,
   type InitializerExpressionableNodeStructureFields,
   InitializerExpressionableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -39,7 +40,7 @@ import {
   type PropertyDeclarationStructure,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const PropertyDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -126,5 +127,6 @@ export default class PropertyDeclarationImpl
 PropertyDeclarationImpl satisfies CloneableStructure<
   PropertyDeclarationStructure,
   PropertyDeclarationImpl
->;
+> &
+  Class<ExtractStructure<PropertyDeclarationStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.Property, PropertyDeclarationImpl);

@@ -6,6 +6,7 @@ import {
   COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
+  type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
@@ -33,7 +34,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const GetAccessorDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -104,5 +105,6 @@ export default class GetAccessorDeclarationImpl
 GetAccessorDeclarationImpl satisfies CloneableStructure<
   GetAccessorDeclarationStructure,
   GetAccessorDeclarationImpl
->;
+> &
+  Class<ExtractStructure<GetAccessorDeclarationStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.GetAccessor, GetAccessorDeclarationImpl);

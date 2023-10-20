@@ -4,6 +4,7 @@ import {
   type CloneableStructure,
   cloneStructureArray,
   COPY_FIELDS,
+  type ExtractStructure,
   type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
@@ -20,7 +21,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const JSDocStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -75,5 +76,6 @@ export default class JSDocImpl
   }
 }
 
-JSDocImpl satisfies CloneableStructure<JSDocStructure, JSDocImpl>;
+JSDocImpl satisfies CloneableStructure<JSDocStructure, JSDocImpl> &
+  Class<ExtractStructure<JSDocStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.JSDoc, JSDocImpl);

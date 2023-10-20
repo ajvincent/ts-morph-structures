@@ -14,6 +14,7 @@ import {
   COPY_FIELDS,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
+  type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
@@ -40,7 +41,7 @@ import {
   type PropertySignatureStructure,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const InterfaceDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -169,5 +170,6 @@ export default class InterfaceDeclarationImpl
 InterfaceDeclarationImpl satisfies CloneableStructure<
   InterfaceDeclarationStructure,
   InterfaceDeclarationImpl
->;
+> &
+  Class<ExtractStructure<InterfaceDeclarationStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.Interface, InterfaceDeclarationImpl);

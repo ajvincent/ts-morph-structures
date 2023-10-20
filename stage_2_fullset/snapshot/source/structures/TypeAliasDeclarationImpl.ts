@@ -6,6 +6,7 @@ import {
   COPY_FIELDS,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
+  type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
@@ -29,7 +30,7 @@ import {
   StructureKind,
   type TypeAliasDeclarationStructure,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const TypeAliasDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -98,5 +99,6 @@ export default class TypeAliasDeclarationImpl
 TypeAliasDeclarationImpl satisfies CloneableStructure<
   TypeAliasDeclarationStructure,
   TypeAliasDeclarationImpl
->;
+> &
+  Class<ExtractStructure<TypeAliasDeclarationStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.TypeAlias, TypeAliasDeclarationImpl);

@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExtractStructure,
   type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
@@ -13,7 +14,7 @@ import {
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import { type JSDocTagStructure, OptionalKind, StructureKind } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const JSDocTagStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -65,5 +66,6 @@ export default class JSDocTagImpl
   }
 }
 
-JSDocTagImpl satisfies CloneableStructure<JSDocTagStructure, JSDocTagImpl>;
+JSDocTagImpl satisfies CloneableStructure<JSDocTagStructure, JSDocTagImpl> &
+  Class<ExtractStructure<JSDocTagStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.JSDocTag, JSDocTagImpl);

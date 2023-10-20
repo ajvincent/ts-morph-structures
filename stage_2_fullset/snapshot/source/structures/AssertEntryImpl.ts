@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   type PreferArrayFields,
@@ -17,7 +18,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const AssertEntryStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -66,5 +67,6 @@ export default class AssertEntryImpl
 AssertEntryImpl satisfies CloneableStructure<
   AssertEntryStructure,
   AssertEntryImpl
->;
+> &
+  Class<ExtractStructure<AssertEntryStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.AssertEntry, AssertEntryImpl);

@@ -4,6 +4,7 @@ import {
   COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
+  type ExtractStructure,
   type InitializerExpressionableNodeStructureFields,
   InitializerExpressionableNodeStructureMixin,
   type NamedNodeStructureFields,
@@ -30,7 +31,7 @@ import {
   Scope,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const ParameterDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -109,5 +110,6 @@ export default class ParameterDeclarationImpl
 ParameterDeclarationImpl satisfies CloneableStructure<
   ParameterDeclarationStructure,
   ParameterDeclarationImpl
->;
+> &
+  Class<ExtractStructure<ParameterDeclarationStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.Parameter, ParameterDeclarationImpl);

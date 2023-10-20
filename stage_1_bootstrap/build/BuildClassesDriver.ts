@@ -165,29 +165,36 @@ async function defineExistingExports(
   });
 
   dictionaries.internalExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/types/PreferArrayFields.ts"),
+    absolutePathToModule: path.join(distDir, "source/types/CloneableStructure.d.ts"),
+    exportNames: ["CloneableStructure"],
+    isDefaultExport: false,
+    isType: true
+  });
+
+  dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/types/ExtractStructure.d.ts"),
+    exportNames: ["ExtractStructure"],
+    isDefaultExport: false,
+    isType: true
+  });
+
+  dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/types/PreferArrayFields.d.ts"),
     exportNames: ["PreferArrayFields"],
     isDefaultExport: false,
     isType: true
   });
 
   dictionaries.internalExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/types/RequiredOmit.ts"),
+    absolutePathToModule: path.join(distDir, "source/types/RequiredOmit.d.ts"),
     exportNames: ["RequiredOmit"],
     isDefaultExport: false,
     isType: true
   });
 
   dictionaries.internalExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/types/RightExtendsLeft.ts"),
+    absolutePathToModule: path.join(distDir, "source/types/RightExtendsLeft.d.ts"),
     exportNames: ["RightExtendsLeft"],
-    isDefaultExport: false,
-    isType: true
-  });
-
-  dictionaries.internalExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/types/CloneableStructure.ts"),
-    exportNames: ["CloneableStructure"],
     isDefaultExport: false,
     isType: true
   });

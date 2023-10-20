@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
@@ -27,7 +28,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const MethodSignatureStructureBase = MultiMixinBuilder<
   [
@@ -83,5 +84,6 @@ export default class MethodSignatureImpl
 MethodSignatureImpl satisfies CloneableStructure<
   MethodSignatureStructure,
   MethodSignatureImpl
->;
+> &
+  Class<ExtractStructure<MethodSignatureStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.MethodSignature, MethodSignatureImpl);

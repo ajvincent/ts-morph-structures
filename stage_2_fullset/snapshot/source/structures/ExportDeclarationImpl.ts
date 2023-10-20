@@ -5,6 +5,7 @@ import {
   cloneStructureArray,
   cloneStructureStringOrWriterArray,
   COPY_FIELDS,
+  type ExtractStructure,
   type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
@@ -22,7 +23,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const ExportDeclarationStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -115,7 +116,8 @@ export default class ExportDeclarationImpl
 ExportDeclarationImpl satisfies CloneableStructure<
   ExportDeclarationStructure,
   ExportDeclarationImpl
->;
+> &
+  Class<ExtractStructure<ExportDeclarationStructure["kind"]>>;
 StructuresClassesMap.set(
   StructureKind.ExportDeclaration,
   ExportDeclarationImpl,

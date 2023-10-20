@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExtractStructure,
   type InitializerExpressionableNodeStructureFields,
   InitializerExpressionableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -27,7 +28,7 @@ import {
   type PropertySignatureStructure,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const PropertySignatureStructureBase = MultiMixinBuilder<
   [
@@ -87,7 +88,8 @@ export default class PropertySignatureImpl
 PropertySignatureImpl satisfies CloneableStructure<
   PropertySignatureStructure,
   PropertySignatureImpl
->;
+> &
+  Class<ExtractStructure<PropertySignatureStructure["kind"]>>;
 StructuresClassesMap.set(
   StructureKind.PropertySignature,
   PropertySignatureImpl,

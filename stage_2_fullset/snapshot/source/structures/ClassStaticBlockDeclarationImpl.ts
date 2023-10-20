@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type PreferArrayFields,
@@ -19,7 +20,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const ClassStaticBlockDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -59,7 +60,8 @@ export default class ClassStaticBlockDeclarationImpl
 ClassStaticBlockDeclarationImpl satisfies CloneableStructure<
   ClassStaticBlockDeclarationStructure,
   ClassStaticBlockDeclarationImpl
->;
+> &
+  Class<ExtractStructure<ClassStaticBlockDeclarationStructure["kind"]>>;
 StructuresClassesMap.set(
   StructureKind.ClassStaticBlock,
   ClassStaticBlockDeclarationImpl,

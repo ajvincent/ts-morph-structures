@@ -52,6 +52,7 @@ export default function createStructureParts(
   parts.importsManager = new ImportManager(
     path.join(distDir, "source", "structures", parts.classDecl.name + ".ts")
   );
+
   parts.importsManager.addImports({
     pathToImportedModule: "ts-morph",
     isPackageImport: true,
@@ -61,12 +62,24 @@ export default function createStructureParts(
       name,
     ]
   });
+
+  parts.importsManager.addImports({
+    pathToImportedModule: "type-fest",
+    isPackageImport: true,
+    isDefaultImport: false,
+    isTypeOnly: true,
+    importNames: [
+      "Class",
+    ]
+  });
+
   parts.importsManager.addImports({
     pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
     isPackageImport: false,
     isDefaultImport: false,
     isTypeOnly: true,
     importNames: [
+      "ExtractStructure",
       "PreferArrayFields",
       "RequiredOmit",
     ]

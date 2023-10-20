@@ -4,6 +4,7 @@ import {
   type CloneableStructure,
   cloneRequiredAndOptionalArray,
   COPY_FIELDS,
+  type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   type PreferArrayFields,
@@ -21,7 +22,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const JsxSelfClosingElementStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -83,7 +84,8 @@ export default class JsxSelfClosingElementImpl
 JsxSelfClosingElementImpl satisfies CloneableStructure<
   JsxSelfClosingElementStructure,
   JsxSelfClosingElementImpl
->;
+> &
+  Class<ExtractStructure<JsxSelfClosingElementStructure["kind"]>>;
 StructuresClassesMap.set(
   StructureKind.JsxSelfClosingElement,
   JsxSelfClosingElementImpl,

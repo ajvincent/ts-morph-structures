@@ -96,6 +96,7 @@ export {
 } from "./decorators/TypeParameteredNodeStructureMixin.js";
 export * from "./exports.js";
 export type { CloneableStructure } from "./types/CloneableStructure.js";
+export type { ExtractStructure } from "./types/ExtractStructure.js";
 export type { PreferArrayFields } from "./types/PreferArrayFields.js";
 export type { RequiredOmit } from "./types/RequiredOmit.js";
 export type { RightExtendsLeft } from "./types/RightExtendsLeft.js";

@@ -8,6 +8,7 @@ import {
   COPY_FIELDS,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
+  type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type PreferArrayFields,
@@ -25,7 +26,7 @@ import {
   type VariableDeclarationStructure,
   type VariableStatementStructure,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const VariableStatementStructureBase = MultiMixinBuilder<
   [
@@ -98,7 +99,8 @@ export default class VariableStatementImpl
 VariableStatementImpl satisfies CloneableStructure<
   VariableStatementStructure,
   VariableStatementImpl
->;
+> &
+  Class<ExtractStructure<VariableStatementStructure["kind"]>>;
 StructuresClassesMap.set(
   StructureKind.VariableStatement,
   VariableStatementImpl,

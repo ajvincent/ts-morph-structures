@@ -8,6 +8,7 @@ import {
   type CloneableStructure,
   cloneRequiredAndOptionalArray,
   COPY_FIELDS,
+  type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   type PreferArrayFields,
@@ -26,7 +27,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const JsxElementStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -115,5 +116,6 @@ export default class JsxElementImpl
 JsxElementImpl satisfies CloneableStructure<
   JsxElementStructure,
   JsxElementImpl
->;
+> &
+  Class<ExtractStructure<JsxElementStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.JsxElement, JsxElementImpl);

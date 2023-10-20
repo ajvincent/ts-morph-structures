@@ -10,6 +10,7 @@ import {
   COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
+  type ExtractStructure,
   type GeneratorableNodeStructureFields,
   GeneratorableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -44,7 +45,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const MethodDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -141,5 +142,6 @@ export default class MethodDeclarationImpl
 MethodDeclarationImpl satisfies CloneableStructure<
   MethodDeclarationStructure,
   MethodDeclarationImpl
->;
+> &
+  Class<ExtractStructure<MethodDeclarationStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.Method, MethodDeclarationImpl);

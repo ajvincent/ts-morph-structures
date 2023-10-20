@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type PreferArrayFields,
@@ -21,7 +22,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const IndexSignatureDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -93,7 +94,8 @@ export default class IndexSignatureDeclarationImpl
 IndexSignatureDeclarationImpl satisfies CloneableStructure<
   IndexSignatureDeclarationStructure,
   IndexSignatureDeclarationImpl
->;
+> &
+  Class<ExtractStructure<IndexSignatureDeclarationStructure["kind"]>>;
 StructuresClassesMap.set(
   StructureKind.IndexSignature,
   IndexSignatureDeclarationImpl,

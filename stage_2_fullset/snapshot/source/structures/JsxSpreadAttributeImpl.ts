@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExtractStructure,
   type PreferArrayFields,
   type RequiredOmit,
   StructureBase,
@@ -15,7 +16,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const JsxSpreadAttributeStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -64,7 +65,8 @@ export default class JsxSpreadAttributeImpl
 JsxSpreadAttributeImpl satisfies CloneableStructure<
   JsxSpreadAttributeStructure,
   JsxSpreadAttributeImpl
->;
+> &
+  Class<ExtractStructure<JsxSpreadAttributeStructure["kind"]>>;
 StructuresClassesMap.set(
   StructureKind.JsxSpreadAttribute,
   JsxSpreadAttributeImpl,

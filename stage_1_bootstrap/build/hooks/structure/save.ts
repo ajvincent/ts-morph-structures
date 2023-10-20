@@ -11,7 +11,16 @@ import saveSourceFile from "#stage_one/build/utilities/saveSourceFile.js";
 import type {
   StructureImplMeta
 } from "#stage_one/build/structureMeta/DataClasses.js";
-import { ClassDeclarationImpl } from "#stage_one/prototype-snapshot/exports";
+
+import {
+  ClassDeclarationImpl,
+  IndexedAccessTypedStructureImpl,
+  IntersectionTypedStructureImpl,
+  LiteralTypedStructureImpl,
+  TypeArgumentedTypedStructureImpl,
+} from "#stage_one/prototype-snapshot/exports.js";
+
+import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 
 export default async function saveDecoratorFile(
   name: string,
@@ -54,8 +63,35 @@ function satisfiesCloneableWriter(
   classDecl: ClassDeclarationImpl
 ): WriterFunction
 {
+  const structureAsLiteral = new LiteralTypedStructureImpl(structureName);
+  const classNameAsLiteral = new LiteralTypedStructureImpl(classDecl.name!);
+
+  const intersection = new IntersectionTypedStructureImpl([
+    new TypeArgumentedTypedStructureImpl(
+      ConstantTypeStructures.CloneableStructure, [
+        structureAsLiteral,
+        classNameAsLiteral
+      ]
+    ),
+
+    new TypeArgumentedTypedStructureImpl(
+      ConstantTypeStructures.Class, [
+        new TypeArgumentedTypedStructureImpl(
+          ConstantTypeStructures.ExtractStructure,
+          [
+            new IndexedAccessTypedStructureImpl(
+              structureAsLiteral,
+              ConstantTypeStructures.kind
+            )
+          ],
+        )
+      ]
+    )
+  ]);
+
   return function(writer: CodeBlockWriter): void {
-    writer.writeLine(`${classDecl.name!} satisfies CloneableStructure<${structureName}, ${classDecl.name!}>;`);
+    writer.writeLine(`${classDecl.name!} satisfies `);
+    intersection.writerFunction(writer);
   }
 }
 

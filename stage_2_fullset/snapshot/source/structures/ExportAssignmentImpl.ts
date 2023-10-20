@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type PreferArrayFields,
@@ -19,7 +20,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const ExportAssignmentStructureBase = MultiMixinBuilder<
   [JSDocableNodeStructureFields, StructureFields],
@@ -71,5 +72,6 @@ export default class ExportAssignmentImpl
 ExportAssignmentImpl satisfies CloneableStructure<
   ExportAssignmentStructure,
   ExportAssignmentImpl
->;
+> &
+  Class<ExtractStructure<ExportAssignmentStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.ExportAssignment, ExportAssignmentImpl);

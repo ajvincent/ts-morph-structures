@@ -4,6 +4,7 @@ import {
   COPY_FIELDS,
   type ExclamationTokenableNodeStructureFields,
   ExclamationTokenableNodeStructureMixin,
+  type ExtractStructure,
   type InitializerExpressionableNodeStructureFields,
   InitializerExpressionableNodeStructureMixin,
   type NamedNodeStructureFields,
@@ -23,7 +24,7 @@ import {
   StructureKind,
   type VariableDeclarationStructure,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const VariableDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -79,7 +80,8 @@ export default class VariableDeclarationImpl
 VariableDeclarationImpl satisfies CloneableStructure<
   VariableDeclarationStructure,
   VariableDeclarationImpl
->;
+> &
+  Class<ExtractStructure<VariableDeclarationStructure["kind"]>>;
 StructuresClassesMap.set(
   StructureKind.VariableDeclaration,
   VariableDeclarationImpl,

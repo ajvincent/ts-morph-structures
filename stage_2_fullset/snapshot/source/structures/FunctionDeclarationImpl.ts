@@ -10,6 +10,7 @@ import {
   COPY_FIELDS,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
+  type ExtractStructure,
   type GeneratorableNodeStructureFields,
   GeneratorableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -38,7 +39,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const FunctionDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -118,5 +119,6 @@ export default class FunctionDeclarationImpl
 FunctionDeclarationImpl satisfies CloneableStructure<
   FunctionDeclarationStructure,
   FunctionDeclarationImpl
->;
+> &
+  Class<ExtractStructure<FunctionDeclarationStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.Function, FunctionDeclarationImpl);

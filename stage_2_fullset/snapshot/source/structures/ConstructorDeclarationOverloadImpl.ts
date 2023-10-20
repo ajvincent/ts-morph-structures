@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
@@ -25,7 +26,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const ConstructorDeclarationOverloadStructureBase = MultiMixinBuilder<
   [
@@ -78,7 +79,8 @@ export default class ConstructorDeclarationOverloadImpl
 ConstructorDeclarationOverloadImpl satisfies CloneableStructure<
   ConstructorDeclarationOverloadStructure,
   ConstructorDeclarationOverloadImpl
->;
+> &
+  Class<ExtractStructure<ConstructorDeclarationOverloadStructure["kind"]>>;
 StructuresClassesMap.set(
   StructureKind.ConstructorOverload,
   ConstructorDeclarationOverloadImpl,

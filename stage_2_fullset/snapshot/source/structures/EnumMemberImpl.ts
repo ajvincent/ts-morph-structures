@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExtractStructure,
   type InitializerExpressionableNodeStructureFields,
   InitializerExpressionableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -21,7 +22,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const EnumMemberStructureBase = MultiMixinBuilder<
   [
@@ -89,5 +90,6 @@ export default class EnumMemberImpl
 EnumMemberImpl satisfies CloneableStructure<
   EnumMemberStructure,
   EnumMemberImpl
->;
+> &
+  Class<ExtractStructure<EnumMemberStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.EnumMember, EnumMemberImpl);

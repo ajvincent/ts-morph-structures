@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   type PreferArrayFields,
@@ -15,7 +16,7 @@ import {
 import type { stringOrWriter } from "../types/stringOrWriter.js";
 import MultiMixinBuilder from "mixin-decorators";
 import { type DecoratorStructure, OptionalKind, StructureKind } from "ts-morph";
-import type { Jsonify } from "type-fest";
+import type { Class, Jsonify } from "type-fest";
 //#endregion preamble
 const DecoratorStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -70,5 +71,6 @@ export default class DecoratorImpl
   }
 }
 
-DecoratorImpl satisfies CloneableStructure<DecoratorStructure, DecoratorImpl>;
+DecoratorImpl satisfies CloneableStructure<DecoratorStructure, DecoratorImpl> &
+  Class<ExtractStructure<DecoratorStructure["kind"]>>;
 StructuresClassesMap.set(StructureKind.Decorator, DecoratorImpl);
