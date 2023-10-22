@@ -185,4 +185,37 @@ export default class ClassFieldStatementsMap
   }
 
   public [Symbol.toStringTag] = "ClassFieldStatementsMap";
+
+  /**
+   * Get the current set of statements for each statement group, sorted by field name.
+   */
+  public statementsByGroup(): Map<string, stringOrWriterArray[]>
+  {
+    const map = new Map<string, stringOrWriterArray[]>;
+    const arrayToFieldMap = new WeakMap<stringOrWriterArray, string>;
+
+    for (const [fieldName, structureGroup, statementsArray] of this.entries()) {
+      arrayToFieldMap.set(statementsArray, fieldName);
+      let statements2DArray: stringOrWriterArray[];
+      if (map.has(structureGroup)) {
+        statements2DArray = map.get(structureGroup)!;
+      }
+      else {
+        statements2DArray = [];
+        map.set(structureGroup, statements2DArray);
+      }
+
+      statements2DArray.push(statementsArray);
+    }
+
+    map.forEach(statements2DArray => {
+      statements2DArray.sort(
+        (a, b) => ClassFieldStatementsMap.fieldComparator(
+          arrayToFieldMap.get(a)!, arrayToFieldMap.get(b)!
+        )
+      );
+    });
+
+    return map;
+  }
 }
