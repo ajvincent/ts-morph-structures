@@ -1,5 +1,6 @@
 import {
-  ClassDeclarationImpl, SourceFileImpl,
+  ClassDeclarationImpl,
+  SourceFileImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import StructureDictionaries, {
@@ -14,6 +15,7 @@ import defineDecoratorImports from "#stage_one/build/utilities/defineDecoratorIm
 import defineDecoratorWrapper from "#stage_one/build/utilities/defineDecoratorWrapper.js";
 import defineFieldsType from "#stage_one/build/utilities/defineFieldsType.js";
 
+import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 
 export default function createDecoratorParts(
@@ -27,6 +29,7 @@ export default function createDecoratorParts(
   parts.classDecl.name = meta.structureName.replace(/Structure$/, "StructureMixin");
   parts.classDecl.extends = "baseClass";
 
+  parts.classFieldsStatements = new ClassFieldStatementsMap;
   parts.classMembersMap = new ClassMembersMap;
 
   parts.importsManager = defineDecoratorImports(meta, parts.classDecl.name);

@@ -26,6 +26,7 @@ import {
 } from "#stage_one/build/constants.js";
 import defineCopyFieldsMethod from "#stage_one/build/utilities/defineCopyFieldsMethod.js";
 
+import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 import ImportManager from "#stage_one/build/utilities/public/ImportManager.js";
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
@@ -45,6 +46,7 @@ export default function createStructureParts(
 
   parts.classDecl.implementsSet.add(defineRequiredOmit(meta, dictionaries));
 
+  parts.classFieldsStatements = new ClassFieldStatementsMap;
   parts.classMembersMap = new ClassMembersMap;
 
   parts.sourceFile = new SourceFileImpl;

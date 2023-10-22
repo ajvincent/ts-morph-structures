@@ -32,6 +32,7 @@ import {
 
 import { pathToModule } from "#utilities/source/AsyncSpecModules.js";
 import ExportManagerCommit from "./utilities/ExportManagerCommit.js";
+import ClassFieldStatementsMap from "./utilities/public/ClassFieldStatementsMap.js";
 //#endregion preamble
 
 export type DecoratorHook = (
@@ -48,6 +49,7 @@ export type StructureHook = (
 
 export interface DecoratorParts {
   classDecl: ClassDeclarationImpl;
+  classFieldsStatements: ClassFieldStatementsMap;
   classMembersMap: ClassMembersMap;
   importsManager: ImportManager;
   sourceFile: SourceFileImpl;
@@ -60,6 +62,7 @@ export interface DecoratorParts {
 export interface StructureParts {
   mixinBaseWriter: WriterFunction;
   classDecl: ClassDeclarationImpl;
+  classFieldsStatements: ClassFieldStatementsMap;
   classMembersMap: ClassMembersMap;
   importsManager: ImportManager;
   sourceFile: SourceFileImpl;
