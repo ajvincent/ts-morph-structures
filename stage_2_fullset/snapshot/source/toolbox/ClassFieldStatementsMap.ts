@@ -10,6 +10,8 @@ type keyPair = { fieldName: string; statementGroup: string };
  * - defining a getter and/or a setter
  * - initializing in a constructor
  * - implementing a .toJSON() method
+ *
+ * The field name specifies which field the statements are about.  The statement group specifies where the statements go.
  */
 export default class ClassFieldStatementsMap {
   static #hashKey(fieldName: string, statementGroup: string): string {
@@ -17,6 +19,20 @@ export default class ClassFieldStatementsMap {
   }
   static #parseKey(key: string): keyPair {
     return JSON.parse(key) as keyPair;
+  }
+
+  /** A special field name for the start of a function. */
+  public static readonly FIELD_HEAD_SUPER_CALL = "(super call)";
+  /** A special field name for the end of a function. */
+  public static readonly FIELD_TAIL_FINAL_RETURN = "(final return)";
+
+  /** A convenience sorting function for fields. */
+  public static fieldComparator(a: string, b: string): number {
+    if (a === this.FIELD_HEAD_SUPER_CALL || b === this.FIELD_TAIL_FINAL_RETURN)
+      return -1;
+    if (a === this.FIELD_TAIL_FINAL_RETURN || b === this.FIELD_HEAD_SUPER_CALL)
+      return +1;
+    return a.localeCompare(b);
   }
 
   readonly #map = new Map<string, stringOrWriterArray>();
