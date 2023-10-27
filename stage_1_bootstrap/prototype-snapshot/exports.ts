@@ -106,6 +106,10 @@ export {
 
 // #endregion TypeStructure implementations
 
+export type {
+  StatementStructureImpls
+} from "./types/StructureImplUnions.js";
+
 export {
   createCodeBlockWriter,
   pairedWrite,

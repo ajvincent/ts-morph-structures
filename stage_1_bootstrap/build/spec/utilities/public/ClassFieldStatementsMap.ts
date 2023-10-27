@@ -1,0 +1,27 @@
+import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
+
+it("ClassFieldStatementsMap works", () => {
+  const map = new ClassFieldStatementsMap;
+  map.set("second", "constructor", ["this.second = second;"]);
+  map.set("first", "constructor", ["this.first = first;"]);
+  map.set("first", "toJSON", ["rv.first = this.first;"]);
+
+  map.set(ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, "toJSON", ["const rv: Record<string, unknown> = {};"]);
+  map.set(ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN, "toJSON", ["return rv;"]);
+
+  expect(map.groupKeys()).toEqual([
+    "constructor",
+    "toJSON",
+  ]);
+
+  expect(Array.from(map.groupStatementsMap("toJSON")!.entries())).toEqual([
+    [ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, ["const rv: Record<string, unknown> = {};"]],
+    ["first", ["rv.first = this.first;"]],
+    [ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN, ["return rv;"]],
+  ]);
+
+  expect(Array.from(map.groupStatementsMap("constructor")!.entries())).toEqual([
+    ["first", ["this.first = first;"]],
+    ["second", ["this.second = second;"]],
+  ]);
+});
