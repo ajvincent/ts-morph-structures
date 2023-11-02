@@ -37,9 +37,10 @@ export default function createDecoratorParts(
 
   parts.copyFields = defineCopyFieldsMethod(
     meta,
-    parts.classDecl,
-    parts.classMembersMap,
-    parts.importsManager,
+    parts as Pick<
+      DecoratorParts,
+      "classDecl" | "classFieldsStatements" | "classMembersMap" | "importsManager"
+    >,
     dictionaries
   );
 

@@ -43,8 +43,8 @@ export default function ExportableNodeStructureMixin(
       target: ExportableNodeStructureMixin & Structures,
     ): void {
       super[COPY_FIELDS](source, target);
-      target.isExported = source.isExported ?? false;
       target.isDefaultExport = source.isDefaultExport ?? false;
+      target.isExported = source.isExported ?? false;
     }
 
     public toJSON(): Jsonify<ExportableNodeStructure> {

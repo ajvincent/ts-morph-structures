@@ -2,7 +2,11 @@ import type { WriterFunction } from "ts-morph";
 
 import type { StatementStructureImpls } from "../exports.js";
 
-type StatementsArray = (string | WriterFunction | StatementStructureImpls)[];
+export type StatementsArray = (
+  | string
+  | WriterFunction
+  | StatementStructureImpls
+)[];
 type keyPair = { fieldName: string; statementGroup: string };
 
 /**

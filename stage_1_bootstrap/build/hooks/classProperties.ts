@@ -1,3 +1,4 @@
+// #region preamble
 import path from "path";
 import {
   CodeBlockWriter,
@@ -38,6 +39,13 @@ import {
 
 import assert from "../utilities/assert.js";
 import pairedWrite from "../utilities/pairedWrite.js";
+import ClassFieldStatementsMap from "../utilities/public/ClassFieldStatementsMap.js";
+import ClassMembersMap from "../utilities/public/ClassMembersMap.js";
+// #endregion preamble
+
+const COPY_FIELDS_NAME = ClassMembersMap.keyFromName(
+  StructureKind.Method, true, "[COPY_FIELDS]"
+);
 
 export default function addClassProperties(
   name: string,
@@ -56,14 +64,17 @@ export default function addClassProperties(
 
   meta.booleanKeys.forEach(key => {
     const prop = new PropertyDeclarationImpl(key);
-    prop.initializer = "false";
-
     properties.push(prop);
 
+    parts.classFieldsStatements.set(
+      key, ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, ["false"]
+    );
+    parts.classMembersMap.addMembers([prop]);
+
     if (key !== "isStatic") {
-      parts.copyFields.statements.push(
+      parts.classFieldsStatements.set(key, COPY_FIELDS_NAME, [
         `target.${key} = source.${key} ?? false;`
-      );
+      ]);
     }
   });
 
@@ -72,50 +83,10 @@ export default function addClassProperties(
     propertyKey: PropertyName
   ): void => addStructureFieldArray(name, dictionaries, parts, propertyValue, propertyKey));
 
-  meta.structureFields.forEach((propertyValue, key) => {
-    const prop = new PropertyDeclarationImpl(key);
-    prop.hasQuestionToken = propertyValue.hasQuestionToken;
-
-    if (prop.hasQuestionToken) {
-      if ("fieldsInstanceType" in parts) {
-        omitPropertyFromRequired(parts.fieldsInstanceType as TypeArgumentedTypedStructureImpl, key);
-      }
-      else {
-        omitFromClassRequired(parts.classDecl, key);
-      }
-    }
-
-    let typeStructure = getTypeStructureForValue(propertyValue, parts, dictionaries);
-    if (typeStructure.kind === TypeStructureKind.Union)
-      typeStructure = new ParenthesesTypedStructureImpl(typeStructure);
-
-    if ((typeStructure !== ConstantTypeStructures.string) || prop.hasQuestionToken)
-      prop.typeStructure = typeStructure;
-
-    prop.initializer = getInitializerForValue(key, propertyValue, parts, dictionaries);
-
-    properties.push(prop);
-
-    if (key === "kind") {
-      prop.isReadonly = true;
-    }
-    else {
-      const hasAStructure = propertyValue.otherTypes.some(
-        valueInUnion => valueInUnion.structureName && dictionaries.structures.has(valueInUnion.structureName)
-      );
-      if (hasAStructure) {
-        assert(false, "structure found and needs entry in copyFields");
-      }
-      else {
-        parts.copyFields.statements.push(
-          (writer) => {
-            writer.write(`if (source.${key}) `);
-            writer.block(() => writer.write(`target.${key} = source.${key};`));
-          }
-        );
-      }
-    }
-  });
+  meta.structureFields.forEach((
+    propertyValue: PropertyValue,
+    propertyKey: PropertyName
+  ): void => addStructureField(dictionaries, parts, propertyValue, propertyKey));
   parts.classMembersMap.addMembers(properties);
 
   return Promise.resolve();
@@ -130,7 +101,6 @@ function addStructureFieldArray(
 ): void
 {
   const prop = new PropertyDeclarationImpl(propertyKey);
-  prop.initializer = "[]";
   prop.isReadonly = true;
 
   let typeStructure = getTypeStructureForValue(propertyValue, parts, dictionaries);
@@ -139,7 +109,8 @@ function addStructureFieldArray(
 
   prop.typeStructure = new ArrayTypedStructureImpl(typeStructure);
 
-  parts.classMembersMap.addMembers([prop])
+  // this has to come early because write_cloneStatementsArray depends on it.
+  parts.classMembersMap.addMembers([prop]);
 
   const hasAStructure = propertyValue.otherTypes.some(
     valueInUnion => valueInUnion.structureName && dictionaries.structures.has(valueInUnion.structureName)
@@ -176,7 +147,63 @@ function addStructureFieldArray(
     };
   }
 
-  parts.copyFields.statements.push(statement!);
+  parts.classFieldsStatements.set(propertyKey, COPY_FIELDS_NAME, [statement]);
+  parts.classFieldsStatements.set(
+    propertyKey, ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, ["[]"]
+  );
+}
+
+function addStructureField(
+  dictionaries: StructureDictionaries,
+  parts: DecoratorParts | StructureParts,
+  propertyValue: PropertyValue,
+  propertyKey: PropertyName
+): void
+{
+  const prop = new PropertyDeclarationImpl(propertyKey);
+  prop.hasQuestionToken = propertyValue.hasQuestionToken;
+
+  if (prop.hasQuestionToken) {
+    if ("fieldsInstanceType" in parts) {
+      omitPropertyFromRequired(parts.fieldsInstanceType as TypeArgumentedTypedStructureImpl, propertyKey);
+    }
+    else {
+      omitFromClassRequired(parts.classDecl, propertyKey);
+    }
+  }
+
+  let typeStructure = getTypeStructureForValue(propertyValue, parts, dictionaries);
+  if (typeStructure.kind === TypeStructureKind.Union)
+    typeStructure = new ParenthesesTypedStructureImpl(typeStructure);
+
+  if ((typeStructure !== ConstantTypeStructures.string) || prop.hasQuestionToken)
+    prop.typeStructure = typeStructure;
+
+  const initializer = getInitializerForValue(propertyKey, propertyValue, parts, dictionaries);
+  if (initializer) {
+    parts.classFieldsStatements.set(propertyKey, ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, [
+      initializer
+    ]);
+  }
+
+  if (propertyKey === "kind") {
+    prop.isReadonly = true;
+  }
+  else {
+    const hasAStructure = propertyValue.otherTypes.some(
+      valueInUnion => valueInUnion.structureName && dictionaries.structures.has(valueInUnion.structureName)
+    );
+    if (hasAStructure) {
+      assert(false, "structure found and needs entry in copyFields");
+    }
+    else {
+      parts.classFieldsStatements.set(propertyKey, COPY_FIELDS_NAME, [
+        `if (source.${propertyKey}) {\n  target.${propertyKey} = source.${propertyKey};\n}\n`,
+      ]);
+    }
+  }
+
+  parts.classMembersMap.addMembers([prop]);
 }
 
 function getTypeStructureForValue(

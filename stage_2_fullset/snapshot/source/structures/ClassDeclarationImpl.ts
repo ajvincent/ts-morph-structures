@@ -105,14 +105,8 @@ export default class ClassDeclarationImpl
       );
     }
 
-    if (source.properties) {
-      target.properties.push(
-        ...cloneStructureArray<
-          OptionalKind<PropertyDeclarationStructure>,
-          StructureKind.Property,
-          PropertyDeclarationImpl
-        >(source.properties, StructureKind.Property),
-      );
+    if (source.extends) {
+      target.extends = source.extends;
     }
 
     if (source.getAccessors) {
@@ -125,14 +119,10 @@ export default class ClassDeclarationImpl
       );
     }
 
-    if (source.setAccessors) {
-      target.setAccessors.push(
-        ...cloneStructureArray<
-          OptionalKind<SetAccessorDeclarationStructure>,
-          StructureKind.SetAccessor,
-          SetAccessorDeclarationImpl
-        >(source.setAccessors, StructureKind.SetAccessor),
-      );
+    if (Array.isArray(source.implements)) {
+      target.implements.push(...source.implements);
+    } else if (source.implements !== undefined) {
+      target.implements.push(source.implements);
     }
 
     if (source.methods) {
@@ -145,14 +135,24 @@ export default class ClassDeclarationImpl
       );
     }
 
-    if (Array.isArray(source.implements)) {
-      target.implements.push(...source.implements);
-    } else if (source.implements !== undefined) {
-      target.implements.push(source.implements);
+    if (source.properties) {
+      target.properties.push(
+        ...cloneStructureArray<
+          OptionalKind<PropertyDeclarationStructure>,
+          StructureKind.Property,
+          PropertyDeclarationImpl
+        >(source.properties, StructureKind.Property),
+      );
     }
 
-    if (source.extends) {
-      target.extends = source.extends;
+    if (source.setAccessors) {
+      target.setAccessors.push(
+        ...cloneStructureArray<
+          OptionalKind<SetAccessorDeclarationStructure>,
+          StructureKind.SetAccessor,
+          SetAccessorDeclarationImpl
+        >(source.setAccessors, StructureKind.SetAccessor),
+      );
     }
   }
 

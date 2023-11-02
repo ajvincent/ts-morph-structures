@@ -70,6 +70,10 @@ export default class JsxElementImpl
       );
     }
 
+    if (source.bodyText) {
+      target.bodyText = source.bodyText;
+    }
+
     if (source.children) {
       target.children.push(
         ...cloneRequiredAndOptionalArray<
@@ -85,10 +89,6 @@ export default class JsxElementImpl
           StructureKind.JsxElement,
         ),
       );
-    }
-
-    if (source.bodyText) {
-      target.bodyText = source.bodyText;
     }
   }
 

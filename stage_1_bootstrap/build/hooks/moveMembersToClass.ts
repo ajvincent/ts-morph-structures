@@ -21,6 +21,6 @@ export default function moveMembersToClass(
     parts = dictionaries.structureParts.get(meta)!;
   }
 
-  parts.classMembersMap.moveMembersToClass(parts.classDecl);
+  parts.classMembersMap.moveMembersToClass(parts.classDecl, [parts.classFieldsStatements]);
   return Promise.resolve();
 }

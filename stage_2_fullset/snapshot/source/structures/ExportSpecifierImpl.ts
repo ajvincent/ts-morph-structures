@@ -43,10 +43,11 @@ export default class ExportSpecifierImpl
     target: ExportSpecifierImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    target.isTypeOnly = source.isTypeOnly ?? false;
     if (source.alias) {
       target.alias = source.alias;
     }
+
+    target.isTypeOnly = source.isTypeOnly ?? false;
   }
 
   public static clone(

@@ -43,12 +43,12 @@ export default class JsxAttributeImpl
     target: JsxAttributeImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (source.name) {
-      target.name = source.name;
-    }
-
     if (source.initializer) {
       target.initializer = source.initializer;
+    }
+
+    if (source.name) {
+      target.name = source.name;
     }
   }
 

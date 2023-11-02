@@ -87,12 +87,6 @@ export default class InterfaceDeclarationImpl
     target: InterfaceDeclarationImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (Array.isArray(source.extends)) {
-      target.extends.push(...source.extends);
-    } else if (source.extends !== undefined) {
-      target.extends.push(source.extends);
-    }
-
     if (source.callSignatures) {
       target.callSignatures.push(
         ...cloneStructureArray<
@@ -111,6 +105,12 @@ export default class InterfaceDeclarationImpl
           ConstructSignatureDeclarationImpl
         >(source.constructSignatures, StructureKind.ConstructSignature),
       );
+    }
+
+    if (Array.isArray(source.extends)) {
+      target.extends.push(...source.extends);
+    } else if (source.extends !== undefined) {
+      target.extends.push(source.extends);
     }
 
     if (source.indexSignatures) {

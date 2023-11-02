@@ -18,6 +18,9 @@ import {
   TypeArgumentedTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
+import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
+import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
+
 export default function addStaticClone(
   name: string,
   meta: StructureImplMeta,
@@ -28,7 +31,12 @@ export default function addStaticClone(
   if (!parts)
     return Promise.resolve();
 
-  const { classDecl, classMembersMap, importsManager } = parts;
+  const {
+    classDecl,
+    classFieldsStatements,
+    classMembersMap,
+    importsManager,
+  } = parts;
 
   importsManager.addImports({
     pathToImportedModule: "ts-morph",
@@ -82,16 +90,25 @@ export default function addStaticClone(
         rv += " ?? false";
       return rv;
     });
-
   }
 
-  cloneMethod.statements.push(
-    `const target = new ${classDecl.name!}(${constructorArgs.join(", ")});`,
-    `this[COPY_FIELDS](source, target);`,
-    `return target;`,
+  classFieldsStatements.set(
+    ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL,
+    ClassMembersMap.keyFromMember(cloneMethod),
+    [
+      `const target = new ${classDecl.name!}(${constructorArgs.join(", ")});`,
+      `this[COPY_FIELDS](source, target);`,
+    ]
+  );
+
+  classFieldsStatements.set(
+    ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN,
+    ClassMembersMap.keyFromMember(cloneMethod),
+    [
+      `return target;`
+    ]
   );
 
   classMembersMap.addMembers([cloneMethod]);
-
   return Promise.resolve();
 }

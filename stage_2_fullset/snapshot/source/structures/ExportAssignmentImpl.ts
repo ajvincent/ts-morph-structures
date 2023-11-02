@@ -46,10 +46,11 @@ export default class ExportAssignmentImpl
     target: ExportAssignmentImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    target.isExportEquals = source.isExportEquals ?? false;
     if (source.expression) {
       target.expression = source.expression;
     }
+
+    target.isExportEquals = source.isExportEquals ?? false;
   }
 
   public static clone(

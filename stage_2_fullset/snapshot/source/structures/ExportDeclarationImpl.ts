@@ -51,17 +51,6 @@ export default class ExportDeclarationImpl
     target: ExportDeclarationImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    target.isTypeOnly = source.isTypeOnly ?? false;
-    if (source.namedExports) {
-      target.namedExports.push(
-        ...cloneStructureStringOrWriterArray<
-          OptionalKind<ExportSpecifierStructure>,
-          StructureKind.ExportSpecifier,
-          ExportSpecifierImpl
-        >(source.namedExports, StructureKind.ExportSpecifier),
-      );
-    }
-
     if (source.assertElements) {
       target.assertElements = [];
       target.assertElements.push(
@@ -73,12 +62,23 @@ export default class ExportDeclarationImpl
       );
     }
 
-    if (source.namespaceExport) {
-      target.namespaceExport = source.namespaceExport;
-    }
-
+    target.isTypeOnly = source.isTypeOnly ?? false;
     if (source.moduleSpecifier) {
       target.moduleSpecifier = source.moduleSpecifier;
+    }
+
+    if (source.namedExports) {
+      target.namedExports.push(
+        ...cloneStructureStringOrWriterArray<
+          OptionalKind<ExportSpecifierStructure>,
+          StructureKind.ExportSpecifier,
+          ExportSpecifierImpl
+        >(source.namedExports, StructureKind.ExportSpecifier),
+      );
+    }
+
+    if (source.namespaceExport) {
+      target.namespaceExport = source.namespaceExport;
     }
   }
 

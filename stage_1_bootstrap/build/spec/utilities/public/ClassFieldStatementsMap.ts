@@ -9,9 +9,18 @@ it("ClassFieldStatementsMap works", () => {
   map.set(ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, "toJSON", ["const rv: Record<string, unknown> = {};"]);
   map.set(ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN, "toJSON", ["return rv;"]);
 
+  map.set("first", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, [`"one"`]);
+
   expect(map.groupKeys()).toEqual([
     "constructor",
     "toJSON",
+    ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
+  ]);
+
+  expect(Array.from(
+    map.groupStatementsMap(ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY)!.entries()
+  )).toEqual([
+    ["first", [`"one"`]]
   ]);
 
   expect(Array.from(map.groupStatementsMap("toJSON")!.entries())).toEqual([

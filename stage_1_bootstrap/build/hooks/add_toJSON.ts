@@ -24,6 +24,7 @@ import {
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import ConstantTypeStructures from "../utilities/ConstantTypeStructures.js";
+import ClassFieldStatementsMap from "../utilities/public/ClassFieldStatementsMap.js";
 
 export default function add_toJSON(
   name: string,
@@ -56,31 +57,28 @@ export default function add_toJSON(
 
   toJSONMethod.scope = Scope.Public;
 
+  parts.classFieldsStatements.set(ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, toJSONMethod.name, [
+    `const rv = super.toJSON() as ${name};`
+  ]);
+  parts.classFieldsStatements.set(ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN, toJSONMethod.name, [
+    `return rv;`
+  ]);
+
   const properties = classMembersMap.arrayOfKind<StructureKind.Property>(
     StructureKind.Property
-  ) as PropertyDeclarationImpl[];
-
-  properties.sort((a, b) => a.name.localeCompare(b.name));
+  );
 
   let needsReplaceWriter = false;
-  toJSONMethod.statements.push(
-    `const rv = super.toJSON() as ${name};`,
-    ...properties.map(
-      (prop: PropertyDeclarationImpl): string => {
-        const [propValue, isReplacing]: [string, boolean] = getJSONPropertyCopy(prop);
-        if (isReplacing)
-          needsReplaceWriter = true;
-
-        let rv = `rv.${prop.name} = ${propValue};`;
-        if (prop.hasQuestionToken) {
-          rv = `if (this.${prop.name}) {\n  ${rv}\n}`;
-        }
-        return rv;
+  properties.forEach((prop: PropertyDeclarationImpl): void => {
+    const [propValue, isReplacing]: [string, boolean] = getJSONPropertyCopy(prop);
+    if (isReplacing)
+      needsReplaceWriter = true;
+      let rv = `rv.${prop.name} = ${propValue};`;
+      if (prop.hasQuestionToken) {
+        rv = `if (this.${prop.name}) {\n  ${rv}\n}`;
       }
-    ),
-
-    `return rv;`
-  );
+      parts.classFieldsStatements.set(prop.name, toJSONMethod.name, [rv]);
+  });
 
   if (needsReplaceWriter) {
     importsManager.addImports({

@@ -64,6 +64,10 @@ export default class VariableStatementImpl
     target: VariableStatementImpl,
   ): void {
     super[COPY_FIELDS](source, target);
+    if (source.declarationKind) {
+      target.declarationKind = source.declarationKind;
+    }
+
     target.declarations.push(
       ...cloneStructureArray<
         OptionalKind<VariableDeclarationStructure>,
@@ -71,9 +75,6 @@ export default class VariableStatementImpl
         VariableDeclarationImpl
       >(source.declarations, StructureKind.VariableDeclaration),
     );
-    if (source.declarationKind) {
-      target.declarationKind = source.declarationKind;
-    }
   }
 
   public static clone(

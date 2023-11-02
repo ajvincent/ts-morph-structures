@@ -52,7 +52,6 @@ export default class TypeParameterDeclarationImpl
     target: TypeParameterDeclarationImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    target.isConst = source.isConst ?? false;
     if (source.constraint) {
       target.constraint = source.constraint;
     }
@@ -61,6 +60,7 @@ export default class TypeParameterDeclarationImpl
       target.default = source.default;
     }
 
+    target.isConst = source.isConst ?? false;
     if (source.variance) {
       target.variance = source.variance;
     }

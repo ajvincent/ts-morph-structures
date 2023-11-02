@@ -41,6 +41,10 @@ export default class JSDocImpl
     target: JSDocImpl,
   ): void {
     super[COPY_FIELDS](source, target);
+    if (source.description) {
+      target.description = source.description;
+    }
+
     if (source.tags) {
       target.tags.push(
         ...cloneStructureArray<
@@ -49,10 +53,6 @@ export default class JSDocImpl
           JSDocTagImpl
         >(source.tags, StructureKind.JSDocTag),
       );
-    }
-
-    if (source.description) {
-      target.description = source.description;
     }
   }
 

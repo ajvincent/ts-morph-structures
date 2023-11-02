@@ -37,8 +37,8 @@ export default class PropertyAssignmentImpl
 
   constructor(name: string, initializer: stringOrWriter) {
     super();
-    this.name = name;
     this.initializer = initializer;
+    this.name = name;
   }
 
   public static [COPY_FIELDS](

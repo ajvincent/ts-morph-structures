@@ -6,7 +6,7 @@ import type {
   StatementStructureImpls
 } from "#stage_one/prototype-snapshot/exports.js";
 
-type StatementsArray = (string | WriterFunction | StatementStructureImpls)[];
+export type StatementsArray = (string | WriterFunction | StatementStructureImpls)[];
 type keyPair = {fieldName: string, statementGroup: string};
 
 /**

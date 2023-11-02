@@ -5,7 +5,6 @@ import {
 } from "ts-morph";
 
 import {
-  ClassDeclarationImpl,
   LiteralTypedStructureImpl,
   MethodDeclarationImpl,
   ParameterDeclarationImpl,
@@ -19,27 +18,36 @@ import {
   StructureImplMeta,
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
-
 import ConstantTypeStructures from "./ConstantTypeStructures.js";
-import ImportManager from "./public/ImportManager.js";
-import StructureDictionaries from "../StructureDictionaries.js";
+import StructureDictionaries, {
+  DecoratorParts,
+  StructureParts
+} from "../StructureDictionaries.js";
+
+import ClassFieldStatementsMap from "./public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "./public/ClassMembersMap.js";
 
 // #endregion preamble
 
 export default function defineCopyFieldsMethod(
   meta: DecoratorImplMeta | StructureImplMeta,
-  classDecl: ClassDeclarationImpl,
-  classMembers: ClassMembersMap,
-  importManager: ImportManager,
+  parts: Pick<
+    DecoratorParts | StructureParts,
+    "classDecl" | "classFieldsStatements" | "classMembersMap" | "importsManager"
+  >,
   dictionaries: StructureDictionaries
 ): MethodDeclarationImpl
 {
+  const {
+    classDecl,
+    classMembersMap,
+    importsManager,
+  } = parts;
   const copyFields = new MethodDeclarationImpl("[COPY_FIELDS]");
   copyFields.scope = Scope.Public;
   copyFields.isStatic = true;
 
-  importManager.addImports({
+  importsManager.addImports({
     pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
     isDefaultImport: false,
     isPackageImport: false,
@@ -82,10 +90,13 @@ export default function defineCopyFieldsMethod(
   copyFields.parameters.push(sourceParam, targetParam);
   copyFields.returnTypeStructure = ConstantTypeStructures.void;
 
-  copyFields.statements.push(
-    `super[COPY_FIELDS](source, target);`
+  parts.classFieldsStatements.set(
+    ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL,
+    ClassMembersMap.keyFromMember(copyFields), [
+      `super[COPY_FIELDS](source, target);`
+    ]
   );
 
-  classMembers.addMembers([copyFields]);
+  classMembersMap.addMembers([copyFields]);
   return copyFields;
 }

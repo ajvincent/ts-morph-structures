@@ -9,6 +9,8 @@ import {
   MethodDeclarationImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
+import ClassFieldStatementsMap from "./ClassFieldStatementsMap.js";
+
 export type ClassMemberImpl = (
   ConstructorDeclarationImpl |
   PropertyDeclarationImpl |
@@ -100,11 +102,11 @@ extends Map<string, ClassMemberImpl>
   >
   (
     kind: Kind
-  ): readonly (ClassMemberImpl & { kind: Kind })[]
+  ): Extract<ClassMemberImpl , { kind: Kind }>[]
   {
     let items = Array.from(this.values());
     items = items.filter(item => item.kind === kind);
-    return items as (ClassMemberImpl & { kind: Kind })[];
+    return items as Extract<ClassMemberImpl , { kind: Kind }>[];
   }
 
   /**
@@ -135,36 +137,146 @@ extends Map<string, ClassMemberImpl>
    * @param classDecl - the target class declaration.
    */
   moveMembersToClass(
-    classDecl: ClassDeclarationImpl
+    classDecl: ClassDeclarationImpl,
+    statementsMaps: ClassFieldStatementsMap[],
   ): void
   {
-    this.forEach(member => this.#moveMemberToClass(classDecl, member));
+    this.forEach(member => this.#moveMemberToClass(classDecl, member, statementsMaps));
     this.clear();
   }
 
   #moveMemberToClass(
     classDecl: ClassDeclarationImpl,
-    member: ClassMemberImpl
+    member: ClassMemberImpl,
+    statementsMaps: ClassFieldStatementsMap[],
   ): void
   {
     switch (member.kind) {
       case StructureKind.Constructor:
         classDecl.ctors.push(member);
+        statementsMaps.forEach(map => this.#addStatementsToConstructor(member, map));
         return;
+
       case StructureKind.Property:
         classDecl.properties.push(member);
+        statementsMaps.forEach(map => this.#addPropertyInitializer(member, map));
         return;
+
       case StructureKind.GetAccessor:
         classDecl.getAccessors.push(member);
+        statementsMaps.forEach(map => this.#addStatementsToGetter(member, map));
         return;
+
       case StructureKind.SetAccessor:
         classDecl.setAccessors.push(member);
+        statementsMaps.forEach(map => this.#addStatementsToSetter(member, map));
         return;
+
       case StructureKind.Method:
         classDecl.methods.push(member);
+        statementsMaps.forEach(map => this.#addStatementsToMethod(member, map));
         return;
+
       default:
         throw new Error("unreachable");
+    }
+  }
+
+  #addStatementsToConstructor(
+    member: ConstructorDeclarationImpl,
+    statementsMap: ClassFieldStatementsMap,
+  ): void
+  {
+    const statementsDictionary = statementsMap.groupStatementsMap(ClassMembersMap.keyFromMember(member));
+    if (statementsDictionary) {
+      const statements = Array.from(statementsDictionary.values());
+      member.statements.push(...statements.flat());
+    }
+  }
+
+  #addPropertyInitializer(
+    member: PropertyDeclarationImpl,
+    statementsMap: ClassFieldStatementsMap
+  ): void
+  {
+    const statementsDictionary = statementsMap.groupStatementsMap(ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY);
+    if (!statementsDictionary) {
+      return;
+    }
+
+    const initializer = statementsDictionary.get(ClassMembersMap.keyFromMember(member));
+    if (!initializer)
+      return;
+
+    if ((initializer.length === 1) && (typeof initializer[0] !== "object")) {
+      member.initializer = initializer[0];
+      return;
+    }
+
+    throw new Error("initializer cannot be more than one statement for property " + member.name);
+  }
+
+  #addStatementsToGetter(
+    member: GetAccessorDeclarationImpl,
+    statementsMap: ClassFieldStatementsMap
+  ): void
+  {
+    const statementsDictionary = statementsMap.groupStatementsMap(ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY);
+    if (!statementsDictionary)
+      return;
+
+    const initializer = statementsDictionary.get(ClassMembersMap.keyFromMember(member));
+    if (!initializer)
+      return;
+
+    if (initializer.length === 1) {
+      member.statements.push(
+        `return  `,
+        initializer[0]
+      );
+      return;
+    }
+
+    const statementsArray = Array.from(statementsDictionary.values()).flat();
+    member.statements.push(...statementsArray);
+  }
+
+  #addStatementsToSetter(
+    member: SetAccessorDeclarationImpl,
+    statementsMap: ClassFieldStatementsMap
+  ): void
+  {
+    const statementsDictionary = statementsMap.groupStatementsMap(ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY);
+    if (!statementsDictionary)
+      return;
+
+    const initializer = statementsDictionary.get(ClassMembersMap.keyFromMember(member));
+    if (!initializer)
+      return;
+
+    if (initializer.length === 1) {
+      member.statements.push(
+        `this.${member.name} = `,
+        initializer[0]
+      );
+      return;
+    }
+
+    const statementsArray = Array.from(statementsDictionary.values()).flat();
+    member.statements.push(...statementsArray);
+  }
+
+  #addStatementsToMethod(
+    member: MethodDeclarationImpl,
+    statementsMap: ClassFieldStatementsMap
+  ): void
+  {
+    const groupName = ClassMembersMap.keyFromMember(member);
+
+    const statementsDictionary = statementsMap.groupStatementsMap(groupName);
+    if (statementsDictionary) {
+      const statements = Array.from(statementsDictionary.values());
+      member.statements.push(...statements.flat());
     }
   }
 }

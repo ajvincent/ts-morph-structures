@@ -23,6 +23,9 @@ import removeUselessCopyFields from "./hooks/structure/removeUselessCopyFields.j
 import structureSpecialCases from "./hooks/structure/specialCases.js";
 import buildImplUnions from "./utilities/buildImplUnions.js";
 
+import logIfNameStart from "./hooks/logIfNameStart.js";
+void(logIfNameStart);
+
 // #endregion hooks
 
 export default
@@ -52,8 +55,8 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addStructureHook("add TSDoc", addTSDoc);
   dictionary.addStructureHook("special cases", structureSpecialCases);
   dictionary.addStructureHook("move members to class", moveMembersToClass);
-  dictionary.addStructureHook("sort required omit", sortRequiredOmit);
   dictionary.addStructureHook("sort class members", sortClassMembers);
+  dictionary.addStructureHook("sort required omit", sortRequiredOmit);
   dictionary.addStructureHook("save structure file", saveStructureFile);
 
   await dictionary.build();

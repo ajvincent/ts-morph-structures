@@ -10,12 +10,16 @@ import {
   StructureImplMeta
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
+import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
+import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 
 import {
   ConstructorDeclarationImpl,
   ParameterDeclarationImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
+
+const groupName = ClassMembersMap.keyFromName(StructureKind.Constructor, false, "constructor");
 
 export default function addConstructor(
   name: string,
@@ -29,27 +33,39 @@ export default function addConstructor(
 
   const isStatic_property = parts.classMembersMap.getAsKind<StructureKind.Property>("isStatic", StructureKind.Property);
   const hasNamed = meta.decoratorKeys.has("NamedNodeStructure");
+
   if (Boolean(isStatic_property) || hasNamed) {
     constructor = new ConstructorDeclarationImpl;
-    constructor.statements.push("super();");
   }
 
   if (isStatic_property) {
     isStatic_property.isReadonly = true;
-    isStatic_property.initializer = undefined;
     isStatic_property.typeStructure = ConstantTypeStructures.boolean;
 
     const staticParam = new ParameterDeclarationImpl("isStatic");
     staticParam.typeStructure = ConstantTypeStructures.boolean;
     constructor!.parameters.push(staticParam);
-    constructor!.statements.push(`this.isStatic = isStatic;`);
+    parts.classFieldsStatements.set(
+      "isStatic",
+      groupName,
+      ["this.isStatic = isStatic;"]
+    );
+
+    parts.classFieldsStatements.delete(
+      "isStatic",
+      ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
+    );
   }
 
   if (hasNamed) {
     const nameParam = new ParameterDeclarationImpl("name");
     nameParam.typeStructure = ConstantTypeStructures.string;
     constructor!.parameters.push(nameParam);
-    constructor!.statements.push(`this.name = name;`);
+    parts.classFieldsStatements.set(
+      "name",
+      groupName,
+      ["this.name = name;"]
+    );
   }
 
   meta.structureFields.forEach((value: PropertyValue, key: PropertyName) => {
@@ -57,27 +73,42 @@ export default function addConstructor(
       return;
     if (key === "kind")
       return;
-    if (!constructor) {
-      constructor ??= new ConstructorDeclarationImpl;
-      constructor.statements.push("super();");
-    }
+    constructor ??= new ConstructorDeclarationImpl;
 
     const param = new ParameterDeclarationImpl(key);
     const existingProp = parts.classMembersMap.getAsKind<StructureKind.Property>(key, StructureKind.Property)!
+
+    const fieldName = ClassMembersMap.keyFromName(StructureKind.Property, false, key)
+    const initializerStatements = parts.classFieldsStatements.get(
+      fieldName,
+      ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
+    );
     if (existingProp.typeStructure)
       param.typeStructure = existingProp.typeStructure;
-    else if (existingProp.initializer === `""`) {
+    else if ((initializerStatements?.length === 1) && (initializerStatements[0] === `""`)) {
       param.typeStructure = ConstantTypeStructures.string;
       existingProp.typeStructure = ConstantTypeStructures.string;
-      existingProp.initializer = undefined;
+      parts.classFieldsStatements.delete(
+        fieldName,
+        ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
+      );
     }
 
     constructor.parameters.push(param);
-    constructor.statements.push(`this.${key} = ${key};`);
+    parts.classFieldsStatements.set(
+      key,
+      groupName,
+      [`this.${key} = ${key};`]
+    );
   });
 
   if (constructor) {
     parts.classMembersMap.addMembers([constructor]);
+    parts.classFieldsStatements.set(
+      ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL,
+      groupName,
+      ["super()"]
+    );
   }
 
   return Promise.resolve();

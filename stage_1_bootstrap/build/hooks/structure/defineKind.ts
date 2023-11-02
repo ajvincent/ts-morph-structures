@@ -1,6 +1,7 @@
 import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
 import { StructureImplMeta } from "#stage_one/build/structureMeta/DataClasses.js";
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
+import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
 import {
   LiteralTypedStructureImpl,
   PropertyDeclarationImpl,
@@ -17,7 +18,11 @@ export default function defineKindProperty(
   if (!parts)
     return Promise.resolve();
 
-  const { classMembersMap, importsManager } = parts;
+  const {
+    classFieldsStatements,
+    classMembersMap,
+    importsManager
+  } = parts;
   if (classMembersMap.has("kind"))
     return Promise.resolve();
 
@@ -27,8 +32,10 @@ export default function defineKindProperty(
     ConstantTypeStructures.StructureKind,
     new LiteralTypedStructureImpl(meta.structureKindName)
   ]);
-  kindProperty.initializer = "StructureKind." + meta.structureKindName;
 
+  classFieldsStatements.set("kind", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, [
+    "StructureKind." + meta.structureKindName
+  ]);
   classMembersMap.addMembers([kindProperty]);
 
   importsManager.addImports({

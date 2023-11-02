@@ -57,17 +57,6 @@ export default class ImportDeclarationImpl
     target: ImportDeclarationImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    target.isTypeOnly = source.isTypeOnly ?? false;
-    if (source.namedImports) {
-      target.namedImports.push(
-        ...cloneStructureStringOrWriterArray<
-          OptionalKind<ImportSpecifierStructure>,
-          StructureKind.ImportSpecifier,
-          ImportSpecifierImpl
-        >(source.namedImports, StructureKind.ImportSpecifier),
-      );
-    }
-
     if (source.assertElements) {
       target.assertElements = [];
       target.assertElements.push(
@@ -83,12 +72,23 @@ export default class ImportDeclarationImpl
       target.defaultImport = source.defaultImport;
     }
 
-    if (source.namespaceImport) {
-      target.namespaceImport = source.namespaceImport;
-    }
-
+    target.isTypeOnly = source.isTypeOnly ?? false;
     if (source.moduleSpecifier) {
       target.moduleSpecifier = source.moduleSpecifier;
+    }
+
+    if (source.namedImports) {
+      target.namedImports.push(
+        ...cloneStructureStringOrWriterArray<
+          OptionalKind<ImportSpecifierStructure>,
+          StructureKind.ImportSpecifier,
+          ImportSpecifierImpl
+        >(source.namedImports, StructureKind.ImportSpecifier),
+      );
+    }
+
+    if (source.namespaceImport) {
+      target.namespaceImport = source.namespaceImport;
     }
   }
 

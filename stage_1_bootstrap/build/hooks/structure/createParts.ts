@@ -93,9 +93,10 @@ export default function createStructureParts(
 
   parts.copyFields = defineCopyFieldsMethod(
     meta,
-    parts.classDecl,
-    parts.classMembersMap,
-    parts.importsManager,
+    parts as Pick<
+      StructureParts,
+      "classDecl" | "classFieldsStatements" | "classMembersMap" | "importsManager"
+    >,
     dictionaries
   );
 
