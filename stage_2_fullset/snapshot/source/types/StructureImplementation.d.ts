@@ -9,8 +9,8 @@ import type {
 
 /*
 import type {
-  stringOrWriter
-} from "./stringOrWriter.js";
+  stringOrWriterFunction
+} from "./stringOrWriterFunction.js";
 */
 
 export interface StructureImplementation<
@@ -20,8 +20,8 @@ export interface StructureImplementation<
   /*
   readonly kind: Kind;
 
-  leadingTrivia: stringOrWriter[];
-  trailingTrivia: stringOrWriter[];
+  leadingTrivia: stringOrWriterFunction[];
+  trailingTrivia: stringOrWriterFunction[];
   */
 
   /** This is more for debugging purposes than actual code usage. */

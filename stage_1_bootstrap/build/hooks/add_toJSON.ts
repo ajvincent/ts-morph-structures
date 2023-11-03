@@ -129,7 +129,7 @@ function getJSONPropertyCopy(
   );
   const foundWriter = (
     typeStructureSet.has(ConstantTypeStructures.WriterFunction) ||
-    typeStructureSet.has(ConstantTypeStructures.stringOrWriter)
+    typeStructureSet.has(ConstantTypeStructures.stringOrWriterFunction)
   );
 
   if (!foundWriter) {
@@ -137,7 +137,7 @@ function getJSONPropertyCopy(
   }
 
   typeStructureSet.delete(ConstantTypeStructures.WriterFunction);
-  typeStructureSet.delete(ConstantTypeStructures.stringOrWriter);
+  typeStructureSet.delete(ConstantTypeStructures.stringOrWriterFunction);
 
   const writer = createCodeBlockWriter();
   pairedIfWrite(isMap, writer, `this.${prop.name}.map(value => {`, "})", true, true, () => {

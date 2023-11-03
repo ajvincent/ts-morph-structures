@@ -14,7 +14,7 @@ import {
   StructureMixin,
   StructuresClassesMap,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type AssertEntryStructure,
@@ -43,7 +43,7 @@ export default class ExportDeclarationImpl
   assertElements?: AssertEntryImpl[] = undefined;
   isTypeOnly = false;
   moduleSpecifier?: string = undefined;
-  readonly namedExports: (stringOrWriter | ExportSpecifierImpl)[] = [];
+  readonly namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[] = [];
   namespaceExport?: string = undefined;
 
   public static [COPY_FIELDS](

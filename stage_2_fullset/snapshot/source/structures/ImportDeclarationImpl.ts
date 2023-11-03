@@ -14,7 +14,7 @@ import {
   StructureMixin,
   StructuresClassesMap,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type AssertEntryStructure,
@@ -44,7 +44,7 @@ export default class ImportDeclarationImpl
   defaultImport?: string = undefined;
   isTypeOnly = false;
   moduleSpecifier: string;
-  readonly namedImports: (stringOrWriter | ImportSpecifierImpl)[] = [];
+  readonly namedImports: (stringOrWriterFunction | ImportSpecifierImpl)[] = [];
   namespaceImport?: string = undefined;
 
   constructor(moduleSpecifier: string) {

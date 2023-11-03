@@ -13,7 +13,7 @@ import {
   StructureMixin,
   StructuresClassesMap,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   OptionalKind,
@@ -33,9 +33,9 @@ export default class PropertyAssignmentImpl
 {
   readonly kind: StructureKind.PropertyAssignment =
     StructureKind.PropertyAssignment;
-  initializer: stringOrWriter = "";
+  initializer: stringOrWriterFunction = "";
 
-  constructor(name: string, initializer: stringOrWriter) {
+  constructor(name: string, initializer: stringOrWriterFunction) {
     super();
     this.initializer = initializer;
     this.name = name;

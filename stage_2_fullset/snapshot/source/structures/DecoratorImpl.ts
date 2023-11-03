@@ -13,7 +13,7 @@ import {
   StructureMixin,
   StructuresClassesMap,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import { type DecoratorStructure, OptionalKind, StructureKind } from "ts-morph";
 import type { Class, Jsonify } from "type-fest";
@@ -28,7 +28,7 @@ export default class DecoratorImpl
   implements RequiredOmit<PreferArrayFields<DecoratorStructure>>
 {
   readonly kind: StructureKind.Decorator = StructureKind.Decorator;
-  readonly arguments: stringOrWriter[] = [];
+  readonly arguments: stringOrWriterFunction[] = [];
   readonly typeArguments: string[] = [];
 
   constructor(name: string) {

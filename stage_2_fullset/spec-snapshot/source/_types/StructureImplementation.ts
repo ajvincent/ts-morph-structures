@@ -11,8 +11,8 @@ import type {
 } from "#stage_two/snapshot/source/types/StructureImplementation.js";
 
 import type {
-  stringOrWriter,
-} from "#stage_two/snapshot/source/types/stringOrWriter.js";
+  stringOrWriterFunction,
+} from "#stage_two/snapshot/source/types/stringOrWriterFunction.js";
 
 class ImplStub implements StructureImplementation<
   StructureKind.JSDocTag,
@@ -20,8 +20,8 @@ class ImplStub implements StructureImplementation<
 >
 {
   readonly kind: StructureKind.JSDocTag = StructureKind.JSDocTag;
-  readonly leadingTrivia: stringOrWriter[] = [];
-  readonly trailingTrivia: stringOrWriter[] = [];
+  readonly leadingTrivia: stringOrWriterFunction[] = [];
+  readonly trailingTrivia: stringOrWriterFunction[] = [];
 
   static fromStructure(
     source: OptionalKind<JSDocTagStructure>

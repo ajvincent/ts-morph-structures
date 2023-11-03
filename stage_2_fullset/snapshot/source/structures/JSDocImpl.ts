@@ -13,7 +13,7 @@ import {
   StructureMixin,
   StructuresClassesMap,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type JSDocStructure,
@@ -33,7 +33,7 @@ export default class JSDocImpl
   implements RequiredOmit<PreferArrayFields<JSDocStructure>, "description">
 {
   readonly kind: StructureKind.JSDoc = StructureKind.JSDoc;
-  description?: stringOrWriter = undefined;
+  description?: stringOrWriterFunction = undefined;
   readonly tags: JSDocTagImpl[] = [];
 
   public static [COPY_FIELDS](

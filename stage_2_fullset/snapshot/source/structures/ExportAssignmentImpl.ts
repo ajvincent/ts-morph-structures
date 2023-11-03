@@ -13,7 +13,7 @@ import {
   StructureMixin,
   StructuresClassesMap,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type ExportAssignmentStructure,
@@ -33,10 +33,10 @@ export default class ExportAssignmentImpl
 {
   readonly kind: StructureKind.ExportAssignment =
     StructureKind.ExportAssignment;
-  expression: stringOrWriter = "";
+  expression: stringOrWriterFunction = "";
   isExportEquals = false;
 
-  constructor(expression: stringOrWriter) {
+  constructor(expression: stringOrWriterFunction) {
     super();
     this.expression = expression;
   }

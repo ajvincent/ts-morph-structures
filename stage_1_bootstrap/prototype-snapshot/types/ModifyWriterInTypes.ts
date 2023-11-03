@@ -11,10 +11,10 @@ type JsonifiableArrayOrWriter = readonly JsonifiableOrWriter[];
 
 export type JsonifiableOrWriter = JsonPrimitive | JsonifiableObjectOrWriter | JsonifiableArrayOrWriter | WriterFunction;
 
-type stringOrWriter = string | WriterFunction;
+type stringOrWriterFunction = string | WriterFunction;
 
 type ReplaceWriterWithStringBase<T> = (
-	T extends stringOrWriter[] ? {[Ix in keyof T]: ReplaceWriterWithStringBase<T[Ix]>} :
+	T extends stringOrWriterFunction[] ? {[Ix in keyof T]: ReplaceWriterWithStringBase<T[Ix]>} :
 	T extends WriterFunction ? Exclude<T, WriterFunction> | string :
 	T
 );

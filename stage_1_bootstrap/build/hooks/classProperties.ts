@@ -219,7 +219,7 @@ function getTypeStructureForValue(
   return new UnionTypedStructureImpl(structures);
 }
 
-const stringOrWriterModule = path.join(distDir, "source/types/stringOrWriter.d.ts");
+const stringOrWriterModule = path.join(distDir, "source/types/stringOrWriterFunction.d.ts");
 const cloneStructureArrayModule = path.join(distDir, "source/base/cloneStructureArray.ts");
 
 function getTypeStructureArrayForValue(
@@ -231,19 +231,19 @@ function getTypeStructureArrayForValue(
   const structures: TypeStructures[] = [];
 
   if (value.mayBeString && value.mayBeWriter) {
-    structures.push(ConstantTypeStructures.stringOrWriter);
+    structures.push(ConstantTypeStructures.stringOrWriterFunction);
 
     parts.importsManager.addImports({
       pathToImportedModule: stringOrWriterModule,
       isPackageImport: false,
-      importNames: ["stringOrWriter"],
+      importNames: ["stringOrWriterFunction"],
       isDefaultImport: false,
       isTypeOnly: true,
     });
 
     dictionaries.publicExports.addExports({
-      absolutePathToModule: path.join(distDir, "source/types/stringOrWriter.ts"),
-      exportNames: ["stringOrWriter"],
+      absolutePathToModule: path.join(distDir, "source/types/stringOrWriterFunction.ts"),
+      exportNames: ["stringOrWriterFunction"],
       isDefaultExport: false,
       isType: true,
     });
@@ -651,9 +651,9 @@ function write_cloneStatementsArray(
   return (writer: CodeBlockWriter) => {
     // this is one time where it's just faster and clearer to write the code than to spell out the contents in structures
     writer.write(`
-let statementsArray: (stringOrWriter | StatementStructureImpls)[] = [];
+let statementsArray: (stringOrWriterFunction | StatementStructureImpls)[] = [];
 if (Array.isArray(source.statements)) {
-  statementsArray = source.statements as (stringOrWriter | StatementStructureImpls)[];
+  statementsArray = source.statements as (stringOrWriterFunction | StatementStructureImpls)[];
 }
 else if (source.statements !== undefined) {
   statementsArray = [source.statements];

@@ -48,7 +48,7 @@ export { default as VariableStatementImpl } from "./structures/VariableStatement
 export { default as ClassMembersMap } from "./toolbox/ClassMembersMap.js";
 export { default as ExportManager } from "./toolbox/ExportManager.js";
 export { default as ImportManager } from "./toolbox/ImportManager.js";
-export type { stringOrWriter } from "./types/stringOrWriter.js";
+export type { stringOrWriterFunction } from "./types/stringOrWriterFunction.js";
 export type * from "./types/StructureImplUnions.js";
 export { default as ArrayTypeStructureImpl } from "./typeStructures/ArrayTypeStructureImpl.js";
 export {

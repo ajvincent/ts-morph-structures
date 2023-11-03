@@ -13,7 +13,7 @@ import {
   StructureMixin,
   StructuresClassesMap,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   OptionalKind,
@@ -37,8 +37,8 @@ export default class TypeParameterDeclarationImpl
     >
 {
   readonly kind: StructureKind.TypeParameter = StructureKind.TypeParameter;
-  constraint?: stringOrWriter = undefined;
-  default?: stringOrWriter = undefined;
+  constraint?: stringOrWriterFunction = undefined;
+  default?: stringOrWriterFunction = undefined;
   isConst = false;
   variance?: TypeParameterVariance = undefined;
 

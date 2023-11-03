@@ -33,7 +33,7 @@ import {
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type ClassDeclarationStructure,
@@ -83,9 +83,9 @@ export default class ClassDeclarationImpl
 {
   readonly kind: StructureKind.Class = StructureKind.Class;
   readonly ctors: ConstructorDeclarationImpl[] = [];
-  extends?: stringOrWriter = undefined;
+  extends?: stringOrWriterFunction = undefined;
   readonly getAccessors: GetAccessorDeclarationImpl[] = [];
-  readonly implements: stringOrWriter[] = [];
+  readonly implements: stringOrWriterFunction[] = [];
   readonly methods: MethodDeclarationImpl[] = [];
   readonly properties: PropertyDeclarationImpl[] = [];
   readonly setAccessors: SetAccessorDeclarationImpl[] = [];

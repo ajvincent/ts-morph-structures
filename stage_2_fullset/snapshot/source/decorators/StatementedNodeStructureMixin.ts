@@ -9,7 +9,7 @@ import {
   StructureBase,
   StructuresClassesMap,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import type {
   MixinClass,
   StaticAndInstance,
@@ -43,7 +43,8 @@ export default function StatementedNodeStructureMixin(
   void context;
 
   class StatementedNodeStructureMixin extends baseClass {
-    readonly statements: (stringOrWriter | StatementStructureImpls)[] = [];
+    readonly statements: (stringOrWriterFunction | StatementStructureImpls)[] =
+      [];
 
     public static [COPY_FIELDS](
       source: StatementedNodeStructure & Structures,
@@ -51,10 +52,13 @@ export default function StatementedNodeStructureMixin(
     ): void {
       super[COPY_FIELDS](source, target);
 
-      let statementsArray: (stringOrWriter | StatementStructureImpls)[] = [];
+      let statementsArray: (
+        | stringOrWriterFunction
+        | StatementStructureImpls
+      )[] = [];
       if (Array.isArray(source.statements)) {
         statementsArray = source.statements as (
-          | stringOrWriter
+          | stringOrWriterFunction
           | StatementStructureImpls
         )[];
       } else if (source.statements !== undefined) {
@@ -66,8 +70,8 @@ export default function StatementedNodeStructureMixin(
     }
 
     static #cloneStatement(
-      source: stringOrWriter | StatementStructures,
-    ): stringOrWriter | StatementStructureImpls {
+      source: stringOrWriterFunction | StatementStructures,
+    ): stringOrWriterFunction | StatementStructureImpls {
       if (typeof source !== "object") {
         return source;
       }

@@ -11,7 +11,7 @@ import {
   StructureMixin,
   StructuresClassesMap,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import { type JSDocTagStructure, OptionalKind, StructureKind } from "ts-morph";
 import type { Class, Jsonify } from "type-fest";
@@ -27,7 +27,7 @@ export default class JSDocTagImpl
 {
   readonly kind: StructureKind.JSDocTag = StructureKind.JSDocTag;
   tagName: string;
-  text?: stringOrWriter = undefined;
+  text?: stringOrWriterFunction = undefined;
 
   constructor(tagName: string) {
     super();

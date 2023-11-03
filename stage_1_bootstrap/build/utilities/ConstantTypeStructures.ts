@@ -30,7 +30,7 @@ const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
   "object": new LiteralTypedStructureImpl("object"),
   "staticFields": new StringTypedStructureImpl("staticFields"),
   "string": new LiteralTypedStructureImpl("string"),
-  "stringOrWriter": new LiteralTypedStructureImpl("stringOrWriter"),
+  "stringOrWriterFunction": new LiteralTypedStructureImpl("stringOrWriterFunction"),
   "typeof StructureBase": new PrefixOperatorsTypedStructureImpl(
     ["typeof"], new LiteralTypedStructureImpl("StructureBase")
   ),

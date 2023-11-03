@@ -7,7 +7,7 @@ import {
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import type {
   MixinClass,
   StaticAndInstance,
@@ -37,8 +37,8 @@ export default function StructureMixin(
   void context;
 
   class StructureMixin extends baseClass {
-    readonly leadingTrivia: stringOrWriter[] = [];
-    readonly trailingTrivia: stringOrWriter[] = [];
+    readonly leadingTrivia: stringOrWriterFunction[] = [];
+    readonly trailingTrivia: stringOrWriterFunction[] = [];
 
     public static [COPY_FIELDS](
       source: Structure & Structures,

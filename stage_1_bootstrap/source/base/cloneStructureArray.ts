@@ -6,7 +6,7 @@ import {
 } from "ts-morph";
 
 import StructuresClassesMap from "./StructuresClassesMap.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 
 type ArrayOrValue<T> = T | readonly T[];
 
@@ -17,11 +17,11 @@ export function cloneStructureStringOrWriterArray<
   TargetType extends KindedStructure<Kind>,
 >
 (
-  sources: ArrayOrValue<SourceType | stringOrWriter>,
+  sources: ArrayOrValue<SourceType | stringOrWriterFunction>,
   sourceKind: Kind,
-): readonly (TargetType | stringOrWriter)[]
+): readonly (TargetType | stringOrWriterFunction)[]
 {
-  const sourceArray = forceArray<SourceType | stringOrWriter>(sources);
+  const sourceArray = forceArray<SourceType | stringOrWriterFunction>(sources);
   return sourceArray.map(
     sourceValue => cloneStructureStringOrWriter<
       SourceType, Kind, TargetType
@@ -92,7 +92,7 @@ export function cloneStructureArray<
 }
 
 function forceArray<
-  SourceType extends Structures  | OptionalKind<Structures> | stringOrWriter
+  SourceType extends Structures  | OptionalKind<Structures> | stringOrWriterFunction
 >
 (
   sources: ArrayOrValue<SourceType>
@@ -110,9 +110,9 @@ function cloneStructureStringOrWriter<
   TargetType extends KindedStructure<StructureKind>,
 >
 (
-  sourceValue: SourceType | stringOrWriter,
+  sourceValue: SourceType | stringOrWriterFunction,
   sourceKind: Kind,
-): TargetType | stringOrWriter
+): TargetType | stringOrWriterFunction
 {
   if (typeof sourceValue === "function")
     return sourceValue;

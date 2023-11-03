@@ -16,8 +16,8 @@ import {
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import type {
-  stringOrWriter
-} from "#stage_one/source/types/stringOrWriter.js";
+  stringOrWriterFunction
+} from "#stage_one/source/types/stringOrWriterFunction.js";
 
 import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
@@ -85,7 +85,7 @@ function fixAssertElements(
   if (oldStatementIndex < 0)
     throw new Error(`assertElements not found in ${classDecl.name!}[COPY_FIELDS]?`);
 
-  let statement = statements[oldStatementIndex] as stringOrWriter;
+  let statement = statements[oldStatementIndex] as stringOrWriterFunction;
   if (typeof statement === "function") {
     const writer = createCodeBlockWriter();
     statement(writer);

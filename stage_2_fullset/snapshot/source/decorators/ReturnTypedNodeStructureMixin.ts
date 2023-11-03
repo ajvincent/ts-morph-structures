@@ -7,7 +7,7 @@ import {
   type RightExtendsLeft,
   StructureBase,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import type {
   MixinClass,
   StaticAndInstance,
@@ -40,7 +40,7 @@ export default function ReturnTypedNodeStructureMixin(
   void context;
 
   class ReturnTypedNodeStructureMixin extends baseClass {
-    returnType?: stringOrWriter = undefined;
+    returnType?: stringOrWriterFunction = undefined;
 
     public static [COPY_FIELDS](
       source: ReturnTypedNodeStructure & Structures,

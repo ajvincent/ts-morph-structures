@@ -29,7 +29,7 @@ import {
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type CallSignatureDeclarationStructure,
@@ -72,7 +72,7 @@ export default class InterfaceDeclarationImpl
   readonly kind: StructureKind.Interface = StructureKind.Interface;
   readonly callSignatures: CallSignatureDeclarationImpl[] = [];
   readonly constructSignatures: ConstructSignatureDeclarationImpl[] = [];
-  readonly extends: stringOrWriter[] = [];
+  readonly extends: stringOrWriterFunction[] = [];
   readonly indexSignatures: IndexSignatureDeclarationImpl[] = [];
   readonly methods: MethodSignatureImpl[] = [];
   readonly properties: PropertySignatureImpl[] = [];

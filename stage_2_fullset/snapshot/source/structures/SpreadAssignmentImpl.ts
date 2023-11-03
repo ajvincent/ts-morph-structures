@@ -11,7 +11,7 @@ import {
   StructureMixin,
   StructuresClassesMap,
 } from "../internal-exports.js";
-import type { stringOrWriter } from "../types/stringOrWriter.js";
+import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   OptionalKind,
@@ -31,9 +31,9 @@ export default class SpreadAssignmentImpl
 {
   readonly kind: StructureKind.SpreadAssignment =
     StructureKind.SpreadAssignment;
-  expression: stringOrWriter = "";
+  expression: stringOrWriterFunction = "";
 
-  constructor(expression: stringOrWriter) {
+  constructor(expression: stringOrWriterFunction) {
     super();
     this.expression = expression;
   }
