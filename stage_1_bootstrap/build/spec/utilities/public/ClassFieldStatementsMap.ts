@@ -9,7 +9,8 @@ it("ClassFieldStatementsMap works", () => {
   map.set(ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, "toJSON", ["const rv: Record<string, unknown> = {};"]);
   map.set(ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN, "toJSON", ["return rv;"]);
 
-  map.set("first", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, [`"one"`]);
+  // s/\b[gs]et // for initializers
+  map.set("get first", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, [`"one"`]);
 
   expect(map.groupKeys()).toEqual([
     "constructor",

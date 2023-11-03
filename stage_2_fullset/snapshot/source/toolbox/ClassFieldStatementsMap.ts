@@ -10,18 +10,31 @@ export type StatementsArray = (
 type keyPair = { fieldName: string; statementGroup: string };
 
 /**
- * This is a map for specifying statements across several locations for a single class field.
+ * This is a map for specifying statements across several class members for a single class field.
  *
  * For example, a field may require statements for:
  * - defining a getter and/or a setter
  * - initializing in a constructor
  * - implementing a .toJSON() method
  *
- * The field name specifies which field the statements are about.  The statement group specifies where the statements go.
+ * The field name specifies which field the statements are about.
+ * The statement group specifies where the statements go (what method, or an initializer).
+ *
+ * Special field keys:
+ * ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL:
+ *   These statements will appear at the head of the statement block.
+ * ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN:
+ *   These statements will appear at the tail of the statement block.
+ *
+ * Special statement group keys:
+ * ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY:
+ *   This represents an initializer for a property, or a value reference for a getter or setter.
+ *   Field keys will have `get ` or `set ` stripped from them for this group key.
+ *   Statement arrays for this group key should contain exactly one statement, and should be just a string.
  *
  * @example
  * ```typescript
- * map.set("foo", ClassFieldStatementsMap.INITIALIZER_OR_PROPERTY, ['this.#foo.value']);
+ * map.set("foo", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, ['this.#foo.value']);
  * map.set("foo", "toJSON", ["rv.foo = this.foo;"]);
  * // ...
  * map.set(ClassFieldsStatementsMap.FIELD_HEAD_SUPER_CALL, "toJSON", ["const rv = super.toJSON();"]);
@@ -32,6 +45,18 @@ type keyPair = { fieldName: string; statementGroup: string };
  * ```
  */
 export default class ClassFieldStatementsMap {
+  static #normalizeKeys(
+    fieldName: string,
+    statementGroup: string,
+  ): [string, string] {
+    if (
+      statementGroup === ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
+    ) {
+      fieldName = fieldName.replace(/\b[gs]et /, "");
+    }
+    return [fieldName, statementGroup];
+  }
+
   static #hashKey(fieldName: string, statementGroup: string): string {
     return JSON.stringify({ fieldName, statementGroup });
   }
@@ -91,6 +116,10 @@ export default class ClassFieldStatementsMap {
    * @returns True if we found the statements and deleted it.
    */
   public delete(fieldName: string, statementGroup: string): boolean {
+    [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(
+      fieldName,
+      statementGroup,
+    );
     const rv = this.#map.delete(
       ClassFieldStatementsMap.#hashKey(fieldName, statementGroup),
     );
@@ -147,6 +176,10 @@ export default class ClassFieldStatementsMap {
     fieldName: string,
     statementGroup: string,
   ): StatementsArray | undefined {
+    [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(
+      fieldName,
+      statementGroup,
+    );
     return this.#map.get(
       ClassFieldStatementsMap.#hashKey(fieldName, statementGroup),
     );
@@ -160,6 +193,10 @@ export default class ClassFieldStatementsMap {
    * @returns True if the key set refers to a statements in the collection.
    */
   public has(fieldName: string, statementGroup: string): boolean {
+    [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(
+      fieldName,
+      statementGroup,
+    );
     return this.#map.has(
       ClassFieldStatementsMap.#hashKey(fieldName, statementGroup),
     );
@@ -190,6 +227,10 @@ export default class ClassFieldStatementsMap {
     statementGroup: string,
     statements: StatementsArray,
   ): this {
+    [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(
+      fieldName,
+      statementGroup,
+    );
     this.#map.set(
       ClassFieldStatementsMap.#hashKey(fieldName, statementGroup),
       statements,
