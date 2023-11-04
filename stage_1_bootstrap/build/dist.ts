@@ -51,6 +51,7 @@ export default async function buildDist(): Promise<void>
 
   await Promise.all([
     fixPrototypeExportsAndTypeStructureImpl(distDir, "base/TypeAccessors.ts"),
+    fixPrototypeExportsAndTypeStructureImpl(distDir, "base/TypeStructureSet.ts"),
     fixPrototypeExportsAndTypeStructureImpl(distDir, "typeStructures/MemberedObjectTypeStructureImpl.ts"),
     fixPrototypeExportsAndTypeStructureImpl(distDir, "types/TypeAndTypeStructureInterfaces.d.ts"),
   ]);

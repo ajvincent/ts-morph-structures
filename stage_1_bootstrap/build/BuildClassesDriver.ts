@@ -158,6 +158,20 @@ async function defineExistingExports(
   });
 
   dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/base/TypeAccessors.ts"),
+    exportNames: ["TypeAccessors"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
+  dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/base/TypeStructureSet.ts"),
+    exportNames: ["TypeStructureSet"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/base/symbolKeys.ts"),
     exportNames: [
       "COPY_FIELDS",

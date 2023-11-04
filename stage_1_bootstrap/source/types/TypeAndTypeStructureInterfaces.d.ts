@@ -9,6 +9,10 @@ import {
   type stringOrWriterFunction,
 } from "#stage_one/prototype-snapshot/exports.js";
 
+import {
+  TypeStructureSet
+} from "#stage_one/prototype-snapshot/internal-exports.js";
+
 /*
 import TypeStructureSet from "../base/TypeStructureSet.js";
 */
@@ -21,20 +25,20 @@ import {
 
 export interface TypedNodeTypeStructure
 {
-  typeStructure: TypeStructures | undefined;
+  typeStructure: string | TypeStructures | undefined;
   type: stringOrWriterFunction | undefined;
 }
 
 export interface ReturnTypedNodeTypeStructure
 {
-  returnTypeStructure: TypeStructures | undefined;
+  returnTypeStructure: string | TypeStructures | undefined;
   returnType: stringOrWriterFunction | undefined;
 }
 
 /*
 export interface TypeParameterWithTypeStructures
 {
-  constraintStructure: TypeStructures | undefined;
+  constraintStructure: string | TypeStructures | undefined;
   constraint: stringOrWriterFunction | undefined;
 
   constraintWriter(
@@ -45,6 +49,7 @@ export interface TypeParameterWithTypeStructures
   defaultStructure: TypeStructures | undefined;
   default: stringOrWriterFunction | undefined;
 }
+*/
 
 export interface ClassDeclarationWithImplementsTypeStructures
 {
@@ -57,4 +62,3 @@ export interface InterfaceDeclarationWithExtendsTypeStructures
   extendsSet: TypeStructureSet;
   extends: stringOrWriterFunction[];
 }
-*/

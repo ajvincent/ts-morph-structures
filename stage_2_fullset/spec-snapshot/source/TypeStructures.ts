@@ -9,6 +9,9 @@ import {
   IndexedAccessTypeStructureImpl,
   IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
+  MemberedObjectTypeStructureImpl,
+  MethodSignatureImpl,
+  ParameterDeclarationImpl,
   ParameterTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   PrefixOperatorsTypeStructureImpl,
@@ -24,9 +27,6 @@ import {
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
-  MemberedObjectTypeStructureImpl,
-  MethodSignatureImpl,
-  ParameterDeclarationImpl,
   TypeStructureClassesMap
 } from "#stage_two/snapshot/source/internal-exports.js";
 

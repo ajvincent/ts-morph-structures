@@ -1,7 +1,15 @@
-import { WriterFunction } from "ts-morph";
-import { TypeStructures } from "../typeStructures/TypeStructures.js";
-import { getTypeStructureForCallback } from "./callbackToTypeStructureRegistry.js";
-import { stringOrWriterFunction } from "../types/ts-morph-native.js";
+import {
+  WriterFunction
+} from "ts-morph";
+
+import {
+  TypeStructures,
+  type stringOrWriterFunction,
+} from "../exports.js";
+
+import {
+  TypeStructuresBase,
+} from "../internal-exports.js";
 
 /**
  * This supports setting "implements" and "extends" types for arrays behind read-only array
@@ -27,7 +35,7 @@ extends Set<stringOrWriterFunction | TypeStructures>
     value: WriterFunction
   ): WriterFunction | TypeStructures
   {
-    return getTypeStructureForCallback(value) ?? value;
+    return TypeStructuresBase.getTypeStructureForCallback(value) ?? value;
   }
 
   readonly #backingArray: stringOrWriterFunction[];

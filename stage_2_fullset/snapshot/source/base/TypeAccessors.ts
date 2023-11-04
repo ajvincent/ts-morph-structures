@@ -2,7 +2,6 @@
 import type { TypedNodeStructure, WriterFunction } from "ts-morph";
 
 import {
-  LiteralTypeStructureImpl,
   TypeStructures,
   TypeStructureKind,
   type TypedNodeTypeStructure,
@@ -11,7 +10,6 @@ import {
 } from "../exports.js";
 
 import {
-  StructureBase,
   TypeStructureClassesMap,
   TypeStructuresBase,
 } from "../internal-exports.js";
@@ -19,7 +17,7 @@ import {
 // #endregion preamble
 
 /**
- * This provides an API for converting between a type (`string | WriterFunction`) and a `TypeStructure`.
+ * This provides an API for converting between a type (`WriterFunction`) and a `TypeStructure`.
  *
  * For any class providing a type (return type, constraint, extends, etc.), you can have an instance of
  * `TypeAccessors` as a private class field, and provide getters and setters for type and typeStructure
@@ -28,13 +26,12 @@ import {
  * See `../decorators/TypedNode.ts` for an example.
  */
 export default class TypeAccessors
-  extends StructureBase
   implements TypedNodeStructure, TypedNodeTypeStructure
 {
-  typeStructure: TypeStructures | undefined = undefined;
+  typeStructure: string | TypeStructures | undefined = undefined;
 
   get type(): string | WriterFunction | undefined {
-    if (!this.typeStructure) return undefined;
+    if (typeof this.typeStructure !== "object") return this.typeStructure;
 
     if (this.typeStructure.kind === TypeStructureKind.Literal) {
       return this.typeStructure.stringValue;
@@ -44,26 +41,25 @@ export default class TypeAccessors
   }
 
   set type(value: stringOrWriterFunction | undefined) {
-    if (typeof value === "string") {
-      this.typeStructure = new LiteralTypeStructureImpl(value);
-      TypeStructuresBase.deregisterCallbackForTypeStructure(this.typeStructure);
+    if (typeof value !== "function") {
+      this.typeStructure = value;
       return;
     }
 
-    if (typeof value === "function") {
-      const knownTypeStructure =
-        TypeStructuresBase.getTypeStructureForCallback(value);
-      if (knownTypeStructure) {
-        this.typeStructure = knownTypeStructure;
-        return;
-      }
-
-      this.typeStructure = new WriterTypeStructureImpl(value);
-      TypeStructuresBase.deregisterCallbackForTypeStructure(this.typeStructure);
+    const knownTypeStructure =
+      TypeStructuresBase.getTypeStructureForCallback(value);
+    if (knownTypeStructure?.kind === TypeStructureKind.Literal) {
+      this.typeStructure = knownTypeStructure.stringValue;
       return;
     }
 
-    this.typeStructure = undefined;
+    if (knownTypeStructure) {
+      this.typeStructure = knownTypeStructure;
+      return;
+    }
+
+    this.typeStructure = new WriterTypeStructureImpl(value);
+    TypeStructuresBase.deregisterCallbackForTypeStructure(this.typeStructure);
   }
 
   /**

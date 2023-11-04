@@ -7,7 +7,7 @@
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy#handler_functions}
  */
 export default class ReadonlyArrayProxyHandler<ElementType>
-implements Required<ProxyHandler<ElementType[]>>
+  implements Required<ProxyHandler<ElementType[]>>
 {
   /** Members which don't affect the original array. */
   static #safeMembers: ReadonlySet<keyof (readonly object[])> = new Set([
@@ -45,17 +45,14 @@ implements Required<ProxyHandler<ElementType[]>>
 
   /** Determine if the array field is safe to return.  Some methods, all numbered indexes. */
   static #isSafeMember(p: string | symbol): boolean {
-    if (this.#safeMembers.has(p as keyof readonly object[]))
-      return true;
+    if (this.#safeMembers.has(p as keyof (readonly object[]))) return true;
 
-    if (p === "constructor")
-      return true;
+    if (p === "constructor") return true;
 
-    if (typeof p === "symbol")
-      return false;
+    if (typeof p === "symbol") return false;
 
     const pNum = parseFloat(p);
-    if (isNaN(pNum) || (Math.floor(pNum) !== pNum) || (pNum < 0) || !isFinite(pNum))
+    if (isNaN(pNum) || Math.floor(pNum) !== pNum || pNum < 0 || !isFinite(pNum))
       return false;
 
     return true;
@@ -66,21 +63,25 @@ implements Required<ProxyHandler<ElementType[]>>
   /**
    * @param errorMessage - an error message to throw for unreachable methods.
    */
-  constructor(
-    errorMessage: string
-  )
-  {
+  constructor(errorMessage: string) {
     this.#errorMessage = errorMessage;
   }
 
-  apply(target: ElementType[], thisArg: any, argArray: any[]): never
-  {
+  apply(target: ElementType[], thisArg: any, argArray: any[]): never {
     throw new Error("Method not implemented.");
   }
-  construct(target: ElementType[], argArray: any[], newTarget: Function): object {
+  construct(
+    target: ElementType[],
+    argArray: any[],
+    newTarget: Function,
+  ): object {
     throw new Error("Method not implemented.");
   }
-  defineProperty(target: ElementType[], property: string | symbol, attributes: PropertyDescriptor): boolean {
+  defineProperty(
+    target: ElementType[],
+    property: string | symbol,
+    attributes: PropertyDescriptor,
+  ): boolean {
     throw new Error(this.#errorMessage);
   }
   deleteProperty(target: ElementType[], p: string | symbol): boolean {
@@ -90,15 +91,16 @@ implements Required<ProxyHandler<ElementType[]>>
     if (ReadonlyArrayProxyHandler.#isSafeMember(p)) {
       return Reflect.get(target, p, receiver);
     }
-    if (!Reflect.has(Array.prototype, p))
-      return undefined;
+    if (!Reflect.has(Array.prototype, p)) return undefined;
     throw new Error(this.#errorMessage);
   }
-  getOwnPropertyDescriptor(target: ElementType[], p: string | symbol): PropertyDescriptor | undefined {
+  getOwnPropertyDescriptor(
+    target: ElementType[],
+    p: string | symbol,
+  ): PropertyDescriptor | undefined {
     if (ReadonlyArrayProxyHandler.#isSafeMember(p))
       return Reflect.getOwnPropertyDescriptor(target, p);
-    if (!Reflect.has(Array.prototype, p))
-      return undefined;
+    if (!Reflect.has(Array.prototype, p)) return undefined;
     throw new Error(this.#errorMessage);
   }
   getPrototypeOf(target: ElementType[]): object | null {
@@ -116,7 +118,12 @@ implements Required<ProxyHandler<ElementType[]>>
   preventExtensions(target: ElementType[]): boolean {
     throw new Error(this.#errorMessage);
   }
-  set(target: ElementType[], p: string | symbol, newValue: any, receiver: any): boolean {
+  set(
+    target: ElementType[],
+    p: string | symbol,
+    newValue: any,
+    receiver: any,
+  ): boolean {
     throw new Error(this.#errorMessage);
   }
   setPrototypeOf(target: ElementType[], v: object | null): boolean {
