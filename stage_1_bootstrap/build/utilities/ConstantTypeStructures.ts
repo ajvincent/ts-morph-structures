@@ -2,6 +2,7 @@ import {
   LiteralTypedStructureImpl,
   PrefixOperatorsTypedStructureImpl,
   StringTypedStructureImpl,
+  UnionTypedStructureImpl,
   type TypeStructures,
 } from "#stage_one/prototype-snapshot/exports.js";
 
@@ -22,6 +23,11 @@ const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
   "StructureKind": new LiteralTypedStructureImpl("StructureKind"),
   "Structures": new LiteralTypedStructureImpl("Structures"),
   "SubclassDecorator": new LiteralTypedStructureImpl("SubclassDecorator"),
+  "TypeStructures": new LiteralTypedStructureImpl("TypeStructures"),
+  "TypeStructuresOrUndefined": new UnionTypedStructureImpl([
+    new LiteralTypedStructureImpl("TypeStructures"),
+    new LiteralTypedStructureImpl("undefined")
+  ]),
   "WriterFunction": new LiteralTypedStructureImpl("WriterFunction"),
   "boolean": new LiteralTypedStructureImpl("boolean"),
   "false": new LiteralTypedStructureImpl("false"),

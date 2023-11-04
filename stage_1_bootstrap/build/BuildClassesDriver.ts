@@ -129,6 +129,13 @@ async function defineExistingExports(
     isType: true
   });
 
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/types/TypeAndTypeStructureInterfaces.d.ts"),
+    exportNames: [],
+    isDefaultExport: false,
+    isType: true
+  });
+
   dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/base/generated/structureToSyntax.ts"),
     exportNames: ["StructureKindToSyntaxKindMap"],
@@ -200,6 +207,13 @@ async function defineExistingExports(
     exportNames: ["RightExtendsLeft"],
     isDefaultExport: false,
     isType: true
+  });
+
+  dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/typeStructures/TypeStructuresBase.ts"),
+    exportNames: ["TypeStructuresBase"],
+    isDefaultExport: true,
+    isType: false
   });
 
   const sourceDir = path.join(distDir, "source/typeStructures");

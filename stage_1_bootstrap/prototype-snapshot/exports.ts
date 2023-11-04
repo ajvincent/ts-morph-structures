@@ -107,6 +107,10 @@ export {
 // #endregion TypeStructure implementations
 
 export type {
+  stringOrWriterFunction
+} from "./types/ts-morph-native.js";
+
+export type {
   StatementStructureImpls
 } from "./types/StructureImplUnions.js";
 

@@ -49,7 +49,11 @@ export default async function buildDist(): Promise<void>
     { recursive: true }
   );
 
-  await fixMemberedObjectExports(distDir);
+  await Promise.all([
+    fixPrototypeExportsAndTypeStructureImpl(distDir, "base/TypeAccessors.ts"),
+    fixPrototypeExportsAndTypeStructureImpl(distDir, "typeStructures/MemberedObjectTypeStructureImpl.ts"),
+    fixPrototypeExportsAndTypeStructureImpl(distDir, "types/TypeAndTypeStructureInterfaces.d.ts"),
+  ]);
 
   await fs.mkdir(distToolboxDir, { recursive: true });
   const files = (await fs.readdir(sourceUtilitiesDir)).filter(value => value.endsWith(".ts")).map(
@@ -68,13 +72,15 @@ export default async function buildDist(): Promise<void>
   await runPrettify(distDir);
 }
 
-async function fixMemberedObjectExports(
-  distDir: string
+async function fixPrototypeExportsAndTypeStructureImpl(
+  distDir: string,
+  pathUnderSource: string,
 ): Promise<void>
 {
-  const modulePath = path.join(distDir, "source/typeStructures/MemberedObjectTypeStructureImpl.ts");
+  const modulePath = path.join(distDir, "source", pathUnderSource);
   let contents: string = await fs.readFile(modulePath, { encoding: "utf-8" });
-  contents = contents.replace("#stage_one/prototype-snapshot/exports.js", "../exports.js");
+  contents = contents.replace(/#stage_one\/prototype-snapshot\//g, "../");
+  contents = contents.replace(/TypedStructureImpl/g, "TypeStructureImpl");
   await fs.writeFile(modulePath, contents, { encoding: "utf-8" });
 }
 
@@ -84,8 +90,8 @@ async function exportPublicUtility(
 {
   let contents = await fs.readFile(pathToSourceFile, { encoding: "utf-8" });
   contents = contents.replace(
-    "#stage_one/prototype-snapshot/exports.js",
-    "../exports.js"
+    "#stage_one/prototype-snapshot/",
+    "../"
   );
   const pathToDestFile = pathToSourceFile.replace(sourceUtilitiesDir, distToolboxDir);
   await fs.writeFile(pathToDestFile, contents, { encoding: "utf-8" });

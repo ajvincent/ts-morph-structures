@@ -50,6 +50,7 @@ export { default as ExportManager } from "./toolbox/ExportManager.js";
 export { default as ImportManager } from "./toolbox/ImportManager.js";
 export type { stringOrWriterFunction } from "./types/stringOrWriterFunction.js";
 export type * from "./types/StructureImplUnions.js";
+export type * from "./types/TypeAndTypeStructureInterfaces.js";
 export { default as ArrayTypeStructureImpl } from "./typeStructures/ArrayTypeStructureImpl.js";
 export {
   type ConditionalTypeStructureParts,

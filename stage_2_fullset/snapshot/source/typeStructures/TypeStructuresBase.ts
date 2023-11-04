@@ -12,13 +12,30 @@ export default abstract class TypeStructuresBase<Kind extends TypeStructureKind>
 {
   static readonly #callbackToTypeStructureImpl = new WeakMap<
     WriterFunction,
-    TypeStructuresBase<TypeStructureKind>
+    TypeStructures
   >();
 
-  static getTypeStructureForCallback(
+  protected registerCallbackForTypeStructure(): void {
+    if (
+      TypeStructuresBase.#callbackToTypeStructureImpl.has(this.writerFunction)
+    )
+      return;
+    TypeStructuresBase.#callbackToTypeStructureImpl.set(
+      this.writerFunction,
+      this as TypeStructures,
+    );
+  }
+
+  public static getTypeStructureForCallback(
     callback: WriterFunction,
-  ): TypeStructuresBase<TypeStructureKind> | undefined {
+  ): TypeStructures | undefined {
     return this.#callbackToTypeStructureImpl.get(callback);
+  }
+
+  public static deregisterCallbackForTypeStructure(
+    structure: TypeStructures,
+  ): void {
+    this.#callbackToTypeStructureImpl.delete(structure.writerFunction);
   }
 
   /**
@@ -56,23 +73,6 @@ export default abstract class TypeStructuresBase<Kind extends TypeStructureKind>
     else value.writerFunction(writer);
   }
 
-  static deregisterCallbackForTypeStructure(
-    structure: TypeStructuresBase<TypeStructureKind>,
-  ): void {
-    this.#callbackToTypeStructureImpl.delete(structure.writerFunction);
-  }
-
-  protected registerCallbackForTypeStructure(): void {
-    if (
-      TypeStructuresBase.#callbackToTypeStructureImpl.has(this.writerFunction)
-    )
-      return;
-    TypeStructuresBase.#callbackToTypeStructureImpl.set(
-      this.writerFunction,
-      this,
-    );
-  }
-
-  abstract readonly kind: Kind;
-  abstract readonly writerFunction: WriterFunction;
+  public abstract readonly kind: Kind;
+  public abstract readonly writerFunction: WriterFunction;
 }

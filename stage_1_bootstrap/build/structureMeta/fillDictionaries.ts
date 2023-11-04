@@ -103,8 +103,8 @@ function addStructure(
     return new StructureImplMeta(targetInterfaceName);
   });
 
-  addExtendsToStructureMeta(targetInterfaceName, decl, structureMeta, dictionary);
-  addMembersToStructureMeta(interfaceName, targetInterfaceName, decl, structureMeta);
+  addExtendsToMeta(targetInterfaceName, decl, structureMeta, dictionary);
+  addMembersToMeta(interfaceName, targetInterfaceName, decl, structureMeta);
 
   return Array.from(structureMeta.decoratorKeys);
 }
@@ -122,15 +122,15 @@ function addDecorator(
   const decoratorMeta = new DecoratorImplMeta(interfaceName);
   dictionary.decorators.set(interfaceName, decoratorMeta);
 
-  addExtendsToStructureMeta(interfaceName, decl, decoratorMeta, dictionary);
-  addMembersToStructureMeta(interfaceName, interfaceName, decl, decoratorMeta);
+  addExtendsToMeta(interfaceName, decl, decoratorMeta, dictionary);
+  addMembersToMeta(interfaceName, interfaceName, decl, decoratorMeta);
 
   decoratorMeta.decoratorKeys.forEach(
     subDecoratorName => addDecorator(dictionary, subDecoratorName)
   );
 }
 
-function addExtendsToStructureMeta(
+function addExtendsToMeta(
   targetInterfaceName: string,
   decl: InterfaceDeclaration,
   structureMeta: StructureImplMeta | DecoratorImplMeta,
@@ -161,7 +161,7 @@ function addExtendsToStructureMeta(
   }
 }
 
-function addMembersToStructureMeta(
+function addMembersToMeta(
   interfaceName: string,
   targetInterfaceName: string,
   memberedNode: TypeElementMemberedNode,
@@ -275,6 +275,18 @@ function fillPropertyValueWithTypeNodes(
 
     propertyValue.otherTypes.push(value);
   });
+
+  switch (interfaceName + ":" + propertyName) {
+    case "ClassDeclarationStructure:extends":
+    case "ClassDeclarationStructure:implements":
+    case "IndexSignatureDeclarationSpecificStructure:keyType":
+    case "InterfaceDeclarationStructure:extends":
+    case "ReturnTypedNodeStructure:returnType":
+    case "TypedNodeStructure:type":
+    case "TypeParameterDeclarationStructure:constraint":
+    case "TypeParameterDeclarationStructure:default":
+      propertyValue.representsType = true;
+  }
 
   return isArray;
 }

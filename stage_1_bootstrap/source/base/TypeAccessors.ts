@@ -11,13 +11,13 @@ import {
   type TypedNodeTypeStructure,
   type stringOrWriterFunction,
   WriterTypedStructureImpl,
-} from "../exports.js";
+} from "#stage_one/prototype-snapshot/exports.js";
 
 import {
   StructureBase,
   TypeStructureClassesMap,
   TypeStructuresBase,
-} from "../internal-exports.js";
+} from "#stage_one/prototype-snapshot/internal-exports.js";
 
 // #endregion preamble
 
@@ -95,6 +95,9 @@ implements TypedNodeStructure, TypedNodeTypeStructure
     if (typeStructure.kind === TypeStructureKind.Literal)
       return typeStructure.stringValue;
 
-    return TypeStructureClassesMap.clone(typeStructure).writerFunction;
+    const value = TypeStructureClassesMap.clone(typeStructure);
+    if (typeof value === "string")
+      return value;
+    return value.writerFunction;
   }
 }
