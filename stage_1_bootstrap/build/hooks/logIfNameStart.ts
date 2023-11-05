@@ -1,10 +1,6 @@
-/*
 import {
   CodeBlockWriter,
-  Scope,
-  StructureKind,
 } from "ts-morph";
-*/
 
 import StructureDictionaries, {
   DecoratorParts,
@@ -50,15 +46,33 @@ export default function logIfNameStart(
       classMembersMap,
     } = parts;
 
+    const fields = Array.from(classFieldsStatements.entries()).map(entry => [
+      entry[0], entry[1], entry[2].map(stmt => replaceWriterWithString(stmt))
+    ]);
+
     console.log(JSON.stringify({
       booleanKeys: Object.fromEntries(booleanKeys.entries()),
       structureFields: Object.fromEntries(structureFields.entries()),
       structureFieldArrays: Object.fromEntries(structureFieldArrays.entries()),
       members: Object.fromEntries(classMembersMap.entries()),
-      fields: Array.from(classFieldsStatements.entries()),
+      fields,
       classDecl,
     }, null, 2));
 
     return Promise.resolve();
   }
+}
+
+export function replaceWriterWithString
+(
+  value: unknown,
+): unknown
+{
+  if (typeof value === "function") {
+    const writer = new CodeBlockWriter();
+    value(writer);
+    return writer.toString();
+  }
+
+  return value;
 }

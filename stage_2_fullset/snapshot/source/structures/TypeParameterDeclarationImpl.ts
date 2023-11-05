@@ -1,4 +1,5 @@
 //#region preamble
+import type { TypeStructures } from "../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
@@ -12,6 +13,7 @@ import {
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
+  TypeAccessors,
 } from "../internal-exports.js";
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -37,14 +39,46 @@ export default class TypeParameterDeclarationImpl
     >
 {
   readonly kind: StructureKind.TypeParameter = StructureKind.TypeParameter;
-  constraint?: stringOrWriterFunction = undefined;
-  default?: stringOrWriterFunction = undefined;
+  readonly #constraintManager = new TypeAccessors();
+  readonly #defaultManager = new TypeAccessors();
   isConst = false;
   variance?: TypeParameterVariance = undefined;
 
   constructor(name: string) {
     super();
     this.name = name;
+  }
+
+  get constraint(): stringOrWriterFunction | undefined {
+    return this.#constraintManager.type;
+  }
+
+  set constraint(value: stringOrWriterFunction | undefined) {
+    this.#constraintManager.type = value;
+  }
+
+  get constraintStructure(): string | TypeStructures | undefined {
+    return this.#constraintManager.typeStructure;
+  }
+
+  set constraintStructure(value: string | TypeStructures | undefined) {
+    this.#constraintManager.typeStructure = value;
+  }
+
+  get default(): stringOrWriterFunction | undefined {
+    return this.#defaultManager.type;
+  }
+
+  set default(value: stringOrWriterFunction | undefined) {
+    this.#defaultManager.type = value;
+  }
+
+  get defaultStructure(): string | TypeStructures | undefined {
+    return this.#defaultManager.typeStructure;
+  }
+
+  set defaultStructure(value: string | TypeStructures | undefined) {
+    this.#defaultManager.typeStructure = value;
   }
 
   public static [COPY_FIELDS](

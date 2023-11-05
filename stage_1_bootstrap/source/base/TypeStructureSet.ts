@@ -1,3 +1,7 @@
+import type {
+  WriterFunction,
+} from "ts-morph";
+
 import {
   TypeStructures,
   WriterTypedStructureImpl,
@@ -44,7 +48,10 @@ extends Set<string | TypeStructures>
         continue;
       }
 
-      const typeStructure = TypeStructuresBase.getTypeStructureForCallback(value) ?? new WriterTypedStructureImpl(value);
+      const typeStructure = (
+        TypeStructuresBase.getTypeStructureForCallback(value) ??
+        new WriterTypedStructureImpl(value)
+      );
       super.add(typeStructure);
     }
   }
@@ -84,7 +91,30 @@ extends Set<string | TypeStructures>
    * Replace all the types this set managers with those from another array.
    * @param array - the types to add.
    */
-  replaceFromArray(
+  replaceFromTypeArray(
+    array: (string | WriterFunction)[]
+  ): void
+  {
+    this.clear();
+    array.forEach(value => {
+      if (typeof value === "string") {
+        this.add(value);
+        return;
+      }
+
+      const structure: TypeStructures = (
+        TypeStructuresBase.getTypeStructureForCallback(value) ??
+        new WriterTypedStructureImpl(value)
+      );
+      this.add(structure);
+    });
+  }
+
+  /**
+   * Replace all the type structures this set managers with those from another array.
+   * @param array - the types to add.
+   */
+  replaceFromStructureArray(
     array: (string | TypeStructures)[]
   ): void
   {

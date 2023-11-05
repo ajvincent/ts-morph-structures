@@ -277,14 +277,15 @@ function fillPropertyValueWithTypeNodes(
   });
 
   switch (interfaceName + ":" + propertyName) {
-    case "ClassDeclarationStructure:extends":
-    case "ClassDeclarationStructure:implements":
+    case "ClassLikeDeclarationBaseSpecificStructure:extends":
+    case "ExtendsClauseableNodeStructure:extends":
+    case "ImplementsClauseableNodeStructure:implements":
     case "IndexSignatureDeclarationSpecificStructure:keyType":
     case "InterfaceDeclarationStructure:extends":
     case "ReturnTypedNodeStructure:returnType":
     case "TypedNodeStructure:type":
-    case "TypeParameterDeclarationStructure:constraint":
-    case "TypeParameterDeclarationStructure:default":
+    case "TypeParameterDeclarationSpecificStructure:constraint":
+    case "TypeParameterDeclarationSpecificStructure:default":
       propertyValue.representsType = true;
   }
 

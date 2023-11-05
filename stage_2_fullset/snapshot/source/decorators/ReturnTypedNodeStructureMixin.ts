@@ -44,11 +44,11 @@ export default function ReturnTypedNodeStructureMixin(
   class ReturnTypedNodeStructureMixin extends baseClass {
     readonly #returnTypeManager = new TypeAccessors();
 
-    get returnType(): stringOrWriterFunction {
-      return this.#returnTypeManager.type ?? "";
+    get returnType(): stringOrWriterFunction | undefined {
+      return this.#returnTypeManager.type;
     }
 
-    set returnType(value: stringOrWriterFunction) {
+    set returnType(value: stringOrWriterFunction | undefined) {
       this.#returnTypeManager.type = value;
     }
 

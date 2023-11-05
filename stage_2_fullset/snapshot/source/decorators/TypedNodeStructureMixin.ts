@@ -41,11 +41,11 @@ export default function TypedNodeStructureMixin(
   class TypedNodeStructureMixin extends baseClass {
     readonly #typeManager = new TypeAccessors();
 
-    get type(): stringOrWriterFunction {
-      return this.#typeManager.type ?? "";
+    get type(): stringOrWriterFunction | undefined {
+      return this.#typeManager.type;
     }
 
-    set type(value: stringOrWriterFunction) {
+    set type(value: stringOrWriterFunction | undefined) {
       this.#typeManager.type = value;
     }
 

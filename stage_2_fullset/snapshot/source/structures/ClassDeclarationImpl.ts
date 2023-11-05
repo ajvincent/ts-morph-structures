@@ -5,6 +5,7 @@ import {
   MethodDeclarationImpl,
   PropertyDeclarationImpl,
   SetAccessorDeclarationImpl,
+  type TypeStructures,
 } from "../exports.js";
 import {
   type AbstractableNodeStructureFields,
@@ -24,14 +25,17 @@ import {
   type NameableNodeStructureFields,
   NameableNodeStructureMixin,
   type PreferArrayFields,
+  ReadonlyArrayProxyHandler,
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
   StructureBase,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
+  TypeAccessors,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
+  TypeStructureSet,
 } from "../internal-exports.js";
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -81,14 +85,43 @@ export default class ClassDeclarationImpl
       "extends" | "name"
     >
 {
+  static readonly #implementsArrayReadonlyHandler =
+    new ReadonlyArrayProxyHandler(
+      "The implements array is read-only.  Please use this.implementsSet to set strings and type structures.",
+    );
   readonly kind: StructureKind.Class = StructureKind.Class;
+  readonly #extendsManager = new TypeAccessors();
+  readonly #implements_ShadowArray: stringOrWriterFunction[] = [];
+  readonly #implementsProxyArray = new Proxy<stringOrWriterFunction[]>(
+    this.#implements_ShadowArray,
+    ClassDeclarationImpl.#implementsArrayReadonlyHandler,
+  );
   readonly ctors: ConstructorDeclarationImpl[] = [];
-  extends?: stringOrWriterFunction = undefined;
   readonly getAccessors: GetAccessorDeclarationImpl[] = [];
-  readonly implements: stringOrWriterFunction[] = [];
+  readonly implementsSet = new TypeStructureSet(this.#implements_ShadowArray);
   readonly methods: MethodDeclarationImpl[] = [];
   readonly properties: PropertyDeclarationImpl[] = [];
   readonly setAccessors: SetAccessorDeclarationImpl[] = [];
+
+  get extends(): stringOrWriterFunction | undefined {
+    return this.#extendsManager.type;
+  }
+
+  set extends(value: stringOrWriterFunction | undefined) {
+    this.#extendsManager.type = value;
+  }
+
+  get extendsStructure(): string | TypeStructures | undefined {
+    return this.#extendsManager.typeStructure;
+  }
+
+  set extendsStructure(value: string | TypeStructures | undefined) {
+    this.#extendsManager.typeStructure = value;
+  }
+
+  get implements(): stringOrWriterFunction[] {
+    return this.#implementsProxyArray;
+  }
 
   public static [COPY_FIELDS](
     source: OptionalKind<ClassDeclarationStructure>,
@@ -120,9 +153,9 @@ export default class ClassDeclarationImpl
     }
 
     if (Array.isArray(source.implements)) {
-      target.implements.push(...source.implements);
-    } else if (source.implements !== undefined) {
-      target.implements.push(source.implements);
+      target.implementsSet.replaceFromTypeArray(source.implements);
+    } else if (typeof source.implements === "function") {
+      target.implementsSet.replaceFromTypeArray([source.implements]);
     }
 
     if (source.methods) {

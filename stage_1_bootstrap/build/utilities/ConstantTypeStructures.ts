@@ -4,6 +4,7 @@ import {
   StringTypedStructureImpl,
   UnionTypedStructureImpl,
   type TypeStructures,
+  ArrayTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
@@ -38,6 +39,9 @@ const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
     new LiteralTypedStructureImpl("undefined"),
   ]),
   "stringOrWriterFunction": new LiteralTypedStructureImpl("stringOrWriterFunction"),
+  "stringOrWriterFunction[]": new ArrayTypedStructureImpl(
+    new LiteralTypedStructureImpl("stringOrWriterFunction")
+  ),
   "typeof StructureBase": new PrefixOperatorsTypedStructureImpl(
     ["typeof"], new LiteralTypedStructureImpl("StructureBase")
   ),

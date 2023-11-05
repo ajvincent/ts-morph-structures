@@ -20,6 +20,7 @@ import {
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   type PreferArrayFields,
+  ReadonlyArrayProxyHandler,
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
   StructureBase,
@@ -28,6 +29,7 @@ import {
   StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
+  TypeStructureSet,
 } from "../internal-exports.js";
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -69,10 +71,18 @@ export default class InterfaceDeclarationImpl
   extends InterfaceDeclarationStructureBase
   implements RequiredOmit<PreferArrayFields<InterfaceDeclarationStructure>>
 {
+  static readonly #extendsArrayReadonlyHandler = new ReadonlyArrayProxyHandler(
+    "The extends array is read-only.  Please use this.extendsSet to set strings and type structures.",
+  );
   readonly kind: StructureKind.Interface = StructureKind.Interface;
+  readonly #extends_ShadowArray: stringOrWriterFunction[] = [];
+  readonly #extendsProxyArray = new Proxy<stringOrWriterFunction[]>(
+    this.#extends_ShadowArray,
+    InterfaceDeclarationImpl.#extendsArrayReadonlyHandler,
+  );
   readonly callSignatures: CallSignatureDeclarationImpl[] = [];
   readonly constructSignatures: ConstructSignatureDeclarationImpl[] = [];
-  readonly extends: stringOrWriterFunction[] = [];
+  readonly extendsSet = new TypeStructureSet(this.#extends_ShadowArray);
   readonly indexSignatures: IndexSignatureDeclarationImpl[] = [];
   readonly methods: MethodSignatureImpl[] = [];
   readonly properties: PropertySignatureImpl[] = [];
@@ -80,6 +90,10 @@ export default class InterfaceDeclarationImpl
   constructor(name: string) {
     super();
     this.name = name;
+  }
+
+  get extends(): stringOrWriterFunction[] {
+    return this.#extendsProxyArray;
   }
 
   public static [COPY_FIELDS](
@@ -108,9 +122,9 @@ export default class InterfaceDeclarationImpl
     }
 
     if (Array.isArray(source.extends)) {
-      target.extends.push(...source.extends);
-    } else if (source.extends !== undefined) {
-      target.extends.push(source.extends);
+      target.extendsSet.replaceFromTypeArray(source.extends);
+    } else if (typeof source.extends === "function") {
+      target.extendsSet.replaceFromTypeArray([source.extends]);
     }
 
     if (source.indexSignatures) {

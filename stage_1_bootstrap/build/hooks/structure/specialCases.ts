@@ -12,7 +12,6 @@ import {
 
 import {
   TypeArgumentedTypedStructureImpl,
-  UnionTypedStructureImpl,
   createCodeBlockWriter
 } from "#stage_one/prototype-snapshot/exports.js";
 
@@ -26,8 +25,6 @@ import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.j
 import {
   omitPropertyFromRequired
 } from "../classProperties.js"
-
-import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 
 export default function structureSpecialCases(
   name: string,
@@ -120,20 +117,10 @@ function fixKeyTypeField(
   const getterName = ClassMembersMap.keyFromName(StructureKind.GetAccessor, false, "keyType");
   const setterName = ClassMembersMap.keyFromName(StructureKind.SetAccessor, false, "keyType");
 
-  const getter = parts.classMembersMap.getAsKind(
-    getterName,
-    StructureKind.GetAccessor
-  )!;
-  getter.returnTypeStructure = new UnionTypedStructureImpl([
-    getter.returnTypeStructure!,
-    ConstantTypeStructures.undefined
-  ]);
-
   const setter = parts.classMembersMap.getAsKind(
     setterName,
     StructureKind.SetAccessor
   )!;
-  setter.parameters[0].typeStructure = getter.returnTypeStructure;
 
   const initializer = parts.classFieldsStatements.get(
     propertyName,

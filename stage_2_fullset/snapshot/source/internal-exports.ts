@@ -1,4 +1,5 @@
 // This file is generated.  Do not edit.
+export { default as ReadonlyArrayProxyHandler } from "./array-utilities/ReadonlyArrayProxyHandler.js";
 export {
   cloneRequiredAndOptionalArray,
   cloneStructureArray,

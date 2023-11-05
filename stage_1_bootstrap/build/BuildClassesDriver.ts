@@ -140,6 +140,13 @@ async function defineExistingExports(
   });
 
   dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/array-utilities/ReadonlyArrayProxyHandler.ts"),
+    exportNames: ["ReadonlyArrayProxyHandler"],
+    isDefaultExport: true,
+    isType: false
+  });
+
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/base/generated/structureToSyntax.ts"),
     exportNames: ["StructureKindToSyntaxKindMap"],
     isDefaultExport: true,
