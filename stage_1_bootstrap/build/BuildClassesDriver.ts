@@ -10,6 +10,7 @@ import createDecoratorParts from "./hooks/decorator/createParts.js";
 import addClassProperties from "./hooks/classProperties.js";
 import add_toJSON from "./hooks/add_toJSON.js";
 import addTSDoc from "./hooks/addTSDoc.js";
+import addTypeStructures from "./hooks/addTypeStructures.js";
 import moveMembersToClass from "./hooks/moveMembersToClass.js";
 import sortClassMembers from "./hooks/sortClassMembers.js";
 import sortRequiredOmit from "./hooks/sortRequiredOmit.js";
@@ -40,6 +41,7 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addDecoratorHook("add class properties", addClassProperties);
   dictionary.addDecoratorHook("add .toJSON()", add_toJSON);
   dictionary.addDecoratorHook("add TSDoc", addTSDoc);
+  dictionary.addDecoratorHook("add type structures", addTypeStructures);
   dictionary.addDecoratorHook("move members to class", moveMembersToClass);
   dictionary.addDecoratorHook("sort class members", sortClassMembers);
   dictionary.addDecoratorHook("sort required omit", sortRequiredOmit);
@@ -52,6 +54,7 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addStructureHook("add static clone method", addStaticClone);
   dictionary.addStructureHook("remove useless copy-fields method", removeUselessCopyFields);
   dictionary.addStructureHook("add .toJSON()", add_toJSON);
+  dictionary.addStructureHook("add type structures", addTypeStructures);
   dictionary.addStructureHook("add TSDoc", addTSDoc);
   dictionary.addStructureHook("special cases", structureSpecialCases);
   dictionary.addStructureHook("move members to class", moveMembersToClass);

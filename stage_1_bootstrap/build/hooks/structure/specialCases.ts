@@ -12,6 +12,7 @@ import {
 
 import {
   TypeArgumentedTypedStructureImpl,
+  UnionTypedStructureImpl,
   createCodeBlockWriter
 } from "#stage_one/prototype-snapshot/exports.js";
 
@@ -22,7 +23,11 @@ import type {
 import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 
-import { omitPropertyFromRequired } from "../classProperties.js"
+import {
+  omitPropertyFromRequired
+} from "../classProperties.js"
+
+import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 
 export default function structureSpecialCases(
   name: string,
@@ -37,6 +42,9 @@ export default function structureSpecialCases(
       break;
     case "ExportDeclarationImpl":
       fixAssertElements(parts);
+      break;
+    case "IndexSignatureDeclarationImpl":
+      fixKeyTypeField(parts, dictionaries);
       break;
   }
   return Promise.resolve();
@@ -93,4 +101,64 @@ function fixAssertElements(
   }
   statement = statement.replace("{", "{\ntarget.assertElements = [];");
   statements.splice(oldStatementIndex, 1, statement);
+}
+
+function fixKeyTypeField(
+  parts: StructureParts,
+  dictionaries: StructureDictionaries,
+): void
+{
+  parts.importsManager.addImports({
+    pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
+    isPackageImport: false,
+    importNames: ["REPLACE_WRITER_WITH_STRING"],
+    isDefaultImport: false,
+    isTypeOnly: false,
+  });
+
+  const propertyName = ClassMembersMap.keyFromName(StructureKind.Property, false, "keyType");
+  const getterName = ClassMembersMap.keyFromName(StructureKind.GetAccessor, false, "keyType");
+  const setterName = ClassMembersMap.keyFromName(StructureKind.SetAccessor, false, "keyType");
+
+  const getter = parts.classMembersMap.getAsKind(
+    getterName,
+    StructureKind.GetAccessor
+  )!;
+  getter.returnTypeStructure = new UnionTypedStructureImpl([
+    getter.returnTypeStructure!,
+    ConstantTypeStructures.undefined
+  ]);
+
+  const setter = parts.classMembersMap.getAsKind(
+    setterName,
+    StructureKind.SetAccessor
+  )!;
+  setter.parameters[0].typeStructure = getter.returnTypeStructure;
+
+  const initializer = parts.classFieldsStatements.get(
+    propertyName,
+    ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
+  )![0] as string;
+
+  parts.classFieldsStatements.delete(
+    propertyName,
+    ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
+  );
+
+  parts.classFieldsStatements.set(
+    ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN,
+    getterName,
+    [
+      `const type = ${initializer};`,
+      `return type ? StructureBase[REPLACE_WRITER_WITH_STRING](type) : undefined;`,
+    ]
+  );
+
+  parts.classFieldsStatements.set(
+    ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN,
+    setterName,
+    [
+      `${initializer} = ${setter.parameters[0].name};`,
+    ]
+  );
 }

@@ -16,7 +16,7 @@ import {
   UnionTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
-import assert from "../utilities/assert.js";
+import assert from 'node:assert/strict';
 
 export default function sortRequiredOmit(
   name: string,

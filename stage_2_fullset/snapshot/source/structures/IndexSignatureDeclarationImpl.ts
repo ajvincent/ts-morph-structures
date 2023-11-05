@@ -1,4 +1,5 @@
 //#region preamble
+import type { TypeStructures } from "../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
@@ -8,6 +9,7 @@ import {
   type PreferArrayFields,
   type ReadonlyableNodeStructureFields,
   ReadonlyableNodeStructureMixin,
+  REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
@@ -15,6 +17,7 @@ import {
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
+  TypeAccessors,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -51,8 +54,25 @@ export default class IndexSignatureDeclarationImpl
     >
 {
   readonly kind: StructureKind.IndexSignature = StructureKind.IndexSignature;
+  readonly #keyTypeManager = new TypeAccessors();
   keyName?: string = undefined;
-  keyType?: string = undefined;
+
+  get keyType(): string | undefined {
+    const type = this.#keyTypeManager.type;
+    return type ? StructureBase[REPLACE_WRITER_WITH_STRING](type) : undefined;
+  }
+
+  set keyType(value: string | undefined) {
+    this.#keyTypeManager.type = value;
+  }
+
+  get keyTypeStructure(): string | TypeStructures | undefined {
+    return this.#keyTypeManager.typeStructure;
+  }
+
+  set keyTypeStructure(value: string | TypeStructures | undefined) {
+    this.#keyTypeManager.typeStructure = value;
+  }
 
   public static [COPY_FIELDS](
     source: OptionalKind<IndexSignatureDeclarationStructure>,

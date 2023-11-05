@@ -212,46 +212,56 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     member: GetAccessorDeclarationImpl,
     statementsMap: ClassFieldStatementsMap,
   ): void {
-    const statementsDictionary = statementsMap.groupStatementsMap(
+    const groupName = ClassMembersMap.keyFromMember(member);
+
+    let statementsDictionary = statementsMap.groupStatementsMap(
       ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
     );
-    if (!statementsDictionary) return;
-
-    const initializer = statementsDictionary.get(
-      ClassMembersMap.keyFromMember(member),
-    );
-    if (!initializer) return;
-
-    if (initializer.length === 1) {
-      member.statements.push(`return  `, initializer[0]);
-      return;
+    if (statementsDictionary) {
+      const initializer = statementsDictionary.get(
+        groupName.replace("get ", ""),
+      );
+      if (initializer && initializer.length > 0) {
+        member.statements.push(
+          `return ${(initializer as string[]).join(" ")};`,
+        );
+        return;
+      }
     }
 
-    const statementsArray = Array.from(statementsDictionary.values()).flat();
-    member.statements.push(...statementsArray);
+    statementsDictionary = statementsMap.groupStatementsMap(groupName);
+    if (statementsDictionary) {
+      const statementsArray = Array.from(statementsDictionary.values()).flat();
+      member.statements.push(...statementsArray);
+    }
   }
 
   #addStatementsToSetter(
     member: SetAccessorDeclarationImpl,
     statementsMap: ClassFieldStatementsMap,
   ): void {
-    const statementsDictionary = statementsMap.groupStatementsMap(
+    const groupName = ClassMembersMap.keyFromMember(member);
+
+    let statementsDictionary = statementsMap.groupStatementsMap(
       ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
     );
-    if (!statementsDictionary) return;
-
-    const initializer = statementsDictionary.get(
-      ClassMembersMap.keyFromMember(member),
-    );
-    if (!initializer) return;
-
-    if (initializer.length === 1) {
-      member.statements.push(`this.${member.name} = `, initializer[0]);
-      return;
+    if (statementsDictionary) {
+      const initializer = statementsDictionary.get(
+        groupName.replace("set ", ""),
+      );
+      if (initializer && initializer.length > 0) {
+        member.statements.push(
+          `${initializer[0] as string} = ${member.parameters[0].name};`,
+        );
+        return;
+      }
     }
 
-    const statementsArray = Array.from(statementsDictionary.values()).flat();
-    member.statements.push(...statementsArray);
+    statementsDictionary = statementsMap.groupStatementsMap(groupName);
+    if (statementsDictionary) {
+      const statementsArray = Array.from(statementsDictionary.values()).flat();
+      member.statements.push(...statementsArray);
+    }
   }
 
   #addStatementsToMethod(

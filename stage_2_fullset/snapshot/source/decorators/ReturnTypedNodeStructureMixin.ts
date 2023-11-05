@@ -1,4 +1,5 @@
 //#region preamble
+import type { TypeStructures } from "../exports.js";
 import {
   COPY_FIELDS,
   type PreferArrayFields,
@@ -6,6 +7,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  TypeAccessors,
 } from "../internal-exports.js";
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import type {
@@ -40,7 +42,23 @@ export default function ReturnTypedNodeStructureMixin(
   void context;
 
   class ReturnTypedNodeStructureMixin extends baseClass {
-    returnType?: stringOrWriterFunction = undefined;
+    readonly #returnTypeManager = new TypeAccessors();
+
+    get returnType(): stringOrWriterFunction {
+      return this.#returnTypeManager.type ?? "";
+    }
+
+    set returnType(value: stringOrWriterFunction) {
+      this.#returnTypeManager.type = value;
+    }
+
+    get returnTypeStructure(): string | TypeStructures | undefined {
+      return this.#returnTypeManager.typeStructure;
+    }
+
+    set returnTypeStructure(value: string | TypeStructures | undefined) {
+      this.#returnTypeManager.typeStructure = value;
+    }
 
     public static [COPY_FIELDS](
       source: ReturnTypedNodeStructure & Structures,

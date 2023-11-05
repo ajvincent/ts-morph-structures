@@ -37,7 +37,7 @@ import {
   StructureImplMeta,
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
-import assert from "../utilities/assert.js";
+import assert from 'node:assert/strict'
 import pairedWrite from "../utilities/pairedWrite.js";
 import ClassFieldStatementsMap from "../utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "../utilities/public/ClassMembersMap.js";
@@ -228,10 +228,12 @@ function getTypeStructureArrayForValue(
   dictionaries: StructureDictionaries
 ): TypeStructures[]
 {
-  const structures: TypeStructures[] = [];
+  const typeStructures: TypeStructures[] = [];
 
   if (value.mayBeString && value.mayBeWriter) {
-    structures.push(ConstantTypeStructures.stringOrWriterFunction);
+    typeStructures.push(
+      ConstantTypeStructures.stringOrWriterFunction
+    );
 
     parts.importsManager.addImports({
       pathToImportedModule: stringOrWriterModule,
@@ -249,10 +251,10 @@ function getTypeStructureArrayForValue(
     });
   }
   else if (value.mayBeString) {
-    structures.push(ConstantTypeStructures.string);
+    typeStructures.push(ConstantTypeStructures.string);
   }
   else if (value.mayBeWriter) {
-    structures.push(ConstantTypeStructures.WriterFunction);
+    typeStructures.push(ConstantTypeStructures.WriterFunction);
     parts.importsManager.addImports({
       pathToImportedModule: "ts-morph",
       isPackageImport: true,
@@ -263,13 +265,13 @@ function getTypeStructureArrayForValue(
   }
 
   if (value.mayBeUndefined) {
-    structures.push(ConstantTypeStructures.undefined);
+    typeStructures.push(ConstantTypeStructures.undefined);
   }
 
   value.otherTypes.forEach(valueInUnion => {
     if (valueInUnion.structureName && dictionaries.structures.has(valueInUnion.structureName)) {
       const implName = valueInUnion.structureName.replace(/Structure$/, "Impl");
-      structures.push(new LiteralTypedStructureImpl(implName));
+      typeStructures.push(new LiteralTypedStructureImpl(implName));
 
       if (implName !== parts.classDecl.name) {
         parts.importsManager.addImports({
@@ -284,7 +286,7 @@ function getTypeStructureArrayForValue(
       return;
     }
 
-    structures.push(new LiteralTypedStructureImpl(
+    typeStructures.push(new LiteralTypedStructureImpl(
       valueInUnion.structureName ??
       valueInUnion.unionName ??
       valueInUnion.tsmorph_Type!
@@ -323,7 +325,7 @@ function getTypeStructureArrayForValue(
     }
   });
 
-  return structures;
+  return typeStructures;
 }
 
 function getInitializerForValue(
@@ -387,11 +389,11 @@ function write_cloneRequiredAndOptionalArray(
     `expected second structure name to exist for structure name ${structureName}, property name ${propertyKey}`
   );
 
-  const requiredName = propertyValue.otherTypes[1].structureName!
+  const requiredName = propertyValue.otherTypes[1].structureName
   const requiredKind = dictionaries.structures.get(requiredName)!.structureKindName;
   const requiredImpl = requiredName.replace(/Structure$/, "Impl");
 
-  const optionalName = propertyValue.otherTypes[0].structureName!;
+  const optionalName = propertyValue.otherTypes[0].structureName;
   const optionalKind = dictionaries.structures.get(optionalName)!.structureKindName;
   const optionalImpl = optionalName.replace(/Structure$/, "Impl");
 
