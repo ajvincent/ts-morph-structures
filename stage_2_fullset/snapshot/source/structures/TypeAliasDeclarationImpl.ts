@@ -15,6 +15,7 @@ import {
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -30,7 +31,7 @@ import {
   StructureKind,
   type TypeAliasDeclarationStructure,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const TypeAliasDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -88,8 +89,8 @@ export default class TypeAliasDeclarationImpl
     return target;
   }
 
-  public toJSON(): Jsonify<TypeAliasDeclarationStructure> {
-    const rv = super.toJSON() as TypeAliasDeclarationStructure;
+  public toJSON(): StructureClassToJSON<TypeAliasDeclarationImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<TypeAliasDeclarationImpl>;
     rv.kind = this.kind;
     rv.type = StructureBase[REPLACE_WRITER_WITH_STRING](this.type);
     return rv;

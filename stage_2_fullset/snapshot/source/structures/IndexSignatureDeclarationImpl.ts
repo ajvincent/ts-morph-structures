@@ -14,6 +14,7 @@ import {
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -25,7 +26,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const IndexSignatureDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -96,8 +97,9 @@ export default class IndexSignatureDeclarationImpl
     return target;
   }
 
-  public toJSON(): Jsonify<IndexSignatureDeclarationStructure> {
-    const rv = super.toJSON() as IndexSignatureDeclarationStructure;
+  public toJSON(): StructureClassToJSON<IndexSignatureDeclarationImpl> {
+    const rv =
+      super.toJSON() as StructureClassToJSON<IndexSignatureDeclarationImpl>;
     if (this.keyName) {
       rv.keyName = this.keyName;
     }

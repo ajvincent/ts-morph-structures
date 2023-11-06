@@ -10,6 +10,7 @@ import {
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -20,7 +21,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const ClassStaticBlockDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -50,8 +51,9 @@ export default class ClassStaticBlockDeclarationImpl
     return target;
   }
 
-  public toJSON(): Jsonify<ClassStaticBlockDeclarationStructure> {
-    const rv = super.toJSON() as ClassStaticBlockDeclarationStructure;
+  public toJSON(): StructureClassToJSON<ClassStaticBlockDeclarationImpl> {
+    const rv =
+      super.toJSON() as StructureClassToJSON<ClassStaticBlockDeclarationImpl>;
     rv.kind = this.kind;
     return rv;
   }

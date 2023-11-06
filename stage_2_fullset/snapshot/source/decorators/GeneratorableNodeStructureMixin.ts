@@ -5,6 +5,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
 } from "../internal-exports.js";
 import type {
   MixinClass,
@@ -12,7 +13,6 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { GeneratorableNodeStructure, Structures } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const GeneratorableNodeStructureKey: unique symbol;
 export type GeneratorableNodeStructureFields = RightExtendsLeft<
@@ -45,8 +45,9 @@ export default function GeneratorableNodeStructureMixin(
       target.isGenerator = source.isGenerator ?? false;
     }
 
-    public toJSON(): Jsonify<GeneratorableNodeStructure> {
-      const rv = super.toJSON() as GeneratorableNodeStructure;
+    public toJSON(): StructureClassToJSON<GeneratorableNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<GeneratorableNodeStructureMixin>;
       rv.isGenerator = this.isGenerator;
       return rv;
     }

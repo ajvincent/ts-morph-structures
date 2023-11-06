@@ -8,6 +8,7 @@ import {
   type PreferArrayFields,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -18,7 +19,7 @@ import {
   type ShorthandPropertyAssignmentStructure,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const ShorthandPropertyAssignmentStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -46,8 +47,9 @@ export default class ShorthandPropertyAssignmentImpl
     return target;
   }
 
-  public toJSON(): Jsonify<ShorthandPropertyAssignmentStructure> {
-    const rv = super.toJSON() as ShorthandPropertyAssignmentStructure;
+  public toJSON(): StructureClassToJSON<ShorthandPropertyAssignmentImpl> {
+    const rv =
+      super.toJSON() as StructureClassToJSON<ShorthandPropertyAssignmentImpl>;
     rv.kind = this.kind;
     return rv;
   }

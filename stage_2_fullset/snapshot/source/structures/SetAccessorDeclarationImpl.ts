@@ -22,6 +22,7 @@ import {
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -34,7 +35,7 @@ import {
   type SetAccessorDeclarationStructure,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const SetAccessorDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -94,8 +95,9 @@ export default class SetAccessorDeclarationImpl
     return target;
   }
 
-  public toJSON(): Jsonify<SetAccessorDeclarationStructure> {
-    const rv = super.toJSON() as SetAccessorDeclarationStructure;
+  public toJSON(): StructureClassToJSON<SetAccessorDeclarationImpl> {
+    const rv =
+      super.toJSON() as StructureClassToJSON<SetAccessorDeclarationImpl>;
     rv.isStatic = this.isStatic;
     rv.kind = this.kind;
     return rv;

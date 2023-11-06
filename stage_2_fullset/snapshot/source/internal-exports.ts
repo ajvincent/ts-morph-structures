@@ -103,4 +103,5 @@ export type { ExtractStructure } from "./types/ExtractStructure.js";
 export type { PreferArrayFields } from "./types/PreferArrayFields.js";
 export type { RequiredOmit } from "./types/RequiredOmit.js";
 export type { RightExtendsLeft } from "./types/RightExtendsLeft.js";
+export type { StructureClassToJSON } from "./types/StructureClassToJSON.js";
 export { default as TypeStructuresBase } from "./typeStructures/TypeStructuresBase.js";

@@ -24,6 +24,7 @@ import {
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -43,7 +44,7 @@ import {
   type PropertySignatureStructure,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const InterfaceDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -166,8 +167,8 @@ export default class InterfaceDeclarationImpl
     return target;
   }
 
-  public toJSON(): Jsonify<InterfaceDeclarationStructure> {
-    const rv = super.toJSON() as InterfaceDeclarationStructure;
+  public toJSON(): StructureClassToJSON<InterfaceDeclarationImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<InterfaceDeclarationImpl>;
     rv.callSignatures = this.callSignatures;
     rv.constructSignatures = this.constructSignatures;
     rv.extends = this.extends.map((value) => {

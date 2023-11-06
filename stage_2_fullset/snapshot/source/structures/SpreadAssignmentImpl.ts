@@ -7,6 +7,7 @@ import {
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -18,7 +19,7 @@ import {
   type SpreadAssignmentStructure,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const SpreadAssignmentStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -56,8 +57,8 @@ export default class SpreadAssignmentImpl
     return target;
   }
 
-  public toJSON(): Jsonify<SpreadAssignmentStructure> {
-    const rv = super.toJSON() as SpreadAssignmentStructure;
+  public toJSON(): StructureClassToJSON<SpreadAssignmentImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<SpreadAssignmentImpl>;
     rv.expression = StructureBase[REPLACE_WRITER_WITH_STRING](this.expression);
     rv.kind = this.kind;
     return rv;

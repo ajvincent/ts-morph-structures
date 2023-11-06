@@ -9,6 +9,7 @@ import {
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -20,7 +21,7 @@ import {
   type PropertyAssignmentStructure,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const PropertyAssignmentStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -59,8 +60,8 @@ export default class PropertyAssignmentImpl
     return target;
   }
 
-  public toJSON(): Jsonify<PropertyAssignmentStructure> {
-    const rv = super.toJSON() as PropertyAssignmentStructure;
+  public toJSON(): StructureClassToJSON<PropertyAssignmentImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<PropertyAssignmentImpl>;
     rv.initializer = StructureBase[REPLACE_WRITER_WITH_STRING](
       this.initializer,
     );

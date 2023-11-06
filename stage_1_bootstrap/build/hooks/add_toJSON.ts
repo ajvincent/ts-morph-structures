@@ -15,8 +15,10 @@ import {
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
 import {
+  LiteralTypedStructureImpl,
   MethodDeclarationImpl,
   PropertyDeclarationImpl,
+  TypeArgumentedTypedStructureImpl,
   TypeStructureKind,
   TypeStructures,
   createCodeBlockWriter,
@@ -41,24 +43,27 @@ export default function add_toJSON(
 
   const { classMembersMap, importsManager } = parts;
 
-  const toJSONMethod = new MethodDeclarationImpl("toJSON");
-
-  // It's faster and clearer to just write it, rather than use a type structure.
-  toJSONMethod.returnType = `Jsonify<${name}>`;
   importsManager.addImports({
-    pathToImportedModule: "type-fest",
-    isPackageImport: true,
+    pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
+    isPackageImport: false,
     isDefaultImport: false,
     isTypeOnly: true,
-    importNames: [
-      "Jsonify",
-    ]
+    importNames: [ "StructureClassToJSON" ]
   });
 
+  const toJSONMethod = new MethodDeclarationImpl("toJSON");
+  const toJSONType = new TypeArgumentedTypedStructureImpl(
+    ConstantTypeStructures.StructureClassToJSON,
+    [ new LiteralTypedStructureImpl(parts.classDecl.name!)]
+  );
+  toJSONMethod.returnTypeStructure = toJSONType;
   toJSONMethod.scope = Scope.Public;
 
   parts.classFieldsStatements.set(ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, toJSONMethod.name, [
-    `const rv = super.toJSON() as ${name};`
+    (writer: CodeBlockWriter): void => {
+      writer.write(`const rv = super.toJSON() as `);
+      toJSONType.writerFunction(writer);
+    }
   ]);
   parts.classFieldsStatements.set(ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN, toJSONMethod.name, [
     `return rv;`

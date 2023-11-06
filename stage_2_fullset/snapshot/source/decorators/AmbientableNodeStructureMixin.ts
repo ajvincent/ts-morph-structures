@@ -5,6 +5,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
 } from "../internal-exports.js";
 import type {
   MixinClass,
@@ -12,7 +13,6 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { AmbientableNodeStructure, Structures } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const AmbientableNodeStructureKey: unique symbol;
 export type AmbientableNodeStructureFields = RightExtendsLeft<
@@ -45,8 +45,9 @@ export default function AmbientableNodeStructureMixin(
       target.hasDeclareKeyword = source.hasDeclareKeyword ?? false;
     }
 
-    public toJSON(): Jsonify<AmbientableNodeStructure> {
-      const rv = super.toJSON() as AmbientableNodeStructure;
+    public toJSON(): StructureClassToJSON<AmbientableNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<AmbientableNodeStructureMixin>;
       rv.hasDeclareKeyword = this.hasDeclareKeyword;
       return rv;
     }

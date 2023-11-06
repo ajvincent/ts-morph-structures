@@ -14,6 +14,7 @@ import {
   type ScopedNodeStructureFields,
   ScopedNodeStructureMixin,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -26,7 +27,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const ConstructorDeclarationOverloadStructureBase = MultiMixinBuilder<
   [
@@ -69,8 +70,9 @@ export default class ConstructorDeclarationOverloadImpl
     return target;
   }
 
-  public toJSON(): Jsonify<ConstructorDeclarationOverloadStructure> {
-    const rv = super.toJSON() as ConstructorDeclarationOverloadStructure;
+  public toJSON(): StructureClassToJSON<ConstructorDeclarationOverloadImpl> {
+    const rv =
+      super.toJSON() as StructureClassToJSON<ConstructorDeclarationOverloadImpl>;
     rv.kind = this.kind;
     return rv;
   }

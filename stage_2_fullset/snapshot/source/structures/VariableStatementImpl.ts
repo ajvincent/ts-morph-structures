@@ -14,6 +14,7 @@ import {
   type PreferArrayFields,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -26,7 +27,7 @@ import {
   type VariableDeclarationStructure,
   type VariableStatementStructure,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const VariableStatementStructureBase = MultiMixinBuilder<
   [
@@ -85,8 +86,8 @@ export default class VariableStatementImpl
     return target;
   }
 
-  public toJSON(): Jsonify<VariableStatementStructure> {
-    const rv = super.toJSON() as VariableStatementStructure;
+  public toJSON(): StructureClassToJSON<VariableStatementImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<VariableStatementImpl>;
     if (this.declarationKind) {
       rv.declarationKind = this.declarationKind;
     }

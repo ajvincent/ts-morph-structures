@@ -7,6 +7,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
   TypeAccessors,
 } from "../internal-exports.js";
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
@@ -16,7 +17,6 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { ReturnTypedNodeStructure, Structures } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const ReturnTypedNodeStructureKey: unique symbol;
 export type ReturnTypedNodeStructureFields = RightExtendsLeft<
@@ -70,8 +70,9 @@ export default function ReturnTypedNodeStructureMixin(
       }
     }
 
-    public toJSON(): Jsonify<ReturnTypedNodeStructure> {
-      const rv = super.toJSON() as ReturnTypedNodeStructure;
+    public toJSON(): StructureClassToJSON<ReturnTypedNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<ReturnTypedNodeStructureMixin>;
       if (this.returnType) {
         rv.returnType = StructureBase[REPLACE_WRITER_WITH_STRING](
           this.returnType,

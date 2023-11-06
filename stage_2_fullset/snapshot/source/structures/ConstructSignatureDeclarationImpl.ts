@@ -12,6 +12,7 @@ import {
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -24,7 +25,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const ConstructSignatureDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -65,8 +66,9 @@ export default class ConstructSignatureDeclarationImpl
     return target;
   }
 
-  public toJSON(): Jsonify<ConstructSignatureDeclarationStructure> {
-    const rv = super.toJSON() as ConstructSignatureDeclarationStructure;
+  public toJSON(): StructureClassToJSON<ConstructSignatureDeclarationImpl> {
+    const rv =
+      super.toJSON() as StructureClassToJSON<ConstructSignatureDeclarationImpl>;
     rv.kind = this.kind;
     return rv;
   }

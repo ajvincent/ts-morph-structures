@@ -5,6 +5,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
 } from "../internal-exports.js";
 import type {
   MixinClass,
@@ -12,7 +13,6 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { ReadonlyableNodeStructure, Structures } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const ReadonlyableNodeStructureKey: unique symbol;
 export type ReadonlyableNodeStructureFields = RightExtendsLeft<
@@ -45,8 +45,9 @@ export default function ReadonlyableNodeStructureMixin(
       target.isReadonly = source.isReadonly ?? false;
     }
 
-    public toJSON(): Jsonify<ReadonlyableNodeStructure> {
-      const rv = super.toJSON() as ReadonlyableNodeStructure;
+    public toJSON(): StructureClassToJSON<ReadonlyableNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<ReadonlyableNodeStructureMixin>;
       rv.isReadonly = this.isReadonly;
       return rv;
     }

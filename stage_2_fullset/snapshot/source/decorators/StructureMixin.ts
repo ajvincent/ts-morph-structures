@@ -6,6 +6,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
 } from "../internal-exports.js";
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import type {
@@ -14,7 +15,6 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { Structure, Structures } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const StructureKey: unique symbol;
 export type StructureFields = RightExtendsLeft<
@@ -58,8 +58,8 @@ export default function StructureMixin(
       }
     }
 
-    public toJSON(): Jsonify<Structure> {
-      const rv = super.toJSON() as Structure;
+    public toJSON(): StructureClassToJSON<StructureMixin> {
+      const rv = super.toJSON() as StructureClassToJSON<StructureMixin>;
       rv.leadingTrivia = this.leadingTrivia.map((value) => {
         return StructureBase[REPLACE_WRITER_WITH_STRING](value);
       });

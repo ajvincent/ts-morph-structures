@@ -7,6 +7,7 @@ import {
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -14,7 +15,7 @@ import {
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import { type JSDocTagStructure, OptionalKind, StructureKind } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const JSDocTagStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -54,8 +55,8 @@ export default class JSDocTagImpl
     return target;
   }
 
-  public toJSON(): Jsonify<JSDocTagStructure> {
-    const rv = super.toJSON() as JSDocTagStructure;
+  public toJSON(): StructureClassToJSON<JSDocTagImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<JSDocTagImpl>;
     rv.kind = this.kind;
     rv.tagName = this.tagName;
     if (this.text) {

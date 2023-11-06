@@ -6,6 +6,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
 } from "../internal-exports.js";
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import type {
@@ -17,7 +18,6 @@ import type {
   InitializerExpressionableNodeStructure,
   Structures,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const InitializerExpressionableNodeStructureKey: unique symbol;
 export type InitializerExpressionableNodeStructureFields = RightExtendsLeft<
@@ -55,8 +55,9 @@ export default function InitializerExpressionableNodeStructureMixin(
       }
     }
 
-    public toJSON(): Jsonify<InitializerExpressionableNodeStructure> {
-      const rv = super.toJSON() as InitializerExpressionableNodeStructure;
+    public toJSON(): StructureClassToJSON<InitializerExpressionableNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<InitializerExpressionableNodeStructureMixin>;
       if (this.initializer) {
         rv.initializer = StructureBase[REPLACE_WRITER_WITH_STRING](
           this.initializer,

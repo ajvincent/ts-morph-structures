@@ -28,6 +28,7 @@ import {
   type ScopedNodeStructureFields,
   ScopedNodeStructureMixin,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -40,7 +41,7 @@ import {
   type PropertyDeclarationStructure,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const PropertyDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -115,8 +116,8 @@ export default class PropertyDeclarationImpl
     return target;
   }
 
-  public toJSON(): Jsonify<PropertyDeclarationStructure> {
-    const rv = super.toJSON() as PropertyDeclarationStructure;
+  public toJSON(): StructureClassToJSON<PropertyDeclarationImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<PropertyDeclarationImpl>;
     rv.hasAccessorKeyword = this.hasAccessorKeyword;
     rv.isStatic = this.isStatic;
     rv.kind = this.kind;

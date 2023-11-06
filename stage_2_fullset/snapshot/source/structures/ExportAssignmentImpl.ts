@@ -9,6 +9,7 @@ import {
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -20,7 +21,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const ExportAssignmentStructureBase = MultiMixinBuilder<
   [JSDocableNodeStructureFields, StructureFields],
@@ -61,8 +62,8 @@ export default class ExportAssignmentImpl
     return target;
   }
 
-  public toJSON(): Jsonify<ExportAssignmentStructure> {
-    const rv = super.toJSON() as ExportAssignmentStructure;
+  public toJSON(): StructureClassToJSON<ExportAssignmentImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<ExportAssignmentImpl>;
     rv.expression = StructureBase[REPLACE_WRITER_WITH_STRING](this.expression);
     rv.isExportEquals = this.isExportEquals;
     rv.kind = this.kind;

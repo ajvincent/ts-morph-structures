@@ -10,6 +10,7 @@ import {
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -23,7 +24,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const ExportDeclarationStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -90,8 +91,8 @@ export default class ExportDeclarationImpl
     return target;
   }
 
-  public toJSON(): Jsonify<ExportDeclarationStructure> {
-    const rv = super.toJSON() as ExportDeclarationStructure;
+  public toJSON(): StructureClassToJSON<ExportDeclarationImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<ExportDeclarationImpl>;
     rv.assertElements = this.assertElements;
     rv.isTypeOnly = this.isTypeOnly;
     rv.kind = this.kind;

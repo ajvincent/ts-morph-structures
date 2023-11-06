@@ -16,6 +16,7 @@ import {
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -27,7 +28,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const ModuleDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -85,8 +86,8 @@ export default class ModuleDeclarationImpl
     return target;
   }
 
-  public toJSON(): Jsonify<ModuleDeclarationStructure> {
-    const rv = super.toJSON() as ModuleDeclarationStructure;
+  public toJSON(): StructureClassToJSON<ModuleDeclarationImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<ModuleDeclarationImpl>;
     if (this.declarationKind) {
       rv.declarationKind = this.declarationKind;
     }

@@ -8,6 +8,7 @@ import {
   type PreferArrayFields,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -18,7 +19,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const AssertEntryStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -56,8 +57,8 @@ export default class AssertEntryImpl
     return target;
   }
 
-  public toJSON(): Jsonify<AssertEntryStructure> {
-    const rv = super.toJSON() as AssertEntryStructure;
+  public toJSON(): StructureClassToJSON<AssertEntryImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<AssertEntryImpl>;
     rv.kind = this.kind;
     rv.value = this.value;
     return rv;

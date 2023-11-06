@@ -18,6 +18,7 @@ import {
   ReadonlyableNodeStructureMixin,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -31,7 +32,7 @@ import {
   Scope,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const ParameterDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -95,8 +96,8 @@ export default class ParameterDeclarationImpl
     return target;
   }
 
-  public toJSON(): Jsonify<ParameterDeclarationStructure> {
-    const rv = super.toJSON() as ParameterDeclarationStructure;
+  public toJSON(): StructureClassToJSON<ParameterDeclarationImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<ParameterDeclarationImpl>;
     rv.isRestParameter = this.isRestParameter;
     rv.kind = this.kind;
     if (this.scope) {

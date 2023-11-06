@@ -5,6 +5,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
 } from "../internal-exports.js";
 import type {
   MixinClass,
@@ -12,7 +13,6 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { ExclamationTokenableNodeStructure, Structures } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const ExclamationTokenableNodeStructureKey: unique symbol;
 export type ExclamationTokenableNodeStructureFields = RightExtendsLeft<
@@ -47,8 +47,9 @@ export default function ExclamationTokenableNodeStructureMixin(
       target.hasExclamationToken = source.hasExclamationToken ?? false;
     }
 
-    public toJSON(): Jsonify<ExclamationTokenableNodeStructure> {
-      const rv = super.toJSON() as ExclamationTokenableNodeStructure;
+    public toJSON(): StructureClassToJSON<ExclamationTokenableNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<ExclamationTokenableNodeStructureMixin>;
       rv.hasExclamationToken = this.hasExclamationToken;
       return rv;
     }

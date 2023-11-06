@@ -12,6 +12,7 @@ import {
   type PreferArrayFields,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -22,7 +23,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const EnumMemberStructureBase = MultiMixinBuilder<
   [
@@ -76,8 +77,8 @@ export default class EnumMemberImpl
     return target;
   }
 
-  public toJSON(): Jsonify<EnumMemberStructure> {
-    const rv = super.toJSON() as EnumMemberStructure;
+  public toJSON(): StructureClassToJSON<EnumMemberImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<EnumMemberImpl>;
     rv.kind = this.kind;
     if (this.value) {
       rv.value = this.value;

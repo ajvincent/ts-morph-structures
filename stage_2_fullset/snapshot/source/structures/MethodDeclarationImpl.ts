@@ -32,6 +32,7 @@ import {
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -45,7 +46,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const MethodDeclarationStructureBase = MultiMixinBuilder<
   [
@@ -130,8 +131,8 @@ export default class MethodDeclarationImpl
     return target;
   }
 
-  public toJSON(): Jsonify<MethodDeclarationStructure> {
-    const rv = super.toJSON() as MethodDeclarationStructure;
+  public toJSON(): StructureClassToJSON<MethodDeclarationImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<MethodDeclarationImpl>;
     rv.isStatic = this.isStatic;
     rv.kind = this.kind;
     rv.overloads = this.overloads;

@@ -5,6 +5,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
 } from "../internal-exports.js";
 import type {
   MixinClass,
@@ -12,7 +13,6 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { AbstractableNodeStructure, Structures } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const AbstractableNodeStructureKey: unique symbol;
 export type AbstractableNodeStructureFields = RightExtendsLeft<
@@ -45,8 +45,9 @@ export default function AbstractableNodeStructureMixin(
       target.isAbstract = source.isAbstract ?? false;
     }
 
-    public toJSON(): Jsonify<AbstractableNodeStructure> {
-      const rv = super.toJSON() as AbstractableNodeStructure;
+    public toJSON(): StructureClassToJSON<AbstractableNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<AbstractableNodeStructureMixin>;
       rv.isAbstract = this.isAbstract;
       return rv;
     }

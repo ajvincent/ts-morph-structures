@@ -9,6 +9,7 @@ import {
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -16,7 +17,7 @@ import {
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import { type DecoratorStructure, OptionalKind, StructureKind } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const DecoratorStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -60,8 +61,8 @@ export default class DecoratorImpl
     return target;
   }
 
-  public toJSON(): Jsonify<DecoratorStructure> {
-    const rv = super.toJSON() as DecoratorStructure;
+  public toJSON(): StructureClassToJSON<DecoratorImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<DecoratorImpl>;
     rv.arguments = this.arguments.map((value) => {
       return StructureBase[REPLACE_WRITER_WITH_STRING](value);
     });

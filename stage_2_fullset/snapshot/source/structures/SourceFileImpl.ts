@@ -8,6 +8,7 @@ import {
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -18,7 +19,7 @@ import {
   type SourceFileStructure,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const SourceFileStructureBase = MultiMixinBuilder<
   [StatementedNodeStructureFields, StructureFields],
@@ -39,8 +40,8 @@ export default class SourceFileImpl
     return target;
   }
 
-  public toJSON(): Jsonify<SourceFileStructure> {
-    const rv = super.toJSON() as SourceFileStructure;
+  public toJSON(): StructureClassToJSON<SourceFileImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<SourceFileImpl>;
     rv.kind = this.kind;
     return rv;
   }

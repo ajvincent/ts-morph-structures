@@ -7,6 +7,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
 } from "../internal-exports.js";
 import type {
   MixinClass,
@@ -20,7 +21,6 @@ import {
   type TypeParameterDeclarationStructure,
   type TypeParameteredNodeStructure,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const TypeParameteredNodeStructureKey: unique symbol;
 export type TypeParameteredNodeStructureFields = RightExtendsLeft<
@@ -63,8 +63,9 @@ export default function TypeParameteredNodeStructureMixin(
       }
     }
 
-    public toJSON(): Jsonify<TypeParameteredNodeStructure> {
-      const rv = super.toJSON() as TypeParameteredNodeStructure;
+    public toJSON(): StructureClassToJSON<TypeParameteredNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<TypeParameteredNodeStructureMixin>;
       rv.typeParameters = this.typeParameters;
       return rv;
     }

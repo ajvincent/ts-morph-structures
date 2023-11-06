@@ -5,6 +5,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
 } from "../internal-exports.js";
 import type {
   MixinClass,
@@ -12,7 +13,6 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import { Scope, type ScopedNodeStructure, type Structures } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const ScopedNodeStructureKey: unique symbol;
 export type ScopedNodeStructureFields = RightExtendsLeft<
@@ -50,8 +50,9 @@ export default function ScopedNodeStructureMixin(
       }
     }
 
-    public toJSON(): Jsonify<ScopedNodeStructure> {
-      const rv = super.toJSON() as ScopedNodeStructure;
+    public toJSON(): StructureClassToJSON<ScopedNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<ScopedNodeStructureMixin>;
       if (this.scope) {
         rv.scope = this.scope;
       }

@@ -5,6 +5,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
 } from "../internal-exports.js";
 import type {
   MixinClass,
@@ -12,7 +13,6 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { NameableNodeStructure, Structures } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const NameableNodeStructureKey: unique symbol;
 export type NameableNodeStructureFields = RightExtendsLeft<
@@ -50,8 +50,9 @@ export default function NameableNodeStructureMixin(
       }
     }
 
-    public toJSON(): Jsonify<NameableNodeStructure> {
-      const rv = super.toJSON() as NameableNodeStructure;
+    public toJSON(): StructureClassToJSON<NameableNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<NameableNodeStructureMixin>;
       if (this.name) {
         rv.name = this.name;
       }

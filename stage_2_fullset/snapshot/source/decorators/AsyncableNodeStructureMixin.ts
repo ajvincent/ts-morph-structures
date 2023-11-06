@@ -5,6 +5,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
 } from "../internal-exports.js";
 import type {
   MixinClass,
@@ -12,7 +13,6 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { AsyncableNodeStructure, Structures } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const AsyncableNodeStructureKey: unique symbol;
 export type AsyncableNodeStructureFields = RightExtendsLeft<
@@ -45,8 +45,9 @@ export default function AsyncableNodeStructureMixin(
       target.isAsync = source.isAsync ?? false;
     }
 
-    public toJSON(): Jsonify<AsyncableNodeStructure> {
-      const rv = super.toJSON() as AsyncableNodeStructure;
+    public toJSON(): StructureClassToJSON<AsyncableNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<AsyncableNodeStructureMixin>;
       rv.isAsync = this.isAsync;
       return rv;
     }

@@ -7,6 +7,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
   StructuresClassesMap,
 } from "../internal-exports.js";
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
@@ -20,7 +21,6 @@ import type {
   StatementStructures,
   Structures,
 } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const StatementedNodeStructureKey: unique symbol;
 export type StatementedNodeStructureFields = RightExtendsLeft<
@@ -78,8 +78,9 @@ export default function StatementedNodeStructureMixin(
       return StructuresClassesMap.clone(source) as StatementStructureImpls;
     }
 
-    public toJSON(): Jsonify<StatementedNodeStructure> {
-      const rv = super.toJSON() as StatementedNodeStructure;
+    public toJSON(): StructureClassToJSON<StatementedNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<StatementedNodeStructureMixin>;
       rv.statements = this.statements.map((value) => {
         if (typeof value === "object") {
           return value;

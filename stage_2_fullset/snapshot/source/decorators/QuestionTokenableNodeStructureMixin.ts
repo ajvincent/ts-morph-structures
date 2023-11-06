@@ -5,6 +5,7 @@ import {
   type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
+  type StructureClassToJSON,
 } from "../internal-exports.js";
 import type {
   MixinClass,
@@ -12,7 +13,6 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import type { QuestionTokenableNodeStructure, Structures } from "ts-morph";
-import type { Jsonify } from "type-fest";
 //#endregion preamble
 declare const QuestionTokenableNodeStructureKey: unique symbol;
 export type QuestionTokenableNodeStructureFields = RightExtendsLeft<
@@ -48,8 +48,9 @@ export default function QuestionTokenableNodeStructureMixin(
       target.hasQuestionToken = source.hasQuestionToken ?? false;
     }
 
-    public toJSON(): Jsonify<QuestionTokenableNodeStructure> {
-      const rv = super.toJSON() as QuestionTokenableNodeStructure;
+    public toJSON(): StructureClassToJSON<QuestionTokenableNodeStructureMixin> {
+      const rv =
+        super.toJSON() as StructureClassToJSON<QuestionTokenableNodeStructureMixin>;
       rv.hasQuestionToken = this.hasQuestionToken;
       return rv;
     }

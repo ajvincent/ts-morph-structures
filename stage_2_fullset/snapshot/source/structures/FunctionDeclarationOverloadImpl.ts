@@ -20,6 +20,7 @@ import {
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -32,7 +33,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const FunctionDeclarationOverloadStructureBase = MultiMixinBuilder<
   [
@@ -81,8 +82,9 @@ export default class FunctionDeclarationOverloadImpl
     return target;
   }
 
-  public toJSON(): Jsonify<FunctionDeclarationOverloadStructure> {
-    const rv = super.toJSON() as FunctionDeclarationOverloadStructure;
+  public toJSON(): StructureClassToJSON<FunctionDeclarationOverloadImpl> {
+    const rv =
+      super.toJSON() as StructureClassToJSON<FunctionDeclarationOverloadImpl>;
     rv.kind = this.kind;
     return rv;
   }

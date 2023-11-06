@@ -234,6 +234,13 @@ async function defineExistingExports(
   });
 
   dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/types/StructureClassToJSON.d.ts"),
+    exportNames: ["StructureClassToJSON"],
+    isDefaultExport: false,
+    isType: true
+  });
+
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/typeStructures/TypeStructuresBase.ts"),
     exportNames: ["TypeStructuresBase"],
     isDefaultExport: true,

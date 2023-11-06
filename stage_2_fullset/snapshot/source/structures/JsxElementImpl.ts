@@ -14,6 +14,7 @@ import {
   type PreferArrayFields,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -27,7 +28,7 @@ import {
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const JsxElementStructureBase = MultiMixinBuilder<
   [NamedNodeStructureFields, StructureFields],
@@ -100,8 +101,8 @@ export default class JsxElementImpl
     return target;
   }
 
-  public toJSON(): Jsonify<JsxElementStructure> {
-    const rv = super.toJSON() as JsxElementStructure;
+  public toJSON(): StructureClassToJSON<JsxElementImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<JsxElementImpl>;
     rv.attributes = this.attributes;
     if (this.bodyText) {
       rv.bodyText = this.bodyText;

@@ -16,6 +16,7 @@ import {
   ReadonlyableNodeStructureMixin,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -28,7 +29,7 @@ import {
   type PropertySignatureStructure,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const PropertySignatureStructureBase = MultiMixinBuilder<
   [
@@ -78,8 +79,8 @@ export default class PropertySignatureImpl
     return target;
   }
 
-  public toJSON(): Jsonify<PropertySignatureStructure> {
-    const rv = super.toJSON() as PropertySignatureStructure;
+  public toJSON(): StructureClassToJSON<PropertySignatureImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<PropertySignatureImpl>;
     rv.kind = this.kind;
     return rv;
   }

@@ -6,6 +6,7 @@ import {
   type PreferArrayFields,
   type RequiredOmit,
   StructureBase,
+  type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
@@ -16,7 +17,7 @@ import {
   OptionalKind,
   StructureKind,
 } from "ts-morph";
-import type { Class, Jsonify } from "type-fest";
+import type { Class } from "type-fest";
 //#endregion preamble
 const JsxSpreadAttributeStructureBase = MultiMixinBuilder<
   [StructureFields],
@@ -54,8 +55,8 @@ export default class JsxSpreadAttributeImpl
     return target;
   }
 
-  public toJSON(): Jsonify<JsxSpreadAttributeStructure> {
-    const rv = super.toJSON() as JsxSpreadAttributeStructure;
+  public toJSON(): StructureClassToJSON<JsxSpreadAttributeImpl> {
+    const rv = super.toJSON() as StructureClassToJSON<JsxSpreadAttributeImpl>;
     rv.expression = this.expression;
     rv.kind = this.kind;
     return rv;
