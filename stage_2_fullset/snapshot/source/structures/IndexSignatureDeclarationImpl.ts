@@ -19,6 +19,7 @@ import {
   StructureMixin,
   StructuresClassesMap,
   TypeAccessors,
+  TypeStructureClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -84,7 +85,11 @@ export default class IndexSignatureDeclarationImpl
       target.keyName = source.keyName;
     }
 
-    if (source.keyType) {
+    const { keyTypeStructure } =
+      source as unknown as IndexSignatureDeclarationImpl;
+    if (keyTypeStructure) {
+      target.keyTypeStructure = TypeStructureClassesMap.clone(keyTypeStructure);
+    } else if (source.keyType) {
       target.keyType = source.keyType;
     }
   }

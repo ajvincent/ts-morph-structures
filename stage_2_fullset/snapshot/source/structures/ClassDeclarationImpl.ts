@@ -36,6 +36,7 @@ import {
   TypeAccessors,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
+  TypeStructureClassesMap,
   TypeStructureSet,
 } from "../internal-exports.js";
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
@@ -139,7 +140,10 @@ export default class ClassDeclarationImpl
       );
     }
 
-    if (source.extends) {
+    const { extendsStructure } = source as unknown as ClassDeclarationImpl;
+    if (extendsStructure) {
+      target.extendsStructure = TypeStructureClassesMap.clone(extendsStructure);
+    } else if (source.extends) {
       target.extends = source.extends;
     }
 

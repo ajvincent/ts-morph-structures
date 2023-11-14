@@ -246,6 +246,23 @@ function addTypeAccessor(
     [ `this.${typeAccessorProp.name}.typeStructure` ]
   );
 
+  parts.importsManager.addImports({
+    pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
+    isPackageImport: false,
+    importNames: ["TypeStructureClassesMap"],
+    isDefaultImport: false,
+    isTypeOnly: false
+  });
+
+  const existingStatements =   parts.classFieldsStatements.get(
+    propertyKey,
+    COPY_FIELDS_NAME
+  )!;
+  existingStatements[0] = `if (${propertyKey}Structure) {\n` +
+    `target.${propertyKey}Structure = TypeStructureClassesMap.clone(${propertyKey}Structure);\n` +
+  `} else ${existingStatements[0] as string}`;
+  existingStatements.unshift(`const { ${propertyKey}Structure } = source as unknown as ${parts.classDecl.name!};`)
+
   parts.classMembersMap.addMembers([
     typeAccessorProp,
     typeGetAccessor,

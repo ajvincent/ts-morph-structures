@@ -9,6 +9,7 @@ import {
   StructureBase,
   type StructureClassToJSON,
   TypeAccessors,
+  TypeStructureClassesMap,
 } from "../internal-exports.js";
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import type {
@@ -65,7 +66,12 @@ export default function ReturnTypedNodeStructureMixin(
       target: ReturnTypedNodeStructureMixin & Structures,
     ): void {
       super[COPY_FIELDS](source, target);
-      if (source.returnType) {
+      const { returnTypeStructure } =
+        source as unknown as ReturnTypedNodeStructureMixin;
+      if (returnTypeStructure) {
+        target.returnTypeStructure =
+          TypeStructureClassesMap.clone(returnTypeStructure);
+      } else if (source.returnType) {
         target.returnType = source.returnType;
       }
     }

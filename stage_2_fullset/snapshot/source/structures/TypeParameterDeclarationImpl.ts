@@ -15,6 +15,7 @@ import {
   StructureMixin,
   StructuresClassesMap,
   TypeAccessors,
+  TypeStructureClassesMap,
 } from "../internal-exports.js";
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -87,11 +88,20 @@ export default class TypeParameterDeclarationImpl
     target: TypeParameterDeclarationImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (source.constraint) {
+    const { constraintStructure } =
+      source as unknown as TypeParameterDeclarationImpl;
+    if (constraintStructure) {
+      target.constraintStructure =
+        TypeStructureClassesMap.clone(constraintStructure);
+    } else if (source.constraint) {
       target.constraint = source.constraint;
     }
 
-    if (source.default) {
+    const { defaultStructure } =
+      source as unknown as TypeParameterDeclarationImpl;
+    if (defaultStructure) {
+      target.defaultStructure = TypeStructureClassesMap.clone(defaultStructure);
+    } else if (source.default) {
       target.default = source.default;
     }
 
