@@ -1,5 +1,5 @@
 //#region preamble
-import { AssertEntryImpl, ImportSpecifierImpl } from "../exports.js";
+import { ImportAttributeImpl, ImportSpecifierImpl } from "../exports.js";
 import {
   type CloneableStructure,
   cloneStructureArray,
@@ -18,7 +18,7 @@ import {
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  type AssertEntryStructure,
+  type ImportAttributeStructure,
   type ImportDeclarationStructure,
   type ImportSpecifierStructure,
   type OptionalKind,
@@ -36,12 +36,12 @@ export default class ImportDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<ImportDeclarationStructure>,
-      "assertElements" | "defaultImport" | "namespaceImport"
+      "defaultImport" | "namespaceImport"
     >
 {
   readonly kind: StructureKind.ImportDeclaration =
     StructureKind.ImportDeclaration;
-  assertElements?: AssertEntryImpl[] = undefined;
+  readonly attributes: ImportAttributeImpl[] = [];
   defaultImport?: string = undefined;
   isTypeOnly = false;
   moduleSpecifier: string;
@@ -58,14 +58,13 @@ export default class ImportDeclarationImpl
     target: ImportDeclarationImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (source.assertElements) {
-      target.assertElements = [];
-      target.assertElements.push(
+    if (source.attributes) {
+      target.attributes.push(
         ...cloneStructureArray<
-          OptionalKind<AssertEntryStructure>,
-          StructureKind.AssertEntry,
-          AssertEntryImpl
-        >(source.assertElements, StructureKind.AssertEntry),
+          OptionalKind<ImportAttributeStructure>,
+          StructureKind.ImportAttribute,
+          ImportAttributeImpl
+        >(source.attributes, StructureKind.ImportAttribute),
       );
     }
 
@@ -103,7 +102,7 @@ export default class ImportDeclarationImpl
 
   public toJSON(): StructureClassToJSON<ImportDeclarationImpl> {
     const rv = super.toJSON() as StructureClassToJSON<ImportDeclarationImpl>;
-    rv.assertElements = this.assertElements;
+    rv.attributes = this.attributes;
     if (this.defaultImport) {
       rv.defaultImport = this.defaultImport;
     }

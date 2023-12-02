@@ -2,9 +2,11 @@
 import {
   CallSignatureDeclarationImpl,
   ConstructSignatureDeclarationImpl,
+  GetAccessorDeclarationImpl,
   IndexSignatureDeclarationImpl,
   MethodSignatureImpl,
   PropertySignatureImpl,
+  SetAccessorDeclarationImpl,
 } from "../exports.js";
 import {
   type AmbientableNodeStructureFields,
@@ -37,11 +39,13 @@ import MultiMixinBuilder from "mixin-decorators";
 import {
   type CallSignatureDeclarationStructure,
   type ConstructSignatureDeclarationStructure,
+  type GetAccessorDeclarationStructure,
   type IndexSignatureDeclarationStructure,
   type InterfaceDeclarationStructure,
   type MethodSignatureStructure,
   type OptionalKind,
   type PropertySignatureStructure,
+  type SetAccessorDeclarationStructure,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";
@@ -84,9 +88,11 @@ export default class InterfaceDeclarationImpl
   readonly callSignatures: CallSignatureDeclarationImpl[] = [];
   readonly constructSignatures: ConstructSignatureDeclarationImpl[] = [];
   readonly extendsSet = new TypeStructureSet(this.#extends_ShadowArray);
+  readonly getAccessors: GetAccessorDeclarationImpl[] = [];
   readonly indexSignatures: IndexSignatureDeclarationImpl[] = [];
   readonly methods: MethodSignatureImpl[] = [];
   readonly properties: PropertySignatureImpl[] = [];
+  readonly setAccessors: SetAccessorDeclarationImpl[] = [];
 
   constructor(name: string) {
     super();
@@ -128,6 +134,16 @@ export default class InterfaceDeclarationImpl
       target.extendsSet.replaceFromTypeArray([source.extends]);
     }
 
+    if (source.getAccessors) {
+      target.getAccessors.push(
+        ...cloneStructureArray<
+          OptionalKind<GetAccessorDeclarationStructure>,
+          StructureKind.GetAccessor,
+          GetAccessorDeclarationImpl
+        >(source.getAccessors, StructureKind.GetAccessor),
+      );
+    }
+
     if (source.indexSignatures) {
       target.indexSignatures.push(
         ...cloneStructureArray<
@@ -157,6 +173,16 @@ export default class InterfaceDeclarationImpl
         >(source.properties, StructureKind.PropertySignature),
       );
     }
+
+    if (source.setAccessors) {
+      target.setAccessors.push(
+        ...cloneStructureArray<
+          OptionalKind<SetAccessorDeclarationStructure>,
+          StructureKind.SetAccessor,
+          SetAccessorDeclarationImpl
+        >(source.setAccessors, StructureKind.SetAccessor),
+      );
+    }
   }
 
   public static clone(
@@ -174,10 +200,12 @@ export default class InterfaceDeclarationImpl
     rv.extends = this.extends.map((value) => {
       return StructureBase[REPLACE_WRITER_WITH_STRING](value);
     });
+    rv.getAccessors = this.getAccessors;
     rv.indexSignatures = this.indexSignatures;
     rv.kind = this.kind;
     rv.methods = this.methods;
     rv.properties = this.properties;
+    rv.setAccessors = this.setAccessors;
     return rv;
   }
 }

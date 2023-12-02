@@ -3,7 +3,6 @@ export {
   type KindedTypeStructure,
   TypeStructureKind,
 } from "./base/TypeStructureKind.js";
-export { default as AssertEntryImpl } from "./structures/AssertEntryImpl.js";
 export { default as CallSignatureDeclarationImpl } from "./structures/CallSignatureDeclarationImpl.js";
 export { default as ClassDeclarationImpl } from "./structures/ClassDeclarationImpl.js";
 export { default as ClassStaticBlockDeclarationImpl } from "./structures/ClassStaticBlockDeclarationImpl.js";
@@ -19,6 +18,7 @@ export { default as ExportSpecifierImpl } from "./structures/ExportSpecifierImpl
 export { default as FunctionDeclarationImpl } from "./structures/FunctionDeclarationImpl.js";
 export { default as FunctionDeclarationOverloadImpl } from "./structures/FunctionDeclarationOverloadImpl.js";
 export { default as GetAccessorDeclarationImpl } from "./structures/GetAccessorDeclarationImpl.js";
+export { default as ImportAttributeImpl } from "./structures/ImportAttributeImpl.js";
 export { default as ImportDeclarationImpl } from "./structures/ImportDeclarationImpl.js";
 export { default as ImportSpecifierImpl } from "./structures/ImportSpecifierImpl.js";
 export { default as IndexSignatureDeclarationImpl } from "./structures/IndexSignatureDeclarationImpl.js";

@@ -1,5 +1,5 @@
 //#region preamble
-import { AssertEntryImpl, ExportSpecifierImpl } from "../exports.js";
+import { ExportSpecifierImpl, ImportAttributeImpl } from "../exports.js";
 import {
   type CloneableStructure,
   cloneStructureArray,
@@ -18,9 +18,9 @@ import {
 import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  type AssertEntryStructure,
   type ExportDeclarationStructure,
   type ExportSpecifierStructure,
+  type ImportAttributeStructure,
   type OptionalKind,
   StructureKind,
 } from "ts-morph";
@@ -36,12 +36,12 @@ export default class ExportDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<ExportDeclarationStructure>,
-      "assertElements" | "moduleSpecifier" | "namespaceExport"
+      "moduleSpecifier" | "namespaceExport"
     >
 {
   readonly kind: StructureKind.ExportDeclaration =
     StructureKind.ExportDeclaration;
-  assertElements?: AssertEntryImpl[] = undefined;
+  readonly attributes: ImportAttributeImpl[] = [];
   isTypeOnly = false;
   moduleSpecifier?: string = undefined;
   readonly namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[] = [];
@@ -52,14 +52,13 @@ export default class ExportDeclarationImpl
     target: ExportDeclarationImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (source.assertElements) {
-      target.assertElements = [];
-      target.assertElements.push(
+    if (source.attributes) {
+      target.attributes.push(
         ...cloneStructureArray<
-          OptionalKind<AssertEntryStructure>,
-          StructureKind.AssertEntry,
-          AssertEntryImpl
-        >(source.assertElements, StructureKind.AssertEntry),
+          OptionalKind<ImportAttributeStructure>,
+          StructureKind.ImportAttribute,
+          ImportAttributeImpl
+        >(source.attributes, StructureKind.ImportAttribute),
       );
     }
 
@@ -93,7 +92,7 @@ export default class ExportDeclarationImpl
 
   public toJSON(): StructureClassToJSON<ExportDeclarationImpl> {
     const rv = super.toJSON() as StructureClassToJSON<ExportDeclarationImpl>;
-    rv.assertElements = this.assertElements;
+    rv.attributes = this.attributes;
     rv.isTypeOnly = this.isTypeOnly;
     rv.kind = this.kind;
     if (this.moduleSpecifier) {

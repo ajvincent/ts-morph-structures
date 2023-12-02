@@ -6,7 +6,6 @@ export {
 
 // #region Structure implementations
 
-export { default as AssertEntryImpl } from "./structures/AssertEntryImpl.js";
 export { default as CallSignatureDeclarationImpl } from "./structures/CallSignatureDeclarationImpl.js";
 export { default as ClassDeclarationImpl } from "./structures/ClassDeclarationImpl.js";
 export { default as ConstructorDeclarationImpl }  from "./structures/ConstructorDeclarationImpl.js";

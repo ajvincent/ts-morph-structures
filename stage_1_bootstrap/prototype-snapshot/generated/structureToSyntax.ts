@@ -31,7 +31,6 @@ const StructureKindToSyntaxKindMap: ReadonlyMap<StructureKind, SyntaxKind> = new
   [StructureKind.JsxElement, SyntaxKind.JsxElement],
   [StructureKind.JsxSelfClosingElement, SyntaxKind.JsxSelfClosingElement],
   [StructureKind.JsxSpreadAttribute, SyntaxKind.JsxSpreadAttribute],
-  [StructureKind.AssertEntry, SyntaxKind.AssertEntry],
   [StructureKind.ExportAssignment, SyntaxKind.ExportAssignment],
   [StructureKind.ExportDeclaration, SyntaxKind.ExportDeclaration],
   [StructureKind.ExportSpecifier, SyntaxKind.ExportSpecifier],

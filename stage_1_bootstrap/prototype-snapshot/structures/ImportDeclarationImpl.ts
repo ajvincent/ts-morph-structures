@@ -6,7 +6,6 @@ import {
 } from "ts-morph";
 
 import {
-  AssertEntryImpl,
   ImportSpecifierImpl,
 } from "../exports.js";
 
@@ -37,7 +36,6 @@ implements ImportDeclarationStructure
   namespaceImport: string | undefined = undefined;
   namedImports: (stringOrWriterFunction | ImportSpecifierImpl)[] = [];
   moduleSpecifier: string;
-  assertElements: AssertEntryImpl[] | undefined = undefined;
 
   constructor(
     moduleSpecifier: string
@@ -69,10 +67,6 @@ implements ImportDeclarationStructure
     }
     else if (other.namedImports) {
       clone.namedImports = [other.namedImports];
-    }
-
-    if (other.assertElements) {
-      clone.assertElements = other.assertElements.map(element => AssertEntryImpl.clone(element));
     }
 
     return clone;

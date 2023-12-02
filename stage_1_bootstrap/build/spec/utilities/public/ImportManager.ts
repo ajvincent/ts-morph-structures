@@ -83,7 +83,6 @@ it("ImportManager can import values from submodules", () => {
   {
     expect(Bar.isTypeOnly).toBe(false);
     expect(Bar.defaultImport).toBe("Bar");
-    expect(Bar.assertElements).toBe(undefined);
     expect(Bar.namespaceImport).toBe(undefined);
     expect(Bar.namedImports).toEqual([]);
   }
@@ -93,7 +92,6 @@ it("ImportManager can import values from submodules", () => {
   {
     expect(AsyncSpecModules.isTypeOnly).toBe(true);
     expect(AsyncSpecModules.defaultImport).toBe(undefined);
-    expect(AsyncSpecModules.assertElements).toBe(undefined);
     expect(AsyncSpecModules.namespaceImport).toBe(undefined);
 
     expect(AsyncSpecModules.namedImports.length).toBe(1);
@@ -109,7 +107,6 @@ it("ImportManager can import values from submodules", () => {
   {
     expect(MixinDecorators.isTypeOnly).toBe(false);
     expect(MixinDecorators.defaultImport).toBe("MultiMixinBuilder");
-    expect(MixinDecorators.assertElements).toBe(undefined);
     expect(MixinDecorators.namespaceImport).toBe(undefined);
     expect(MixinDecorators.namedImports).toEqual([]);
   }
@@ -118,7 +115,6 @@ it("ImportManager can import values from submodules", () => {
     expect(TSM.isTypeOnly).toBe(false);
     expect(TSM.defaultImport).toBe(undefined);
     expect(TSM.namespaceImport).toBe(undefined);
-    expect(TSM.assertElements).toBe(undefined);
 
     expect(TSM.namedImports.length).toBe(3);
 

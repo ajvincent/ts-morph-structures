@@ -1,5 +1,4 @@
 import type {
-  AssertEntryImpl,
   CallSignatureDeclarationImpl,
   ClassDeclarationImpl,
   ClassStaticBlockDeclarationImpl,
@@ -16,6 +15,7 @@ import type {
   FunctionDeclarationOverloadImpl,
   GetAccessorDeclarationImpl,
   GetAccessorDeclarationImpl,
+  ImportAttributeImpl,
   ImportDeclarationImpl,
   ImportSpecifierImpl,
   IndexSignatureDeclarationImpl,
@@ -83,12 +83,12 @@ export type StatementStructureImpls =
   | TypeAliasDeclarationImpl
   | VariableStatementImpl;
 export type StructureImpls =
-  | AssertEntryImpl
   | ConstructorDeclarationOverloadImpl
   | DecoratorImpl
   | EnumMemberImpl
   | ExportSpecifierImpl
   | FunctionDeclarationOverloadImpl
+  | ImportAttributeImpl
   | ImportSpecifierImpl
   | JSDocImpl
   | JSDocTagImpl

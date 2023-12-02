@@ -141,7 +141,6 @@ export default class ExportManager
       decl.moduleSpecifier = "./" + decl.moduleSpecifier;
 
     decl.isTypeOnly = true;
-    decl.assertElements = undefined;
     return decl;
   }
 

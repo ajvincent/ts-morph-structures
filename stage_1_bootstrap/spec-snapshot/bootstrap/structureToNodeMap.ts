@@ -57,9 +57,6 @@ const remainingKeysBase = await getSupportedKindSet();
 // no syntax kind for this, so unsupported
 remainingKeysBase.delete(StructureKind.JSDocTag);
 
-// apparently requires module: esnext, and I can't compile my main code with this
-remainingKeysBase.delete(StructureKind.AssertEntry);
-
 // `export = 5;`, unsupported with ECMAScript modules
 remainingKeysBase.delete(StructureKind.ExportAssignment);
 
