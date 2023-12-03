@@ -38,6 +38,7 @@ export default class PrefixOperatorsTypeStructureImpl extends TypeStructuresBase
     super();
     this.operators = operators.slice();
     this.objectType = objectType;
+    this.registerCallbackForTypeStructure();
   }
 
   #writerFunction(writer: CodeBlockWriter): void {

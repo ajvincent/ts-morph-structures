@@ -28,6 +28,7 @@ export default class ArrayTypeStructureImpl extends TypeStructuresBase<TypeStruc
   constructor(objectType: string | TypeStructures) {
     super();
     this.objectType = objectType;
+    this.registerCallbackForTypeStructure();
   }
 
   #writerFunction(writer: CodeBlockWriter): void {

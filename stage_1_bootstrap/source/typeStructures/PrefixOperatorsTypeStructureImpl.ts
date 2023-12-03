@@ -54,6 +54,7 @@ extends TypeStructuresBase<TypeStructureKind.PrefixOperators>
     super();
     this.operators = operators.slice();
     this.objectType = objectType;
+    this.registerCallbackForTypeStructure();
   }
 
   #writerFunction(writer: CodeBlockWriter): void

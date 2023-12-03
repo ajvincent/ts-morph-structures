@@ -46,6 +46,7 @@ extends TypeStructuresBase<TypeStructureKind.Array>
   {
     super();
     this.objectType = objectType;
+    this.registerCallbackForTypeStructure();
   }
 
   #writerFunction(writer: CodeBlockWriter): void
