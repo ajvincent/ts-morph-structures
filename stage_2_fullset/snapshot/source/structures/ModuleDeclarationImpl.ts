@@ -90,6 +90,8 @@ export default class ModuleDeclarationImpl
     const rv = super.toJSON() as StructureClassToJSON<ModuleDeclarationImpl>;
     if (this.declarationKind) {
       rv.declarationKind = this.declarationKind;
+    } else {
+      rv.declarationKind = undefined;
     }
 
     rv.kind = this.kind;

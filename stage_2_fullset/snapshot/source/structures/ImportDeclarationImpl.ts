@@ -105,6 +105,8 @@ export default class ImportDeclarationImpl
     rv.attributes = this.attributes;
     if (this.defaultImport) {
       rv.defaultImport = this.defaultImport;
+    } else {
+      rv.defaultImport = undefined;
     }
 
     rv.isTypeOnly = this.isTypeOnly;
@@ -118,6 +120,8 @@ export default class ImportDeclarationImpl
     });
     if (this.namespaceImport) {
       rv.namespaceImport = this.namespaceImport;
+    } else {
+      rv.namespaceImport = undefined;
     }
 
     return rv;

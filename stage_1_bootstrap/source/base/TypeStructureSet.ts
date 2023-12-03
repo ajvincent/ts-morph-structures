@@ -9,7 +9,8 @@ import {
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import {
-  TypeStructuresBase
+  TypeStructuresBase,
+  TypeStructureClassesMap,
 } from "#stage_one/prototype-snapshot/internal-exports.js";
 
 /**
@@ -111,14 +112,19 @@ extends Set<string | TypeStructures>
   }
 
   /**
-   * Replace all the type structures this set managers with those from another array.
-   * @param array - the types to add.
+   * Replace all the type structures this set managers with those from another set.
+   * @param other - the type structure set to copy
    */
-  replaceFromStructureArray(
-    array: (string | TypeStructures)[]
+  cloneFromTypeStructureSet(
+    other: TypeStructureSet
   ): void
   {
     this.clear();
-    array.forEach(value => this.add(value));
+    other.forEach(value => {
+      if (typeof value === "string")
+        this.add(value);
+      else
+        this.add(TypeStructureClassesMap.clone(value));
+    });
   }
 }

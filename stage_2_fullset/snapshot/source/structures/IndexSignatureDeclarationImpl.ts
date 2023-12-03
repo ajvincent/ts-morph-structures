@@ -107,10 +107,14 @@ export default class IndexSignatureDeclarationImpl
       super.toJSON() as StructureClassToJSON<IndexSignatureDeclarationImpl>;
     if (this.keyName) {
       rv.keyName = this.keyName;
+    } else {
+      rv.keyName = undefined;
     }
 
     if (this.keyType) {
       rv.keyType = this.keyType;
+    } else {
+      rv.keyType = undefined;
     }
 
     rv.kind = this.kind;

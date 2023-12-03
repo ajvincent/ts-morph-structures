@@ -65,6 +65,8 @@ export default class JsxAttributeImpl
     const rv = super.toJSON() as StructureClassToJSON<JsxAttributeImpl>;
     if (this.initializer) {
       rv.initializer = this.initializer;
+    } else {
+      rv.initializer = undefined;
     }
 
     rv.kind = this.kind;

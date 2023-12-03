@@ -62,6 +62,8 @@ export default function InitializerExpressionableNodeStructureMixin(
         rv.initializer = StructureBase[REPLACE_WRITER_WITH_STRING](
           this.initializer,
         );
+      } else {
+        rv.initializer = undefined;
       }
 
       return rv;

@@ -102,6 +102,8 @@ export default class ParameterDeclarationImpl
     rv.kind = this.kind;
     if (this.scope) {
       rv.scope = this.scope;
+    } else {
+      rv.scope = undefined;
     }
 
     return rv;

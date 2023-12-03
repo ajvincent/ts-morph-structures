@@ -61,6 +61,8 @@ export default class JSDocTagImpl
     rv.tagName = this.tagName;
     if (this.text) {
       rv.text = StructureBase[REPLACE_WRITER_WITH_STRING](this.text);
+    } else {
+      rv.text = undefined;
     }
 
     return rv;

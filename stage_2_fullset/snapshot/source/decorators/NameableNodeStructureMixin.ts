@@ -55,6 +55,8 @@ export default function NameableNodeStructureMixin(
         super.toJSON() as StructureClassToJSON<NameableNodeStructureMixin>;
       if (this.name) {
         rv.name = this.name;
+      } else {
+        rv.name = undefined;
       }
 
       return rv;

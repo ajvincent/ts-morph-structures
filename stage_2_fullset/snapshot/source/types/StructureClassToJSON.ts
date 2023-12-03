@@ -11,5 +11,8 @@ type OmitWriterFromFields<T extends object> = {
 };
 
 export type StructureClassToJSON<T extends object> = Writable<
-  Omit<OmitWriterFromFields<T>, "toJSON" | `${string}Structure`>
+  Omit<
+    OmitWriterFromFields<T>,
+    "toJSON" | `${string}Structure` | `${string}Set`
+  >
 >;

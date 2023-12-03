@@ -76,6 +76,8 @@ export default function TypedNodeStructureMixin(
         super.toJSON() as StructureClassToJSON<TypedNodeStructureMixin>;
       if (this.type) {
         rv.type = StructureBase[REPLACE_WRITER_WITH_STRING](this.type);
+      } else {
+        rv.type = undefined;
       }
 
       return rv;

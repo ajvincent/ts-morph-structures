@@ -55,6 +55,8 @@ export default function ScopedNodeStructureMixin(
         super.toJSON() as StructureClassToJSON<ScopedNodeStructureMixin>;
       if (this.scope) {
         rv.scope = this.scope;
+      } else {
+        rv.scope = undefined;
       }
 
       return rv;

@@ -6,7 +6,10 @@ import {
   type stringOrWriterFunction,
 } from "../exports.js";
 
-import { TypeStructuresBase } from "../internal-exports.js";
+import {
+  TypeStructuresBase,
+  TypeStructureClassesMap,
+} from "../internal-exports.js";
 
 /**
  * This supports setting "implements" and "extends" types for arrays behind read-only array
@@ -89,11 +92,14 @@ export default class TypeStructureSet extends Set<string | TypeStructures> {
   }
 
   /**
-   * Replace all the type structures this set managers with those from another array.
-   * @param array - the types to add.
+   * Replace all the type structures this set managers with those from another set.
+   * @param other - the type structure set to copy
    */
-  replaceFromStructureArray(array: (string | TypeStructures)[]): void {
+  cloneFromTypeStructureSet(other: TypeStructureSet): void {
     this.clear();
-    array.forEach((value) => this.add(value));
+    other.forEach((value) => {
+      if (typeof value === "string") this.add(value);
+      else this.add(TypeStructureClassesMap.clone(value));
+    });
   }
 }

@@ -126,16 +126,22 @@ export default class TypeParameterDeclarationImpl
       rv.constraint = StructureBase[REPLACE_WRITER_WITH_STRING](
         this.constraint,
       );
+    } else {
+      rv.constraint = undefined;
     }
 
     if (this.default) {
       rv.default = StructureBase[REPLACE_WRITER_WITH_STRING](this.default);
+    } else {
+      rv.default = undefined;
     }
 
     rv.isConst = this.isConst;
     rv.kind = this.kind;
     if (this.variance) {
       rv.variance = this.variance;
+    } else {
+      rv.variance = undefined;
     }
 
     return rv;

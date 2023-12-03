@@ -82,6 +82,8 @@ export default class EnumMemberImpl
     rv.kind = this.kind;
     if (this.value) {
       rv.value = this.value;
+    } else {
+      rv.value = undefined;
     }
 
     return rv;

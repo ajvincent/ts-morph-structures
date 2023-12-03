@@ -148,7 +148,12 @@ function addTypeStructureSet(
     COPY_FIELDS_NAME,
     [
       (writer: CodeBlockWriter): void => {
-        writer.write(`if (Array.isArray(source.${propertyKey})) `);
+        writer.write(`const { ${typeStructureSetProp.name} } = (source as unknown as ${parts.classDecl.name!});`)
+        writer.write(`if (${typeStructureSetProp.name} instanceof TypeStructureSet)`);
+        writer.block(() => {
+          writer.write(`target.${typeStructureSetProp.name}.cloneFromTypeStructureSet(${typeStructureSetProp.name});`)
+        });
+        writer.write(`else if (Array.isArray(source.${propertyKey})) `);
         writer.block(() => {
           writer.write(`target.${typeStructureSetProp.name}.replaceFromTypeArray(source.${propertyKey});`);
         });

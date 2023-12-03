@@ -69,6 +69,8 @@ export default class JSDocImpl
       rv.description = StructureBase[REPLACE_WRITER_WITH_STRING](
         this.description,
       );
+    } else {
+      rv.description = undefined;
     }
 
     rv.kind = this.kind;

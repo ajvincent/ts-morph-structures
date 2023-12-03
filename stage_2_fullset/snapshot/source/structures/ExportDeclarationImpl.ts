@@ -97,6 +97,8 @@ export default class ExportDeclarationImpl
     rv.kind = this.kind;
     if (this.moduleSpecifier) {
       rv.moduleSpecifier = this.moduleSpecifier;
+    } else {
+      rv.moduleSpecifier = undefined;
     }
 
     rv.namedExports = this.namedExports.map((value) => {
@@ -107,6 +109,8 @@ export default class ExportDeclarationImpl
     });
     if (this.namespaceExport) {
       rv.namespaceExport = this.namespaceExport;
+    } else {
+      rv.namespaceExport = undefined;
     }
 
     return rv;

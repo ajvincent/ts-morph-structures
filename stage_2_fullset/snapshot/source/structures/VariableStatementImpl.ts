@@ -90,6 +90,8 @@ export default class VariableStatementImpl
     const rv = super.toJSON() as StructureClassToJSON<VariableStatementImpl>;
     if (this.declarationKind) {
       rv.declarationKind = this.declarationKind;
+    } else {
+      rv.declarationKind = undefined;
     }
 
     rv.declarations = this.declarations;

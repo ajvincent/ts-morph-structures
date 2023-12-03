@@ -106,6 +106,8 @@ export default class JsxElementImpl
     rv.attributes = this.attributes;
     if (this.bodyText) {
       rv.bodyText = this.bodyText;
+    } else {
+      rv.bodyText = undefined;
     }
 
     rv.children = this.children;

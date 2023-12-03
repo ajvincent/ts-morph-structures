@@ -83,6 +83,8 @@ export default function ReturnTypedNodeStructureMixin(
         rv.returnType = StructureBase[REPLACE_WRITER_WITH_STRING](
           this.returnType,
         );
+      } else {
+        rv.returnType = undefined;
       }
 
       return rv;

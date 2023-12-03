@@ -171,7 +171,7 @@ describe("Type accessor properties work", () => {
 
   describe("with .toJSON()", () => {
     it("starting out undefined", () => {
-      expect("extends" in classDecl.toJSON()).toBe(false);
+      expect(classDecl.toJSON().extends).toBe(undefined);
     });
 
     it("and a string type field", () => {

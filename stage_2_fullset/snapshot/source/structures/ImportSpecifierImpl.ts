@@ -63,6 +63,8 @@ export default class ImportSpecifierImpl
     const rv = super.toJSON() as StructureClassToJSON<ImportSpecifierImpl>;
     if (this.alias) {
       rv.alias = this.alias;
+    } else {
+      rv.alias = undefined;
     }
 
     rv.isTypeOnly = this.isTypeOnly;

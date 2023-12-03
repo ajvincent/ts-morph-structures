@@ -128,7 +128,10 @@ export default class InterfaceDeclarationImpl
       );
     }
 
-    if (Array.isArray(source.extends)) {
+    const { extendsSet } = source as unknown as InterfaceDeclarationImpl;
+    if (extendsSet instanceof TypeStructureSet) {
+      target.extendsSet.cloneFromTypeStructureSet(extendsSet);
+    } else if (Array.isArray(source.extends)) {
       target.extendsSet.replaceFromTypeArray(source.extends);
     } else if (typeof source.extends === "function") {
       target.extendsSet.replaceFromTypeArray([source.extends]);

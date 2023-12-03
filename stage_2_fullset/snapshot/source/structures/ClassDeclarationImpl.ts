@@ -157,7 +157,10 @@ export default class ClassDeclarationImpl
       );
     }
 
-    if (Array.isArray(source.implements)) {
+    const { implementsSet } = source as unknown as ClassDeclarationImpl;
+    if (implementsSet instanceof TypeStructureSet) {
+      target.implementsSet.cloneFromTypeStructureSet(implementsSet);
+    } else if (Array.isArray(source.implements)) {
       target.implementsSet.replaceFromTypeArray(source.implements);
     } else if (typeof source.implements === "function") {
       target.implementsSet.replaceFromTypeArray([source.implements]);
@@ -207,6 +210,8 @@ export default class ClassDeclarationImpl
     rv.ctors = this.ctors;
     if (this.extends) {
       rv.extends = StructureBase[REPLACE_WRITER_WITH_STRING](this.extends);
+    } else {
+      rv.extends = undefined;
     }
 
     rv.getAccessors = this.getAccessors;

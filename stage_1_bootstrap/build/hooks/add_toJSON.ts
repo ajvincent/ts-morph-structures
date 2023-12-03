@@ -80,7 +80,7 @@ export default function add_toJSON(
       needsReplaceWriter = true;
       let rv = `rv.${prop.name} = ${propValue};`;
       if (prop.hasQuestionToken) {
-        rv = `if (this.${prop.name}) {\n  ${rv}\n}`;
+        rv = `if (this.${prop.name}) {\n  ${rv}\n} else { rv.${prop.name} = undefined; }`;
       }
       parts.classFieldsStatements.set(prop.name, toJSONMethod.name, [rv]);
   });
