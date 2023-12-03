@@ -1,6 +1,7 @@
 import ArrayTypeStructureImpl from "./ArrayTypeStructureImpl.js";
 import ConditionalTypeStructureImpl from "./ConditionalTypeStructureImpl.js";
 import IndexedAccessTypeStructureImpl from "./IndexedAccessTypeStructureImpl.js";
+import InferTypeStructureImpl from "./InferTypeStructureImpl.js";
 import IntersectionTypeStructureImpl from "./IntersectionTypeStructureImpl.js";
 import LiteralTypeStructureImpl from "./LiteralTypeStructureImpl.js";
 import MemberedObjectTypeStructureImpl from "./MemberedObjectTypeStructureImpl.js";
@@ -19,6 +20,7 @@ export type TypeStructures = (
   ArrayTypeStructureImpl |
   ConditionalTypeStructureImpl |
   IndexedAccessTypeStructureImpl |
+  InferTypeStructureImpl |
   IntersectionTypeStructureImpl |
   LiteralTypeStructureImpl |
   MemberedObjectTypeStructureImpl |

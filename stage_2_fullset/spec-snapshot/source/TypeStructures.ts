@@ -7,6 +7,7 @@ import {
   ConditionalTypeStructureImpl,
   type ConditionalTypeStructureParts,
   IndexedAccessTypeStructureImpl,
+  InferTypeStructureImpl,
   IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
@@ -21,6 +22,7 @@ import {
   TemplateLiteralTypeStructureImpl,
   TupleTypeStructureImpl,
   TypeArgumentedTypeStructureImpl,
+  TypeParameterDeclarationImpl,
   TypeStructureKind,
   UnionTypeStructureImpl,
   WriterTypeStructureImpl,
@@ -36,6 +38,9 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
 
   const fooTyped = new LiteralTypeStructureImpl("foo");
   const nstTyped = new LiteralTypeStructureImpl("NumberStringType");
+  const typeParam = new TypeParameterDeclarationImpl("UserType");
+  typeParam.constraint = "number";
+  typeParam.default = "6";
 
   const stringBarTyped = new StringTypeStructureImpl("bar");
 
@@ -76,6 +81,14 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     expect<string>(writer.toString()).toBe(`foo["bar"]`);
 
     expect(typedWriter.kind).toBe(TypeStructureKind.IndexedAccess);
+  });
+
+  it("InferTypeStructureImpl", () => {
+    const typedWriter = new InferTypeStructureImpl(typeParam);
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`infer UserType extends number = 6`);
+
+    expect(typedWriter.kind).toBe(TypeStructureKind.Infer);
   });
 
   it("IntersectionTypeStructureImpl", () => {
@@ -231,8 +244,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
 
     let count = 0;
     for (const kind of kinds) {
-      if ((kind === TypeStructureKind.Infer) ||
-          (kind === TypeStructureKind.Function) ||
+      if ((kind === TypeStructureKind.Function) ||
           (kind === TypeStructureKind.Mapped)) {
         // cannot support these yet
         continue;

@@ -11,16 +11,6 @@ import {
 
 import { TypeStructureSet } from "../internal-exports.js";
 
-/*
-import TypeStructureSet from "../base/TypeStructureSet.js";
-*/
-
-/*
-import {
-   TypeParameterConstraintMode
-} from "../exports.js";
-*/
-
 export interface TypedNodeTypeStructure {
   typeStructure: string | TypeStructures | undefined;
   type: stringOrWriterFunction | undefined;
@@ -31,21 +21,13 @@ export interface ReturnTypedNodeTypeStructure {
   returnType: stringOrWriterFunction | undefined;
 }
 
-/*
-export interface TypeParameterWithTypeStructures
-{
+export interface TypeParameterWithTypeStructures {
   constraintStructure: string | TypeStructures | undefined;
   constraint: stringOrWriterFunction | undefined;
-
-  constraintWriter(
-    writer: CodeBlockWriter,
-    constraintMode: TypeParameterConstraintMode
-  ): void;
 
   defaultStructure: TypeStructures | undefined;
   default: stringOrWriterFunction | undefined;
 }
-*/
 
 export interface ClassDeclarationWithImplementsTypeStructures {
   implementsSet: TypeStructureSet;

@@ -57,6 +57,7 @@ export {
   default as ConditionalTypeStructureImpl,
 } from "./typeStructures/ConditionalTypeStructureImpl.js";
 export { default as IndexedAccessTypeStructureImpl } from "./typeStructures/IndexedAccessTypeStructureImpl.js";
+export { default as InferTypeStructureImpl } from "./typeStructures/InferTypeStructureImpl.js";
 export { default as IntersectionTypeStructureImpl } from "./typeStructures/IntersectionTypeStructureImpl.js";
 export { default as LiteralTypeStructureImpl } from "./typeStructures/LiteralTypeStructureImpl.js";
 export { default as MemberedObjectTypeStructureImpl } from "./typeStructures/MemberedObjectTypeStructureImpl.js";
