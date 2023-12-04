@@ -119,6 +119,20 @@ async function defineExistingExports(
   });
 
   dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/typeStructures/FunctionTypeStructureImpl.ts"),
+    exportNames: ["FunctionWriterStyle"],
+    isDefaultExport: false,
+    isType: false
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/typeStructures/FunctionTypeStructureImpl.ts"),
+    exportNames: ["FunctionTypeContext"],
+    isDefaultExport: false,
+    isType: true
+  });
+
+  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/typeStructures/PrefixOperatorsTypeStructureImpl.ts"),
     exportNames: ["PrefixUnaryOperator"],
     isDefaultExport: false,

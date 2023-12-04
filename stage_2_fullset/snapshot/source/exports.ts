@@ -56,6 +56,11 @@ export {
   type ConditionalTypeStructureParts,
   default as ConditionalTypeStructureImpl,
 } from "./typeStructures/ConditionalTypeStructureImpl.js";
+export {
+  default as FunctionTypeStructureImpl,
+  type FunctionTypeContext,
+  FunctionWriterStyle,
+} from "./typeStructures/FunctionTypeStructureImpl.js";
 export { default as IndexedAccessTypeStructureImpl } from "./typeStructures/IndexedAccessTypeStructureImpl.js";
 export { default as InferTypeStructureImpl } from "./typeStructures/InferTypeStructureImpl.js";
 export { default as IntersectionTypeStructureImpl } from "./typeStructures/IntersectionTypeStructureImpl.js";

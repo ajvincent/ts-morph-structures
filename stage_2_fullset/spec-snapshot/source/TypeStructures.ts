@@ -6,6 +6,8 @@ import {
   ArrayTypeStructureImpl,
   ConditionalTypeStructureImpl,
   type ConditionalTypeStructureParts,
+  FunctionTypeStructureImpl,
+  FunctionWriterStyle,
   IndexedAccessTypeStructureImpl,
   InferTypeStructureImpl,
   IntersectionTypeStructureImpl,
@@ -74,6 +76,19 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     );
 
     expect(typedWriter.kind).toBe(TypeStructureKind.Conditional);
+  });
+
+  it("FunctionTypeStructureImpl", () => {
+    const typedWriter = new FunctionTypeStructureImpl({
+      typeParameters: [typeParam],
+      parameters: [new ParameterTypeStructureImpl("nst", nstTyped)],
+      returnType: "boolean",
+      writerStyle: FunctionWriterStyle.Method
+    });
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe("<UserType extends number = 6>(nst: NumberStringType): boolean");
+
+    expect(typedWriter.kind).toBe(TypeStructureKind.Function);
   });
 
   it("IndexedAccessTypeStructureImpl", () => {
@@ -254,16 +269,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
       value => typeof value === "number"
     ) as TypeStructureKind[];
 
-    let count = 0;
-    for (const kind of kinds) {
-      if (kind === TypeStructureKind.Function) {
-        // cannot support these yet
-        continue;
-      }
-      count++;
-    }
-
-    expect(TypeStructureClassesMap.size).toBe(count);
+    expect(TypeStructureClassesMap.size).toBe(kinds.length);
   });
 
   xit("Each test covers a .clone() method", () => {
