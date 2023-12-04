@@ -2,6 +2,10 @@ import {
   CodeBlockWriter,
 } from "ts-morph";
 
+import type {
+  Class
+} from "type-fest";
+
 import {
   ArrayTypeStructureImpl,
   ConditionalTypeStructureImpl,
@@ -27,11 +31,13 @@ import {
   TypeArgumentedTypeStructureImpl,
   TypeParameterDeclarationImpl,
   TypeStructureKind,
+  type TypeStructures,
   UnionTypeStructureImpl,
   WriterTypeStructureImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
+  TypeStructuresBase,
   TypeStructureClassesMap
 } from "#stage_two/snapshot/source/internal-exports.js";
 
@@ -47,12 +53,33 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
 
   const stringBarTyped = new StringTypeStructureImpl("bar");
 
+  function checkCloneAndRegistration(
+    typedWriter: TypeStructures,
+    typeClass: Class<TypeStructures>,
+    singletonWriter: boolean
+  ): void
+  {
+    const cloneWriter = TypeStructureClassesMap.clone(typedWriter);
+    expect(cloneWriter).toBeInstanceOf(typeClass);
+    if (typeof cloneWriter === "object") {
+      expect(
+        TypeStructuresBase.getTypeStructureForCallback(cloneWriter.writerFunction)
+      ).toBe(singletonWriter ? typedWriter : cloneWriter);
+      expect(cloneWriter.kind).toBe(typedWriter.kind);
+    }
+    expect(
+      TypeStructuresBase.getTypeStructureForCallback(typedWriter.writerFunction)
+    ).toBe(typedWriter);
+  }
+
   it("ArrayTypedStructureImpl", () => {
     const typedWriter = new ArrayTypeStructureImpl(fooTyped);
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe("foo[]");
 
     expect(typedWriter.kind).toBe(TypeStructureKind.Array);
+
+    checkCloneAndRegistration(typedWriter, ArrayTypeStructureImpl, false);
   });
 
   it("ConditionalTypedStructureImpl", () => {
@@ -76,6 +103,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     );
 
     expect(typedWriter.kind).toBe(TypeStructureKind.Conditional);
+    checkCloneAndRegistration(typedWriter, ConditionalTypeStructureImpl, false);
   });
 
   it("FunctionTypeStructureImpl", () => {
@@ -89,6 +117,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     expect<string>(writer.toString()).toBe("<UserType extends number = 6>(nst: NumberStringType): boolean");
 
     expect(typedWriter.kind).toBe(TypeStructureKind.Function);
+    checkCloneAndRegistration(typedWriter, FunctionTypeStructureImpl, false);
   });
 
   it("IndexedAccessTypeStructureImpl", () => {
@@ -103,7 +132,6 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     const typedWriter = new InferTypeStructureImpl(typeParam);
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe(`infer UserType extends number = 6`);
-
     expect(typedWriter.kind).toBe(TypeStructureKind.Infer);
   });
 
@@ -115,12 +143,14 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe(`foo & NumberStringType`);
     expect(typedWriter.kind).toBe(TypeStructureKind.Intersection);
+    checkCloneAndRegistration(typedWriter, IntersectionTypeStructureImpl, false);
   });
 
   it("LiteralTypeStructureImpl", () => {
     fooTyped.writerFunction(writer);
     expect<string>(writer.toString()).toBe("foo");
     expect(fooTyped.kind).toBe(TypeStructureKind.Literal);
+    checkCloneAndRegistration(fooTyped, LiteralTypeStructureImpl, false);
   });
 
   it("MappedTypeStructureImpl", () => {
@@ -132,6 +162,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     expect<string>(writer.toString()).toBe(`{\n    +readonly [UserType in number]: boolean;\n}`);
 
     expect(typedWriter.kind).toBe(TypeStructureKind.Mapped);
+    checkCloneAndRegistration(typedWriter, MappedTypeStructureImpl, false);
   });
 
   it("MemberedObjectTypeStructureImpl", () => {
@@ -151,6 +182,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     expect<string>(writer.toString()).toBe(`{\n    foo(firstArg: string): void;\n}`);
 
     expect(typedWriter.kind).toBe(TypeStructureKind.MemberedObject);
+    checkCloneAndRegistration(typedWriter, MemberedObjectTypeStructureImpl, false);
   });
 
   it("ParameterTypeStructureImpl", () => {
@@ -163,6 +195,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     typedWriter.typeStructure = nstTyped;
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe("nst: NumberStringType");
+    checkCloneAndRegistration(typedWriter, ParameterTypeStructureImpl, false);
   });
 
   it("ParenthesesTypeStructureImpl", () => {
@@ -183,6 +216,8 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     typedWriter.childTypes.push("unknown")
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe("(false)");
+
+    checkCloneAndRegistration(typedWriter, ParenthesesTypeStructureImpl, false);
   });
 
   it("PrefixOperatorsTypeStructureImpl", () => {
@@ -195,6 +230,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
 
     expect<string>(writer.toString()).toBe("typeof readonly NumberStringType");
     expect(typedWriter.kind).toBe(TypeStructureKind.PrefixOperators);
+    checkCloneAndRegistration(typedWriter, PrefixOperatorsTypeStructureImpl, false);
   });
 
   it("QualifiedNameTypeStructureImpl", () => {
@@ -205,12 +241,14 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe(`NumberStringType.foo`);
     expect(typedWriter.kind).toBe(TypeStructureKind.QualifiedName);
+    checkCloneAndRegistration(typedWriter, QualifiedNameTypeStructureImpl, false);
   });
 
   it("StringTypeStructureImpl", () => {
     stringBarTyped.writerFunction(writer);
     expect<string>(writer.toString()).toBe(`"bar"`);
     expect(stringBarTyped.kind).toBe(TypeStructureKind.String);
+    checkCloneAndRegistration(stringBarTyped, StringTypeStructureImpl, false);
   });
 
   it("TemplateLiteralTypeStructureImpl", () => {
@@ -228,6 +266,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     expect<string>(writer.toString()).toBe('`one${"A" | "B"}two${"C" | "D"}three`');
 
     expect(typedWriter.kind).toBe(TypeStructureKind.TemplateLiteral);
+    checkCloneAndRegistration(typedWriter, TemplateLiteralTypeStructureImpl, false);
   });
 
   it("TupleTypeStructureImpl", () => {
@@ -236,6 +275,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe(`[foo, NumberStringType]`);
     expect(typedWriter.kind).toBe(TypeStructureKind.Tuple);
+    checkCloneAndRegistration(typedWriter, TupleTypeStructureImpl, false);
   });
 
   it("TypeArgumentedTypeStructureImpl", () => {
@@ -245,6 +285,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     expect<string>(writer.toString()).toBe(`foo<"bar", NumberStringType>`);
 
     expect(typedWriter.kind).toBe(TypeStructureKind.TypeArgumented);
+    checkCloneAndRegistration(typedWriter, TypeArgumentedTypeStructureImpl, false);
   });
 
   it("UnionTypeStructureImpl", () => {
@@ -252,6 +293,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe(`foo | NumberStringType`);
     expect(typedWriter.kind).toBe(TypeStructureKind.Union);
+    checkCloneAndRegistration(typedWriter, UnionTypeStructureImpl, false);
   });
 
   it("WriterTypeStructureImpl", () => {
@@ -262,6 +304,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe(`hi mom`);
     expect(typedWriter.kind).toBe(TypeStructureKind.Writer);
+    checkCloneAndRegistration(typedWriter, WriterTypeStructureImpl, true);
   });
 
   it("TypeStructureClassesMap is complete", () => {
@@ -270,13 +313,5 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     ) as TypeStructureKind[];
 
     expect(TypeStructureClassesMap.size).toBe(kinds.length);
-  });
-
-  xit("Each test covers a .clone() method", () => {
-    expect(true).toBe(false);
-  });
-
-  xit("Each test covers a registerCallback case", () => {
-    expect(true).toBe(false);
   });
 });
