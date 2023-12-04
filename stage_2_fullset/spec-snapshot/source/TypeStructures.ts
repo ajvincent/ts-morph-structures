@@ -10,6 +10,7 @@ import {
   InferTypeStructureImpl,
   IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
+  MappedTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
   MethodSignatureImpl,
   ParameterDeclarationImpl,
@@ -105,6 +106,17 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     fooTyped.writerFunction(writer);
     expect<string>(writer.toString()).toBe("foo");
     expect(fooTyped.kind).toBe(TypeStructureKind.Literal);
+  });
+
+  it("MappedTypeStructureImpl", () => {
+    const typedWriter = new MappedTypeStructureImpl(typeParam);
+    typedWriter.readonlyToken = "+readonly";
+    typedWriter.type = "boolean";
+    typedWriter.writerFunction(writer);
+
+    expect<string>(writer.toString()).toBe(`{\n    +readonly [UserType in number]: boolean;\n}`);
+
+    expect(typedWriter.kind).toBe(TypeStructureKind.Mapped);
   });
 
   it("MemberedObjectTypeStructureImpl", () => {
@@ -244,8 +256,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
 
     let count = 0;
     for (const kind of kinds) {
-      if ((kind === TypeStructureKind.Function) ||
-          (kind === TypeStructureKind.Mapped)) {
+      if (kind === TypeStructureKind.Function) {
         // cannot support these yet
         continue;
       }

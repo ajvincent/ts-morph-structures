@@ -4,6 +4,7 @@ import IndexedAccessTypeStructureImpl from "./IndexedAccessTypeStructureImpl.js"
 import InferTypeStructureImpl from "./InferTypeStructureImpl.js";
 import IntersectionTypeStructureImpl from "./IntersectionTypeStructureImpl.js";
 import LiteralTypeStructureImpl from "./LiteralTypeStructureImpl.js";
+import MappedTypeStructureImpl from "./MappedTypeStructureImpl.js";
 import MemberedObjectTypeStructureImpl from "./MemberedObjectTypeStructureImpl.js";
 import ParameterTypeStructureImpl from "./ParameterTypeStructureImpl.js";
 import ParenthesesTypeStructureImpl from "./ParenthesesTypeStructureImpl.js";
@@ -23,6 +24,7 @@ export type TypeStructures =
   | InferTypeStructureImpl
   | IntersectionTypeStructureImpl
   | LiteralTypeStructureImpl
+  | MappedTypeStructureImpl
   | MemberedObjectTypeStructureImpl
   | ParameterTypeStructureImpl
   | ParenthesesTypeStructureImpl

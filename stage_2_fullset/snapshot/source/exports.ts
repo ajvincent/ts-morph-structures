@@ -60,6 +60,7 @@ export { default as IndexedAccessTypeStructureImpl } from "./typeStructures/Inde
 export { default as InferTypeStructureImpl } from "./typeStructures/InferTypeStructureImpl.js";
 export { default as IntersectionTypeStructureImpl } from "./typeStructures/IntersectionTypeStructureImpl.js";
 export { default as LiteralTypeStructureImpl } from "./typeStructures/LiteralTypeStructureImpl.js";
+export { default as MappedTypeStructureImpl } from "./typeStructures/MappedTypeStructureImpl.js";
 export { default as MemberedObjectTypeStructureImpl } from "./typeStructures/MemberedObjectTypeStructureImpl.js";
 export { default as ParameterTypeStructureImpl } from "./typeStructures/ParameterTypeStructureImpl.js";
 export { default as ParenthesesTypeStructureImpl } from "./typeStructures/ParenthesesTypeStructureImpl.js";
