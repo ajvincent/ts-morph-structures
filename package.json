@@ -5,12 +5,15 @@
   "main": "exports.js",
   "typings": "exports.d.ts",
   "type": "module",
+  "engines": {
+    "node": ">=18.19"
+  },
   "scripts": {
-    "build": "ts-node-esm ./build.ts",
-    "debug-build": "TSMS_DEBUG='build' ts-node-esm ./build.ts",
-    "debug-stage-one-test": "TSMS_DEBUG='stage_one_test' ts-node-esm ./build.ts",
-    "debug-stage-one-build": "TSMS_DEBUG='stage_one_build' ts-node-esm ./build.ts",
-    "debug-stage-two-test": "TSMS_DEBUG='stage_two_test' ts-node-esm ./build.ts",
+    "build": "node --import ./register-hooks.js ./build.ts",
+    "debug-build": "TSMS_DEBUG='build' node --import ./register-hooks.js ./build.ts",
+    "debug-stage-one-test": "TSMS_DEBUG='stage_one_test' node --import ./register-hooks.js ./build.ts",
+    "debug-stage-one-build": "TSMS_DEBUG='stage_one_build' node --import ./register-hooks.js ./build.ts",
+    "debug-stage-two-test": "TSMS_DEBUG='stage_two_test' node --import ./register-hooks.js ./build.ts",
     "tsc-tasks": "tsc --project ./utilities/source/tasks/tsconfig.json",
     "postinstall": "patch-package"
   },
