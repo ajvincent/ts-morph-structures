@@ -12,7 +12,11 @@ export default async function recursiveBuild(
   const child = spawn(
     "node",
     [
+      /*
       "../node_modules/ts-node/dist/bin-esm.js",
+      */
+      "--import",
+      "../register-hooks.js",
       relativePathToModule
     ],
     {
