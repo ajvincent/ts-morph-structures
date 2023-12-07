@@ -12,7 +12,7 @@ import {
 export default async function copySnapshot(): Promise<void> {
   await fs.rm(snapshotDir, { recursive: true, force: true });
 
-  const previousDist = pathToModule(stageDir, "../stage_2_docs/dist");
+  const previousDist = pathToModule(stageDir, "../stage_1_integration/snapshot");
 
   await fs.mkdir(snapshotDir, { recursive: true });
   await fs.cp(previousDist, snapshotDir, { recursive: true });

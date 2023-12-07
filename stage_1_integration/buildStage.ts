@@ -6,7 +6,7 @@ const BPSet = new BuildPromiseSet;
 {  // copySnapshot
   const target = BPSet.get("copySnapshot");
   target.addTask(async () => {
-    console.log("starting stage_2_fullset:copySnapshot");
+    console.log("starting stage_1_integration:copySnapshot");
     await copySnapshot();
   });
 }
@@ -15,7 +15,7 @@ const BPSet = new BuildPromiseSet;
   const target = BPSet.get("build");
 
   target.addTask(async (): Promise<void> => {
-    console.log("starting stage_2_docs:build");
+    console.log("starting stage_1_integration:build");
     const support = (await import("./build/support.js")).default;
     await support();
   });
