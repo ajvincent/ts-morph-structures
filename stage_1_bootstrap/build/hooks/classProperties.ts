@@ -663,7 +663,7 @@ else if (source.statements !== undefined) {
   statementsArray = [source.statements];
 }
 target.statements.push(
-  ...statementsArray.map(statement => this.#cloneStatement(statement))
+  ...statementsArray.map(statement => StatementedNodeStructureMixin.#cloneStatement(statement))
 );
     `);
   };

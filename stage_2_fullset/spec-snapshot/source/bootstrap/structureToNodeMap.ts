@@ -128,7 +128,7 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   expect(remainingKinds).withContext("unexamined kinds").toEqual([]);
 });
 
-xit("structureToNodeMap can use the type-aware structures", () => {
+it("structureToNodeMap can use the type-aware structures", () => {
   function checkMap(
     pathToModuleFile: string
   ): ReadonlyMap<Structures, Node>
