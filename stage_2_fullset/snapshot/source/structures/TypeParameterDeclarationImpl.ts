@@ -32,13 +32,23 @@ const TypeParameterDeclarationStructureBase = MultiMixinBuilder<
   typeof StructureBase
 >([NamedNodeStructureMixin, StructureMixin], StructureBase);
 
+interface ConstraintInterface {
+  constraintStructure: string | TypeStructures | undefined;
+}
+
+interface DefaultInterface {
+  defaultStructure: string | TypeStructures | undefined;
+}
+
 export default class TypeParameterDeclarationImpl
   extends TypeParameterDeclarationStructureBase
   implements
     RequiredOmit<
       PreferArrayFields<TypeParameterDeclarationStructure>,
       "constraint" | "default" | "variance"
-    >
+    >,
+    ConstraintInterface,
+    DefaultInterface
 {
   readonly kind: StructureKind.TypeParameter = StructureKind.TypeParameter;
   readonly #constraintManager = new TypeAccessors();

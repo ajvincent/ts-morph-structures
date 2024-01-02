@@ -79,13 +79,23 @@ const ClassDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
+interface ImplementsInterface {
+  implementsSet: TypeStructureSet;
+}
+
+interface ExtendsInterface {
+  extendsStructure: string | TypeStructures | undefined;
+}
+
 export default class ClassDeclarationImpl
   extends ClassDeclarationStructureBase
   implements
     RequiredOmit<
       PreferArrayFields<ClassDeclarationStructure>,
       "extends" | "name"
-    >
+    >,
+    ImplementsInterface,
+    ExtendsInterface
 {
   static readonly #implementsArrayReadonlyHandler =
     new ReadonlyArrayProxyHandler(

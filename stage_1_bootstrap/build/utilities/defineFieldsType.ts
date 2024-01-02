@@ -1,10 +1,11 @@
 // #region preamble
 import {
   LiteralTypedStructureImpl,
+  IntersectionTypedStructure,
+  IntersectionTypedStructureImpl,
   MemberedObjectTypeStructureImpl,
   PrefixOperatorsTypedStructureImpl,
   PropertySignatureImpl,
-  TypeArgumentedTypedStructure,
   TypeArgumentedTypedStructureImpl,
   TypeAliasDeclarationImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
@@ -15,7 +16,7 @@ import ConstantTypeStructures from "./ConstantTypeStructures.js";
 
 type FieldsTypeAliasContext = {
   fieldType: TypeAliasDeclarationImpl;
-  instanceFieldsArgumented: TypeArgumentedTypedStructure;
+  instanceFieldsArgumented: IntersectionTypedStructure;
 }
 
 export default function defineFieldsType(
@@ -37,15 +38,7 @@ export default function defineFieldsType(
   typeArgumented = new TypeArgumentedTypedStructureImpl(
     ConstantTypeStructures.RequiredOmit, [typeArgumented]
   );
-  instanceFields.typeStructure = typeArgumented;
-  /*
-  instanceFields.typeStructure = new TypeArgumentedTypedStructureImpl(
-    ConstantTypeStructures.Required,
-    [
-      new LiteralTypedStructureImpl(name)
-    ]
-  );
-  */
+  instanceFields.typeStructure = new IntersectionTypedStructureImpl([typeArgumented]);
 
   const symbolKey = new PropertySignatureImpl("symbolKey");
   symbolKey.typeStructure = new PrefixOperatorsTypedStructureImpl(

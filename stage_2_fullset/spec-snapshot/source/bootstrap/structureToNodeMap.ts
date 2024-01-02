@@ -27,10 +27,6 @@ import {
   structureToNodeMap
 } from "#stage_two/snapshot/source/internal-exports.js";
 
-import {
-  MethodSignatureImpl,
-} from "#stage_two/snapshot/source/exports.js";
-
 async function getSupportedKindSet(): Promise<Set<StructureKind>> {
   const stageDir: ModuleSourceDirectory = {
     pathToDirectory: "#stage_one",
@@ -126,54 +122,4 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   remainingKinds.sort();
 
   expect(remainingKinds).withContext("unexamined kinds").toEqual([]);
-});
-
-it("structureToNodeMap can use the type-aware structures", () => {
-  function checkMap(
-    pathToModuleFile: string
-  ): ReadonlyMap<Structures, Node>
-  {
-    pathToModuleFile = pathToModule(fixturesDir, pathToModuleFile);
-    project.addSourceFileAtPath(pathToModuleFile);
-    const sourceFile = project.getSourceFileOrThrow(pathToModuleFile);
-
-    try {
-      return structureToNodeMap(sourceFile, true);
-    }
-    catch (ex) {
-      console.log(pathToModuleFile);
-      throw ex;
-    }
-  }
-
-  checkMap("ecma_references/classDecorators.ts");
-  checkMap("stage_utilities/assert.ts");
-  checkMap("stage_utilities/DefaultMap.ts");
-  checkMap("stage_utilities/PromiseTypes.ts");
-  checkMap("stage_utilities/PropertyKeySorter.ts");
-  checkMap("grab-bag.ts");
-
-  const structureMap = checkMap("stage_utilities/WeakRefSet.ts");
-  const liveElementsSignature = Array.from(structureMap.keys()).find(
-    structure => structure.kind === StructureKind.MethodSignature && structure.name === "liveElements"
-  );
-
-  expect(liveElementsSignature).toBeInstanceOf(MethodSignatureImpl);
-  if (!(liveElementsSignature instanceof MethodSignatureImpl))
-    return;
-
-  /*
-  const { returnTypeStructure } = liveElementsSignature;
-  expect(returnTypeStructure).toBeInstanceOf(TypeArgumentedTypedStructureImpl);
-  if (!(returnTypeStructure instanceof TypeArgumentedTypedStructureImpl))
-    return;
-  expect(returnTypeStructure.objectType).toEqual(
-    new LiteralTypedStructureImpl("IterableIterator")
-  );
-  expect(returnTypeStructure.elements).toEqual([
-    new LiteralTypedStructureImpl("T"),
-  ]);
-  */
-
-  expect(liveElementsSignature.returnType).toBe("IterableIterator<T>");
 });

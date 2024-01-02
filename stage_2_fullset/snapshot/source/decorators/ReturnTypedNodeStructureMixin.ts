@@ -27,10 +27,15 @@ export type ReturnTypedNodeStructureFields = RightExtendsLeft<
     instanceFields: RequiredOmit<
       PreferArrayFields<ReturnTypedNodeStructure>,
       "returnType"
-    >;
+    > &
+      ReturnTypeInterface;
     symbolKey: typeof ReturnTypedNodeStructureKey;
   }
 >;
+
+interface ReturnTypeInterface {
+  returnTypeStructure: string | TypeStructures | undefined;
+}
 
 export default function ReturnTypedNodeStructureMixin(
   baseClass: typeof StructureBase,

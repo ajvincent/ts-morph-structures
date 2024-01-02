@@ -167,7 +167,7 @@ function addStructureField(
 
   if (prop.hasQuestionToken) {
     if ("fieldsInstanceType" in parts) {
-      omitPropertyFromRequired(parts.fieldsInstanceType as TypeArgumentedTypedStructureImpl, propertyKey);
+      omitPropertyFromRequired(parts.fieldsInstanceType.childTypes[0] as TypeArgumentedTypedStructureImpl, propertyKey);
     }
     else {
       omitFromClassRequired(parts.classDecl, propertyKey);

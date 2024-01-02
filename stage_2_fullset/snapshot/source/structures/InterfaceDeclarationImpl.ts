@@ -72,9 +72,15 @@ const InterfaceDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
+interface ExtendsInterface {
+  extendsSet: TypeStructureSet;
+}
+
 export default class InterfaceDeclarationImpl
   extends InterfaceDeclarationStructureBase
-  implements RequiredOmit<PreferArrayFields<InterfaceDeclarationStructure>>
+  implements
+    RequiredOmit<PreferArrayFields<InterfaceDeclarationStructure>>,
+    ExtendsInterface
 {
   static readonly #extendsArrayReadonlyHandler = new ReadonlyArrayProxyHandler(
     "The extends array is read-only.  Please use this.extendsSet to set strings and type structures.",

@@ -24,10 +24,18 @@ export type TypedNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof TypedNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<TypedNodeStructure>, "type">;
+    instanceFields: RequiredOmit<
+      PreferArrayFields<TypedNodeStructure>,
+      "type"
+    > &
+      TypeInterface;
     symbolKey: typeof TypedNodeStructureKey;
   }
 >;
+
+interface TypeInterface {
+  typeStructure: string | TypeStructures | undefined;
+}
 
 export default function TypedNodeStructureMixin(
   baseClass: typeof StructureBase,

@@ -31,7 +31,6 @@ import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.j
 import ImportManager from "#stage_one/build/utilities/public/ImportManager.js";
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 
-
 export default function createStructureParts(
   name: string,
   meta: StructureImplMeta,
@@ -99,6 +98,8 @@ export default function createStructureParts(
     >,
     dictionaries
   );
+
+  parts.moduleInterfaces = [];
 
   dictionaries.structureParts.set(meta, parts as StructureParts);
   return Promise.resolve();

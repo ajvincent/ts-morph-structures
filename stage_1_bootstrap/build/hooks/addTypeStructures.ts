@@ -17,8 +17,11 @@ import {
 
 import {
   GetAccessorDeclarationImpl,
+  InterfaceDeclarationImpl,
+  LiteralTypedStructureImpl,
   ParameterDeclarationImpl,
   PropertyDeclarationImpl,
+  PropertySignatureImpl,
   SetAccessorDeclarationImpl,
   UnionTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
@@ -172,6 +175,28 @@ function addTypeStructureSet(
     typeGetter,
     typeStructureSetProp,
   ]);
+
+  // add the necessary interface to the class
+  {
+    let name = propertyKey + "Interface";
+    name = name[0].toUpperCase() + name.substring(1);
+
+    const typeInterface = new InterfaceDeclarationImpl(name);
+    parts.moduleInterfaces.push(typeInterface);
+
+    const typeProperty = new PropertySignatureImpl(typeStructureSetProp.name);
+    typeProperty.typeStructure = new LiteralTypedStructureImpl("TypeStructureSet");
+    typeInterface.properties.push(typeProperty);
+
+    const interfaceNameLiteral = new LiteralTypedStructureImpl(name);
+
+    if ("fieldsInstanceType" in parts) {
+      parts.fieldsInstanceType.appendStructures([interfaceNameLiteral]);
+    }
+    else {
+      parts.classDecl.implementsSet.add(interfaceNameLiteral);
+    }
+  }
 }
 
 function addTypeAccessor(
@@ -259,7 +284,7 @@ function addTypeAccessor(
     isTypeOnly: false
   });
 
-  const existingStatements =   parts.classFieldsStatements.get(
+  const existingStatements = parts.classFieldsStatements.get(
     propertyKey,
     COPY_FIELDS_NAME
   )!;
@@ -275,4 +300,26 @@ function addTypeAccessor(
     structureGetAccessor,
     structureSetAccessor,
   ]);
+
+  // add the necessary interface to the class
+  {
+    let name = propertyKey + "Interface";
+    name = name[0].toUpperCase() + name.substring(1);
+
+    const typeInterface = new InterfaceDeclarationImpl(name);
+    parts.moduleInterfaces.push(typeInterface);
+
+    const typeProperty = new PropertySignatureImpl(structureGetAccessor.name);
+    typeProperty.typeStructure = structureGetAccessor.returnTypeStructure;
+    typeInterface.properties.push(typeProperty);
+
+    const interfaceNameLiteral = new LiteralTypedStructureImpl(name);
+
+    if ("fieldsInstanceType" in parts) {
+      parts.fieldsInstanceType.appendStructures([interfaceNameLiteral]);
+    }
+    else {
+      parts.classDecl.implementsSet.add(interfaceNameLiteral);
+    }
+  }
 }

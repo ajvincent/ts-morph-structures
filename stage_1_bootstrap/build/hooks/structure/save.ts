@@ -37,6 +37,7 @@ export default async function saveDecoratorFile(
     ...parts.importsManager.getDeclarations(),
     "//#endregion preamble",
     parts.mixinBaseWriter,
+    ...parts.moduleInterfaces,
     parts.classDecl,
     satisfiesCloneableWriter(meta.structureName, parts.classDecl),
     addToCloneableMapWriter(meta.structureKindName, parts.classDecl)

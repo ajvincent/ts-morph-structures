@@ -30,6 +30,7 @@ export default async function saveDecoratorFile(
     "//#endregion preamble",
     declareConstSymbol(meta.structureName),
     parts.fieldsTypeAlias,
+    ...parts.moduleInterfaces,
     parts.wrapperFunction,
     defineSatisfiesWriter(parts.wrapperFunction, parts.fieldsTypeAlias),
   ];

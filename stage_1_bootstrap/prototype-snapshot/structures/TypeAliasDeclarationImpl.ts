@@ -41,6 +41,7 @@ import type {
 } from "../types/CloneableStructure.js";
 import { ReplaceWriterInProperties } from "../types/ModifyWriterInTypes.js";
 import { replaceWriterWithString } from "../base/utilities.js";
+import { stringOrWriterFunction } from "../exports.js";
 // #endregion preamble
 
 const TypeAliasDeclarationBase = MultiMixinBuilder<
@@ -73,11 +74,15 @@ extends TypeAliasDeclarationBase
 implements TypeAliasDeclarationStructure
 {
   constructor(
-    name: string
+    name: string,
+    type?: stringOrWriterFunction
   )
   {
     super();
     this.name = name;
+    if (type) {
+      this.type = type;
+    }
   }
 
   get type(): string | WriterFunction

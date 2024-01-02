@@ -33,7 +33,7 @@ export default function sortRequiredOmit(
 
   let typeArgumented: TypeArgumentedTypedStructure;
   if ("fieldsInstanceType" in parts)
-    typeArgumented = parts.fieldsInstanceType;
+    typeArgumented = parts.fieldsInstanceType.childTypes[0] as TypeArgumentedTypedStructure;
   else {
     const { implementsSet } = parts.classDecl;
     const implementsArray = Array.from(implementsSet);

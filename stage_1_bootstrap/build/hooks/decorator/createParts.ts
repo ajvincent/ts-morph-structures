@@ -59,6 +59,8 @@ export default function createDecoratorParts(
     throw new Error("no name for wrapper function? " + name);
   }
 
+  parts.moduleInterfaces = [];
+
   dictionaries.decoratorParts.set(meta, parts as DecoratorParts);
   return Promise.resolve();
 }

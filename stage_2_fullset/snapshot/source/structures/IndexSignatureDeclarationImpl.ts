@@ -47,13 +47,18 @@ const IndexSignatureDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
+interface KeyTypeInterface {
+  keyTypeStructure: string | TypeStructures | undefined;
+}
+
 export default class IndexSignatureDeclarationImpl
   extends IndexSignatureDeclarationStructureBase
   implements
     RequiredOmit<
       PreferArrayFields<IndexSignatureDeclarationStructure>,
       "keyName" | "keyType" | "returnType"
-    >
+    >,
+    KeyTypeInterface
 {
   readonly kind: StructureKind.IndexSignature = StructureKind.IndexSignature;
   readonly #keyTypeManager = new TypeAccessors();

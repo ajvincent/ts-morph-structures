@@ -10,10 +10,11 @@ import {
 import {
   ClassDeclarationImpl,
   FunctionDeclarationImpl,
+  InterfaceDeclarationImpl,
+  IntersectionTypedStructure,
   MethodDeclarationImpl,
   SourceFileImpl,
   TypeAliasDeclarationImpl,
-  TypeArgumentedTypedStructure,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import {
@@ -52,10 +53,11 @@ export interface DecoratorParts {
   classFieldsStatements: ClassFieldStatementsMap;
   classMembersMap: ClassMembersMap;
   importsManager: ImportManager;
+  moduleInterfaces: InterfaceDeclarationImpl[];
   sourceFile: SourceFileImpl;
   copyFields: MethodDeclarationImpl;
   fieldsTypeAlias: TypeAliasDeclarationImpl;
-  fieldsInstanceType: TypeArgumentedTypedStructure;
+  fieldsInstanceType: IntersectionTypedStructure;
   wrapperFunction: FunctionDeclarationImpl;
 }
 
@@ -65,6 +67,7 @@ export interface StructureParts {
   classFieldsStatements: ClassFieldStatementsMap;
   classMembersMap: ClassMembersMap;
   importsManager: ImportManager;
+  moduleInterfaces: InterfaceDeclarationImpl[];
   sourceFile: SourceFileImpl;
   copyFields: MethodDeclarationImpl;
 }
