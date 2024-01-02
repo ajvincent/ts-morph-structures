@@ -1,5 +1,8 @@
 // #region preamble
+import assert from 'node:assert/strict'
+
 import path from "path";
+
 import {
   CodeBlockWriter,
   StructureKind,
@@ -37,7 +40,6 @@ import {
   StructureImplMeta,
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
-import assert from 'node:assert/strict'
 import pairedWrite from "../utilities/pairedWrite.js";
 import ClassFieldStatementsMap from "../utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "../utilities/public/ClassMembersMap.js";
@@ -619,7 +621,7 @@ function write_cloneStatementsArray(
     const statementsArrayType = statementsProp.typeStructure!;
     assert(statementsArrayType.kind === TypeStructureKind.Array, `expected Array type structure`);
     const parensType = (statementsArrayType as ArrayTypedStructureImpl).objectType;
-    assert(parensType.kind === TypeStructureKind.Parentheses, `expected Parenthese type structure`);
+    assert(parensType.kind === TypeStructureKind.Parentheses, `expected Parentheses type structure`);
     const unionType = (parensType as ParenthesesTypedStructureImpl).childTypes[0];
     assert(unionType.kind === TypeStructureKind.Union, `expected Union type structure`);
     const literalType = (unionType as UnionTypedStructureImpl).childTypes[1];
