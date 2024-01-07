@@ -24,7 +24,8 @@ import {
 
 import {
   StructureKindToSyntaxKindMap,
-  structureToNodeMap
+  structureToNodeMap,
+  structureImplToNodeMap,
 } from "#stage_two/snapshot/source/internal-exports.js";
 
 async function getSupportedKindSet(): Promise<Set<StructureKind>> {
@@ -104,6 +105,9 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
       }
       remainingKeys.delete(structure.kind);
     });
+
+    const mapWithTypes = structureImplToNodeMap(sourceFile);
+    expect(mapWithTypes.size).toBe(map.size);
   }
 
   checkMap("ecma_references/classDecorators.ts");

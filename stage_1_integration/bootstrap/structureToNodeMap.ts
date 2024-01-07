@@ -12,26 +12,42 @@ import {
 } from "ts-morph";
 
 import {
+  type StructureImpls,
   StructureKindToSyntaxKindMap,
   StructuresClassesMap
 } from "../snapshot/source/internal-exports.js";
+
+import type {
+  NodeWithStructures
+} from "./types/conversions.js";
 // #endregion preamble
 
 const knownSyntaxKinds = new Set<SyntaxKind>(StructureKindToSyntaxKindMap.values());
-
-export interface NodeWithStructures extends Node {
-  getStructure(): Structures;
-}
 
 /**
  * Get structures for a node and its descendants.
  * @param nodeWithStructures - The node.
  * @returns a map of structures to their original nodes.
+ * @internal
  */
-export default function structureToNodeMap(
+export function structureImplToNodeMap(
+  nodeWithStructures: NodeWithStructures,
+): ReadonlyMap<StructureImpls, Node>
+{
+  return structureToNodeMap(nodeWithStructures, true) as ReadonlyMap<StructureImpls, Node>;
+}
+
+/**
+ * Get structures for a node and its descendants.
+ * @param nodeWithStructures - The node.
+ * @param useTypeAwareStructures - true if we should use the StructureImpls.
+ * @returns a map of structures to their original nodes.
+ * @internal
+ */
+export function structureToNodeMap(
   nodeWithStructures: NodeWithStructures,
   useTypeAwareStructures: boolean,
-): Map<Structures, Node>
+): ReadonlyMap<Structures, Node>
 {
   return (new StructureAndNodeData(
     nodeWithStructures,

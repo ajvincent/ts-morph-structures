@@ -207,8 +207,11 @@ async function defineExistingExports(
 
   dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/bootstrap/structureToNodeMap.ts"),
-    exportNames: ["structureToNodeMap"],
-    isDefaultExport: true,
+    exportNames: [
+      "structureToNodeMap",
+      "structureImplToNodeMap"
+    ],
+    isDefaultExport: false,
     isType: false
   });
 
