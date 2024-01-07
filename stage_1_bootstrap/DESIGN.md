@@ -36,7 +36,7 @@ For decorators which implement anything more complicated than simple booleans, I
 
 ### `StructureBase`
 
-All ts-morph structure classes inherit from [`StructureBase`](./prototype-snapshot/base/StructureBase.mts), for `leadingTrivia` and `trailingTrivia` support.  (These are comments before and after a structure).
+All ts-morph structure classes inherit from [`StructureBase`](./prototype-snapshot/base/StructureBase.ts), for `leadingTrivia` and `trailingTrivia` support.  (These are comments before and after a structure).
 
 ### Classes maps
 
@@ -131,7 +131,7 @@ The setter for `type` is somewhat smarter:
 
 ### Using `TypeAccessors` in structure classes and decorators
 
-Here's the class which [the `@ReturnTypedNode` decorator](./prototype-snapshot/decorators/ReturnTypedNode.mts) provides:
+Here's the class which [the `@ReturnTypedNode` decorator](./prototype-snapshot/decorators/ReturnTypedNode.ts) provides:
 
 ```typescript
 return class extends baseClass {
@@ -175,7 +175,7 @@ Other cases where we need to provide a type and a type structure follow the same
 
 ### Type structure registry (writer functions support)
 
-[`source/base/callbackToTypeStructureRegistry.mts`](source/base/callbackToTypeStructureRegistry.mts) implements a `WeakMap<WriterFunction, TypeStructures>`.  This is how `TypeAccessors` knows when to store an existing type structure and when to create a new one.
+[`source/base/callbackToTypeStructureRegistry.ts`](source/base/callbackToTypeStructureRegistry.ts) implements a `WeakMap<WriterFunction, TypeStructures>`.  This is how `TypeAccessors` knows when to store an existing type structure and when to create a new one.
 
 ### Type arrays: `class implements`, `interface extends`
 
@@ -197,7 +197,7 @@ That said, proxies are pretty obscure (and difficult to get right), and I felt f
 
 ### `ReadonlyProxyArrayHandler`
 
-[`ReadonlyProxyArrayHandler.mts`](./prototype-snapshot/array-utilities/ReadonlyArrayProxyHandler.mts) provides a minimalist proxy handler for reading index properties, and getting readonly methods (and the length) of a backing array of real strings and writer functions.  
+[`ReadonlyProxyArrayHandler.ts`](./prototype-snapshot/array-utilities/ReadonlyArrayProxyHandler.ts) provides a minimalist proxy handler for reading index properties, and getting readonly methods (and the length) of a backing array of real strings and writer functions.  
 
 When the user tries to set a property through the array, or access a method which would modify the array, the proxy handler throws an exception with a specific message.  The message comes from the proxy handler constructor.  The idea is the creator of the proxy handler will tell the user about the safe alternative for setting values.
 
@@ -243,7 +243,7 @@ The source code for these lives in the [source/bootstrap](./prototype-snapshot/b
 
 ### Structure-to-node map
 
-First I have to match [ts-morph structures to ts-morph nodes](./prototype-snapshot/bootstrap/structureToNodeMap.mts).  This involves a multi-step process:
+First I have to match [ts-morph structures to ts-morph nodes](./prototype-snapshot/bootstrap/structureToNodeMap.ts).  This involves a multi-step process:
 
 1. Walk the tree of nodes from a root node, generating string hashes for each node.  Collect the nodes by hash in a `Map<string, Set<Node>>`.
 1. Get the structure from the root node, then clone it using the structure classes map.
@@ -259,7 +259,7 @@ There are nuances to both node trees and structure trees which make this a speci
 
 ### Finding the type nodes for a given node
 
-Next we need to [find where the type nodes are](./prototype-snapshot/bootstrap/buildTypesForStructures.mts) for each structure we care about.  This takes a `Map<Structures, Node>`, and a special type node converter (which I describe in the next section) and for each structure-node pair, runs the following algorithm:
+Next we need to [find where the type nodes are](./prototype-snapshot/bootstrap/buildTypesForStructures.ts) for each structure we care about.  This takes a `Map<Structures, Node>`, and a special type node converter (which I describe in the next section) and for each structure-node pair, runs the following algorithm:
 
 1. Check the structure's kind property for structure-specific interfaces.
 1. Assert the node is of the same type as the structure.  If it isn't, throw an exception.
@@ -269,7 +269,7 @@ At the end of the run, it returns all the failures the type node converter repor
 
 ### Convert one type node to a type structure
 
-Once we have a type node, we need to create a type structure for it.  [This is the purpose of `convertTypeNode()`](./prototype-snapshot/bootstrap/convertTypeNode.mts).
+Once we have a type node, we need to create a type structure for it.  [This is the purpose of `convertTypeNode()`](./prototype-snapshot/bootstrap/convertTypeNode.ts).
 
 1. Check what kind of type node it is.
 2. Gather child type nodes belonging to the type node.
@@ -295,7 +295,7 @@ The `buildTypesForStructures()` function handles a null return from `convertType
 
 ### Driving with `getTypeAugmentedStructure()`
 
-[The `getTypeAugmentedStructure()` function](./prototype-snapshot/bootstrap/getTypeAugmentedStructure.mts) integrates all the above together.
+[The `getTypeAugmentedStructure()` function](./prototype-snapshot/bootstrap/getTypeAugmentedStructure.ts) integrates all the above together.
 
 1. It takes a callback function for type-to-type-structure conversion failures.
 1. It calls `structureToNodeMap()` to get a `Map<Structures, Node>`.
@@ -344,7 +344,7 @@ My testing plan right now is "use it, and when it breaks, fix it and write tests
 
 Of course, I would prefer explicit tests of every structure class.  Normally, I'd write those tests up front.  I didn't this time, because (a) these classes do compile against the ts-morph structure interfaces, and (b) most of the time, the structure fields are dumb objects, not needing any special treatment.  
 
-Augmenting structures with type structures, and cloning structures, was really the only part where I'm adding intelligence.  [The type structures _do_ have unit tests](./spec/TypeStructure.mts).  
+Augmenting structures with type structures, and cloning structures, was really the only part where I'm adding intelligence.  [The type structures _do_ have unit tests](./spec/TypeStructure.ts).  
 
 ### What's not in the future plan?
 
@@ -384,13 +384,13 @@ Augmenting structures with type structures, and cloning structures, was really t
     - [ ] Use `StructureClassesMap.clone()` and your decorators' `cloneFoo(source, target)` functions where practical
   - [ ] Add a `satisfies` constraint for your class for the static clone method:  `ClassDeclarationImpl satisfies CloneableStructure<ClassDeclarationStructure>;` for example
   - [ ] Add your class to the `StructureClassesMap`, with the key being your `StructureKind`.
-  - [ ] Add your class as an export from `exports.mts`
+  - [ ] Add your class as an export from `exports.ts`
   - [ ] Write whatever tests and/or documentation you feel is appropriate
 
 ### Checklist for adding a new type structure class
 
-- In [source/base/TypeStructureKind.mts](./prototype-snapshot/base/TypeStructureKind.mts), append a new enum member of `TypeStructureKind`
-- In [TypeStructures.mts](./prototype-snapshot/typeStructures/TypeStructures.mts), define the type alias your type structure class will implement
+- In [source/base/TypeStructureKind.ts](./prototype-snapshot/base/TypeStructureKind.ts), append a new enum member of `TypeStructureKind`
+- In [TypeStructures.ts](./prototype-snapshot/typeStructures/TypeStructures.ts), define the type alias your type structure class will implement
   - Include `KindedStructure<TypeStructureKind.YourNewType>`
     - Depending on child types, this may be `TypedStructureWithChildren` or `TypedStructureWithOneChild`.
   - Include `ReplaceableDescendants`
@@ -417,7 +417,7 @@ Augmenting structures with type structures, and cloning structures, was really t
     - [ ] Use `TypeStructureClassesMap.clone()` (or `cloneArray()`) and your decorators' `cloneFoo(source, target)` functions where practical
   - [ ] Add a `satisfies` constraint for your class for the static clone method:  `ConditionalTypedStructureImpl satisfies CloneableStructure<ConditionalTypedStructure>;` for example
   - [ ] Add your class to the `TypeStructureClassesMap`, with your key being your `TypeStructureKind`
-  - [ ] Add your class as an export from `exports.mts`
+  - [ ] Add your class as an export from `exports.ts`
   - [ ] Write whatever tests and/or documentation you feel is appropriate
 - Update [convertTypeNode.ts](./prototype-snapshot/bootstrap/convertTypeNode.ts) and its corresponding [test file](./spec-snapshot/bootstrap/convertTypeNode.ts) for the new structure and its matching type node.
 - Update the [README.md](./README.md) file for the new type structure.

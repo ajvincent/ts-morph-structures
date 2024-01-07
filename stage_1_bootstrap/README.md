@@ -55,7 +55,7 @@ Depending on community feedback, I may publish an independent package on `npmjs.
 ## Generating structures from existing code
 
 ```typescript
-import { getTypeAugmentedStructure } from "#ts-morph_structures/exports.mts";
+import { getTypeAugmentedStructure } from "#ts-morph_structures/exports.ts";
 const { rootStructure, failures } = getTypeAugmentedStructure(nodeWithGetStructures);
 ```
 
@@ -94,26 +94,26 @@ export class TypePrinterSettingsBase {
 
 | Class name | Examples | Key properties |
 |------------|----------|----------------|
-| [LiteralTypedStructureImpl](./prototype-snapshot/typeStructures/LiteralTypedStructureImpl.mts) | `string`, `number`, identifiers, etc. | stringValue |
-| [StringTypedStructureImpl](./prototype-snapshot/typeStructures/StringTypedStructureImpl.mts)  | `"Hello World"` | stringValue |
-| [SymbolKeyTypedStructureImpl](./prototype-snapshot/typeStructures/SymbolKeyTypedStructureImpl.mts) | `{ [YourSymbol]: boolean; }` | stringValue |
-| [WriterTypedStructureImpl](./prototype-snapshot/typeStructures/WriterTypedStructureImpl.mts) | Wrapper for `(writer: CodeBlockWriter) => void` | writerFunction |
-| [ParenthesesTypedStructureImpl](./prototype-snapshot/typeStructures/ParenthesesTypedStructureImpl.mts) | `(string)` | childTypes (only one) |
-| [PrefixOperatorsTypedStructureImpl](./prototype-snapshot/typeStructures/PrefixOperatorsTypedStructureImpl.mts) | `keyof typeof MyClass` | operators, childTypes (only one) |
-| [ArrayTypedStructureImpl](./prototype-snapshot/typeStructures/ArrayTypedStructureImpl.mts) | `string[]` | objectType |
-| [TupleTypedStructureImpl](./prototype-snapshot/typeStructures/TupleTypedStructureImpl.mts) | `[string, number]` | childTypes |
-| [IndexedAccessStructureImpl](./prototype-snapshot/typeStructures/IndexedAccessTypedStructureImpl.mts) | `NumberStringType["repeatForward"]` | objectType, indexType |
-| [UnionTypedStructureImpl](./prototype-snapshot/typeStructures/UnionTypedStructureImpl.mts) | "one" &#x7c; "two" &#x7c; "three" | childTypes |
-| [IntersectionTypedStructureImpl](./prototype-snapshot/typeStructures/IntersectionTypedStructureImpl.mts) | `Foo & Bar` | childTypes |
+| [LiteralTypedStructureImpl](./prototype-snapshot/typeStructures/LiteralTypedStructureImpl.ts) | `string`, `number`, identifiers, etc. | stringValue |
+| [StringTypedStructureImpl](./prototype-snapshot/typeStructures/StringTypedStructureImpl.ts)  | `"Hello World"` | stringValue |
+| [SymbolKeyTypedStructureImpl](./prototype-snapshot/typeStructures/SymbolKeyTypedStructureImpl.ts) | `{ [YourSymbol]: boolean; }` | stringValue |
+| [WriterTypedStructureImpl](./prototype-snapshot/typeStructures/WriterTypedStructureImpl.ts) | Wrapper for `(writer: CodeBlockWriter) => void` | writerFunction |
+| [ParenthesesTypedStructureImpl](./prototype-snapshot/typeStructures/ParenthesesTypedStructureImpl.ts) | `(string)` | childTypes (only one) |
+| [PrefixOperatorsTypedStructureImpl](./prototype-snapshot/typeStructures/PrefixOperatorsTypedStructureImpl.ts) | `keyof typeof MyClass` | operators, childTypes (only one) |
+| [ArrayTypedStructureImpl](./prototype-snapshot/typeStructures/ArrayTypedStructureImpl.ts) | `string[]` | objectType |
+| [TupleTypedStructureImpl](./prototype-snapshot/typeStructures/TupleTypedStructureImpl.ts) | `[string, number]` | childTypes |
+| [IndexedAccessStructureImpl](./prototype-snapshot/typeStructures/IndexedAccessTypedStructureImpl.ts) | `NumberStringType["repeatForward"]` | objectType, indexType |
+| [UnionTypedStructureImpl](./prototype-snapshot/typeStructures/UnionTypedStructureImpl.ts) | "one" &#x7c; "two" &#x7c; "three" | childTypes |
+| [IntersectionTypedStructureImpl](./prototype-snapshot/typeStructures/IntersectionTypedStructureImpl.ts) | `Foo & Bar` | childTypes |
 | [QualifiedNameTypedStructureImpl](./prototype-snapshot/typeStructures//QualifiedNameTypedStructureImpl.ts) | `SyntaxKind.SourceFile` | childTypes |
-| [TypeArgumentedTypedStructureImpl](./prototype-snapshot/typeStructures/TypeArgumentedTypedStructureImpl.mts) | `Pick<Array, "slice">` | objectType, childTypes |
-| [ConditionalTypedStructureImpl](./prototype-snapshot/typeStructures/ConditionalTypedStructureImpl.mts) | `foo extends true ? string : never` | checkType, extendsType, trueType, falseType |
-| [MappedTypeTypedStructureImpl](./prototype-snapshot/typeStructures/MappedTypeTypedStructureImpl.mts) | `{ readonly [key in keyof Foo]: boolean }` | parameter, type |
-| [FunctionTypedStructureImpl](./prototype-snapshot/typeStructures/FunctionTypedStructureImpl.mts) | `("new" or "get" or "set" or "") name&lt;typeParameters&gt;(parameters, ...restParameter) ("=>" or ":" ) returnType` | name, typeParameters, parameters, restParameter, returnType, writerStyle |
-| [ParameterTypedStructureImpl](./prototype-snapshot/typeStructures/ParameterTypedStructureImpl.mts) | `foo: boolean` | name, typeStructure |
-| [TemplateLiteralTypedStructureImpl](./prototype-snapshot/typeStructures/TemplateLiteralTypedStructureImpl.mts) | &#x60;`one${"A"}two${"C"}three`&#x60; | childTypes |
-| [ObjectLiteralTypedStructureImpl](./prototype-snapshot/typeStructures/ObjectLiteralTypedStructureImpl.mts) | See below | callSignatures, constructSignatures, indexSignatures, methods, properties |
-| [InferTypedStructureImpl](./prototype-snapshot/typeStructures/InferTypedStructureImpl.mts) | `Elements extends [infer Head, ...infer Tail]` | typeParameter |
+| [TypeArgumentedTypedStructureImpl](./prototype-snapshot/typeStructures/TypeArgumentedTypedStructureImpl.ts) | `Pick<Array, "slice">` | objectType, childTypes |
+| [ConditionalTypedStructureImpl](./prototype-snapshot/typeStructures/ConditionalTypedStructureImpl.ts) | `foo extends true ? string : never` | checkType, extendsType, trueType, falseType |
+| [MappedTypeTypedStructureImpl](./prototype-snapshot/typeStructures/MappedTypeTypedStructureImpl.ts) | `{ readonly [key in keyof Foo]: boolean }` | parameter, type |
+| [FunctionTypedStructureImpl](./prototype-snapshot/typeStructures/FunctionTypedStructureImpl.ts) | `("new" or "get" or "set" or "") name&lt;typeParameters&gt;(parameters, ...restParameter) ("=>" or ":" ) returnType` | name, typeParameters, parameters, restParameter, returnType, writerStyle |
+| [ParameterTypedStructureImpl](./prototype-snapshot/typeStructures/ParameterTypedStructureImpl.ts) | `foo: boolean` | name, typeStructure |
+| [TemplateLiteralTypedStructureImpl](./prototype-snapshot/typeStructures/TemplateLiteralTypedStructureImpl.ts) | &#x60;`one${"A"}two${"C"}three`&#x60; | childTypes |
+| [ObjectLiteralTypedStructureImpl](./prototype-snapshot/typeStructures/ObjectLiteralTypedStructureImpl.ts) | See below | callSignatures, constructSignatures, indexSignatures, methods, properties |
+| [InferTypedStructureImpl](./prototype-snapshot/typeStructures/InferTypedStructureImpl.ts) | `Elements extends [infer Head, ...infer Tail]` | typeParameter |
 
 ### Object literals
 
