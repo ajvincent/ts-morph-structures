@@ -1,19 +1,4 @@
 import {
-  ClassDeclarationImpl,
-  FunctionDeclarationImpl,
-  IndexSignatureDeclarationImpl,
-  InterfaceDeclarationImpl,
-  LiteralTypedStructureImpl,
-  TypeParameterDeclarationImpl,
-  VariableDeclarationImpl
-} from "#stage_one/prototype-snapshot/exports.js";
-
-import buildTypesForStructures from "#stage_one/prototype-snapshot/bootstrap/buildTypesForStructures.js";
-import { NodeWithStructures } from "#stage_one/prototype-snapshot/bootstrap/structureToNodeMap.js";
-import type {
-  TypeNodeToTypeStructureConsole
-} from "#stage_one/prototype-snapshot/types/TypeNodeToTypeStructure.js";
-import {
   IndexSignatureDeclaration,
   ModuleKind,
   ModuleResolutionKind,
@@ -23,9 +8,25 @@ import {
   ScriptTarget,
   SourceFile,
   StructureKind,
-  Structures,
   TypeNode,
 } from "ts-morph";
+
+import {
+  ClassDeclarationImpl,
+  FunctionDeclarationImpl,
+  IndexSignatureDeclarationImpl,
+  InterfaceDeclarationImpl,
+  StringTypeStructureImpl,
+  StructureImpls,
+  TypeParameterDeclarationImpl,
+  VariableDeclarationImpl,
+} from "#stage_two/snapshot/source/exports.js";
+
+import {
+  NodeWithStructures
+} from "#stage_two/snapshot/source/bootstrap/types/conversions.js";
+
+import buildTypesForStructures from "#stage_two/snapshot/source/bootstrap/buildTypesForStructures.js";
 
 describe("buildTypesForStructures applies a type node converter for each structure", () => {
   let sourceFile: SourceFile;
@@ -36,7 +37,11 @@ describe("buildTypesForStructures applies a type node converter for each structu
     failMessage = message;
     failNode = typeNode;
   }
-  failCallback satisfies TypeNodeToTypeStructureConsole;
+
+  function invalidResolver(node: NodeWithStructures): never {
+    void(node);
+    throw new Error("unsupported");
+  }
 
   beforeAll(() => {
     const TSC_CONFIG: ProjectOptions = {
@@ -72,25 +77,26 @@ describe("buildTypesForStructures applies a type node converter for each structu
     const structureOriginal = variableWithType.getStructure();
     const structure = VariableDeclarationImpl.clone(structureOriginal);
 
-    const map = new Map<Structures, Node>([
+    const map = new Map<StructureImpls, Node>([
       [structure, variableWithType]
     ]);
 
-    const literal = new LiteralTypedStructureImpl("string");
+    const stringType = new StringTypeStructureImpl("string");
 
     const failures = buildTypesForStructures(
       map,
       failCallback,
-      (node: NodeWithStructures) => node.getStructure(),
-      (typeNode, failCallback) => {
+      invalidResolver,
+      (typeNode, failCallback, subStructureResolver) => {
+        void(subStructureResolver);
         if (typeNode === variableWithType.getTypeNode())
-          return literal;
+          return stringType;
         failCallback("uh oh", typeNode);
         return null;
       }
     );
 
-    expect(structure.typeStructure).toBe(literal);
+    expect(structure.typeStructure).toBe(stringType);
     expect(failMessage).toBe(undefined);
     expect(failNode).toBe(null);
     expect(failures).toEqual([]);
@@ -119,31 +125,33 @@ describe("buildTypesForStructures applies a type node converter for each structu
       throw new Error("unreachable");
     }
 
-    const map = new Map<Structures, Node>([
+    const map = new Map<StructureImpls, Node>([
       [structure, foo]
     ]);
 
-    const literal = new LiteralTypedStructureImpl("boolean");
+    const stringType = new StringTypeStructureImpl("string");
 
     const failures = buildTypesForStructures(
       map,
       failCallback,
-      (node: NodeWithStructures) => node.getStructure(),
-      (typeNode, failCallback) => {
+      invalidResolver,
+      (typeNode, failCallback, subStructureResolver) => {
+        void(subStructureResolver);
         if (typeNode === foo.getReturnTypeNodeOrThrow())
-          return literal;
+          return stringType;
         failCallback("uh oh", typeNode);
         return null;
       }
     );
 
-    expect(structure.returnTypeStructure).toBe(literal);
+
+    expect(structure.returnTypeStructure).toBe(stringType);
     expect(failMessage).toBe(undefined);
     expect(failNode).toBe(null);
     expect(failures).toEqual([]);
   });
 
-  it("having a .constraint and a .default field", () => {
+  it("having a .constraint and a .default field (TypeParameterDeclaration)", () => {
     sourceFile.addFunction({
       name: "foo",
       typeParameters: [
@@ -161,35 +169,36 @@ describe("buildTypesForStructures applies a type node converter for each structu
     const structureOriginal = NumberTypeNode.getStructure();
     const structure = TypeParameterDeclarationImpl.clone(structureOriginal);
 
-    const map = new Map<Structures, Node>([
+    const map = new Map<StructureImpls, Node>([
       [structure, NumberTypeNode]
     ]);
 
-    const numberLiteral = new LiteralTypedStructureImpl("number");
-    const oneLiteral = new LiteralTypedStructureImpl("one");
+    const numberString = new StringTypeStructureImpl("number");
+    const oneString = new StringTypeStructureImpl("one");
 
     const failures = buildTypesForStructures(
       map,
       failCallback,
-      (node: NodeWithStructures) => node.getStructure(),
-      (typeNode, failCallback) => {
+      invalidResolver,
+      (typeNode, failCallback, subStructureResolver) => {
+        void(subStructureResolver);
         if (typeNode === NumberTypeNode.getConstraintOrThrow())
-          return numberLiteral;
+          return numberString;
         if (typeNode === NumberTypeNode.getDefaultOrThrow())
-          return oneLiteral;
+          return oneString;
         failCallback("uh oh", typeNode);
         return null;
       }
     );
 
-    expect(structure.constraintStructure).toBe(numberLiteral);
-    expect(structure.defaultStructure).toBe(oneLiteral);
+    expect(structure.constraintStructure).toBe(numberString);
+    expect(structure.defaultStructure).toBe(oneString);
     expect(failMessage).toBe(undefined);
     expect(failNode).toBe(null);
     expect(failures).toEqual([]);
   });
 
-  it("having a keyType field (index signature)", () => {
+  it("having a keyType field (IndexSignatureDeclaration)", () => {
     sourceFile.addInterface({
       name: "Foo",
       indexSignatures: [
@@ -207,18 +216,19 @@ describe("buildTypesForStructures applies a type node converter for each structu
     const structureOriginal = keyIndex.getStructure();
     const structure = IndexSignatureDeclarationImpl.clone(structureOriginal);
 
-    const map = new Map<Structures, Node>([
+    const map = new Map<StructureImpls, Node>([
       [structure, keyIndex]
     ]);
 
-    const StringType = new LiteralTypedStructureImpl("string");
-    const BooleanType = new LiteralTypedStructureImpl("boolean");
+    const StringType = new StringTypeStructureImpl("string");
+    const BooleanType = new StringTypeStructureImpl("boolean");
 
     const failures = buildTypesForStructures(
       map,
       failCallback,
-      (node: NodeWithStructures) => node.getStructure(),
-      (typeNode, failCallback) => {
+      invalidResolver,
+      (typeNode, failCallback, subStructureResolver) => {
+        void(subStructureResolver);
         if (typeNode === keyIndex.getReturnTypeNode())
           return BooleanType;
         if (typeNode === keyIndex.getKeyTypeNode())
@@ -250,19 +260,20 @@ describe("buildTypesForStructures applies a type node converter for each structu
     const structureOriginal = NumberStringClass.getStructure();
     const structure = ClassDeclarationImpl.clone(structureOriginal);
 
-    const map = new Map<Structures, Node>([
+    const map = new Map<StructureImpls, Node>([
       [structure, NumberStringClass]
     ]);
 
-    const BaseClass = new LiteralTypedStructureImpl("BaseClass");
-    const NS_Type = new LiteralTypedStructureImpl("NumberStringType");
-    const Foo = new LiteralTypedStructureImpl("Foo");
+    const BaseClass = new StringTypeStructureImpl("BaseClass");
+    const NS_Type = new StringTypeStructureImpl("NumberStringType");
+    const Foo = new StringTypeStructureImpl("Foo");
 
     const failures = buildTypesForStructures(
       map,
       failCallback,
-      (node: NodeWithStructures) => node.getStructure(),
-      (typeNode, failCallback) => {
+      invalidResolver,
+      (typeNode, failCallback, subStructureResolver) => {
+        void(subStructureResolver);
         if (!Node.isExpressionWithTypeArguments(typeNode)) {
           failCallback("Not an extends or implements node?", typeNode);
           return null;
@@ -304,22 +315,23 @@ describe("buildTypesForStructures applies a type node converter for each structu
       ],
     });
 
-    const NumberStringClass = sourceFile.getInterfaceOrThrow("NumberStringExtendedClass");
-    const structureOriginal = NumberStringClass.getStructure();
+    const NumberStringIfc = sourceFile.getInterfaceOrThrow("NumberStringExtendedClass");
+    const structureOriginal = NumberStringIfc.getStructure();
     const structure = InterfaceDeclarationImpl.clone(structureOriginal);
 
-    const map = new Map<Structures, Node>([
-      [structure, NumberStringClass]
+    const map = new Map<StructureImpls, Node>([
+      [structure, NumberStringIfc]
     ]);
 
-    const NS_Type = new LiteralTypedStructureImpl("NumberStringClass");
-    const Foo = new LiteralTypedStructureImpl("Foo");
+    const NS_Type = new StringTypeStructureImpl("NumberStringClass");
+    const Foo = new StringTypeStructureImpl("Foo");
 
     const failures = buildTypesForStructures(
       map,
       failCallback,
-      (node: NodeWithStructures) => node.getStructure(),
-      (typeNode, failCallback) => {
+      invalidResolver,
+      (typeNode, failCallback, subStructureResolver) => {
+        void(subStructureResolver);
         if (!Node.isExpressionWithTypeArguments(typeNode)) {
           failCallback("Not an extends or implements node?", typeNode);
           return null;
@@ -357,15 +369,16 @@ describe("buildTypesForStructures applies a type node converter for each structu
     const structure = VariableDeclarationImpl.clone(structureOriginal);
     expect(structure.type).toBe(undefined);
 
-    const map = new Map<Structures, Node>([
+    const map = new Map<StructureImpls, Node>([
       [structure, variableWithType]
     ]);
 
     const failures = buildTypesForStructures(
       map,
       failCallback,
-      (node: NodeWithStructures) => node.getStructure(),
-      (typeNode, failCallback) => {
+      invalidResolver,
+      (typeNode, failCallback, subStructureResolver) => {
+        void(subStructureResolver);
         failCallback("uh oh", typeNode);
         return null;
       }
@@ -392,17 +405,18 @@ describe("buildTypesForStructures applies a type node converter for each structu
     const structureOriginal = NumberStringClass.getStructure();
     const structure = ClassDeclarationImpl.clone(structureOriginal);
 
-    const map = new Map<Structures, Node>([
+    const map = new Map<StructureImpls, Node>([
       [structure, NumberStringClass]
     ]);
 
-    const NS_Type = new LiteralTypedStructureImpl("NumberStringType");
+    const NS_Type = new StringTypeStructureImpl("NumberStringType");
 
     const failures = buildTypesForStructures(
       map,
       failCallback,
-      (node: NodeWithStructures) => node.getStructure(),
-      (typeNode, failCallback) => {
+      invalidResolver,
+      (typeNode, failCallback, subStructureResolver) => {
+        void(subStructureResolver);
         if (!Node.isExpressionWithTypeArguments(typeNode)) {
           failCallback("Not an implements node?", typeNode);
           return null;
@@ -434,10 +448,10 @@ describe("buildTypesForStructures applies a type node converter for each structu
     if (failures.length === 2) {
       const [firstFailure, secondFailure] = failures;
       expect(firstFailure.message).toBe("fail: Foo");
-      expect(firstFailure.typeNode).toBe(NumberStringClass.getImplements()[0]);
+      expect(firstFailure.failingTypeNode).toBe(NumberStringClass.getImplements()[0]);
 
       expect(secondFailure.message).toBe("fail: Bar");
-      expect(secondFailure.typeNode).toBe(NumberStringClass.getImplements()[1]);
+      expect(secondFailure.failingTypeNode).toBe(NumberStringClass.getImplements()[1]);
     }
 
     expect(failNode).not.toBe(null);
