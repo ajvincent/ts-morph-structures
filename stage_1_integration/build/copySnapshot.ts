@@ -27,7 +27,6 @@ export default async function copySnapshot(): Promise<void> {
 
   await PromiseAllSequence(dirs, async d => {
     const targetDir = d.replace(bootstrapSourceDir, bootstrapTargetDir);
-    console.log(targetDir);
     await fs.mkdir(targetDir);
   });
 
@@ -36,7 +35,6 @@ export default async function copySnapshot(): Promise<void> {
     contents = contents.replace(/..\/snapshot\/source\//g, "../");
 
     const targetPath = f.replace(bootstrapSourceDir, bootstrapTargetDir);
-    console.log(targetPath);
     await fs.writeFile(targetPath, contents, { encoding: "utf-8" });
   });
 }
