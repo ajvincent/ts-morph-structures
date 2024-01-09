@@ -42,4 +42,4 @@ export type TypeNodeToTypeStructure = (
   typeNode: TypeNode,
   _console: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-) => TypeStructures | null;
+) => string | TypeStructures | null;

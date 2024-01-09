@@ -277,12 +277,12 @@ function runConversion(
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
   converter: TypeNodeToTypeStructure,
-  callback: (typeStructure: TypeStructures) => void
+  callback: (typeStructure: string | TypeStructures) => void
 ): void
 {
   if (!typeNode)
     return;
-  const typeStructure: TypeStructures | null = converter(
+  const typeStructure: string | TypeStructures | null = converter(
     typeNode,
     consoleTrap,
     subStructureResolver
