@@ -3,7 +3,7 @@ import type {
 } from "../types/ts-morph-typednodewriter.js";
 
 export enum TypeStructureKind {
-  Literal = 1000000,
+  Literal = 1000000000,
   String,
   Writer,
   QualifiedName,
