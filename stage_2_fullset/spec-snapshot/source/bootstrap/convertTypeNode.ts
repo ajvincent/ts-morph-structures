@@ -9,8 +9,12 @@ import {
 } from "ts-morph";
 
 import {
+  IntersectionTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   StringTypeStructureImpl,
+  TupleTypeStructureImpl,
+  TypeArgumentedTypeStructureImpl,
+  UnionTypeStructureImpl,
   TypeStructures
 } from "#stage_two/snapshot/source/exports.js";
 
@@ -25,6 +29,7 @@ import type {
 } from "#stage_two/snapshot/source/bootstrap/types/conversions.js";
 
 describe("convertTypeNode generates correct type structures, with type", () => {
+  //#region set-up, tear-down
   let declaration: VariableDeclaration;
   let structure: string | TypeStructures | null;
 
@@ -84,6 +89,9 @@ const A: string;
       node => StructuresClassesMap.clone(node.getStructure())
     );
   }
+  //#endregion set-up, teardown
+
+  //#region literals
 
   describe("string keyword", () => {
     function stringSpec(s: string): void {
@@ -144,4 +152,62 @@ const A: string;
     expect(failMessage).toBeUndefined();
     expect(failNode).toBeNull();
   });
+
+  //#endregion literals
+
+  //#region complex types
+  it("Intersection: of string and number", () => {
+    setTypeStructure("string & number", failCallback);
+    expect(structure).toBeInstanceOf(IntersectionTypeStructureImpl);
+    if (structure instanceof IntersectionTypeStructureImpl) {
+      expect(structure.childTypes.length).toBe(2);
+      expect(structure.childTypes[0]).toBe("string");
+      expect(structure.childTypes[1]).toBe("number");
+    }
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
+  it("Tuple: [string, number]", () => {
+    setTypeStructure("[string, number]", failCallback);
+    expect(structure).toBeInstanceOf(TupleTypeStructureImpl);
+    if (structure instanceof TupleTypeStructureImpl) {
+      expect(structure.childTypes.length).toBe(2);
+      expect(structure.childTypes[0]).toBe("string");
+      expect(structure.childTypes[1]).toBe("number");
+    }
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
+  it(`TypeArgumented: Pick<NumberStringType, "repeatForward">`, () => {
+    setTypeStructure(`Pick<NumberStringType, "repeatForward">`, failCallback);
+    expect(structure).toBeInstanceOf(TypeArgumentedTypeStructureImpl);
+    if (structure instanceof TypeArgumentedTypeStructureImpl) {
+      expect(structure.objectType).toBe("Pick");
+      expect(structure.childTypes.length).toBe(2);
+      expect(structure.childTypes[0]).toBe("NumberStringType");
+      expect(structure.childTypes[1]).toBeInstanceOf(StringTypeStructureImpl);
+      expect((structure.childTypes[1] as StringTypeStructureImpl).stringValue).toBe("repeatForward");
+    }
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
+  it(`Union: of string and number`, () => {
+    setTypeStructure("string | number", failCallback);
+    expect(structure).toBeInstanceOf(UnionTypeStructureImpl);
+    if (structure instanceof UnionTypeStructureImpl) {
+      expect(structure.childTypes.length).toBe(2);
+      expect(structure.childTypes[0]).toBe("string");
+      expect(structure.childTypes[1]).toBe("number");
+    }
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
+  xit("Class implements, interface extends", () => {
+    expect(1).toBe(2);
+  });
+  //#region complex types
 });

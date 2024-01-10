@@ -81,10 +81,23 @@ export default function convertTypeNode(
         TupleTypeStructureImpl |
         TypeArgumentedTypeStructureImpl |
         undefined
-      ) = undefined;
+      );
+
+  if (Node.isUnionTypeNode(typeNode)) {
+    parentStructure = new UnionTypeStructureImpl;
+    childTypeNodes = typeNode.getTypeNodes();
+  }
+  else if (Node.isIntersectionTypeNode(typeNode)) {
+    parentStructure = new IntersectionTypeStructureImpl;
+    childTypeNodes = typeNode.getTypeNodes();
+  }
+  else if (Node.isTupleTypeNode(typeNode)) {
+    parentStructure = new TupleTypeStructureImpl;
+    childTypeNodes = typeNode.getElements();
+  }
 
   // identifiers, type-argumented type nodes
-  if (Node.isTypeReference(typeNode)) {
+  else if (Node.isTypeReference(typeNode)) {
     const objectType = buildStructureForEntityName(typeNode.getTypeName());
 
     childTypeNodes = typeNode.getTypeArguments();
