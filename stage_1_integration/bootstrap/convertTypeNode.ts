@@ -1,11 +1,19 @@
 import {
+  EntityName,
   Node,
   SyntaxKind,
   TypeNode,
 } from "ts-morph";
 
-import type {
+import {
+  IntersectionTypeStructureImpl,
+  ParenthesesTypeStructureImpl,
+  QualifiedNameTypeStructureImpl,
+  StringTypeStructureImpl,
+  TupleTypeStructureImpl,
+  TypeArgumentedTypeStructureImpl,
   TypeStructures,
+  UnionTypeStructureImpl,
 } from "../snapshot/source/exports.js";
 
 import type {
@@ -36,7 +44,6 @@ export default function convertTypeNode(
   subStructureResolver: SubstructureResolver
 ): string | TypeStructures | null
 {
-
   if (Node.isLiteralTypeNode(typeNode)) {
     typeNode = typeNode.getFirstChildOrThrow();
   }
@@ -47,6 +54,59 @@ export default function convertTypeNode(
     return keyword;
   }
 
+  if (Node.isNumericLiteral(typeNode)) {
+    return typeNode.getLiteralText();
+  }
+
+  if (Node.isStringLiteral(typeNode)) {
+    return new StringTypeStructureImpl(typeNode.getLiteralText());
+  }
+
+  if (Node.isParenthesizedTypeNode(typeNode)) {
+    const childStructure = convertTypeNode(
+      typeNode.getTypeNode(),
+      consoleTrap,
+      subStructureResolver
+    );
+    if (!childStructure)
+      return null;
+    return new ParenthesesTypeStructureImpl(childStructure);
+  }
+
+  // Type nodes with generic type node children, based on a type.
+  let childTypeNodes: TypeNode[] = [],
+      parentStructure: (
+        UnionTypeStructureImpl |
+        IntersectionTypeStructureImpl |
+        TupleTypeStructureImpl |
+        TypeArgumentedTypeStructureImpl |
+        undefined
+      ) = undefined;
+
+  // identifiers, type-argumented type nodes
+  if (Node.isTypeReference(typeNode)) {
+    const objectType = buildStructureForEntityName(typeNode.getTypeName());
+
+    childTypeNodes = typeNode.getTypeArguments();
+    if (childTypeNodes.length === 0) {
+      return objectType;
+    }
+
+    childTypeNodes = typeNode.getTypeArguments();
+    parentStructure = new TypeArgumentedTypeStructureImpl(objectType);
+  }
+
+  if (parentStructure) {
+    const success = convertAndAppendChildTypes(
+      childTypeNodes,
+      parentStructure.childTypes,
+      consoleTrap,
+      subStructureResolver
+    );
+    if (success)
+      return parentStructure;
+  }
+
   reportConversionFailure(
     "unsupported type node", typeNode, typeNode, consoleTrap
   );
@@ -54,6 +114,42 @@ export default function convertTypeNode(
   return null;
 }
 convertTypeNode satisfies TypeNodeToTypeStructure;
+
+function buildStructureForEntityName(
+  entity: EntityName
+): string | QualifiedNameTypeStructureImpl {
+  if (Node.isQualifiedName(entity)) {
+    const leftStructure = buildStructureForEntityName(entity.getLeft());
+    const rightTypeAsString = entity.getRight().getText();
+
+    if (leftStructure instanceof QualifiedNameTypeStructureImpl) {
+      leftStructure.childTypes.push(rightTypeAsString);
+      return leftStructure;
+    }
+
+    return new QualifiedNameTypeStructureImpl([leftStructure, rightTypeAsString]);
+  }
+
+  return entity.getText();
+}
+
+function convertAndAppendChildTypes(
+  childTypeNodes: readonly TypeNode[],
+  elements: (string | TypeStructures)[],
+  consoleTrap: TypeNodeToTypeStructureConsole,
+  subStructureResolver: SubstructureResolver
+): boolean
+{
+  return childTypeNodes.every(typeNode => {
+    const childStructure = convertTypeNode(typeNode, consoleTrap, subStructureResolver);
+    if (childStructure) {
+      elements.push(childStructure);
+      return true;
+    }
+
+    return false;
+  });
+}
 
 function reportConversionFailure(
   prefixMessage: string,

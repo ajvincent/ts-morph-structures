@@ -9,6 +9,8 @@ import {
 } from "ts-morph";
 
 import {
+  ParenthesesTypeStructureImpl,
+  StringTypeStructureImpl,
   TypeStructures
 } from "#stage_two/snapshot/source/exports.js";
 
@@ -83,13 +85,13 @@ const A: string;
     );
   }
 
-  describe("string literal", () => {
+  describe("string keyword", () => {
     function stringSpec(s: string): void {
       it(s, () => {
         setTypeStructure(s, failCallback);
         expect(structure).toBe(s);
-        expect(failMessage).toBe(undefined);
-        expect(failNode).toBe(null);
+        expect(failMessage).toBeUndefined();
+        expect(failNode).toBeNull();
       });
     }
 
@@ -106,5 +108,40 @@ const A: string;
     stringSpec("undefined");
     stringSpec("unknown");
     stringSpec("void");
+  });
+
+  it("number literal", () => {
+    setTypeStructure("12.5", failCallback);
+    expect(structure).toBe("12.5");
+    expect(failMessage).toBeUndefined()
+    expect(failNode).toBeNull();
+  });
+
+  it(`string literal "foo"`, () => {
+    setTypeStructure(`"foo"`, failCallback);
+    expect(structure).toBeInstanceOf(StringTypeStructureImpl);
+    if (structure instanceof StringTypeStructureImpl) {
+      expect(structure.stringValue).toBe("foo");
+    }
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
+  it(`(true), meaning parentheses type`, () => {
+    setTypeStructure(`(true)`, failCallback);
+    expect(structure).toBeInstanceOf(ParenthesesTypeStructureImpl);
+    if (!(structure instanceof ParenthesesTypeStructureImpl))
+      return;
+    expect(structure.childTypes.length).toBe(1);
+    expect(structure.childTypes[0]).toBe("true");
+    expect(failMessage).toBeUndefined();
+    expect(failNode).toBeNull();
+  });
+
+  it(`identifier (NumberStringType)`, () => {
+    setTypeStructure(`NumberStringType`, failCallback);
+    expect(structure).toBe("NumberStringType");
+    expect(failMessage).toBeUndefined();
+    expect(failNode).toBeNull();
   });
 });
