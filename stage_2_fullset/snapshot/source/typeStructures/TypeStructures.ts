@@ -38,3 +38,5 @@ export type TypeStructures =
   | TypeArgumentedTypeStructureImpl
   | UnionTypeStructureImpl
   | WriterTypeStructureImpl;
+
+export type stringTypeStructuresOrNull = string | TypeStructures | null;

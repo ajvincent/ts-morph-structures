@@ -4,7 +4,10 @@ import { TypeStructureKind } from "../base/TypeStructureKind.js";
 
 import TypeStructuresBase from "./TypeStructuresBase.js";
 
-import type { TypeStructures } from "./TypeStructures.js";
+import type {
+  TypeStructures,
+  stringTypeStructuresOrNull,
+} from "./TypeStructures.js";
 
 class TypePrinterSettings {
   indentChildren = false;
@@ -19,7 +22,7 @@ export default abstract class TypeStructuresWithChildren<
   abstract readonly kind: Kind;
 
   /** This lives outside the start and end tokens.  Think of this as a parent type for the children, ie. `Partial`. */
-  protected abstract objectType: string | TypeStructures | null;
+  protected abstract objectType: stringTypeStructuresOrNull;
   /** The child types we join together, and wrap in the start and end tokens. */
   public abstract readonly childTypes: Children;
   /** A very short string, one or two characters, before all child types. */

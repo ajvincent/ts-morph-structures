@@ -141,7 +141,10 @@ async function defineExistingExports(
 
   dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/typeStructures/TypeStructures.ts"),
-    exportNames: ["TypeStructures"],
+    exportNames: [
+      "TypeStructures",
+      "stringTypeStructuresOrNull"
+    ],
     isDefaultExport: false,
     isType: true
   });

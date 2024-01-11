@@ -1,19 +1,33 @@
 import {
+  ConditionalTypeNode,
+  ConstructorTypeNode,
   EntityName,
+  FunctionTypeNode,
   Node,
+  ParameterDeclaration,
+  StructureKind,
   SyntaxKind,
   TypeNode,
+  TypeParameterDeclaration,
 } from "ts-morph";
 
 import {
+  ArrayTypeStructureImpl,
+  ConditionalTypeStructureImpl,
+  FunctionTypeContext,
+  FunctionTypeStructureImpl,
+  FunctionWriterStyle,
   IntersectionTypeStructureImpl,
+  ParameterTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   QualifiedNameTypeStructureImpl,
   StringTypeStructureImpl,
   TupleTypeStructureImpl,
   TypeArgumentedTypeStructureImpl,
+  TypeParameterDeclarationImpl,
   TypeStructures,
   UnionTypeStructureImpl,
+  type stringTypeStructuresOrNull,
 } from "../snapshot/source/exports.js";
 
 import type {
@@ -42,7 +56,7 @@ export default function convertTypeNode(
   typeNode: TypeNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver
-): string | TypeStructures | null
+): stringTypeStructuresOrNull
 {
   if (Node.isLiteralTypeNode(typeNode)) {
     typeNode = typeNode.getFirstChildOrThrow();
@@ -60,6 +74,25 @@ export default function convertTypeNode(
 
   if (Node.isStringLiteral(typeNode)) {
     return new StringTypeStructureImpl(typeNode.getLiteralText());
+  }
+
+  if (Node.isArrayTypeNode(typeNode)) {
+    const childStructure = convertTypeNode(
+      typeNode.getElementTypeNode(),
+      consoleTrap,
+      subStructureResolver,
+    );
+    if (!childStructure)
+      return null;
+    return new ArrayTypeStructureImpl(childStructure);
+  }
+
+  if (Node.isConditionalTypeNode(typeNode)) {
+    return convertConditionalTypeNode(typeNode, consoleTrap, subStructureResolver);
+  }
+
+  if (Node.isFunctionTypeNode(typeNode) || Node.isConstructorTypeNode(typeNode)) {
+    return convertFunctionTypeNode(typeNode, consoleTrap, subStructureResolver);
   }
 
   if (Node.isParenthesizedTypeNode(typeNode)) {
@@ -127,6 +160,134 @@ export default function convertTypeNode(
   return null;
 }
 convertTypeNode satisfies TypeNodeToTypeStructure;
+
+function convertConditionalTypeNode(
+  condition: ConditionalTypeNode,
+  conversionFailCallback: TypeNodeToTypeStructureConsole,
+  subStructureResolver: SubstructureResolver,
+): ConditionalTypeStructureImpl | null
+{
+  const checkType: stringTypeStructuresOrNull = convertTypeNode(
+    condition.getCheckType(), conversionFailCallback, subStructureResolver,
+  );
+  if (!checkType)
+    return null;
+
+  const extendsType: stringTypeStructuresOrNull = convertTypeNode(
+    condition.getExtendsType(), conversionFailCallback, subStructureResolver
+  );
+  if (!extendsType)
+    return null;
+
+  const trueType: stringTypeStructuresOrNull = convertTypeNode(
+    condition.getTrueType(), conversionFailCallback, subStructureResolver
+  );
+  if (!trueType)
+    return null;
+
+  const falseType: stringTypeStructuresOrNull = convertTypeNode(
+    condition.getFalseType(), conversionFailCallback, subStructureResolver
+  );
+  if (!falseType)
+    return null;
+
+  return new ConditionalTypeStructureImpl({
+    checkType,
+    extendsType,
+    trueType,
+    falseType
+  });
+}
+
+function convertFunctionTypeNode(
+  typeNode: FunctionTypeNode | ConstructorTypeNode,
+  consoleTrap: TypeNodeToTypeStructureConsole,
+  subStructureResolver: SubstructureResolver,
+): FunctionTypeStructureImpl | null
+{
+  let typeParameterNodes: readonly TypeParameterDeclaration[] = [];
+  try {
+    // https://github.com/dsherret/ts-morph/issues/1434
+    typeParameterNodes = (typeNode as Pick<FunctionTypeNode, "getTypeParameters">).getTypeParameters();
+  }
+  catch (ex) {
+    typeParameterNodes = typeNode.getChildrenOfKind(SyntaxKind.TypeParameter);
+  }
+
+  const typeParameterStructures: TypeParameterDeclarationImpl[] = [];
+  for (const declaration of typeParameterNodes.values()) {
+    const subStructure = convertTypeParameterNode(declaration, subStructureResolver);
+    if (!subStructure)
+      return null;
+    typeParameterStructures.push(subStructure);
+  }
+
+  let restParameter: ParameterTypeStructureImpl | undefined = undefined;
+
+  const parameterNodes: ParameterDeclaration[] = typeNode.getParameters().slice();
+  if (parameterNodes.length) {
+    const lastParameter = parameterNodes[parameterNodes.length - 1];
+    if (lastParameter.isRestParameter()) {
+      parameterNodes.pop();
+      restParameter = convertParameterNodeTypeNode(
+        lastParameter, consoleTrap, subStructureResolver
+      );
+    }
+  }
+
+  const parameterStructures: ParameterTypeStructureImpl[] = parameterNodes.map(
+    parameterNode => convertParameterNodeTypeNode(parameterNode, consoleTrap, subStructureResolver)
+  );
+
+  const returnTypeNode = typeNode.getReturnTypeNode();
+  let returnTypeStructure: string | TypeStructures | undefined = undefined;
+  if (returnTypeNode) {
+    returnTypeStructure = convertTypeNode(returnTypeNode, consoleTrap, subStructureResolver) ?? undefined;
+  }
+
+  const functionContext: FunctionTypeContext = {
+    name: undefined,
+    isConstructor: typeNode instanceof ConstructorTypeNode,
+    typeParameters: typeParameterStructures,
+    parameters: parameterStructures,
+    restParameter,
+    returnType: returnTypeStructure,
+    writerStyle: FunctionWriterStyle.Arrow,
+  }
+
+  return new FunctionTypeStructureImpl(functionContext);
+}
+
+function convertTypeParameterNode(
+  declaration: TypeParameterDeclaration,
+  subStructureResolver: SubstructureResolver,
+): TypeParameterDeclarationImpl | null
+{
+  const subStructure = subStructureResolver(declaration);
+  if (subStructure.kind !== StructureKind.TypeParameter)
+    return null;
+
+  if (subStructure instanceof TypeParameterDeclarationImpl)
+    return subStructure;
+
+  return TypeParameterDeclarationImpl.clone(subStructure);
+}
+
+function convertParameterNodeTypeNode(
+  node: ParameterDeclaration,
+  consoleTrap: TypeNodeToTypeStructureConsole,
+  subStructureResolver: SubstructureResolver,
+): ParameterTypeStructureImpl
+{
+  const paramTypeNode = node.getTypeNode();
+  let paramTypeStructure: stringTypeStructuresOrNull = null;
+  if (paramTypeNode) {
+    paramTypeStructure = convertTypeNode(
+      paramTypeNode, consoleTrap, subStructureResolver
+    );
+  }
+  return new ParameterTypeStructureImpl(node.getName(), paramTypeStructure ?? undefined);
+}
 
 function buildStructureForEntityName(
   entity: EntityName

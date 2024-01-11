@@ -6,7 +6,7 @@ import {
 
 import type {
   StructureImpls,
-  TypeStructures
+  stringTypeStructuresOrNull
 } from "../../exports.js";
 
 export interface NodeWithStructures extends Node {
@@ -42,4 +42,4 @@ export type TypeNodeToTypeStructure = (
   typeNode: TypeNode,
   _console: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-) => string | TypeStructures | null;
+) => stringTypeStructuresOrNull

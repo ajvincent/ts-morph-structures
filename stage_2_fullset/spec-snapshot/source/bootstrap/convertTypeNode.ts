@@ -9,6 +9,10 @@ import {
 } from "ts-morph";
 
 import {
+  ArrayTypeStructureImpl,
+  ConditionalTypeStructureImpl,
+  FunctionTypeStructureImpl,
+  FunctionWriterStyle,
   IntersectionTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   StringTypeStructureImpl,
@@ -135,17 +139,6 @@ const A: string;
     expect(failNode).toBe(null);
   });
 
-  it(`(true), meaning parentheses type`, () => {
-    setTypeStructure(`(true)`, failCallback);
-    expect(structure).toBeInstanceOf(ParenthesesTypeStructureImpl);
-    if (!(structure instanceof ParenthesesTypeStructureImpl))
-      return;
-    expect(structure.childTypes.length).toBe(1);
-    expect(structure.childTypes[0]).toBe("true");
-    expect(failMessage).toBeUndefined();
-    expect(failNode).toBeNull();
-  });
-
   it(`identifier (NumberStringType)`, () => {
     setTypeStructure(`NumberStringType`, failCallback);
     expect(structure).toBe("NumberStringType");
@@ -156,6 +149,130 @@ const A: string;
   //#endregion literals
 
   //#region complex types
+  it("Array: of string", () => {
+    setTypeStructure("string[]", failCallback);
+    expect(structure).toBeInstanceOf(ArrayTypeStructureImpl);
+    if (!(structure instanceof ArrayTypeStructureImpl))
+      return;
+    expect(structure.objectType).toBe("string");
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
+  it("Conditional: true extends ReturnsModified ? BaseClassType : void", () => {
+    setTypeStructure("true extends ReturnsModified ? BaseClassType : void", failCallback);
+    expect(structure).toBeInstanceOf(ConditionalTypeStructureImpl);
+    if (!(structure instanceof ConditionalTypeStructureImpl))
+      return;
+
+    const { checkType, extendsType, trueType, falseType } = structure;
+    const types = [ checkType, extendsType, trueType, falseType ];
+
+    expect(types).toEqual(["true", "ReturnsModified", "BaseClassType", "void"]);
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
+  it(
+    `Function: <StringType extends string, NumberType extends number = 1>(s: StringType, n) => boolean`,
+    () => {
+      setTypeStructure(
+        `<StringType extends string, NumberType extends number = 1>(s: StringType, n) => boolean`,
+        failCallback
+      );
+      expect(structure).toBeInstanceOf(FunctionTypeStructureImpl);
+      if (!(structure instanceof FunctionTypeStructureImpl))
+        return;
+
+      expect(structure.name).toBe("");
+      expect(structure.isConstructor).toBe(false);
+
+      expect(structure.typeParameters.length).toBe(2);
+      {
+        const typeParam = structure.typeParameters[0];
+        expect(typeParam.name).toBe("StringType");
+        expect(typeParam.constraint).toBe("string");
+        expect(typeParam.default).toBe(undefined);
+      }
+
+      {
+        const typeParam = structure.typeParameters[1];
+        expect(typeParam.name).toBe("NumberType");
+        expect(typeParam.constraint).toBe("number");
+        expect(typeParam.default).toBe("1");
+      }
+
+      expect(structure.parameters.length).toBe(2);
+      {
+        const param = structure.parameters[0];
+        expect(param.name).toBe("s");
+        expect(param.typeStructure).toBe("StringType");
+      }
+      {
+        const param = structure.parameters[1];
+        expect(param.name).toBe("n");
+        expect(param.typeStructure).toBe(undefined);
+      }
+
+      expect(structure.restParameter).toBe(undefined);
+      expect(structure.returnType).toBe("boolean");
+
+      expect(structure.writerStyle).toBe(FunctionWriterStyle.Arrow);
+      expect(failMessage).toBe(undefined);
+      expect(failNode).toBe(null);
+    }
+  );
+
+  it(
+    `Function: new <StringType extends string, NumberType extends number = 1>(s: StringType, n) => boolean`,
+    () => {
+      setTypeStructure(
+        `new <StringType extends string, NumberType extends number = 1>(s: StringType, n) => boolean`,
+        failCallback
+      );
+      expect(structure).toBeInstanceOf(FunctionTypeStructureImpl);
+      if (!(structure instanceof FunctionTypeStructureImpl))
+        return;
+
+      expect(structure.name).toBe("");
+      expect(structure.isConstructor).toBe(true);
+
+      expect(structure.typeParameters.length).toBe(2);
+      {
+        const typeParam = structure.typeParameters[0];
+        expect(typeParam.name).toBe("StringType");
+        expect(typeParam.constraint).toBe("string");
+        expect(typeParam.default).toBe(undefined);
+      }
+
+      {
+        const typeParam = structure.typeParameters[1];
+        expect(typeParam.name).toBe("NumberType");
+        expect(typeParam.constraint).toBe("number");
+        expect(typeParam.default).toBe("1");
+      }
+
+      expect(structure.parameters.length).toBe(2);
+      {
+        const param = structure.parameters[0];
+        expect(param.name).toBe("s");
+        expect(param.typeStructure).toBe("StringType");
+      }
+      {
+        const param = structure.parameters[1];
+        expect(param.name).toBe("n");
+        expect(param.typeStructure).toBe(undefined);
+      }
+
+      expect(structure.restParameter).toBe(undefined);
+      expect(structure.returnType).toBe("boolean");
+
+      expect(structure.writerStyle).toBe(FunctionWriterStyle.Arrow);
+      expect(failMessage).toBe(undefined);
+      expect(failNode).toBe(null);
+    }
+  );
+
   it("Intersection: of string and number", () => {
     setTypeStructure("string & number", failCallback);
     expect(structure).toBeInstanceOf(IntersectionTypeStructureImpl);
@@ -166,6 +283,17 @@ const A: string;
     }
     expect(failMessage).toBe(undefined);
     expect(failNode).toBe(null);
+  });
+
+  it(`Parentheses: (true), meaning parentheses type`, () => {
+    setTypeStructure(`(true)`, failCallback);
+    expect(structure).toBeInstanceOf(ParenthesesTypeStructureImpl);
+    if (!(structure instanceof ParenthesesTypeStructureImpl))
+      return;
+    expect(structure.childTypes.length).toBe(1);
+    expect(structure.childTypes[0]).toBe("true");
+    expect(failMessage).toBeUndefined();
+    expect(failNode).toBeNull();
   });
 
   it("Tuple: [string, number]", () => {

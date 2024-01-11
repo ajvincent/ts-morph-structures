@@ -21,7 +21,8 @@ import {
 
 import type {
   StructureImpls,
-  TypeStructures
+  TypeStructures,
+  stringTypeStructuresOrNull
 } from "../snapshot/source/exports.js";
 
 import {
@@ -282,7 +283,7 @@ function runConversion(
 {
   if (!typeNode)
     return;
-  const typeStructure: string | TypeStructures | null = converter(
+  const typeStructure: stringTypeStructuresOrNull = converter(
     typeNode,
     consoleTrap,
     subStructureResolver
