@@ -202,6 +202,18 @@ export default function convertTypeNode(
     childTypeNodes = typeNode.getElements();
   }
 
+  // class extends expressionWithTypeArguments
+  else if (Node.isExpressionWithTypeArguments(typeNode)) {
+    const expression = typeNode.getExpression();
+    const objectType = expression.getText();
+
+    childTypeNodes = typeNode.getTypeArguments();
+    if (childTypeNodes.length === 0)
+      return objectType;
+
+    parentStructure = new TypeArgumentedTypeStructureImpl(objectType);
+  }
+
   // identifiers, type-argumented type nodes
   else if (Node.isTypeReference(typeNode)) {
     const objectType = buildStructureForEntityName(typeNode.getTypeName());
@@ -222,9 +234,8 @@ export default function convertTypeNode(
       consoleTrap,
       subStructureResolver
     );
-    if (success)
-      return parentStructure;
-    return null;
+
+    return success ? parentStructure : null;
   }
 
   reportConversionFailure(
