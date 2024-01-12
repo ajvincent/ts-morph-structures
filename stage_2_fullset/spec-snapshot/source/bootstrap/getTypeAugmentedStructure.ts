@@ -10,11 +10,10 @@ import getTS_SourceFile from "#utilities/source/getTS_SourceFile.js";
 
 import {
   ClassDeclarationImpl,
-  /*
   FunctionTypeStructureImpl,
-  */
   getTypeAugmentedStructure,
   MethodDeclarationImpl,
+  ParameterDeclarationImpl,
   TypeArgumentedTypeStructureImpl,
   TypeNodeToTypeStructureConsole,
   TypeParameterDeclarationImpl,
@@ -82,9 +81,8 @@ it("getTypeAugmentedStructure gets structures having type structures for types",
   if (getDefaultMethod instanceof MethodDeclarationImpl) {
     expect(getDefaultMethod.typeParameters.length).toBe(0);
     expect(getDefaultMethod.parameters.length).toBe(2);
-    /*
     if (getDefaultMethod.parameters.length === 2) {
-      const [key, builder] = getDefaultMethod.parameters;
+      const [key, builder] = getDefaultMethod.parameters as ParameterDeclarationImpl[];
       expect(key.typeStructure).toBe("K");
 
       expect(builder.typeStructure).toBeInstanceOf(FunctionTypeStructureImpl)
@@ -94,7 +92,6 @@ it("getTypeAugmentedStructure gets structures having type structures for types",
         expect(builder.typeStructure.returnType).toBe("V");
       }
     }
-    */
   }
 
   expect(failures.length).withContext("failure count").toBe(0);
