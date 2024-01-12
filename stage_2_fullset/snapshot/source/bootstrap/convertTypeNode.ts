@@ -236,30 +236,30 @@ convertTypeNode satisfies TypeNodeToTypeStructure;
 
 function convertConditionalTypeNode(
   condition: ConditionalTypeNode,
-  conversionFailCallback: TypeNodeToTypeStructureConsole,
+  consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
 ): ConditionalTypeStructureImpl | null
 {
   const checkType: stringTypeStructuresOrNull = convertTypeNode(
-    condition.getCheckType(), conversionFailCallback, subStructureResolver,
+    condition.getCheckType(), consoleTrap, subStructureResolver,
   );
   if (!checkType)
     return null;
 
   const extendsType: stringTypeStructuresOrNull = convertTypeNode(
-    condition.getExtendsType(), conversionFailCallback, subStructureResolver
+    condition.getExtendsType(), consoleTrap, subStructureResolver
   );
   if (!extendsType)
     return null;
 
   const trueType: stringTypeStructuresOrNull = convertTypeNode(
-    condition.getTrueType(), conversionFailCallback, subStructureResolver
+    condition.getTrueType(), consoleTrap, subStructureResolver
   );
   if (!trueType)
     return null;
 
   const falseType: stringTypeStructuresOrNull = convertTypeNode(
-    condition.getFalseType(), conversionFailCallback, subStructureResolver
+    condition.getFalseType(), consoleTrap, subStructureResolver
   );
   if (!falseType)
     return null;
