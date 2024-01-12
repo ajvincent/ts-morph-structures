@@ -1,12 +1,8 @@
-import {
-  Node,
-  Structures,
-  TypeNode,
-} from "ts-morph";
+import { Node, Structures, TypeNode } from "ts-morph";
 
 import type {
   StructureImpls,
-  stringTypeStructuresOrNull
+  stringTypeStructuresOrNull,
 } from "../../exports.js";
 
 export interface NodeWithStructures extends Node {
@@ -15,8 +11,8 @@ export interface NodeWithStructures extends Node {
 
 /** A string message and a type node. */
 export interface BuildTypesForStructureFailures {
-  message: string,
-  failingTypeNode: TypeNode
+  message: string;
+  failingTypeNode: TypeNode;
 }
 
 /**
@@ -26,11 +22,9 @@ export interface BuildTypesForStructureFailures {
 export type TypeNodeToTypeStructureConsole = (
   message: string,
   failingTypeNode: TypeNode,
-) => void
+) => void;
 
-export type SubstructureResolver = (
-  node: NodeWithStructures
-) => StructureImpls;
+export type SubstructureResolver = (node: NodeWithStructures) => StructureImpls;
 
 /**
  * @param typeNode - the type node we are examining.
@@ -42,7 +36,7 @@ export type TypeNodeToTypeStructure = (
   typeNode: TypeNode,
   _console: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-) => stringTypeStructuresOrNull
+) => stringTypeStructuresOrNull;
 
 export interface RootStructureWithConvertFailures {
   rootStructure: StructureImpls;

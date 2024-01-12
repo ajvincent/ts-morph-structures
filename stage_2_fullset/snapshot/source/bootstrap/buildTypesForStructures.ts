@@ -22,16 +22,14 @@ import {
 import type {
   StructureImpls,
   TypeStructures,
-  stringTypeStructuresOrNull
+  stringTypeStructuresOrNull,
 } from "../exports.js";
 
-import {
-  TypeStructureSet
-} from "../internal-exports.js";
+import { TypeStructureSet } from "../internal-exports.js";
 // #endregion preamble
 
 type TypeStructureKey<Key extends string> = {
-  [key in Key]: string | TypeStructures | undefined | TypeStructureSet
+  [key in Key]: string | TypeStructures | undefined | TypeStructureSet;
 };
 
 /**
@@ -51,14 +49,13 @@ export default function buildTypesForStructures(
   structureMap: ReadonlyMap<StructureImpls, Node>,
   userConsole: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-  converter: TypeNodeToTypeStructure
-): BuildTypesForStructureFailures[]
-{
+  converter: TypeNodeToTypeStructure,
+): BuildTypesForStructureFailures[] {
   const failures: BuildTypesForStructureFailures[] = [];
 
   function consoleTrap(message: string, failingTypeNode: TypeNode): void {
     userConsole(message, failingTypeNode);
-    failures.push({message, failingTypeNode});
+    failures.push({ message, failingTypeNode });
   }
 
   for (const [structure, node] of structureMap) {
@@ -67,17 +64,30 @@ export default function buildTypesForStructures(
       case StructureKind.Property:
       case StructureKind.PropertySignature:
       case StructureKind.TypeAlias:
-      case StructureKind.VariableDeclaration:
-      {
+      case StructureKind.VariableDeclaration: {
         assert(Node.isTyped(node), "we should have a typed node");
-        convertTypeField(structure, node, consoleTrap, subStructureResolver, converter);
+        convertTypeField(
+          structure,
+          node,
+          consoleTrap,
+          subStructureResolver,
+          converter,
+        );
         break;
       }
 
-      case StructureKind.IndexSignature:
-      {
-        assert(Node.isIndexSignatureDeclaration(node), "we should have an index signature node");
-        convertKeyTypeField(structure, node, consoleTrap, subStructureResolver, converter);
+      case StructureKind.IndexSignature: {
+        assert(
+          Node.isIndexSignatureDeclaration(node),
+          "we should have an index signature node",
+        );
+        convertKeyTypeField(
+          structure,
+          node,
+          consoleTrap,
+          subStructureResolver,
+          converter,
+        );
         // fall through to returnTypeStructure builder
       }
 
@@ -91,40 +101,81 @@ export default function buildTypesForStructures(
       case StructureKind.Method:
       case StructureKind.MethodOverload:
       case StructureKind.MethodSignature:
-      case StructureKind.SetAccessor:
-      {
+      case StructureKind.SetAccessor: {
         assert(Node.isReturnTyped(node), "we should have a return-typed node");
-        convertReturnTypeField(structure, node, consoleTrap, subStructureResolver, converter);
+        convertReturnTypeField(
+          structure,
+          node,
+          consoleTrap,
+          subStructureResolver,
+          converter,
+        );
         break;
       }
 
-      case StructureKind.TypeParameter:
-      {
-        assert(Node.isTypeParameterDeclaration(node), "we should have a type parameter declaration");
-        convertConstraintField(structure, node, consoleTrap, subStructureResolver, converter);
-        convertDefaultField(structure, node, consoleTrap, subStructureResolver, converter);
+      case StructureKind.TypeParameter: {
+        assert(
+          Node.isTypeParameterDeclaration(node),
+          "we should have a type parameter declaration",
+        );
+        convertConstraintField(
+          structure,
+          node,
+          consoleTrap,
+          subStructureResolver,
+          converter,
+        );
+        convertDefaultField(
+          structure,
+          node,
+          consoleTrap,
+          subStructureResolver,
+          converter,
+        );
         break;
       }
 
-      case StructureKind.Class:
-      {
-        assert(Node.isClassDeclaration(node), "we should have a class declaration");
-        convertExtendsFieldForClass(structure, node, consoleTrap, subStructureResolver, converter);
+      case StructureKind.Class: {
+        assert(
+          Node.isClassDeclaration(node),
+          "we should have a class declaration",
+        );
+        convertExtendsFieldForClass(
+          structure,
+          node,
+          consoleTrap,
+          subStructureResolver,
+          converter,
+        );
         structure.implementsSet.clear();
         const implementsTypeNodes: TypeNode[] = node.getImplements();
-        implementsTypeNodes.forEach(implementsTypeNode => {
-          convertImplementsTypeNodeForClass(structure, implementsTypeNode, consoleTrap, subStructureResolver, converter)
+        implementsTypeNodes.forEach((implementsTypeNode) => {
+          convertImplementsTypeNodeForClass(
+            structure,
+            implementsTypeNode,
+            consoleTrap,
+            subStructureResolver,
+            converter,
+          );
         });
         break;
       }
 
-      case StructureKind.Interface:
-      {
-        assert(Node.isInterfaceDeclaration(node), "we should have an interface declaration");
+      case StructureKind.Interface: {
+        assert(
+          Node.isInterfaceDeclaration(node),
+          "we should have an interface declaration",
+        );
         structure.extendsSet.clear();
         const extendsTypeNodes: TypeNode[] = node.getExtends();
-        extendsTypeNodes.forEach(extendsTypeNode => {
-          convertExtendsTypeNodeForInterface(structure, extendsTypeNode, consoleTrap, subStructureResolver, converter)
+        extendsTypeNodes.forEach((extendsTypeNode) => {
+          convertExtendsTypeNodeForInterface(
+            structure,
+            extendsTypeNode,
+            consoleTrap,
+            subStructureResolver,
+            converter,
+          );
         });
         break;
       }
@@ -139,14 +190,14 @@ function convertTypeField(
   node: TypedNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-  converter: TypeNodeToTypeStructure
+  converter: TypeNodeToTypeStructure,
 ): void {
   runConversion(
     node.getTypeNode(),
     consoleTrap,
     subStructureResolver,
     converter,
-    typeStructure => structure.typeStructure = typeStructure
+    (typeStructure) => (structure.typeStructure = typeStructure),
   );
 }
 
@@ -155,14 +206,14 @@ function convertKeyTypeField(
   node: IndexSignatureDeclaration,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-  converter: TypeNodeToTypeStructure
+  converter: TypeNodeToTypeStructure,
 ): void {
   runConversion(
     node.getKeyTypeNode(),
     consoleTrap,
     subStructureResolver,
     converter,
-    typeStructure => structure.keyTypeStructure = typeStructure
+    (typeStructure) => (structure.keyTypeStructure = typeStructure),
   );
 }
 
@@ -171,14 +222,14 @@ function convertReturnTypeField(
   node: ReturnTypedNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-  converter: TypeNodeToTypeStructure
+  converter: TypeNodeToTypeStructure,
 ): void {
   runConversion(
     node.getReturnTypeNode(),
     consoleTrap,
     subStructureResolver,
     converter,
-    typeStructure => structure.returnTypeStructure = typeStructure
+    (typeStructure) => (structure.returnTypeStructure = typeStructure),
   );
 }
 
@@ -187,14 +238,14 @@ function convertConstraintField(
   node: TypeParameterDeclaration,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-  converter: TypeNodeToTypeStructure
+  converter: TypeNodeToTypeStructure,
 ): void {
   runConversion(
     node.getConstraint(),
     consoleTrap,
     subStructureResolver,
     converter,
-    typeStructure => structure.constraintStructure = typeStructure
+    (typeStructure) => (structure.constraintStructure = typeStructure),
   );
 }
 
@@ -203,14 +254,14 @@ function convertDefaultField(
   node: TypeParameterDeclaration,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-  converter: TypeNodeToTypeStructure
+  converter: TypeNodeToTypeStructure,
 ): void {
   runConversion(
     node.getDefault(),
     consoleTrap,
     subStructureResolver,
     converter,
-    typeStructure => structure.defaultStructure = typeStructure
+    (typeStructure) => (structure.defaultStructure = typeStructure),
   );
 }
 
@@ -219,14 +270,14 @@ function convertExtendsFieldForClass(
   node: ClassDeclaration,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-  converter: TypeNodeToTypeStructure
+  converter: TypeNodeToTypeStructure,
 ): void {
   runConversion(
     node.getExtends(),
     consoleTrap,
     subStructureResolver,
     converter,
-    typeStructure => structure.extendsStructure = typeStructure
+    (typeStructure) => (structure.extendsStructure = typeStructure),
   );
 }
 
@@ -235,14 +286,14 @@ function convertImplementsTypeNodeForClass(
   typeNode: TypeNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-  converter: TypeNodeToTypeStructure
+  converter: TypeNodeToTypeStructure,
 ): void {
   runConversion(
     typeNode,
     consoleTrap,
     subStructureResolver,
     converter,
-    typeStructure => structure.implementsSet.add(typeStructure)
+    (typeStructure) => structure.implementsSet.add(typeStructure),
   );
 }
 
@@ -251,14 +302,14 @@ function convertExtendsTypeNodeForInterface(
   typeNode: TypeNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-  converter: TypeNodeToTypeStructure
+  converter: TypeNodeToTypeStructure,
 ): void {
   runConversion(
     typeNode,
     consoleTrap,
     subStructureResolver,
     converter,
-    typeStructure => structure.extendsSet.add(typeStructure)
+    (typeStructure) => structure.extendsSet.add(typeStructure),
   );
 }
 
@@ -278,16 +329,13 @@ function runConversion(
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
   converter: TypeNodeToTypeStructure,
-  callback: (typeStructure: string | TypeStructures) => void
-): void
-{
-  if (!typeNode)
-    return;
+  callback: (typeStructure: string | TypeStructures) => void,
+): void {
+  if (!typeNode) return;
   const typeStructure: stringTypeStructuresOrNull = converter(
     typeNode,
     consoleTrap,
-    subStructureResolver
+    subStructureResolver,
   );
-  if (typeStructure)
-    callback(typeStructure);
+  if (typeStructure) callback(typeStructure);
 }

@@ -44,7 +44,7 @@ import {
 import type {
   SubstructureResolver,
   TypeNodeToTypeStructure,
-  TypeNodeToTypeStructureConsole
+  TypeNodeToTypeStructureConsole,
 } from "./types/conversions.js";
 
 const LiteralKeywords: ReadonlyMap<SyntaxKind, string> = new Map([
@@ -66,9 +66,8 @@ const LiteralKeywords: ReadonlyMap<SyntaxKind, string> = new Map([
 export default function convertTypeNode(
   typeNode: TypeNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
-  subStructureResolver: SubstructureResolver
-): stringTypeStructuresOrNull
-{
+  subStructureResolver: SubstructureResolver,
+): stringTypeStructuresOrNull {
   if (Node.isLiteralTypeNode(typeNode)) {
     typeNode = typeNode.getFirstChildOrThrow();
   }
@@ -93,16 +92,22 @@ export default function convertTypeNode(
       consoleTrap,
       subStructureResolver,
     );
-    if (!childStructure)
-      return null;
+    if (!childStructure) return null;
     return new ArrayTypeStructureImpl(childStructure);
   }
 
   if (Node.isConditionalTypeNode(typeNode)) {
-    return convertConditionalTypeNode(typeNode, consoleTrap, subStructureResolver);
+    return convertConditionalTypeNode(
+      typeNode,
+      consoleTrap,
+      subStructureResolver,
+    );
   }
 
-  if (Node.isFunctionTypeNode(typeNode) || Node.isConstructorTypeNode(typeNode)) {
+  if (
+    Node.isFunctionTypeNode(typeNode) ||
+    Node.isConstructorTypeNode(typeNode)
+  ) {
     return convertFunctionTypeNode(typeNode, consoleTrap, subStructureResolver);
   }
 
@@ -112,25 +117,25 @@ export default function convertTypeNode(
       consoleTrap,
       subStructureResolver,
     );
-    if (!objectType)
-      return null;
+    if (!objectType) return null;
 
     const indexType = convertTypeNode(
       typeNode.getIndexTypeNode(),
       consoleTrap,
       subStructureResolver,
     );
-    if (!indexType)
-      return null;
+    if (!indexType) return null;
 
     return new IndexedAccessTypeStructureImpl(objectType, indexType);
   }
 
   if (Node.isInferTypeNode(typeNode)) {
     const declaration = typeNode.getTypeParameter();
-    const subStructure = convertTypeParameterNode(declaration, subStructureResolver);
-    if (!subStructure)
-      return null;
+    const subStructure = convertTypeParameterNode(
+      declaration,
+      subStructureResolver,
+    );
+    if (!subStructure) return null;
 
     return new InferTypeStructureImpl(subStructure);
   }
@@ -143,10 +148,9 @@ export default function convertTypeNode(
     const childStructure = convertTypeNode(
       typeNode.getTypeNode(),
       consoleTrap,
-      subStructureResolver
+      subStructureResolver,
     );
-    if (!childStructure)
-      return null;
+    if (!childStructure) return null;
     return new ParenthesesTypeStructureImpl(childStructure);
   }
 
@@ -159,10 +163,9 @@ export default function convertTypeNode(
     const structure = convertTypeNode(
       typeNode.getLastChildOrThrow(),
       consoleTrap,
-      subStructureResolver
+      subStructureResolver,
     );
-    if (!structure)
-      return null;
+    if (!structure) return null;
     return prependPrefixOperator("...", structure);
   }
 
@@ -172,7 +175,11 @@ export default function convertTypeNode(
   }
 
   if (Node.isTemplateLiteralTypeNode(typeNode)) {
-    return convertTemplateLiteralTypeNode(typeNode, consoleTrap, subStructureResolver);
+    return convertTemplateLiteralTypeNode(
+      typeNode,
+      consoleTrap,
+      subStructureResolver,
+    );
   }
 
   if (Node.isTypeLiteral(typeNode)) {
@@ -181,24 +188,21 @@ export default function convertTypeNode(
 
   // Type nodes with generic type node children, based on a type.
   let childTypeNodes: TypeNode[] = [],
-      parentStructure: (
-        UnionTypeStructureImpl |
-        IntersectionTypeStructureImpl |
-        TupleTypeStructureImpl |
-        TypeArgumentedTypeStructureImpl |
-        undefined
-      );
+    parentStructure:
+      | UnionTypeStructureImpl
+      | IntersectionTypeStructureImpl
+      | TupleTypeStructureImpl
+      | TypeArgumentedTypeStructureImpl
+      | undefined;
 
   if (Node.isUnionTypeNode(typeNode)) {
-    parentStructure = new UnionTypeStructureImpl;
+    parentStructure = new UnionTypeStructureImpl();
     childTypeNodes = typeNode.getTypeNodes();
-  }
-  else if (Node.isIntersectionTypeNode(typeNode)) {
-    parentStructure = new IntersectionTypeStructureImpl;
+  } else if (Node.isIntersectionTypeNode(typeNode)) {
+    parentStructure = new IntersectionTypeStructureImpl();
     childTypeNodes = typeNode.getTypeNodes();
-  }
-  else if (Node.isTupleTypeNode(typeNode)) {
-    parentStructure = new TupleTypeStructureImpl;
+  } else if (Node.isTupleTypeNode(typeNode)) {
+    parentStructure = new TupleTypeStructureImpl();
     childTypeNodes = typeNode.getElements();
   }
 
@@ -208,8 +212,7 @@ export default function convertTypeNode(
     const objectType = expression.getText();
 
     childTypeNodes = typeNode.getTypeArguments();
-    if (childTypeNodes.length === 0)
-      return objectType;
+    if (childTypeNodes.length === 0) return objectType;
 
     parentStructure = new TypeArgumentedTypeStructureImpl(objectType);
   }
@@ -232,14 +235,17 @@ export default function convertTypeNode(
       childTypeNodes,
       parentStructure.childTypes,
       consoleTrap,
-      subStructureResolver
+      subStructureResolver,
     );
 
     return success ? parentStructure : null;
   }
 
   reportConversionFailure(
-    "unsupported type node", typeNode, typeNode, consoleTrap
+    "unsupported type node",
+    typeNode,
+    typeNode,
+    consoleTrap,
   );
   return null;
 }
@@ -249,37 +255,40 @@ function convertConditionalTypeNode(
   condition: ConditionalTypeNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-): ConditionalTypeStructureImpl | null
-{
+): ConditionalTypeStructureImpl | null {
   const checkType: stringTypeStructuresOrNull = convertTypeNode(
-    condition.getCheckType(), consoleTrap, subStructureResolver,
+    condition.getCheckType(),
+    consoleTrap,
+    subStructureResolver,
   );
-  if (!checkType)
-    return null;
+  if (!checkType) return null;
 
   const extendsType: stringTypeStructuresOrNull = convertTypeNode(
-    condition.getExtendsType(), consoleTrap, subStructureResolver
+    condition.getExtendsType(),
+    consoleTrap,
+    subStructureResolver,
   );
-  if (!extendsType)
-    return null;
+  if (!extendsType) return null;
 
   const trueType: stringTypeStructuresOrNull = convertTypeNode(
-    condition.getTrueType(), consoleTrap, subStructureResolver
+    condition.getTrueType(),
+    consoleTrap,
+    subStructureResolver,
   );
-  if (!trueType)
-    return null;
+  if (!trueType) return null;
 
   const falseType: stringTypeStructuresOrNull = convertTypeNode(
-    condition.getFalseType(), consoleTrap, subStructureResolver
+    condition.getFalseType(),
+    consoleTrap,
+    subStructureResolver,
   );
-  if (!falseType)
-    return null;
+  if (!falseType) return null;
 
   return new ConditionalTypeStructureImpl({
     checkType,
     extendsType,
     trueType,
-    falseType
+    falseType,
   });
 }
 
@@ -287,46 +296,59 @@ function convertFunctionTypeNode(
   typeNode: FunctionTypeNode | ConstructorTypeNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-): FunctionTypeStructureImpl | null
-{
+): FunctionTypeStructureImpl | null {
   let typeParameterNodes: readonly TypeParameterDeclaration[] = [];
   try {
     // https://github.com/dsherret/ts-morph/issues/1434
-    typeParameterNodes = (typeNode as Pick<FunctionTypeNode, "getTypeParameters">).getTypeParameters();
-  }
-  catch (ex) {
+    typeParameterNodes = (
+      typeNode as Pick<FunctionTypeNode, "getTypeParameters">
+    ).getTypeParameters();
+  } catch (ex) {
     typeParameterNodes = typeNode.getChildrenOfKind(SyntaxKind.TypeParameter);
   }
 
   const typeParameterStructures: TypeParameterDeclarationImpl[] = [];
   for (const declaration of typeParameterNodes.values()) {
-    const subStructure = convertTypeParameterNode(declaration, subStructureResolver);
-    if (!subStructure)
-      return null;
+    const subStructure = convertTypeParameterNode(
+      declaration,
+      subStructureResolver,
+    );
+    if (!subStructure) return null;
     typeParameterStructures.push(subStructure);
   }
 
   let restParameter: ParameterTypeStructureImpl | undefined = undefined;
 
-  const parameterNodes: ParameterDeclaration[] = typeNode.getParameters().slice();
+  const parameterNodes: ParameterDeclaration[] = typeNode
+    .getParameters()
+    .slice();
   if (parameterNodes.length) {
     const lastParameter = parameterNodes[parameterNodes.length - 1];
     if (lastParameter.isRestParameter()) {
       parameterNodes.pop();
       restParameter = convertParameterNodeTypeNode(
-        lastParameter, consoleTrap, subStructureResolver
+        lastParameter,
+        consoleTrap,
+        subStructureResolver,
       );
     }
   }
 
   const parameterStructures: ParameterTypeStructureImpl[] = parameterNodes.map(
-    parameterNode => convertParameterNodeTypeNode(parameterNode, consoleTrap, subStructureResolver)
+    (parameterNode) =>
+      convertParameterNodeTypeNode(
+        parameterNode,
+        consoleTrap,
+        subStructureResolver,
+      ),
   );
 
   const returnTypeNode = typeNode.getReturnTypeNode();
   let returnTypeStructure: string | TypeStructures | undefined = undefined;
   if (returnTypeNode) {
-    returnTypeStructure = convertTypeNode(returnTypeNode, consoleTrap, subStructureResolver) ?? undefined;
+    returnTypeStructure =
+      convertTypeNode(returnTypeNode, consoleTrap, subStructureResolver) ??
+      undefined;
   }
 
   const functionContext: FunctionTypeContext = {
@@ -337,7 +359,7 @@ function convertFunctionTypeNode(
     restParameter,
     returnType: returnTypeStructure,
     writerStyle: FunctionWriterStyle.Arrow,
-  }
+  };
 
   return new FunctionTypeStructureImpl(functionContext);
 }
@@ -345,11 +367,9 @@ function convertFunctionTypeNode(
 function convertTypeParameterNode(
   declaration: TypeParameterDeclaration,
   subStructureResolver: SubstructureResolver,
-): TypeParameterDeclarationImpl | null
-{
+): TypeParameterDeclarationImpl | null {
   const subStructure = subStructureResolver(declaration);
-  if (subStructure.kind !== StructureKind.TypeParameter)
-    return null;
+  if (subStructure.kind !== StructureKind.TypeParameter) return null;
 
   return subStructure;
 }
@@ -358,20 +378,24 @@ function convertParameterNodeTypeNode(
   node: ParameterDeclaration,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-): ParameterTypeStructureImpl
-{
+): ParameterTypeStructureImpl {
   const paramTypeNode = node.getTypeNode();
   let paramTypeStructure: stringTypeStructuresOrNull = null;
   if (paramTypeNode) {
     paramTypeStructure = convertTypeNode(
-      paramTypeNode, consoleTrap, subStructureResolver
+      paramTypeNode,
+      consoleTrap,
+      subStructureResolver,
     );
   }
-  return new ParameterTypeStructureImpl(node.getName(), paramTypeStructure ?? undefined);
+  return new ParameterTypeStructureImpl(
+    node.getName(),
+    paramTypeStructure ?? undefined,
+  );
 }
 
 function buildStructureForEntityName(
-  entity: EntityName
+  entity: EntityName,
 ): string | QualifiedNameTypeStructureImpl {
   if (Node.isQualifiedName(entity)) {
     const leftStructure = buildStructureForEntityName(entity.getLeft());
@@ -382,7 +406,10 @@ function buildStructureForEntityName(
       return leftStructure;
     }
 
-    return new QualifiedNameTypeStructureImpl([leftStructure, rightTypeAsString]);
+    return new QualifiedNameTypeStructureImpl([
+      leftStructure,
+      rightTypeAsString,
+    ]);
   }
 
   return entity.getText();
@@ -392,16 +419,20 @@ function convertMappedTypeNode(
   mappedTypeNode: MappedTypeNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-): MappedTypeStructureImpl | null
-{
+): MappedTypeStructureImpl | null {
   let parameterStructure: TypeParameterDeclarationImpl;
   {
     const typeParameterNode = mappedTypeNode.getTypeParameter();
-    const structure = convertTypeParameterNode(typeParameterNode, subStructureResolver);
+    const structure = convertTypeParameterNode(
+      typeParameterNode,
+      subStructureResolver,
+    );
     if (!structure) {
       return reportConversionFailure(
         "unsupported type parameter node",
-        typeParameterNode, mappedTypeNode, consoleTrap
+        typeParameterNode,
+        mappedTypeNode,
+        consoleTrap,
       );
     }
     parameterStructure = structure;
@@ -413,21 +444,23 @@ function convertMappedTypeNode(
     let nameStructure: string | TypeStructures | undefined = undefined;
     const nameTypeNode = mappedTypeNode.getNameTypeNode();
     if (nameTypeNode) {
-      nameStructure = convertTypeNode(nameTypeNode, consoleTrap, subStructureResolver) ?? undefined;
+      nameStructure =
+        convertTypeNode(nameTypeNode, consoleTrap, subStructureResolver) ??
+        undefined;
     }
 
-    if (nameStructure)
-      mappedStructure.asName = nameStructure;
+    if (nameStructure) mappedStructure.asName = nameStructure;
   }
 
   {
     let typeStructure: string | TypeStructures | undefined = undefined;
     const typeNode = mappedTypeNode.getTypeNode();
     if (typeNode) {
-      typeStructure = convertTypeNode(typeNode, consoleTrap, subStructureResolver) ?? undefined;
+      typeStructure =
+        convertTypeNode(typeNode, consoleTrap, subStructureResolver) ??
+        undefined;
     }
-    if (typeStructure)
-      mappedStructure.type = typeStructure;
+    if (typeStructure) mappedStructure.type = typeStructure;
   }
 
   switch (mappedTypeNode.getReadonlyToken()?.getKind()) {
@@ -461,18 +494,20 @@ function convertTemplateLiteralTypeNode(
   templateNode: TemplateLiteralTypeNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-): TemplateLiteralTypeStructureImpl | null
-{
+): TemplateLiteralTypeStructureImpl | null {
   const headText = templateNode.getHead().getLiteralText();
   const spans: [string | TypeStructures, string][] = [];
 
   for (const childTypeNode of templateNode.getTemplateSpans()) {
     if (
-      (childTypeNode.getKind() !== SyntaxKind.TemplateLiteralTypeSpan) ||
-      (childTypeNode.getChildCount() !== 2)
+      childTypeNode.getKind() !== SyntaxKind.TemplateLiteralTypeSpan ||
+      childTypeNode.getChildCount() !== 2
     ) {
       return reportConversionFailure(
-        "unsupported template span", childTypeNode, childTypeNode, consoleTrap
+        "unsupported template span",
+        childTypeNode,
+        childTypeNode,
+        consoleTrap,
       );
     }
 
@@ -480,31 +515,36 @@ function convertTemplateLiteralTypeNode(
     if (!Node.isLiteralLike(middleOrTailNode)) {
       return reportConversionFailure(
         "unsupported template middle or tail literal node",
-        middleOrTailNode, childTypeNode, consoleTrap
+        middleOrTailNode,
+        childTypeNode,
+        consoleTrap,
       );
     }
 
     let grandchildStructure: string | TypeStructures | null;
     if (Node.isTypeNode(grandchildTypeNode)) {
-      grandchildStructure = convertTypeNode(grandchildTypeNode, consoleTrap, subStructureResolver);
-    }
-    else {
+      grandchildStructure = convertTypeNode(
+        grandchildTypeNode,
+        consoleTrap,
+        subStructureResolver,
+      );
+    } else {
       const kind: SyntaxKind = grandchildTypeNode.getKind();
 
       const keyword = LiteralKeywords.get(kind);
       if (keyword) {
         grandchildStructure = keyword;
-      }
-      else {
+      } else {
         return reportConversionFailure(
           "unsupported template middle or tail type node",
-          grandchildTypeNode, childTypeNode, consoleTrap
+          grandchildTypeNode,
+          childTypeNode,
+          consoleTrap,
         );
       }
     }
 
-    if (!grandchildStructure)
-      return null;
+    if (!grandchildStructure) return null;
 
     const literalText = middleOrTailNode.getLiteralText();
     spans.push([grandchildStructure, literalText]);
@@ -517,15 +557,17 @@ function convertTypeLiteralNode(
   memberedTypeNode: TypeLiteralNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-): MemberedObjectTypeStructureImpl | null
-{
-  const structure = new MemberedObjectTypeStructureImpl;
+): MemberedObjectTypeStructureImpl | null {
+  const structure = new MemberedObjectTypeStructureImpl();
   const members = memberedTypeNode.getMembers();
   for (const member of members) {
     const childStructure = subStructureResolver(member);
     if (!childStructure.kind) {
       return reportConversionFailure(
-        "unknown member kind", member, memberedTypeNode, consoleTrap
+        "unknown member kind",
+        member,
+        memberedTypeNode,
+        consoleTrap,
       );
     }
 
@@ -553,7 +595,10 @@ function convertTypeLiteralNode(
         break;
       default:
         return reportConversionFailure(
-          "unable to convert member of TypeElementMemberedTypeNode", member, memberedTypeNode, consoleTrap
+          "unable to convert member of TypeElementMemberedTypeNode",
+          member,
+          memberedTypeNode,
+          consoleTrap,
         );
     }
   }
@@ -565,15 +610,13 @@ function convertTypeOperatorNode(
   typeNode: TypeOperatorTypeNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-): PrefixOperatorsTypeStructureImpl | null
-{
+): PrefixOperatorsTypeStructureImpl | null {
   const structure = convertTypeNode(
     typeNode.getTypeNode(),
     consoleTrap,
     subStructureResolver,
   );
-  if (!structure)
-    return null;
+  if (!structure) return null;
 
   switch (typeNode.getOperator()) {
     case SyntaxKind.ReadonlyKeyword:
@@ -593,28 +636,28 @@ function convertTypeOperatorNode(
 
 function prependPrefixOperator(
   operator: PrefixUnaryOperator,
-  typeStructure: string | TypeStructures
-): PrefixOperatorsTypeStructureImpl
-{
+  typeStructure: string | TypeStructures,
+): PrefixOperatorsTypeStructureImpl {
   if (typeStructure instanceof PrefixOperatorsTypeStructureImpl) {
     typeStructure.operators.unshift(operator);
     return typeStructure;
   }
 
-  return new PrefixOperatorsTypeStructureImpl(
-    [operator], typeStructure
-  );
+  return new PrefixOperatorsTypeStructureImpl([operator], typeStructure);
 }
 
 function convertAndAppendChildTypes(
   childTypeNodes: readonly TypeNode[],
   elements: (string | TypeStructures)[],
   consoleTrap: TypeNodeToTypeStructureConsole,
-  subStructureResolver: SubstructureResolver
-): boolean
-{
-  return childTypeNodes.every(typeNode => {
-    const childStructure = convertTypeNode(typeNode, consoleTrap, subStructureResolver);
+  subStructureResolver: SubstructureResolver,
+): boolean {
+  return childTypeNodes.every((typeNode) => {
+    const childStructure = convertTypeNode(
+      typeNode,
+      consoleTrap,
+      subStructureResolver,
+    );
     if (childStructure) {
       elements.push(childStructure);
       return true;
@@ -629,14 +672,15 @@ function reportConversionFailure(
   failingNode: Node,
   failingTypeNode: TypeNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
-): null
-{
+): null {
   const pos = failingNode.getPos();
-  const { line, column } = failingNode.getSourceFile().getLineAndColumnAtPos(pos);
+  const { line, column } = failingNode
+    .getSourceFile()
+    .getLineAndColumnAtPos(pos);
 
   consoleTrap(
     `${prefixMessage}: "${failingNode.getKindName()}" at line ${line}, column ${column}`,
-    failingTypeNode
+    failingTypeNode,
   );
   return null;
 }

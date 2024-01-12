@@ -1,17 +1,11 @@
 // #region preamble
 import assert from "node:assert/strict";
 
-import {
-  Node
-} from "ts-morph";
+import { Node } from "ts-morph";
 
-import type {
-  StructureImpls,
-} from "../exports.js";
+import type { StructureImpls } from "../exports.js";
 
-import {
-  structureImplToNodeMap
-} from "./structureToNodeMap.js";
+import { structureImplToNodeMap } from "./structureToNodeMap.js";
 
 import buildTypesForStructures from "./buildTypesForStructures.js";
 
@@ -25,9 +19,7 @@ import type {
 } from "./types/conversions.js";
 // #endregion preamble
 
-export type {
-  TypeNodeToTypeStructureConsole
-};
+export type { TypeNodeToTypeStructureConsole };
 
 /**
  * Get a structure for a node, with type structures installed throughout its descendants.
@@ -40,9 +32,9 @@ export default function getTypeAugmentedStructure(
   rootNode: NodeWithStructures,
   userConsole: TypeNodeToTypeStructureConsole,
   assertNoFailures: boolean,
-): RootStructureWithConvertFailures
-{
-  const map: ReadonlyMap<StructureImpls, Node> = structureImplToNodeMap(rootNode);
+): RootStructureWithConvertFailures {
+  const map: ReadonlyMap<StructureImpls, Node> =
+    structureImplToNodeMap(rootNode);
   assert(map.size > 0, "we should have some structures");
 
   let rootStructure: StructureImpls | undefined;
@@ -60,23 +52,25 @@ export default function getTypeAugmentedStructure(
     map,
     userConsole,
     (nodeWithStructure: NodeWithStructures): StructureImpls => {
-      const subStructureResults: RootStructureWithConvertFailures = getTypeAugmentedStructure(
-        nodeWithStructure, userConsole, false
-      );
+      const subStructureResults: RootStructureWithConvertFailures =
+        getTypeAugmentedStructure(nodeWithStructure, userConsole, false);
       subFailures.push(...subStructureResults.failures);
       return subStructureResults.rootStructure;
     },
-    convertTypeNode
+    convertTypeNode,
   );
   failures.push(...subFailures);
 
   if (assertNoFailures) {
-    assert(failures.length === 0, "caller required no failures, but we did fail");
+    assert(
+      failures.length === 0,
+      "caller required no failures, but we did fail",
+    );
   }
 
   return {
     rootStructure,
     rootNode,
     failures,
-  }
+  };
 }

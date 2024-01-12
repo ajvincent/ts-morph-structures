@@ -8,10 +8,16 @@ import {
 import readDirsDeep from "#utilities/source/readDirsDeep.js";
 
 import {
+  PromiseAllParallel,
+  PromiseAllSequence
+} from "#utilities/source/PromiseTypes.js";
+
+import runPrettify from "#utilities/source/runPrettify.js";
+
+import {
   stageDir,
   snapshotDir,
 } from "./constants.js";
-import { PromiseAllParallel, PromiseAllSequence } from "#utilities/source/PromiseTypes.js";
 
 const previousDist = pathToModule(stageDir, "../stage_1_bootstrap/dist");
 
@@ -37,4 +43,6 @@ export default async function copySnapshot(): Promise<void> {
     const targetPath = f.replace(bootstrapSourceDir, bootstrapTargetDir);
     await fs.writeFile(targetPath, contents, { encoding: "utf-8" });
   });
+
+  await runPrettify(bootstrapTargetDir);
 }

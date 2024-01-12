@@ -14,15 +14,15 @@ import {
 import {
   type StructureImpls,
   StructureKindToSyntaxKindMap,
-  StructuresClassesMap
+  StructuresClassesMap,
 } from "../internal-exports.js";
 
-import type {
-  NodeWithStructures
-} from "./types/conversions.js";
+import type { NodeWithStructures } from "./types/conversions.js";
 // #endregion preamble
 
-const knownSyntaxKinds = new Set<SyntaxKind>(StructureKindToSyntaxKindMap.values());
+const knownSyntaxKinds = new Set<SyntaxKind>(
+  StructureKindToSyntaxKindMap.values(),
+);
 
 /**
  * Get structures for a node and its descendants.
@@ -32,9 +32,11 @@ const knownSyntaxKinds = new Set<SyntaxKind>(StructureKindToSyntaxKindMap.values
  */
 export function structureImplToNodeMap(
   nodeWithStructures: NodeWithStructures,
-): ReadonlyMap<StructureImpls, Node>
-{
-  return structureToNodeMap(nodeWithStructures, true) as ReadonlyMap<StructureImpls, Node>;
+): ReadonlyMap<StructureImpls, Node> {
+  return structureToNodeMap(nodeWithStructures, true) as ReadonlyMap<
+    StructureImpls,
+    Node
+  >;
 }
 
 /**
@@ -47,12 +49,9 @@ export function structureImplToNodeMap(
 export function structureToNodeMap(
   nodeWithStructures: NodeWithStructures,
   useTypeAwareStructures: boolean,
-): ReadonlyMap<Structures, Node>
-{
-  return (new StructureAndNodeData(
-    nodeWithStructures,
-    useTypeAwareStructures
-  )).structureToNodeMap;
+): ReadonlyMap<Structures, Node> {
+  return new StructureAndNodeData(nodeWithStructures, useTypeAwareStructures)
+    .structureToNodeMap;
 }
 
 /**
@@ -75,9 +74,8 @@ export function structureToNodeMap(
  *
  * Hashes I generate are internal to this class, so if I need to change the hash, I can.
  */
-class StructureAndNodeData
-{
-  readonly structureToNodeMap = new Map<Structures, Node>;
+class StructureAndNodeData {
+  readonly structureToNodeMap = new Map<Structures, Node>();
 
   // #region private fields, and life-cycle.
 
@@ -85,19 +83,19 @@ class StructureAndNodeData
   #rootStructure: Structures | null = null;
 
   /** The structures we haven't matched yet,  This must be empty at the end of the run. */
-  readonly #unusedStructures = new Set<Structures>;
+  readonly #unusedStructures = new Set<Structures>();
 
   /** The root node and its descendants. */
-  readonly #unusedNodes = new Set<Node>;
+  readonly #unusedNodes = new Set<Node>();
 
-  readonly #hashToStructureMap = new Map<string, Structures>;
-  readonly #structureToHash = new Map<Structures, string>;
-  readonly #structureToParent = new Map<Structures, Structures>;
+  readonly #hashToStructureMap = new Map<string, Structures>();
+  readonly #structureToHash = new Map<Structures, string>();
+  readonly #structureToParent = new Map<Structures, Structures>();
 
-  readonly #nodeSetsByHash = new Map<string, Set<Node>>;
-  readonly #nodeToHash = new Map<Node, string>;
+  readonly #nodeSetsByHash = new Map<string, Set<Node>>();
+  readonly #nodeToHash = new Map<Node, string>();
 
-  #hashCounter = new Map<string, number>;
+  #hashCounter = new Map<string, number>();
 
   #appendCounterPostfix(hash: string): string {
     let count = this.#hashCounter.get(hash) ?? 0;
@@ -107,19 +105,20 @@ class StructureAndNodeData
 
   constructor(
     nodeWithStructures: NodeWithStructures,
-    useTypeAwareStructures: boolean
-  )
-  {
+    useTypeAwareStructures: boolean,
+  ) {
     this.#rootNode = nodeWithStructures;
     this.#collectDescendantNodes(this.#rootNode, "");
 
     this.#rootStructure = this.#rootNode.getStructure();
     if (useTypeAwareStructures)
-      this.#rootStructure = StructuresClassesMap.get(this.#rootStructure.kind)!.clone(this.#rootStructure);
+      this.#rootStructure = StructuresClassesMap.get(
+        this.#rootStructure.kind,
+      )!.clone(this.#rootStructure);
 
     this.#collectDescendantStructures(this.#rootStructure, "");
 
-    this.#unusedStructures.forEach(value => this.#mapStructureToNode(value));
+    this.#unusedStructures.forEach((value) => this.#mapStructureToNode(value));
     if (this.#unusedStructures.size > 0) {
       throw new Error("assert failure, we should've resolved every structure");
     }
@@ -152,11 +151,7 @@ class StructureAndNodeData
    * @remarks
    * Each node's hash will be the parent hash, then a slash, then the return from `this.#hashNodeLocal()`.
    */
-  readonly #collectDescendantNodes = (
-    node: Node,
-    hash: string,
-  ): void =>
-  {
+  readonly #collectDescendantNodes = (node: Node, hash: string): void => {
     const kind: SyntaxKind = node.getKind();
 
     // Build the node hash, and register the node.
@@ -165,7 +160,7 @@ class StructureAndNodeData
       this.#nodeToHash.set(node, hash);
 
       if (!this.#nodeSetsByHash.has(hash)) {
-        this.#nodeSetsByHash.set(hash, new Set);
+        this.#nodeSetsByHash.set(hash, new Set());
       }
       const nodeSet = this.#nodeSetsByHash.get(hash)!;
 
@@ -187,8 +182,8 @@ class StructureAndNodeData
       }
     }
 
-    node.forEachChild(child => this.#collectDescendantNodes(child, hash));
-  }
+    node.forEachChild((child) => this.#collectDescendantNodes(child, hash));
+  };
 
   /**
    * Get the hash for a node's local part (meaning without parent hashing).
@@ -199,10 +194,7 @@ class StructureAndNodeData
    * @remarks
    * The current format is `${node.getKindName}:${node.getName()}(/overload)?`
    */
-  #hashNodeLocal(
-    node: Node
-  ): string
-  {
+  #hashNodeLocal(node: Node): string {
     let hash = this.#nodeToHash.get(node) ?? "";
     if (!hash) {
       hash = node.getKindName().toString();
@@ -217,11 +209,9 @@ class StructureAndNodeData
         Node.isDecorator(node) ||
         Node.isModuleDeclaration(node) ||
         false
-      )
-      {
+      ) {
         const name = node.getName();
-        if (name)
-          hash += ":" + name;
+        if (name) hash += ":" + name;
       }
 
       /* TypeScript has every overloadable as sibling nodes, and instances of the same class.
@@ -244,25 +234,17 @@ class StructureAndNodeData
     return hash;
   }
 
-  #collectClassFields(
-    node: ClassDeclaration,
-    hash: string
-  ): void
-  {
+  #collectClassFields(node: ClassDeclaration, hash: string): void {
     const childNodes: Node[] = [
       // .getMembers() visits nodes we will otherwise visit later.
       ...node.getProperties(),
     ];
-    childNodes.forEach(child => this.#collectDescendantNodes(child, hash));
+    childNodes.forEach((child) => this.#collectDescendantNodes(child, hash));
   }
 
-  #collectJSDocableNodes(
-    node: JSDocableNode,
-    hash: string
-  ): void
-  {
+  #collectJSDocableNodes(node: JSDocableNode, hash: string): void {
     const childNodes: JSDoc[] = node.getJsDocs();
-    childNodes.forEach(child => this.#collectDescendantNodes(child, hash));
+    childNodes.forEach((child) => this.#collectDescendantNodes(child, hash));
   }
 
   // #endregion node traversal
@@ -279,13 +261,8 @@ class StructureAndNodeData
    * Each structure's hash will be the parent hash, then a slash, then the return from `this.#hashStructureLocal()`.
    * Structure hashes are unique.
    */
-  #collectDescendantStructures(
-    structure: Structures,
-    hash: string,
-  ): void
-  {
-    if (structure.kind === StructureKind.JSDocTag)
-      return;
+  #collectDescendantStructures(structure: Structures, hash: string): void {
+    if (structure.kind === StructureKind.JSDocTag) return;
 
     hash += "/" + this.#hashStructureLocal(structure);
     this.#structureToHash.set(structure, hash);
@@ -297,15 +274,17 @@ class StructureAndNodeData
      * The overloads appear on the function structure's overloads property.
      * So, I defer them to a later recursion loop.
      */
-    forEachStructureChild(structure, child => {
-      if (child.kind === StructureKind.FunctionOverload)
-        return;
+    forEachStructureChild(structure, (child) => {
+      if (child.kind === StructureKind.FunctionOverload) return;
       this.#structureToParent.set(child, structure);
       this.#collectDescendantStructures(child, hash);
     });
 
-    if ((structure.kind === StructureKind.Function) && (structure.overloads?.length)) {
-      structure.overloads.forEach(child => {
+    if (
+      structure.kind === StructureKind.Function &&
+      structure.overloads?.length
+    ) {
+      structure.overloads.forEach((child) => {
         const overloadStructure = child as FunctionDeclarationOverloadStructure;
         overloadStructure.kind = StructureKind.FunctionOverload;
 
@@ -323,10 +302,7 @@ class StructureAndNodeData
    * @remarks
    * The current format is `${StructureKind[structure.kind]}:${structure.name}#${number}}`.
    */
-  #hashStructureLocal(
-    structure: Structures
-  ): string
-  {
+  #hashStructureLocal(structure: Structures): string {
     let hash = this.#structureToHash.get(structure) ?? "";
     if (!hash) {
       hash = StructureKind[structure.kind];
@@ -343,10 +319,7 @@ class StructureAndNodeData
 
   // #region structure-to-node
 
-  #mapStructureToNode(
-    structure: Structures
-  ): void
-  {
+  #mapStructureToNode(structure: Structures): void {
     const structureHash = this.#hashStructureLocal(structure);
     const nodeHash = this.#createNodeHashFromStructure(structure);
 
@@ -362,16 +335,15 @@ class StructureAndNodeData
       }
 
       parentNode = this.structureToNodeMap.get(parentStructure) ?? null;
-      if (!parentNode)
-        throw new Error("assert failure, parent node not found");
+      if (!parentNode) throw new Error("assert failure, parent node not found");
 
       parentNodeHash = this.#nodeToHash.get(parentNode)!;
       if (!parentNodeHash)
         throw new Error("assert failure, parent node hash not found");
     }
 
-    void(parentNode);
-    void(parentNodeHash);
+    void parentNode;
+    void parentNodeHash;
 
     const candidateNodes = this.#nodeSetsByHash.get(nodeHash);
     if (!candidateNodes || candidateNodes.size === 0) {
@@ -385,16 +357,13 @@ class StructureAndNodeData
       if (parentNode) {
         const sourceFile = this.#rootNode!.getSourceFile();
 
-        parentMsg = `, parent at ${
-          JSON.stringify(sourceFile.getLineAndColumnAtPos(parentNode.getPos()))
-        }`;
+        parentMsg = `, parent at ${JSON.stringify(
+          sourceFile.getLineAndColumnAtPos(parentNode.getPos()),
+        )}`;
       }
       throw new Error(
-        `Expected candidate node to exist, structureHash = "${
-          structureHash
-        }", nodeHash = "${
-          nodeHash
-        }"${parentMsg}`);
+        `Expected candidate node to exist, structureHash = "${structureHash}", nodeHash = "${nodeHash}"${parentMsg}`,
+      );
     }
 
     // First-in, first-out set, so map the first node and exit.
@@ -414,10 +383,7 @@ class StructureAndNodeData
    * @param structure - the structure to hash
    * @returns a candidate node hash.
    */
-  #createNodeHashFromStructure(
-    structure: Structures
-  ): string
-  {
+  #createNodeHashFromStructure(structure: Structures): string {
     let parentHash = "";
     if (structure !== this.#rootStructure) {
       const parentStructure = this.#structureToParent.get(structure)!;
@@ -429,20 +395,18 @@ class StructureAndNodeData
       parentHash = parentHashTemp;
     }
 
-    let localKind = SyntaxKind[StructureKindToSyntaxKindMap.get(structure.kind)!];
+    let localKind =
+      SyntaxKind[StructureKindToSyntaxKindMap.get(structure.kind)!];
     // Sometimes TypeScript assigned the same syntax kind number to multiple strings ihe SyntaxKind enum...
-    if (localKind === "JSDocComment")
-      localKind = "JSDoc";
-    if (localKind === "FirstStatement")
-      localKind = "VariableStatement";
+    if (localKind === "JSDocComment") localKind = "JSDoc";
+    if (localKind === "FirstStatement") localKind = "VariableStatement";
 
     if (StructureKind[structure.kind].endsWith("Overload")) {
       localKind = "overload";
     }
 
     let hash: string = parentHash + "/" + localKind;
-    if ("name" in structure)
-      hash += ":" + structure.name?.toString();
+    if ("name" in structure) hash += ":" + structure.name?.toString();
     return hash;
   }
 
