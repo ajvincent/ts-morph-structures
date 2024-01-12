@@ -3,9 +3,11 @@ import { CodeBlockWriter, Writers } from "ts-morph";
 import {
   CallSignatureDeclarationImpl,
   ConstructSignatureDeclarationImpl,
+  GetAccessorDeclarationImpl,
   IndexSignatureDeclarationImpl,
   MethodSignatureImpl,
   PropertySignatureImpl,
+  SetAccessorDeclarationImpl,
 } from "../exports.js";
 
 import { TypeStructureKind } from "../base/TypeStructureKind.js";
@@ -20,9 +22,11 @@ import type { CloneableTypeStructure } from "../types/CloneableStructure.js";
  * {
  *    (callSignatureArgument) => string;
  *    new (constructSignatureArgument) => ClassName;
+ *    get getterName(): symbol;
  *    [indexSignatureKey: string]: boolean;
  *    property: number;
  *    method(): void;
+ *    set setterName(value: symbol);
  * }
  * ```
  *
@@ -44,6 +48,11 @@ export default class MemberedObjectTypeStructureImpl extends TypeStructuresBase<
         ConstructSignatureDeclarationImpl.clone(signature),
       ),
     );
+    membered.getAccessors.push(
+      ...other.getAccessors.map((accessor) =>
+        GetAccessorDeclarationImpl.clone(accessor),
+      ),
+    );
     membered.indexSignatures.push(
       ...other.indexSignatures.map((signature) =>
         IndexSignatureDeclarationImpl.clone(signature),
@@ -57,6 +66,11 @@ export default class MemberedObjectTypeStructureImpl extends TypeStructuresBase<
     membered.methods.push(
       ...other.methods.map((signature) => MethodSignatureImpl.clone(signature)),
     );
+    membered.setAccessors.push(
+      ...other.setAccessors.map((accessor) =>
+        SetAccessorDeclarationImpl.clone(accessor),
+      ),
+    );
 
     return membered;
   }
@@ -65,9 +79,11 @@ export default class MemberedObjectTypeStructureImpl extends TypeStructuresBase<
 
   readonly callSignatures: CallSignatureDeclarationImpl[] = [];
   readonly constructSignatures: ConstructSignatureDeclarationImpl[] = [];
+  readonly getAccessors: GetAccessorDeclarationImpl[] = [];
   readonly indexSignatures: IndexSignatureDeclarationImpl[] = [];
   readonly methods: MethodSignatureImpl[] = [];
   readonly properties: PropertySignatureImpl[] = [];
+  readonly setAccessors: SetAccessorDeclarationImpl[] = [];
 
   constructor() {
     super();

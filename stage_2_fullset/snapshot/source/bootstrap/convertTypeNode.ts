@@ -9,6 +9,7 @@ import {
   StructureKind,
   SyntaxKind,
   TemplateLiteralTypeNode,
+  TypeLiteralNode,
   TypeNode,
   TypeParameterDeclaration,
 } from "ts-morph";
@@ -22,6 +23,7 @@ import {
   IndexedAccessTypeStructureImpl,
   IntersectionTypeStructureImpl,
   MappedTypeStructureImpl,
+  MemberedObjectTypeStructureImpl,
   ParameterTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   QualifiedNameTypeStructureImpl,
@@ -137,6 +139,10 @@ export default function convertTypeNode(
 
   if (Node.isTemplateLiteralTypeNode(typeNode)) {
     return convertTemplateLiteralTypeNode(typeNode, consoleTrap, subStructureResolver);
+  }
+
+  if (Node.isTypeLiteral(typeNode)) {
+    return convertTypeLiteralNode(typeNode, consoleTrap, subStructureResolver);
   }
 
   // Type nodes with generic type node children, based on a type.
@@ -465,6 +471,54 @@ function convertTemplateLiteralTypeNode(
   return new TemplateLiteralTypeStructureImpl(headText, spans);
 }
 
+function convertTypeLiteralNode(
+  memberedTypeNode: TypeLiteralNode,
+  consoleTrap: TypeNodeToTypeStructureConsole,
+  subStructureResolver: SubstructureResolver,
+): MemberedObjectTypeStructureImpl | null
+{
+  const structure = new MemberedObjectTypeStructureImpl;
+  const members = memberedTypeNode.getMembers();
+  for (const member of members) {
+    const childStructure = subStructureResolver(member);
+    if (!childStructure.kind) {
+      return reportConversionFailure(
+        "unknown member kind", member, memberedTypeNode, consoleTrap
+      );
+    }
+
+    switch (childStructure.kind) {
+      case StructureKind.CallSignature:
+        structure.callSignatures.push(childStructure);
+        break;
+      case StructureKind.ConstructSignature:
+        structure.constructSignatures.push(childStructure);
+        break;
+      case StructureKind.GetAccessor:
+        structure.getAccessors.push(childStructure);
+        break;
+      case StructureKind.IndexSignature:
+        structure.indexSignatures.push(childStructure);
+        break;
+      case StructureKind.MethodSignature:
+        structure.methods.push(childStructure);
+        break;
+      case StructureKind.PropertySignature:
+        structure.properties.push(childStructure);
+        break;
+      case StructureKind.SetAccessor:
+        structure.setAccessors.push(childStructure);
+        break;
+      default:
+        return reportConversionFailure(
+          "unable to convert member of TypeElementMemberedTypeNode", member, memberedTypeNode, consoleTrap
+        );
+    }
+  }
+
+  return structure;
+}
+
 function convertAndAppendChildTypes(
   childTypeNodes: readonly TypeNode[],
   elements: (string | TypeStructures)[],
@@ -487,13 +541,13 @@ function reportConversionFailure(
   prefixMessage: string,
   failingNode: Node,
   failingTypeNode: TypeNode,
-  conversionFailCallback: TypeNodeToTypeStructureConsole,
+  consoleTrap: TypeNodeToTypeStructureConsole,
 ): null
 {
   const pos = failingNode.getPos();
   const { line, column } = failingNode.getSourceFile().getLineAndColumnAtPos(pos);
 
-  conversionFailCallback(
+  consoleTrap(
     `${prefixMessage}: "${failingNode.getKindName()}" at line ${line}, column ${column}`,
     failingTypeNode
   );

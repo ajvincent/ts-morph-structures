@@ -6,9 +6,11 @@ import {
 import {
   CallSignatureDeclarationImpl,
   ConstructSignatureDeclarationImpl,
+  GetAccessorDeclarationImpl,
   IndexSignatureDeclarationImpl,
   MethodSignatureImpl,
   PropertySignatureImpl,
+  SetAccessorDeclarationImpl,
 } from "#stage_one/prototype-snapshot/exports.js"
 
 import {
@@ -27,9 +29,11 @@ import type {
  * {
  *    (callSignatureArgument) => string;
  *    new (constructSignatureArgument) => ClassName;
+ *    get getterName(): symbol;
  *    [indexSignatureKey: string]: boolean;
  *    property: number;
  *    method(): void;
+ *    set setterName(value: symbol);
  * }
  * ```
  *
@@ -50,6 +54,9 @@ extends TypeStructuresBase<TypeStructureKind.MemberedObject>
     membered.constructSignatures.push(...other.constructSignatures.map(
       signature => ConstructSignatureDeclarationImpl.clone(signature)
     ));
+    membered.getAccessors.push(...other.getAccessors.map(
+      accessor => GetAccessorDeclarationImpl.clone(accessor)
+    ));
     membered.indexSignatures.push(...other.indexSignatures.map(
       signature => IndexSignatureDeclarationImpl.clone(signature)
     ));
@@ -59,6 +66,9 @@ extends TypeStructuresBase<TypeStructureKind.MemberedObject>
     membered.methods.push(...other.methods.map(
       signature => MethodSignatureImpl.clone(signature)
     ));
+    membered.setAccessors.push(...other.setAccessors.map(
+      accessor => SetAccessorDeclarationImpl.clone(accessor)
+    ));
 
     return membered;
   }
@@ -67,9 +77,11 @@ extends TypeStructuresBase<TypeStructureKind.MemberedObject>
 
   readonly callSignatures: CallSignatureDeclarationImpl[] = [];
   readonly constructSignatures: ConstructSignatureDeclarationImpl[] = [];
+  readonly getAccessors: GetAccessorDeclarationImpl[] = [];
   readonly indexSignatures: IndexSignatureDeclarationImpl[] = [];
   readonly methods: MethodSignatureImpl[] = [];
   readonly properties: PropertySignatureImpl[] = [];
+  readonly setAccessors: SetAccessorDeclarationImpl[] = [];
 
   constructor() {
     super();

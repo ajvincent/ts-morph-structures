@@ -16,6 +16,7 @@ import {
   IndexedAccessTypeStructureImpl,
   IntersectionTypeStructureImpl,
   MappedTypeStructureImpl,
+  MemberedObjectTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   StringTypeStructureImpl,
   TemplateLiteralTypeStructureImpl,
@@ -296,6 +297,18 @@ let A: string;
     expect(1).toBe(0);
   });
 
+  it("Intersection: of string and number", () => {
+    setTypeStructure("string & number", failCallback);
+    expect(structure).toBeInstanceOf(IntersectionTypeStructureImpl);
+    if (structure instanceof IntersectionTypeStructureImpl) {
+      expect(structure.childTypes.length).toBe(2);
+      expect(structure.childTypes[0]).toBe("string");
+      expect(structure.childTypes[1]).toBe("number");
+    }
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
   it('Mapped: { [key in "one" | "two" as `${key}Index`]: boolean; } (mapped type)', () => {
     setTypeStructure('{ -readonly [key in "one" | "two" as `${key}Index`]+?: boolean; }', failCallback);
     expect(structure).toBeInstanceOf(MappedTypeStructureImpl);
@@ -320,14 +333,27 @@ let A: string;
     expect(failNode).toBe(null);
   });
 
-  it("Intersection: of string and number", () => {
-    setTypeStructure("string & number", failCallback);
-    expect(structure).toBeInstanceOf(IntersectionTypeStructureImpl);
-    if (structure instanceof IntersectionTypeStructureImpl) {
-      expect(structure.childTypes.length).toBe(2);
-      expect(structure.childTypes[0]).toBe("string");
-      expect(structure.childTypes[1]).toBe("number");
-    }
+  it(`MemberedObject: { foo: true } (object literal)`, () => {
+    setTypeStructure(`{ foo: true }`, failCallback);
+    expect(structure).toBeInstanceOf(MemberedObjectTypeStructureImpl);
+
+    if (!(structure instanceof MemberedObjectTypeStructureImpl))
+      return;
+    expect(structure.callSignatures.length).toBe(0);
+    expect(structure.constructSignatures.length).toBe(0);
+    expect(structure.getAccessors.length).toBe(0);
+    expect(structure.indexSignatures.length).toBe(0);
+    expect(structure.methods.length).toBe(0);
+    expect(structure.properties.length).toBe(1);
+    expect(structure.setAccessors.length).toBe(0);
+
+    const propertyStructure = structure.properties[0];
+    if (!propertyStructure)
+      return;
+
+    expect(propertyStructure.name).toBe("foo");
+    expect(propertyStructure.type).toBe("true");
+
     expect(failMessage).toBe(undefined);
     expect(failNode).toBe(null);
   });
