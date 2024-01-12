@@ -13,9 +13,12 @@ import {
   ConditionalTypeStructureImpl,
   FunctionTypeStructureImpl,
   FunctionWriterStyle,
+  IndexedAccessTypeStructureImpl,
   IntersectionTypeStructureImpl,
+  MappedTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   StringTypeStructureImpl,
+  TemplateLiteralTypeStructureImpl,
   TupleTypeStructureImpl,
   TypeArgumentedTypeStructureImpl,
   UnionTypeStructureImpl,
@@ -69,7 +72,7 @@ enum NumberEnum {
   three,
 }
 
-const A: string;
+let A: string;
     `.trim() + "\n");
     declaration = sourceFile.getVariableDeclarationOrThrow("A");
   });
@@ -273,6 +276,50 @@ const A: string;
     }
   );
 
+  it(`IndexedAccess: NumberStringType["repeatForward"]`, () => {
+    setTypeStructure(`NumberStringType["repeatForward"]`, failCallback);
+    expect(structure).toBeInstanceOf(IndexedAccessTypeStructureImpl);
+    if (!(structure instanceof IndexedAccessTypeStructureImpl))
+      return;
+    expect(structure.objectType).toBe("NumberStringType");
+
+    const indexType = structure.childTypes[0];
+    expect(indexType).toBeInstanceOf(StringTypeStructureImpl);
+    if (indexType instanceof StringTypeStructureImpl) {
+      expect(indexType.stringValue).toBe("repeatForward");
+    }
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
+  xit("Infer:", () => {
+    expect(1).toBe(0);
+  });
+
+  it('Mapped: { [key in "one" | "two" as `${key}Index`]: boolean; } (mapped type)', () => {
+    setTypeStructure('{ -readonly [key in "one" | "two" as `${key}Index`]+?: boolean; }', failCallback);
+    expect(structure).toBeInstanceOf(MappedTypeStructureImpl);
+    if (!(structure instanceof MappedTypeStructureImpl))
+      return;
+
+    expect(structure.readonlyToken).toBe("-readonly");
+
+    expect(structure.parameter?.name).toBe("key");
+    expect(structure.parameter?.constraint).toBe(`"one" | "two"`);
+    expect(structure.asName).toBeInstanceOf(TemplateLiteralTypeStructureImpl);
+    if (structure.asName instanceof TemplateLiteralTypeStructureImpl) {
+      expect(structure.asName.head).toBe("");
+      expect(structure.asName.spans).toEqual([["key", "Index"]]);
+    }
+
+    expect(structure.questionToken).toBe("+?");
+
+    expect(structure.type).toBe("boolean");
+
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
   it("Intersection: of string and number", () => {
     setTypeStructure("string & number", failCallback);
     expect(structure).toBeInstanceOf(IntersectionTypeStructureImpl);
@@ -294,6 +341,56 @@ const A: string;
     expect(structure.childTypes[0]).toBe("true");
     expect(failMessage).toBeUndefined();
     expect(failNode).toBeNull();
+  });
+
+  it('TemplateLiteral: `one${"A" | "B"}two${"C" | "D"}three${"E" | "F"}` (template literal)', () => {
+    setTypeStructure('`one${"A" | "B"}two${"C" | "D"}three${"E" | "F"}`', failCallback);
+    expect(structure).toBeInstanceOf(TemplateLiteralTypeStructureImpl);
+    if (!(structure instanceof TemplateLiteralTypeStructureImpl))
+      return;
+
+    function checkUnionType(unionType: UnionTypeStructureImpl, index: number, expected: string[]): void {
+      expect(unionType.childTypes.length).withContext("at index " + index + ", " + expected.join(", ")).toBe(expected.length);
+      for (let i = 0; i < expected.length; i++) {
+        const childType: string | TypeStructures = unionType.childTypes[i];
+        expect(childType).withContext("expecting string type at index: " + index + ", " + expected[i]).toBeInstanceOf(StringTypeStructureImpl);
+        if (childType instanceof StringTypeStructureImpl) {
+          expect(childType.stringValue).withContext("at index: " + index + ", subindex " + i).toBe(expected[i]);
+        }
+      }
+    }
+
+    expect(structure.head).toBe("one");
+    expect(structure.spans.length).toBe(3);
+    {
+      const [unionType, two] = structure.spans[0];
+      expect(unionType).toBeInstanceOf(UnionTypeStructureImpl);
+      if (unionType instanceof UnionTypeStructureImpl) {
+        checkUnionType(unionType, 0, ["A", "B"]);
+      }
+      expect(two).toBe("two");
+    }
+
+    {
+      const [unionType, three] = structure.spans[1];
+      expect(unionType).toBeInstanceOf(UnionTypeStructureImpl);
+      if (unionType instanceof UnionTypeStructureImpl) {
+        checkUnionType(unionType, 1, ["C", "D"]);
+      }
+      expect(three).toBe("three");
+    }
+
+    {
+      const [unionType, four] = structure.spans[2];
+      expect(unionType).toBeInstanceOf(UnionTypeStructureImpl);
+      if (unionType instanceof UnionTypeStructureImpl) {
+        checkUnionType(unionType, 2, ["E", "F"]);
+      }
+      expect(four).toBe("");
+    }
+
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
   });
 
   it("Tuple: [string, number]", () => {

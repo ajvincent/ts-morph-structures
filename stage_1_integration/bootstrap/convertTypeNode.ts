@@ -3,10 +3,12 @@ import {
   ConstructorTypeNode,
   EntityName,
   FunctionTypeNode,
+  MappedTypeNode,
   Node,
   ParameterDeclaration,
   StructureKind,
   SyntaxKind,
+  TemplateLiteralTypeNode,
   TypeNode,
   TypeParameterDeclaration,
 } from "ts-morph";
@@ -17,11 +19,14 @@ import {
   FunctionTypeContext,
   FunctionTypeStructureImpl,
   FunctionWriterStyle,
+  IndexedAccessTypeStructureImpl,
   IntersectionTypeStructureImpl,
+  MappedTypeStructureImpl,
   ParameterTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   QualifiedNameTypeStructureImpl,
   StringTypeStructureImpl,
+  TemplateLiteralTypeStructureImpl,
   TupleTypeStructureImpl,
   TypeArgumentedTypeStructureImpl,
   TypeParameterDeclarationImpl,
@@ -95,6 +100,30 @@ export default function convertTypeNode(
     return convertFunctionTypeNode(typeNode, consoleTrap, subStructureResolver);
   }
 
+  if (Node.isIndexedAccessTypeNode(typeNode)) {
+    const objectType = convertTypeNode(
+      typeNode.getObjectTypeNode(),
+      consoleTrap,
+      subStructureResolver,
+    );
+    if (!objectType)
+      return null;
+
+    const indexType = convertTypeNode(
+      typeNode.getIndexTypeNode(),
+      consoleTrap,
+      subStructureResolver,
+    );
+    if (!indexType)
+      return null;
+
+    return new IndexedAccessTypeStructureImpl(objectType, indexType);
+  }
+
+  if (Node.isMappedTypeNode(typeNode)) {
+    return convertMappedTypeNode(typeNode, consoleTrap, subStructureResolver);
+  }
+
   if (Node.isParenthesizedTypeNode(typeNode)) {
     const childStructure = convertTypeNode(
       typeNode.getTypeNode(),
@@ -104,6 +133,10 @@ export default function convertTypeNode(
     if (!childStructure)
       return null;
     return new ParenthesesTypeStructureImpl(childStructure);
+  }
+
+  if (Node.isTemplateLiteralTypeNode(typeNode)) {
+    return convertTemplateLiteralTypeNode(typeNode, consoleTrap, subStructureResolver);
   }
 
   // Type nodes with generic type node children, based on a type.
@@ -305,6 +338,131 @@ function buildStructureForEntityName(
   }
 
   return entity.getText();
+}
+
+function convertMappedTypeNode(
+  mappedTypeNode: MappedTypeNode,
+  consoleTrap: TypeNodeToTypeStructureConsole,
+  subStructureResolver: SubstructureResolver,
+): MappedTypeStructureImpl | null
+{
+  let parameterStructure: TypeParameterDeclarationImpl;
+  {
+    const typeParameterNode = mappedTypeNode.getTypeParameter();
+    const structure = convertTypeParameterNode(typeParameterNode, subStructureResolver);
+    if (!structure) {
+      return reportConversionFailure(
+        "unsupported type parameter node",
+        typeParameterNode, mappedTypeNode, consoleTrap
+      );
+    }
+    parameterStructure = structure;
+  }
+
+  const mappedStructure = new MappedTypeStructureImpl(parameterStructure);
+
+  {
+    let nameStructure: string | TypeStructures | undefined = undefined;
+    const nameTypeNode = mappedTypeNode.getNameTypeNode();
+    if (nameTypeNode) {
+      nameStructure = convertTypeNode(nameTypeNode, consoleTrap, subStructureResolver) ?? undefined;
+    }
+
+    if (nameStructure)
+      mappedStructure.asName = nameStructure;
+  }
+
+  {
+    let typeStructure: string | TypeStructures | undefined = undefined;
+    const typeNode = mappedTypeNode.getTypeNode();
+    if (typeNode) {
+      typeStructure = convertTypeNode(typeNode, consoleTrap, subStructureResolver) ?? undefined;
+    }
+    if (typeStructure)
+      mappedStructure.type = typeStructure;
+  }
+
+  switch (mappedTypeNode.getReadonlyToken()?.getKind()) {
+    case SyntaxKind.ReadonlyKeyword:
+      mappedStructure.readonlyToken = "readonly";
+      break;
+    case SyntaxKind.PlusToken:
+      mappedStructure.readonlyToken = "+readonly";
+      break;
+    case SyntaxKind.MinusToken:
+      mappedStructure.readonlyToken = "-readonly";
+      break;
+  }
+
+  switch (mappedTypeNode.getQuestionToken()?.getKind()) {
+    case SyntaxKind.QuestionToken:
+      mappedStructure.questionToken = "?";
+      break;
+    case SyntaxKind.PlusToken:
+      mappedStructure.questionToken = "+?";
+      break;
+    case SyntaxKind.MinusToken:
+      mappedStructure.questionToken = "-?";
+      break;
+  }
+
+  return mappedStructure;
+}
+
+function convertTemplateLiteralTypeNode(
+  templateNode: TemplateLiteralTypeNode,
+  consoleTrap: TypeNodeToTypeStructureConsole,
+  subStructureResolver: SubstructureResolver,
+): TemplateLiteralTypeStructureImpl | null
+{
+  const headText = templateNode.getHead().getLiteralText();
+  const spans: [string | TypeStructures, string][] = [];
+
+  for (const childTypeNode of templateNode.getTemplateSpans()) {
+    if (
+      (childTypeNode.getKind() !== SyntaxKind.TemplateLiteralTypeSpan) ||
+      (childTypeNode.getChildCount() !== 2)
+    ) {
+      return reportConversionFailure(
+        "unsupported template span", childTypeNode, childTypeNode, consoleTrap
+      );
+    }
+
+    const [grandchildTypeNode, middleOrTailNode] = childTypeNode.getChildren();
+    if (!Node.isLiteralLike(middleOrTailNode)) {
+      return reportConversionFailure(
+        "unsupported template middle or tail literal node",
+        middleOrTailNode, childTypeNode, consoleTrap
+      );
+    }
+
+    let grandchildStructure: string | TypeStructures | null;
+    if (Node.isTypeNode(grandchildTypeNode)) {
+      grandchildStructure = convertTypeNode(grandchildTypeNode, consoleTrap, subStructureResolver);
+    }
+    else {
+      const kind: SyntaxKind = grandchildTypeNode.getKind();
+
+      const keyword = LiteralKeywords.get(kind);
+      if (keyword) {
+        grandchildStructure = keyword;
+      }
+      else {
+        return reportConversionFailure(
+          "unsupported template middle or tail type node",
+          grandchildTypeNode, childTypeNode, consoleTrap
+        );
+      }
+    }
+
+    if (!grandchildStructure)
+      return null;
+
+    const literalText = middleOrTailNode.getLiteralText();
+    spans.push([grandchildStructure, literalText]);
+  }
+
+  return new TemplateLiteralTypeStructureImpl(headText, spans);
 }
 
 function convertAndAppendChildTypes(
