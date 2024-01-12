@@ -11,6 +11,7 @@ import {
   TemplateLiteralTypeNode,
   TypeLiteralNode,
   TypeNode,
+  TypeOperatorTypeNode,
   TypeParameterDeclaration,
 } from "ts-morph";
 
@@ -26,6 +27,8 @@ import {
   MemberedObjectTypeStructureImpl,
   ParameterTypeStructureImpl,
   ParenthesesTypeStructureImpl,
+  PrefixOperatorsTypeStructureImpl,
+  PrefixUnaryOperator,
   QualifiedNameTypeStructureImpl,
   StringTypeStructureImpl,
   TemplateLiteralTypeStructureImpl,
@@ -135,6 +138,16 @@ export default function convertTypeNode(
     if (!childStructure)
       return null;
     return new ParenthesesTypeStructureImpl(childStructure);
+  }
+
+  // PrefixOperators
+  if (Node.isTypeOperatorTypeNode(typeNode)) {
+    return convertTypeOperatorNode(typeNode, consoleTrap, subStructureResolver);
+  }
+
+  if (Node.isTypeQuery(typeNode)) {
+    const structure = buildStructureForEntityName(typeNode.getExprName());
+    return prependPrefixOperator("typeof", structure);
   }
 
   if (Node.isTemplateLiteralTypeNode(typeNode)) {
@@ -517,6 +530,51 @@ function convertTypeLiteralNode(
   }
 
   return structure;
+}
+
+function convertTypeOperatorNode(
+  typeNode: TypeOperatorTypeNode,
+  consoleTrap: TypeNodeToTypeStructureConsole,
+  subStructureResolver: SubstructureResolver,
+): PrefixOperatorsTypeStructureImpl | null
+{
+  const structure = convertTypeNode(
+    typeNode.getTypeNode(),
+    consoleTrap,
+    subStructureResolver,
+  );
+  if (!structure)
+    return null;
+
+  switch (typeNode.getOperator()) {
+    case SyntaxKind.ReadonlyKeyword:
+      return prependPrefixOperator("readonly", structure);
+
+    case SyntaxKind.KeyOfKeyword:
+      return prependPrefixOperator("keyof", structure);
+
+    case SyntaxKind.UniqueKeyword:
+      return prependPrefixOperator("unique", structure);
+
+    // no other possibilities
+    default:
+      return null;
+  }
+}
+
+function prependPrefixOperator(
+  operator: PrefixUnaryOperator,
+  typeStructure: string | TypeStructures
+): PrefixOperatorsTypeStructureImpl
+{
+  if (typeStructure instanceof PrefixOperatorsTypeStructureImpl) {
+    typeStructure.operators.unshift(operator);
+    return typeStructure;
+  }
+
+  return new PrefixOperatorsTypeStructureImpl(
+    [operator], typeStructure
+  );
 }
 
 function convertAndAppendChildTypes(

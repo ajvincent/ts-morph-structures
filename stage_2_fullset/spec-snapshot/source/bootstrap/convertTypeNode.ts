@@ -18,6 +18,8 @@ import {
   MappedTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
   ParenthesesTypeStructureImpl,
+  PrefixOperatorsTypeStructureImpl,
+  QualifiedNameTypeStructureImpl,
   StringTypeStructureImpl,
   TemplateLiteralTypeStructureImpl,
   TupleTypeStructureImpl,
@@ -131,16 +133,6 @@ let A: string;
     expect(structure).toBe("12.5");
     expect(failMessage).toBeUndefined()
     expect(failNode).toBeNull();
-  });
-
-  it(`string literal "foo"`, () => {
-    setTypeStructure(`"foo"`, failCallback);
-    expect(structure).toBeInstanceOf(StringTypeStructureImpl);
-    if (structure instanceof StringTypeStructureImpl) {
-      expect(structure.stringValue).toBe("foo");
-    }
-    expect(failMessage).toBe(undefined);
-    expect(failNode).toBe(null);
   });
 
   it(`identifier (NumberStringType)`, () => {
@@ -367,6 +359,40 @@ let A: string;
     expect(structure.childTypes[0]).toBe("true");
     expect(failMessage).toBeUndefined();
     expect(failNode).toBeNull();
+  });
+
+  it("PrefixOperators: keyof typeof NumberStringClass", () => {
+    setTypeStructure(`keyof typeof NumberStringClass`, failCallback);
+    expect(structure).toBeInstanceOf(PrefixOperatorsTypeStructureImpl);
+    if (!(structure instanceof PrefixOperatorsTypeStructureImpl))
+      return;
+    expect(structure.operators).toEqual(["keyof", "typeof"]);
+    expect(structure.objectType).toBe("NumberStringClass");
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
+  it(`QualifiedName: NumberEnum.one`, () => {
+    setTypeStructure(`NumberEnum.one`, failCallback);
+    expect(structure).toBeInstanceOf(QualifiedNameTypeStructureImpl);
+
+    if (structure instanceof QualifiedNameTypeStructureImpl) {
+      expect(structure.childTypes.length).toBe(2);
+      expect(structure.childTypes[0]).toBe("NumberEnum");
+      expect(structure.childTypes[1]).toBe("one");
+    }
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
+
+  it(`String: string literal "foo"`, () => {
+    setTypeStructure(`"foo"`, failCallback);
+    expect(structure).toBeInstanceOf(StringTypeStructureImpl);
+    if (structure instanceof StringTypeStructureImpl) {
+      expect(structure.stringValue).toBe("foo");
+    }
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
   });
 
   it('TemplateLiteral: `one${"A" | "B"}two${"C" | "D"}three${"E" | "F"}` (template literal)', () => {
