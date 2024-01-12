@@ -3,6 +3,10 @@ export {
   type KindedTypeStructure,
   TypeStructureKind,
 } from "./base/TypeStructureKind.js";
+export {
+  default as getTypeAugmentedStructure,
+  type TypeNodeToTypeStructureConsole,
+} from "./bootstrap/getTypeAugmentedStructure.js";
 export { default as CallSignatureDeclarationImpl } from "./structures/CallSignatureDeclarationImpl.js";
 export { default as ClassDeclarationImpl } from "./structures/ClassDeclarationImpl.js";
 export { default as ClassStaticBlockDeclarationImpl } from "./structures/ClassStaticBlockDeclarationImpl.js";

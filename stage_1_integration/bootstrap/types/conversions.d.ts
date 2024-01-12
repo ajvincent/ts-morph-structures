@@ -43,3 +43,9 @@ export type TypeNodeToTypeStructure = (
   _console: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
 ) => stringTypeStructuresOrNull
+
+export interface RootStructureWithConvertFailures {
+  rootStructure: StructureImpls;
+  rootNode: NodeWithStructures;
+  failures: readonly BuildTypesForStructureFailures[];
+}

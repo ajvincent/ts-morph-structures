@@ -91,6 +91,24 @@ async function defineExistingExports(
   });
 
   dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/bootstrap/getTypeAugmentedStructure.ts"),
+    exportNames: [
+      "getTypeAugmentedStructure",
+    ],
+    isDefaultExport: true,
+    isType: false
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/bootstrap/getTypeAugmentedStructure.ts"),
+    exportNames: [
+      "TypeNodeToTypeStructureConsole"
+    ],
+    isDefaultExport: false,
+    isType: true
+  });
+
+  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/toolbox/ClassMembersMap.ts"),
     exportNames: ["ClassMembersMap"],
     isDefaultExport: true,
