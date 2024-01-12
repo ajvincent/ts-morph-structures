@@ -22,6 +22,7 @@ import {
   FunctionTypeStructureImpl,
   FunctionWriterStyle,
   IndexedAccessTypeStructureImpl,
+  InferTypeStructureImpl,
   IntersectionTypeStructureImpl,
   MappedTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
@@ -125,6 +126,15 @@ export default function convertTypeNode(
     return new IndexedAccessTypeStructureImpl(objectType, indexType);
   }
 
+  if (Node.isInferTypeNode(typeNode)) {
+    const declaration = typeNode.getTypeParameter();
+    const subStructure = convertTypeParameterNode(declaration, subStructureResolver);
+    if (!subStructure)
+      return null;
+
+    return new InferTypeStructureImpl(subStructure);
+  }
+
   if (Node.isMappedTypeNode(typeNode)) {
     return convertMappedTypeNode(typeNode, consoleTrap, subStructureResolver);
   }
@@ -143,6 +153,17 @@ export default function convertTypeNode(
   // PrefixOperators
   if (Node.isTypeOperatorTypeNode(typeNode)) {
     return convertTypeOperatorNode(typeNode, consoleTrap, subStructureResolver);
+  }
+
+  if (Node.isRestTypeNode(typeNode)) {
+    const structure = convertTypeNode(
+      typeNode.getLastChildOrThrow(),
+      consoleTrap,
+      subStructureResolver
+    );
+    if (!structure)
+      return null;
+    return prependPrefixOperator("...", structure);
   }
 
   if (Node.isTypeQuery(typeNode)) {
@@ -203,12 +224,12 @@ export default function convertTypeNode(
     );
     if (success)
       return parentStructure;
+    return null;
   }
 
   reportConversionFailure(
     "unsupported type node", typeNode, typeNode, consoleTrap
   );
-  void(subStructureResolver);
   return null;
 }
 convertTypeNode satisfies TypeNodeToTypeStructure;
@@ -319,10 +340,7 @@ function convertTypeParameterNode(
   if (subStructure.kind !== StructureKind.TypeParameter)
     return null;
 
-  if (subStructure instanceof TypeParameterDeclarationImpl)
-    return subStructure;
-
-  return TypeParameterDeclarationImpl.clone(subStructure);
+  return subStructure;
 }
 
 function convertParameterNodeTypeNode(

@@ -22,6 +22,7 @@ import {
   ArrayTypedStructureImpl,
   ConditionalTypedStructureImpl,
   IndexedAccessTypedStructureImpl,
+  InferTypedStructureImpl,
   IntersectionTypedStructureImpl,
   FunctionTypeContext,
   FunctionTypedStructureImpl,
@@ -47,7 +48,6 @@ import {
   IndexSignatureDeclarationImpl,
   MethodSignatureImpl,
   PropertySignatureImpl,
-  InferTypedStructureImpl,
   TypePrinterSettingsBase,
 } from "../exports.js"
 

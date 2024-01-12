@@ -16,6 +16,7 @@ import {
   FunctionTypedStructureImpl,
   FunctionWriterStyle,
   IndexedAccessTypedStructureImpl,
+  InferTypedStructureImpl,
   IntersectionTypedStructureImpl,
   LiteralTypedStructureImpl,
   MappedTypeTypedStructureImpl,
@@ -664,6 +665,17 @@ const A: string;
       return;
 
     structure = structure.childTypes[1];
+    expect(structure).toBeInstanceOf(PrefixOperatorsTypedStructureImpl);
+    if (!(structure instanceof PrefixOperatorsTypedStructureImpl))
+      return;
+
+    // now the real test
+    structure = structure.childTypes[0];
+    expect(structure).toBeInstanceOf(InferTypedStructureImpl);
+    if (!(structure instanceof InferTypedStructureImpl))
+      return;
+
+    expect(structure.typeParameter.name).toBe("Tail");
 
     expect(failMessage).toBe(undefined);
     expect(failNode).toBe(null);

@@ -14,6 +14,7 @@ import {
   FunctionTypeStructureImpl,
   FunctionWriterStyle,
   IndexedAccessTypeStructureImpl,
+  InferTypeStructureImpl,
   IntersectionTypeStructureImpl,
   MappedTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
@@ -285,8 +286,41 @@ let A: string;
     expect(failNode).toBe(null);
   });
 
-  xit("Infer:", () => {
-    expect(1).toBe(0);
+  it("Infer: infer Tail", () => {
+    setTypeStructure(
+      `[] extends readonly symbol[] ? [] extends [ infer Head, ...infer Tail] ? Head : never : never`,
+      failCallback
+    );
+
+    expect(structure).toBeInstanceOf(ConditionalTypeStructureImpl);
+    if (!(structure instanceof ConditionalTypeStructureImpl))
+      return;
+
+    structure = structure.trueType;
+    expect(structure).toBeInstanceOf(ConditionalTypeStructureImpl);
+    if (!(structure instanceof ConditionalTypeStructureImpl))
+      return;
+
+    structure = structure.extendsType;
+    expect(structure).toBeInstanceOf(TupleTypeStructureImpl);
+    if (!(structure instanceof TupleTypeStructureImpl))
+      return;
+
+    structure = structure.childTypes[1];
+    expect(structure).toBeInstanceOf(PrefixOperatorsTypeStructureImpl);
+    if (!(structure instanceof PrefixOperatorsTypeStructureImpl))
+      return;
+
+    // now the real test
+    structure = structure.objectType;
+    expect(structure).toBeInstanceOf(InferTypeStructureImpl);
+    if (!(structure instanceof InferTypeStructureImpl))
+      return;
+
+    expect(structure.typeParameter.name).toBe("Tail");
+
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
   });
 
   it("Intersection: of string and number", () => {
@@ -481,10 +515,6 @@ let A: string;
     }
     expect(failMessage).toBe(undefined);
     expect(failNode).toBe(null);
-  });
-
-  xit("Class implements, interface extends", () => {
-    expect(1).toBe(2);
   });
   //#region complex types
 });
