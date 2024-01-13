@@ -78,7 +78,7 @@ const fixturesDir: ModuleSourceDirectory = {
   pathToDirectory: "../../../../fixtures"
 };
 
-xit("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
+it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   const remainingKeys = new Set(remainingKeysBase);
   function checkMap(
     relativePathToModuleFile: string,
@@ -120,6 +120,28 @@ xit("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   checkMap("stage_utilities/WeakRefSet.ts");
   checkMap("grab-bag.ts");
 
+  // Unreachable structure kinds via sourceFile.getStructure(), as of ts-morph 21.0.1
+  {
+    expect(remainingKeys.has(StructureKind.ClassStaticBlock)).toBe(true);
+    remainingKeys.delete(StructureKind.ClassStaticBlock);
+
+    expect(remainingKeys.has(StructureKind.PropertyAssignment)).toBe(true);
+    remainingKeys.delete(StructureKind.PropertyAssignment);
+
+    expect(remainingKeys.has(StructureKind.SpreadAssignment)).toBe(true);
+    remainingKeys.delete(StructureKind.SpreadAssignment);
+
+    expect(remainingKeys.has(StructureKind.ShorthandPropertyAssignment)).toBe(true);
+    remainingKeys.delete(StructureKind.ShorthandPropertyAssignment);
+  }
+
+  /* ImportAttribute shows up as AssertEntry in the StructureKind enum due to a conflict
+     and is still experimental, per https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
+     For that reason, I'm not going to support it right now (2024-01-12).
+  */
+  expect(remainingKeys.has(StructureKind.ImportAttribute)).toBe(true);
+  remainingKeys.delete(StructureKind.ImportAttribute);
+
   let remainingKinds = Array.from(remainingKeys.keys()).map(
     (kind) => StructureKind[kind] + ": " + SyntaxKind[StructureKindToSyntaxKindMap.get(kind)!]
   );
@@ -127,7 +149,4 @@ xit("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   remainingKinds.sort();
 
   expect(remainingKinds).withContext("we didn't find examples of these kinds in the fixtures").toEqual([]);
-
-  // failing for StructureKind.ImportAttribute => SyntaxKind.ImportAttribute (showing up as AssertEntry due to enum conflict)
-  // failing for SpreadAssignment => SpreadAssignment
 });
