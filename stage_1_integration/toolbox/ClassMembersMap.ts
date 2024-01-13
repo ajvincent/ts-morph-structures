@@ -1,13 +1,23 @@
-import { StructureKind } from "ts-morph";
+import {
+  JSDocStructure,
+  StructureKind
+} from "ts-morph";
 
 import {
   ClassDeclarationImpl,
   ConstructorDeclarationImpl,
   GetAccessorDeclarationImpl,
+  JSDocImpl,
+  ParameterDeclarationImpl,
   PropertyDeclarationImpl,
   MethodDeclarationImpl,
   SetAccessorDeclarationImpl,
 } from "../snapshot/source/exports.js";
+
+import {
+  TypeStructureClassesMap,
+  cloneStructureOrStringArray,
+} from "../snapshot/source/internal-exports.js"
 
 import ClassFieldStatementsMap from "./ClassFieldStatementsMap.js";
 
@@ -150,6 +160,126 @@ extends Map<string, ClassMemberImpl>
     if (rv?.kind === kind)
       return rv as Extract<ClassMemberImpl, { kind: Kind }>;
     return undefined;
+  }
+
+  convertAccessorsToProperty(
+    isStatic: boolean,
+    name: string
+  ): void
+  {
+    const getter = this.getAsKind<StructureKind.GetAccessor>(StructureKind.GetAccessor, isStatic, name);
+    const setter = this.getAsKind<StructureKind.SetAccessor>(StructureKind.SetAccessor, isStatic, name);
+    if (!getter && !setter) {
+      throw new Error((isStatic ? "static " : "") + name + " accessors not found!");
+    }
+
+    if (getter?.decorators.length ?? setter?.decorators.length) {
+      throw new Error("accessors have decorators, converting to property decorators is not yet supported");
+    }
+
+    const prop = new PropertyDeclarationImpl(isStatic, getter?.name ?? setter!.name);
+    // This is a merge operation: prefer getter fields over setter fields
+
+    const docs = getter?.docs ?? setter!.docs;
+    if (docs) {
+      prop.docs.push(...cloneStructureOrStringArray<JSDocStructure, StructureKind.JSDoc, JSDocImpl>(
+        docs as (string | JSDocImpl)[], StructureKind.JSDoc
+      ));
+    }
+
+    prop.leadingTrivia.push(...(getter?.leadingTrivia ?? setter!.leadingTrivia));
+    prop.scope = getter?.scope ?? setter?.scope;
+    prop.trailingTrivia.push(...(getter?.leadingTrivia ?? setter!.leadingTrivia));
+
+    if (getter?.returnTypeStructure) {
+      prop.typeStructure = TypeStructureClassesMap.clone(getter.returnTypeStructure);
+    } else {
+      const setterParam = setter!.parameters[0] as ParameterDeclarationImpl;
+      if (setterParam.typeStructure) {
+        prop.typeStructure = TypeStructureClassesMap.clone(setterParam.typeStructure);
+      }
+    }
+
+    this.addMembers([prop]);
+    if (getter) {
+      this.delete(ClassMembersMap.keyFromMember(getter));
+    }
+    if (setter) {
+      this.delete(ClassMembersMap.keyFromMember(setter));
+    }
+  }
+
+  /**
+   * 
+   * @param isStatic - true if the property is static (and the accessors should be)
+   * @param name - the property name
+   * @param toGetter - true if the caller wants a getter
+   * @param toSetter - true if the caller wants a setter
+   */
+  convertPropertyToAccessors(
+    isStatic: boolean,
+    name: string,
+    toGetter: boolean,
+    toSetter: boolean
+  ): void
+  {
+    if (!toGetter && !toSetter)
+      throw new Error("You must request either a get accessor or a set accessor!");
+
+    const prop = this.getAsKind<StructureKind.Property>(StructureKind.Property, isStatic, name);
+    if (!prop) {
+      throw new Error((isStatic ? "static " : "") + name + " property not found!");
+    }
+
+    if (prop.decorators.length) {
+      throw new Error("property has decorators, converting to accessor decorators is not yet supported");
+    }
+
+    if (toGetter) {
+      const getter = new GetAccessorDeclarationImpl(prop.isStatic, prop.name, prop.typeStructure);
+
+      if (prop.docs) {
+        getter.docs.push(...cloneStructureOrStringArray<JSDocStructure, StructureKind.JSDoc, JSDocImpl>(
+          prop.docs as (string | JSDocImpl)[]
+        , StructureKind.JSDoc))
+      }
+
+      if (prop.isAbstract) {
+        getter.isAbstract = true;
+      }
+
+      getter.leadingTrivia.push(...prop.leadingTrivia);
+      getter.scope = prop.scope;
+      getter.trailingTrivia.push(...prop.trailingTrivia);
+
+      this.addMembers([getter]);
+    }
+
+    if (toSetter) {
+      const param = new ParameterDeclarationImpl("value");
+      if (prop.typeStructure)
+        param.typeStructure = TypeStructureClassesMap.clone(prop.typeStructure);
+
+      const setter = new SetAccessorDeclarationImpl(prop.isStatic, prop.name, param);
+
+      if (prop.docs) {
+        setter.docs.push(...cloneStructureOrStringArray<JSDocStructure, StructureKind.JSDoc, JSDocImpl>(
+          prop.docs as (string | JSDocImpl)[]
+        , StructureKind.JSDoc))
+      }
+
+      if (prop.isAbstract) {
+        setter.isAbstract = true;
+      }
+
+      setter.leadingTrivia.push(...prop.leadingTrivia);
+      setter.scope = prop.scope;
+      setter.trailingTrivia.push(...prop.trailingTrivia);
+
+      this.addMembers([setter]);
+    }
+
+    this.delete(ClassMembersMap.keyFromMember(prop));
   }
 
   /**

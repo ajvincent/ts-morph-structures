@@ -40,7 +40,7 @@ describe("ClassMembersMap", () => {
     setter5 = new SetAccessorDeclarationImpl(false, "five", value_five);
   });
 
-  it("ClassMembersMap allows us to organize class members by kind", () => {
+  it("allows us to organize class members by kind", () => {
     membersMap.addMembers([
       prop1, prop2, ctor_A, method3, method4, getter5, setter5
     ]);
@@ -91,7 +91,7 @@ describe("ClassMembersMap", () => {
     ).toEqual([setter5]);
   });
 
-  it("ClassMembersMap: moveMembersToClass populates a class declaration", () => {
+  it("moveMembersToClass() populates a class declaration", () => {
     membersMap.addMembers([
       prop1, prop2, ctor_A, method3, method4, getter5, setter5
     ]);
@@ -134,7 +134,191 @@ describe("ClassMembersMap", () => {
     expect(setter5.statements).toEqual([`this.#five = five;`]);
   });
 
-  it("ClassMembersMap static methods give us keys we can use in the map", () => {
+  describe("convertPropertyToAccessors()", () => {
+    let getter1: GetAccessorDeclarationImpl | undefined;
+    let setter1: SetAccessorDeclarationImpl | undefined;
+    beforeEach(() => {
+      membersMap.addMembers([prop1]);
+      getter1 = undefined;
+      setter1 = undefined;
+    });
+
+    function retrieveAccessors(): void {
+      getter1 = membersMap.getAsKind<StructureKind.GetAccessor>(StructureKind.GetAccessor, prop1.isStatic, prop1.name);
+      setter1 = membersMap.getAsKind<StructureKind.SetAccessor>(StructureKind.SetAccessor, prop1.isStatic, prop1.name);
+    }
+
+    it("can give us a getter only", () => {
+      membersMap.convertPropertyToAccessors(prop1.isStatic, prop1.name, true, false);
+      retrieveAccessors();
+
+      expect(getter1).not.toBeUndefined();
+      if (getter1) {
+        expect(getter1.name).toBe(prop1.name);
+        // property didn't have any docs or trivia
+        expect(getter1.docs).toEqual([]);
+        expect(getter1.isAbstract).toBe(prop1.isAbstract);
+        expect(getter1.leadingTrivia).toEqual([]);
+        expect(getter1.scope).toBe(prop1.scope);
+        expect(getter1.trailingTrivia).toEqual([]);
+        // we used a string type
+        expect(getter1.returnType).toEqual(prop1.type);
+      }
+
+      expect(setter1).toBe(undefined);
+
+      expect(membersMap.getAsKind<StructureKind.Property>(
+        StructureKind.Property, prop1.isStatic, prop1.name
+      )).toBeUndefined();
+    });
+
+    it("can give us a setter only", () => {
+      membersMap.convertPropertyToAccessors(prop1.isStatic, prop1.name, false, true);
+      retrieveAccessors();
+
+      expect(getter1).toBeUndefined();
+
+      expect(setter1).not.toBeUndefined();
+      if (setter1) {
+        expect(setter1.parameters.length).toBe(1);
+        const [parameter] = setter1.parameters as ParameterDeclarationImpl[];
+        expect(parameter).not.toBeUndefined();
+        if (parameter) {
+          expect(parameter.name).toBe("value");
+          // we used a string type
+          expect(parameter.type).toBe(prop1.type);
+        }
+
+        // property didn't have any docs or trivia
+        expect(setter1.docs).toEqual([]);
+        expect(setter1.isAbstract).toBe(prop1.isAbstract);
+        expect(setter1.leadingTrivia).toEqual([]);
+        expect(setter1.name).toBe(prop1.name);
+        expect(setter1.scope).toBe(prop1.scope);
+        expect(setter1.trailingTrivia).toEqual([]);
+        expect(setter1.typeParameters).toEqual([]);
+      }
+
+      expect(membersMap.getAsKind<StructureKind.Property>(
+        StructureKind.Property, prop1.isStatic, prop1.name
+      )).toBeUndefined();
+    });
+
+    // getter/setter pair
+    it("can give us both a getter and a setter", () => {
+      membersMap.convertPropertyToAccessors(prop1.isStatic, prop1.name, true, true);
+      retrieveAccessors();
+
+      expect(getter1).not.toBeUndefined();
+      if (getter1) {
+        expect(getter1.name).toBe(prop1.name);
+        // property didn't have any docs or trivia
+        expect(getter1.docs).toEqual([]);
+        expect(getter1.isAbstract).toBe(prop1.isAbstract);
+        expect(getter1.leadingTrivia).toEqual([]);
+        expect(getter1.scope).toBe(prop1.scope);
+        expect(getter1.trailingTrivia).toEqual([]);
+        // we used a string type
+        expect(getter1.returnType).toEqual(prop1.type);
+      }
+
+      expect(setter1).not.toBeUndefined();
+      if (setter1) {
+        expect(setter1.parameters.length).toBe(1);
+        const [parameter] = setter1.parameters as ParameterDeclarationImpl[];
+        expect(parameter).not.toBeUndefined();
+        if (parameter) {
+          expect(parameter.name).toBe("value");
+          // we used a string type
+          expect(parameter.type).toBe(prop1.type);
+        }
+
+        // property didn't have any docs or trivia
+        expect(setter1.docs).toEqual([]);
+        expect(setter1.isAbstract).toBe(prop1.isAbstract);
+        expect(setter1.leadingTrivia).toEqual([]);
+        expect(setter1.name).toBe(prop1.name);
+        expect(setter1.scope).toBe(prop1.scope);
+        expect(setter1.trailingTrivia).toEqual([]);
+        expect(setter1.typeParameters).toEqual([]);
+      }
+
+      expect(membersMap.getAsKind<StructureKind.Property>(
+        StructureKind.Property, prop1.isStatic, prop1.name
+      )).toBeUndefined();
+    });
+
+    it("throws if we asked for neither a getter nor a setter", () => {
+      expect(
+        () => membersMap.convertPropertyToAccessors(prop1.isStatic, prop1.name, false, false)
+      ).toThrowError("You must request either a get accessor or a set accessor!");
+    });
+  });
+
+  describe("convertAccessorsToProperty() can give us a property", () => {
+    let prop5: PropertyDeclarationImpl | undefined;
+
+    function retrieveProperty(): void {
+      prop5 = membersMap.getAsKind<StructureKind.Property>(StructureKind.Property, getter5.isStatic, getter5.name);
+    }
+
+    it("from a getter only", () => {
+      membersMap.addMembers([getter5]);
+      membersMap.convertAccessorsToProperty(getter5.isStatic, getter5.name);
+
+      retrieveProperty();
+      expect(prop5).not.toBeUndefined();
+      if (prop5) {
+        expect(prop5.name).toBe(getter5.name);
+      }
+
+      expect(membersMap.getAsKind<StructureKind.GetAccessor>(
+        StructureKind.GetAccessor, getter5.isStatic, getter5.name
+      )).toBeUndefined();
+    });
+
+    it("from a setter only", () => {
+      membersMap.addMembers([setter5]);
+      membersMap.convertAccessorsToProperty(setter5.isStatic, setter5.name);
+
+      retrieveProperty();
+      expect(prop5).not.toBeUndefined();
+      if (prop5) {
+        expect(prop5.name).toBe(setter5.name);
+      }
+
+      expect(membersMap.getAsKind<StructureKind.SetAccessor>(
+        StructureKind.SetAccessor, setter5.isStatic, setter5.name
+      )).toBeUndefined();
+    });
+
+    it("from a getter and a setter", () => {
+      membersMap.addMembers([getter5, setter5]);
+      membersMap.convertAccessorsToProperty(getter5.isStatic, getter5.name);
+
+      retrieveProperty();
+      expect(prop5).not.toBeUndefined();
+      if (prop5) {
+        expect(prop5.name).toBe(getter5.name);
+      }
+
+      expect(membersMap.getAsKind<StructureKind.GetAccessor>(
+        StructureKind.GetAccessor, getter5.isStatic, getter5.name
+      )).toBeUndefined();
+
+      expect(membersMap.getAsKind<StructureKind.SetAccessor>(
+        StructureKind.SetAccessor, setter5.isStatic, setter5.name
+      )).toBeUndefined();
+    });
+
+    it("except when there is no getter or setter to start with", () => {
+      expect(
+        () => membersMap.convertAccessorsToProperty(getter5.isStatic, getter5.name)
+      ).toThrowError(getter5.name + " accessors not found!");
+    });
+  });
+
+  it("static methods give us keys we can use in the map", () => {
     expect(ClassMembersMap.keyFromMember(method3)).toBe("static three");
 
     expect(ClassMembersMap.keyFromName(StructureKind.Constructor, true, "three")).toBe("constructor");
@@ -145,7 +329,7 @@ describe("ClassMembersMap", () => {
     expect(ClassMembersMap.keyFromName(StructureKind.Property, true, "three")).toBe("static three");
   });
 
-  it("ClassMembersMap.fromClassDeclaration() converts a ClassDeclaration into a ClassMembersMap", () => {
+  it("static fromClassDeclaration() converts a ClassDeclaration into a ClassMembersMap", () => {
     const classDecl = new ClassDeclarationImpl;
     classDecl.properties.push(prop1, prop2);
     classDecl.ctors.push(ctor_A);
