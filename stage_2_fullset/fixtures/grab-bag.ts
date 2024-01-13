@@ -19,6 +19,12 @@ interface HasConstructSignature {
   new (x: number): HasConstructSignature
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface GettersAndSetters {
+  get foo(): string;
+  set foo(value: string);
+}
+
 // eslint-disable-next-line @typescript-eslint/prefer-namespace-keyword, @typescript-eslint/no-namespace
 module ThisIsAModule {
   export const x = 3;

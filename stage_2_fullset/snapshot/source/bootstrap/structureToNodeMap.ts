@@ -1,4 +1,6 @@
 // #region preamble
+import assert from "node:assert/strict";
+
 import {
   Structures,
   Node,
@@ -43,15 +45,20 @@ export function structureImplToNodeMap(
  * Get structures for a node and its descendants.
  * @param nodeWithStructures - The node.
  * @param useTypeAwareStructures - true if we should use the StructureImpls.
+ * @param hashNeedle - A string to search for among hashes for nodes and structures.  Generates console logs.
  * @returns a map of structures to their original nodes.
  * @internal
  */
 export function structureToNodeMap(
   nodeWithStructures: NodeWithStructures,
   useTypeAwareStructures: boolean,
+  hashNeedle?: string,
 ): ReadonlyMap<Structures, Node> {
-  return new StructureAndNodeData(nodeWithStructures, useTypeAwareStructures)
-    .structureToNodeMap;
+  return new StructureAndNodeData(
+    nodeWithStructures,
+    useTypeAwareStructures,
+    hashNeedle,
+  ).structureToNodeMap;
 }
 
 /**
@@ -64,7 +71,7 @@ export function structureToNodeMap(
  * Here's how this works:
  *
  * 1. Each node gets an almost unique hash.  I store the node and hash in `#nodeSetsByHash`.
- * 2. Each structure gets an unique hash.  I store the structure's has in `#structureToHash`.
+ * 2. Each structure gets an unique hash.  I store the structure's hash in `#structureToHash`.
  * 3. From each structure, I compute an equivalent node hash.  Then I look up the hash in `#nodeSetsByHash`
  *    and pull the first node from the resulting set, as a match.
  *
@@ -106,9 +113,17 @@ class StructureAndNodeData {
   constructor(
     nodeWithStructures: NodeWithStructures,
     useTypeAwareStructures: boolean,
+    hashNeedle?: string,
   ) {
     this.#rootNode = nodeWithStructures;
     this.#collectDescendantNodes(this.#rootNode, "");
+
+    if (hashNeedle) {
+      this.#nodeSetsByHash.forEach((nodeSet, hash) => {
+        if (hash.includes(hashNeedle))
+          console.log("nodeSet: ", hash, Array.from(nodeSet));
+      });
+    }
 
     this.#rootStructure = this.#rootNode.getStructure();
     if (useTypeAwareStructures)
@@ -117,11 +132,19 @@ class StructureAndNodeData {
       )!.clone(this.#rootStructure);
 
     this.#collectDescendantStructures(this.#rootStructure, "");
+    if (hashNeedle) {
+      this.#structureToHash.forEach((hash, structure) => {
+        if (hash.includes(hashNeedle)) {
+          console.log("structure hash: ", hash, structure);
+        }
+      });
+    }
 
     this.#unusedStructures.forEach((value) => this.#mapStructureToNode(value));
-    if (this.#unusedStructures.size > 0) {
-      throw new Error("assert failure, we should've resolved every structure");
-    }
+    assert(
+      this.#unusedStructures.size === 0,
+      "we should've resolved every structure",
+    );
 
     this.#cleanup();
   }
