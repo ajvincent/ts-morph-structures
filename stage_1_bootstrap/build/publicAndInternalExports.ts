@@ -60,6 +60,13 @@ export default async function defineExistingExports(
   });
 
   dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/ClassMembersMap.ts"),
+    exportNames: ["ClassMemberImpl"],
+    isDefaultExport: false,
+    isType: true,
+  });
+
+  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/toolbox/ExportManager.ts"),
     exportNames: ["ExportManager"],
     isDefaultExport: true,
@@ -71,6 +78,23 @@ export default async function defineExistingExports(
     exportNames: ["ImportManager"],
     isDefaultExport: true,
     isType: false,
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/TypeMembersMap.ts"),
+    exportNames: ["TypeMembersMap"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/TypeMembersMap.ts"),
+    exportNames: [
+      "NamedTypeMemberImpl",
+      "TypeMemberImpl",
+    ],
+    isDefaultExport: false,
+    isType: true,
   });
 
   dictionaries.publicExports.addExports({

@@ -53,9 +53,17 @@ export {
   type ClassFieldStatementsArray,
   default as ClassFieldStatementsMap,
 } from "./toolbox/ClassFieldStatementsMap.js";
-export { default as ClassMembersMap } from "./toolbox/ClassMembersMap.js";
+export {
+  type ClassMemberImpl,
+  default as ClassMembersMap,
+} from "./toolbox/ClassMembersMap.js";
 export { default as ExportManager } from "./toolbox/ExportManager.js";
 export { default as ImportManager } from "./toolbox/ImportManager.js";
+export {
+  default as TypeMembersMap,
+  type NamedTypeMemberImpl,
+  type TypeMemberImpl,
+} from "./toolbox/TypeMembersMap.js";
 export type { stringOrWriterFunction } from "./types/stringOrWriterFunction.js";
 export type * from "./types/StructureImplUnions.js";
 export type * from "./types/TypeAndTypeStructureInterfaces.js";

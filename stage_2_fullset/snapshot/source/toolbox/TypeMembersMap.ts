@@ -3,19 +3,23 @@ import { KindedStructure, StructureKind } from "ts-morph";
 import {
   CallSignatureDeclarationImpl,
   ConstructSignatureDeclarationImpl,
+  GetAccessorDeclarationImpl,
   InterfaceDeclarationImpl,
   IndexSignatureDeclarationImpl,
   MemberedObjectTypeStructureImpl,
   MethodSignatureImpl,
   PropertySignatureImpl,
+  SetAccessorDeclarationImpl,
 } from "../exports.js";
 
 export type TypeMemberImpl =
   | CallSignatureDeclarationImpl
   | ConstructSignatureDeclarationImpl
+  | GetAccessorDeclarationImpl
   | IndexSignatureDeclarationImpl
   | MethodSignatureImpl
-  | PropertySignatureImpl;
+  | PropertySignatureImpl
+  | SetAccessorDeclarationImpl;
 
 export type NamedTypeMemberImpl = Extract<TypeMemberImpl, { name: string }>;
 
@@ -52,12 +56,8 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
    */
   static keyFromName(kind: NamedTypeMemberImpl["kind"], name: string): string {
     let rv = "";
-    /*
-    if (kind === StructureKind.GetAccessorSignature)
-      rv += "get ";
-    else if (kind === StructureKind.SetAccessorSignature)
-      rv += "set ";
-    */
+    if (kind === StructureKind.GetAccessor) rv += "get ";
+    else if (kind === StructureKind.SetAccessor) rv += "set ";
     rv += name;
     return rv;
   }
@@ -79,7 +79,7 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
    * @param kind - the structure kind to get.
    * @returns all current members of that kind.
    */
-  public arrayAsKind<Kind extends TypeMemberImpl["kind"]>(
+  public arrayOfKind<Kind extends TypeMemberImpl["kind"]>(
     kind: Kind,
   ): readonly Extract<TypeMemberImpl, KindedStructure<Kind>>[] {
     let items = Array.from(this.values());
@@ -128,6 +128,9 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
       case StructureKind.ConstructSignature:
         owner.constructSignatures.push(member);
         return;
+      case StructureKind.GetAccessor:
+        owner.getAccessors.push(member);
+        return;
       case StructureKind.IndexSignature:
         owner.indexSignatures.push(member);
         return;
@@ -136,6 +139,9 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
         return;
       case StructureKind.PropertySignature:
         owner.properties.push(member);
+        return;
+      case StructureKind.SetAccessor:
+        owner.setAccessors.push(member);
         return;
       default:
         throw new Error("unreachable");

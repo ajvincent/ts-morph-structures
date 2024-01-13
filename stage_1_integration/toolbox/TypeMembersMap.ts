@@ -6,19 +6,23 @@ import {
 import {
   CallSignatureDeclarationImpl,
   ConstructSignatureDeclarationImpl,
+  GetAccessorDeclarationImpl,
   InterfaceDeclarationImpl,
   IndexSignatureDeclarationImpl,
   MemberedObjectTypeStructureImpl,
   MethodSignatureImpl,
   PropertySignatureImpl,
+  SetAccessorDeclarationImpl,
 } from "../snapshot/source/exports.js";
 
 export type TypeMemberImpl = (
   CallSignatureDeclarationImpl |
   ConstructSignatureDeclarationImpl |
+  GetAccessorDeclarationImpl |
   IndexSignatureDeclarationImpl |
   MethodSignatureImpl |
-  PropertySignatureImpl
+  PropertySignatureImpl |
+  SetAccessorDeclarationImpl
 );
 
 export type NamedTypeMemberImpl = Extract<TypeMemberImpl, { name: string }>;
@@ -70,12 +74,10 @@ extends Map<string, TypeMemberImpl>
   ): string
   {
     let rv = "";
-    /*
-    if (kind === StructureKind.GetAccessorSignature)
+    if (kind === StructureKind.GetAccessor)
       rv += "get ";
-    else if (kind === StructureKind.SetAccessorSignature)
+    else if (kind === StructureKind.SetAccessor)
       rv += "set ";
-    */
     rv += name;
     return rv;
   }
@@ -100,7 +102,7 @@ extends Map<string, TypeMemberImpl>
    * @param kind - the structure kind to get.
    * @returns all current members of that kind.
    */
-  public arrayAsKind<
+  public arrayOfKind<
     Kind extends TypeMemberImpl["kind"]
   >
   (
@@ -159,6 +161,9 @@ extends Map<string, TypeMemberImpl>
       case StructureKind.ConstructSignature:
         owner.constructSignatures.push(member);
         return;
+      case StructureKind.GetAccessor:
+        owner.getAccessors.push(member);
+        return;
       case StructureKind.IndexSignature:
         owner.indexSignatures.push(member);
         return;
@@ -167,6 +172,9 @@ extends Map<string, TypeMemberImpl>
         return;
       case StructureKind.PropertySignature:
         owner.properties.push(member);
+        return;
+      case StructureKind.SetAccessor:
+        owner.setAccessors.push(member);
         return;
       default:
         throw new Error("unreachable");
