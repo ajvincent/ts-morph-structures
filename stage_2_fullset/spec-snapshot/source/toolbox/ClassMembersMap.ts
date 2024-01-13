@@ -33,13 +33,11 @@ describe("ClassMembersMap", () => {
     method3 = new MethodDeclarationImpl(true, "three");
     method4 = new MethodDeclarationImpl(false, "four");
 
+    const value_five = new ParameterDeclarationImpl("five");
+    value_five.typeStructure = "string";
+
     getter5 = new GetAccessorDeclarationImpl(false, "five");
-    setter5 = new SetAccessorDeclarationImpl(false, "five");
-    {
-      const param = new ParameterDeclarationImpl("value");
-      param.typeStructure = "string";
-      setter5.parameters.push(param);
-    }
+    setter5 = new SetAccessorDeclarationImpl(false, "five", value_five);
   });
 
   it("ClassMembersMap allows us to organize class members by kind", () => {
@@ -133,7 +131,7 @@ describe("ClassMembersMap", () => {
     expect(method4.statements).toEqual([`console.log(this.one);`]);
 
     expect(getter5.statements).toEqual([`return this.#five;`]);
-    expect(setter5.statements).toEqual([`this.#five = value;`]);
+    expect(setter5.statements).toEqual([`this.#five = five;`]);
   });
 
   it("ClassMembersMap static methods give us keys we can use in the map", () => {

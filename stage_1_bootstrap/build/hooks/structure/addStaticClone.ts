@@ -93,7 +93,7 @@ export default function addStaticClone(
   }
 
   classFieldsStatements.set(
-    ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL,
+    "(body)",
     ClassMembersMap.keyFromMember(cloneMethod),
     [
       `const target = new ${classDecl.name!}(${constructorArgs.join(", ")});`,

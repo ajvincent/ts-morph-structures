@@ -5,6 +5,7 @@ import {
 import {
   GetAccessorDeclarationImpl,
   MethodSignatureImpl,
+  ParameterDeclarationImpl,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
   TypeMembersMap,
@@ -17,7 +18,7 @@ it("TypeMembersMap allows us to organize type members by kind", () => {
 
   const method3 = new MethodSignatureImpl("three");
   const getter4 = new GetAccessorDeclarationImpl(false, "four");
-  const setter4 = new SetAccessorDeclarationImpl(false, "four");
+  const setter4 = new SetAccessorDeclarationImpl(false, "four", new ParameterDeclarationImpl("value"));
 
   memberMap.addMembers([
     prop1, prop2, method3, getter4, setter4

@@ -1,5 +1,6 @@
 import {
   StructureKind,
+  VariableDeclarationKind,
 } from "ts-morph";
 
 import StructureDictionaries, {
@@ -9,6 +10,13 @@ import StructureDictionaries, {
 import {
   StructureImplMeta
 } from "#stage_one/build/structureMeta/DataClasses.js";
+
+import {
+  LiteralTypedStructureImpl,
+  ParameterDeclarationImpl,
+  VariableDeclarationImpl,
+  VariableStatementImpl,
+} from "#stage_one/prototype-snapshot/exports.js";
 
 import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
@@ -23,6 +31,10 @@ export default function structureSpecialCases(
   switch (parts.classDecl.name) {
     case "IndexSignatureDeclarationImpl":
       fixKeyTypeField(parts, dictionaries);
+      break;
+
+    case "SetAccessorDeclarationImpl":
+      addParameterToSetAccessorCtor(parts, dictionaries);
       break;
   }
   return Promise.resolve();
@@ -76,4 +88,58 @@ function fixKeyTypeField(
       `${initializer} = ${setter.parameters[0].name};`,
     ]
   );
+}
+
+function addParameterToSetAccessorCtor(
+  parts: StructureParts,
+  dictionaries: StructureDictionaries
+): void
+{
+  parts.importsManager.addImports({
+    pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+    isPackageImport: false,
+    importNames: ["ParameterDeclarationImpl"],
+    isDefaultImport: false,
+    isTypeOnly: false
+  });
+
+  const setterParam = new ParameterDeclarationImpl("setterParameter");
+  setterParam.typeStructure = new LiteralTypedStructureImpl("ParameterDeclarationImpl");
+
+  const ctor = parts.classMembersMap.getAsKind<StructureKind.Constructor>(
+    "constructor", StructureKind.Constructor
+  )!;
+  ctor.parameters.push(setterParam);
+
+  parts.classFieldsStatements.set("setterParameter", "constructor", [
+    "this.parameters.push(setterParameter);"
+  ]);
+
+  const cloneStatements = parts.classFieldsStatements.get(
+    "(body)", "static clone"
+  )!;
+
+  const valueParamStatement = new VariableStatementImpl();
+  valueParamStatement.declarationKind = VariableDeclarationKind.Const;
+  const valueParamDeclaration = new VariableDeclarationImpl("valueParam");
+  valueParamDeclaration.type = "ParameterDeclarationImpl";
+  valueParamDeclaration.initializer = `new ParameterDeclarationImpl("value");`;
+  valueParamStatement.declarations.push(valueParamDeclaration);
+
+  cloneStatements.splice(
+    0, 1,
+    // harder to read, I know, but also a valuable unit test
+    valueParamStatement,
+    `const hasSourceParameter = source.parameters && source.parameters.length > 0;`,
+
+    // `const target = new ${classDecl.name!}(${constructorArgs.join(", ")});`,
+    (cloneStatements[0] as string).replace("source.name", "source.name, valueParam")
+  );
+
+  parts.classFieldsStatements.set("valueParam", "static clone", [
+    `if (hasSourceParameter) {
+      // copy-fields included copying the existing parameter, so we have to drop our artificial one
+      target.parameters.shift();
+    }`
+  ]);
 }

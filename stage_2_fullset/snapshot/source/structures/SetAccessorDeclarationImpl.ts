@@ -1,4 +1,5 @@
 //#region preamble
+import { ParameterDeclarationImpl } from "../exports.js";
 import {
   type AbstractableNodeStructureFields,
   AbstractableNodeStructureMixin,
@@ -78,20 +79,36 @@ export default class SetAccessorDeclarationImpl
   readonly kind: StructureKind.SetAccessor = StructureKind.SetAccessor;
   readonly isStatic: boolean;
 
-  constructor(isStatic: boolean, name: string) {
+  constructor(
+    isStatic: boolean,
+    name: string,
+    setterParameter: ParameterDeclarationImpl,
+  ) {
     super();
     this.isStatic = isStatic;
     this.name = name;
+    this.parameters.push(setterParameter);
   }
 
   public static clone(
     source: OptionalKind<SetAccessorDeclarationStructure>,
   ): SetAccessorDeclarationImpl {
+    const valueParam: ParameterDeclarationImpl = new ParameterDeclarationImpl(
+      "value",
+    );
+    const hasSourceParameter =
+      source.parameters && source.parameters.length > 0;
     const target = new SetAccessorDeclarationImpl(
       source.isStatic ?? false,
       source.name,
+      valueParam,
     );
     this[COPY_FIELDS](source, target);
+    if (hasSourceParameter) {
+      // copy-fields included copying the existing parameter, so we have to drop our artificial one
+      target.parameters.shift();
+    }
+
     return target;
   }
 
