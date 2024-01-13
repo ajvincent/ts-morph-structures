@@ -3,20 +3,20 @@ import { StructureKind } from "ts-morph";
 import {
   ClassDeclarationImpl,
   ConstructorDeclarationImpl,
-  PropertyDeclarationImpl,
   GetAccessorDeclarationImpl,
-  SetAccessorDeclarationImpl,
+  PropertyDeclarationImpl,
   MethodDeclarationImpl,
+  SetAccessorDeclarationImpl,
 } from "../exports.js";
 
 import ClassFieldStatementsMap from "./ClassFieldStatementsMap.js";
 
 export type ClassMemberImpl =
   | ConstructorDeclarationImpl
-  | PropertyDeclarationImpl
   | GetAccessorDeclarationImpl
-  | SetAccessorDeclarationImpl
-  | MethodDeclarationImpl;
+  | MethodDeclarationImpl
+  | PropertyDeclarationImpl
+  | SetAccessorDeclarationImpl;
 
 /**
  * A map for class methods, properties, accessors and a constructor.  This doesn't
@@ -65,6 +65,23 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     return rv;
   }
 
+  static fromClassDeclaration(
+    classDecl: ClassDeclarationImpl,
+  ): ClassMembersMap {
+    const map = new ClassMembersMap();
+
+    const members: ClassMemberImpl[] = [
+      ...classDecl.ctors,
+      ...classDecl.getAccessors,
+      ...classDecl.methods,
+      ...classDecl.properties,
+      ...classDecl.setAccessors,
+    ];
+    map.addMembers(members);
+
+    return map;
+  }
+
   /**
    * Add class members as values of this map, using standard keys.
    *
@@ -92,18 +109,22 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
 
   /**
    * A typed call to `this.get()` for a given kind.
-   * @param key - the key to get.
    * @param kind - the structure kind.
+   * @param isStatic - true if the member is static.
+   * @param name - the name of the member.
    * @returns - the class member, as the right type, or undefined if the wrong type.
    *
    * @see `ClassMembersMap::keyFromName`
    */
   getAsKind<Kind extends ClassMemberImpl["kind"]>(
-    key: string,
     kind: Kind,
-  ): (ClassMemberImpl & { kind: Kind }) | undefined {
+    isStatic: boolean,
+    name: string,
+  ): Extract<ClassMemberImpl, { kind: Kind }> | undefined {
+    const key = ClassMembersMap.keyFromName(kind, isStatic, name);
     const rv = this.get(key);
-    if (rv?.kind === kind) return rv as ClassMemberImpl & { kind: Kind };
+    if (rv?.kind === kind)
+      return rv as Extract<ClassMemberImpl, { kind: Kind }>;
     return undefined;
   }
 
@@ -116,6 +137,25 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     classDecl: ClassDeclarationImpl,
     statementsMaps: ClassFieldStatementsMap[],
   ): void {
+    // validate setters have an argument
+    {
+      const setters = this.arrayOfKind<StructureKind.SetAccessor>(
+        StructureKind.SetAccessor,
+      );
+      const missedNames: string[] = [];
+      setters.forEach((setter) => {
+        if (setter.parameters.length !== 1) {
+          missedNames.push(setter.name);
+        }
+      });
+      if (missedNames.length > 0) {
+        throw new Error(
+          "The following setters do not have exactly one parameter: " +
+            missedNames.join(", "),
+        );
+      }
+    }
+
     this.forEach((member) =>
       this.#moveMemberToClass(classDecl, member, statementsMaps),
     );

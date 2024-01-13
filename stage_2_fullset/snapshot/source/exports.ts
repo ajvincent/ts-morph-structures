@@ -50,7 +50,7 @@ export { default as TypeParameterDeclarationImpl } from "./structures/TypeParame
 export { default as VariableDeclarationImpl } from "./structures/VariableDeclarationImpl.js";
 export { default as VariableStatementImpl } from "./structures/VariableStatementImpl.js";
 export {
-  type ClassFieldStatementsArray,
+  type ClassFieldStatement,
   default as ClassFieldStatementsMap,
 } from "./toolbox/ClassFieldStatementsMap.js";
 export {

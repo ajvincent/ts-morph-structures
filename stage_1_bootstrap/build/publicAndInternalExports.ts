@@ -47,7 +47,7 @@ export default async function defineExistingExports(
 
   dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/toolbox/ClassFieldStatementsMap.ts"),
-    exportNames: ["ClassFieldStatementsArray"],
+    exportNames: ["ClassFieldStatement"],
     isDefaultExport: false,
     isType: true,
   });
