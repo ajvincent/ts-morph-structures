@@ -72,6 +72,11 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     return rv;
   }
 
+  /**
+   * Create a `ClassMembersMap` from a class declaration.
+   * @param classDecl - the class declaration.
+   * @returns the class members map.
+   */
   static fromClassDeclaration(
     classDecl: ClassDeclarationImpl,
   ): ClassMembersMap {
@@ -135,6 +140,11 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     return undefined;
   }
 
+  /**
+   * Convert get and/or set accessors to a property.  This may be lossy, but we try to be faithful.
+   * @param isStatic - true if the property is static (and the accessors should be)
+   * @param name - the property name
+   */
   convertAccessorsToProperty(isStatic: boolean, name: string): void {
     const getter = this.getAsKind<StructureKind.GetAccessor>(
       StructureKind.GetAccessor,
@@ -206,7 +216,7 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
   }
 
   /**
-   *
+   * Convert a property to get and/or set accessors.  This may be lossy, but we try to be faithful.
    * @param isStatic - true if the property is static (and the accessors should be)
    * @param name - the property name
    * @param toGetter - true if the caller wants a getter
