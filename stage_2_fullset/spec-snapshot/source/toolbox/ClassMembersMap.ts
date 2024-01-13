@@ -36,7 +36,7 @@ describe("ClassMembersMap", () => {
     const value_five = new ParameterDeclarationImpl("five");
     value_five.typeStructure = "string";
 
-    getter5 = new GetAccessorDeclarationImpl(false, "five");
+    getter5 = new GetAccessorDeclarationImpl(false, "five", value_five.typeStructure);
     setter5 = new SetAccessorDeclarationImpl(false, "five", value_five);
   });
 

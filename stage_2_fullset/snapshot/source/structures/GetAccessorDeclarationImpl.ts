@@ -1,4 +1,5 @@
 //#region preamble
+import { TypeStructures } from "../exports.js";
 import {
   type AbstractableNodeStructureFields,
   AbstractableNodeStructureMixin,
@@ -78,10 +79,17 @@ export default class GetAccessorDeclarationImpl
   readonly kind: StructureKind.GetAccessor = StructureKind.GetAccessor;
   readonly isStatic: boolean;
 
-  constructor(isStatic: boolean, name: string) {
+  constructor(
+    isStatic: boolean,
+    name: string,
+    returnType?: string | TypeStructures,
+  ) {
     super();
     this.isStatic = isStatic;
     this.name = name;
+    if (returnType) {
+      this.returnTypeStructure = returnType;
+    }
   }
 
   public static clone(

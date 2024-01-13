@@ -14,12 +14,14 @@ import {
 import {
   LiteralTypedStructureImpl,
   ParameterDeclarationImpl,
+  UnionTypedStructureImpl,
   VariableDeclarationImpl,
   VariableStatementImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
+import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 
 export default function structureSpecialCases(
   name: string,
@@ -31,6 +33,10 @@ export default function structureSpecialCases(
   switch (parts.classDecl.name) {
     case "IndexSignatureDeclarationImpl":
       fixKeyTypeField(parts, dictionaries);
+      break;
+
+    case "GetAccessorDeclarationImpl":
+      addReturnTypeToGetAccessorCtor(parts, dictionaries);
       break;
 
     case "SetAccessorDeclarationImpl":
@@ -88,6 +94,38 @@ function fixKeyTypeField(
       `${initializer} = ${setter.parameters[0].name};`,
     ]
   );
+}
+
+function addReturnTypeToGetAccessorCtor(
+  parts: StructureParts,
+  dictionaries: StructureDictionaries
+): void
+{
+  parts.importsManager.addImports({
+    pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+    isPackageImport: false,
+    importNames: ["TypeStructures"],
+    isDefaultImport: false,
+    isTypeOnly: false
+  });
+
+  const returnTypeParam = new ParameterDeclarationImpl("returnType");
+  returnTypeParam.hasQuestionToken = true;
+  returnTypeParam.typeStructure = new UnionTypedStructureImpl([
+    ConstantTypeStructures.string,
+    ConstantTypeStructures.TypeStructures
+  ]);
+
+  const ctor = parts.classMembersMap.getAsKind<StructureKind.Constructor>(
+    "constructor", StructureKind.Constructor
+  )!;
+  ctor.parameters.push(returnTypeParam);
+
+  parts.classFieldsStatements.set("returnType", "constructor", [
+    `if (returnType) {
+      this.returnTypeStructure = returnType;
+    }`
+  ]);
 }
 
 function addParameterToSetAccessorCtor(
