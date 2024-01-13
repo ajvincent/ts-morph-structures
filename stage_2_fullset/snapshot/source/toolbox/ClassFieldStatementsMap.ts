@@ -2,7 +2,7 @@ import type { WriterFunction } from "ts-morph";
 
 import type { StatementStructureImpls } from "../exports.js";
 
-export type StatementsArray = (
+export type ClassFieldStatementsArray = (
   | string
   | WriterFunction
   | StatementStructureImpls
@@ -81,10 +81,13 @@ export default class ClassFieldStatementsMap {
     return a.localeCompare(b);
   }
 
-  readonly #map = new Map<string, StatementsArray>();
-  readonly #statementGroupMap = new Map<string, Map<string, StatementsArray>>();
+  readonly #map = new Map<string, ClassFieldStatementsArray>();
+  readonly #statementGroupMap = new Map<
+    string,
+    Map<string, ClassFieldStatementsArray>
+  >();
 
-  public constructor(iterable?: [string, string, StatementsArray][]) {
+  public constructor(iterable?: [string, string, ClassFieldStatementsArray][]) {
     if (iterable) {
       for (const [fieldName, statementGroup, statements] of iterable) {
         this.set(fieldName, statementGroup, statements);
@@ -130,7 +133,9 @@ export default class ClassFieldStatementsMap {
   /**
    * Yield the key-statements tuples of the collection.
    */
-  public *entries(): IterableIterator<[string, string, StatementsArray]> {
+  public *entries(): IterableIterator<
+    [string, string, ClassFieldStatementsArray]
+  > {
     const iterator = this.#map.entries();
     for (const [hashed, statements] of iterator) {
       const { fieldName, statementGroup } =
@@ -146,23 +151,25 @@ export default class ClassFieldStatementsMap {
    */
   public forEach(
     __callback__: (
-      statements: StatementsArray,
+      statements: ClassFieldStatementsArray,
       fieldName: string,
       statementGroup: string,
       __collection__: ClassFieldStatementsMap,
     ) => void,
     __thisArg__?: unknown,
   ): void {
-    this.#map.forEach((statements: StatementsArray, hashed: string) => {
-      const { fieldName, statementGroup } =
-        ClassFieldStatementsMap.#parseKey(hashed);
-      __callback__.apply(__thisArg__, [
-        statements,
-        fieldName,
-        statementGroup,
-        this,
-      ]);
-    });
+    this.#map.forEach(
+      (statements: ClassFieldStatementsArray, hashed: string) => {
+        const { fieldName, statementGroup } =
+          ClassFieldStatementsMap.#parseKey(hashed);
+        __callback__.apply(__thisArg__, [
+          statements,
+          fieldName,
+          statementGroup,
+          this,
+        ]);
+      },
+    );
   }
 
   /**
@@ -175,7 +182,7 @@ export default class ClassFieldStatementsMap {
   public get(
     fieldName: string,
     statementGroup: string,
-  ): StatementsArray | undefined {
+  ): ClassFieldStatementsArray | undefined {
     [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(
       fieldName,
       statementGroup,
@@ -225,7 +232,7 @@ export default class ClassFieldStatementsMap {
   public set(
     fieldName: string,
     statementGroup: string,
-    statements: StatementsArray,
+    statements: ClassFieldStatementsArray,
   ): this {
     [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(
       fieldName,
@@ -238,7 +245,7 @@ export default class ClassFieldStatementsMap {
 
     let subMap = this.#statementGroupMap.get(statementGroup);
     if (!subMap) {
-      subMap = new Map<string, StatementsArray>();
+      subMap = new Map<string, ClassFieldStatementsArray>();
       this.#statementGroupMap.set(statementGroup, subMap);
     }
     subMap.set(fieldName, statements);
@@ -249,12 +256,12 @@ export default class ClassFieldStatementsMap {
   /**
    * Yield the statementss of the collection.
    */
-  public values(): IterableIterator<StatementsArray> {
+  public values(): IterableIterator<ClassFieldStatementsArray> {
     return this.#map.values();
   }
 
   public [Symbol.iterator](): IterableIterator<
-    [string, string, StatementsArray]
+    [string, string, ClassFieldStatementsArray]
   > {
     return this.entries();
   }
@@ -271,7 +278,7 @@ export default class ClassFieldStatementsMap {
    */
   public groupStatementsMap(
     statementGroup: string,
-  ): ReadonlyMap<string, StatementsArray> | undefined {
+  ): ReadonlyMap<string, ClassFieldStatementsArray> | undefined {
     const iterator = this.#statementGroupMap.get(statementGroup)?.entries();
     if (!iterator) return undefined;
 
