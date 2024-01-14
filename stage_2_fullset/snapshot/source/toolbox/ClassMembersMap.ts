@@ -197,8 +197,8 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
       prop.typeStructure = TypeStructureClassesMap.clone(
         getter.returnTypeStructure,
       );
-    } else {
-      const setterParam = setter!.parameters[0] as ParameterDeclarationImpl;
+    } else if (setter) {
+      const setterParam = setter.parameters[0] as ParameterDeclarationImpl;
       if (setterParam.typeStructure) {
         prop.typeStructure = TypeStructureClassesMap.clone(
           setterParam.typeStructure,

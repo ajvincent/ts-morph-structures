@@ -270,6 +270,7 @@ describe("ClassMembersMap", () => {
       expect(prop5).not.toBeUndefined();
       if (prop5) {
         expect(prop5.name).toBe(getter5.name);
+        expect(prop5.typeStructure).toBe(getter5.returnTypeStructure);
       }
 
       expect(membersMap.getAsKind<StructureKind.GetAccessor>(
@@ -285,6 +286,8 @@ describe("ClassMembersMap", () => {
       expect(prop5).not.toBeUndefined();
       if (prop5) {
         expect(prop5.name).toBe(setter5.name);
+        const param = setter5.parameters[0] as ParameterDeclarationImpl;
+        expect(prop5.typeStructure).toBe(param.typeStructure);
       }
 
       expect(membersMap.getAsKind<StructureKind.SetAccessor>(
@@ -300,6 +303,7 @@ describe("ClassMembersMap", () => {
       expect(prop5).not.toBeUndefined();
       if (prop5) {
         expect(prop5.name).toBe(getter5.name);
+        expect(prop5.typeStructure).toBe(getter5.returnTypeStructure);
       }
 
       expect(membersMap.getAsKind<StructureKind.GetAccessor>(

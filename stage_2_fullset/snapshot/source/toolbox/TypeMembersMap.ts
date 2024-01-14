@@ -1,16 +1,23 @@
-import { KindedStructure, StructureKind } from "ts-morph";
+import { KindedStructure, JSDocStructure, StructureKind } from "ts-morph";
 
 import {
   CallSignatureDeclarationImpl,
   ConstructSignatureDeclarationImpl,
   GetAccessorDeclarationImpl,
+  JSDocImpl,
   InterfaceDeclarationImpl,
   IndexSignatureDeclarationImpl,
   MemberedObjectTypeStructureImpl,
   MethodSignatureImpl,
+  ParameterDeclarationImpl,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
 } from "../exports.js";
+
+import {
+  TypeStructureClassesMap,
+  cloneStructureOrStringArray,
+} from "../internal-exports.js";
 
 export type TypeMemberImpl =
   | CallSignatureDeclarationImpl
@@ -133,30 +140,147 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
    *
    * @see `TypeMembersMap::keyFromName`
    */
-  getAsKind<Kind extends TypeMemberImpl["kind"]>(
+  getAsKind<Kind extends NamedTypeMemberImpl["kind"]>(
     kind: Kind,
     name: string,
   ): Extract<TypeMemberImpl, KindedStructure<Kind>> | undefined {
-    const rv = this.get(name);
+    const key = TypeMembersMap.keyFromName(kind, name);
+    const rv = this.get(key);
     if (rv?.kind === kind)
       return rv as Extract<TypeMemberImpl, KindedStructure<Kind>>;
     return undefined;
   }
 
+  /**
+   * Convert get and/or set accessors to a property.  This may be lossy, but we try to be faithful.
+   * @param name - the property name
+   */
   convertAccessorsToProperty(name: string): void {
-    void name;
-    throw new Error("not yet implemented");
+    const getter = this.getAsKind<StructureKind.GetAccessor>(
+      StructureKind.GetAccessor,
+      name,
+    );
+    const setter = this.getAsKind<StructureKind.SetAccessor>(
+      StructureKind.SetAccessor,
+      name,
+    );
+    if (!getter && !setter) {
+      throw new Error(name + " accessors not found!");
+    }
+
+    const prop = new PropertySignatureImpl(getter?.name ?? setter!.name);
+    // This is a merge operation: prefer getter fields over setter fields
+
+    const docs = getter?.docs ?? setter!.docs;
+    if (docs) {
+      prop.docs.push(
+        ...cloneStructureOrStringArray<
+          JSDocStructure,
+          StructureKind.JSDoc,
+          JSDocImpl
+        >(docs as (string | JSDocImpl)[], StructureKind.JSDoc),
+      );
+    }
+
+    prop.leadingTrivia.push(
+      ...(getter?.leadingTrivia ?? setter!.leadingTrivia),
+    );
+    prop.trailingTrivia.push(
+      ...(getter?.leadingTrivia ?? setter!.leadingTrivia),
+    );
+
+    if (getter?.returnTypeStructure) {
+      prop.typeStructure = TypeStructureClassesMap.clone(
+        getter.returnTypeStructure,
+      );
+    } else if (setter) {
+      const setterParam = setter.parameters[0] as ParameterDeclarationImpl;
+      if (setterParam.typeStructure) {
+        prop.typeStructure = TypeStructureClassesMap.clone(
+          setterParam.typeStructure,
+        );
+      }
+    }
+
+    this.addMembers([prop]);
+    if (getter) {
+      this.delete(TypeMembersMap.keyFromMember(getter));
+    }
+    if (setter) {
+      this.delete(TypeMembersMap.keyFromMember(setter));
+    }
   }
 
+  /**
+   * Convert a property signature to get and/or set accessors.  This may be lossy, but we try to be faithful.
+   * @param name - the property name
+   * @param toGetter - true if the caller wants a getter
+   * @param toSetter - true if the caller wants a setter
+   */
   convertPropertyToAccessors(
     name: string,
     toGetter: boolean,
     toSetter: boolean,
   ): void {
-    void name;
-    void toGetter;
-    void toSetter;
-    throw new Error("not yet implemented");
+    if (!toGetter && !toSetter)
+      throw new Error(
+        "You must request either a get accessor or a set accessor!",
+      );
+
+    const prop = this.getAsKind<StructureKind.PropertySignature>(
+      StructureKind.PropertySignature,
+      name,
+    );
+    if (!prop) {
+      throw new Error(name + " property not found!");
+    }
+
+    if (toGetter) {
+      const getter = new GetAccessorDeclarationImpl(
+        false,
+        prop.name,
+        prop.typeStructure,
+      );
+      if (prop.docs) {
+        getter.docs.push(
+          ...cloneStructureOrStringArray<
+            JSDocStructure,
+            StructureKind.JSDoc,
+            JSDocImpl
+          >(prop.docs as (string | JSDocImpl)[], StructureKind.JSDoc),
+        );
+      }
+
+      getter.leadingTrivia.push(...prop.leadingTrivia);
+      getter.trailingTrivia.push(...prop.trailingTrivia);
+
+      this.addMembers([getter]);
+    }
+
+    if (toSetter) {
+      const param = new ParameterDeclarationImpl("value");
+      if (prop.typeStructure)
+        param.typeStructure = TypeStructureClassesMap.clone(prop.typeStructure);
+
+      const setter = new SetAccessorDeclarationImpl(false, prop.name, param);
+
+      if (prop.docs) {
+        setter.docs.push(
+          ...cloneStructureOrStringArray<
+            JSDocStructure,
+            StructureKind.JSDoc,
+            JSDocImpl
+          >(prop.docs as (string | JSDocImpl)[], StructureKind.JSDoc),
+        );
+      }
+
+      setter.leadingTrivia.push(...prop.leadingTrivia);
+      setter.trailingTrivia.push(...prop.trailingTrivia);
+
+      this.addMembers([setter]);
+    }
+
+    this.delete(TypeMembersMap.keyFromMember(prop));
   }
 
   resolveIndexSignature(): never {

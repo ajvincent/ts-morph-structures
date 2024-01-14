@@ -29,6 +29,7 @@ describe("TypeMembersMap", () => {
   beforeEach(() => {
     membersMap = new TypeMembersMap;
     prop1 = new PropertySignatureImpl("one");
+    prop1.typeStructure = "string";
     prop2 = new PropertySignatureImpl("two");
 
     call_B = new CallSignatureDeclarationImpl;
@@ -41,7 +42,10 @@ describe("TypeMembersMap", () => {
 
     method3 = new MethodSignatureImpl("three");
     getter4 = new GetAccessorDeclarationImpl(false, "four");
-    setter4 = new SetAccessorDeclarationImpl(false, "four", new ParameterDeclarationImpl("value"));
+    getter4.returnTypeStructure = "number";
+    const setterParam = new ParameterDeclarationImpl("value");
+    setterParam.typeStructure = getter4.returnTypeStructure;
+    setter4 = new SetAccessorDeclarationImpl(false, "four", setterParam);
   });
 
   it("allows us to organize type members by kind", () => {
@@ -59,12 +63,8 @@ describe("TypeMembersMap", () => {
     expect(membersMap.get(TypeMembersMap.keyFromMember(index_C))).toBe(index_C);
     expect(membersMap.size).toBe(8);
 
-    expect<ConstructSignatureDeclarationImpl>(
-      membersMap.getAsKind<StructureKind.ConstructSignature>(StructureKind.ConstructSignature, "constructor")!
-    ).toBe(ctor_A);
-
     expect<GetAccessorDeclarationImpl>(
-      membersMap.getAsKind<StructureKind.GetAccessor>(StructureKind.GetAccessor, "get four")!
+      membersMap.getAsKind<StructureKind.GetAccessor>(StructureKind.GetAccessor, "four")!
     ).toBe(getter4);
 
     expect<PropertySignatureImpl>(
@@ -80,7 +80,7 @@ describe("TypeMembersMap", () => {
     ).toBe(method3);
 
     expect<SetAccessorDeclarationImpl>(
-      membersMap.getAsKind<StructureKind.SetAccessor>(StructureKind.SetAccessor, "set four")!
+      membersMap.getAsKind<StructureKind.SetAccessor>(StructureKind.SetAccessor, "four")!
     ).toBe(setter4);
 
     expect<readonly CallSignatureDeclarationImpl[]>(
@@ -150,5 +150,181 @@ describe("TypeMembersMap", () => {
       ["two", prop2],
       ["set four", setter4],
     ]);
+  });
+
+  describe("convertPropertyToAccessors()", () => {
+    let getter1: GetAccessorDeclarationImpl | undefined;
+    let setter1: SetAccessorDeclarationImpl | undefined;
+    beforeEach(() => {
+      membersMap.addMembers([prop1]);
+      getter1 = undefined;
+      setter1 = undefined;
+    });
+
+    function retrieveAccessors(): void {
+      getter1 = membersMap.getAsKind<StructureKind.GetAccessor>(StructureKind.GetAccessor, prop1.name);
+      setter1 = membersMap.getAsKind<StructureKind.SetAccessor>(StructureKind.SetAccessor, prop1.name);
+    }
+
+    it("can give us a getter only", () => {
+      membersMap.convertPropertyToAccessors(prop1.name, true, false);
+      retrieveAccessors();
+
+      expect(getter1).not.toBeUndefined();
+      if (getter1) {
+        expect(getter1.name).toBe(prop1.name);
+        // property didn't have any docs or trivia
+        expect(getter1.docs).toEqual([]);
+        expect(getter1.leadingTrivia).toEqual([]);
+        expect(getter1.trailingTrivia).toEqual([]);
+        // we used a string type
+        expect(getter1.returnTypeStructure).toEqual(prop1.typeStructure);
+      }
+
+      expect(setter1).toBeUndefined();
+      expect(membersMap.getAsKind<StructureKind.PropertySignature>(
+        StructureKind.PropertySignature, prop1.name
+      )).toBeUndefined();
+    });
+
+    it("can give us a setter only", () => {
+      membersMap.convertPropertyToAccessors(prop1.name, false, true);
+      retrieveAccessors();
+
+      expect(getter1).toBeUndefined();
+
+      expect(setter1).not.toBeUndefined();
+      if (setter1) {
+        expect(setter1.parameters.length).toBe(1);
+        const [parameter] = setter1.parameters as ParameterDeclarationImpl[];
+        expect(parameter).not.toBeUndefined();
+        if (parameter) {
+          expect(parameter.name).toBe("value");
+          // we used a string type
+          expect(parameter.type).toBe(prop1.type);
+        }
+
+        // property didn't have any docs or trivia
+        expect(setter1.docs).toEqual([]);
+        expect(setter1.leadingTrivia).toEqual([]);
+        expect(setter1.name).toBe(prop1.name);
+        expect(setter1.trailingTrivia).toEqual([]);
+      }
+
+      expect(membersMap.getAsKind<StructureKind.PropertySignature>(
+        StructureKind.PropertySignature, prop1.name
+      )).toBeUndefined();
+    });
+
+    it("can give us both a getter and a setter", () => {
+      membersMap.convertPropertyToAccessors(prop1.name, true, true);
+      retrieveAccessors();
+
+      expect(getter1).not.toBeUndefined();
+      if (getter1) {
+        expect(getter1.name).toBe(prop1.name);
+        // property didn't have any docs or trivia
+        expect(getter1.docs).toEqual([]);
+        expect(getter1.leadingTrivia).toEqual([]);
+        expect(getter1.trailingTrivia).toEqual([]);
+        // we used a string type
+        expect(getter1.returnTypeStructure).toEqual(prop1.typeStructure);
+      }
+
+      expect(setter1).not.toBeUndefined();
+      if (setter1) {
+        expect(setter1.parameters.length).toBe(1);
+        const [parameter] = setter1.parameters as ParameterDeclarationImpl[];
+        expect(parameter).not.toBeUndefined();
+        if (parameter) {
+          expect(parameter.name).toBe("value");
+          // we used a string type
+          expect(parameter.type).toBe(prop1.type);
+        }
+
+        // property didn't have any docs or trivia
+        expect(setter1.docs).toEqual([]);
+        expect(setter1.leadingTrivia).toEqual([]);
+        expect(setter1.name).toBe(prop1.name);
+        expect(setter1.trailingTrivia).toEqual([]);
+      }
+
+      expect(membersMap.getAsKind<StructureKind.PropertySignature>(
+        StructureKind.PropertySignature, prop1.name
+      )).toBeUndefined();
+    });
+
+    it("throws if we asked for neither a getter nor a setter", () => {
+      expect(
+        () => membersMap.convertPropertyToAccessors(prop1.name, false, false)
+      ).toThrowError("You must request either a get accessor or a set accessor!");
+    });
+  });
+
+  describe("convertAccessorsToProperty() can give us a property", () => {
+    let prop4: PropertySignatureImpl | undefined;
+
+    function retrieveProperty(): void {
+      prop4 = membersMap.getAsKind<StructureKind.PropertySignature>(StructureKind.PropertySignature, getter4.name);
+    }
+
+    it("from a getter only", () => {
+      membersMap.addMembers([getter4]);
+      membersMap.convertAccessorsToProperty(getter4.name);
+
+      retrieveProperty();
+      expect(prop4).not.toBeUndefined();
+      if (prop4) {
+        expect(prop4.name).toBe(getter4.name);
+        expect(prop4.typeStructure).toBe(getter4.returnTypeStructure);
+      }
+
+      expect(membersMap.getAsKind<StructureKind.GetAccessor>(
+        StructureKind.GetAccessor, getter4.name
+      )).toBeUndefined();
+    });
+
+    it("from a setter only", () => {
+      membersMap.addMembers([setter4]);
+      membersMap.convertAccessorsToProperty(setter4.name);
+
+      retrieveProperty();
+      expect(prop4).not.toBeUndefined();
+      if (prop4) {
+        expect(prop4.name).toBe(setter4.name);
+        const param = setter4.parameters[0] as ParameterDeclarationImpl;
+        expect(prop4.typeStructure).toBe(param.typeStructure);
+      }
+
+      expect(membersMap.getAsKind<StructureKind.SetAccessor>(
+        StructureKind.SetAccessor, setter4.name
+      )).toBeUndefined();
+    });
+
+    it("from a getter and a setter", () => {
+      membersMap.addMembers([getter4, setter4]);
+      membersMap.convertAccessorsToProperty(getter4.name);
+
+      retrieveProperty();
+      expect(prop4).not.toBeUndefined();
+      if (prop4) {
+        expect(prop4.name).toBe(getter4.name);
+        expect(prop4.typeStructure).toBe(getter4.returnTypeStructure);
+      }
+
+      expect(membersMap.getAsKind<StructureKind.GetAccessor>(
+        StructureKind.GetAccessor, getter4.name
+      )).toBeUndefined();
+
+      expect(membersMap.getAsKind<StructureKind.SetAccessor>(
+        StructureKind.SetAccessor, setter4.name
+      )).toBeUndefined();
+    });
+
+    it("except when there is no getter or setter to start with", () => {
+      expect(
+        () => membersMap.convertAccessorsToProperty(getter4.name)
+      ).toThrowError(getter4.name + " accessors not found!");
+    });
   });
 });
