@@ -1,4 +1,4 @@
-import { JSDocStructure, StructureKind } from "ts-morph";
+import { JSDocStructure, KindedStructure, StructureKind } from "ts-morph";
 
 import {
   ClassDeclarationImpl,
@@ -35,7 +35,7 @@ export type ClassMemberImpl =
  * const foo = new PropertyDeclarationImpl(false, "foo");
  * map.addMembers([foo]);
  * // ...
- * const classDecl = new ClassDeclaration;
+ * const classDecl = new ClassDeclarationImpl;
  * classDecl.name = "FooClass";
  * map.moveMembersToClass(classDecl);
  * // classDecl.properties === [foo];
@@ -113,10 +113,10 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
    */
   public arrayOfKind<Kind extends ClassMemberImpl["kind"]>(
     kind: Kind,
-  ): Extract<ClassMemberImpl, { kind: Kind }>[] {
+  ): Extract<ClassMemberImpl, KindedStructure<Kind>>[] {
     let items = Array.from(this.values());
     items = items.filter((item) => item.kind === kind);
-    return items as Extract<ClassMemberImpl, { kind: Kind }>[];
+    return items as Extract<ClassMemberImpl, KindedStructure<Kind>>[];
   }
 
   /**
@@ -132,11 +132,11 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     kind: Kind,
     isStatic: boolean,
     name: string,
-  ): Extract<ClassMemberImpl, { kind: Kind }> | undefined {
+  ): Extract<ClassMemberImpl, KindedStructure<Kind>> | undefined {
     const key = ClassMembersMap.keyFromName(kind, isStatic, name);
     const rv = this.get(key);
     if (rv?.kind === kind)
-      return rv as Extract<ClassMemberImpl, { kind: Kind }>;
+      return rv as Extract<ClassMemberImpl, KindedStructure<Kind>>;
     return undefined;
   }
 

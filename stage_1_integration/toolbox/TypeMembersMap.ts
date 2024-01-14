@@ -27,6 +27,20 @@ export type TypeMemberImpl = (
 
 export type NamedTypeMemberImpl = Extract<TypeMemberImpl, { name: string }>;
 
+/**
+ * A map for members of `InterfaceDeclarationImpl` and `MemberedObjectTypeStructureImpl`.  This
+ * doesn't replace the structures, rather it _feeds_ them.
+ *
+ * @example
+ *
+ * const map = new TypeMembersMap;
+ * const foo = new PropertySignatureImpl(false, "foo");
+ * map.addMembers([foo]);
+ * // ...
+ * const interfaceDecl = new InterfaceDeclarationImpl("FooInterface");
+ * map.moveMembersToType(interfaceDecl);
+ * // interfaceDecl.properties === [foo];
+ */
 export default class TypeMembersMap
 extends Map<string, TypeMemberImpl>
 {
@@ -83,6 +97,31 @@ extends Map<string, TypeMemberImpl>
   }
 
   /**
+   * Create a `TypeMembersMap` from an interface or membered object.
+   * @param membered - the membered object.
+   * @returns the type members map.
+   */
+  static fromMemberedObject(
+    membered: InterfaceDeclarationImpl | MemberedObjectTypeStructureImpl
+  ): TypeMembersMap
+  {
+    const map = new TypeMembersMap;
+
+    const members: TypeMemberImpl[] = [
+      ...membered.callSignatures,
+      ...membered.constructSignatures,
+      ...membered.getAccessors,
+      ...membered.indexSignatures,
+      ...membered.methods,
+      ...membered.properties,
+      ...membered.setAccessors,
+    ];
+    map.addMembers(members);
+
+    return map;
+  }
+
+  /**
    * Add type members as values of this map, using standard keys.
    *
    * @param members - the type members to add.
@@ -116,24 +155,50 @@ extends Map<string, TypeMemberImpl>
 
   /**
    * A typed call to `this.get()` for a given kind.
-   * @param key - the key to get.
    * @param kind - the structure kind.
+   * @param name - the key to get.
    * @returns - the type member, as the right type, or undefined if the wrong type.
    *
-   * @see `ClassMembersMap::keyFromName`
+   * @see `TypeMembersMap::keyFromName`
    */
   getAsKind<
     Kind extends TypeMemberImpl["kind"]
   >
   (
-    key: string,
-    kind: Kind
+    kind: Kind,
+    name: string,
   ): Extract<TypeMemberImpl, KindedStructure<Kind>> | undefined
   {
-    const rv = this.get(key);
+    const rv = this.get(name);
     if (rv?.kind === kind)
       return rv as Extract<TypeMemberImpl, KindedStructure<Kind>>;
     return undefined;
+  }
+
+  convertAccessorsToProperty(
+    name: string
+  ): void
+  {
+    void(name);
+    throw new Error("not yet implemented");
+  }
+
+  convertPropertyToAccessors(
+    name: string,
+    toGetter: boolean,
+    toSetter: boolean
+  ): void
+  {
+    void(name);
+    void(toGetter);
+    void(toSetter);
+    throw new Error("not yet implemented");
+  }
+
+  resolveIndexSignature(
+  ): never
+  {
+    throw new Error("not yet implemented");
   }
 
   /**

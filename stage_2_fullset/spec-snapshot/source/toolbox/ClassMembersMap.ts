@@ -318,7 +318,7 @@ describe("ClassMembersMap", () => {
     });
   });
 
-  it("static methods give us keys we can use in the map", () => {
+  it("static keyFromName() and keyFromMember() give us keys we can use in the map", () => {
     expect(ClassMembersMap.keyFromMember(method3)).toBe("static three");
 
     expect(ClassMembersMap.keyFromName(StructureKind.Constructor, true, "three")).toBe("constructor");
