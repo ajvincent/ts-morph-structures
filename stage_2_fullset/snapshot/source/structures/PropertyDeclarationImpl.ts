@@ -1,10 +1,12 @@
 //#region preamble
+import type { JSDocImpl, PropertySignatureImpl } from "../exports.js";
 import {
   type AbstractableNodeStructureFields,
   AbstractableNodeStructureMixin,
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
   type CloneableStructure,
+  cloneStructureOrStringArray,
   COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
@@ -34,6 +36,7 @@ import {
   StructuresClassesMap,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
+  TypeStructureClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -114,6 +117,34 @@ export default class PropertyDeclarationImpl
     );
     this[COPY_FIELDS](source, target);
     return target;
+  }
+
+  public static fromSignature(
+    isStatic: boolean,
+    signature: PropertySignatureImpl,
+  ): PropertyDeclarationImpl {
+    const declaration = new PropertyDeclarationImpl(isStatic, signature.name);
+    declaration.docs.push(
+      ...(cloneStructureOrStringArray<
+        JSDocImpl,
+        StructureKind.JSDoc,
+        JSDocImpl
+      >(
+        signature.docs as (string | JSDocImpl)[],
+        StructureKind.JSDoc,
+      ) as JSDocImpl[]),
+    );
+    declaration.hasQuestionToken = signature.hasQuestionToken;
+    declaration.isReadonly = signature.isReadonly;
+    declaration.leadingTrivia.push(...signature.leadingTrivia);
+    declaration.trailingTrivia.push(...signature.trailingTrivia);
+    if (signature.typeStructure) {
+      declaration.typeStructure = TypeStructureClassesMap.clone(
+        signature.typeStructure,
+      );
+    }
+
+    return declaration;
   }
 
   public toJSON(): StructureClassToJSON<PropertyDeclarationImpl> {

@@ -1,9 +1,6 @@
-/*
 import {
-  StructureKind,
-  VariableDeclarationKind,
+  Scope
 } from "ts-morph";
-*/
 
 import StructureDictionaries, {
   type StructureParts
@@ -17,17 +14,11 @@ import {
   LiteralTypedStructureImpl,
   MethodDeclarationImpl,
   ParameterDeclarationImpl,
-  /*
-  UnionTypedStructureImpl,
-  VariableDeclarationImpl,
-  VariableStatementImpl,
-  */
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
-import { Scope } from "ts-morph";
-//import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
+import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 
 export default function addDeclarationFromSignature(
   name: string,
@@ -41,22 +32,10 @@ export default function addDeclarationFromSignature(
       convertConstructor(parts, dictionaries);
       break;
     case "MethodDeclarationImpl":
-      /*
-      declarationFromSignature(
-        parts,
-        dictionaries.structureParts.get("MethodSignatureImpl"),
-        dictionaries
-      );
-      */
+      convertMethod(parts, dictionaries);
       break;
     case "PropertyDeclarationImpl":
-      /*
-      declarationFromSignature(
-        parts,
-        dictionaries.structureParts.get("PropertySignatureImpl");
-        dictionaries
-      );
-      */
+      convertProperty(parts, dictionaries);
       break;
   }
   return Promise.resolve();
@@ -74,34 +53,51 @@ function convertConstructor(
   addImport(parts, dictionaries, false, false, "TypeStructureClassesMap");
   const signatureImplClass = "ConstructSignatureDeclarationImpl";
 
-  const groupName = createFromSignatureMethod(signatureImplClass, parts, dictionaries);
-  parts.classFieldsStatements.set(
-    ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, groupName, [
-      `const declaration = new ${parts.classDecl.name};`
-    ]
-  );
-  parts.classFieldsStatements.set(
-    ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN, groupName, [
-      `return declaration;`
-    ]
-  );
+  const groupName = createFromSignatureMethod(signatureImplClass, false, parts, dictionaries);
+  setHeadAndTail(parts, groupName, "");
+  copyDocs(parts, groupName);
+  copyTrivia(parts, groupName);
 
-  parts.classFieldsStatements.set("docs", groupName, [
-    `declaration.docs.push(...cloneStructureOrStringArray<
-      JSDocImpl,
-      StructureKind.JSDoc,
-      JSDocImpl
-    >(
-      signature.docs as (string | JSDocImpl)[],
-      StructureKind.JSDoc
-    ) as JSDocImpl[]);`,
+  parts.classFieldsStatements.set("typeParameters", groupName, [
+    `declaration.typeParameters.push(
+      ...StructuresClassesMap.cloneArray(
+        signature.typeParameters as TypeParameterDeclarationImpl[]
+      ) as TypeParameterDeclarationImpl[],
+    );`
   ]);
+  parts.classFieldsStatements.set("parameters", groupName, [
+    `declaration.parameters.push(
+      ...StructuresClassesMap.cloneArray(
+        signature.parameters as ParameterDeclarationImpl[]
+      ) as ParameterDeclarationImpl[]
+    );`,
+  ]);
+  parts.classFieldsStatements.set("returnType", groupName, [
+    `if (signature.returnTypeStructure) {
+      declaration.returnTypeStructure = TypeStructureClassesMap.clone(signature.returnTypeStructure);
+    }`,
+  ]);
+}
 
-  parts.classFieldsStatements.set("leadingTrivia", groupName, [
-    `declaration.leadingTrivia.push(...signature.leadingTrivia);`,
-  ]);
-  parts.classFieldsStatements.set("trailingTrivia", groupName, [
-    `declaration.trailingTrivia.push(...signature.trailingTrivia);`,
+function convertMethod(
+  parts: StructureParts,
+  dictionaries: StructureDictionaries
+): void
+{
+  addImport(parts, dictionaries, true, true, "JSDocImpl");
+  addImport(parts, dictionaries, false, false, "cloneStructureOrStringArray");
+  addImport(parts, dictionaries, true, true, "ParameterDeclarationImpl");
+  addImport(parts, dictionaries, true, true, "TypeParameterDeclarationImpl");
+  addImport(parts, dictionaries, false, false, "TypeStructureClassesMap");
+
+  const signatureImplClass = "MethodSignatureImpl";
+  const groupName = createFromSignatureMethod(signatureImplClass, true, parts, dictionaries);
+  setHeadAndTail(parts, groupName, "isStatic, signature.name");
+  copyDocs(parts, groupName);
+  copyTrivia(parts, groupName);
+
+  parts.classFieldsStatements.set("hasQuestionToken", groupName, [
+    `declaration.hasQuestionToken = signature.hasQuestionToken;`
   ]);
 
   parts.classFieldsStatements.set("typeParameters", groupName, [
@@ -125,8 +121,37 @@ function convertConstructor(
   ]);
 }
 
+function convertProperty(
+  parts: StructureParts,
+  dictionaries: StructureDictionaries
+): void
+{
+  addImport(parts, dictionaries, false, false, "cloneStructureOrStringArray");
+  addImport(parts, dictionaries, true, true, "JSDocImpl");
+  addImport(parts, dictionaries, false, false, "TypeStructureClassesMap");
+  const signatureImplClass = "PropertySignatureImpl";
+  const groupName = createFromSignatureMethod(signatureImplClass, true, parts, dictionaries);
+
+  setHeadAndTail(parts, groupName, "isStatic, signature.name");
+  copyDocs(parts, groupName);
+  copyTrivia(parts, groupName);
+
+  parts.classFieldsStatements.set("hasQuestionToken", groupName, [
+    `declaration.hasQuestionToken = signature.hasQuestionToken;`
+  ]);
+  parts.classFieldsStatements.set("isReadonly", groupName, [
+    `declaration.isReadonly = signature.isReadonly;`
+  ]);
+  parts.classFieldsStatements.set("type", groupName, [
+    `if (signature.typeStructure) {
+      declaration.typeStructure = TypeStructureClassesMap.clone(signature.typeStructure);
+    }`,
+  ]);
+}
+
 function createFromSignatureMethod(
   sourceType: string,
+  canBeStatic: boolean,
   parts: StructureParts,
   dictionaries: StructureDictionaries
 ): string
@@ -136,6 +161,13 @@ function createFromSignatureMethod(
   const method = new MethodDeclarationImpl("fromSignature");
   method.isStatic = true;
   method.scope = Scope.Public;
+
+  if (canBeStatic) {
+    const param = new ParameterDeclarationImpl("isStatic");
+    param.typeStructure = ConstantTypeStructures.boolean;
+    method.parameters.push(param);
+  }
+
   {
     const param = new ParameterDeclarationImpl("signature");
     param.typeStructure = new LiteralTypedStructureImpl(sourceType);
@@ -162,4 +194,53 @@ function addImport(
     importNames: [name],
     isTypeOnly
   });
+}
+
+function setHeadAndTail(
+  parts: StructureParts,
+  groupName: string,
+  argumentsString?: string
+): void
+{
+  parts.classFieldsStatements.set(
+    ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, groupName, [
+      `const declaration = new ${parts.classDecl.name}${argumentsString ? `(${argumentsString})` : ``};`
+    ]
+  );
+
+  parts.classFieldsStatements.set(
+    ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN, groupName, [
+      `return declaration;`
+    ]
+  );
+}
+
+function copyDocs(
+  parts: StructureParts,
+  groupName: string
+): void
+{
+  parts.classFieldsStatements.set("docs", groupName, [
+    `declaration.docs.push(...cloneStructureOrStringArray<
+      JSDocImpl,
+      StructureKind.JSDoc,
+      JSDocImpl
+    >(
+      signature.docs as (string | JSDocImpl)[],
+      StructureKind.JSDoc
+    ) as JSDocImpl[]);`,
+  ]);
+}
+
+function copyTrivia(
+  parts: StructureParts,
+  groupName: string
+): void
+{
+  parts.classFieldsStatements.set("leadingTrivia", groupName, [
+    `declaration.leadingTrivia.push(...signature.leadingTrivia);`,
+  ]);
+  parts.classFieldsStatements.set("trailingTrivia", groupName, [
+    `declaration.trailingTrivia.push(...signature.trailingTrivia);`,
+  ]);
 }

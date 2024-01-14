@@ -1,10 +1,13 @@
 import {
-  //MethodSignatureImpl
   ConstructorDeclarationImpl,
   ConstructSignatureDeclarationImpl,
   JSDocImpl,
   JSDocTagImpl,
+  MethodDeclarationImpl,
+  MethodSignatureImpl,
   ParameterDeclarationImpl,
+  PropertyDeclarationImpl,
+  PropertySignatureImpl,
   TypeParameterDeclarationImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
@@ -68,5 +71,155 @@ describe("static fromSignature() methods generally work", () => {
       expect(param.typeStructure).toBe("SignatureType");
       expect(param).not.toBe(signature.parameters[0] as ParameterDeclarationImpl);
     }
+  });
+
+  it("on MethodDeclarationImpl with isStatic: false", () => {
+    const signature = new MethodSignatureImpl("foo");
+    signature.docs.push(doc);
+    signature.leadingTrivia.push("// leading signature");
+    signature.trailingTrivia.push("// trailing signature");
+    signature.hasQuestionToken = true;
+
+    signature.typeParameters.push(new TypeParameterDeclarationImpl("SignatureType"));
+    {
+      const param = new ParameterDeclarationImpl("mySignature");
+      param.typeStructure = "SignatureType";
+      signature.parameters.push(param);
+    }
+
+    signature.returnTypeStructure = "symbol";
+
+    const decl: MethodDeclarationImpl = MethodDeclarationImpl.fromSignature(false, signature);
+
+    expect(decl.isStatic).toBe(false);
+    expect(decl.name).toBe(signature.name);
+    expect(decl.hasQuestionToken).toBe(signature.hasQuestionToken);
+
+    checkDoc(decl.docs[0] as JSDocImpl);
+    expect(decl.leadingTrivia).toEqual(signature.leadingTrivia);
+    expect(decl.leadingTrivia).not.toBe(signature.leadingTrivia);
+    expect(decl.trailingTrivia).toEqual(signature.trailingTrivia);
+    expect(decl.trailingTrivia).not.toBe(signature.trailingTrivia);
+
+    expect(decl.typeParameters.length).toBe(1);
+    if (decl.typeParameters.length > 0) {
+      const typeParam = decl.typeParameters[0];
+      expect(typeof typeParam).toBe("object");
+      if (typeof typeParam === "object") {
+        expect(typeParam.name).toBe("SignatureType");
+      }
+      expect(typeParam).not.toBe(signature.typeParameters[0]);
+    }
+
+    expect(decl.parameters.length).toBe(1);
+    if (decl.parameters.length > 0) {
+      const param = decl.parameters[0] as ParameterDeclarationImpl;
+      expect(param.name).toBe("mySignature");
+      expect(param.typeStructure).toBe("SignatureType");
+      expect(param).not.toBe(signature.parameters[0] as ParameterDeclarationImpl);
+    }
+
+    expect(decl.returnTypeStructure).toBe("symbol");
+  });
+
+  it("on MethodDeclarationImpl with isStatic: true", () => {
+    const signature = new MethodSignatureImpl("foo");
+    signature.docs.push(doc);
+    signature.leadingTrivia.push("// leading signature");
+    signature.trailingTrivia.push("// trailing signature");
+    //signature.hasQuestionToken = true;
+
+    signature.typeParameters.push(new TypeParameterDeclarationImpl("SignatureType"));
+    {
+      const param = new ParameterDeclarationImpl("mySignature");
+      param.typeStructure = "SignatureType";
+      signature.parameters.push(param);
+    }
+
+    signature.returnTypeStructure = "symbol";
+
+    const decl: MethodDeclarationImpl = MethodDeclarationImpl.fromSignature(true, signature);
+
+    expect(decl.isStatic).toBe(true);
+    expect(decl.name).toBe(signature.name);
+    expect(decl.hasQuestionToken).toBe(signature.hasQuestionToken);
+
+    checkDoc(decl.docs[0] as JSDocImpl);
+    expect(decl.leadingTrivia).toEqual(signature.leadingTrivia);
+    expect(decl.leadingTrivia).not.toBe(signature.leadingTrivia);
+    expect(decl.trailingTrivia).toEqual(signature.trailingTrivia);
+    expect(decl.trailingTrivia).not.toBe(signature.trailingTrivia);
+
+    expect(decl.typeParameters.length).toBe(1);
+    if (decl.typeParameters.length > 0) {
+      const typeParam = decl.typeParameters[0];
+      expect(typeof typeParam).toBe("object");
+      if (typeof typeParam === "object") {
+        expect(typeParam.name).toBe("SignatureType");
+      }
+      expect(typeParam).not.toBe(signature.typeParameters[0]);
+    }
+
+    expect(decl.parameters.length).toBe(1);
+    if (decl.parameters.length > 0) {
+      const param = decl.parameters[0] as ParameterDeclarationImpl;
+      expect(param.name).toBe("mySignature");
+      expect(param.typeStructure).toBe("SignatureType");
+      expect(param).not.toBe(signature.parameters[0] as ParameterDeclarationImpl);
+    }
+
+    expect(decl.returnTypeStructure).toBe("symbol");
+  });
+
+  it("on PropertyDeclarationImpl with isStatic: false", () => {
+    const signature = new PropertySignatureImpl("foo");
+    signature.docs.push(doc);
+    signature.leadingTrivia.push("// leading signature");
+    signature.trailingTrivia.push("// trailing signature");
+    signature.hasQuestionToken = true;
+
+    //signature.isReadonly = true;
+    signature.typeStructure = "NumberStringType";
+
+    const decl: PropertyDeclarationImpl = PropertyDeclarationImpl.fromSignature(false, signature);
+
+    expect(decl.isStatic).toBe(false);
+    expect(decl.name).toBe(signature.name);
+    expect(decl.hasQuestionToken).toBe(signature.hasQuestionToken);
+
+    checkDoc(decl.docs[0] as JSDocImpl);
+    expect(decl.leadingTrivia).toEqual(signature.leadingTrivia);
+    expect(decl.leadingTrivia).not.toBe(signature.leadingTrivia);
+    expect(decl.trailingTrivia).toEqual(signature.trailingTrivia);
+    expect(decl.trailingTrivia).not.toBe(signature.trailingTrivia);
+
+    expect(decl.isReadonly).toBe(signature.isReadonly);
+    expect(decl.typeStructure).toBe("NumberStringType");
+  });
+
+  it("on PropertyDeclarationImpl with isStatic: true", () => {
+    const signature = new PropertySignatureImpl("foo");
+    signature.docs.push(doc);
+    signature.leadingTrivia.push("// leading signature");
+    signature.trailingTrivia.push("// trailing signature");
+    //signature.hasQuestionToken = true;
+
+    signature.isReadonly = true;
+    signature.typeStructure = "NumberStringType";
+
+    const decl: PropertyDeclarationImpl = PropertyDeclarationImpl.fromSignature(true, signature);
+
+    expect(decl.isStatic).toBe(true);
+    expect(decl.name).toBe(signature.name);
+    expect(decl.hasQuestionToken).toBe(signature.hasQuestionToken);
+
+    checkDoc(decl.docs[0] as JSDocImpl);
+    expect(decl.leadingTrivia).toEqual(signature.leadingTrivia);
+    expect(decl.leadingTrivia).not.toBe(signature.leadingTrivia);
+    expect(decl.trailingTrivia).toEqual(signature.trailingTrivia);
+    expect(decl.trailingTrivia).not.toBe(signature.trailingTrivia);
+
+    expect(decl.isReadonly).toBe(signature.isReadonly);
+    expect(decl.typeStructure).toBe("NumberStringType");
   });
 });

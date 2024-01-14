@@ -1,5 +1,11 @@
 //#region preamble
-import { MethodDeclarationOverloadImpl } from "../exports.js";
+import {
+  type JSDocImpl,
+  MethodDeclarationOverloadImpl,
+  type MethodSignatureImpl,
+  type ParameterDeclarationImpl,
+  type TypeParameterDeclarationImpl,
+} from "../exports.js";
 import {
   type AbstractableNodeStructureFields,
   AbstractableNodeStructureMixin,
@@ -7,6 +13,7 @@ import {
   AsyncableNodeStructureMixin,
   type CloneableStructure,
   cloneStructureArray,
+  cloneStructureOrStringArray,
   COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
@@ -38,6 +45,7 @@ import {
   StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
+  TypeStructureClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -129,6 +137,43 @@ export default class MethodDeclarationImpl
     );
     this[COPY_FIELDS](source, target);
     return target;
+  }
+
+  public static fromSignature(
+    isStatic: boolean,
+    signature: MethodSignatureImpl,
+  ): MethodDeclarationImpl {
+    const declaration = new MethodDeclarationImpl(isStatic, signature.name);
+    declaration.docs.push(
+      ...(cloneStructureOrStringArray<
+        JSDocImpl,
+        StructureKind.JSDoc,
+        JSDocImpl
+      >(
+        signature.docs as (string | JSDocImpl)[],
+        StructureKind.JSDoc,
+      ) as JSDocImpl[]),
+    );
+    declaration.hasQuestionToken = signature.hasQuestionToken;
+    declaration.leadingTrivia.push(...signature.leadingTrivia);
+    declaration.parameters.push(
+      ...(StructuresClassesMap.cloneArray(
+        signature.parameters as ParameterDeclarationImpl[],
+      ) as ParameterDeclarationImpl[]),
+    );
+    if (signature.returnTypeStructure) {
+      declaration.returnTypeStructure = TypeStructureClassesMap.clone(
+        signature.returnTypeStructure,
+      );
+    }
+
+    declaration.trailingTrivia.push(...signature.trailingTrivia);
+    declaration.typeParameters.push(
+      ...(StructuresClassesMap.cloneArray(
+        signature.typeParameters as TypeParameterDeclarationImpl[],
+      ) as TypeParameterDeclarationImpl[]),
+    );
+    return declaration;
   }
 
   public toJSON(): StructureClassToJSON<MethodDeclarationImpl> {
