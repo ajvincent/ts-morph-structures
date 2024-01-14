@@ -1,8 +1,15 @@
 //#region preamble
-import { ConstructorDeclarationOverloadImpl } from "../exports.js";
+import {
+  ConstructorDeclarationOverloadImpl,
+  type ConstructSignatureDeclarationImpl,
+  type JSDocImpl,
+  type ParameterDeclarationImpl,
+  type TypeParameterDeclarationImpl,
+} from "../exports.js";
 import {
   type CloneableStructure,
   cloneStructureArray,
+  cloneStructureOrStringArray,
   COPY_FIELDS,
   type ExtractStructure,
   type JSDocableNodeStructureFields,
@@ -24,6 +31,7 @@ import {
   StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
+  TypeStructureClassesMap,
 } from "../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -91,6 +99,41 @@ export default class ConstructorDeclarationImpl
     const target = new ConstructorDeclarationImpl();
     this[COPY_FIELDS](source, target);
     return target;
+  }
+
+  public static fromSignature(
+    signature: ConstructSignatureDeclarationImpl,
+  ): ConstructorDeclarationImpl {
+    const declaration = new ConstructorDeclarationImpl();
+    declaration.docs.push(
+      ...(cloneStructureOrStringArray<
+        JSDocImpl,
+        StructureKind.JSDoc,
+        JSDocImpl
+      >(
+        signature.docs as (string | JSDocImpl)[],
+        StructureKind.JSDoc,
+      ) as JSDocImpl[]),
+    );
+    declaration.leadingTrivia.push(...signature.leadingTrivia);
+    declaration.parameters.push(
+      ...(StructuresClassesMap.cloneArray(
+        signature.parameters as ParameterDeclarationImpl[],
+      ) as ParameterDeclarationImpl[]),
+    );
+    if (signature.returnTypeStructure) {
+      declaration.returnTypeStructure = TypeStructureClassesMap.clone(
+        signature.returnTypeStructure,
+      );
+    }
+
+    declaration.trailingTrivia.push(...signature.trailingTrivia);
+    declaration.typeParameters.push(
+      ...(StructuresClassesMap.cloneArray(
+        signature.typeParameters as TypeParameterDeclarationImpl[],
+      ) as TypeParameterDeclarationImpl[]),
+    );
+    return declaration;
   }
 
   public toJSON(): StructureClassToJSON<ConstructorDeclarationImpl> {

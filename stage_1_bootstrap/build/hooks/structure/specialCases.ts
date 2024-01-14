@@ -4,7 +4,7 @@ import {
 } from "ts-morph";
 
 import StructureDictionaries, {
-  StructureParts
+  type StructureParts
 } from "#stage_one/build/StructureDictionaries.js";
 
 import {

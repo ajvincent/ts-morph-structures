@@ -167,6 +167,7 @@ export class StructureImplMeta extends BaseMetadata implements MetaImplementatio
     }
   }
 }
+
 export class StructureUnionMeta implements MetaImplementation
 {
   readonly metaType = MetaType.StructureUnion;

@@ -17,6 +17,7 @@ import createStructureParts from "./hooks/structure/createParts.js";
 import defineKindProperty from "./hooks/structure/defineKind.js";
 import addConstructor from "./hooks/structure/addConstructor.js";
 import addStaticClone from "./hooks/structure/addStaticClone.js";
+import addDeclarationFromSignature from "./hooks/structure/addDeclarationFromSignature.js";
 import saveStructureFile from "./hooks/structure/save.js";
 import removeUselessCopyFields from "./hooks/structure/removeUselessCopyFields.js";
 import structureSpecialCases from "./hooks/structure/specialCases.js";
@@ -52,6 +53,7 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addStructureHook("define structure kind", defineKindProperty);
   dictionary.addStructureHook("add constructor", addConstructor);
   dictionary.addStructureHook("add static clone method", addStaticClone);
+  dictionary.addStructureHook("add static fromSignature method", addDeclarationFromSignature);
   dictionary.addStructureHook("remove useless copy-fields method", removeUselessCopyFields);
   dictionary.addStructureHook("add .toJSON()", add_toJSON);
   dictionary.addStructureHook("add type structures", addTypeStructures);
