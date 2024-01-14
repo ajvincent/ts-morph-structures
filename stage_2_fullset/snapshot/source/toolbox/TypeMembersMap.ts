@@ -1,3 +1,5 @@
+import assert from "node:assert";
+
 import { KindedStructure, JSDocStructure, StructureKind } from "ts-morph";
 
 import {
@@ -10,11 +12,14 @@ import {
   MemberedObjectTypeStructureImpl,
   MethodSignatureImpl,
   ParameterDeclarationImpl,
+  ParameterTypeStructureImpl,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
+  TypeStructureKind,
 } from "../exports.js";
 
 import {
+  FunctionTypeStructureImpl,
   StructuresClassesMap,
   TypeStructureClassesMap,
   cloneStructureOrStringArray,
@@ -339,7 +344,106 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
     }
   }
 
-  resolveIndexSignature(): never {
-    throw new Error("not yet implemented");
+  /**
+   * Replace an index signature with other methods/properties matching the signature's return type.
+   *
+   * It is up to you to ensure the names match the key type of the index signature.
+   *
+   * @param signature - the signature (which must be a member of this) to resolve.
+   * @param names - the names to replace the signature's key with.
+   */
+  resolveIndexSignature(
+    signature: IndexSignatureDeclarationImpl,
+    names: string[],
+  ): MethodSignatureImpl[] | PropertySignatureImpl[] {
+    const indexKey = TypeMembersMap.keyFromMember(signature);
+    if (!this.has(indexKey))
+      throw new Error("index signature is not part of this");
+
+    if (
+      typeof signature.returnTypeStructure === "object" &&
+      signature.returnTypeStructure?.kind === TypeStructureKind.Function &&
+      !signature.isReadonly
+    ) {
+      return this.#resolveIndexSignatureToMethods(signature, names, indexKey);
+    }
+
+    return this.#resolveIndexSignatureToProperties(signature, names, indexKey);
   }
+
+  #resolveIndexSignatureToMethods(
+    signature: IndexSignatureDeclarationImpl,
+    names: string[],
+    indexKey: string,
+  ): MethodSignatureImpl[] {
+    const baseMethodSignature = new MethodSignatureImpl("");
+    const { returnTypeStructure } = signature;
+    assert(
+      returnTypeStructure instanceof FunctionTypeStructureImpl,
+      "how'd we get here?",
+    );
+
+    returnTypeStructure.typeParameters.forEach((typeParam) => {
+      baseMethodSignature.typeParameters.push(typeParam);
+    });
+    returnTypeStructure.parameters.forEach((param) => {
+      baseMethodSignature.parameters.push(
+        convertParameterFromTypeToImpl(param),
+      );
+    });
+    if (returnTypeStructure.restParameter) {
+      const restParameter = convertParameterFromTypeToImpl(
+        returnTypeStructure.restParameter,
+      );
+      restParameter.isRestParameter = true;
+      baseMethodSignature.parameters.push(restParameter);
+    }
+
+    if (returnTypeStructure.returnType)
+      baseMethodSignature.returnTypeStructure = returnTypeStructure.returnType;
+
+    const addedMembers: MethodSignatureImpl[] = [];
+
+    names.forEach((name) => {
+      const methodSignature = MethodSignatureImpl.clone(baseMethodSignature);
+      methodSignature.name = name;
+      addedMembers.push(methodSignature);
+    });
+
+    this.addMembers(addedMembers);
+    this.delete(indexKey);
+    return addedMembers;
+  }
+
+  #resolveIndexSignatureToProperties(
+    signature: IndexSignatureDeclarationImpl,
+    names: string[],
+    indexKey: string,
+  ): PropertySignatureImpl[] {
+    const baseProp = new PropertySignatureImpl("");
+    if (signature.isReadonly) baseProp.isReadonly = true;
+    if (signature.returnTypeStructure)
+      baseProp.typeStructure = signature.returnTypeStructure;
+
+    const addedMembers: PropertySignatureImpl[] = [];
+
+    names.forEach((name) => {
+      const prop = PropertySignatureImpl.clone(baseProp);
+      prop.name = name;
+      addedMembers.push(prop);
+    });
+    this.addMembers(addedMembers);
+    this.delete(indexKey);
+
+    return addedMembers;
+  }
+}
+
+function convertParameterFromTypeToImpl(
+  source: ParameterTypeStructureImpl,
+): ParameterDeclarationImpl {
+  const impl = new ParameterDeclarationImpl(source.name);
+  if (source.typeStructure)
+    impl.typeStructure = TypeStructureClassesMap.clone(source.typeStructure);
+  return impl;
 }

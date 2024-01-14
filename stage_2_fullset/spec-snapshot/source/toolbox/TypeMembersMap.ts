@@ -6,11 +6,13 @@ import {
   CallSignatureDeclarationImpl,
   ConstructSignatureDeclarationImpl,
   GetAccessorDeclarationImpl,
+  FunctionTypeStructureImpl,
   IndexSignatureDeclarationImpl,
   InterfaceDeclarationImpl,
   MemberedObjectTypeStructureImpl,
   MethodSignatureImpl,
   ParameterDeclarationImpl,
+  ParameterTypeStructureImpl,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
   TypeMembersMap,
@@ -326,5 +328,145 @@ describe("TypeMembersMap", () => {
         () => membersMap.convertAccessorsToProperty(getter4.name)
       ).toThrowError(getter4.name + " accessors not found!");
     });
+  });
+
+  describe("resolveIndexSignatures()", () => {
+    it("normally returns properties", () => {
+      membersMap.addMembers([
+        prop1, prop2, method3, getter4, setter4, ctor_A, call_B, index_C
+      ]);
+
+      const indexKey = TypeMembersMap.keyFromMember(index_C);
+      const newMembers = membersMap.resolveIndexSignature(index_C, ["six", "seven"]);
+
+      expect(newMembers.length).toBe(2);
+      const [prop6, prop7] = newMembers;
+
+      expect(prop6).toBeInstanceOf(PropertySignatureImpl);
+      if (prop6 instanceof PropertySignatureImpl) {
+        expect(prop6.name).toBe("six");
+        expect(prop6.typeStructure).toBe("boolean");
+
+        const sixKey = TypeMembersMap.keyFromMember(prop6);
+        expect(membersMap.get(sixKey)).toBe(prop6);
+      }
+
+      expect(prop7).toBeInstanceOf(PropertySignatureImpl);
+      if (prop7 instanceof PropertySignatureImpl) {
+        expect(prop7.name).toBe("seven");
+        expect(prop7.typeStructure).toBe("boolean");
+
+        const sevenKey = TypeMembersMap.keyFromMember(prop7);
+        expect(membersMap.get(sevenKey)).toBe(prop7);
+      }
+
+      expect(membersMap.has(indexKey)).toBe(false);
+      expect(membersMap.size).toBe(9);
+    });
+  });
+
+  it("returns properties for readonly functions", () => {
+    const functionType = new FunctionTypeStructureImpl({
+      parameters: [new ParameterTypeStructureImpl("n", "number")],
+      returnType: "string"
+    });
+    index_C.returnTypeStructure = functionType;
+    index_C.isReadonly = true;
+
+    membersMap.addMembers([
+      prop1, prop2, method3, getter4, setter4, ctor_A, call_B, index_C
+    ]);
+
+    const indexKey = TypeMembersMap.keyFromMember(index_C);
+    const newMembers = membersMap.resolveIndexSignature(index_C, ["six", "seven"]);
+
+    expect(newMembers.length).toBe(2);
+    const [prop6, prop7] = newMembers;
+
+    expect(prop6).toBeInstanceOf(PropertySignatureImpl);
+    if (prop6 instanceof PropertySignatureImpl) {
+      expect(prop6.name).toBe("six");
+      expect(prop6.typeStructure).toBeInstanceOf(FunctionTypeStructureImpl);
+      if (prop6.typeStructure instanceof FunctionTypeStructureImpl) {
+        expect(prop6.typeStructure.parameters.length).toBe(1);
+        expect(prop6.typeStructure.parameters[0].name).toBe("n");
+        expect(prop6.typeStructure.parameters[0].typeStructure).toBe("number");
+        expect(prop6.typeStructure.returnType).toBe("string");
+        expect(prop6.typeStructure).not.toBe(index_C.returnTypeStructure);
+      }
+      expect(prop6.isReadonly).toBeTrue();
+
+      const sixKey = TypeMembersMap.keyFromMember(prop6);
+      expect(membersMap.get(sixKey)).toBe(prop6);
+    }
+
+    expect(prop7).toBeInstanceOf(PropertySignatureImpl);
+    if (prop7 instanceof PropertySignatureImpl) {
+      expect(prop7.name).toBe("seven");
+      expect(prop7.typeStructure).toBeInstanceOf(FunctionTypeStructureImpl);
+      if (prop7.typeStructure instanceof FunctionTypeStructureImpl) {
+        expect(prop7.typeStructure.parameters.length).toBe(1);
+        expect(prop7.typeStructure.parameters[0].name).toBe("n");
+        expect(prop7.typeStructure.parameters[0].typeStructure).toBe("number");
+        expect(prop7.typeStructure.returnType).toBe("string");
+        expect(prop7.typeStructure).not.toBe(index_C.returnTypeStructure);
+      }
+      expect(prop7.isReadonly).toBeTrue();
+
+      const sevenKey = TypeMembersMap.keyFromMember(prop7);
+      expect(membersMap.get(sevenKey)).toBe(prop7);
+    }
+
+    if ((prop6 instanceof PropertySignatureImpl) && (prop7 instanceof PropertySignatureImpl)) {
+      expect(prop6.typeStructure).not.toBe(prop7.typeStructure);
+    }
+
+    expect(membersMap.has(indexKey)).toBe(false);
+    expect(membersMap.size).toBe(9);
+  });
+
+  it("returns methods for non-readonly functions", () => {
+    const functionType = new FunctionTypeStructureImpl({
+      parameters: [new ParameterTypeStructureImpl("n", "number")],
+      returnType: "string"
+    });
+    index_C.returnTypeStructure = functionType;
+
+    membersMap.addMembers([
+      prop1, prop2, method3, getter4, setter4, ctor_A, call_B, index_C
+    ]);
+
+    const indexKey = TypeMembersMap.keyFromMember(index_C);
+    const newMembers = membersMap.resolveIndexSignature(index_C, ["six", "seven"]);
+
+    expect(newMembers.length).toBe(2);
+    const [prop6, prop7] = newMembers;
+
+    expect(prop6).toBeInstanceOf(MethodSignatureImpl);
+    if (prop6 instanceof MethodSignatureImpl) {
+      expect(prop6.name).toBe("six");
+      expect(prop6.typeParameters.length).toBe(0);
+      expect(prop6.parameters.length).toBe(1);
+      expect(prop6.parameters[0].name).toBe("n");
+      expect((prop6.parameters[0] as ParameterDeclarationImpl).typeStructure).toBe("number");
+      expect(prop6.returnTypeStructure).toBe("string");
+      const sixKey = TypeMembersMap.keyFromMember(prop6);
+      expect(membersMap.get(sixKey)).toBe(prop6);
+    }
+
+    expect(prop7).toBeInstanceOf(MethodSignatureImpl);
+    if (prop7 instanceof MethodSignatureImpl) {
+      expect(prop7.name).toBe("seven");
+      expect(prop7.typeParameters.length).toBe(0);
+      expect(prop7.parameters.length).toBe(1);
+      expect(prop7.parameters[0].name).toBe("n");
+      expect((prop7.parameters[0] as ParameterDeclarationImpl).typeStructure).toBe("number");
+      expect(prop7.returnTypeStructure).toBe("string");
+      const sevenKey = TypeMembersMap.keyFromMember(prop7);
+      expect(membersMap.get(sevenKey)).toBe(prop7);
+    }
+
+    expect(membersMap.has(indexKey)).toBe(false);
+    expect(membersMap.size).toBe(9);
   });
 });

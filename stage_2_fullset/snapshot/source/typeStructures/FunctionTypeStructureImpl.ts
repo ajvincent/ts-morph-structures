@@ -40,7 +40,9 @@ export default class FunctionTypeStructureImpl extends TypeStructuresWithTypePar
     return new FunctionTypeStructureImpl({
       name: other.name,
       isConstructor: other.isConstructor,
-      typeParameters: other.typeParameters,
+      typeParameters: other.typeParameters.map((typeParam) =>
+        TypeParameterDeclarationImpl.clone(typeParam),
+      ),
       parameters: other.parameters.map((param) =>
         ParameterTypeStructureImpl.clone(param),
       ),

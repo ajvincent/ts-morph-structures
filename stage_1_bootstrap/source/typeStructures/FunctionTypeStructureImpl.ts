@@ -56,7 +56,7 @@ extends TypeStructuresWithTypeParameters<TypeStructureKind.Function>
     return new FunctionTypeStructureImpl({
       name: other.name,
       isConstructor: other.isConstructor,
-      typeParameters: other.typeParameters,
+      typeParameters: other.typeParameters.map(typeParam => TypeParameterDeclarationImpl.clone(typeParam)),
       parameters: other.parameters.map(param => ParameterTypeStructureImpl.clone(param)),
       restParameter: (other.restParameter ? ParameterTypeStructureImpl.clone(other.restParameter) : undefined),
       returnType: other.returnType ? TypeStructureClassesMap.clone(other.returnType) : undefined,
