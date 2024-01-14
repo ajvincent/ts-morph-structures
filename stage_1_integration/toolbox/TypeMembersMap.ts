@@ -19,6 +19,7 @@ import {
 } from "../snapshot/source/exports.js";
 
 import {
+  StructuresClassesMap,
   TypeStructureClassesMap,
   cloneStructureOrStringArray,
 } from "../snapshot/source/internal-exports.js";
@@ -161,27 +162,15 @@ extends Map<string, TypeMemberImpl>
     return items as (Extract<TypeMemberImpl, KindedStructure<Kind>>)[];
   }
 
-  /**
-   * A typed call to `this.get()` for a given kind.
-   * @param kind - the structure kind.
-   * @param name - the key to get.
-   * @returns - the type member, as the right type, or undefined if the wrong type.
-   *
-   * @see `TypeMembersMap::keyFromName`
-   */
-  getAsKind<
-    Kind extends NamedTypeMemberImpl["kind"]
-  >
-  (
-    kind: Kind,
-    name: string,
-  ): Extract<TypeMemberImpl, KindedStructure<Kind>> | undefined
+  /** Get a clone of this map. */
+  public clone(): TypeMembersMap
   {
-    const key = TypeMembersMap.keyFromName(kind, name);
-    const rv = this.get(key);
-    if (rv?.kind === kind)
-      return rv as Extract<TypeMemberImpl, KindedStructure<Kind>>;
-    return undefined;
+    let members = Array.from(this.values());
+    members = members.map(member => StructuresClassesMap.clone(member) as TypeMemberImpl);
+
+    const newMap = new TypeMembersMap;
+    newMap.addMembers(members);
+    return newMap;
   }
 
   /**
@@ -286,10 +275,28 @@ extends Map<string, TypeMemberImpl>
     this.delete(TypeMembersMap.keyFromMember(prop));
   }
 
-  resolveIndexSignature(
-  ): never
+
+  /**
+   * A typed call to `this.get()` for a given kind.
+   * @param kind - the structure kind.
+   * @param name - the key to get.
+   * @returns - the type member, as the right type, or undefined if the wrong type.
+   *
+   * @see `TypeMembersMap::keyFromName`
+   */
+  getAsKind<
+    Kind extends NamedTypeMemberImpl["kind"]
+  >
+  (
+    kind: Kind,
+    name: string,
+  ): Extract<TypeMemberImpl, KindedStructure<Kind>> | undefined
   {
-    throw new Error("not yet implemented");
+    const key = TypeMembersMap.keyFromName(kind, name);
+    const rv = this.get(key);
+    if (rv?.kind === kind)
+      return rv as Extract<TypeMemberImpl, KindedStructure<Kind>>;
+    return undefined;
   }
 
   /**
@@ -335,5 +342,11 @@ extends Map<string, TypeMemberImpl>
       default:
         throw new Error("unreachable");
     }
+  }
+
+  resolveIndexSignature(
+  ): never
+  {
+    throw new Error("not yet implemented");
   }
 }

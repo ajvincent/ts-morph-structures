@@ -12,6 +12,7 @@ import {
 } from "../exports.js";
 
 import {
+  StructuresClassesMap,
   TypeStructureClassesMap,
   cloneStructureOrStringArray,
 } from "../internal-exports.js";
@@ -119,25 +120,16 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     return items as Extract<ClassMemberImpl, KindedStructure<Kind>>[];
   }
 
-  /**
-   * A typed call to `this.get()` for a given kind.
-   * @param kind - the structure kind.
-   * @param isStatic - true if the member is static.
-   * @param name - the name of the member.
-   * @returns - the class member, as the right type, or undefined if the wrong type.
-   *
-   * @see `ClassMembersMap::keyFromName`
-   */
-  getAsKind<Kind extends ClassMemberImpl["kind"]>(
-    kind: Kind,
-    isStatic: boolean,
-    name: string,
-  ): Extract<ClassMemberImpl, KindedStructure<Kind>> | undefined {
-    const key = ClassMembersMap.keyFromName(kind, isStatic, name);
-    const rv = this.get(key);
-    if (rv?.kind === kind)
-      return rv as Extract<ClassMemberImpl, KindedStructure<Kind>>;
-    return undefined;
+  /** Get a clone of this map. */
+  public clone(): ClassMembersMap {
+    let members = Array.from(this.values());
+    members = members.map(
+      (member) => StructuresClassesMap.clone(member) as ClassMemberImpl,
+    );
+
+    const newMap = new ClassMembersMap();
+    newMap.addMembers(members);
+    return newMap;
   }
 
   /**
@@ -311,6 +303,27 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     }
 
     this.delete(ClassMembersMap.keyFromMember(prop));
+  }
+
+  /**
+   * A typed call to `this.get()` for a given kind.
+   * @param kind - the structure kind.
+   * @param isStatic - true if the member is static.
+   * @param name - the name of the member.
+   * @returns - the class member, as the right type, or undefined if the wrong type.
+   *
+   * @see `ClassMembersMap::keyFromName`
+   */
+  getAsKind<Kind extends ClassMemberImpl["kind"]>(
+    kind: Kind,
+    isStatic: boolean,
+    name: string,
+  ): Extract<ClassMemberImpl, KindedStructure<Kind>> | undefined {
+    const key = ClassMembersMap.keyFromName(kind, isStatic, name);
+    const rv = this.get(key);
+    if (rv?.kind === kind)
+      return rv as Extract<ClassMemberImpl, KindedStructure<Kind>>;
+    return undefined;
   }
 
   /**
