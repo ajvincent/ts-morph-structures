@@ -1,3 +1,7 @@
 # Hello World
 
 Sorry.  If you're expecting `ts-morph-structures` documentation, it doesn't exist yet.
+
+## In progress
+
+- ["Membered Type To Class" Primer](./guides/MemberedTypeToClass.md)
