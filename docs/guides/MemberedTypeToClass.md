@@ -76,7 +76,7 @@ In ts-morph-structures, the [`PropertyDeclarationImpl`](../api/structures/Proper
 
 For type-to-class purposes, we're concerned mostly with "name", "type" and "initializer".
 
-### Constructors, methods and accessors interact with properties via statements
+### Constructors, methods and accessors interact with properties via [statements](../api/decorators/StatementedNodeStructureMixin.ts)
 
 The first part of this is obvious to any programmer, but the most important part here is in the last word.  Without statements (in a particular order), methods are useless.  So are constructors, getters and setters.
 
@@ -145,19 +145,18 @@ export type TypeMemberImpl = (
 );
 ```
 
-That said, the specific _keys_ of this map are _not_ necessarily the name of the member you have in mind.  Index signatures don't _have_ names, for example.  It's also easy to have a conflict between `get foo()` and a `foo` property.  For this, `TypeMembersMap` provides two static methods: `keyFromMember(member: TypeMemberImpl): string` and `keyFromName(kind: TypeMemberImpl["kind"], name: string): string`.  The basic algorithm for creating a key is simple:
+That said, the specific _keys_ of this map are _not_ necessarily the name of the member you have in mind.  Index signatures don't _have_ names, for example.  It's also easy to have a conflict between `get foo()` and a `foo` property.  For this, `TypeMembersMap` provides two static methods: `static keyFromMember(member: TypeMemberImpl): string` and `static keyFromName(kind: TypeMemberImpl["kind"], name: string): string`.  The basic algorithm for creating a key is simple:
 
-1. If the member is static, add "static ".
-2. If the member is a getter, add "get ".
-3. If the member is a setter, add "set ".
-4. Add the member's name.
-5. Return the full key.
+1. If the member is a getter, add "get ".
+2. If the member is a setter, add "set ".
+3. Add the member's name.
+4. Return the full key.
 
 There are variations for constructors, index signatures and call signatures.
 
 I do not recommend direct access to the map's inherited methods from `Map` unless you fully understand this algorithm.
 
-For convenience, if you already have a membered object, `TypeMembersMap` has another static method, `fromMemberedObject(membered): TypeMembersMap`.
+For convenience, if you already have a membered object, `TypeMembersMap` has another method, `static fromMemberedObject(membered): TypeMembersMap`.
 
 Individual maps have specific helper methods:
 
