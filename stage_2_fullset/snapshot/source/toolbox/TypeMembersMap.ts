@@ -113,6 +113,15 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
     return map;
   }
 
+  static #convertParameterFromTypeToImpl(
+    source: ParameterTypeStructureImpl,
+  ): ParameterDeclarationImpl {
+    const impl = new ParameterDeclarationImpl(source.name);
+    if (source.typeStructure)
+      impl.typeStructure = TypeStructureClassesMap.clone(source.typeStructure);
+    return impl;
+  }
+
   /**
    * Add type members as values of this map, using standard keys.
    *
@@ -388,11 +397,11 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
     });
     returnTypeStructure.parameters.forEach((param) => {
       baseMethodSignature.parameters.push(
-        convertParameterFromTypeToImpl(param),
+        TypeMembersMap.#convertParameterFromTypeToImpl(param),
       );
     });
     if (returnTypeStructure.restParameter) {
-      const restParameter = convertParameterFromTypeToImpl(
+      const restParameter = TypeMembersMap.#convertParameterFromTypeToImpl(
         returnTypeStructure.restParameter,
       );
       restParameter.isRestParameter = true;
@@ -437,13 +446,4 @@ export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
 
     return addedMembers;
   }
-}
-
-function convertParameterFromTypeToImpl(
-  source: ParameterTypeStructureImpl,
-): ParameterDeclarationImpl {
-  const impl = new ParameterDeclarationImpl(source.name);
-  if (source.typeStructure)
-    impl.typeStructure = TypeStructureClassesMap.clone(source.typeStructure);
-  return impl;
 }
