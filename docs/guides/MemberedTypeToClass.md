@@ -95,9 +95,9 @@ Here I'm glossing over "return as early as you can", but this is solvable by cre
 
 ### Corollary: We can organize statements by constructor or getter or setter or method, then by purpose, then by the property they care about, then in an ordered array
 
-Yes, four dimensions of complexity:
+Yes, four dimensions of statement complexity:
 
-1. Where does a statement go? (constructor, getter, setter, method)
+1. Where does a statement go? (constructor / initializer, getter, setter, method)
 2. Why does a statement exist?  (purpose)
 3. What property is that statement most about? (property)
 4. What other statements go with that statement, and in what order?  (array of statements)
@@ -145,7 +145,12 @@ export type TypeMemberImpl = (
 );
 ```
 
-That said, the specific _keys_ of this map are _not_ necessarily the name of the member you have in mind.  Index signatures don't _have_ names, for example.  It's also easy to have a conflict between `get foo()` and a `foo` property.  For this, `TypeMembersMap` provides two static methods: `static keyFromMember(member: TypeMemberImpl): string` and `static keyFromName(kind: TypeMemberImpl["kind"], name: string): string`.  The basic algorithm for creating a key is simple:
+That said, the specific _keys_ of this map are _not_ necessarily the name of the member you have in mind.  Index signatures don't _have_ names, for example.  It's also easy to have a conflict between `get foo()` and a `foo` property.  For this, `TypeMembersMap` provides two static methods:
+
+- `static keyFromMember(member: TypeMemberImpl): string` and
+- `static keyFromName(kind: TypeMemberImpl["kind"], name: string): string`
+
+The basic algorithm for creating a key is simple:
 
 1. If the member is a getter, add "get ".
 2. If the member is a setter, add "set ".
@@ -156,7 +161,8 @@ There are variations for constructors, index signatures and call signatures.
 
 I do not recommend direct access to the map's inherited methods from `Map` unless you fully understand this algorithm.
 
-For convenience, if you already have a membered object, `TypeMembersMap` has another method, `static fromMemberedObject(membered): TypeMembersMap`.
+For convenience, if you already have a membered object, `TypeMembersMap` has another method,
+- `static fromMemberedObject(membered): TypeMembersMap`.
 
 Individual maps have specific helper methods:
 
@@ -170,3 +176,156 @@ Individual maps have specific helper methods:
 - `resolveIndexSignature(signature: IndexSignatureDeclarationImpl, names: string[]): void`
 
 The `resolveIndexSignature()` method needs some explanation.  [Index signatures](https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures) represent methods and properties, but with variable _names_ for the methods and properties.  Classes require concrete names.  This method lets you provide the concrete names to replace the index signature with.
+
+### [`ClassMembersMap`](../api/toolbox/ClassMembersMap.md)
+
+Similar to `TypeMembersMap`, `ClassMembersMap extends Map<string, ClassMemberImpl>`.
+
+```typescript
+export type ClassMemberImpl = (
+  ConstructorDeclarationImpl |
+  PropertyDeclarationImpl |
+  GetAccessorDeclarationImpl |
+  SetAccessorDeclarationImpl |
+  MethodDeclarationImpl
+);
+```
+
+The key algorithm is similar as well.  The methods for generating keys are `static keyFromMember(member: ClassMemberImpl): string` and `static keyFromName(kind: ClassMemberImpl["kind"], isStatic: boolean, name: string,): string`.  The algorithm for generating a key is:
+
+1. If the member is static, add "static ".
+2. If the member is a getter, add "get ".
+3. If the member is a setter, add "set ".
+4. Add the member's name.
+5. Return the full key.
+
+The class member map's non-static methods are similar too:
+
+- `addMembers(members: readonly ClassMemberImpl[]): void;`
+- `arrayOfKind<Kind extends ClassMemberImpl["kind"]>(kind: Kind);`
+- `getAsKind<kind extend ClassMemberImpl["kind"]>(kind: Kind, key: string)`
+- `moveMembersToClass(classDecl: ClassDeclarationImpl, statementMaps: ClassFieldStatementsMap[]): void;`
+
+The `moveMembersToClass()` method is the last step in the process, but requires an explanation of `ClassFieldStatementsMap`.
+
+### [`ClassFieldStatementsMap`](../api/toolbox/ClassFieldStatementsMap.md)
+
+Consider the following example:
+
+```typescript
+class RedAndBluePlayers {
+  #redPoints: number;
+  #bluePoints: number;
+
+  constructor(redPoints: number, bluePoints: number) {
+  }
+
+  public movePointFromRedToBlue() {
+  }
+
+  public movePointFromBlueToRed() {
+  }
+}
+```
+
+Everything above we can get from a `TypeMembersMap`, converting to a `ClassMembersMap`.  What we can't get are the function bodies.  There's a number of statements to consider:
+
+- If we're moving a point from red to blue,
+  - Is `this.#redPoints` greater than zero? If not, throw.
+  - Add one to `this.#bluePoints`.
+  - Subtract one from `this.#redPoints`.
+- If we're moving a point from blue to red,
+  - Is `this.#bluePoints` greater than zero?  If not, throw.
+  - Add one to `this.#redPoints`.
+  - Subtract one from `this.#bluePoints`.
+
+We could capture this as follows:
+
+```typescript
+const statementsMap = new ClassFieldStatementsMap();
+statementsMap.set("_check", "movePointFromRedToBlue", [
+  `if (this.#redPoints <= 0) throw new Error("no red points to move");`,
+]);
+statementsMap.set("_check", "movePointFromBlueToRed", [
+  `if (this.#bluePoints <= 0) throw new Error("no blue points to move");`,
+]);
+statementsMap.set("redPoints", "movePointFromRedToBlue", [
+  `this.#redPoints--;`,
+]);
+statementsMap.set("bluePoints", "movePointFromBlueToRed", [
+  `this.#bluePoints++;`,
+]);
+statementsMap.set("redPoints", "movePointFromBlueToRed", [
+  `this.#redPoints++;`,
+]);
+statementsMap.set("bluePoints", "movePointFromBlueToRed", [
+  `this.#bluePoints--;`,
+]);
+statementsMap.set("redPoints", "constructor", [
+  `this.#redPoints = redPoints;`,
+]);
+statementsMap.set("bluePoints", "constructor", [
+  `this.#bluePoints = bluePoints;`,
+]);
+```
+
+From the above, the class members map could then generate the following code:
+
+```typescript
+class RedAndBluePlayers {
+  #redPoints: number;
+  #bluePoints: number;
+
+  constructor(redPoints: number, bluePoints: number) {
+    this.#bluePoints = bluePoints;
+    this.#redPoints = redPoints;
+  }
+
+  public movePointFromRedToBlue() {
+    if (this.#redPoints <= 0) throw new Error("no red points to move");
+    this.#bluePoints++;
+    this.#redPoints--;
+  }
+
+  public movePointFromBlueToRed() {
+    if (this.#bluePoints <= 0) throw new Error("no blue points to move");
+    this.#bluePoints--;
+    this.#redPoints++;
+  }
+}
+```
+
+This is what `ClassFieldStatementsMap` is all about.
+
+Earlier, I mentioned four dimensions of complexity for statements.  `ClassFieldStatementsMap` handles three of them:
+
+- Where does a statement go? (constructor / initializer, getter, setter, method)
+- What property is that statement most about? (property)
+- What other statements go with that statement, and in what order?  (array of statements)
+
+`ClassFieldStatementsMap` is a _two-keyed_ map, with similar API to `Map<string, ClassFieldStatement[]>`.  It's like saying `Map<string, string, ClassFieldStatement[]>`, although this would be an illegal map definition.  (I derived it from my ["composite-collection"](https://github.com/ajvincent/composite-collection) library, which generates multi-keyed maps and sets.)
+
+- The first key is the property name, or "field name".
+- The second key is the function containing the array of statements, the "statement group".
+- The value is the array of statements.
+
+```typescript
+export type ClassFieldStatement = string | WriterFunction | StatementStructureImpls;
+
+export type StatementStructureImpls =
+  | ClassDeclarationImpl
+  | EnumDeclarationImpl
+  | ExportAssignmentImpl
+  | ExportDeclarationImpl
+  | FunctionDeclarationImpl
+  | ImportDeclarationImpl
+  | InterfaceDeclarationImpl
+  | ModuleDeclarationImpl
+  | TypeAliasDeclarationImpl
+  | VariableStatementImpl;
+```
+
+Beyond the standard methods of a `Map`, there are two additional methods specific to statement groups (the second key):
+
+- `groupKeys(): string[]`, returning all the statement group keys.
+- `groupStatementsMap(statementGroup: string): ReadonlyMap<string, ClassFieldStatement[]> | undefined`, returning all the field names and statement arrays for a given statement group.
