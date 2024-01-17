@@ -51,7 +51,7 @@ export default function createStructureParts(
   parts.sourceFile = new SourceFileImpl;
 
   parts.importsManager = new ImportManager(
-    path.join(distDir, "source", "structures", parts.classDecl.name + ".ts")
+    path.join(distDir, "source", "structures", "standard", parts.classDecl.name + ".ts")
   );
 
   parts.importsManager.addImports({

@@ -1,11 +1,9 @@
-import path from "path";
 import {
   WriterFunction,
   type CodeBlockWriter
 } from "ts-morph";
 
 import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
-import { distDir } from "#stage_one/build/constants.js";
 import saveSourceFile from "#stage_one/build/utilities/saveSourceFile.js";
 
 import type {
@@ -43,7 +41,7 @@ export default async function saveDecoratorFile(
     addToCloneableMapWriter(meta.structureKindName, parts.classDecl)
   ];
 
-  const sourceFilePath = path.join(distDir, `source/structures/${parts.classDecl.name!}.ts`);
+  const sourceFilePath = parts.importsManager.absolutePathToModule;
   dictionaries.publicExports.addExports({
     absolutePathToModule: sourceFilePath,
     isDefaultExport: true,

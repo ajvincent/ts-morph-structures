@@ -34,7 +34,7 @@ async function getSupportedKindSet(): Promise<Set<StructureKind>> {
     isAbsolutePath: true
   };
 
-  const pathToStructuresDir = pathToModule(stageDir, "snapshot/source/structures");
+  const pathToStructuresDir = pathToModule(stageDir, "snapshot/source/structures/standard");
 
   const moduleList = (await fs.readdir(pathToStructuresDir)).filter(
     fileName => fileName.endsWith("Impl.ts")
