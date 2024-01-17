@@ -1,6 +1,6 @@
 import type { Class } from "type-fest";
 
-import type { TypeStructures } from "../typeStructures/TypeStructures.js";
+import type { TypeStructures } from "../structures/type/TypeStructures.js";
 
 import { KindedTypeStructure, TypeStructureKind } from "./TypeStructureKind.js";
 

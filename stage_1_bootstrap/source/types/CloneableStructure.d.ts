@@ -13,7 +13,7 @@ import type {
 
 import type {
   TypeStructures
-} from "../typeStructures/TypeStructures.js";
+} from "../structures/type/TypeStructures.js";
 
 export type CloneableStructure<Base extends Structure, Result extends StructuresImpl> = Class<Base> & {
   clone(other: OptionalKind<Base> | Base): Result

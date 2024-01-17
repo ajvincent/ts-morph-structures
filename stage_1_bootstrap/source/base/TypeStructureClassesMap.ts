@@ -4,7 +4,7 @@ import type {
 
 import type {
   TypeStructures,
-} from "../typeStructures/TypeStructures.js";
+} from "../structures/type/TypeStructures.js";
 
 import {
   KindedTypeStructure,

@@ -46,14 +46,14 @@ export default async function buildDist(): Promise<void>
   );
 
   await Promise.all([
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "base/TypeAccessors.ts"),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "base/TypeStructureSet.ts"),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "typeStructures/MemberedObjectTypeStructureImpl.ts"),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "typeStructures/FunctionTypeStructureImpl.ts"),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "typeStructures/InferTypeStructureImpl.ts"),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "typeStructures/MappedTypeStructureImpl.ts"),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "typeStructures/TypeStructuresWithTypeParameters.ts"),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "types/TypeAndTypeStructureInterfaces.d.ts"),
+    fixPrototypeExportsAndTypeStructureImpl(distDir, "base/TypeAccessors.ts", 1),
+    fixPrototypeExportsAndTypeStructureImpl(distDir, "base/TypeStructureSet.ts", 1),
+    fixPrototypeExportsAndTypeStructureImpl(distDir, "structures/type/MemberedObjectTypeStructureImpl.ts", 2),
+    fixPrototypeExportsAndTypeStructureImpl(distDir, "structures/type/FunctionTypeStructureImpl.ts", 2),
+    fixPrototypeExportsAndTypeStructureImpl(distDir, "structures/type/InferTypeStructureImpl.ts", 2),
+    fixPrototypeExportsAndTypeStructureImpl(distDir, "structures/type/MappedTypeStructureImpl.ts", 2),
+    fixPrototypeExportsAndTypeStructureImpl(distDir, "structures/type/TypeStructuresWithTypeParameters.ts", 2),
+    fixPrototypeExportsAndTypeStructureImpl(distDir, "types/TypeAndTypeStructureInterfaces.d.ts", 1),
   ]);
 
   await BuildClassesDriver(distDir);
@@ -70,11 +70,12 @@ export default async function buildDist(): Promise<void>
 async function fixPrototypeExportsAndTypeStructureImpl(
   distDir: string,
   pathUnderSource: string,
+  stepsToAncestor: number
 ): Promise<void>
 {
   const modulePath = path.join(distDir, "source", pathUnderSource);
   let contents: string = await fs.readFile(modulePath, { encoding: "utf-8" });
-  contents = contents.replace(/#stage_one\/prototype-snapshot\//g, "../");
+  contents = contents.replace(/#stage_one\/prototype-snapshot\//g, "../".repeat(stepsToAncestor));
   contents = contents.replace(/TypedStructureImpl/g, "TypeStructureImpl");
   await fs.writeFile(modulePath, contents, { encoding: "utf-8" });
 }

@@ -98,35 +98,35 @@ export default async function defineExistingExports(
   });
 
   dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/typeStructures/ConditionalTypeStructureImpl.ts"),
+    absolutePathToModule: path.join(distDir, "source/structures/type/ConditionalTypeStructureImpl.ts"),
     exportNames: ["ConditionalTypeStructureParts"],
     isDefaultExport: false,
     isType: true,
   });
 
   dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/typeStructures/FunctionTypeStructureImpl.ts"),
+    absolutePathToModule: path.join(distDir, "source/structures/type/FunctionTypeStructureImpl.ts"),
     exportNames: ["FunctionWriterStyle"],
     isDefaultExport: false,
     isType: false
   });
 
   dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/typeStructures/FunctionTypeStructureImpl.ts"),
+    absolutePathToModule: path.join(distDir, "source/structures/type/FunctionTypeStructureImpl.ts"),
     exportNames: ["FunctionTypeContext"],
     isDefaultExport: false,
     isType: true
   });
 
   dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/typeStructures/PrefixOperatorsTypeStructureImpl.ts"),
+    absolutePathToModule: path.join(distDir, "source/structures/type/PrefixOperatorsTypeStructureImpl.ts"),
     exportNames: ["PrefixUnaryOperator"],
     isDefaultExport: false,
     isType: true
   });
 
   dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/typeStructures/TypeStructures.ts"),
+    absolutePathToModule: path.join(distDir, "source/structures/type/TypeStructures.ts"),
     exportNames: [
       "TypeStructures",
       "stringTypeStructuresOrNull"
@@ -212,6 +212,13 @@ export default async function defineExistingExports(
   });
 
   dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/structures/type/TypeStructuresBase.ts"),
+    exportNames: ["TypeStructuresBase"],
+    isDefaultExport: true,
+    isType: false
+  });
+
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/types/CloneableStructure.d.ts"),
     exportNames: ["CloneableStructure"],
     isDefaultExport: false,
@@ -253,14 +260,7 @@ export default async function defineExistingExports(
     isType: true
   });
 
-  dictionaries.internalExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/typeStructures/TypeStructuresBase.ts"),
-    exportNames: ["TypeStructuresBase"],
-    isDefaultExport: true,
-    isType: false
-  });
-
-  const sourceDir = path.join(distDir, "source/typeStructures");
+  const sourceDir = path.join(distDir, "source/structures/type");
   const typeStructureFiles = (await fs.readdir(
     sourceDir
   )).filter(f => f.endsWith("TypeStructureImpl.ts"));
