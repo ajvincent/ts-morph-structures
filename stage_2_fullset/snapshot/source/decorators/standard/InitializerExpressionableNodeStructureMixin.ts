@@ -7,8 +7,8 @@ import {
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
-} from "../internal-exports.js";
-import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
+} from "../../internal-exports.js";
+import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import type {
   MixinClass,
   StaticAndInstance,

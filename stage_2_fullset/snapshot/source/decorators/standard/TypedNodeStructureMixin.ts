@@ -1,5 +1,5 @@
 //#region preamble
-import type { TypeStructures } from "../exports.js";
+import type { TypeStructures } from "../../exports.js";
 import {
   COPY_FIELDS,
   type PreferArrayFields,
@@ -10,8 +10,8 @@ import {
   type StructureClassToJSON,
   TypeAccessors,
   TypeStructureClassesMap,
-} from "../internal-exports.js";
-import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
+} from "../../internal-exports.js";
+import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import type {
   MixinClass,
   StaticAndInstance,

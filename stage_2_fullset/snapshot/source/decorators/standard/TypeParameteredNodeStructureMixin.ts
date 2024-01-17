@@ -1,5 +1,5 @@
 //#region preamble
-import { TypeParameterDeclarationImpl } from "../exports.js";
+import { TypeParameterDeclarationImpl } from "../../exports.js";
 import {
   cloneStructureOrStringArray,
   COPY_FIELDS,
@@ -8,7 +8,7 @@ import {
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
-} from "../internal-exports.js";
+} from "../../internal-exports.js";
 import type {
   MixinClass,
   StaticAndInstance,

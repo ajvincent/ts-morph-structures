@@ -20,87 +20,87 @@ export {
 export {
   type AbstractableNodeStructureFields,
   default as AbstractableNodeStructureMixin,
-} from "./decorators/AbstractableNodeStructureMixin.js";
+} from "./decorators/standard/AbstractableNodeStructureMixin.js";
 export {
   type AmbientableNodeStructureFields,
   default as AmbientableNodeStructureMixin,
-} from "./decorators/AmbientableNodeStructureMixin.js";
+} from "./decorators/standard/AmbientableNodeStructureMixin.js";
 export {
   type AsyncableNodeStructureFields,
   default as AsyncableNodeStructureMixin,
-} from "./decorators/AsyncableNodeStructureMixin.js";
+} from "./decorators/standard/AsyncableNodeStructureMixin.js";
 export {
   type DecoratableNodeStructureFields,
   default as DecoratableNodeStructureMixin,
-} from "./decorators/DecoratableNodeStructureMixin.js";
+} from "./decorators/standard/DecoratableNodeStructureMixin.js";
 export {
   default as ExclamationTokenableNodeStructureMixin,
   type ExclamationTokenableNodeStructureFields,
-} from "./decorators/ExclamationTokenableNodeStructureMixin.js";
+} from "./decorators/standard/ExclamationTokenableNodeStructureMixin.js";
 export {
   default as ExportableNodeStructureMixin,
   type ExportableNodeStructureFields,
-} from "./decorators/ExportableNodeStructureMixin.js";
+} from "./decorators/standard/ExportableNodeStructureMixin.js";
 export {
   default as GeneratorableNodeStructureMixin,
   type GeneratorableNodeStructureFields,
-} from "./decorators/GeneratorableNodeStructureMixin.js";
+} from "./decorators/standard/GeneratorableNodeStructureMixin.js";
 export {
   default as InitializerExpressionableNodeStructureMixin,
   type InitializerExpressionableNodeStructureFields,
-} from "./decorators/InitializerExpressionableNodeStructureMixin.js";
+} from "./decorators/standard/InitializerExpressionableNodeStructureMixin.js";
 export {
   default as JSDocableNodeStructureMixin,
   type JSDocableNodeStructureFields,
-} from "./decorators/JSDocableNodeStructureMixin.js";
+} from "./decorators/standard/JSDocableNodeStructureMixin.js";
 export {
   default as NameableNodeStructureMixin,
   type NameableNodeStructureFields,
-} from "./decorators/NameableNodeStructureMixin.js";
+} from "./decorators/standard/NameableNodeStructureMixin.js";
 export {
   default as NamedNodeStructureMixin,
   type NamedNodeStructureFields,
-} from "./decorators/NamedNodeStructureMixin.js";
+} from "./decorators/standard/NamedNodeStructureMixin.js";
 export {
   default as OverrideableNodeStructureMixin,
   type OverrideableNodeStructureFields,
-} from "./decorators/OverrideableNodeStructureMixin.js";
+} from "./decorators/standard/OverrideableNodeStructureMixin.js";
 export {
   default as ParameteredNodeStructureMixin,
   type ParameteredNodeStructureFields,
-} from "./decorators/ParameteredNodeStructureMixin.js";
+} from "./decorators/standard/ParameteredNodeStructureMixin.js";
 export {
   default as QuestionTokenableNodeStructureMixin,
   type QuestionTokenableNodeStructureFields,
-} from "./decorators/QuestionTokenableNodeStructureMixin.js";
+} from "./decorators/standard/QuestionTokenableNodeStructureMixin.js";
 export {
   default as ReadonlyableNodeStructureMixin,
   type ReadonlyableNodeStructureFields,
-} from "./decorators/ReadonlyableNodeStructureMixin.js";
+} from "./decorators/standard/ReadonlyableNodeStructureMixin.js";
 export {
   default as ReturnTypedNodeStructureMixin,
   type ReturnTypedNodeStructureFields,
-} from "./decorators/ReturnTypedNodeStructureMixin.js";
+} from "./decorators/standard/ReturnTypedNodeStructureMixin.js";
 export {
   default as ScopedNodeStructureMixin,
   type ScopedNodeStructureFields,
-} from "./decorators/ScopedNodeStructureMixin.js";
+} from "./decorators/standard/ScopedNodeStructureMixin.js";
 export {
   default as StatementedNodeStructureMixin,
   type StatementedNodeStructureFields,
-} from "./decorators/StatementedNodeStructureMixin.js";
+} from "./decorators/standard/StatementedNodeStructureMixin.js";
 export {
   default as StructureMixin,
   type StructureFields,
-} from "./decorators/StructureMixin.js";
+} from "./decorators/standard/StructureMixin.js";
 export {
   default as TypedNodeStructureMixin,
   type TypedNodeStructureFields,
-} from "./decorators/TypedNodeStructureMixin.js";
+} from "./decorators/standard/TypedNodeStructureMixin.js";
 export {
   default as TypeParameteredNodeStructureMixin,
   type TypeParameteredNodeStructureFields,
-} from "./decorators/TypeParameteredNodeStructureMixin.js";
+} from "./decorators/standard/TypeParameteredNodeStructureMixin.js";
 export * from "./exports.js";
 export type { CloneableStructure } from "./types/CloneableStructure.js";
 export type { ExtractStructure } from "./types/ExtractStructure.js";

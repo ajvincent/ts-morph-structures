@@ -1,11 +1,8 @@
-import path from "path";
-
 import {
   WriterFunction,
 } from "ts-morph";
 
 import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
-import { distDir } from "#stage_one/build/constants.js";
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 import defineSatisfiesWriter from "#stage_one/build/utilities/defineSatisfiesWriter.js";
 import saveSourceFile from "#stage_one/build/utilities/saveSourceFile.js";
@@ -35,7 +32,7 @@ export default async function saveDecoratorFile(
     defineSatisfiesWriter(parts.wrapperFunction, parts.fieldsTypeAlias),
   ];
 
-  const sourceFilePath = path.join(distDir, `source/decorators/${parts.classDecl.name!}.ts`);
+  const sourceFilePath = parts.importsManager.absolutePathToModule;
   dictionaries.internalExports.addExports({
     absolutePathToModule: sourceFilePath,
     isDefaultExport: true,

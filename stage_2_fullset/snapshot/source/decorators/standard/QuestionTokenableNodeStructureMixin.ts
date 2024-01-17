@@ -6,7 +6,7 @@ import {
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
-} from "../internal-exports.js";
+} from "../../internal-exports.js";
 import type {
   MixinClass,
   StaticAndInstance,

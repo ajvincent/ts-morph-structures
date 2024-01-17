@@ -19,7 +19,7 @@ export default function defineDecoratorImports(
 ): ImportManager
 {
   const importManager = new ImportManager(
-    path.join(distDir, "source", "decorators", className + ".ts")
+    path.join(distDir, "source", "decorators", "standard", className + ".ts")
   );
 
   importManager.addImports({
