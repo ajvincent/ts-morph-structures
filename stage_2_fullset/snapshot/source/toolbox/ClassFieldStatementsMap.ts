@@ -86,6 +86,12 @@ export default class ClassFieldStatementsMap {
     Map<string, ClassFieldStatement[]>
   >();
 
+  purposeKey?: string;
+
+  regionName?: string;
+
+  isBlockStatement = false;
+
   public constructor(iterable?: [string, string, ClassFieldStatement[]][]) {
     if (iterable) {
       for (const [fieldName, statementGroup, statements] of iterable) {

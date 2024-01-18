@@ -83,6 +83,12 @@ export default class ClassFieldStatementsMap
   readonly #map = new Map<string, ClassFieldStatement[]>;
   readonly #statementGroupMap = new Map<string, Map<string, ClassFieldStatement[]>>;
 
+  purposeKey?: string;
+
+  regionName?: string;
+
+  isBlockStatement = false;
+
   public constructor(
     iterable?: [string, string, ClassFieldStatement[]][]
   )
