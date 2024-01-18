@@ -63,7 +63,7 @@ Some of this may seem obvious to any programmer reading this, but it's important
 
 Properties of a class represent the actual data of the class.  They are what's specific to a particular instance of a class - or for static properties, what's specific to the class itself.  Everything else in the class builds on top of them (and the base class, of course).
 
-In ts-morph-structures, the [`PropertyDeclarationImpl`](../api/structures/PropertyDeclarationImpl.md) represents a property structure, and has specific (pun not intended) properties:
+In ts-morph-structures, the [`PropertyDeclarationImpl`](../api/structures/standard/PropertyDeclarationImpl.md) represents a property structure, and has specific (pun not intended) properties:
 
 - name
 - type
@@ -104,25 +104,25 @@ Yes, four dimensions of statement complexity:
 
 This becomes really important later ("ClassFieldStatementsMap").
 
-### Definition: "Membered object" = [`InterfaceDeclarationImpl`](../api/structures/InterfaceDeclarationImpl.md) | [`MemberedObjectTypeStructureImpl`](../api/typeStructures/MemberedObjectTypeStructureImpl.md)
+### Definition: "Membered object" = [`InterfaceDeclarationImpl`](../api/structures/standard/InterfaceDeclarationImpl.md) | [`MemberedObjectTypeStructureImpl`](../api/structures/type/MemberedObjectTypeStructureImpl.md)
 
 Both of these implement ts-morph's `TypeElementMemberedNodeStructure` interface, which has several properties:
 
-- `callSignatures`: [`CallSignatureDeclarationImpl[]`](../api/structures/CallSignatureDeclarationImpl.md), _`(x: string): void;`_
-- `constructSignatures`: [`ConstructSignatureDeclarationImpl[]`](../api/structures/ConstructSignatureDeclarationImpl.md), _`new (x: string): SomeObject`_
-- `getAccessors`: [`GetAccessorDeclarationImpl[]`](../api/structures/GetAccessorDeclarationImpl.md), _`get y(): number`_
-- `indexSignatures`: [`IndexSignatureDeclarationImpl[]`](../api/structures/IndexSignatureDeclarationImpl.md), _`[key: string]: boolean;`_
-- `methods`: [`MethodSignatureImpl[]`](../api/structures/MethodSignatureImpl.md), _`doSomething(value: string): void`_
-- `properties`: [`PropertySignatureImpl[]`](../api/structures/PropertySignatureImpl.md), _`color: string`_
-- `setAccessors`: [`SetAccessorDeclarationImpl[]`](../api/structures/SetAccessorDeclarationImpl.md), _`set y(value: number);`_
+- `callSignatures`: [`CallSignatureDeclarationImpl[]`](../api/structures/standard/CallSignatureDeclarationImpl.md), _`(x: string): void;`_
+- `constructSignatures`: [`ConstructSignatureDeclarationImpl[]`](../api/structures/standard/ConstructSignatureDeclarationImpl.md), _`new (x: string): SomeObject`_
+- `getAccessors`: [`GetAccessorDeclarationImpl[]`](../api/structures/standard/GetAccessorDeclarationImpl.md), _`get y(): number`_
+- `indexSignatures`: [`IndexSignatureDeclarationImpl[]`](../api/structures/standard/IndexSignatureDeclarationImpl.md), _`[key: string]: boolean;`_
+- `methods`: [`MethodSignatureImpl[]`](../api/structures/standard/MethodSignatureImpl.md), _`doSomething(value: string): void`_
+- `properties`: [`PropertySignatureImpl[]`](../api/structures/standard/PropertySignatureImpl.md), _`color: string`_
+- `setAccessors`: [`SetAccessorDeclarationImpl[]`](../api/structures/standard/SetAccessorDeclarationImpl.md), _`set y(value: number);`_
 
-Class structures have a different, partially compatible interface: [`ClassDeclarationImpl`](../api/structures/ClassDeclarationImpl.md).
+Class structures have a different, partially compatible interface: [`ClassDeclarationImpl`](../api/structures/standard/ClassDeclarationImpl.md).
 
-- `ctors`: [`ConstructorDeclarationImpl[]`](../api/structures/ClassDeclarationImpl.md): _`constructor(color: string) {/* ... */}`_
+- `ctors`: [`ConstructorDeclarationImpl[]`](../api/structures/standard/ClassDeclarationImpl.md): _`constructor(color: string) {/* ... */}`_
   - Maybe there is some relation to `ConstructSignatureDeclarationImpl` above, but not in this context right now.  We very much build our own.
 - `getAccessors`: `GetAccessorDeclarationImpl[]`
-- `methods`: [`MethodDeclarationImpl[]`](../api/structures/MethodDeclarationImpl.md)
-- `properties`: [`PropertyDeclarationImpl[]`](../api/structures/PropertyDeclarationImpl.md)
+- `methods`: [`MethodDeclarationImpl[]`](../api/structures/standard/MethodDeclarationImpl.md)
+- `properties`: [`PropertyDeclarationImpl[]`](../api/structures/standard/PropertyDeclarationImpl.md)
 - `setAccessors`: `SetAccessorDeclarationImpl[]`
 
 `MemberedTypeToClass` and its helpers try to bridge this specific gap.
