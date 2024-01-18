@@ -228,7 +228,7 @@ class RedAndBluePlayers {
 }
 ```
 
-Everything above we can get from a `TypeMembersMap`, converting to a `ClassMembersMap`.  What we can't get are the function bodies.  There's a number of statements to consider:
+Everything above we can get from a `TypeMembersMap`, converting to a `ClassMembersMap` (and adding the constructor to the class map).  What we can't get are the function bodies.  There's a number of statements to consider:
 
 - If we're moving a point from red to blue,
   - Is `this.#redPoints` greater than zero? If not, throw.
