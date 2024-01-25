@@ -91,7 +91,7 @@ describe("ClassMembersMap", () => {
     ).toEqual([setter5]);
   });
 
-  it("moveMembersToClass() populates a class declaration", () => {
+  it("moveStatementsToMembers() transfers statements to the map", () => {
     membersMap.addMembers([
       prop1, prop2, ctor_A, method3, method4, getter5, setter5
     ]);
@@ -114,8 +114,7 @@ describe("ClassMembersMap", () => {
       ["one", "four", [`console.log(this.one);`]],
     ]);
 
-    const classDecl = new ClassDeclarationImpl;
-    membersMap.moveMembersToClass(classDecl, [statementMap1]);
+    membersMap.moveStatementsToMembers([statementMap1]);
 
     expect(ctor_A.statements).toEqual([
       "this.two = 2;"
@@ -123,7 +122,7 @@ describe("ClassMembersMap", () => {
 
     expect(prop1.initializer).toBe(`"one"`);
 
-    expect(classDecl.methods).toEqual([method3, method4]);
+    expect(membersMap.arrayOfKind<StructureKind.Method>(StructureKind.Method)).toEqual([method3, method4]);
     expect(method3.statements).toEqual([
       "void(head);", "void(this.middle);", "return tail;"
     ]);
@@ -132,6 +131,19 @@ describe("ClassMembersMap", () => {
 
     expect(getter5.statements).toEqual([`return this.#five;`]);
     expect(setter5.statements).toEqual([`this.#five = five;`]);
+  });
+
+  it("buildClass() creates a ClassDeclarationImpl from the map", () => {
+    membersMap.addMembers([
+      prop1, prop2, ctor_A, method3, method4, getter5, setter5
+    ]);
+
+    const classDecl: ClassDeclarationImpl = membersMap.buildClass();
+    expect(classDecl.ctors).toEqual([ctor_A]);
+    expect(classDecl.getAccessors).toEqual([getter5]);
+    expect(classDecl.methods).toEqual([method3, method4]);
+    expect(classDecl.properties).toEqual([prop1, prop2]);
+    expect(classDecl.setAccessors).toEqual([setter5]);
   });
 
   describe("convertPropertyToAccessors()", () => {

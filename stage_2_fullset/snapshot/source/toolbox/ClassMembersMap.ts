@@ -357,71 +357,88 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
    *
    * @param classDecl - the target class declaration.
    */
-  moveMembersToClass(
-    classDecl: ClassDeclarationImpl,
-    statementsMaps: ClassFieldStatementsMap[],
-  ): void {
-    // validate setters have an argument
-    {
-      const setters = this.arrayOfKind<StructureKind.SetAccessor>(
-        StructureKind.SetAccessor,
-      );
-      const missedNames: string[] = [];
-      setters.forEach((setter) => {
-        if (setter.parameters.length !== 1) {
-          missedNames.push(setter.name);
-        }
-      });
-      if (missedNames.length > 0) {
-        throw new Error(
-          "The following setters do not have exactly one parameter: " +
-            missedNames.join(", "),
-        );
-      }
-    }
+  buildClass(): ClassDeclarationImpl {
+    this.#validateSettersHaveOneArgumentEach();
 
-    this.forEach((member) =>
-      this.#moveMemberToClass(classDecl, member, statementsMaps),
-    );
+    const classDecl = new ClassDeclarationImpl();
+    this.forEach((member) => this.#moveMemberToClass(classDecl, member));
     this.clear();
+
+    return classDecl;
   }
 
   #moveMemberToClass(
     classDecl: ClassDeclarationImpl,
     member: ClassMemberImpl,
-    statementsMaps: ClassFieldStatementsMap[],
   ): void {
     switch (member.kind) {
       case StructureKind.Constructor:
         classDecl.ctors.push(member);
+        return;
+
+      case StructureKind.Property:
+        classDecl.properties.push(member);
+        return;
+
+      case StructureKind.GetAccessor:
+        classDecl.getAccessors.push(member);
+        return;
+
+      case StructureKind.SetAccessor:
+        classDecl.setAccessors.push(member);
+        return;
+
+      case StructureKind.Method:
+        classDecl.methods.push(member);
+        return;
+
+      default:
+        throw new Error("unreachable");
+    }
+  }
+
+  /**
+   * Move statements from a sequence of statement maps to the class members.
+   * @param statementsMaps - the statements to apply to each member, ordered by purpose.
+   */
+  moveStatementsToMembers(statementsMaps: ClassFieldStatementsMap[]): void {
+    this.#validateSettersHaveOneArgumentEach();
+
+    this.forEach((member) =>
+      this.#moveStatementToMember(member, statementsMaps),
+    );
+  }
+
+  #moveStatementToMember(
+    member: ClassMemberImpl,
+    statementsMaps: ClassFieldStatementsMap[],
+  ): void {
+    switch (member.kind) {
+      case StructureKind.Constructor:
         statementsMaps.forEach((map) =>
           this.#addStatementsToConstructor(member, map),
         );
         return;
 
       case StructureKind.Property:
-        classDecl.properties.push(member);
         statementsMaps.forEach((map) =>
           this.#addPropertyInitializer(member, map),
         );
         return;
 
       case StructureKind.GetAccessor:
-        classDecl.getAccessors.push(member);
         statementsMaps.forEach((map) =>
           this.#addStatementsToGetter(member, map),
         );
         return;
 
       case StructureKind.SetAccessor:
-        classDecl.setAccessors.push(member);
         statementsMaps.forEach((map) =>
           this.#addStatementsToSetter(member, map),
         );
         return;
 
       case StructureKind.Method:
-        classDecl.methods.push(member);
         statementsMaps.forEach((map) =>
           this.#addStatementsToMethod(member, map),
         );
@@ -429,6 +446,24 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
 
       default:
         throw new Error("unreachable");
+    }
+  }
+
+  #validateSettersHaveOneArgumentEach(): void {
+    const setters = this.arrayOfKind<StructureKind.SetAccessor>(
+      StructureKind.SetAccessor,
+    );
+    const missedNames: string[] = [];
+    setters.forEach((setter) => {
+      if (setter.parameters.length !== 1) {
+        missedNames.push(setter.name);
+      }
+    });
+    if (missedNames.length > 0) {
+      throw new Error(
+        "The following setters do not have exactly one parameter: " +
+          missedNames.join(", "),
+      );
     }
   }
 

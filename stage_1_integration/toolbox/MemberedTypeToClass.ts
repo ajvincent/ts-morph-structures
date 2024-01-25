@@ -3,7 +3,6 @@ import {
 } from "ts-morph";
 
 import {
-  ClassDeclarationImpl,
   ClassFieldStatementsMap,
   type ClassMemberImpl,
   ClassMembersMap,
@@ -28,8 +27,6 @@ export default class MemberedTypeToClass {
   readonly #classConstructor = new ConstructorDeclarationImpl;
   readonly #statementGetter: MemberedTypeToClass_StatementGetter;
   readonly #indexSignatureResolver?: IndexSignatureResolver;
-
-  #startedClassMap = false;
 
   constructor(
     constructorArguments: ParameterDeclarationImpl[],
@@ -150,9 +147,9 @@ export default class MemberedTypeToClass {
 
   //#endregion adding type members
 
-  //#region build the class!
+  //#region build the class members map
 
-  async buildClassDeclaration(): Promise<ClassDeclarationImpl>
+  async buildClassMembersMap(): Promise<ClassMembersMap>
   {
     this.#requireNotStarted();
     this.#classMembersMap = new ClassMembersMap;
@@ -162,12 +159,7 @@ export default class MemberedTypeToClass {
 
     await Promise.all(keyClassArray.map(keyClass => this.#callStatementGetter(keyClass)));
 
-    const classDecl = new ClassDeclarationImpl;
-    this.#classMembersMap.moveMembersToClass(
-      classDecl,
-      Array.from(this.#classFieldStatementsByPurpose.values())
-    );
-    return classDecl;
+    return this.#classMembersMap;
   }
 
   #addClassMembersToMap(): ClassMemberImpl[]
@@ -237,5 +229,5 @@ export default class MemberedTypeToClass {
     statementsMap.set(keyClass.fieldKey, keyClass.statementGroupKey, statementsArray.slice());
   }
 
-  //#endregion build the class!
+  //#endregion build the class members map
 }
