@@ -2,12 +2,15 @@ import { JSDocStructure, KindedStructure, StructureKind } from "ts-morph";
 
 import {
   ClassDeclarationImpl,
+  ClassFieldStatementsMap,
+  type ClassMemberImpl,
+  type NamedClassMemberImpl,
   ConstructorDeclarationImpl,
   GetAccessorDeclarationImpl,
   JSDocImpl,
+  MethodDeclarationImpl,
   ParameterDeclarationImpl,
   PropertyDeclarationImpl,
-  MethodDeclarationImpl,
   SetAccessorDeclarationImpl,
   type NamedTypeMemberImpl,
 } from "../exports.js";
@@ -17,17 +20,6 @@ import {
   TypeStructureClassesMap,
   cloneStructureOrStringArray,
 } from "../internal-exports.js";
-
-import ClassFieldStatementsMap from "./ClassFieldStatementsMap.js";
-
-export type ClassMemberImpl =
-  | ConstructorDeclarationImpl
-  | GetAccessorDeclarationImpl
-  | MethodDeclarationImpl
-  | PropertyDeclarationImpl
-  | SetAccessorDeclarationImpl;
-
-export type NamedClassMemberImpl = Extract<ClassMemberImpl, { name: string }>;
 
 /**
  * A map for class methods, properties, accessors and a constructor.  This doesn't

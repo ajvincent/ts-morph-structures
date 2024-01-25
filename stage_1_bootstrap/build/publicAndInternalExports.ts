@@ -94,27 +94,10 @@ function definePublicExports(
   });
 
   dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/ClassFieldStatementsMap.ts"),
-    exportNames: ["ClassFieldStatement"],
-    isDefaultExport: false,
-    isType: true,
-  });
-
-  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/toolbox/ClassMembersMap.ts"),
     exportNames: ["ClassMembersMap"],
     isDefaultExport: true,
     isType: false,
-  });
-
-  dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/ClassMembersMap.ts"),
-    exportNames: [
-      "ClassMemberImpl",
-      "NamedClassMemberImpl",
-    ],
-    isDefaultExport: false,
-    isType: true,
   });
 
   dictionaries.publicExports.addExports({
@@ -139,28 +122,10 @@ function definePublicExports(
   });
 
   dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/MemberedStatementsKeyClass.ts"),
-    exportNames: ["MemberedStatementsKey"],
-    isDefaultExport: false,
-    isType: true
-  });
-
-  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/toolbox/MemberedTypeToClass.ts"),
     exportNames: ["MemberedTypeToClass"],
     isDefaultExport: true,
     isType: false
-  });
-
-  dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/MemberedTypeToClass.ts"),
-    exportNames: [
-      "IndexSignatureResolver",
-      "MemberedTypeToClass_StatementGetter",
-      "stringWriterOrStatementImpl",
-    ],
-    isDefaultExport: false,
-    isType: true
   });
 
   dictionaries.publicExports.addExports({
@@ -171,10 +136,19 @@ function definePublicExports(
   });
 
   dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/TypeMembersMap.ts"),
+    absolutePathToModule: path.join(distDir, "source/toolbox/types/toolbox.d.ts"),
     exportNames: [
+      "AddExportContext",
+      "AddImportContext",
+      "ClassFieldStatement",
+      "ClassMemberImpl",
+      "IndexSignatureResolver",
+      "MemberedStatementsKey",
+      "MemberedTypeToClass_StatementGetter",
+      "NamedClassMemberImpl",
       "NamedTypeMemberImpl",
       "TypeMemberImpl",
+      "stringWriterOrStatementImpl",
     ],
     isDefaultExport: false,
     isType: true,
@@ -267,6 +241,16 @@ function defineInternalExports(
     exportNames: ["TypeStructuresBase"],
     isDefaultExport: true,
     isType: false
+  });
+
+  dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/DefaultMap.ts"),
+    exportNames: [
+      "DefaultMap",
+      "DefaultWeakMap",
+    ],
+    isDefaultExport: false,
+    isType: false,
   });
 
   dictionaries.internalExports.addExports({

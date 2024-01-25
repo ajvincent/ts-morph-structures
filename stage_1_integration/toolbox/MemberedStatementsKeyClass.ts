@@ -1,8 +1,6 @@
-export interface MemberedStatementsKey {
-  readonly fieldKey: string;
-  readonly statementGroupKey: string;
-  readonly purpose: string;
-}
+import type {
+  MemberedStatementsKey
+} from "../snapshot/source/exports.js";
 
 export default
 class MemberedStatementsKeyClass implements MemberedStatementsKey

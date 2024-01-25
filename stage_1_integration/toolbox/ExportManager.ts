@@ -2,24 +2,18 @@
 import path from "path";
 
 import {
-  DefaultMap,
-  DefaultWeakMap,
-} from "#utilities/source/DefaultMap.js";
-
-import {
+  type AddExportContext,
   ExportDeclarationImpl,
   ExportSpecifierImpl,
 } from "../snapshot/source/exports.js";
 
+import {
+  DefaultMap,
+  DefaultWeakMap,
+} from "../snapshot/source/internal-exports.js";
+
 // #endregion preamble
 
-/** A description of the exports to add. */
-export interface AddExportContext {
-  absolutePathToModule: string,
-  exportNames: readonly string[],
-  isDefaultExport: boolean,
-  isType: boolean,
-}
 
 /**
  * This manages export declarations and specifiers, for including in a source file.

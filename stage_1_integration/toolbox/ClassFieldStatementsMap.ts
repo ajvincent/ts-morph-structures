@@ -1,12 +1,7 @@
 import type {
-  WriterFunction
-} from "ts-morph";
-
-import type {
-  StatementStructureImpls
+  ClassFieldStatement
 } from "../snapshot/source/exports.js";
 
-export type ClassFieldStatement = string | WriterFunction | StatementStructureImpls;
 type keyPair = {fieldName: string, statementGroup: string};
 
 /**

@@ -1,26 +1,10 @@
 import path from "path";
 
 import {
+  type AddImportContext,
   ImportDeclarationImpl,
   ImportSpecifierImpl,
 } from "../snapshot/source/exports.js";
-
-/** A description of the imports to add. */
-export interface AddImportContext {
-  /** This could be an absolute path, or a package import like "ts-morph-structures". */
-  pathToImportedModule: string,
-
-  /**
-   * True if `this.pathToImportedModule` represents a package import.
-   * False if the imported module path should be relative to the
-   * manager's absolute path in generated code.
-   */
-  isPackageImport: boolean,
-
-  importNames: readonly string[],
-  isDefaultImport: boolean,
-  isTypeOnly: boolean,
-}
 
 /**
  * This manages import declarations and specifiers, for including in a source file.

@@ -8,26 +8,15 @@ import {
   type ClassMemberImpl,
   ClassMembersMap,
   ConstructorDeclarationImpl,
-  IndexSignatureDeclarationImpl,
+  IndexSignatureResolver,
   MemberedStatementsKeyClass,
-  type MemberedStatementsKey,
+  type MemberedTypeToClass_StatementGetter,
   NamedTypeMemberImpl,
   ParameterDeclarationImpl,
-  type StatementStructureImpls,
   type TypeMemberImpl,
   TypeMembersMap,
-  type stringOrWriterFunction,
+  type stringWriterOrStatementImpl,
 } from "../snapshot/source/exports.js";
-
-export type stringWriterOrStatementImpl = stringOrWriterFunction | StatementStructureImpls;
-
-export type MemberedTypeToClass_StatementGetter = (
-  key: MemberedStatementsKey
-) => Promise<stringWriterOrStatementImpl[]>;
-
-export type IndexSignatureResolver = (
-  signature: IndexSignatureDeclarationImpl
-) => string[];
 
 export default class MemberedTypeToClass {
   readonly #aggregateStaticTypesMap = new TypeMembersMap;

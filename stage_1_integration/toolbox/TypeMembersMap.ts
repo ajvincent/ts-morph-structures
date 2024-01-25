@@ -1,45 +1,33 @@
 import assert from "node:assert";
 
 import {
-  KindedStructure,
-  JSDocStructure,
+  type KindedStructure,
+  type JSDocStructure,
   StructureKind
 } from "ts-morph";
 
 import {
-  CallSignatureDeclarationImpl,
-  ConstructSignatureDeclarationImpl,
   GetAccessorDeclarationImpl,
   JSDocImpl,
   InterfaceDeclarationImpl,
   IndexSignatureDeclarationImpl,
+  FunctionTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
   MethodSignatureImpl,
+  type NamedTypeMemberImpl,
   ParameterDeclarationImpl,
   ParameterTypeStructureImpl,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
+  type TypeMemberImpl,
   TypeStructureKind,
 } from "../snapshot/source/exports.js";
 
 import {
-  FunctionTypeStructureImpl,
   StructuresClassesMap,
   TypeStructureClassesMap,
   cloneStructureOrStringArray,
 } from "../snapshot/source/internal-exports.js";
-
-export type TypeMemberImpl = (
-  CallSignatureDeclarationImpl |
-  ConstructSignatureDeclarationImpl |
-  GetAccessorDeclarationImpl |
-  IndexSignatureDeclarationImpl |
-  MethodSignatureImpl |
-  PropertySignatureImpl |
-  SetAccessorDeclarationImpl
-);
-
-export type NamedTypeMemberImpl = Extract<TypeMemberImpl, { name: string }>;
 
 /**
  * A map for members of `InterfaceDeclarationImpl` and `MemberedObjectTypeStructureImpl`.  This

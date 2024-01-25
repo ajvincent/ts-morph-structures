@@ -6,12 +6,15 @@ import {
 
 import {
   ClassDeclarationImpl,
+  ClassFieldStatementsMap,
+  type ClassMemberImpl,
+  type NamedClassMemberImpl,
   ConstructorDeclarationImpl,
   GetAccessorDeclarationImpl,
   JSDocImpl,
+  MethodDeclarationImpl,
   ParameterDeclarationImpl,
   PropertyDeclarationImpl,
-  MethodDeclarationImpl,
   SetAccessorDeclarationImpl,
   type NamedTypeMemberImpl,
 } from "../snapshot/source/exports.js";
@@ -21,18 +24,6 @@ import {
   TypeStructureClassesMap,
   cloneStructureOrStringArray,
 } from "../snapshot/source/internal-exports.js"
-
-import ClassFieldStatementsMap from "./ClassFieldStatementsMap.js";
-
-export type ClassMemberImpl = (
-  ConstructorDeclarationImpl |
-  GetAccessorDeclarationImpl |
-  MethodDeclarationImpl |
-  PropertyDeclarationImpl |
-  SetAccessorDeclarationImpl
-);
-
-export type NamedClassMemberImpl = Extract<ClassMemberImpl, { name: string }>;
 
 /**
  * A map for class methods, properties, accessors and a constructor.  This doesn't

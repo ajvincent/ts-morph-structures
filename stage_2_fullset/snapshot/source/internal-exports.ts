@@ -103,6 +103,7 @@ export {
 } from "./decorators/standard/TypeParameteredNodeStructureMixin.js";
 export * from "./exports.js";
 export { default as TypeStructuresBase } from "./structures/type/TypeStructuresBase.js";
+export { DefaultMap, DefaultWeakMap } from "./toolbox/DefaultMap.js";
 export type { CloneableStructure } from "./types/CloneableStructure.js";
 export type { ExtractStructure } from "./types/ExtractStructure.js";
 export type { PreferArrayFields } from "./types/PreferArrayFields.js";
