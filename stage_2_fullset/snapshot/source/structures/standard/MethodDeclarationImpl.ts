@@ -103,7 +103,7 @@ export default class MethodDeclarationImpl
     >
 {
   readonly kind: StructureKind.Method = StructureKind.Method;
-  readonly isStatic: boolean;
+  isStatic: boolean;
   readonly overloads: MethodDeclarationOverloadImpl[] = [];
 
   constructor(isStatic: boolean, name: string) {

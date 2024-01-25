@@ -89,9 +89,20 @@ export {
 export {
   type ClassMemberImpl,
   default as ClassMembersMap,
+  type NamedClassMemberImpl,
 } from "./toolbox/ClassMembersMap.js";
 export { default as ExportManager } from "./toolbox/ExportManager.js";
 export { default as ImportManager } from "./toolbox/ImportManager.js";
+export {
+  default as MemberedStatementsKeyClass,
+  type MemberedStatementsKey,
+} from "./toolbox/MemberedStatementsKeyClass.js";
+export {
+  default as MemberedTypeToClass,
+  type IndexSignatureResolver,
+  type MemberedTypeToClass_StatementGetter,
+  type stringWriterOrStatementImpl,
+} from "./toolbox/MemberedTypeToClass.js";
 export {
   default as TypeMembersMap,
   type NamedTypeMemberImpl,

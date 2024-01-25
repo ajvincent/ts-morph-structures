@@ -77,7 +77,7 @@ export default class SetAccessorDeclarationImpl
     >
 {
   readonly kind: StructureKind.SetAccessor = StructureKind.SetAccessor;
-  readonly isStatic: boolean;
+  isStatic: boolean;
 
   constructor(
     isStatic: boolean,

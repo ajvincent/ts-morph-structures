@@ -6,6 +6,16 @@ export default async function defineExistingExports(
   dictionaries: StructureDictionaries,
   distDir: string
 ): Promise<void> {
+  definePublicExports(dictionaries, distDir);
+  defineInternalExports(dictionaries, distDir);
+  await defineTypeStructurePublicExports(dictionaries, distDir);
+}
+
+function definePublicExports(
+  dictionaries: StructureDictionaries,
+  distDir: string
+): void
+{
   dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/base/TypeStructureKind.ts"),
     exportNames: ["TypeStructureKind"],
@@ -36,65 +46,6 @@ export default async function defineExistingExports(
     ],
     isDefaultExport: false,
     isType: true
-  });
-
-  dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/ClassFieldStatementsMap.ts"),
-    exportNames: ["ClassFieldStatementsMap"],
-    isDefaultExport: true,
-    isType: false,
-  });
-
-  dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/ClassFieldStatementsMap.ts"),
-    exportNames: ["ClassFieldStatement"],
-    isDefaultExport: false,
-    isType: true,
-  });
-
-  dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/ClassMembersMap.ts"),
-    exportNames: ["ClassMembersMap"],
-    isDefaultExport: true,
-    isType: false,
-  });
-
-  dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/ClassMembersMap.ts"),
-    exportNames: ["ClassMemberImpl"],
-    isDefaultExport: false,
-    isType: true,
-  });
-
-  dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/ExportManager.ts"),
-    exportNames: ["ExportManager"],
-    isDefaultExport: true,
-    isType: false,
-  });
-
-  dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/ImportManager.ts"),
-    exportNames: ["ImportManager"],
-    isDefaultExport: true,
-    isType: false,
-  });
-
-  dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/TypeMembersMap.ts"),
-    exportNames: ["TypeMembersMap"],
-    isDefaultExport: true,
-    isType: false,
-  });
-
-  dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/TypeMembersMap.ts"),
-    exportNames: [
-      "NamedTypeMemberImpl",
-      "TypeMemberImpl",
-    ],
-    isDefaultExport: false,
-    isType: true,
   });
 
   dictionaries.publicExports.addExports({
@@ -136,12 +87,112 @@ export default async function defineExistingExports(
   });
 
   dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/ClassFieldStatementsMap.ts"),
+    exportNames: ["ClassFieldStatementsMap"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/ClassFieldStatementsMap.ts"),
+    exportNames: ["ClassFieldStatement"],
+    isDefaultExport: false,
+    isType: true,
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/ClassMembersMap.ts"),
+    exportNames: ["ClassMembersMap"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/ClassMembersMap.ts"),
+    exportNames: [
+      "ClassMemberImpl",
+      "NamedClassMemberImpl",
+    ],
+    isDefaultExport: false,
+    isType: true,
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/ExportManager.ts"),
+    exportNames: ["ExportManager"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/ImportManager.ts"),
+    exportNames: ["ImportManager"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/MemberedStatementsKeyClass.ts"),
+    exportNames: ["MemberedStatementsKeyClass"],
+    isDefaultExport: true,
+    isType: false
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/MemberedStatementsKeyClass.ts"),
+    exportNames: ["MemberedStatementsKey"],
+    isDefaultExport: false,
+    isType: true
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/MemberedTypeToClass.ts"),
+    exportNames: ["MemberedTypeToClass"],
+    isDefaultExport: true,
+    isType: false
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/MemberedTypeToClass.ts"),
+    exportNames: [
+      "IndexSignatureResolver",
+      "MemberedTypeToClass_StatementGetter",
+      "stringWriterOrStatementImpl",
+    ],
+    isDefaultExport: false,
+    isType: true
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/TypeMembersMap.ts"),
+    exportNames: ["TypeMembersMap"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/TypeMembersMap.ts"),
+    exportNames: [
+      "NamedTypeMemberImpl",
+      "TypeMemberImpl",
+    ],
+    isDefaultExport: false,
+    isType: true,
+  });
+
+  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/types/TypeAndTypeStructureInterfaces.d.ts"),
     exportNames: [],
     isDefaultExport: false,
     isType: true
   });
+}
 
+function defineInternalExports(
+  dictionaries: StructureDictionaries,
+  distDir: string
+): void
+{
   dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/array-utilities/ReadonlyArrayProxyHandler.ts"),
     exportNames: ["ReadonlyArrayProxyHandler"],
@@ -259,7 +310,13 @@ export default async function defineExistingExports(
     isDefaultExport: false,
     isType: true
   });
+}
 
+async function defineTypeStructurePublicExports(
+  dictionaries: StructureDictionaries,
+  distDir: string
+): Promise<void>
+{
   const sourceDir = path.join(distDir, "source/structures/type");
   const typeStructureFiles = (await fs.readdir(
     sourceDir

@@ -80,7 +80,7 @@ export default class MethodDeclarationOverloadImpl
     >
 {
   readonly kind: StructureKind.MethodOverload = StructureKind.MethodOverload;
-  readonly isStatic: boolean;
+  isStatic: boolean;
 
   constructor(isStatic: boolean) {
     super();

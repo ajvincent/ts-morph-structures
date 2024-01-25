@@ -39,7 +39,7 @@ export default function addConstructor(
   }
 
   if (isStatic_property) {
-    isStatic_property.isReadonly = true;
+    isStatic_property.isReadonly = false;
     isStatic_property.typeStructure = ConstantTypeStructures.boolean;
 
     const staticParam = new ParameterDeclarationImpl("isStatic");

@@ -9,6 +9,7 @@ import {
   PropertyDeclarationImpl,
   MethodDeclarationImpl,
   SetAccessorDeclarationImpl,
+  type NamedTypeMemberImpl,
 } from "../exports.js";
 
 import {
@@ -25,6 +26,8 @@ export type ClassMemberImpl =
   | MethodDeclarationImpl
   | PropertyDeclarationImpl
   | SetAccessorDeclarationImpl;
+
+export type NamedClassMemberImpl = Extract<ClassMemberImpl, { name: string }>;
 
 /**
  * A map for class methods, properties, accessors and a constructor.  This doesn't
@@ -93,6 +96,37 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     map.addMembers(members);
 
     return map;
+  }
+
+  static convertTypeMembers(
+    isStatic: boolean,
+    typeMembers: NamedTypeMemberImpl[],
+  ): NamedClassMemberImpl[] {
+    return typeMembers.map((typeMember) =>
+      ClassMembersMap.#convertTypeMemberToClassMember(isStatic, typeMember),
+    );
+  }
+
+  static #convertTypeMemberToClassMember(
+    isStatic: boolean,
+    typeMember: NamedTypeMemberImpl,
+  ): NamedClassMemberImpl {
+    switch (typeMember.kind) {
+      case StructureKind.GetAccessor: {
+        const result = GetAccessorDeclarationImpl.clone(typeMember);
+        result.isStatic = isStatic;
+        return result;
+      }
+      case StructureKind.SetAccessor: {
+        const result = SetAccessorDeclarationImpl.clone(typeMember);
+        result.isStatic = isStatic;
+        return result;
+      }
+      case StructureKind.MethodSignature:
+        return MethodDeclarationImpl.fromSignature(isStatic, typeMember);
+      case StructureKind.PropertySignature:
+        return PropertyDeclarationImpl.fromSignature(isStatic, typeMember);
+    }
   }
 
   /**

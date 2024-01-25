@@ -46,7 +46,7 @@ type keyPair = {fieldName: string, statementGroup: string};
  */
 export default class ClassFieldStatementsMap
 {
-  static #normalizeKeys(fieldName: string, statementGroup: string): [string, string] {
+  static normalizeKeys(fieldName: string, statementGroup: string): [string, string] {
     if (statementGroup === ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY) {
       fieldName = fieldName.replace(/\b[gs]et /, "");
     }
@@ -127,7 +127,7 @@ export default class ClassFieldStatementsMap
    */
   public delete(fieldName: string, statementGroup: string): boolean
   {
-    [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(fieldName, statementGroup);
+    [fieldName, statementGroup] = ClassFieldStatementsMap.normalizeKeys(fieldName, statementGroup);
     const rv = this.#map.delete(ClassFieldStatementsMap.#hashKey(fieldName, statementGroup));
     this.#statementGroupMap.get(statementGroup)?.delete(fieldName);
     return rv;
@@ -177,7 +177,7 @@ export default class ClassFieldStatementsMap
    */
   public get(fieldName: string, statementGroup: string): ClassFieldStatement[] | undefined
   {
-    [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(fieldName, statementGroup);
+    [fieldName, statementGroup] = ClassFieldStatementsMap.normalizeKeys(fieldName, statementGroup);
     return this.#map.get(ClassFieldStatementsMap.#hashKey(fieldName, statementGroup));
   }
 
@@ -190,7 +190,7 @@ export default class ClassFieldStatementsMap
    */
   public has(fieldName: string, statementGroup: string): boolean
   {
-    [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(fieldName, statementGroup);
+    [fieldName, statementGroup] = ClassFieldStatementsMap.normalizeKeys(fieldName, statementGroup);
     return this.#map.has(ClassFieldStatementsMap.#hashKey(fieldName, statementGroup));
   }
 
@@ -216,7 +216,7 @@ export default class ClassFieldStatementsMap
    */
   public set(fieldName: string, statementGroup: string, statements: ClassFieldStatement[]): this
   {
-    [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(fieldName, statementGroup);
+    [fieldName, statementGroup] = ClassFieldStatementsMap.normalizeKeys(fieldName, statementGroup);
     this.#map.set(
       ClassFieldStatementsMap.#hashKey(fieldName, statementGroup), statements
     );

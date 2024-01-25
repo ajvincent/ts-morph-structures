@@ -92,7 +92,7 @@ export default class PropertyDeclarationImpl
 {
   readonly kind: StructureKind.Property = StructureKind.Property;
   hasAccessorKeyword = false;
-  readonly isStatic: boolean;
+  isStatic: boolean;
 
   constructor(isStatic: boolean, name: string) {
     super();

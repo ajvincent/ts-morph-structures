@@ -44,7 +44,7 @@ type keyPair = { fieldName: string; statementGroup: string };
  * ```
  */
 export default class ClassFieldStatementsMap {
-  static #normalizeKeys(
+  static normalizeKeys(
     fieldName: string,
     statementGroup: string,
   ): [string, string] {
@@ -124,7 +124,7 @@ export default class ClassFieldStatementsMap {
    * @returns True if we found the statements and deleted it.
    */
   public delete(fieldName: string, statementGroup: string): boolean {
-    [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(
+    [fieldName, statementGroup] = ClassFieldStatementsMap.normalizeKeys(
       fieldName,
       statementGroup,
     );
@@ -184,7 +184,7 @@ export default class ClassFieldStatementsMap {
     fieldName: string,
     statementGroup: string,
   ): ClassFieldStatement[] | undefined {
-    [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(
+    [fieldName, statementGroup] = ClassFieldStatementsMap.normalizeKeys(
       fieldName,
       statementGroup,
     );
@@ -201,7 +201,7 @@ export default class ClassFieldStatementsMap {
    * @returns True if the key set refers to a statements in the collection.
    */
   public has(fieldName: string, statementGroup: string): boolean {
-    [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(
+    [fieldName, statementGroup] = ClassFieldStatementsMap.normalizeKeys(
       fieldName,
       statementGroup,
     );
@@ -235,7 +235,7 @@ export default class ClassFieldStatementsMap {
     statementGroup: string,
     statements: ClassFieldStatement[],
   ): this {
-    [fieldName, statementGroup] = ClassFieldStatementsMap.#normalizeKeys(
+    [fieldName, statementGroup] = ClassFieldStatementsMap.normalizeKeys(
       fieldName,
       statementGroup,
     );
