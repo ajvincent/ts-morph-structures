@@ -33,8 +33,6 @@ export default class MemberedTypeToClass {
    * @param constructorArguments - parameters to define on the constructor.
    * @param statementGetter - a callback to get statements for each individual statement purpose, field name and statement group name.
    * @param indexSignatureResolver - a callback to get names which match an index signature's key name.
-   *
-   * @see {ClassFieldStatementsMap} for `statementGetter`
    */
   constructor(
     constructorArguments: ParameterDeclarationImpl[],
