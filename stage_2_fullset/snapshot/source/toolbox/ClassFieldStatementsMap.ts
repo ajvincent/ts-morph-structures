@@ -279,6 +279,18 @@ export default class ClassFieldStatementsMap {
 
     const entries = Array.from(iterator);
     entries.sort((a, b) => ClassFieldStatementsMap.fieldComparator(a[0], b[0]));
+
+    //TODO: try wrapping all in one WriterFunction?  May impact initializers.
+    if (this.isBlockStatement) {
+      entries.unshift(["(isBlock head)", ["{"]]);
+      entries.push(["(isBlock tail)", ["}"]]);
+    }
+
+    if (this.regionName) {
+      entries.unshift(["(regionName head)", [`//#region ${this.regionName}`]]);
+      entries.push(["(regionName tail)", [`//#endregion ${this.regionName}`]]);
+    }
+
     return new Map(entries);
   }
 }

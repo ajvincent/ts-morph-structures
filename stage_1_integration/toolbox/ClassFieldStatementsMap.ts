@@ -251,15 +251,26 @@ export default class ClassFieldStatementsMap
    * @param statementGroup - The statement group owning the statements.
    */
   public groupStatementsMap(
-    statementGroup: string
-  ): ReadonlyMap<string, ClassFieldStatement[]> | undefined
-  {
+    statementGroup: string,
+  ): ReadonlyMap<string, ClassFieldStatement[]> | undefined {
     const iterator = this.#statementGroupMap.get(statementGroup)?.entries();
     if (!iterator)
       return undefined;
 
     const entries = Array.from(iterator);
     entries.sort((a, b) => ClassFieldStatementsMap.fieldComparator(a[0], b[0]));
+
+    //TODO: try wrapping all in one WriterFunction?  May impact initializers.
+    if (this.isBlockStatement) {
+      entries.unshift(["(isBlock head)", ["{"]]);
+      entries.push(["(isBlock tail)", ["}"]]);
+    }
+
+    if (this.regionName) {
+      entries.unshift(["(regionName head)", [`//#region ${this.regionName}`]]);
+      entries.push(["(regionName tail)", [`//#endregion ${this.regionName}`]]);
+    }
+
     return new Map(entries);
   }
 }
