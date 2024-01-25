@@ -28,6 +28,14 @@ export default class MemberedTypeToClass {
   readonly #statementGetter: MemberedTypeToClass_StatementGetter;
   readonly #indexSignatureResolver?: IndexSignatureResolver;
 
+  /**
+   * 
+   * @param constructorArguments - parameters to define on the constructor.
+   * @param statementGetter - a callback to get statements for each individual statement purpose, field name and statement group name.
+   * @param indexSignatureResolver - a callback to get names which match an index signature's key name.
+   *
+   * @see {ClassFieldStatementsMap} for `statementGetter`
+   */
   constructor(
     constructorArguments: ParameterDeclarationImpl[],
     statementGetter: MemberedTypeToClass_StatementGetter,
@@ -72,25 +80,41 @@ export default class MemberedTypeToClass {
 
   //#region adding type members
 
+  /**
+   * Define a class member for a given type member (constructor, property, method, getter, setter).
+   * @param isStatic - true if the class member is static.
+   * @param member - the type member to convert to a class member.
+   */
   addTypeMember(
     isStatic: boolean,
     member: TypeMemberImpl,
-  ): void 
+  ): void
   {
     this.#requireNotStarted();
     const typeMembersMap = new TypeMembersMap([
       [(TypeMembersMap.keyFromMember(member)), member]
     ]);
-    this.#importFromTypeMembers(isStatic, typeMembersMap, new TypeMembersMap);
+    const temporaryTypeMembers = new TypeMembersMap;
+    this.#importFromTypeMembers(isStatic, typeMembersMap, temporaryTypeMembers);
+
+    this.#adoptTypeMembers(isStatic, temporaryTypeMembers);
   }
 
+  /**
+   * Define class members for a map of given type members (constructor, property, method, getter, setter).
+   * @param isStatic - true if the class members are static.
+   * @param membersMap - the type members map for conversion to class members.
+   */
   importFromTypeMembers(
     isStatic: boolean,
     membersMap: TypeMembersMap,
   ): void
   {
     this.#requireNotStarted();
-    this.#importFromTypeMembers(isStatic, membersMap, new TypeMembersMap);
+    const temporaryTypeMembers = new TypeMembersMap;
+    this.#importFromTypeMembers(isStatic, membersMap, temporaryTypeMembers);
+
+    this.#adoptTypeMembers(isStatic, temporaryTypeMembers);
   }
 
   #importFromTypeMembers(
@@ -102,9 +126,6 @@ export default class MemberedTypeToClass {
     for (const member of membersMap.values()) {
       this.#validateTypeMember(isStatic, member, temporaryTypeMembers);
     }
-    this.#aggregateTypeMembersMap.addMembers(
-      Array.from(temporaryTypeMembers.values())
-    );
   }
 
   #validateTypeMember(
@@ -141,14 +162,27 @@ export default class MemberedTypeToClass {
         if (temporaryTypeMembers.has(key)) {
           throw new Error(`You already have a class member with the key "${key}", possibly through an index signature resolution.`);
         }
+        temporaryTypeMembers.addMembers([member]);
       }
     }
+  }
+
+  #adoptTypeMembers(
+    isStatic: boolean,
+    temporaryTypeMembers: TypeMembersMap
+  ): void
+  {
+    const map: TypeMembersMap = isStatic ? this.#aggregateStaticTypesMap : this.#aggregateTypeMembersMap;
+    map.addMembers(Array.from(temporaryTypeMembers.values()));
   }
 
   //#endregion adding type members
 
   //#region build the class members map
 
+  /**
+   * Convert cached type members to a ClassMembersMap, complete with statements.
+   */
   async buildClassMembersMap(): Promise<ClassMembersMap>
   {
     this.#requireNotStarted();
