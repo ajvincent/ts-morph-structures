@@ -6,8 +6,10 @@ import {
   ClassMembersMap,
   ConstructorDeclarationImpl,
   IndexSignatureResolver,
+  type InterfaceDeclarationImpl,
   MemberedStatementsKeyClass,
   type MemberedTypeToClass_StatementGetter,
+  type MemberedObjectTypeStructureImpl,
   NamedTypeMemberImpl,
   ParameterDeclarationImpl,
   type TypeMemberImpl,
@@ -101,12 +103,30 @@ export default class MemberedTypeToClass {
    * @param isStatic - true if the class members are static.
    * @param membersMap - the type members map for conversion to class members.
    */
-  importFromTypeMembers(isStatic: boolean, membersMap: TypeMembersMap): void {
+  importFromTypeMembersMap(
+    isStatic: boolean,
+    membersMap: TypeMembersMap,
+  ): void {
     this.#requireNotStarted();
     const temporaryTypeMembers = new TypeMembersMap();
     this.#importFromTypeMembers(isStatic, membersMap, temporaryTypeMembers);
 
     this.#adoptTypeMembers(isStatic, temporaryTypeMembers);
+  }
+
+  /**
+   * Define class members for a membered object type or interface.
+   * @param isStatic - true if the class members are static.
+   * @param membered - the interface or membered object type.
+   */
+  importFromMemberedType(
+    isStatic: boolean,
+    membered: InterfaceDeclarationImpl | MemberedObjectTypeStructureImpl,
+  ): void {
+    return this.importFromTypeMembersMap(
+      isStatic,
+      TypeMembersMap.fromMemberedObject(membered),
+    );
   }
 
   #importFromTypeMembers(
