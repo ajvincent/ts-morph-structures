@@ -63,7 +63,7 @@ export interface MemberedStatementsKey {
 }
 
 export interface MemberedTypeToClass_StatementGetter {
-  getStatements(key: MemberedStatementsKey): Promise<stringWriterOrStatementImpl[]>
+  getStatements(key: MemberedStatementsKey): stringWriterOrStatementImpl[]
 }
 
 export type NamedClassMemberImpl = Extract<ClassMemberImpl, { name: string }>;

@@ -207,7 +207,7 @@ export default class MemberedTypeToClass {
   /**
    * Convert cached type members to a ClassMembersMap, complete with statements.
    */
-  async buildClassMembersMap(): Promise<ClassMembersMap>
+  buildClassMembersMap(): ClassMembersMap
   {
     this.#requireNotStarted();
     this.#classMembersMap = new ClassMembersMap;
@@ -215,7 +215,17 @@ export default class MemberedTypeToClass {
     const members = this.#addClassMembersToMap();
     const keyClassArray = this.#buildKeyClassArray(members);
 
-    await Promise.all(keyClassArray.map(keyClass => this.#callStatementGetter(keyClass)));
+    const errors: Error[] = [];
+    keyClassArray.forEach(keyClass => {
+      try {
+        this.#callStatementGetter(keyClass)
+      }
+      catch (ex) {
+        errors.push(ex instanceof Error ? ex : new Error(String(ex)));
+      }
+    });
+    if (errors.length)
+      throw new AggregateError(errors);
 
     this.#classMembersMap.moveStatementsToMembers(Array.from(this.#classFieldStatementsByPurpose.values()));
 
@@ -337,12 +347,12 @@ export default class MemberedTypeToClass {
     ));
   }
 
-  async #callStatementGetter(
+  #callStatementGetter(
     keyClass: MemberedStatementsKeyClass
-  ): Promise<void>
+  ): void
   {
     const statementsArray: stringWriterOrStatementImpl[] =
-      await this.#statementGetter.getStatements(keyClass);
+      this.#statementGetter.getStatements(keyClass);
     if (statementsArray.length === 0)
       return;
 

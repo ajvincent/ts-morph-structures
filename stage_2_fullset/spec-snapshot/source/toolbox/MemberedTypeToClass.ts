@@ -72,11 +72,11 @@ class StubStatementsGetter implements MemberedTypeToClass_StatementGetter {
 
   getStatements(
     key: MemberedStatementsKey
-  ): Promise<stringWriterOrStatementImpl[]>
+  ): stringWriterOrStatementImpl[]
   {
     const hash = StubStatementsGetter.#hashKeys(key.fieldKey, key.statementGroupKey, key.purpose);
     this.#visitedHashes.add(hash);
-    return Promise.resolve(this.#statementsMap.get(hash) ?? []);
+    return this.#statementsMap.get(hash) ?? [];
   }
 
   get visitedSize(): number {
@@ -121,14 +121,14 @@ describe("MemberedTypeToClass", () => {
     typeToClass = new MemberedTypeToClass([], statementsGetter);
   });
 
-  it("can create an empty class, with no statement maps", async () => {
-    const classMembers: ClassMembersMap = await typeToClass.buildClassMembersMap();
+  it("can create an empty class, with no statement maps", () => {
+    const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
     expect(classMembers.size).toBe(0);
 
     expect(statementsGetter.visitedSize).toBe(0);
   });
 
-  it("will visit all keys and groups for a constructor with multiple statement groups", async () => {
+  it("will visit all keys and groups for a constructor with multiple statement groups", () => {
     // testing order of statement groups
     typeToClass.defineStatementsByPurpose("first", false);
     typeToClass.defineStatementsByPurpose("second", false);
@@ -172,7 +172,7 @@ describe("MemberedTypeToClass", () => {
       ]
     );
 
-    const classMembers: ClassMembersMap = await typeToClass.buildClassMembersMap();
+    const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
 
     expect(statementsGetter.matchesVisited(
       [ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN],
@@ -211,7 +211,7 @@ describe("MemberedTypeToClass", () => {
     expect(actualStatements).toEqual(expectedStatements);
   });
 
-  it("will iterate over properties for initializers and all statemented nodes", async () => {
+  it("will iterate over properties for initializers and all statemented nodes", () => {
     // #region set up type members
     const membersMap: TypeMembersMap = new TypeMembersMap;
 
@@ -307,7 +307,7 @@ describe("MemberedTypeToClass", () => {
 
     typeToClass.defineStatementsByPurpose("first", false);
 
-    const classMembers = await typeToClass.buildClassMembersMap();
+    const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
 
     //#region inspecting the class members map
 
@@ -396,27 +396,27 @@ describe("MemberedTypeToClass", () => {
     //#endregion inspecting the class members map
   });
 
-  xit("will resolve index signatures when it gets them from adding type members", async () => {
-    await Promise.reject(new Error("not yet implemented"));
+  xit("will resolve index signatures when it gets them from adding type members", () => {
+    throw new Error("not yet implemented");
   });
 
-  xit("will detect collisions between type members", async () => {
-    await Promise.reject(new Error("not yet implemented"));
+  xit("will detect collisions between type members", () => {
+    throw new Error("not yet implemented");
   });
 
-  xit("can add isAbstract to class members", async () => {
-    await Promise.reject(new Error("not yet implemented"));
+  xit("can add isAbstract to class members", () => {
+    throw new Error("not yet implemented");
   });
 
-  xit("can add scope to class members", async () => {
-    await Promise.reject(new Error("not yet implemented"));
+  xit("can add scope to class members", () => {
+    throw new Error("not yet implemented");
   });
 
-  xit("can add isAsync to methods", async () => {
-    await Promise.reject(new Error("not yet implemented"));
+  xit("can add isto methods", () => {
+    throw new Error("not yet implemented");
   });
 
-  xit("can add isGenerator to methods", async () => {
-    await Promise.reject(new Error("not yet implemented"));
+  xit("can add isGenerator to methods", () => {
+    throw new Error("not yet implemented");
   });
 });
