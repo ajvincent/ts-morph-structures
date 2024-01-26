@@ -52,9 +52,9 @@ export type ClassMemberImpl = (
   SetAccessorDeclarationImpl
 );
 
-export type IndexSignatureResolver = (
-  signature: IndexSignatureDeclarationImpl
-) => string[];
+export interface IndexSignatureResolver {
+  resolveIndexSignature(signature: IndexSignatureDeclarationImpl): string[];
+}
 
 export interface MemberedStatementsKey {
   readonly fieldKey: string;
@@ -62,9 +62,9 @@ export interface MemberedStatementsKey {
   readonly purpose: string;
 }
 
-export type MemberedTypeToClass_StatementGetter = (
-  key: MemberedStatementsKey
-) => Promise<stringWriterOrStatementImpl[]>;
+export interface MemberedTypeToClass_StatementGetter {
+  getStatements(key: MemberedStatementsKey): Promise<stringWriterOrStatementImpl[]>
+}
 
 export type NamedClassMemberImpl = Extract<ClassMemberImpl, { name: string }>;
 

@@ -17,6 +17,7 @@ import {
   type stringWriterOrStatementImpl,
 } from "../exports.js";
 
+/** Convert type members to a class members map, including statements. */
 export default class MemberedTypeToClass {
   readonly #aggregateStaticTypesMap = new TypeMembersMap();
   readonly #aggregateTypeMembersMap = new TypeMembersMap();
@@ -29,27 +30,35 @@ export default class MemberedTypeToClass {
 
   readonly #classConstructor = new ConstructorDeclarationImpl();
   readonly #statementGetter: MemberedTypeToClass_StatementGetter;
-  readonly #indexSignatureResolver?: IndexSignatureResolver;
+  #indexSignatureResolver?: IndexSignatureResolver;
 
   /**
-   *
    * @param constructorArguments - parameters to define on the constructor.
    * @param statementGetter - a callback to get statements for each individual statement purpose, field name and statement group name.
-   * @param indexSignatureResolver - a callback to get names which match an index signature's key name.
    */
   constructor(
     constructorArguments: ParameterDeclarationImpl[],
     statementGetter: MemberedTypeToClass_StatementGetter,
-    indexSignatureResolver?: IndexSignatureResolver,
   ) {
     this.#classConstructor.parameters.push(...constructorArguments);
     this.#statementGetter = statementGetter;
-    this.#indexSignatureResolver = indexSignatureResolver;
   }
 
   #requireNotStarted(): void {
     if (this.#classMembersMap)
       throw new Error("You have already called buildClassDeclaration()");
+  }
+
+  /**
+   * An interface to get names which match an index signature's key name.
+   */
+  get indexSignatureResolver(): IndexSignatureResolver | undefined {
+    return this.#indexSignatureResolver;
+  }
+
+  set indexSignatureResolver(value: IndexSignatureResolver | undefined) {
+    this.#requireNotStarted();
+    this.#indexSignatureResolver = value;
   }
 
   /**
@@ -159,11 +168,10 @@ export default class MemberedTypeToClass {
             "Index signature found, but no index signature resolver is available",
           );
         }
-        const names = this.#indexSignatureResolver(member);
-        const newMembers = temporaryTypeMembers.resolveIndexSignature(
-          member,
-          names,
-        );
+        const names: string[] =
+          this.#indexSignatureResolver.resolveIndexSignature(member);
+        const newMembers: NamedTypeMemberImpl[] =
+          temporaryTypeMembers.resolveIndexSignature(member, names);
         newMembers.forEach((newMember) =>
           this.#validateTypeMember(isStatic, newMember, temporaryTypeMembers),
         );
@@ -217,6 +225,12 @@ export default class MemberedTypeToClass {
     await Promise.all(
       keyClassArray.map((keyClass) => this.#callStatementGetter(keyClass)),
     );
+
+    if (this.#classConstructor.statements.length === 0) {
+      this.#classMembersMap.delete(
+        ClassMembersMap.keyFromMember(this.#classConstructor),
+      );
+    }
 
     return this.#classMembersMap;
   }
@@ -297,7 +311,7 @@ export default class MemberedTypeToClass {
     keyClass: MemberedStatementsKeyClass,
   ): Promise<void> {
     const statementsArray: stringWriterOrStatementImpl[] =
-      await this.#statementGetter(keyClass);
+      await this.#statementGetter.getStatements(keyClass);
     if (statementsArray.length === 0) return;
 
     const statementsMap: ClassFieldStatementsMap =
