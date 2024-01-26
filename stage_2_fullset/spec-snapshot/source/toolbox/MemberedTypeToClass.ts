@@ -395,4 +395,28 @@ describe("MemberedTypeToClass", () => {
 
     //#endregion inspecting the class members map
   });
+
+  xit("will resolve index signatures when it gets them from adding type members", async () => {
+    await Promise.reject(new Error("not yet implemented"));
+  });
+
+  xit("will detect collisions between type members", async () => {
+    await Promise.reject(new Error("not yet implemented"));
+  });
+
+  xit("can add isAbstract to class members", async () => {
+    await Promise.reject(new Error("not yet implemented"));
+  });
+
+  xit("can add scope to class members", async () => {
+    await Promise.reject(new Error("not yet implemented"));
+  });
+
+  xit("can add isAsync to methods", async () => {
+    await Promise.reject(new Error("not yet implemented"));
+  });
+
+  xit("can add isGenerator to methods", async () => {
+    await Promise.reject(new Error("not yet implemented"));
+  });
 });
