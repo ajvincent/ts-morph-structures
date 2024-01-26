@@ -265,50 +265,112 @@ export default class MemberedTypeToClass {
   #buildKeyClassArray(
     members: ClassMemberImpl[],
   ): MemberedStatementsKeyClass[] {
-    const fieldNames: string[] = [
+    const keyClassMap = new Map<string, MemberedStatementsKeyClass>();
+    const purposeKeys: string[] = Array.from(
+      this.#classFieldStatementsByPurpose.keys(),
+    );
+
+    let propertyNames: string[] = [
       ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL,
       ...members
         .filter((member) => member.kind === StructureKind.Property)
         .map((property) => ClassMembersMap.keyFromMember(property)),
       ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN,
     ];
+    propertyNames = Array.from(new Set(propertyNames));
 
-    const groupNames: string[] = [
-      ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
-      ...members
-        .filter((member) => member.kind !== StructureKind.Property)
-        .map((member) => ClassMembersMap.keyFromMember(member)),
-    ];
+    // properties
+    {
+      const propertyGroupNames: string[] = [
+        ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
+        ...members
+          .filter(
+            (member) =>
+              member.kind === StructureKind.Constructor ||
+              member.kind === StructureKind.Method,
+          )
+          .map((member) => ClassMembersMap.keyFromMember(member)),
+      ];
 
-    const purposeKeys: string[] = Array.from(
-      this.#classFieldStatementsByPurpose.keys(),
-    );
+      for (const fieldName of propertyNames) {
+        for (const groupName of propertyGroupNames) {
+          const [formattedFieldName, formattedGroupName] =
+            ClassFieldStatementsMap.normalizeKeys(fieldName, groupName);
 
-    const keyClassMap = new Map<string, MemberedStatementsKeyClass>();
-    for (const fieldName of fieldNames) {
-      for (const groupName of groupNames) {
-        const [formattedFieldName, formattedGroupName] =
-          ClassFieldStatementsMap.normalizeKeys(fieldName, groupName);
-        for (const purposeKey of purposeKeys) {
-          const compositeKey = JSON.stringify({
-            formattedFieldName,
-            formattedGroupName,
-            purposeKey,
-          });
-          if (keyClassMap.has(compositeKey)) continue;
-          keyClassMap.set(
-            compositeKey,
-            new MemberedStatementsKeyClass(
+          if (
+            formattedGroupName ===
+            ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
+          ) {
+            if (
+              formattedFieldName ===
+                ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL ||
+              formattedFieldName ===
+                ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN
+            ) {
+              continue;
+            }
+          }
+
+          for (const purposeKey of purposeKeys) {
+            this.#addKeyClass(
               formattedFieldName,
               formattedGroupName,
               purposeKey,
-            ),
+              keyClassMap,
+            );
+          }
+        }
+      }
+    }
+
+    // getters and setters
+    let accessorNames: string[] = members
+      .filter(
+        (member) =>
+          member.kind === StructureKind.GetAccessor ||
+          member.kind === StructureKind.SetAccessor,
+      )
+      .map((member) =>
+        ClassMembersMap.keyFromMember(member).replace(/\b[gs]et /, ""),
+      );
+    accessorNames = Array.from(new Set(accessorNames));
+    {
+      for (const accessorName of accessorNames) {
+        for (const purposeKey of purposeKeys) {
+          this.#addKeyClass(
+            accessorName,
+            ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
+            purposeKey,
+            keyClassMap,
           );
+
+          for (const propertyName of propertyNames) {
+            this.#addKeyClass(
+              propertyName,
+              accessorName,
+              purposeKey,
+              keyClassMap,
+            );
+          }
         }
       }
     }
 
     return Array.from(keyClassMap.values());
+  }
+
+  #addKeyClass(
+    fieldName: string,
+    groupName: string,
+    purposeKey: string,
+    keyClassMap: Map<string, MemberedStatementsKeyClass>,
+  ): void {
+    const compositeKey = JSON.stringify({ fieldName, groupName, purposeKey });
+    if (keyClassMap.has(compositeKey)) return;
+    keyClassMap.set(
+      compositeKey,
+      new MemberedStatementsKeyClass(fieldName, groupName, purposeKey),
+    );
   }
 
   async #callStatementGetter(

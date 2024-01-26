@@ -5,11 +5,19 @@ import {
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap, ClassMembersMap,
+  ClassFieldStatementsMap,
+  ClassMembersMap,
+  GetAccessorDeclarationImpl,
   type MemberedStatementsKey,
   MemberedStatementsKeyClass,
   MemberedTypeToClass,
   type MemberedTypeToClass_StatementGetter,
+  MethodSignatureImpl,
+  ParameterDeclarationImpl,
+  PropertySignatureImpl,
+  //type PropertyDeclarationImpl,
+  SetAccessorDeclarationImpl,
+  TypeMembersMap,
   type stringOrWriterFunction,
   type stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
@@ -127,10 +135,10 @@ describe("MemberedTypeToClass", () => {
     typeToClass.defineStatementsByPurpose("fourth", false);
 
     const first_head_ctor = statementsGetter.createWriter(`void("first head");`);
-    const first_tail_ctor = statementsGetter.createWriter(`void("first tail");`);
     const second_head_ctor = statementsGetter.createWriter(`void("second head");`);
-    const second_tail_ctor = statementsGetter.createWriter(`void("second tail");`);
     const fourth_head_ctor = statementsGetter.createWriter(`void("fourth head");`);
+    const first_tail_ctor = statementsGetter.createWriter(`void("first tail");`);
+    const second_tail_ctor = statementsGetter.createWriter(`void("second tail");`);
     const fourth_tail_ctor = statementsGetter.createWriter(`void("fourth tail");`);
 
     statementsGetter.setStatements(
@@ -168,10 +176,11 @@ describe("MemberedTypeToClass", () => {
 
     expect(statementsGetter.matchesVisited(
       [ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN],
-      [ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "constructor"],
+      ["constructor"],
       ["first", "second", "fourth"],
     )).toBe(true);
-    expect(statementsGetter.visitedSize).toBe(12);
+
+    expect(statementsGetter.visitedSize).toBe(6);
 
     expect(classMembers.size).toBe(1);
     const ctor = classMembers.get(
@@ -200,5 +209,190 @@ describe("MemberedTypeToClass", () => {
     const actualStatements = statementsGetter.getWriterValues(ctor.statements as stringOrWriterFunction[]);
 
     expect(actualStatements).toEqual(expectedStatements);
+  });
+
+  it("will iterate over properties for initializers and all statemented nodes", async () => {
+    // #region set up type members
+    const membersMap: TypeMembersMap = new TypeMembersMap;
+
+    const prop1 = new PropertySignatureImpl("one");
+    prop1.typeStructure = "string";
+
+    const prop2 = new PropertySignatureImpl("two");
+    prop2.isReadonly = true;
+    prop2.typeStructure = "string";
+
+    const method3 = new MethodSignatureImpl("three");
+    method3.returnTypeStructure = "string";
+
+    const private_4: PropertySignatureImpl = new PropertySignatureImpl("#four");
+    private_4.typeStructure = "number";
+
+    const getter4 = new GetAccessorDeclarationImpl(false, "four");
+    getter4.returnTypeStructure = private_4.typeStructure;
+
+    const setterParam = new ParameterDeclarationImpl("value");
+    setterParam.typeStructure = private_4.typeStructure;
+    const setter4 = new SetAccessorDeclarationImpl(false, "four", setterParam);
+
+    membersMap.addMembers([
+      prop1, method3, getter4, setter4
+    ]);
+    // #endregion set up type members
+
+    //#region statementsGetter set-up
+
+    const head_ctor = statementsGetter.createWriter(`void("ctor head");`);
+    const tail_ctor = statementsGetter.createWriter(`void("ctor tail");`);
+
+    statementsGetter.setStatements(
+      ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, "constructor", "first", [
+        head_ctor
+      ]
+    );
+    statementsGetter.setStatements(
+      ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN, "constructor", "first", [
+        tail_ctor
+      ]
+    );
+
+    // using direct key names instead of ClassMembersMap.keyFromName() because it's faster and more obvious
+    statementsGetter.setStatements(
+      "one", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first", [
+        `"value one"`
+      ]
+    );
+
+    statementsGetter.setStatements(
+      "one", "constructor", "first", [
+        `if (one) { this.one = one; }`
+      ]
+    );
+
+    statementsGetter.setStatements(
+      "static two", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first", [
+        `"value two"`
+      ]
+    );
+
+    statementsGetter.setStatements(
+      "#four", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first", [
+        "4"
+      ]
+    );
+
+    statementsGetter.setStatements(
+      "four", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first", [
+        "this.#four"
+      ]
+    );
+
+    statementsGetter.setStatements(
+      "static two", "three", "first", [
+        `return MyClassName.two + " plus one";`
+      ]
+    );
+    //#endregion statementsGetter set-up
+
+    const ctorParameters: ParameterDeclarationImpl[] = [];
+    const ctorOneParam = new ParameterDeclarationImpl("one");
+    ctorOneParam.typeStructure = prop1.typeStructure;
+    ctorParameters.push(ctorOneParam);
+
+    typeToClass = new MemberedTypeToClass(ctorParameters, statementsGetter);
+
+    typeToClass.importFromTypeMembersMap(false, membersMap);
+    typeToClass.addTypeMember(true, prop2);
+    typeToClass.addTypeMember(false, private_4);
+
+    typeToClass.defineStatementsByPurpose("first", false);
+
+    const classMembers = await typeToClass.buildClassMembersMap();
+
+    //#region inspecting the class members map
+
+    const ctor_Decl = classMembers.getAsKind<StructureKind.Constructor>(StructureKind.Constructor, false, "constructor");
+    expect(ctor_Decl).not.toBeUndefined();
+    if (ctor_Decl) {
+      expect(ctor_Decl.typeParameters.length).toBe(0);
+      expect(ctor_Decl.parameters.length).toBe(1);
+      expect(ctor_Decl.parameters[0]).toBe(ctorOneParam);
+      expect(ctor_Decl.statements).toEqual([
+        head_ctor,
+        `if (one) { this.one = one; }`,
+        tail_ctor,
+      ]);
+    }
+
+    const prop1_Decl = classMembers.getAsKind<StructureKind.Property>(StructureKind.Property, false, "one");
+    expect(prop1_Decl).not.toBeUndefined();
+    if (prop1_Decl) {
+      expect(prop1_Decl.isReadonly).toBe(false);
+      expect(prop1_Decl.isStatic).toBe(false);
+      expect(prop1_Decl.name).toBe("one");
+      expect(prop1_Decl.typeStructure).toBe("string");
+      expect(prop1_Decl.initializer).toBe(`"value one"`);
+    }
+
+    const prop2_Decl = classMembers.getAsKind<StructureKind.Property>(StructureKind.Property, true, "two");
+    expect(prop2_Decl).not.toBeUndefined();
+    if (prop2_Decl) {
+      expect(prop2_Decl.isReadonly).toBe(true);
+      expect(prop2_Decl.isStatic).toBe(true);
+      expect(prop2_Decl.name).toBe("two");
+      expect(prop2_Decl.typeStructure).toBe("string");
+      expect(prop2_Decl.initializer).toBe(`"value two"`);
+    }
+
+    const prop4_PrivateDecl = classMembers.getAsKind<StructureKind.Property>(StructureKind.Property, false, "#four");
+    expect(prop4_PrivateDecl).not.toBeUndefined();
+    if (prop4_PrivateDecl) {
+      expect(prop4_PrivateDecl.isReadonly).toBe(false);
+      expect(prop4_PrivateDecl.isStatic).toBe(false);
+      expect(prop4_PrivateDecl.name).toBe("#four");
+      expect(prop4_PrivateDecl.typeStructure).toBe("number");
+      expect(prop4_PrivateDecl.initializer).toBe("4");
+    }
+
+    const method3_Decl = classMembers.getAsKind<StructureKind.Method>(StructureKind.Method, false, "three");
+    expect(method3_Decl).not.toBeUndefined();
+    if (method3_Decl) {
+      expect(method3_Decl.typeParameters.length).toBe(0);
+      expect(method3_Decl.parameters.length).toBe(0);
+      expect(method3_Decl.returnTypeStructure).toBe("string");
+      expect(method3_Decl.statements).toEqual([
+        `return MyClassName.two + " plus one";`
+      ]);
+    }
+
+    const getter4_Decl = classMembers.getAsKind<StructureKind.GetAccessor>(StructureKind.GetAccessor, false, "four");
+    expect(getter4_Decl).not.toBeUndefined();
+    if (getter4_Decl) {
+      expect(getter4_Decl.typeParameters.length).toBe(0);
+      expect(getter4_Decl.parameters.length).toBe(0);
+      expect(getter4_Decl.returnTypeStructure).toBe("number");
+      expect(getter4_Decl.statements).toEqual([
+        `return this.#four;`
+      ]);
+    }
+
+    const setter4_Decl = classMembers.getAsKind<StructureKind.SetAccessor>(StructureKind.SetAccessor, false, "four");
+    expect(setter4_Decl).not.toBeUndefined();
+    if (setter4_Decl) {
+      expect(setter4_Decl.typeParameters.length).toBe(0);
+      expect(setter4_Decl.parameters.length).toBe(1);
+      const fourParam = setter4_Decl.parameters[0] as ParameterDeclarationImpl | undefined;
+      if (fourParam) {
+        expect(fourParam.name).toBe("value");
+        expect(fourParam.typeStructure).toBe("number");
+      }
+      expect(setter4_Decl.statements).toEqual([
+        `this.#four = value;`
+      ]);
+    }
+
+    expect(classMembers.size).toBe(7);
+
+    //#endregion inspecting the class members map
   });
 });
