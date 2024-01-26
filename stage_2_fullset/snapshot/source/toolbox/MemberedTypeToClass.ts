@@ -226,6 +226,10 @@ export default class MemberedTypeToClass {
       keyClassArray.map((keyClass) => this.#callStatementGetter(keyClass)),
     );
 
+    this.#classMembersMap.moveStatementsToMembers(
+      Array.from(this.#classFieldStatementsByPurpose.values()),
+    );
+
     if (this.#classConstructor.statements.length === 0) {
       this.#classMembersMap.delete(
         ClassMembersMap.keyFromMember(this.#classConstructor),
