@@ -8,6 +8,7 @@ import {
   ClassFieldStatementsMap,
   ClassMembersMap,
   GetAccessorDeclarationImpl,
+  IndexSignatureDeclarationImpl,
   type MemberedStatementsKey,
   MemberedStatementsKeyClass,
   MemberedTypeToClass,
@@ -15,7 +16,6 @@ import {
   MethodSignatureImpl,
   ParameterDeclarationImpl,
   PropertySignatureImpl,
-  //type PropertyDeclarationImpl,
   SetAccessorDeclarationImpl,
   TypeMembersMap,
   type stringOrWriterFunction,
@@ -396,8 +396,51 @@ describe("MemberedTypeToClass", () => {
     //#endregion inspecting the class members map
   });
 
-  xit("will resolve index signatures when it gets them from adding type members", () => {
-    throw new Error("not yet implemented");
+  it("will resolve index signatures when it gets them from adding type members", () => {
+    const index_C = new IndexSignatureDeclarationImpl;
+    index_C.keyName = "Key";
+    index_C.keyTypeStructure = "string";
+    index_C.returnTypeStructure = "boolean";
+
+    statementsGetter.setStatements(
+      "foo", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first", [`true`]
+    );
+    statementsGetter.setStatements(
+      "bar", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first", [`false`]
+    );
+
+    typeToClass.indexSignatureResolver = {
+      resolveIndexSignature: function(
+        signature: IndexSignatureDeclarationImpl
+      ): string[]
+      {
+        void(signature);
+        return ["foo", "bar"];
+      }
+    }
+    typeToClass.addTypeMember(false, index_C);
+    typeToClass.defineStatementsByPurpose("first", false);
+
+    const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
+    expect(classMembers.size).toBe(2);
+
+    const foo = classMembers.getAsKind<StructureKind.Property>(
+      StructureKind.Property, false, "foo"
+    );
+    expect(foo).not.toBeUndefined();
+    if (foo) {
+      expect(foo.typeStructure).toBe("boolean");
+      expect(foo.initializer).toBe("true");
+    }
+
+    const bar = classMembers.getAsKind<StructureKind.Property>(
+      StructureKind.Property, false, "bar"
+    );
+    expect(bar).not.toBeUndefined();
+    if (bar) {
+      expect(bar.typeStructure).toBe("boolean");
+      expect(bar.initializer).toBe("false");
+    }
   });
 
   xit("will detect collisions between type members", () => {

@@ -170,8 +170,23 @@ export default class MemberedTypeToClass {
         }
         const names: string[] =
           this.#indexSignatureResolver.resolveIndexSignature(member);
+        names.forEach((name) => {
+          if (
+            this.#aggregateTypeMembersMap.has(name) ||
+            temporaryTypeMembers.has(name)
+          ) {
+            throw new Error(
+              `Index signature resolver requested the name "${name}", but this field already exists.`,
+            );
+          }
+        });
+
+        temporaryTypeMembers.addMembers([member]);
         const newMembers: NamedTypeMemberImpl[] =
           temporaryTypeMembers.resolveIndexSignature(member, names);
+        newMembers.forEach((newMember) =>
+          temporaryTypeMembers.delete(TypeMembersMap.keyFromMember(newMember)),
+        );
         newMembers.forEach((newMember) =>
           this.#validateTypeMember(isStatic, newMember, temporaryTypeMembers),
         );
