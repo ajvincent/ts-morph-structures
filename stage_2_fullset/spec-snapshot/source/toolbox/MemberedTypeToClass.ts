@@ -455,7 +455,7 @@ describe("MemberedTypeToClass", () => {
     throw new Error("not yet implemented");
   });
 
-  xit("can add isto methods", () => {
+  xit("can add isAsync to methods", () => {
     throw new Error("not yet implemented");
   });
 
