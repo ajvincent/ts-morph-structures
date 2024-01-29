@@ -455,6 +455,9 @@ extends Map<string, ClassMemberImpl>
     statementsMap: ClassFieldStatementsMap
   ): void
   {
+    if (member.isAbstract)
+      return;
+
     const statementsDictionary = statementsMap.groupStatementsMap(ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY);
     if (!statementsDictionary) {
       return;
@@ -477,6 +480,9 @@ extends Map<string, ClassMemberImpl>
     statementsMap: ClassFieldStatementsMap
   ): void
   {
+    if (member.isAbstract)
+      return;
+
     const groupName = ClassMembersMap.keyFromMember(member);
 
     let statementsDictionary = statementsMap.groupStatementsMap(ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY);
@@ -502,6 +508,9 @@ extends Map<string, ClassMemberImpl>
     statementsMap: ClassFieldStatementsMap
   ): void
   {
+    if (member.isAbstract)
+      return;
+
     const groupName = ClassMembersMap.keyFromMember(member);
 
     let statementsDictionary = statementsMap.groupStatementsMap(ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY);
@@ -527,6 +536,9 @@ extends Map<string, ClassMemberImpl>
     statementsMap: ClassFieldStatementsMap
   ): void
   {
+    if (member.isAbstract)
+      return;
+
     const groupName = ClassMembersMap.keyFromMember(member);
 
     const statementsDictionary = statementsMap.groupStatementsMap(groupName);

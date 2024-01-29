@@ -115,13 +115,6 @@ function definePublicExports(
   });
 
   dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/toolbox/MemberedStatementsKeyClass.ts"),
-    exportNames: ["MemberedStatementsKeyClass"],
-    isDefaultExport: true,
-    isType: false
-  });
-
-  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/toolbox/MemberedTypeToClass.ts"),
     exportNames: ["MemberedTypeToClass"],
     isDefaultExport: true,
@@ -142,9 +135,11 @@ function definePublicExports(
       "AddImportContext",
       "ClassFieldStatement",
       "ClassMemberImpl",
+      "ClassAbstractMemberQuestion",
+      "ClassMemberQuestion",
+      "ClassStatementsGetter",
       "IndexSignatureResolver",
       "MemberedStatementsKey",
-      "MemberedTypeToClass_StatementGetter",
       "NamedClassMemberImpl",
       "NamedTypeMemberImpl",
       "TypeMemberImpl",
@@ -251,6 +246,13 @@ function defineInternalExports(
     ],
     isDefaultExport: false,
     isType: false,
+  });
+
+  dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/MemberedStatementsKeyClass.ts"),
+    exportNames: ["MemberedStatementsKeyClass"],
+    isDefaultExport: true,
+    isType: false
   });
 
   dictionaries.internalExports.addExports({

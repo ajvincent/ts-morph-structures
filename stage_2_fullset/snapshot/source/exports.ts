@@ -86,17 +86,18 @@ export { default as ClassFieldStatementsMap } from "./toolbox/ClassFieldStatemen
 export { default as ClassMembersMap } from "./toolbox/ClassMembersMap.js";
 export { default as ExportManager } from "./toolbox/ExportManager.js";
 export { default as ImportManager } from "./toolbox/ImportManager.js";
-export { default as MemberedStatementsKeyClass } from "./toolbox/MemberedStatementsKeyClass.js";
 export { default as MemberedTypeToClass } from "./toolbox/MemberedTypeToClass.js";
 export { default as TypeMembersMap } from "./toolbox/TypeMembersMap.js";
 export type {
   AddExportContext,
   AddImportContext,
+  ClassAbstractMemberQuestion,
   ClassFieldStatement,
   ClassMemberImpl,
+  ClassMemberQuestion,
+  ClassStatementsGetter,
   IndexSignatureResolver,
   MemberedStatementsKey,
-  MemberedTypeToClass_StatementGetter,
   NamedClassMemberImpl,
   NamedTypeMemberImpl,
   stringWriterOrStatementImpl,

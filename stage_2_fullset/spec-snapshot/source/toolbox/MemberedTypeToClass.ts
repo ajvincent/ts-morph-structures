@@ -7,12 +7,12 @@ import {
 import {
   ClassFieldStatementsMap,
   ClassMembersMap,
+  type ClassMemberImpl,
+  type ClassStatementsGetter,
   GetAccessorDeclarationImpl,
   IndexSignatureDeclarationImpl,
   type MemberedStatementsKey,
-  MemberedStatementsKeyClass,
   MemberedTypeToClass,
-  type MemberedTypeToClass_StatementGetter,
   MethodSignatureImpl,
   ParameterDeclarationImpl,
   PropertySignatureImpl,
@@ -22,7 +22,11 @@ import {
   type stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
-class StubStatementsGetter implements MemberedTypeToClass_StatementGetter {
+import {
+  MemberedStatementsKeyClass,
+} from "#stage_two/snapshot/source/internal-exports.js";
+
+class StubStatementsGetter implements ClassStatementsGetter {
   static #hashKeys(
     fieldName: string,
     groupName: string,
@@ -329,6 +333,7 @@ describe("MemberedTypeToClass", () => {
     if (prop1_Decl) {
       expect(prop1_Decl.isReadonly).toBe(false);
       expect(prop1_Decl.isStatic).toBe(false);
+      expect(prop1_Decl.isAbstract).toBe(false);
       expect(prop1_Decl.name).toBe("one");
       expect(prop1_Decl.typeStructure).toBe("string");
       expect(prop1_Decl.initializer).toBe(`"value one"`);
@@ -339,6 +344,7 @@ describe("MemberedTypeToClass", () => {
     if (prop2_Decl) {
       expect(prop2_Decl.isReadonly).toBe(true);
       expect(prop2_Decl.isStatic).toBe(true);
+      expect(prop2_Decl.isAbstract).toBe(false);
       expect(prop2_Decl.name).toBe("two");
       expect(prop2_Decl.typeStructure).toBe("string");
       expect(prop2_Decl.initializer).toBe(`"value two"`);
@@ -349,6 +355,7 @@ describe("MemberedTypeToClass", () => {
     if (prop4_PrivateDecl) {
       expect(prop4_PrivateDecl.isReadonly).toBe(false);
       expect(prop4_PrivateDecl.isStatic).toBe(false);
+      expect(prop4_PrivateDecl.isAbstract).toBe(false);
       expect(prop4_PrivateDecl.name).toBe("#four");
       expect(prop4_PrivateDecl.typeStructure).toBe("number");
       expect(prop4_PrivateDecl.initializer).toBe("4");
@@ -357,6 +364,7 @@ describe("MemberedTypeToClass", () => {
     const method3_Decl = classMembers.getAsKind<StructureKind.Method>(StructureKind.Method, false, "three");
     expect(method3_Decl).not.toBeUndefined();
     if (method3_Decl) {
+      expect(method3_Decl.isAbstract).toBe(false);
       expect(method3_Decl.typeParameters.length).toBe(0);
       expect(method3_Decl.parameters.length).toBe(0);
       expect(method3_Decl.returnTypeStructure).toBe("string");
@@ -368,6 +376,7 @@ describe("MemberedTypeToClass", () => {
     const getter4_Decl = classMembers.getAsKind<StructureKind.GetAccessor>(StructureKind.GetAccessor, false, "four");
     expect(getter4_Decl).not.toBeUndefined();
     if (getter4_Decl) {
+      expect(getter4_Decl.isAbstract).toBe(false);
       expect(getter4_Decl.typeParameters.length).toBe(0);
       expect(getter4_Decl.parameters.length).toBe(0);
       expect(getter4_Decl.returnTypeStructure).toBe("number");
@@ -379,6 +388,7 @@ describe("MemberedTypeToClass", () => {
     const setter4_Decl = classMembers.getAsKind<StructureKind.SetAccessor>(StructureKind.SetAccessor, false, "four");
     expect(setter4_Decl).not.toBeUndefined();
     if (setter4_Decl) {
+      expect(setter4_Decl.isAbstract).toBe(false);
       expect(setter4_Decl.typeParameters.length).toBe(0);
       expect(setter4_Decl.parameters.length).toBe(1);
       const fourParam = setter4_Decl.parameters[0] as ParameterDeclarationImpl | undefined;
@@ -447,8 +457,150 @@ describe("MemberedTypeToClass", () => {
     throw new Error("not yet implemented");
   });
 
-  xit("can add isAbstract to class members", () => {
-    throw new Error("not yet implemented");
+  it("can add isAbstract to class members", () => {
+    // #region set up type members
+    const membersMap: TypeMembersMap = new TypeMembersMap;
+
+    const prop1 = new PropertySignatureImpl("one");
+    prop1.typeStructure = "string";
+
+    const prop2 = new PropertySignatureImpl("two");
+    prop2.isReadonly = true;
+    prop2.typeStructure = "string";
+
+    const method3 = new MethodSignatureImpl("three");
+    method3.returnTypeStructure = "string";
+
+    const private_4: PropertySignatureImpl = new PropertySignatureImpl("#four");
+    private_4.typeStructure = "number";
+
+    const getter4 = new GetAccessorDeclarationImpl(false, "four");
+    getter4.returnTypeStructure = private_4.typeStructure;
+
+    const setterParam = new ParameterDeclarationImpl("value");
+    setterParam.typeStructure = private_4.typeStructure;
+    const setter4 = new SetAccessorDeclarationImpl(false, "four", setterParam);
+
+    membersMap.addMembers([
+      prop1, prop2, method3, getter4, setter4
+    ]);
+    // #endregion set up type members
+
+    typeToClass.isAbstractCallback = {
+      isAbstract: function(kind: ClassMemberImpl["kind"], name: string): boolean {
+        if ((kind === StructureKind.Property) && (name === prop2.name))
+          return true;
+        if ((kind === StructureKind.GetAccessor) && (name === getter4.name))
+          return true;
+        if ((kind === StructureKind.Method) && (name === method3.name))
+          return true;
+        if ((kind === StructureKind.SetAccessor) && (name === setter4.name))
+          return true;
+        return false;
+      }
+    }
+
+    statementsGetter.setStatements(
+      "one", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first", [
+        `"value one"`
+      ]
+    );
+
+    // shouldn't be called
+    statementsGetter.setStatements(
+      "two", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first", [
+        `"value two"`
+      ]
+    );
+
+    // shouldn't be called
+    statementsGetter.setStatements(
+      "four", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first", [
+        "this.#four"
+      ]
+    );
+
+    // shouldn't be called
+    statementsGetter.setStatements(
+      "two", "three", "first", [
+        `return this.two + " plus one";`
+      ]
+    );
+
+    typeToClass.defineStatementsByPurpose("first", false);
+    typeToClass.importFromTypeMembersMap(false, membersMap);
+    const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
+
+    //#region inspecting the class members map
+
+    const prop1_Decl = classMembers.getAsKind<StructureKind.Property>(StructureKind.Property, false, "one");
+    expect(prop1_Decl).not.toBeUndefined();
+    if (prop1_Decl) {
+      expect(prop1_Decl.isReadonly).toBe(false);
+      expect(prop1_Decl.isStatic).toBe(false);
+      expect(prop1_Decl.isAbstract).toBe(false);
+      expect(prop1_Decl.name).toBe("one");
+      expect(prop1_Decl.typeStructure).toBe("string");
+      expect(prop1_Decl.initializer).toBe(`"value one"`);
+    }
+
+    const prop2_Decl = classMembers.getAsKind<StructureKind.Property>(StructureKind.Property, false, "two");
+    expect(prop2_Decl).not.toBeUndefined();
+    if (prop2_Decl) {
+      expect(prop2_Decl.isReadonly).toBe(true);
+      expect(prop2_Decl.isStatic).toBe(false);
+      expect(prop2_Decl.isAbstract).toBe(true);
+      expect(prop2_Decl.name).toBe("two");
+      expect(prop2_Decl.typeStructure).toBe("string");
+      expect(prop2_Decl.initializer).toBe(undefined);
+    }
+
+    const method3_Decl = classMembers.getAsKind<StructureKind.Method>(StructureKind.Method, false, "three");
+    expect(method3_Decl).not.toBeUndefined();
+    if (method3_Decl) {
+      expect(method3_Decl.isAbstract).toBe(true);
+      expect(method3_Decl.typeParameters.length).toBe(0);
+      expect(method3_Decl.parameters.length).toBe(0);
+      expect(method3_Decl.returnTypeStructure).toBe("string");
+      expect(method3_Decl.statements).toEqual([]);
+    }
+
+    const getter4_Decl = classMembers.getAsKind<StructureKind.GetAccessor>(StructureKind.GetAccessor, false, "four");
+    expect(getter4_Decl).not.toBeUndefined();
+    if (getter4_Decl) {
+      expect(getter4_Decl.isAbstract).toBe(true);
+      expect(getter4_Decl.typeParameters.length).toBe(0);
+      expect(getter4_Decl.parameters.length).toBe(0);
+      expect(getter4_Decl.returnTypeStructure).toBe("number");
+      expect(getter4_Decl.statements).toEqual([]);
+    }
+
+    const setter4_Decl = classMembers.getAsKind<StructureKind.SetAccessor>(StructureKind.SetAccessor, false, "four");
+    expect(setter4_Decl).not.toBeUndefined();
+    if (setter4_Decl) {
+      expect(setter4_Decl.isAbstract).toBe(true);
+      expect(setter4_Decl.typeParameters.length).toBe(0);
+      expect(setter4_Decl.parameters.length).toBe(1);
+      const fourParam = setter4_Decl.parameters[0] as ParameterDeclarationImpl | undefined;
+      if (fourParam) {
+        expect(fourParam.name).toBe("value");
+        expect(fourParam.typeStructure).toBe("number");
+      }
+      expect(setter4_Decl.statements).toEqual([]);
+    }
+
+    expect(statementsGetter.hasVisited(
+      "one", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first"
+    )).toBe(true);
+    expect(statementsGetter.hasVisited(
+      "two", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first"
+    )).toBe(false);
+    expect(statementsGetter.hasVisited(
+      "two", "three", "first"
+    )).toBe(false);
+    expect(statementsGetter.hasVisited(
+      "four", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first"
+    )).toBe(false);
   });
 
   xit("can add scope to class members", () => {

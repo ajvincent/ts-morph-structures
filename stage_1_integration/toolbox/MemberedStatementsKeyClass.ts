@@ -2,6 +2,7 @@ import type {
   MemberedStatementsKey
 } from "../snapshot/source/exports.js";
 
+/** @internal */
 export default
 class MemberedStatementsKeyClass implements MemberedStatementsKey
 {

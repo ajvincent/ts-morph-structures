@@ -62,7 +62,24 @@ export interface MemberedStatementsKey {
   readonly purpose: string;
 }
 
-export interface MemberedTypeToClass_StatementGetter {
+export type ClassMemberQuestion<
+  StructureProperty extends string,
+  ClassMemberType extends ClassMemberImpl,
+  Returns,
+> = Record<
+  StructureProperty,
+  (
+    isStatic: boolean,
+    kind: ClassMemberType["kind"],
+    memberName: string,
+  ) => Returns
+>;
+
+export interface ClassAbstractMemberQuestion {
+  isAbstract(kind: ClassMemberType["kind"], memberName: string): boolean
+}
+
+export interface ClassStatementsGetter {
   getStatements(key: MemberedStatementsKey): stringWriterOrStatementImpl[]
 }
 

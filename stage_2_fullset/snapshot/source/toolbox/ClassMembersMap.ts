@@ -484,6 +484,8 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     member: PropertyDeclarationImpl,
     statementsMap: ClassFieldStatementsMap,
   ): void {
+    if (member.isAbstract) return;
+
     const statementsDictionary = statementsMap.groupStatementsMap(
       ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
     );
@@ -511,6 +513,8 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     member: GetAccessorDeclarationImpl,
     statementsMap: ClassFieldStatementsMap,
   ): void {
+    if (member.isAbstract) return;
+
     const groupName = ClassMembersMap.keyFromMember(member);
 
     let statementsDictionary = statementsMap.groupStatementsMap(
@@ -539,6 +543,8 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     member: SetAccessorDeclarationImpl,
     statementsMap: ClassFieldStatementsMap,
   ): void {
+    if (member.isAbstract) return;
+
     const groupName = ClassMembersMap.keyFromMember(member);
 
     let statementsDictionary = statementsMap.groupStatementsMap(
@@ -567,6 +573,8 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
     member: MethodDeclarationImpl,
     statementsMap: ClassFieldStatementsMap,
   ): void {
+    if (member.isAbstract) return;
+
     const groupName = ClassMembersMap.keyFromMember(member);
 
     const statementsDictionary = statementsMap.groupStatementsMap(groupName);

@@ -104,6 +104,7 @@ export {
 export * from "./exports.js";
 export { default as TypeStructuresBase } from "./structures/type/TypeStructuresBase.js";
 export { DefaultMap, DefaultWeakMap } from "./toolbox/DefaultMap.js";
+export { default as MemberedStatementsKeyClass } from "./toolbox/MemberedStatementsKeyClass.js";
 export type { CloneableStructure } from "./types/CloneableStructure.js";
 export type { ExtractStructure } from "./types/ExtractStructure.js";
 export type { PreferArrayFields } from "./types/PreferArrayFields.js";

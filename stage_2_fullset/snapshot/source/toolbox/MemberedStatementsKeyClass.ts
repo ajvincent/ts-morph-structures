@@ -1,5 +1,6 @@
 import type { MemberedStatementsKey } from "../exports.js";
 
+/** @internal */
 export default class MemberedStatementsKeyClass
   implements MemberedStatementsKey
 {

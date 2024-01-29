@@ -1,23 +1,42 @@
+import assert from "node:assert/strict";
+
 import {
   StructureKind
 } from "ts-morph";
 
 import {
   ClassFieldStatementsMap,
+  type ClassAbstractMemberQuestion,
   type ClassMemberImpl,
+  type ClassStatementsGetter,
   ClassMembersMap,
   ConstructorDeclarationImpl,
+  type GetAccessorDeclarationImpl,
   IndexSignatureResolver,
   type InterfaceDeclarationImpl,
-  MemberedStatementsKeyClass,
-  type MemberedTypeToClass_StatementGetter,
+  type MethodDeclarationImpl,
   type MemberedObjectTypeStructureImpl,
   NamedTypeMemberImpl,
   ParameterDeclarationImpl,
+  type PropertyDeclarationImpl,
+  type SetAccessorDeclarationImpl,
   type TypeMemberImpl,
   TypeMembersMap,
   type stringWriterOrStatementImpl,
 } from "../snapshot/source/exports.js";
+
+import {
+  MemberedStatementsKeyClass,
+} from "../snapshot/source/internal-exports.js";
+
+/** @internal */
+interface ClassMembersByKind {
+  readonly ctors: ConstructorDeclarationImpl[];
+  readonly getAccessors: GetAccessorDeclarationImpl[];
+  readonly methods: MethodDeclarationImpl[];
+  readonly properties: PropertyDeclarationImpl[];
+  readonly setAccessors: SetAccessorDeclarationImpl[];
+}
 
 /** Convert type members to a class members map, including statements. */
 export default class MemberedTypeToClass {
@@ -28,8 +47,10 @@ export default class MemberedTypeToClass {
   readonly #classFieldStatementsByPurpose = new Map<string, ClassFieldStatementsMap>;
 
   readonly #classConstructor = new ConstructorDeclarationImpl;
-  readonly #statementGetter: MemberedTypeToClass_StatementGetter;
+  readonly #statementGetter: ClassStatementsGetter;
+
   #indexSignatureResolver?: IndexSignatureResolver;
+  #isAbstractCallback?: ClassAbstractMemberQuestion
 
   /**
    * @param constructorArguments - parameters to define on the constructor.
@@ -37,7 +58,7 @@ export default class MemberedTypeToClass {
    */
   constructor(
     constructorArguments: ParameterDeclarationImpl[],
-    statementGetter: MemberedTypeToClass_StatementGetter,
+    statementGetter: ClassStatementsGetter,
   )
   {
     this.#classConstructor.parameters.push(...constructorArguments);
@@ -59,6 +80,19 @@ export default class MemberedTypeToClass {
   set indexSignatureResolver(value: IndexSignatureResolver | undefined) {
     this.#requireNotStarted();
     this.#indexSignatureResolver = value;
+  }
+
+  get isAbstractCallback(): ClassAbstractMemberQuestion | undefined
+  {
+    return this.#isAbstractCallback;
+  }
+
+  set isAbstractCallback(
+    value: ClassAbstractMemberQuestion | undefined
+  )
+  {
+    this.#requireNotStarted();
+    this.#isAbstractCallback = value;
   }
 
   /**
@@ -260,6 +294,13 @@ export default class MemberedTypeToClass {
     ];
 
     this.#classMembersMap!.addMembers(members);
+
+    if (this.#isAbstractCallback) {
+      classMembers.forEach(member => {
+        member.isAbstract = this.#isAbstractCallback!.isAbstract(member.kind, member.name);
+      });
+    }
+
     return members;
   }
 
@@ -270,72 +311,159 @@ export default class MemberedTypeToClass {
     const keyClassMap = new Map<string, MemberedStatementsKeyClass>;
     const purposeKeys: string[] = Array.from(this.#classFieldStatementsByPurpose.keys());
 
+    const membersByKind = this.#sortMembersByKind(members);
+
+    membersByKind.properties.forEach(
+      property => this.#addPropertyInitializerKeys(keyClassMap, purposeKeys, property)
+    );
+
     let propertyNames: string[] = [
       ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL,
-      ...members.filter(
-        member => member.kind === StructureKind.Property
-      ).map(property => ClassMembersMap.keyFromMember(property)),
+      ...membersByKind.properties.map(property => ClassMembersMap.keyFromMember(property)),
       ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN
     ];
     propertyNames = Array.from(new Set(propertyNames));
 
-    // properties
-    {
-      const propertyGroupNames: string[] = [
-        ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
-        ...members.filter(
-          member => (member.kind === StructureKind.Constructor) || (member.kind === StructureKind.Method)
-        ).map(member => ClassMembersMap.keyFromMember(member)),
-      ];
+    this.#addStatementKeysForMethodOrCtor(this.#classConstructor, keyClassMap, purposeKeys, propertyNames);
+    membersByKind.methods.forEach(
+      method => this.#addStatementKeysForMethodOrCtor(method, keyClassMap, purposeKeys, propertyNames)
+    );
 
-      for (const fieldName of propertyNames) {
-        for (const groupName of propertyGroupNames) {
-          const [
-            formattedFieldName, formattedGroupName
-          ] = ClassFieldStatementsMap.normalizeKeys(fieldName, groupName);
+    membersByKind.getAccessors.forEach(getter => {
+      this.#addAccessorInitializerKey(getter, keyClassMap, purposeKeys);
+      this.#addStatementKeysForAccessor(getter, keyClassMap, purposeKeys, propertyNames);
+    });
 
-          if (formattedGroupName === ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY) {
-            if ((formattedFieldName === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) ||
-                (formattedFieldName === ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN)) {
-              continue;
-            }
-          }
-
-          for (const purposeKey of purposeKeys) {
-            this.#addKeyClass(formattedFieldName, formattedGroupName, purposeKey, keyClassMap);
-          }
-        }
-      }
-    }
-
-    // getters and setters
-    let accessorNames: string[] = members.filter(
-      member => (member.kind === StructureKind.GetAccessor) || (member.kind === StructureKind.SetAccessor)
-    ).map(member => ClassMembersMap.keyFromMember(member).replace(/\b[gs]et /, ""));
-    accessorNames = Array.from(new Set(accessorNames));
-    {
-      for (const accessorName of accessorNames) {
-        for (const purposeKey of purposeKeys) {
-          this.#addKeyClass(
-            accessorName,
-            ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
-            purposeKey,
-            keyClassMap
-          );
-
-          for (const propertyName of propertyNames) {
-            this.#addKeyClass(
-              propertyName,
-              accessorName,
-              purposeKey,
-              keyClassMap
-            );
-          }
-        }
-      }
-    }
+    membersByKind.setAccessors.forEach(setter => {
+      this.#addAccessorInitializerKey(setter, keyClassMap, purposeKeys);
+      this.#addStatementKeysForAccessor(setter, keyClassMap, purposeKeys, propertyNames);
+    });
 
     return Array.from(keyClassMap.values());
+  }
+
+  #sortMembersByKind(members: ClassMemberImpl[]): ClassMembersByKind {
+    const rv: ClassMembersByKind = {
+      ctors: [],
+      getAccessors: [],
+      methods: [],
+      properties: [],
+      setAccessors: []
+    };
+
+    members.forEach(member => {
+      switch (member.kind) {
+        case StructureKind.Constructor:
+          rv.ctors.push(member);
+          return;
+        case StructureKind.GetAccessor:
+          rv.getAccessors.push(member);
+          return;
+        case StructureKind.Method:
+          rv.methods.push(member);
+          return;
+        case StructureKind.Property:
+          rv.properties.push(member);
+          return;
+        case StructureKind.SetAccessor:
+          rv.setAccessors.push(member);
+          return;
+        default:
+          assert(false, "not reachable");
+      }
+    });
+
+    return rv;
+  }
+
+  #addPropertyInitializerKeys(
+    keyClassMap: Map<string, MemberedStatementsKeyClass>,
+    purposeKeys: string[],
+    property: PropertyDeclarationImpl,
+  ): void
+  {
+    if (property.isAbstract)
+      return;
+
+    const [
+      formattedFieldName, formattedGroupName
+    ] = ClassFieldStatementsMap.normalizeKeys(
+      ClassMembersMap.keyFromMember(property),
+      ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
+    );
+
+    for (const purposeKey of purposeKeys) {
+      this.#addKeyClass(
+        formattedFieldName,
+        formattedGroupName,
+        purposeKey,
+        keyClassMap
+      );
+    }
+  }
+
+  #addStatementKeysForMethodOrCtor(
+    methodOrCtor: MethodDeclarationImpl | ConstructorDeclarationImpl,
+    keyClassMap: Map<string, MemberedStatementsKeyClass>,
+    purposeKeys: string[],
+    propertyNames: string[],
+  ): void
+  {
+    if (methodOrCtor.kind === StructureKind.Method && methodOrCtor.isAbstract)
+      return;
+
+    const groupName = ClassMembersMap.keyFromMember(methodOrCtor);
+
+    for (const fieldName of propertyNames) {
+      const [
+        formattedFieldName, formattedGroupName
+      ] = ClassFieldStatementsMap.normalizeKeys(fieldName, groupName);
+
+      for (const purposeKey of purposeKeys) {
+        this.#addKeyClass(formattedFieldName, formattedGroupName, purposeKey, keyClassMap);
+      }
+    }
+  }
+
+  #addAccessorInitializerKey(
+    accessor: GetAccessorDeclarationImpl | SetAccessorDeclarationImpl,
+    keyClassMap: Map<string, MemberedStatementsKeyClass>,
+    purposeKeys: string[],
+  ): void {
+    if (accessor.isAbstract)
+      return;
+
+    const accessorName = ClassMembersMap.keyFromMember(accessor).replace(/\b[gs]et /, "");
+    purposeKeys.forEach(purposeKey => this.#addKeyClass(
+      accessorName,
+      ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
+      purposeKey,
+      keyClassMap
+    ));
+  }
+
+  #addStatementKeysForAccessor(
+    accessor: GetAccessorDeclarationImpl | SetAccessorDeclarationImpl,
+    keyClassMap: Map<string, MemberedStatementsKeyClass>,
+    purposeKeys: string[],
+    propertyNames: string[],
+  ): void
+  {
+    if (accessor.isAbstract)
+      return;
+
+    const accessorName = ClassMembersMap.keyFromMember(accessor).replace(/\b[gs]et /, "");
+
+    for (const purposeKey of purposeKeys) {
+      for (const propertyName of propertyNames) {
+        this.#addKeyClass(
+          propertyName,
+          accessorName,
+          purposeKey,
+          keyClassMap
+        );
+      }
+    }
   }
 
   #addKeyClass(
