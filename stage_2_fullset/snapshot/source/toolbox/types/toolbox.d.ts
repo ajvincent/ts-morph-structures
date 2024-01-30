@@ -1,4 +1,4 @@
-import type { WriterFunction } from "ts-morph";
+import type { Scope, WriterFunction } from "ts-morph";
 
 import type {
   CallSignatureDeclarationImpl,
@@ -62,7 +62,7 @@ export interface MemberedStatementsKey {
   readonly purpose: string;
 }
 
-export type ClassMemberQuestion<
+type ClassMemberQuestion<
   StructureProperty extends string,
   ClassMemberType extends ClassMemberImpl,
   Returns,
@@ -78,6 +78,24 @@ export type ClassMemberQuestion<
 export interface ClassAbstractMemberQuestion {
   isAbstract(kind: ClassMemberType["kind"], memberName: string): boolean;
 }
+
+export type ClassAsyncMethodQuestion = ClassMemberQuestion<
+  "isAsync",
+  MethodDeclarationImpl,
+  boolean
+>;
+
+export type ClassGeneratorMethodQuestion = ClassMemberQuestion<
+  "isGenerator",
+  MethodDeclarationImpl,
+  boolean
+>;
+
+export type ClassScopeMemberQuestion = ClassMemberQuestion<
+  "getScope",
+  ClassMemberImpl,
+  Scope | undefined
+>;
 
 export interface ClassStatementsGetter {
   getStatements(key: MemberedStatementsKey): stringWriterOrStatementImpl[];

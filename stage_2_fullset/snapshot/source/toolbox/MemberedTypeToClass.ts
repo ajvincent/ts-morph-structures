@@ -5,7 +5,10 @@ import { StructureKind } from "ts-morph";
 import {
   ClassFieldStatementsMap,
   type ClassAbstractMemberQuestion,
+  type ClassAsyncMethodQuestion,
+  type ClassGeneratorMethodQuestion,
   type ClassMemberImpl,
+  type ClassScopeMemberQuestion,
   type ClassStatementsGetter,
   ClassMembersMap,
   ConstructorDeclarationImpl,
@@ -50,6 +53,9 @@ export default class MemberedTypeToClass {
 
   #indexSignatureResolver?: IndexSignatureResolver;
   #isAbstractCallback?: ClassAbstractMemberQuestion;
+  #isAsyncCallback?: ClassAsyncMethodQuestion;
+  #isGeneratorCallback?: ClassGeneratorMethodQuestion;
+  #scopeCallback?: ClassScopeMemberQuestion;
 
   /**
    * @param constructorArguments - parameters to define on the constructor.
@@ -87,6 +93,33 @@ export default class MemberedTypeToClass {
   set isAbstractCallback(value: ClassAbstractMemberQuestion | undefined) {
     this.#requireNotStarted();
     this.#isAbstractCallback = value;
+  }
+
+  get isAsyncCallback(): ClassAsyncMethodQuestion | undefined {
+    return this.#isAsyncCallback;
+  }
+
+  set isAsyncCallback(value: ClassAsyncMethodQuestion | undefined) {
+    this.#requireNotStarted();
+    this.#isAsyncCallback = value;
+  }
+
+  get isGeneratorCallback(): ClassGeneratorMethodQuestion | undefined {
+    return this.#isGeneratorCallback;
+  }
+
+  set isGeneratorCallback(value: ClassGeneratorMethodQuestion | undefined) {
+    this.#requireNotStarted();
+    this.#isGeneratorCallback = value;
+  }
+
+  get scopeCallback(): ClassScopeMemberQuestion | undefined {
+    return this.#scopeCallback;
+  }
+
+  set scopeCallback(value: ClassScopeMemberQuestion | undefined) {
+    this.#requireNotStarted();
+    this.#scopeCallback = value;
   }
 
   /**
@@ -328,6 +361,44 @@ export default class MemberedTypeToClass {
           member.kind,
           member.name,
         );
+      });
+    }
+
+    if (this.#scopeCallback) {
+      members.forEach((member) => {
+        const [isStatic, name] =
+          member.kind === StructureKind.Constructor
+            ? [false, "constructor"]
+            : [member.isStatic, member.name];
+
+        member.scope = this.#scopeCallback!.getScope(
+          isStatic,
+          member.kind,
+          name,
+        );
+      });
+    }
+
+    if (this.#isAsyncCallback ?? this.#isGeneratorCallback) {
+      const methods = members.filter(
+        (member) => member.kind === StructureKind.Method,
+      ) as MethodDeclarationImpl[];
+
+      methods.forEach((method) => {
+        if (this.#isAsyncCallback) {
+          method.isAsync = this.#isAsyncCallback.isAsync(
+            method.isStatic,
+            method.kind,
+            method.name,
+          );
+        }
+        if (this.#isGeneratorCallback) {
+          method.isGenerator = this.#isGeneratorCallback.isGenerator(
+            method.isStatic,
+            method.kind,
+            method.name,
+          );
+        }
       });
     }
 

@@ -1,6 +1,7 @@
 import {
   StructureKind,
   type CodeBlockWriter,
+  Scope,
   type WriterFunction
 } from "ts-morph";
 
@@ -11,8 +12,10 @@ import {
   type ClassStatementsGetter,
   GetAccessorDeclarationImpl,
   IndexSignatureDeclarationImpl,
+  InterfaceDeclarationImpl,
   type MemberedStatementsKey,
   MemberedTypeToClass,
+  MemberedObjectTypeStructureImpl,
   MethodSignatureImpl,
   ParameterDeclarationImpl,
   PropertySignatureImpl,
@@ -676,15 +679,115 @@ describe("MemberedTypeToClass", () => {
     )).toBe(false);
   });
 
-  xit("can add scope to class members", () => {
-    throw new Error("not yet implemented");
+  it("can add scope to class members", () => {
+    const prop1 = new PropertySignatureImpl("one");
+    prop1.typeStructure = "string";
+
+    const prop2 = new PropertySignatureImpl("two");
+    prop1.typeStructure = "string";
+
+    const prop3 = new PropertySignatureImpl("three");
+    prop1.typeStructure = "string";
+
+    typeToClass.scopeCallback = {
+      getScope: function(
+        isStatic: boolean,
+        kind: ClassMemberImpl["kind"],
+        name: string
+      ): Scope | undefined
+      {
+        if (name === "one")
+          return Scope.Public;
+        if (name === "two")
+          return Scope.Protected;
+      }
+    }
+
+    const tempMap = new TypeMembersMap();
+    tempMap.addMembers([prop1, prop2, prop3]);
+    typeToClass.importFromTypeMembersMap(false, tempMap);
+
+    const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
+    expect(classMembers.size).toBe(3);
+
+    const prop1_Decl = classMembers.getAsKind<StructureKind.Property>(
+      StructureKind.Property, false, "one"
+    );
+    expect(prop1_Decl?.scope).toBe(Scope.Public);
+
+    const prop2_Decl = classMembers.getAsKind<StructureKind.Property>(
+      StructureKind.Property, false, "two"
+    );
+    expect(prop2_Decl?.scope).toBe(Scope.Protected);
+
+    const prop3_Decl = classMembers.getAsKind<StructureKind.Property>(
+      StructureKind.Property, false, "three"
+    );
+    expect(prop3_Decl).not.toBeUndefined();
+    expect(prop3_Decl?.scope).toBeUndefined();
   });
 
-  xit("can add isAsync to methods", () => {
-    throw new Error("not yet implemented");
+  it("can add isAsync to methods", () => {
+    const method1 = new MethodSignatureImpl("one");
+    method1.returnTypeStructure = "string";
+
+    const method2 = new MethodSignatureImpl("two");
+    method2.returnTypeStructure = "string";
+
+    typeToClass.isAsyncCallback = {
+      isAsync: function(isStatic: boolean, kind, name): boolean {
+        return name === "one";
+      }
+    };
+
+    const interfaceDecl = new InterfaceDeclarationImpl("MyInterface");
+    interfaceDecl.methods.push(method1, method2);
+
+    typeToClass.importFromMemberedType(false, interfaceDecl);
+
+    const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
+    expect(classMembers.size).toBe(2);
+
+    const method1_Decl = classMembers.getAsKind<StructureKind.Method>(
+      StructureKind.Method, false, "one"
+    );
+    expect(method1_Decl?.isAsync).toBeTrue();
+
+    const method2_Decl = classMembers.getAsKind<StructureKind.Method>(
+      StructureKind.Method, false, "two"
+    );
+    expect(method2_Decl?.isAsync).toBeFalse();
   });
 
-  xit("can add isGenerator to methods", () => {
-    throw new Error("not yet implemented");
+  it("can add isGenerator to methods", () => {
+    const method1 = new MethodSignatureImpl("one");
+    method1.returnTypeStructure = "string";
+
+    const method2 = new MethodSignatureImpl("two");
+    method2.returnTypeStructure = "string";
+
+    typeToClass.isGeneratorCallback = {
+      isGenerator: function(isStatic: boolean, kind, name): boolean {
+        return name === "one";
+      }
+    };
+
+    const membered = new MemberedObjectTypeStructureImpl;
+    membered.methods.push(method1, method2);
+
+    typeToClass.importFromMemberedType(false, membered);
+
+    const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
+    expect(classMembers.size).toBe(2);
+
+    const method1_Decl = classMembers.getAsKind<StructureKind.Method>(
+      StructureKind.Method, false, "one"
+    );
+    expect(method1_Decl?.isGenerator).toBeTrue();
+
+    const method2_Decl = classMembers.getAsKind<StructureKind.Method>(
+      StructureKind.Method, false, "two"
+    );
+    expect(method2_Decl?.isGenerator).toBeFalse();
   });
 });
