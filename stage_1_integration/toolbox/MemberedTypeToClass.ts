@@ -121,7 +121,22 @@ export default class MemberedTypeToClass {
     }
   }
 
-  //#region adding type members
+  //#region type members
+
+  /**
+   * Get the current type members in our cache.
+   *
+   * @internal This is for debugging and testing purposes only.
+   */
+  getCurrentTypeMembers(
+    isStatic: boolean
+  ): readonly TypeMemberImpl[]
+  {
+    return Array.from(isStatic ?
+      this.#aggregateStaticTypesMap.values() :
+      this.#aggregateTypeMembersMap.values()
+    );
+  }
 
   /**
    * Define a class member for a given type member (constructor, property, method, getter, setter).
@@ -242,7 +257,7 @@ export default class MemberedTypeToClass {
     map.addMembers(Array.from(temporaryTypeMembers.values()));
   }
 
-  //#endregion adding type members
+  //#endregion type members
 
   //#region build the class members map
 

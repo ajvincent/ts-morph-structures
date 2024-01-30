@@ -117,7 +117,20 @@ export default class MemberedTypeToClass {
     }
   }
 
-  //#region adding type members
+  //#region type members
+
+  /**
+   * Get the current type members in our cache.
+   *
+   * @internal This is for debugging and testing purposes only.
+   */
+  getCurrentTypeMembers(isStatic: boolean): readonly TypeMemberImpl[] {
+    return Array.from(
+      isStatic
+        ? this.#aggregateStaticTypesMap.values()
+        : this.#aggregateTypeMembersMap.values(),
+    );
+  }
 
   /**
    * Define a class member for a given type member (constructor, property, method, getter, setter).
@@ -251,7 +264,7 @@ export default class MemberedTypeToClass {
     map.addMembers(Array.from(temporaryTypeMembers.values()));
   }
 
-  //#endregion adding type members
+  //#endregion type members
 
   //#region build the class members map
 
@@ -344,14 +357,14 @@ export default class MemberedTypeToClass {
     ];
     propertyNames = Array.from(new Set(propertyNames));
 
-    this.#addStatementKeyForMethodOrCtor(
+    this.#addStatementKeysForMethodOrCtor(
       this.#classConstructor,
       keyClassMap,
       purposeKeys,
       propertyNames,
     );
     membersByKind.methods.forEach((method) =>
-      this.#addStatementKeyForMethodOrCtor(
+      this.#addStatementKeysForMethodOrCtor(
         method,
         keyClassMap,
         purposeKeys,
@@ -361,7 +374,7 @@ export default class MemberedTypeToClass {
 
     membersByKind.getAccessors.forEach((getter) => {
       this.#addAccessorInitializerKey(getter, keyClassMap, purposeKeys);
-      this.#addStatementKeyForAccessor(
+      this.#addStatementKeysForAccessor(
         getter,
         keyClassMap,
         purposeKeys,
@@ -371,7 +384,7 @@ export default class MemberedTypeToClass {
 
     membersByKind.setAccessors.forEach((setter) => {
       this.#addAccessorInitializerKey(setter, keyClassMap, purposeKeys);
-      this.#addStatementKeyForAccessor(
+      this.#addStatementKeysForAccessor(
         setter,
         keyClassMap,
         purposeKeys,
@@ -439,7 +452,7 @@ export default class MemberedTypeToClass {
     }
   }
 
-  #addStatementKeyForMethodOrCtor(
+  #addStatementKeysForMethodOrCtor(
     methodOrCtor: MethodDeclarationImpl | ConstructorDeclarationImpl,
     keyClassMap: Map<string, MemberedStatementsKeyClass>,
     purposeKeys: string[],
@@ -486,7 +499,7 @@ export default class MemberedTypeToClass {
     );
   }
 
-  #addStatementKeyForAccessor(
+  #addStatementKeysForAccessor(
     accessor: GetAccessorDeclarationImpl | SetAccessorDeclarationImpl,
     keyClassMap: Map<string, MemberedStatementsKeyClass>,
     purposeKeys: string[],

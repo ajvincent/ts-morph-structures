@@ -453,8 +453,81 @@ describe("MemberedTypeToClass", () => {
     }
   });
 
-  xit("will detect collisions between type members", () => {
-    throw new Error("not yet implemented");
+  it("will detect some collisions between type members", () => {
+    const prop1 = new PropertySignatureImpl("one");
+    prop1.typeStructure = "string";
+
+    typeToClass.addTypeMember(false, prop1);
+    expect(typeToClass.getCurrentTypeMembers(true)).toEqual([]);
+    expect(typeToClass.getCurrentTypeMembers(false)).toEqual([prop1]);
+
+    expect(() => {
+      typeToClass.addTypeMember(false, prop1);
+    }).toThrowError(`You already have a class member with the key "one".`);
+    expect(typeToClass.getCurrentTypeMembers(false)).toEqual([prop1]);
+
+    const prop1Clone = PropertySignatureImpl.clone(prop1);
+    expect(() => {
+      typeToClass.addTypeMember(false, prop1Clone);
+    }).toThrowError(`You already have a class member with the key "one".`);
+    expect(typeToClass.getCurrentTypeMembers(false)).toEqual([prop1]);
+
+    typeToClass.addTypeMember(true, prop1);
+    expect(typeToClass.getCurrentTypeMembers(true)).toEqual([prop1]);
+    expect(typeToClass.getCurrentTypeMembers(false)).toEqual([prop1]);
+
+    const method1 = new MethodSignatureImpl("one");
+    method1.returnTypeStructure = "string";
+    expect(
+      () => typeToClass.addTypeMember(false, method1)
+    ).toThrowError(`You already have a class member with the key "one".`);
+
+    // It's not perfect, you can still do dumb things
+    const getter1 = new GetAccessorDeclarationImpl(false, "one");
+    getter1.returnTypeStructure = "string";
+    typeToClass.addTypeMember(false, getter1);
+    expect(typeToClass.getCurrentTypeMembers(true)).toEqual([prop1]);
+    expect(typeToClass.getCurrentTypeMembers(false)).toEqual([prop1, getter1]);
+
+    // Collisions via index signatures
+    let indexNames = ["foo", "bar"];
+    typeToClass.indexSignatureResolver = {
+      resolveIndexSignature: function(
+        signature: IndexSignatureDeclarationImpl
+      ): string[]
+      {
+        void(signature);
+        return indexNames.slice();
+      }
+    }
+
+    let indexSignature = new IndexSignatureDeclarationImpl();
+    indexSignature.keyName = "Key";
+    indexSignature.keyType = "string";
+    indexSignature.returnType = "string";
+
+    const foo = new PropertySignatureImpl("foo");
+    typeToClass.addTypeMember(false, foo);
+    expect(typeToClass.getCurrentTypeMembers(true)).toEqual([prop1]);
+    expect(typeToClass.getCurrentTypeMembers(false)).toEqual([prop1, getter1, foo]);
+
+    expect(() => {
+      typeToClass.addTypeMember(false, indexSignature);
+    }).toThrowError(
+      `Index signature resolver requested the name "foo", but this field already exists.`
+    );
+    expect(typeToClass.getCurrentTypeMembers(true)).toEqual([prop1]);
+    expect(typeToClass.getCurrentTypeMembers(false)).toEqual([prop1, getter1, foo]);
+
+    indexNames = ["bar", "bar"];
+    indexSignature = IndexSignatureDeclarationImpl.clone(indexSignature);
+    expect(() => {
+      typeToClass.addTypeMember(false, indexSignature);
+    }).toThrowError(
+      `You already have a class member with the key "bar", possibly through an index signature resolution.`
+    );
+    expect(typeToClass.getCurrentTypeMembers(true)).toEqual([prop1]);
+    expect(typeToClass.getCurrentTypeMembers(false)).toEqual([prop1, getter1, foo]);
   });
 
   it("can add isAbstract to class members", () => {
