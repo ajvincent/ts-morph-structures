@@ -106,6 +106,11 @@ extends Map<string, ClassMemberImpl>
     return map;
   }
 
+  /**
+   * Creata an array of class members from an array of type members,
+   * @param isStatic - true if the class members should be static, false if they should not be.
+   * @param typeMembers - the type members to convert.
+   */
   static convertTypeMembers(
     isStatic: boolean,
     typeMembers: NamedTypeMemberImpl[],

@@ -57,7 +57,7 @@ As you might imagine, such a task is not trivial.  There's a lot more in the cla
 
 ## Concepts
 
-Some of this may seem obvious to any programmer reading this, but it's important to lay out the foundations for why these utilities follow a specific pattern.  If these assumptions don't hold true for your use case, then you may not want to use the tools in this particular box.
+Some of this may seem obvious to any programmer reading this, but it's important to lay out the foundations for why these utilities follow a specific pattern.  If these assumptions don't hold true for your use case, then you may not want to use all of the tools in this particular box.
 
 ### We build classes primarily around properties (some of which are private)
 
@@ -91,14 +91,14 @@ By "purpose", I mean "what are we doing in this part?"  It could be one of sever
 - Checking class and method postconditions
 - Returning a value
 
-Here I'm glossing over "return as early as you can", but this is solvable by creating more (private?) methods which do more specific tasks.
+Here I'm glossing over "return as early as you can".
 
 ### Corollary: We can organize statements by constructor or getter or setter or method, then by purpose, then by the property they care about, then in an ordered array
 
 Yes, four dimensions of statement complexity:
 
 1. Where does a statement go? (constructor / initializer, getter, setter, method)
-2. Why does a statement exist?  (purpose)
+2. Why does a statement exist? (purpose)
 3. What property is that statement most about? (property)
 4. What other statements go with that statement, and in what order?  (array of statements)
 
@@ -119,7 +119,7 @@ Both of these implement ts-morph's `TypeElementMemberedNodeStructure` interface,
 Class structures have a different, partially compatible interface: [`ClassDeclarationImpl`](../api/structures/standard/ClassDeclarationImpl.md).
 
 - `ctors`: [`ConstructorDeclarationImpl[]`](../api/structures/standard/ClassDeclarationImpl.md): _`constructor(color: string) {/* ... */}`_
-  - Maybe there is some relation to `ConstructSignatureDeclarationImpl` above, but not in this context right now.  We very much build our own.
+  - Maybe there is some relation to `ConstructSignatureDeclarationImpl` above, but not in this context right now.  I very much build my own here.
 - `getAccessors`: `GetAccessorDeclarationImpl[]`
 - `methods`: [`MethodDeclarationImpl[]`](../api/structures/standard/MethodDeclarationImpl.md)
 - `properties`: [`PropertyDeclarationImpl[]`](../api/structures/standard/PropertyDeclarationImpl.md)
@@ -157,12 +157,15 @@ The basic algorithm for creating a key is simple:
 3. Add the member's name.
 4. Return the full key.
 
+Example: `typeMembers.has(TypeMembersMap.keyFromMember(myProperty));`
+
 There are variations for constructors, index signatures and call signatures.
 
 I do not recommend direct access to the map's inherited methods from `Map` unless you fully understand this algorithm.
 
-For convenience, if you already have a membered object, `TypeMembersMap` has another method,
-- `static fromMemberedObject(membered): TypeMembersMap`.
+For convenience, if you already have a membered object, `TypeMembersMap` has another method.
+
+- `static fromMemberedObject(membered): TypeMembersMap`
 
 Individual maps have specific helper methods:
 
@@ -191,7 +194,11 @@ export type ClassMemberImpl = (
 );
 ```
 
-The key algorithm is similar as well.  The methods for generating keys are `static keyFromMember(member: ClassMemberImpl): string` and `static keyFromName(kind: ClassMemberImpl["kind"], isStatic: boolean, name: string,): string`.  The algorithm for generating a key is:
+The key algorithm is similar as well.  The methods for generating keys are:
+- `static keyFromMember(member: ClassMemberImpl): string`
+- `static keyFromName(kind: ClassMemberImpl["kind"], isStatic: boolean, name: string,): string`
+
+The algorithm for generating a key is:
 
 1. If the member is static, add "static ".
 2. If the member is a getter, add "get ".
@@ -199,14 +206,23 @@ The key algorithm is similar as well.  The methods for generating keys are `stat
 4. Add the member's name.
 5. Return the full key.
 
+Other static methods:
+
+- `fromClassDeclaration(classDecl: ClassDeclarationImpl): ClassMembersMap`
+- `convertTypeMembers(isStatic: boolean, typeMembers: NamedTypeMemberImpl[]): NamedClassMemberImpl[]`
+
 The class member map's non-static methods are similar too:
 
 - `addMembers(members: readonly ClassMemberImpl[]): void;`
 - `arrayOfKind<Kind extends ClassMemberImpl["kind"]>(kind: Kind);`
-- `getAsKind<kind extend ClassMemberImpl["kind"]>(kind: Kind, key: string)`
-- `moveMembersToClass(classDecl: ClassDeclarationImpl, statementMaps: ClassFieldStatementsMap[]): void;`
+- `buildClass(): ClassDeclarationImpl;`
+- `clone(): ClassMembersMap;`
+- `convertAccessorsToProperty(isStatic: boolean, name: string): void;`
+- `convertPropertyToAccessors(isStatic: boolean, name: string, toGetter: boolean, toSetter: boolean);`
+- `getAsKind<kind extend ClassMemberImpl["kind"]>(kind: Kind, key: string);`
+- `moveStatementsToMembers(statementMaps: ClassFieldStatementsMap[]): void;`
 
-The `moveMembersToClass()` method is the last step in the process, but requires an explanation of `ClassFieldStatementsMap`.
+The `moveStatementsToMembers()` method requires an explanation of `ClassFieldStatementsMap`.
 
 ### [`ClassFieldStatementsMap`](../api/toolbox/ClassFieldStatementsMap.md)
 
@@ -306,7 +322,11 @@ Earlier, I mentioned four dimensions of complexity for statements.  `ClassFieldS
 `ClassFieldStatementsMap` is a _two-keyed_ map, with similar API to `Map<string, ClassFieldStatement[]>`.  It's like saying `Map<string, string, ClassFieldStatement[]>`, although this would be an illegal map definition.  (I derived it from my ["composite-collection"](https://github.com/ajvincent/composite-collection) library, which generates multi-keyed maps and sets.)
 
 - The first key is the property name, or "field name".
+  - Special key: `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL` for statements that must be at the head of a statement group.  (Example: `super.doSomething();`)
+  - Special key: `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN` for statements that must be at the tail of a statement group.  (Example: `return true;`)
+  - Otherwise, statements for property names appear in [lexical order](https://en.wikipedia.org/wiki/Lexicographic_order).
 - The second key is the function containing the array of statements, the "statement group".
+  - Special key: `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY`.  For properties, this is an initializer for the property.  (Example: `foo: number = 5;`)  For getters and setters, this represents a value to mirror.  (Example: `return this.#foo;`, `this.#foo = value;`)
 - The value is the array of statements.
 
 ```typescript
@@ -329,3 +349,80 @@ Beyond the standard methods of a `Map`, there are two additional methods specifi
 
 - `groupKeys(): string[]`, returning all the statement group keys.
 - `groupStatementsMap(statementGroup: string): ReadonlyMap<string, ClassFieldStatement[]> | undefined`, returning all the field names and statement arrays for a given statement group.
+
+`ClassFieldStatementsMap` exposes other features:
+
+- `purposeKey?: string;`: the purpose key (though this is just a placeholder)
+- `regionName?: string;`: `//#region` and `//#endregion` comments around the block for [code folding](https://code.visualstudio.com/docs/editor/codebasics#_folding)
+- `isBlockStatement: boolean`: if true, enclose all statements from the map in curly braces.
+
+Other useful methods:
+
+- `static normalizeKeys(fieldName: string, statementGroup: string): [string, string];`
+- `static fieldComparator(a: string, b: string): number;` (for sorting statements by field name)
+
+## [`MemberedTypeToClass`](../api/toolbox/MemberedTypeToClass.md): your driver for creating stub classes
+
+Now we get to the center of it all: the `MemberedTypeToClass` class.  Primarily, it has a few tasks, in order:
+
+1. Convert signatures of methods, properties, getters and setters from existing types (`importFromMemberedType()`, `importFromTypeMembersMap()`, `addTypeMember()`)
+2. Define a constructor's parameters (which you pass in when calling `new MemberedTypeToClass`)
+3. Define a callback hook for getting statements (which you pass in when calling `new MemberedTypeToClass`)
+4. Define other callback hooks for:
+  - Resolving index signatures (`indexSignatureResolver`)
+  - Deciding if a class member is abstract (`isAbstractCallback`)
+  - Declaring a class method is asynchronous (`isAsyncCallback`)
+  - Declaring a class method is a generator (`isGeneratorCallback`)
+  - Declaring a class field's scope ("public", "protected", "private": `scopeCallback`)
+5. Defining the class field statement maps (purpose, `isBlockStatement`, optional `regionName`)
+6. Building a class members map using all of the above (`buildClassMembersMap()`)
+
+Building a class declaration is trivial, once you have the class members map.  (`.buildClass()`)
+
+### Adding type members
+
+### Constructor parameters
+
+### Defining a statements callback
+
+### Callback hooks
+
+The callbacks each provide useful information to `MemberedTypeToClass`.  In simplified pseudo-code,
+
+```typescript
+export interface IndexSignatureResolver {
+  resolveIndexSignature(signature: IndexSignatureDeclarationImpl): string[];
+}
+
+export interface ClassAbstractMemberQuestion {
+  isAbstract(kind: ClassMemberType["kind"], memberName: string): boolean;
+}
+
+export interface ClassAsyncMethodQuestion {
+  isAsync(isStatic: boolean, kind: StructureKind.Method, memberName: string): boolean;
+}
+
+export interface ClassAsyncGeneratorQuestion {
+  isGenerator(isStatic: boolean, kind: StructureKind.Method, memberName: string): boolean;
+}
+
+export interface ClassScopeMemberQuestion {
+  getScope(isStatic: boolean, kind: ClassMemberImpl["kind"], memberName: string): Scope | undefined
+}
+
+declare class MemberedTypeToClass {
+  indexSignatureResolver?: IndexSignatureResolver;
+  isAbstractCallback?: ClassAbstractMemberQuestion;
+  isAsyncCallback?: ClassAsyncMethodQuestion;
+  isGeneratorCallback?: ClassGeneratorMethodQuestion;
+  scopeCallback?: ClassScopeMemberQuestion;
+}
+```
+
+### Building a class members map
+
+## Putting it all together
+
+## What's not part of this?
+
+### Pretty-printing of statements
