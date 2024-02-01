@@ -6,7 +6,7 @@ import fs from "fs/promises";
 import path from "path";
 import url from "url";
 
-const projectDir = path.normalize(path.resolve(
+export const projectDir = path.normalize(path.resolve(
   url.fileURLToPath(import.meta.url),
   "../../.."
 ));
