@@ -133,23 +133,18 @@ describe("ClassMembersMap", () => {
     expect(setter5.statements).toEqual([`this.#five = five;`]);
   });
 
-  it("buildClass() creates a ClassDeclarationImpl from the map", () => {
+  it("moveMembersToClass() moves members from the class members map to an existing class declaration", () => {
     membersMap.addMembers([
       prop1, prop2, ctor_A, method3, method4, getter5, setter5
     ]);
 
-    const classDecl: ClassDeclarationImpl = membersMap.buildClass({
-      leadingTrivia: [
-        "// hello world"
-      ]
-    });
+    const classDecl = new ClassDeclarationImpl;
+    membersMap.moveMembersToClass(classDecl);
     expect(classDecl.ctors).toEqual([ctor_A]);
     expect(classDecl.getAccessors).toEqual([getter5]);
     expect(classDecl.methods).toEqual([method3, method4]);
     expect(classDecl.properties).toEqual([prop1, prop2]);
     expect(classDecl.setAccessors).toEqual([setter5]);
-
-    expect(classDecl.leadingTrivia).toEqual(["// hello world"]);
   });
 
   describe("convertPropertyToAccessors()", () => {

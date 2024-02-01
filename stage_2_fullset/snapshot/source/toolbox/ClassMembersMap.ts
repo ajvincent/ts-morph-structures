@@ -2,7 +2,6 @@ import { JSDocStructure, KindedStructure, StructureKind } from "ts-morph";
 
 import {
   ClassDeclarationImpl,
-  type ClassDeclarationExcludingMembers,
   ClassFieldStatementsMap,
   type ClassMemberImpl,
   type NamedClassMemberImpl,
@@ -360,20 +359,12 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
 
   /**
    * Move class members from this map to a class declaration, and clear this map.
-   * @param classSettings - a dictionary of optional `ClassDeclarationImpl` properties (leadingTrivia, docs, etc.) which this cannot otherwise cover.
+   * @param classSettings - a dictionary of optional `ClassDeclarationStructure` properties which this cannot otherwise cover.
    * @returns the new class declaration.
    */
-  buildClass(
-    classSettings?: Readonly<ClassDeclarationExcludingMembers>,
-  ): ClassDeclarationImpl {
+  moveMembersToClass(classDecl: ClassDeclarationImpl): ClassDeclarationImpl {
     this.#validateSettersHaveOneArgumentEach();
-
-    const classDecl = new ClassDeclarationImpl();
     this.forEach((member) => this.#moveMemberToClass(classDecl, member));
-
-    if (classSettings) {
-      this.#moveClassSettings(classDecl, classSettings);
-    }
 
     this.clear();
 
@@ -411,33 +402,6 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
       default:
         throw new Error("unreachable");
     }
-  }
-
-  #moveClassSettings(
-    classDecl: ClassDeclarationImpl,
-    classSettings: Readonly<ClassDeclarationExcludingMembers>,
-  ): void {
-    if (classSettings.decorators)
-      classDecl.decorators.push(...classSettings.decorators);
-    if (classSettings.docs) classDecl.docs.push(...classSettings.docs);
-    if (classSettings.extendsStructure)
-      classDecl.extendsStructure = classSettings.extendsStructure;
-    if (classSettings.hasDeclareKeyword) classDecl.hasDeclareKeyword = true;
-    if (classSettings.implementsSet) {
-      for (const typeStructure of classSettings.implementsSet) {
-        classDecl.implementsSet.add(typeStructure);
-      }
-    }
-    if (classSettings.isAbstract) classDecl.isAbstract = true;
-    if (classSettings.isDefaultExport) classDecl.isDefaultExport = true;
-    if (classSettings.isExported) classDecl.isExported = true;
-    if (classSettings.leadingTrivia)
-      classDecl.leadingTrivia.push(...classSettings.leadingTrivia);
-    if (classSettings.name) classDecl.name = classSettings.name;
-    if (classSettings.trailingTrivia)
-      classDecl.trailingTrivia.push(...classSettings.trailingTrivia);
-    if (classSettings.typeParameters)
-      classDecl.typeParameters.push(...classSettings.typeParameters);
   }
 
   /**
