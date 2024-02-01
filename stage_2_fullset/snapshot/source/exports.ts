@@ -93,6 +93,7 @@ export type {
   AddImportContext,
   ClassAbstractMemberQuestion,
   ClassAsyncMethodQuestion,
+  ClassDeclarationExcludingMembers,
   ClassFieldStatement,
   ClassGeneratorMethodQuestion,
   ClassMemberImpl,

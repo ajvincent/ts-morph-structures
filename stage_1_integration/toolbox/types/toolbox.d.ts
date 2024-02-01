@@ -4,7 +4,12 @@ import type {
 } from "ts-morph";
 
 import type {
+  SetOptional,
+} from "type-fest";
+
+import type {
   CallSignatureDeclarationImpl,
+  ClassDeclarationImpl,
   ConstructorDeclarationImpl,
   ConstructSignatureDeclarationImpl,
   GetAccessorDeclarationImpl,
@@ -52,6 +57,15 @@ export type ClassMemberImpl = (
   PropertyDeclarationImpl |
   SetAccessorDeclarationImpl
 );
+
+type ClassDeclarationExcludingMembersBase = Omit<
+  InstanceType<typeof ClassDeclarationImpl>,
+  "ctors" | "properties" | "methods" | "getAccessors" | "setAccessors"
+>;
+
+export type ClassDeclarationExcludingMembers = SetOptional<
+  ClassDeclarationExcludingMembersBase, keyof ClassDeclarationExcludingMembersBase
+>;
 
 export interface IndexSignatureResolver {
   resolveIndexSignature(signature: IndexSignatureDeclarationImpl): string[];

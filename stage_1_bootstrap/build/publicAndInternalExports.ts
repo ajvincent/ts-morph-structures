@@ -135,6 +135,7 @@ function definePublicExports(
       "AddImportContext",
       "ClassAbstractMemberQuestion",
       "ClassAsyncMethodQuestion",
+      "ClassDeclarationExcludingMembers",
       "ClassFieldStatement",
       "ClassGeneratorMethodQuestion",
       "ClassMemberImpl",

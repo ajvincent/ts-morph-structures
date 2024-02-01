@@ -6,6 +6,7 @@ import {
 
 import {
   ClassDeclarationImpl,
+  type ClassDeclarationExcludingMembers,
   ClassFieldStatementsMap,
   type ClassMemberImpl,
   type NamedClassMemberImpl,
@@ -23,7 +24,7 @@ import {
   StructuresClassesMap,
   TypeStructureClassesMap,
   cloneStructureOrStringArray,
-} from "../snapshot/source/internal-exports.js"
+} from "../snapshot/source/internal-exports.js";
 
 /**
  * A map for class methods, properties, accessors and a constructor.  This doesn't
@@ -341,15 +342,22 @@ extends Map<string, ClassMemberImpl>
 
   /**
    * Move class members from this map to a class declaration, and clear this map.
-   *
-   * @param classDecl - the target class declaration.
+   * @param classSettings - a dictionary of optional `ClassDeclarationImpl` properties (leadingTrivia, docs, etc.) which this cannot otherwise cover.
+   * @returns the new class declaration.
    */
-  buildClass(): ClassDeclarationImpl
+  buildClass(
+    classSettings?: Readonly<ClassDeclarationExcludingMembers>
+  ): ClassDeclarationImpl
   {
     this.#validateSettersHaveOneArgumentEach();
 
     const classDecl = new ClassDeclarationImpl;
     this.forEach(member => this.#moveMemberToClass(classDecl, member));
+
+    if (classSettings) {
+      this.#moveClassSettings(classDecl, classSettings);
+    }
+
     this.clear();
 
     return classDecl;
@@ -360,6 +368,9 @@ extends Map<string, ClassMemberImpl>
     member: ClassMemberImpl,
   ): void
   {
+    if ((member.kind !== StructureKind.Constructor) && member.isAbstract)
+      classDecl.isAbstract = true;
+
     switch (member.kind) {
       case StructureKind.Constructor:
         classDecl.ctors.push(member);
@@ -384,6 +395,40 @@ extends Map<string, ClassMemberImpl>
       default:
         throw new Error("unreachable");
     }
+  }
+
+  #moveClassSettings(
+    classDecl: ClassDeclarationImpl,
+    classSettings: Readonly<ClassDeclarationExcludingMembers>,
+  ): void
+  {
+    if (classSettings.decorators)
+      classDecl.decorators.push(...classSettings.decorators);
+    if (classSettings.docs)
+      classDecl.docs.push(...classSettings.docs);
+    if (classSettings.extendsStructure)
+      classDecl.extendsStructure = classSettings.extendsStructure;
+    if (classSettings.hasDeclareKeyword)
+      classDecl.hasDeclareKeyword = true;
+    if (classSettings.implementsSet) {
+      for (const typeStructure of classSettings.implementsSet) {
+        classDecl.implementsSet.add(typeStructure);
+      }
+    }
+    if (classSettings.isAbstract)
+      classDecl.isAbstract = true;
+    if (classSettings.isDefaultExport)
+      classDecl.isDefaultExport = true;
+    if (classSettings.isExported)
+      classDecl.isExported = true;
+    if (classSettings.leadingTrivia)
+      classDecl.leadingTrivia.push(...classSettings.leadingTrivia);
+    if (classSettings.name)
+      classDecl.name = classSettings.name;
+    if (classSettings.trailingTrivia)
+      classDecl.trailingTrivia.push(...classSettings.trailingTrivia);
+    if (classSettings.typeParameters)
+      classDecl.typeParameters.push(...classSettings.typeParameters);
   }
 
   /**

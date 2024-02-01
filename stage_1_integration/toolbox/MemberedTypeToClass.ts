@@ -50,7 +50,7 @@ export default class MemberedTypeToClass {
   readonly #classFieldStatementsByPurpose = new Map<string, ClassFieldStatementsMap>;
 
   readonly #classConstructor = new ConstructorDeclarationImpl;
-  readonly #statementGetter: ClassStatementsGetter;
+  readonly #statementsGetter: ClassStatementsGetter;
 
   #indexSignatureResolver?: IndexSignatureResolver;
   #isAbstractCallback?: ClassAbstractMemberQuestion;
@@ -60,15 +60,15 @@ export default class MemberedTypeToClass {
 
   /**
    * @param constructorArguments - parameters to define on the constructor.
-   * @param statementGetter - a callback to get statements for each individual statement purpose, field name and statement group name.
+   * @param statementsGetter - a callback to get statements for each individual statement purpose, field name and statement group name.
    */
   constructor(
     constructorArguments: ParameterDeclarationImpl[],
-    statementGetter: ClassStatementsGetter,
+    statementsGetter: ClassStatementsGetter,
   )
   {
     this.#classConstructor.parameters.push(...constructorArguments);
-    this.#statementGetter = statementGetter;
+    this.#statementsGetter = statementsGetter;
   }
 
   #requireNotStarted(): void {
@@ -569,7 +569,7 @@ export default class MemberedTypeToClass {
   ): void
   {
     const statementsArray: stringWriterOrStatementImpl[] =
-      this.#statementGetter.getStatements(keyClass);
+      this.#statementsGetter.getStatements(keyClass);
     if (statementsArray.length === 0)
       return;
 
