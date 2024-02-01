@@ -10,7 +10,7 @@ import {
   Type,
 } from "ts-morph";
 
-import TS_MORPH_D from "./ts-morph-d-file.js";
+import TS_MORPH_D from "#utilities/source/ts-morph-d-file.js";
 
 export default async function(pathToDirectory: string): Promise<void> {
   const fileWriter: CodeBlockWriter = new CodeBlockWriter({
