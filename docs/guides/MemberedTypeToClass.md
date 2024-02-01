@@ -1,57 +1,6 @@
 # "Membered Type To Class" Primer
 
-This package, `ts-morph-structures`, provides helper utilities for building classes out of existing TypeScript interfaces and object literals.  With some guidance, we can transform this:
-
-```typescript
-export interface RepeatString {
-  stringValue: string;
-  repeat(n: number): string;
-}
-
-type Vehicle = {
-  color: string;
-  get wheelCount(): number;
-  set wheelCount(count: number);
-
-  public startVehicle(passengers: string[]): void;
-  public stopVehicle(): string[];
-}
-```
-
-into this:
-
-```typescript
-class NumberStringClass implements RepeatString, Vehicle {
-  color: string = "black";
-  stringValue: string;
-
-  #wheelCount = 4;
-  #passengers: string[] = [];
-
-  constructor(stringValue: string) {
-    this.stringValue = string;
-  }
-
-  get wheelCount(): number {
-    return this.#wheelCount;
-  }
-  set wheelCount(value: number) {
-    this.#wheelCount = value;
-  }
-
-  repeat(n: number): string {
-    return this.stringValue.repeat(n);
-  }
-
-  public startVehicle(passengers: string[]) {
-    this.#passengers = passengers.slice();
-  }
-
-  public stopVehicle(): string[] {
-    return this.#passengers;
-  }
-}
-```
+This package, `ts-morph-structures`, provides helper utilities for building stub classes out of existing TypeScript interfaces and object literals.  
 
 As you might imagine, such a task is not trivial.  There's a lot more in the class than in the combination of the interface and the object literal.  So how do we get from interfaces to classes?
 
@@ -209,13 +158,13 @@ The algorithm for generating a key is:
 Other static methods:
 
 - `fromClassDeclaration(classDecl: ClassDeclarationImpl): ClassMembersMap`
-- `convertTypeMembers(isStatic: boolean, typeMembers: NamedTypeMemberImpl[]): NamedClassMemberImpl[]`
+- `convertTypeMembers(isStatic: boolean, typeMembers: NamedTypeMemberImpl[], map?: WeakMap<ClassMemberImpl, TypeMemberImpl>): NamedClassMemberImpl[]`
 
 The class member map's non-static methods are similar too:
 
 - `addMembers(members: readonly ClassMemberImpl[]): void;`
 - `arrayOfKind<Kind extends ClassMemberImpl["kind"]>(kind: Kind);`
-- `buildClass(): ClassDeclarationImpl;`
+- `moveMembersToClass(classDecl: ClassDeclarationImpl): ClassDeclarationImpl;`
 - `clone(): ClassMembersMap;`
 - `convertAccessorsToProperty(isStatic: boolean, name: string): void;`
 - `convertPropertyToAccessors(isStatic: boolean, name: string, toGetter: boolean, toSetter: boolean);`
@@ -377,13 +326,87 @@ Now we get to the center of it all: the `MemberedTypeToClass` class.  Primarily,
 5. Defining the class field statement maps (purpose, `isBlockStatement`, optional `regionName`)
 6. Building a class members map using all of the above (`buildClassMembersMap()`)
 
-Building a class declaration is trivial, once you have the class members map.  (`.buildClass()`)
+Building a class declaration is trivial, once you have the class members map.  (`.moveMembersToClass(classDecl)`)
 
 ### Adding type members
 
-### Constructor parameters
+```typescript
+declare class MemberedTypeToClass {
+  importFromMemberedType(
+    isStatic: boolean,
+    membered: InterfaceDeclarationImpl | MemberedObjectTypeStructureImpl,
+  ): void;
 
-### Defining a statements callback
+  importFromTypeMembersMap(
+    isStatic: boolean,
+    membersMap: TypeMembersMap,
+  ): void;
+
+  addTypeMember(
+    isStatic: boolean,
+    member: TypeMemberImpl
+  ): void;
+}
+```
+
+With an [`InterfaceDeclarationImpl`](../api/structures/standard/InterfaceDeclarationImpl.md) or a [`MemberedObjectTypeStructureImpl`](../api/structures/type/MemberedObjectTypeStructureImpl.md), or a `TypeMembersMap`, or an ordinary type member, you can define class members to build.
+
+Please note the type members you define might not be the type members you start with.  For example, your original interface might say:
+
+```typescript
+interface ColorSpectrum {
+  colors: string | string[]
+}
+```
+
+But you may want to implement:
+
+```typescript
+interface ColorSpectrum {
+  colors: string[]
+}
+```
+
+Here, it's best to:
+
+1. Clone the interface structure
+2. Modify the type members of the clone as necessary
+3. Feed the cloned interface to `MemberedTypeToClass`
+
+Later, you can use the original interface as part of an `implementsSet` for the class declaration.
+
+### Constructor parameters and the statements callback
+
+```typescript
+declare class MemberedTypeToClass {
+  constructor(
+    constructorArguments: ParameterDeclarationImpl[],
+    statementsGetter: ClassStatementsGetter,
+  );
+}
+
+export interface ClassStatementsGetter {
+  getStatements(key: MemberedStatementsKey): ClassFieldStatement[];
+}
+
+export interface MemberedStatementsKey {
+  readonly fieldKey: string;
+  readonly statementGroupKey: string;
+  readonly purpose: string;
+
+  readonly isFieldStatic: boolean;
+  readonly fieldType: ReadonlyDeep<TypeMemberImpl> | undefined;
+
+  readonly isGroupStatic: boolean;
+  readonly groupType: ReadonlyDeep<TypeMemberImpl> | undefined;
+}
+```
+
+The `constructorArguments` are the parameters to define on the class constructor, if one is necessary.  (If the constructor has no statements, not even a `super()` call, the class members map will omit the constructor.)
+
+The `statementsGetter` interface is a simple callback hook.  It provides the field key, the statement group key, and the purpose for the statement array in question.  You return the array matching those conditions.
+
+It may not be convenient to have _all_ of these in one callback object.  More likely, you'll want to forward the request to other `ClassStatementsGetter` objects based on the field key, the statement group key, and/or the purpose.  Rather than decide for you how to do such routing, I simply provide the interface for you to make the decisions.
 
 ### Callback hooks
 
@@ -419,10 +442,59 @@ declare class MemberedTypeToClass {
 }
 ```
 
+### Defining class field statement maps
+
+```typescript
+
+declare class MemberedTypeToClass {
+  defineStatementsByPurpose(
+    purposeKey: string,
+    isBlockStatement: boolean,
+    regionName?: string,
+  ): void;
+}
+```
+
+These allow you to define each `ClassFieldStatementMap`, in the order you wish the statemeent blocks to appear by purpose.
+
 ### Building a class members map
 
-## Putting it all together
+```typescript
+declare class MemberedTypeToClass {
+  buildClassMembersMap(): ClassMembersMap;
+}
+```
+
+Note this is the final part of the process:  after invoking this, none of the other methods of `MemberedTypeToClass` should work.
+
+After this, you usually would call `.moveMembersToClass(classDecl)` on the `ClassMembersMap`.
+
+## Suggested practices (not "best" because this is still new)
+
+- Define your type members strictly, or narrow existing types via cloning.  The class members' definitions I infer directly from the type members you pass in.
+- Give your purpose keys meaningful names.  "one", "two", "three" are less useful than "precondition", "argumentValidation", "processing".
+- Decide carefully whether you want to use "isBlockStatement" on purpose blocks.  Curly braces affect the scope of `const` and `let` variable declarations.
+  - Region names, on the other hand, are comments and won't affect scope.
+- Consider implementing router and/or filter classes for your statements getter.
 
 ## What's not part of this?
 
+### Class member sorting / organization, mixing class field types
+
+This is because ts-morph provides no mechanism for organizing class members from a structure.  You give ts-morph a `ClassDeclarationStructure`, and it decides for you where to put the members.  Properties appear in one group, methods in another, getters and setters in another.  It's outside my control.
+
 ### Pretty-printing of statements
+
+What you put in, you get out.  I provide the ts-morph structures, but I don't try to format the outputs beyond common sense.  Once they go into a ts-morph node, it's up to you to use utilities like ts-morph or Prettier to clean up the output.
+
+### A "satisfies" statement for the class
+
+Some time ago, [a TypeScript bug on "static implements"](https://github.com/microsoft/TypeScript/issues/33892) inspired me to add `Foo satisfies CloneableStructure<FooType>` statements after my classes, to type-check static fields.  `ClassDeclarationImpl` doesn't support that (yet), though I could see that being very useful.
+
+### Rigorous validation of inputs
+
+You can do dumb things with ts-morph-structures, like provide a getter and a property with the same name.  You can do the same dumb things with ts-morph.  The utilities here don't try very hard to protect you from this.
+
+## Enjoy!
+
+Please, let me know of any pain points you encounter - and suggestions for improving them.  Unlike the structure classes, these are more complex.  I can add new features as necessary.
