@@ -17,6 +17,7 @@ import {
   PropertyDeclarationImpl,
   SetAccessorDeclarationImpl,
   type NamedTypeMemberImpl,
+  type TypeMemberImpl,
 } from "../snapshot/source/exports.js";
 
 import {
@@ -114,34 +115,43 @@ extends Map<string, ClassMemberImpl>
   static convertTypeMembers(
     isStatic: boolean,
     typeMembers: NamedTypeMemberImpl[],
+    map?: WeakMap<ClassMemberImpl, TypeMemberImpl>,
   ): NamedClassMemberImpl[]
   {
     return typeMembers.map(
-      typeMember => ClassMembersMap.#convertTypeMemberToClassMember(isStatic, typeMember)
+      typeMember => ClassMembersMap.#convertTypeMemberToClassMember(isStatic, typeMember, map)
     );
   }
 
   static #convertTypeMemberToClassMember(
     isStatic: boolean,
-    typeMember: NamedTypeMemberImpl
+    typeMember: NamedTypeMemberImpl,
+    map?: WeakMap<ClassMemberImpl, TypeMemberImpl>,
   ): NamedClassMemberImpl
   {
+    let classMember: NamedClassMemberImpl;
     switch (typeMember.kind) {
       case StructureKind.GetAccessor: {
-        const result =  GetAccessorDeclarationImpl.clone(typeMember);
-        result.isStatic = isStatic;
-        return result;
+        classMember =  GetAccessorDeclarationImpl.clone(typeMember);
+        classMember.isStatic = isStatic;
+        break;
       }
       case StructureKind.SetAccessor: {
-        const result = SetAccessorDeclarationImpl.clone(typeMember);
-        result.isStatic = isStatic;
-        return result;
+        classMember = SetAccessorDeclarationImpl.clone(typeMember);
+        classMember.isStatic = isStatic;
+        break;
       }
       case StructureKind.MethodSignature:
-        return MethodDeclarationImpl.fromSignature(isStatic, typeMember);
+        classMember = MethodDeclarationImpl.fromSignature(isStatic, typeMember);
+        break;
       case StructureKind.PropertySignature:
-        return PropertyDeclarationImpl.fromSignature(isStatic, typeMember);
+        classMember = PropertyDeclarationImpl.fromSignature(isStatic, typeMember);
+        break;
     }
+
+    if (map)
+      map.set(classMember, typeMember);
+    return classMember;
   }
 
   /**

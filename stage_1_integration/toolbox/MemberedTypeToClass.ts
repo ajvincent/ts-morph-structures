@@ -45,6 +45,8 @@ interface ClassMembersByKind {
 export default class MemberedTypeToClass {
   readonly #aggregateStaticTypesMap = new TypeMembersMap;
   readonly #aggregateTypeMembersMap = new TypeMembersMap;
+  readonly #classMemberToTypeMemberMap = new WeakMap<ClassMemberImpl, TypeMemberImpl>;
+  readonly #memberKeyToClassMember = new Map<string, ClassMemberImpl>;
 
   #classMembersMap?: ClassMembersMap;
   readonly #classFieldStatementsByPurpose = new Map<string, ClassFieldStatementsMap>;
@@ -335,8 +337,12 @@ export default class MemberedTypeToClass {
   {
     const staticTypeMembers = Array.from(this.#aggregateStaticTypesMap.values()) as NamedTypeMemberImpl[];
     const typeMembers = Array.from(this.#aggregateTypeMembersMap.values()) as NamedTypeMemberImpl[];
-    const staticMembers = ClassMembersMap.convertTypeMembers(true, staticTypeMembers);
-    const classMembers = ClassMembersMap.convertTypeMembers(false, typeMembers);
+    const staticMembers = ClassMembersMap.convertTypeMembers(
+      true, staticTypeMembers, this.#classMemberToTypeMemberMap
+    );
+    const classMembers = ClassMembersMap.convertTypeMembers(
+      false, typeMembers, this.#classMemberToTypeMemberMap
+    );
 
     const members: ClassMemberImpl[] = [
       ...staticMembers,
@@ -473,6 +479,9 @@ export default class MemberedTypeToClass {
       ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
     );
 
+    if (!this.#memberKeyToClassMember.has(formattedFieldName))
+      this.#memberKeyToClassMember.set(formattedFieldName, property);
+
     for (const purposeKey of purposeKeys) {
       this.#addKeyClass(
         formattedFieldName,
@@ -494,6 +503,8 @@ export default class MemberedTypeToClass {
       return;
 
     const groupName = ClassMembersMap.keyFromMember(methodOrCtor);
+    if (!this.#memberKeyToClassMember.has(groupName))
+      this.#memberKeyToClassMember.set(groupName, methodOrCtor);
 
     for (const fieldName of propertyNames) {
       const [
@@ -501,7 +512,9 @@ export default class MemberedTypeToClass {
       ] = ClassFieldStatementsMap.normalizeKeys(fieldName, groupName);
 
       for (const purposeKey of purposeKeys) {
-        this.#addKeyClass(formattedFieldName, formattedGroupName, purposeKey, keyClassMap);
+        this.#addKeyClass(
+          formattedFieldName, formattedGroupName, purposeKey, keyClassMap
+        );
       }
     }
   }
@@ -515,6 +528,9 @@ export default class MemberedTypeToClass {
       return;
 
     const accessorName = ClassMembersMap.keyFromMember(accessor).replace(/\b[gs]et /, "");
+    if (!this.#memberKeyToClassMember.has(accessorName))
+      this.#memberKeyToClassMember.set(accessorName, accessor);
+
     purposeKeys.forEach(purposeKey => this.#addKeyClass(
       accessorName,
       ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
@@ -534,6 +550,8 @@ export default class MemberedTypeToClass {
       return;
 
     const accessorName = ClassMembersMap.keyFromMember(accessor).replace(/\b[gs]et /, "");
+    if (!this.#memberKeyToClassMember.has(accessorName))
+      this.#memberKeyToClassMember.set(accessorName, accessor);
 
     for (const purposeKey of purposeKeys) {
       for (const propertyName of propertyNames) {
@@ -551,16 +569,29 @@ export default class MemberedTypeToClass {
     fieldName: string,
     groupName: string,
     purposeKey: string,
-    keyClassMap: Map<string, MemberedStatementsKeyClass>
+    keyClassMap: Map<string, MemberedStatementsKeyClass>,
   ): void
   {
     const compositeKey = JSON.stringify({fieldName, groupName, purposeKey});
     if (keyClassMap.has(compositeKey))
       return;
+
+    const fieldClassMember = this.#memberKeyToClassMember.get(fieldName);
+    const groupClassMember = this.#memberKeyToClassMember.get(groupName);
+
+    const fieldTypeMember = fieldClassMember ? this.#classMemberToTypeMemberMap.get(fieldClassMember) : undefined;
+    const groupTypeMember = groupClassMember ? this.#classMemberToTypeMemberMap.get(groupClassMember) : undefined;
+    const isFieldStatic = fieldClassMember && fieldClassMember.kind !== StructureKind.Constructor ?
+      fieldClassMember.isStatic : false;
+    const isGroupStatic = groupClassMember && groupClassMember.kind !== StructureKind.Constructor ?
+      groupClassMember.isStatic : false;
+
     keyClassMap.set(compositeKey, new MemberedStatementsKeyClass(
       fieldName,
       groupName,
-      purposeKey
+      purposeKey,
+      fieldTypeMember ? [isFieldStatic, fieldTypeMember] : undefined,
+      groupTypeMember ? [isGroupStatic, groupTypeMember] : undefined,
     ));
   }
 

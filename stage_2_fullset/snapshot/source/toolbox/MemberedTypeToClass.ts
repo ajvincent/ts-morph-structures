@@ -41,6 +41,11 @@ interface ClassMembersByKind {
 export default class MemberedTypeToClass {
   readonly #aggregateStaticTypesMap = new TypeMembersMap();
   readonly #aggregateTypeMembersMap = new TypeMembersMap();
+  readonly #classMemberToTypeMemberMap = new WeakMap<
+    ClassMemberImpl,
+    TypeMemberImpl
+  >();
+  readonly #memberKeyToClassMember = new Map<string, ClassMemberImpl>();
 
   #classMembersMap?: ClassMembersMap;
   readonly #classFieldStatementsByPurpose = new Map<
@@ -344,8 +349,13 @@ export default class MemberedTypeToClass {
     const staticMembers = ClassMembersMap.convertTypeMembers(
       true,
       staticTypeMembers,
+      this.#classMemberToTypeMemberMap,
     );
-    const classMembers = ClassMembersMap.convertTypeMembers(false, typeMembers);
+    const classMembers = ClassMembersMap.convertTypeMembers(
+      false,
+      typeMembers,
+      this.#classMemberToTypeMemberMap,
+    );
 
     const members: ClassMemberImpl[] = [
       ...staticMembers,
@@ -513,6 +523,9 @@ export default class MemberedTypeToClass {
         ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
       );
 
+    if (!this.#memberKeyToClassMember.has(formattedFieldName))
+      this.#memberKeyToClassMember.set(formattedFieldName, property);
+
     for (const purposeKey of purposeKeys) {
       this.#addKeyClass(
         formattedFieldName,
@@ -533,6 +546,8 @@ export default class MemberedTypeToClass {
       return;
 
     const groupName = ClassMembersMap.keyFromMember(methodOrCtor);
+    if (!this.#memberKeyToClassMember.has(groupName))
+      this.#memberKeyToClassMember.set(groupName, methodOrCtor);
 
     for (const fieldName of propertyNames) {
       const [formattedFieldName, formattedGroupName] =
@@ -560,6 +575,9 @@ export default class MemberedTypeToClass {
       /\b[gs]et /,
       "",
     );
+    if (!this.#memberKeyToClassMember.has(accessorName))
+      this.#memberKeyToClassMember.set(accessorName, accessor);
+
     purposeKeys.forEach((purposeKey) =>
       this.#addKeyClass(
         accessorName,
@@ -582,6 +600,8 @@ export default class MemberedTypeToClass {
       /\b[gs]et /,
       "",
     );
+    if (!this.#memberKeyToClassMember.has(accessorName))
+      this.#memberKeyToClassMember.set(accessorName, accessor);
 
     for (const purposeKey of purposeKeys) {
       for (const propertyName of propertyNames) {
@@ -598,9 +618,34 @@ export default class MemberedTypeToClass {
   ): void {
     const compositeKey = JSON.stringify({ fieldName, groupName, purposeKey });
     if (keyClassMap.has(compositeKey)) return;
+
+    const fieldClassMember = this.#memberKeyToClassMember.get(fieldName);
+    const groupClassMember = this.#memberKeyToClassMember.get(groupName);
+
+    const fieldTypeMember = fieldClassMember
+      ? this.#classMemberToTypeMemberMap.get(fieldClassMember)
+      : undefined;
+    const groupTypeMember = groupClassMember
+      ? this.#classMemberToTypeMemberMap.get(groupClassMember)
+      : undefined;
+    const isFieldStatic =
+      fieldClassMember && fieldClassMember.kind !== StructureKind.Constructor
+        ? fieldClassMember.isStatic
+        : false;
+    const isGroupStatic =
+      groupClassMember && groupClassMember.kind !== StructureKind.Constructor
+        ? groupClassMember.isStatic
+        : false;
+
     keyClassMap.set(
       compositeKey,
-      new MemberedStatementsKeyClass(fieldName, groupName, purposeKey),
+      new MemberedStatementsKeyClass(
+        fieldName,
+        groupName,
+        purposeKey,
+        fieldTypeMember ? [isFieldStatic, fieldTypeMember] : undefined,
+        groupTypeMember ? [isGroupStatic, groupTypeMember] : undefined,
+      ),
     );
   }
 
