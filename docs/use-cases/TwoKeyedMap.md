@@ -6,6 +6,8 @@ To do this, I'll have to bootstrap from existing `Map`, hashing the keys into a 
 
 ## Design
 
+## Starting source code
+
 ```typescript
 interface StringStringKey {
   readonly firstKey: string,
