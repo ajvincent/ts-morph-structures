@@ -139,7 +139,6 @@ export default class FunctionTypeStructureImpl extends TypeStructuresWithTypePar
           if (type !== lastType) writer.write(", ");
         }
         if (this.restParameter) {
-          writer.write("...");
           lastType!.writerFunction(writer);
         }
       },

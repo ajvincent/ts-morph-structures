@@ -63,12 +63,19 @@ export default class TypeAliasDeclarationImpl
     RequiredOmit<PreferArrayFields<TypeAliasDeclarationStructure>, "type">
 {
   readonly kind: StructureKind.TypeAlias = StructureKind.TypeAlias;
-  type: stringOrWriterFunction = "";
 
   constructor(name: string, type: stringOrWriterFunction) {
     super();
     this.name = name;
     this.type = type;
+  }
+
+  get type(): stringOrWriterFunction {
+    return super.type ?? "";
+  }
+
+  set type(value: stringOrWriterFunction) {
+    super.type = value;
   }
 
   public static [COPY_FIELDS](

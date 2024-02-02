@@ -36,12 +36,12 @@ export default class ExportDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<ExportDeclarationStructure>,
-      "moduleSpecifier" | "namespaceExport"
+      "attributes" | "moduleSpecifier" | "namespaceExport"
     >
 {
   readonly kind: StructureKind.ExportDeclaration =
     StructureKind.ExportDeclaration;
-  readonly attributes: ImportAttributeImpl[] = [];
+  attributes?: ImportAttributeImpl[];
   isTypeOnly = false;
   moduleSpecifier?: string = undefined;
   readonly namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[] = [];
@@ -53,6 +53,7 @@ export default class ExportDeclarationImpl
   ): void {
     super[COPY_FIELDS](source, target);
     if (source.attributes) {
+      target.attributes = [];
       target.attributes.push(
         ...cloneStructureArray<
           OptionalKind<ImportAttributeStructure>,

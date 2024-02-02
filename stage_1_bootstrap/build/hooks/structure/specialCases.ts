@@ -1,6 +1,8 @@
 import {
+  CodeBlockWriter,
   StructureKind,
   VariableDeclarationKind,
+  type WriterFunction
 } from "ts-morph";
 
 import StructureDictionaries, {
@@ -12,8 +14,12 @@ import {
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
 import {
+  GetAccessorDeclarationImpl,
   LiteralTypedStructureImpl,
   ParameterDeclarationImpl,
+  SetAccessorDeclarationImpl,
+  StringTypedStructureImpl,
+  type TypeArgumentedTypedStructureImpl,
   UnionTypedStructureImpl,
   VariableDeclarationImpl,
   VariableStatementImpl,
@@ -23,6 +29,10 @@ import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFiel
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 
+const COPY_FIELDS_NAME = ClassMembersMap.keyFromName(
+  StructureKind.Method, true, "[COPY_FIELDS]"
+);
+
 export default function structureSpecialCases(
   name: string,
   meta: StructureImplMeta,
@@ -31,22 +41,34 @@ export default function structureSpecialCases(
 {
   const parts = dictionaries.structureParts.get(meta)!;
   switch (parts.classDecl.name) {
-    case "IndexSignatureDeclarationImpl":
-      fixKeyTypeField(parts, dictionaries);
+    case "ExportDeclarationImpl":
+      makeAttributesPropertyOptional(parts, dictionaries);
       break;
 
     case "GetAccessorDeclarationImpl":
       addReturnTypeToGetAccessorCtor(parts, dictionaries);
       break;
 
+    case "ImportDeclarationImpl":
+      makeAttributesPropertyOptional(parts, dictionaries);
+      break;
+
+    case "IndexSignatureDeclarationImpl":
+      convertKeyTypePropertyToAccessors(parts, dictionaries);
+      break;
+
     case "SetAccessorDeclarationImpl":
       addParameterToSetAccessorCtor(parts, dictionaries);
+      break;
+
+    case "TypeAliasDeclarationImpl":
+      convertTypePropertyToAccessors(parts, dictionaries);
       break;
   }
   return Promise.resolve();
 }
 
-function fixKeyTypeField(
+function convertKeyTypePropertyToAccessors(
   parts: StructureParts,
   dictionaries: StructureDictionaries,
 ): void
@@ -180,4 +202,92 @@ function addParameterToSetAccessorCtor(
       target.parameters.shift();
     }`
   ]);
+}
+
+function convertTypePropertyToAccessors(
+  parts: StructureParts,
+  dictionaries: StructureDictionaries,
+): void
+{
+  parts.classMembersMap.delete(
+    ClassMembersMap.keyFromName(StructureKind.Property, false, "type")
+  );
+
+  /*
+  get type(): stringOrWriterFunction {
+    return super.type ?? "";
+  }
+  set type(value: stringOrWriterFunction) {
+    super.type = value;
+  }
+  */
+  const getter = new GetAccessorDeclarationImpl("type");
+  getter.returnTypeStructure = ConstantTypeStructures.stringOrWriterFunction;
+  //getter.statements.push(`return super.type ?? "";`);
+
+  const setter = new SetAccessorDeclarationImpl("type");
+  const setterParam = new ParameterDeclarationImpl("value");
+  setterParam.typeStructure = ConstantTypeStructures.stringOrWriterFunction;
+  setter.parameters.push(setterParam);
+
+  parts.classMembersMap.addMembers([getter, setter]);
+
+  parts.classFieldsStatements.delete(
+    "type", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
+  );
+
+  parts.classFieldsStatements.set(
+    ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN,
+    ClassMembersMap.keyFromMember(getter),
+    [
+      `return super.type ?? "";`,
+    ]
+  );
+
+  parts.classFieldsStatements.set(
+    ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN,
+    ClassMembersMap.keyFromMember(setter),
+    [
+      `super.type = value;`,
+    ]
+  );
+
+  void(dictionaries);
+}
+
+function makeAttributesPropertyOptional(
+  parts: StructureParts,
+  dictionaries: StructureDictionaries,
+): void
+{
+  const attrs = parts.classMembersMap.getAsKind(
+    ClassMembersMap.keyFromName(StructureKind.Property, false, "attributes"),
+    StructureKind.Property,
+  )!;
+
+  attrs.hasQuestionToken = true;
+  attrs.isReadonly = false;
+
+  parts.classFieldsStatements.delete(
+    "attributes", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
+  );
+
+  // RequiredOmit<..., "attributes" | ...>
+  const requiredOmit = Array.from(
+    parts.classDecl.implementsSet.values()
+  )[0] as TypeArgumentedTypedStructureImpl;
+  const requiredOmitChildren = requiredOmit.childTypes[requiredOmit.childTypes.length - 1] as UnionTypedStructureImpl;
+  requiredOmitChildren.childTypes.unshift(new StringTypedStructureImpl("attributes"));
+
+  // if (source.attributes) { target.attributes =
+  const originalStatement = parts.classFieldsStatements.get("attributes", COPY_FIELDS_NAME)![0] as WriterFunction;
+  const writer = new CodeBlockWriter({
+    indentNumberOfSpaces: 2
+  });
+  originalStatement(writer);
+  let statement = writer.toString();
+  statement = statement.replace("if (source.attributes) {", "if (source.attributes) {\ntarget.attributes = [];");
+  parts.classFieldsStatements.set("attributes", COPY_FIELDS_NAME, [statement]);
+
+  void(dictionaries);
 }

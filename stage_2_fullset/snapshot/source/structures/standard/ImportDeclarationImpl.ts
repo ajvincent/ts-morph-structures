@@ -36,12 +36,12 @@ export default class ImportDeclarationImpl
   implements
     RequiredOmit<
       PreferArrayFields<ImportDeclarationStructure>,
-      "defaultImport" | "namespaceImport"
+      "attributes" | "defaultImport" | "namespaceImport"
     >
 {
   readonly kind: StructureKind.ImportDeclaration =
     StructureKind.ImportDeclaration;
-  readonly attributes: ImportAttributeImpl[] = [];
+  attributes?: ImportAttributeImpl[];
   defaultImport?: string = undefined;
   isTypeOnly = false;
   moduleSpecifier: string;
@@ -59,6 +59,7 @@ export default class ImportDeclarationImpl
   ): void {
     super[COPY_FIELDS](source, target);
     if (source.attributes) {
+      target.attributes = [];
       target.attributes.push(
         ...cloneStructureArray<
           OptionalKind<ImportAttributeStructure>,

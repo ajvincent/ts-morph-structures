@@ -39,7 +39,7 @@ import {
 
 // #endregion preamble
 
-xit("ts-morph-structures: integration test", () => {
+it("ts-morph-structures: integration test", () => {
   const stageDir: ModuleSourceDirectory = {
     pathToDirectory: "#stage_two",
     isAbsolutePath: true
@@ -92,6 +92,9 @@ xit("ts-morph-structures: integration test", () => {
     const ValueWrapperAlias = new TypeAliasDeclarationImpl("ValueWrapper", "T");
     newSourceStructure.statements.push(ValueWrapperAlias);
 
+    const typeParam = new TypeParameterDeclarationImpl("T");
+    ValueWrapperAlias.typeParameters.push(typeParam);
+
     const valueProperty = new PropertySignatureImpl("value");
     valueProperty.type = "T";
     ValueWrapperAlias.typeStructure = new MemberedObjectTypeStructureImpl();
@@ -110,8 +113,6 @@ xit("ts-morph-structures: integration test", () => {
   }
   */
   {
-    const ObjectWrapperAlias = new TypeAliasDeclarationImpl("ObjectWrapper", "Type");
-    newSourceStructure.statements.push(ObjectWrapperAlias);
 
     const TypeKeyIndexed = new IndexedAccessTypeStructureImpl(
       "Type", "key"
@@ -148,7 +149,12 @@ xit("ts-morph-structures: integration test", () => {
     );
     mappedTypeStructure.type = conditionalStructure;
 
-    ObjectWrapperAlias.typeStructure = mappedTypeStructure;
+    const ObjectWrapperAlias = new TypeAliasDeclarationImpl(
+      "ObjectWrapper", mappedTypeStructure.writerFunction
+    );
+    const typeParam = new TypeParameterDeclarationImpl("Type");
+    ObjectWrapperAlias.typeParameters.push(typeParam);
+    newSourceStructure.statements.push(ObjectWrapperAlias);
   }
 
   /*

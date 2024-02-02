@@ -138,7 +138,6 @@ extends TypeStructuresWithTypeParameters<TypeStructureKind.Function>
             writer.write(", ");
         }
         if (this.restParameter) {
-          writer.write("...");
           lastType!.writerFunction(writer);
         }
       }
