@@ -95,6 +95,7 @@ export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
    * Creata an array of class members from an array of type members,
    * @param isStatic - true if the class members should be static, false if they should not be.
    * @param typeMembers - the type members to convert.
+   * @param map - for defining which type member a class member comes from.
    */
   static convertTypeMembers(
     isStatic: boolean,

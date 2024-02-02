@@ -40,6 +40,15 @@ function definePublicExports(
   });
 
   dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/bootstrap/typeNodeConsoles.ts"),
+    exportNames: [
+      "VoidTypeNodeToTypeStructureConsole"
+    ],
+    isDefaultExport: false,
+    isType: false
+  });
+
+  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/bootstrap/getTypeAugmentedStructure.ts"),
     exportNames: [
       "TypeNodeToTypeStructureConsole"
