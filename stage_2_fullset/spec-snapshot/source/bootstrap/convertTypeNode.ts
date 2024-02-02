@@ -359,8 +359,8 @@ let A: string;
     expect(failNode).toBe(null);
   });
 
-  it(`MemberedObject: { foo: true } (object literal)`, () => {
-    setTypeStructure(`{ foo: true }`, failCallback);
+  it(`MemberedObject: { foo(): this } (object literal)`, () => {
+    setTypeStructure(`{ foo(): this }`, failCallback);
     expect(structure).toBeInstanceOf(MemberedObjectTypeStructureImpl);
 
     if (!(structure instanceof MemberedObjectTypeStructureImpl))
@@ -369,16 +369,16 @@ let A: string;
     expect(structure.constructSignatures.length).toBe(0);
     expect(structure.getAccessors.length).toBe(0);
     expect(structure.indexSignatures.length).toBe(0);
-    expect(structure.methods.length).toBe(0);
-    expect(structure.properties.length).toBe(1);
+    expect(structure.methods.length).toBe(1);
+    expect(structure.properties.length).toBe(0);
     expect(structure.setAccessors.length).toBe(0);
 
-    const propertyStructure = structure.properties[0];
-    if (!propertyStructure)
+    const methodStructure = structure.methods[0];
+    if (!methodStructure)
       return;
 
-    expect(propertyStructure.name).toBe("foo");
-    expect(propertyStructure.type).toBe("true");
+    expect(methodStructure.name).toBe("foo");
+    expect(methodStructure.returnType).toBe("this");
 
     expect(failMessage).toBe(undefined);
     expect(failNode).toBe(null);

@@ -83,6 +83,9 @@ export default function convertTypeNode(
     return typeNode.getLiteralText();
   }
 
+  if (Node.isThisTypeNode(typeNode))
+    return "this";
+
   if (Node.isStringLiteral(typeNode)) {
     return new StringTypeStructureImpl(typeNode.getLiteralText());
   }
