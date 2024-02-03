@@ -196,7 +196,7 @@ function defineInternalExports(
   });
 
   dictionaries.internalExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/base/generated/structureToSyntax.ts"),
+    absolutePathToModule: path.join(distDir, "source/bootstrap/structureToSyntax.ts"),
     exportNames: ["StructureKindToSyntaxKindMap"],
     isDefaultExport: true,
     isType: false,

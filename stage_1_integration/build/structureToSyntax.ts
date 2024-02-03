@@ -11,8 +11,15 @@ import {
 } from "ts-morph";
 
 import TS_MORPH_D from "#utilities/source/ts-morph-d-file.js";
+import { pathToModule } from "#utilities/source/AsyncSpecModules.js";
 
-export default async function(pathToDirectory: string): Promise<void> {
+import {
+  stageDir
+} from "./constants.js";
+
+export default
+async function structureToSyntax(): Promise<void>
+{
   const fileWriter: CodeBlockWriter = new CodeBlockWriter({
     indentNumberOfSpaces: 2
   });
@@ -88,7 +95,7 @@ export default async function(pathToDirectory: string): Promise<void> {
   fileWriter.writeLine("]);");
   fileWriter.writeLine("export default StructureKindToSyntaxKindMap;");
 
-  const pathToMapFile = path.join(pathToDirectory, "structureToSyntax.ts");
+  const pathToMapFile = pathToModule(stageDir, "snapshot/source/bootstrap/structureToSyntax.ts");
   await fs.mkdir(path.dirname(pathToMapFile), { recursive: true });
   await fs.writeFile(pathToMapFile, fileWriter.toString(), { encoding: "utf-8" });
 }

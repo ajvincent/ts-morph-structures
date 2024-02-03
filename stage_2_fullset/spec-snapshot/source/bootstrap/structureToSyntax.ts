@@ -1,4 +1,4 @@
-import { StructureKindToSyntaxKindMap } from "../../../snapshot/source/internal-exports.js";
+import { StructureKindToSyntaxKindMap } from "#stage_two/snapshot/source/internal-exports.js";
 
 it("StructureKindToSyntaxKindMap is importable", () => {
   expect(StructureKindToSyntaxKindMap).toBeTruthy();
