@@ -5,7 +5,7 @@ import type {
 import type {
   MemberedStatementsKey,
   TypeMemberImpl,
-} from "../snapshot/source/exports.js";
+} from "../../snapshot/source/exports.js";
 
 /** @internal */
 export default

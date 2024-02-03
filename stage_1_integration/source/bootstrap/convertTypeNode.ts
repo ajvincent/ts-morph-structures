@@ -39,7 +39,7 @@ import {
   TypeStructures,
   UnionTypeStructureImpl,
   type stringTypeStructuresOrNull,
-} from "../snapshot/source/exports.js";
+} from "../../snapshot/source/exports.js";
 
 import type {
   SubstructureResolver,

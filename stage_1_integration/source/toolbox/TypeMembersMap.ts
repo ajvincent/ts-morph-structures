@@ -21,13 +21,13 @@ import {
   SetAccessorDeclarationImpl,
   type TypeMemberImpl,
   TypeStructureKind,
-} from "../snapshot/source/exports.js";
+} from "../../snapshot/source/exports.js";
 
 import {
   StructuresClassesMap,
   TypeStructureClassesMap,
   cloneStructureOrStringArray,
-} from "../snapshot/source/internal-exports.js";
+} from "../../snapshot/source/internal-exports.js";
 
 /**
  * A map for members of `InterfaceDeclarationImpl` and `MemberedObjectTypeStructureImpl`.  This

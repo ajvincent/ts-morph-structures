@@ -7,7 +7,7 @@ import {
 
 import type {
   StructureImpls,
-} from "../snapshot/source/exports.js";
+} from "../../snapshot/source/exports.js";
 
 import {
   structureImplToNodeMap

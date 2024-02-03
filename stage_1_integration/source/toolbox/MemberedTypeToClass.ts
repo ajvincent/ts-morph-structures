@@ -26,11 +26,11 @@ import {
   type TypeMemberImpl,
   TypeMembersMap,
   type stringWriterOrStatementImpl,
-} from "../snapshot/source/exports.js";
+} from "../../snapshot/source/exports.js";
 
 import {
   MemberedStatementsKeyClass,
-} from "../snapshot/source/internal-exports.js";
+} from "../../snapshot/source/internal-exports.js";
 
 /** @internal */
 interface ClassMembersByKind {

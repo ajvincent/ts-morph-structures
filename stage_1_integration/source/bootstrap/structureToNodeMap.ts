@@ -17,7 +17,7 @@ import {
   type StructureImpls,
   StructureKindToSyntaxKindMap,
   StructuresClassesMap
-} from "../snapshot/source/internal-exports.js";
+} from "../../snapshot/source/internal-exports.js";
 
 import type {
   NodeWithStructures

@@ -1,6 +1,6 @@
 import type {
   ClassFieldStatement
-} from "../snapshot/source/exports.js";
+} from "../../snapshot/source/exports.js";
 
 type keyPair = {fieldName: string, statementGroup: string};
 

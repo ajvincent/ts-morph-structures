@@ -20,7 +20,7 @@ import type {
   SetAccessorDeclarationImpl,
   StatementStructureImpls,
   stringOrWriterFunction,
-} from "../../snapshot/source/exports.js";
+} from "../../../snapshot/source/exports.js";
 
 /** A description of the exports to add. */
 export interface AddExportContext {

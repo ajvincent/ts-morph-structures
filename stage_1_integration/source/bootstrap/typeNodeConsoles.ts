@@ -4,7 +4,7 @@ import type {
 
 import type {
   TypeNodeToTypeStructureConsole
-} from "../snapshot/source/exports.js";
+} from "../../snapshot/source/exports.js";
 
 export function VoidTypeNodeToTypeStructureConsole(
   message: string,

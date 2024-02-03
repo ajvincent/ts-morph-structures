@@ -7,7 +7,7 @@ import {
 import type {
   StructureImpls,
   stringTypeStructuresOrNull
-} from "../../snapshot/source/exports.js";
+} from "../../../snapshot/source/exports.js";
 
 export interface NodeWithStructures extends Node {
   getStructure(): Structures;

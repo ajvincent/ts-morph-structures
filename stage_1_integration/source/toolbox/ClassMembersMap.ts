@@ -18,13 +18,13 @@ import {
   SetAccessorDeclarationImpl,
   type NamedTypeMemberImpl,
   type TypeMemberImpl,
-} from "../snapshot/source/exports.js";
+} from "../../snapshot/source/exports.js";
 
 import {
   StructuresClassesMap,
   TypeStructureClassesMap,
   cloneStructureOrStringArray,
-} from "../snapshot/source/internal-exports.js";
+} from "../../snapshot/source/internal-exports.js";
 
 /**
  * A map for class methods, properties, accessors and a constructor.  This doesn't

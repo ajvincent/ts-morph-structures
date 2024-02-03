@@ -5,12 +5,12 @@ import {
   type AddExportContext,
   ExportDeclarationImpl,
   ExportSpecifierImpl,
-} from "../snapshot/source/exports.js";
+} from "../../snapshot/source/exports.js";
 
 import {
   DefaultMap,
   DefaultWeakMap,
-} from "../snapshot/source/internal-exports.js";
+} from "../../snapshot/source/internal-exports.js";
 
 // #endregion preamble
 

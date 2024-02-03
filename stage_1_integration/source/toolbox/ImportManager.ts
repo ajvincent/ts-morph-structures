@@ -4,7 +4,7 @@ import {
   type AddImportContext,
   ImportDeclarationImpl,
   ImportSpecifierImpl,
-} from "../snapshot/source/exports.js";
+} from "../../snapshot/source/exports.js";
 
 /**
  * This manages import declarations and specifiers, for including in a source file.
