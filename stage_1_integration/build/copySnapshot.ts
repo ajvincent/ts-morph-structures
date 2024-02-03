@@ -30,6 +30,8 @@ export default async function copySnapshot(): Promise<void> {
     copyComponentsDir("bootstrap", "source/bootstrap"),
     copyComponentsDir("toolbox", "source/toolbox"),
   ]);
+
+  await copySourceDir();
 }
 
 async function copyComponentsDir(
@@ -44,12 +46,34 @@ async function copyComponentsDir(
 
   await PromiseAllSequence(dirs, async d => {
     const targetSubDir = d.replace(sourceDir, targetDir);
-    await fs.mkdir(targetSubDir);
+    await fs.mkdir(targetSubDir, { recursive: true });
   });
 
   await PromiseAllParallel(files, async f => {
     let contents = await fs.readFile(f, { encoding: "utf-8" });
     contents = contents.replace(/..\/snapshot\/source\//g, "../");
+
+    const targetPath = f.replace(sourceDir, targetDir);
+    await fs.writeFile(targetPath, contents, { encoding: "utf-8" });
+  });
+
+  await runPrettify(targetDir);
+}
+
+async function copySourceDir(): Promise<void>
+{
+  const sourceDir = pathToModule(stageDir, "source");
+  const { dirs, files } = await readDirsDeep(sourceDir);
+
+  const targetDir = path.join(snapshotDir, "source");
+  await PromiseAllSequence(dirs, async d => {
+    const targetSubDir = d.replace(sourceDir, targetDir);
+    await fs.mkdir(targetSubDir, { recursive: true });
+  });
+
+  await PromiseAllParallel(files, async f => {
+    let contents = await fs.readFile(f, { encoding: "utf-8" });
+    contents = contents.replace(/..\/..\/snapshot\/source\//g, "../");
 
     const targetPath = f.replace(sourceDir, targetDir);
     await fs.writeFile(targetPath, contents, { encoding: "utf-8" });

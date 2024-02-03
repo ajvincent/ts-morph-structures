@@ -1,10 +1,12 @@
 import type { Class } from "type-fest";
 
-import type { TypeStructures } from "../structures/type/TypeStructures.js";
+import {
+  KindedTypeStructure,
+  TypeStructureKind,
+  type TypeStructures,
+} from "../exports.js";
 
-import { KindedTypeStructure, TypeStructureKind } from "./TypeStructureKind.js";
-
-import { CloneableTypeStructure } from "../types/CloneableStructure.js";
+import type { CloneableTypeStructure } from "../internal-exports.js";
 
 class TypeStructureClassesMapClass extends Map<
   TypeStructureKind,

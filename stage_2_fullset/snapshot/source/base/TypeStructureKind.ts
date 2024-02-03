@@ -1,4 +1,4 @@
-import type { TypedNodeWriter } from "../types/ts-morph-typednodewriter.js";
+import type { TypedNodeWriter } from "../internal-exports.js";
 
 export enum TypeStructureKind {
   Literal = 1000000000,

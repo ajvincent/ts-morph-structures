@@ -2,9 +2,7 @@ import type { Class } from "type-fest";
 
 import type { OptionalKind, Structure } from "ts-morph";
 
-import type { StructuresImpl } from "./StructureImplUnions.js";
-
-import type { TypeStructures } from "../structures/type/TypeStructures.js";
+import type { StructuresImpl, TypeStructures } from "../exports.js";
 
 export type CloneableStructure<
   Base extends Structure,

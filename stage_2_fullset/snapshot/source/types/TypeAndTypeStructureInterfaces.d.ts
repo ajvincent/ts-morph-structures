@@ -1,9 +1,3 @@
-/*
-import {
-  CodeBlockWriter
-} from "ts-morph";
-*/
-
 import {
   type TypeStructures,
   type stringOrWriterFunction,

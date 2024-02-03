@@ -1,14 +1,16 @@
 // #region preamble
 import type { CodeBlockWriter, WriterFunction } from "ts-morph";
 
-import { TypeParameterDeclarationImpl } from "../../exports.js";
+import {
+  TypeParameterDeclarationImpl,
+  TypeStructureKind,
+} from "../../exports.js";
 
-import TypeStructureClassesMap from "../../base/TypeStructureClassesMap.js";
-import TypeStructuresWithTypeParameters from "./TypeStructuresWithTypeParameters.js";
-
-import { TypeStructureKind } from "../../base/TypeStructureKind.js";
-
-import type { CloneableTypeStructure } from "../../types/CloneableStructure.js";
+import {
+  type CloneableTypeStructure,
+  TypeStructureClassesMap,
+  TypeStructuresWithTypeParameters,
+} from "../../internal-exports.js";
 
 // #endregion preamble
 

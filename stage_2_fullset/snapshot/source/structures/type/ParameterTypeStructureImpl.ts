@@ -1,14 +1,14 @@
 // #region preamble
 import type { CodeBlockWriter } from "ts-morph";
 
-import TypeStructureClassesMap from "../../base/TypeStructureClassesMap.js";
+import { TypeStructureKind, type TypeStructures } from "../../exports.js";
 
-import type { TypeStructures } from "./TypeStructures.js";
+import {
+  type CloneableTypeStructure,
+  TypeStructureClassesMap,
+  TypeStructuresBase,
+} from "../../internal-exports.js";
 
-import { TypeStructureKind } from "../../base/TypeStructureKind.js";
-
-import TypeStructuresBase from "./TypeStructuresBase.js";
-import type { CloneableTypeStructure } from "../../types/CloneableStructure.js";
 // #endregion preamble
 
 /** Just a parameter name and type for a `FunctionTypeStructureImpl`. */

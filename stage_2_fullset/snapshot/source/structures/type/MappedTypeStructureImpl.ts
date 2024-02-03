@@ -1,24 +1,25 @@
 // #region preamble
 import type { CodeBlockWriter, WriterFunction } from "ts-morph";
 
-import { TypeParameterDeclarationImpl } from "../../exports.js";
+import {
+  TypeParameterDeclarationImpl,
+  TypeStructureKind,
+  type TypeStructures,
+} from "../../exports.js";
 
-import type { TypeStructures } from "./TypeStructures.js";
-
-import TypeStructureClassesMap from "../../base/TypeStructureClassesMap.js";
-import TypeStructuresWithTypeParameters from "./TypeStructuresWithTypeParameters.js";
-
-import { TypeStructureKind } from "../../base/TypeStructureKind.js";
-
-import type { CloneableTypeStructure } from "../../types/CloneableStructure.js";
+import {
+  type CloneableTypeStructure,
+  TypeStructureClassesMap,
+  TypeStructuresWithTypeParameters,
+} from "../../internal-exports.js";
 
 // #endregion preamble
 
 /**
  * `{ readonly [key in keyof Foo]: boolean }`
  *
- * @see `IndexedAccessTypeStructureImpl` for `Foo["index"]`
- * @see `ObjectLiteralTypeStructureImpl` for `{ [key: string]: boolean }`
+ * @see `IndexedAccessTypedStructureImpl` for `Foo["index"]`
+ * @see `ObjectLiteralTypedStructureImpl` for `{ [key: string]: boolean }`
  */
 export default class MappedTypeStructureImpl extends TypeStructuresWithTypeParameters<TypeStructureKind.Mapped> {
   readonly kind: TypeStructureKind.Mapped = TypeStructureKind.Mapped;

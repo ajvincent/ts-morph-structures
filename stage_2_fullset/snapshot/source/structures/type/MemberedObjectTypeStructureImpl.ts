@@ -8,14 +8,14 @@ import {
   MethodSignatureImpl,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
+  TypeStructureKind,
 } from "../../exports.js";
 
-import { TypeStructureKind } from "../../base/TypeStructureKind.js";
-
-import TypeStructureClassesMap from "../../base/TypeStructureClassesMap.js";
-import TypeStructuresBase from "./TypeStructuresBase.js";
-
-import type { CloneableTypeStructure } from "../../types/CloneableStructure.js";
+import {
+  type CloneableTypeStructure,
+  TypeStructureClassesMap,
+  TypeStructuresBase,
+} from "../../internal-exports.js";
 
 /**
  * ```typescript

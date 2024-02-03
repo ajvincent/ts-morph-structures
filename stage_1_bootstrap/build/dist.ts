@@ -38,24 +38,6 @@ export default async function buildDist(): Promise<void>
 {
   await cleanDist();
 
-  await fs.mkdir(distDir, { recursive: true });
-  await fs.cp(
-    pathToModule(stageDir, "source"),
-    path.join(distDir, "source"),
-    { recursive: true }
-  );
-
-  await Promise.all([
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "base/TypeAccessors.ts", 1),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "base/TypeStructureSet.ts", 1),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "structures/type/MemberedObjectTypeStructureImpl.ts", 2),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "structures/type/FunctionTypeStructureImpl.ts", 2),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "structures/type/InferTypeStructureImpl.ts", 2),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "structures/type/MappedTypeStructureImpl.ts", 2),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "structures/type/TypeStructuresWithTypeParameters.ts", 2),
-    fixPrototypeExportsAndTypeStructureImpl(distDir, "types/TypeAndTypeStructureInterfaces.d.ts", 1),
-  ]);
-
   await BuildClassesDriver(distDir);
   {
     const results = TSDocMap.toJSON();
@@ -67,15 +49,3 @@ export default async function buildDist(): Promise<void>
   await runPrettify(distDir);
 }
 
-async function fixPrototypeExportsAndTypeStructureImpl(
-  distDir: string,
-  pathUnderSource: string,
-  stepsToAncestor: number
-): Promise<void>
-{
-  const modulePath = path.join(distDir, "source", pathUnderSource);
-  let contents: string = await fs.readFile(modulePath, { encoding: "utf-8" });
-  contents = contents.replace(/#stage_one\/prototype-snapshot\//g, "../".repeat(stepsToAncestor));
-  contents = contents.replace(/TypedStructureImpl/g, "TypeStructureImpl");
-  await fs.writeFile(modulePath, contents, { encoding: "utf-8" });
-}

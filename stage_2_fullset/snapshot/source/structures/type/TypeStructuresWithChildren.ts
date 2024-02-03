@@ -1,13 +1,12 @@
 import type { CodeBlockWriter, WriterFunction } from "ts-morph";
 
-import { TypeStructureKind } from "../../base/TypeStructureKind.js";
+import {
+  TypeStructureKind,
+  type TypeStructures,
+  type stringTypeStructuresOrNull,
+} from "../../exports.js";
 
 import TypeStructuresBase from "./TypeStructuresBase.js";
-
-import type {
-  TypeStructures,
-  stringTypeStructuresOrNull,
-} from "./TypeStructures.js";
 
 class TypePrinterSettings {
   indentChildren = false;

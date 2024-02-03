@@ -1,13 +1,12 @@
 import type { CodeBlockWriter, WriterFunction } from "ts-morph";
 
-import { TypeStructureKind } from "../../base/TypeStructureKind.js";
+import { TypeStructureKind, type TypeStructures } from "../../exports.js";
 
-import type { TypeStructures } from "./TypeStructures.js";
-
-import TypeStructureClassesMap from "../../base/TypeStructureClassesMap.js";
-import TypeStructuresBase from "./TypeStructuresBase.js";
-
-import type { CloneableTypeStructure } from "../../types/CloneableStructure.js";
+import {
+  type CloneableTypeStructure,
+  TypeStructuresBase,
+  TypeStructureClassesMap,
+} from "../../internal-exports.js";
 
 /**
  * `boolean[]`

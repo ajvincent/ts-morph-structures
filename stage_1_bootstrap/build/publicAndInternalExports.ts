@@ -2,6 +2,14 @@ import fs from "fs/promises";
 import path from "path";
 import StructureDictionaries from "./StructureDictionaries.js";
 
+import {
+  projectDir,
+} from "./constants.js";
+
+import {
+  pathToModule,
+} from "#utilities/source/AsyncSpecModules.js";
+
 export default async function defineExistingExports(
   dictionaries: StructureDictionaries,
   distDir: string
@@ -161,6 +169,13 @@ function definePublicExports(
   });
 
   dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/types/StructureImplUnions.d.ts"),
+    exportNames: [], // export all the union types
+    isDefaultExport: false,
+    isType: true
+  });
+
+  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/types/TypeAndTypeStructureInterfaces.d.ts"),
     exportNames: [],
     isDefaultExport: false,
@@ -250,6 +265,20 @@ function defineInternalExports(
   });
 
   dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/structures/type/TypeStructuresWithChildren.ts"),
+    exportNames: ["TypeStructuresWithChildren"],
+    isDefaultExport: true,
+    isType: false
+  });
+
+  dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/structures/type/TypeStructuresWithTypeParameters.ts"),
+    exportNames: ["TypeStructuresWithTypeParameters"],
+    isDefaultExport: true,
+    isType: false
+  });
+
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/toolbox/DefaultMap.ts"),
     exportNames: [
       "DefaultMap",
@@ -268,7 +297,10 @@ function defineInternalExports(
 
   dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/types/CloneableStructure.d.ts"),
-    exportNames: ["CloneableStructure"],
+    exportNames: [
+      "CloneableStructure",
+      "CloneableTypeStructure",
+    ],
     isDefaultExport: false,
     isType: true
   });
@@ -307,20 +339,28 @@ function defineInternalExports(
     isDefaultExport: false,
     isType: true
   });
+
+
+  dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/types/ts-morph-typednodewriter.ts"),
+    exportNames: ["TypedNodeWriter"],
+    isDefaultExport: false,
+    isType: true
+  });
 }
 
 async function defineTypeStructurePublicExports(
   dictionaries: StructureDictionaries,
-  distDir: string
+  distDir: string,
 ): Promise<void>
 {
-  const sourceDir = path.join(distDir, "source/structures/type");
+  const sourceDir = pathToModule(projectDir, "stage_1_integration/source/structures/type");
   const typeStructureFiles = (await fs.readdir(
     sourceDir
   )).filter(f => f.endsWith("TypeStructureImpl.ts"));
   typeStructureFiles.forEach((moduleFileName) => {
     dictionaries.publicExports.addExports({
-      absolutePathToModule: path.join(sourceDir, moduleFileName),
+      absolutePathToModule: path.join(distDir, "source/structures/type", moduleFileName),
       exportNames: [moduleFileName.replace(".ts", "")],
       isDefaultExport: true,
       isType: false

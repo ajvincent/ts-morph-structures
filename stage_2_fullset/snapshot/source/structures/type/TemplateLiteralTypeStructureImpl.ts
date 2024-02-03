@@ -1,12 +1,12 @@
-import { TypeStructureKind } from "../../base/TypeStructureKind.js";
-
-import type { TypeStructures } from "./TypeStructures.js";
-
-import TypeStructuresBase from "./TypeStructuresBase.js";
-
-import TypeStructureClassesMap from "../../base/TypeStructureClassesMap.js";
-import type { CloneableTypeStructure } from "../../types/CloneableStructure.js";
 import { CodeBlockWriter, WriterFunction } from "ts-morph";
+
+import { TypeStructureKind, type TypeStructures } from "../../exports.js";
+
+import {
+  type CloneableTypeStructure,
+  TypeStructureClassesMap,
+  TypeStructuresBase,
+} from "../../internal-exports.js";
 
 /** `one${"A" | "B"}two${"C" | "D"}three` */
 export default class TemplateLiteralTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.TemplateLiteral> {

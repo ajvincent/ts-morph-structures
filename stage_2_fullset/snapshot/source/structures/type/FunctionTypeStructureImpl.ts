@@ -1,19 +1,20 @@
 // #region preamble
 import type { CodeBlockWriter, WriterFunction } from "ts-morph";
 
-import { type TypeStructures } from "./TypeStructures.js";
+import {
+  ParameterTypeStructureImpl,
+  PrefixOperatorsTypeStructureImpl,
+  TypeParameterDeclarationImpl,
+  TypeStructureKind,
+  type TypeStructures,
+} from "../../exports.js";
 
-import { TypeParameterDeclarationImpl } from "../../exports.js";
+import {
+  type CloneableTypeStructure,
+  TypeStructureClassesMap,
+  TypeStructuresWithTypeParameters,
+} from "../../internal-exports.js";
 
-import ParameterTypeStructureImpl from "./ParameterTypeStructureImpl.js";
-import PrefixOperatorsTypeStructureImpl from "./PrefixOperatorsTypeStructureImpl.js";
-
-import TypeStructureClassesMap from "../../base/TypeStructureClassesMap.js";
-import TypeStructuresWithTypeParameters from "./TypeStructuresWithTypeParameters.js";
-
-import { TypeStructureKind } from "../../base/TypeStructureKind.js";
-
-import type { CloneableTypeStructure } from "../../types/CloneableStructure.js";
 // #endregion preamble
 
 export enum FunctionWriterStyle {

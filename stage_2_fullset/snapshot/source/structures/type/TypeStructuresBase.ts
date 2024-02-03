@@ -3,9 +3,8 @@ import type { CodeBlockWriter, WriterFunction } from "ts-morph";
 import {
   KindedTypeStructure,
   TypeStructureKind,
-} from "../../base/TypeStructureKind.js";
-
-import type { TypeStructures } from "./TypeStructures.js";
+  type TypeStructures,
+} from "../../exports.js";
 
 export default abstract class TypeStructuresBase<Kind extends TypeStructureKind>
   implements KindedTypeStructure<Kind>

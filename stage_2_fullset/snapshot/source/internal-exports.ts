@@ -103,11 +103,17 @@ export {
 } from "./decorators/standard/TypeParameteredNodeStructureMixin.js";
 export * from "./exports.js";
 export { default as TypeStructuresBase } from "./structures/type/TypeStructuresBase.js";
+export { default as TypeStructuresWithChildren } from "./structures/type/TypeStructuresWithChildren.js";
+export { default as TypeStructuresWithTypeParameters } from "./structures/type/TypeStructuresWithTypeParameters.js";
 export { DefaultMap, DefaultWeakMap } from "./toolbox/DefaultMap.js";
 export { default as MemberedStatementsKeyClass } from "./toolbox/MemberedStatementsKeyClass.js";
-export type { CloneableStructure } from "./types/CloneableStructure.js";
+export type {
+  CloneableStructure,
+  CloneableTypeStructure,
+} from "./types/CloneableStructure.js";
 export type { ExtractStructure } from "./types/ExtractStructure.js";
 export type { PreferArrayFields } from "./types/PreferArrayFields.js";
 export type { RequiredOmit } from "./types/RequiredOmit.js";
 export type { RightExtendsLeft } from "./types/RightExtendsLeft.js";
 export type { StructureClassToJSON } from "./types/StructureClassToJSON.js";
+export type { TypedNodeWriter } from "./types/ts-morph-typednodewriter.js";

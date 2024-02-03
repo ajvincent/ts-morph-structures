@@ -5,8 +5,9 @@ import {
   type Structures,
 } from "ts-morph";
 
-import StructuresClassesMap from "./StructuresClassesMap.js";
-import type { stringOrWriterFunction } from "../types/stringOrWriterFunction.js";
+import type { stringOrWriterFunction } from "../exports.js";
+
+import { StructuresClassesMap } from "../internal-exports.js";
 
 type ArrayOrValue<T> = T | readonly T[];
 

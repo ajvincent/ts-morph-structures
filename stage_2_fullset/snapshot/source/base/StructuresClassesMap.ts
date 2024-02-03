@@ -2,8 +2,9 @@ import type { Class } from "type-fest";
 
 import { StructureKind, type Structures } from "ts-morph";
 
-import { CloneableStructure } from "../types/CloneableStructure.js";
-import { StructureImpls } from "../types/StructureImplUnions.js";
+import type { StructureImpls } from "../exports.js";
+
+import { type CloneableStructure } from "../internal-exports.js";
 
 class StructuresClassesMapClass extends Map<
   StructureKind,
