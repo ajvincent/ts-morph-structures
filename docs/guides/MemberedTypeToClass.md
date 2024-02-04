@@ -425,7 +425,7 @@ export interface ClassAsyncMethodQuestion {
   isAsync(isStatic: boolean, kind: StructureKind.Method, memberName: string): boolean;
 }
 
-export interface ClassAsyncGeneratorQuestion {
+export interface ClassGeneratorMethodQuestion {
   isGenerator(isStatic: boolean, kind: StructureKind.Method, memberName: string): boolean;
 }
 
