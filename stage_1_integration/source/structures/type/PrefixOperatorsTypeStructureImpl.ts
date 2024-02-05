@@ -4,12 +4,14 @@ import type {
 } from "ts-morph";
 
 import {
+  type StructureImpls,
   TypeStructureKind,
   type TypeStructures,
 } from "../../../snapshot/source/exports.js";
 
 import {
   type CloneableTypeStructure,
+  STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructureClassesMap,
   TypeStructuresBase,
 } from "../../../snapshot/source/internal-exports.js";
@@ -63,6 +65,14 @@ extends TypeStructuresBase<TypeStructureKind.PrefixOperators>
   }
 
   readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures>
+  {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    if (typeof this.objectType === "object")
+      yield this.objectType;
+  }
 }
 PrefixOperatorsTypeStructureImpl satisfies CloneableTypeStructure<PrefixOperatorsTypeStructureImpl>;
 TypeStructureClassesMap.set(TypeStructureKind.PrefixOperators, PrefixOperatorsTypeStructureImpl);

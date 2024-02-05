@@ -5,6 +5,7 @@ import type {
 } from "ts-morph";
 
 import {
+  type StructureImpls,
   TypeParameterDeclarationImpl,
   TypeStructureKind,
   type TypeStructures,
@@ -12,6 +13,7 @@ import {
 
 import {
   type CloneableTypeStructure,
+  STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructureClassesMap,
   TypeStructuresWithTypeParameters,
 } from "../../../snapshot/source/internal-exports.js";
@@ -97,6 +99,17 @@ extends TypeStructuresWithTypeParameters<TypeStructureKind.Mapped>
     clone.questionToken = other.questionToken;
 
     return clone;
+  }
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures>
+  {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    yield this.parameter;
+    if (typeof this.asName === "object")
+      yield this.asName;
+    if (typeof this.type === "object")
+      yield this.type;
   }
 }
 

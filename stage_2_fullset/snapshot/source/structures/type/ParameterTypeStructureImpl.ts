@@ -1,10 +1,15 @@
 // #region preamble
 import type { CodeBlockWriter } from "ts-morph";
 
-import { TypeStructureKind, type TypeStructures } from "../../exports.js";
+import {
+  type StructureImpls,
+  TypeStructureKind,
+  type TypeStructures,
+} from "../../exports.js";
 
 import {
   type CloneableTypeStructure,
+  STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructureClassesMap,
   TypeStructuresBase,
 } from "../../internal-exports.js";
@@ -44,6 +49,14 @@ export default class ParameterTypeStructureImpl extends TypeStructuresBase<TypeS
       writer.write(": ");
       TypeStructuresBase.writeStringOrType(writer, this.typeStructure);
     }
+  }
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<
+    StructureImpls | TypeStructures
+  > {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    if (typeof this.typeStructure === "object") yield this.typeStructure;
   }
 }
 ParameterTypeStructureImpl satisfies CloneableTypeStructure<ParameterTypeStructureImpl>;

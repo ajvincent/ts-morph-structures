@@ -5,18 +5,22 @@ import type {
 } from "ts-morph";
 
 import {
+  type StructureImpls,
   TypeParameterDeclarationImpl,
   TypeStructureKind,
+  type TypeStructures,
 } from "../../../snapshot/source/exports.js";
 
 import {
   type CloneableTypeStructure,
+  STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructureClassesMap,
   TypeStructuresWithTypeParameters,
 } from "../../../snapshot/source/internal-exports.js";
 
 // #endregion preamble
 
+/** @example infer \<type\> (extends \<type\>)? */
 export default class InferTypeStructureImpl
 extends TypeStructuresWithTypeParameters<TypeStructureKind.Infer>
 {
@@ -50,6 +54,13 @@ extends TypeStructuresWithTypeParameters<TypeStructureKind.Infer>
     return new InferTypeStructureImpl(
       TypeParameterDeclarationImpl.clone(other.typeParameter)
     );
+  }
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures>
+  {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    yield this.typeParameter;
   }
 }
 

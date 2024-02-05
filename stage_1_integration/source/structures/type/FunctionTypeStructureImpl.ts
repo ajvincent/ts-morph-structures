@@ -7,6 +7,7 @@ import type {
 import {
   ParameterTypeStructureImpl,
   PrefixOperatorsTypeStructureImpl,
+  type StructureImpls,
   TypeParameterDeclarationImpl,
   TypeStructureKind,
   type TypeStructures,
@@ -16,6 +17,7 @@ import {
   type CloneableTypeStructure,
   TypeStructureClassesMap,
   TypeStructuresWithTypeParameters,
+  STRUCTURE_AND_TYPES_CHILDREN,
 } from "../../../snapshot/source/internal-exports.js";
 
 // #endregion preamble
@@ -153,6 +155,19 @@ extends TypeStructuresWithTypeParameters<TypeStructureKind.Function>
   }
 
   writerFunction: WriterFunction = this.#writerFunction.bind(this);
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures>
+  {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+
+    yield* this.typeParameters.values();
+    yield* this.parameters.values();
+    if (this.restParameter)
+      yield this.restParameter;
+    if (typeof this.returnType === "object")
+      yield this.returnType;
+  }
 }
 
 FunctionTypeStructureImpl satisfies CloneableTypeStructure<FunctionTypeStructureImpl>;

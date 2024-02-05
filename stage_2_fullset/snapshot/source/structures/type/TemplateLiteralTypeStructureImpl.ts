@@ -1,9 +1,14 @@
 import { CodeBlockWriter, WriterFunction } from "ts-morph";
 
-import { TypeStructureKind, type TypeStructures } from "../../exports.js";
+import {
+  type StructureImpls,
+  TypeStructureKind,
+  type TypeStructures,
+} from "../../exports.js";
 
 import {
   type CloneableTypeStructure,
+  STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructureClassesMap,
   TypeStructuresBase,
 } from "../../internal-exports.js";
@@ -47,6 +52,17 @@ export default class TemplateLiteralTypeStructureImpl extends TypeStructuresBase
         writer.write(span[1]);
       });
     });
+  }
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<
+    StructureImpls | TypeStructures
+  > {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    for (const span of this.spans) {
+      const type = span[0];
+      if (typeof type === "object") yield type;
+    }
   }
 }
 TemplateLiteralTypeStructureImpl satisfies CloneableTypeStructure<TemplateLiteralTypeStructureImpl>;

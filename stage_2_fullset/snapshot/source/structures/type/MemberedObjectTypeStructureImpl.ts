@@ -8,11 +8,14 @@ import {
   MethodSignatureImpl,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
+  type StructureImpls,
   TypeStructureKind,
+  type TypeStructures,
 } from "../../exports.js";
 
 import {
   type CloneableTypeStructure,
+  STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructureClassesMap,
   TypeStructuresBase,
 } from "../../internal-exports.js";
@@ -95,6 +98,20 @@ export default class MemberedObjectTypeStructureImpl extends TypeStructuresBase<
   }
 
   writerFunction = this.#writerFunction.bind(this);
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<
+    StructureImpls | TypeStructures
+  > {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    yield* this.callSignatures.values();
+    yield* this.constructSignatures.values();
+    yield* this.getAccessors.values();
+    yield* this.indexSignatures.values();
+    yield* this.methods.values();
+    yield* this.properties.values();
+    yield* this.setAccessors.values();
+  }
 }
 MemberedObjectTypeStructureImpl satisfies CloneableTypeStructure<MemberedObjectTypeStructureImpl>;
 TypeStructureClassesMap.set(

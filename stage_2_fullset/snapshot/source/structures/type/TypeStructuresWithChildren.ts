@@ -2,9 +2,12 @@ import type { CodeBlockWriter, WriterFunction } from "ts-morph";
 
 import {
   TypeStructureKind,
+  type StructureImpls,
   type TypeStructures,
   type stringTypeStructuresOrNull,
 } from "../../exports.js";
+
+import { STRUCTURE_AND_TYPES_CHILDREN } from "../../internal-exports.js";
 
 import TypeStructuresBase from "./TypeStructuresBase.js";
 
@@ -76,4 +79,16 @@ export default abstract class TypeStructuresWithChildren<
 
   readonly writerFunction: WriterFunction =
     this.#writerFunctionOuter.bind(this);
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<
+    StructureImpls | TypeStructures
+  > {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    if (typeof this.objectType === "object" && this.objectType)
+      yield this.objectType;
+    for (const child of this.childTypes) {
+      if (typeof child === "object") yield child;
+    }
+  }
 }

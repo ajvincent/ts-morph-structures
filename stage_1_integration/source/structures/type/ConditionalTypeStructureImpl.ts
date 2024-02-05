@@ -5,11 +5,13 @@ import type {
 
 import {
   TypeStructureKind,
+  type StructureImpls,
   type TypeStructures,
 } from "../../../snapshot/source/exports.js";
 
 import {
   type CloneableTypeStructure,
+  STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructuresBase,
   TypeStructureClassesMap,
 } from "../../../snapshot/source/internal-exports.js";
@@ -73,6 +75,21 @@ extends TypeStructuresBase<TypeStructureKind.Conditional>
   }
 
   readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures>
+  {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+
+    if (typeof this.checkType === "object")
+      yield this.checkType;
+    if (typeof this.extendsType === "object")
+      yield this.extendsType;
+    if (typeof this.trueType === "object")
+      yield this.trueType;
+    if (typeof this.falseType === "object")
+      yield this.falseType;
+  }
 }
 ConditionalTypeStructureImpl satisfies CloneableTypeStructure<ConditionalTypeStructureImpl>;
 TypeStructureClassesMap.set(TypeStructureKind.Conditional, ConditionalTypeStructureImpl);

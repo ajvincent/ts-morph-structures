@@ -4,12 +4,14 @@ import type {
 } from "ts-morph";
 
 import {
+  type StructureImpls,
   TypeStructureKind,
   type TypeStructures,
 } from "../../../snapshot/source/exports.js";
 
 import {
   type CloneableTypeStructure,
+  STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructureClassesMap,
   TypeStructuresBase,
 } from "../../../snapshot/source/internal-exports.js";
@@ -56,6 +58,14 @@ extends TypeStructuresBase<TypeStructureKind.Parameter>
       writer.write(": ");
       TypeStructuresBase.writeStringOrType(writer, this.typeStructure);
     }
+  }
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures>
+  {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    if (typeof this.typeStructure === "object")
+      yield this.typeStructure;
   }
 }
 ParameterTypeStructureImpl satisfies CloneableTypeStructure<ParameterTypeStructureImpl>;

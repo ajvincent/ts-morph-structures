@@ -4,12 +4,14 @@ import {
 } from "ts-morph";
 
 import {
+  type StructureImpls,
   TypeStructureKind,
   type TypeStructures,
 } from "../../../snapshot/source/exports.js";
 
 import {
   type CloneableTypeStructure,
+  STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructureClassesMap,
   TypeStructuresBase,
 } from "../../../snapshot/source/internal-exports.js";
@@ -60,6 +62,17 @@ extends TypeStructuresBase<TypeStructureKind.TemplateLiteral>
         writer.write(span[1]);
       });
     });
+  }
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures>
+  {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    for (const span of this.spans) {
+      const type = span[0];
+      if (typeof type === "object")
+        yield type;
+    }
   }
 }
 TemplateLiteralTypeStructureImpl satisfies CloneableTypeStructure<TemplateLiteralTypeStructureImpl>;

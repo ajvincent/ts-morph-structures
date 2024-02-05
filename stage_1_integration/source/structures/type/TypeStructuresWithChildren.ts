@@ -5,9 +5,14 @@ import type {
 
 import {
   TypeStructureKind,
+  type StructureImpls,
   type TypeStructures,
   type stringTypeStructuresOrNull,
 } from "../../../snapshot/source/exports.js";
+
+import {
+  STRUCTURE_AND_TYPES_CHILDREN,
+} from "../../../snapshot/source/internal-exports.js";
 
 import TypeStructuresBase from "./TypeStructuresBase.js";
 
@@ -88,4 +93,16 @@ extends TypeStructuresBase<Kind>
   }
 
   readonly writerFunction: WriterFunction = this.#writerFunctionOuter.bind(this);
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures>
+  {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    if ((typeof this.objectType === "object") && this.objectType)
+      yield this.objectType;
+    for (const child of this.childTypes) {
+      if (typeof child === "object")
+        yield child;
+    }
+  }
 }

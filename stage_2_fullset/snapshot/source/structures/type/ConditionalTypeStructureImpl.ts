@@ -1,9 +1,14 @@
 import type { CodeBlockWriter, WriterFunction } from "ts-morph";
 
-import { TypeStructureKind, type TypeStructures } from "../../exports.js";
+import {
+  TypeStructureKind,
+  type StructureImpls,
+  type TypeStructures,
+} from "../../exports.js";
 
 import {
   type CloneableTypeStructure,
+  STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructuresBase,
   TypeStructureClassesMap,
 } from "../../internal-exports.js";
@@ -58,6 +63,18 @@ export default class ConditionalTypeStructureImpl extends TypeStructuresBase<Typ
   }
 
   readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<
+    StructureImpls | TypeStructures
+  > {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+
+    if (typeof this.checkType === "object") yield this.checkType;
+    if (typeof this.extendsType === "object") yield this.extendsType;
+    if (typeof this.trueType === "object") yield this.trueType;
+    if (typeof this.falseType === "object") yield this.falseType;
+  }
 }
 ConditionalTypeStructureImpl satisfies CloneableTypeStructure<ConditionalTypeStructureImpl>;
 TypeStructureClassesMap.set(
