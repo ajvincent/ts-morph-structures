@@ -45,13 +45,13 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
   let writer: CodeBlockWriter;
   beforeEach(() => writer = new CodeBlockWriter());
 
-  const fooTyped = new LiteralTypeStructureImpl("foo");
-  const nstTyped = new LiteralTypeStructureImpl("NumberStringType");
+  const fooTyped = LiteralTypeStructureImpl.get("foo");
+  const nstTyped = LiteralTypeStructureImpl.get("NumberStringType");
   const typeParam = new TypeParameterDeclarationImpl("UserType");
   typeParam.constraint = "number";
   typeParam.default = "6";
 
-  const stringBarTyped = new StringTypeStructureImpl("bar");
+  const stringBarTyped = StringTypeStructureImpl.get("bar");
 
   function checkCloneAndRegistration(
     typedWriter: TypeStructures,

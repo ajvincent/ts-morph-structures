@@ -12,6 +12,15 @@ import {
 
 /** Strings, encased in double quotes.  Leaf nodes. */
 export default class StringTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.String> {
+  static readonly #cache = new Map<string, StringTypeStructureImpl>();
+
+  static get(name: string): StringTypeStructureImpl {
+    if (!this.#cache.has(name)) {
+      this.#cache.set(name, new StringTypeStructureImpl(name));
+    }
+    return this.#cache.get(name)!;
+  }
+
   static clone(other: StringTypeStructureImpl): StringTypeStructureImpl {
     return new StringTypeStructureImpl(other.stringValue);
   }

@@ -20,6 +20,15 @@ import {
  * @internal
  */
 export default class LiteralTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Literal> {
+  static readonly #cache = new Map<string, LiteralTypeStructureImpl>();
+
+  static get(name: string): LiteralTypeStructureImpl {
+    if (!this.#cache.has(name)) {
+      this.#cache.set(name, new LiteralTypeStructureImpl(name));
+    }
+    return this.#cache.get(name)!;
+  }
+
   static clone(other: LiteralTypeStructureImpl): LiteralTypeStructureImpl {
     return new LiteralTypeStructureImpl(other.stringValue);
   }
