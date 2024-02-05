@@ -1,24 +1,33 @@
 import {
+  Structures,
+  forEachStructureChild,
+} from "ts-morph";
+
+import {
   ArrayTypeStructureImpl,
   ClassDeclarationImpl,
   ConditionalTypeStructureImpl,
   FunctionTypeStructureImpl,
+  GetAccessorDeclarationImpl,
   InferTypeStructureImpl,
   MappedTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
   MethodDeclarationImpl,
+  MethodSignatureImpl,
+  ParameterDeclarationImpl,
   ParameterTypeStructureImpl,
   PrefixOperatorsTypeStructureImpl,
+  PropertySignatureImpl,
   type StructureImpls,
   TemplateLiteralTypeStructureImpl,
   TypeParameterDeclarationImpl,
   type TypeStructures,
+  SetAccessorDeclarationImpl,
   StringTypeStructureImpl,
   TypeArgumentedTypeStructureImpl,
   UnionTypeStructureImpl,
   forEachAugmentedStructureChild,
 } from "#stage_two/snapshot/source/exports.js";
-import { Structures, forEachStructureChild } from "ts-morph";
 
 type ChildStructure = StructureImpls | TypeStructures;
 type ForEachStructureCallback<TStructure> = (child: ChildStructure) => TStructure | void;
@@ -254,8 +263,20 @@ describe("forEachAugmentedStructureImpl", () => {
         forEachChildAcceptSecond(type);
       });
 
-      xit("FunctionTypeStructureImpl", () => {
-        void(FunctionTypeStructureImpl);
+      it("FunctionTypeStructureImpl", () => {
+        const typeParam = new TypeParameterDeclarationImpl("T");
+        const stringType = new StringTypeStructureImpl("foo");
+        const param = new ParameterTypeStructureImpl("name", stringType);
+        const restParam = new ParameterTypeStructureImpl("restName", stringType);
+
+        const functionType = new FunctionTypeStructureImpl({
+          typeParameters: [typeParam],
+          parameters: [param],
+          restParameter: restParam,
+          returnType: secondType
+        });
+
+        forEachChildSkipAll(functionType, [typeParam, param, restParam, secondType]);
       });
 
       it("MappedTypeStructureImpl", () => {
@@ -272,8 +293,25 @@ describe("forEachAugmentedStructureImpl", () => {
         ]);
       });
 
-      xit("MemberedObjectTypeStructureImpl", () => {
-        void(MemberedObjectTypeStructureImpl);
+      it("MemberedObjectTypeStructureImpl", () => {
+        const prop1 = new PropertySignatureImpl("one"), prop2 = new PropertySignatureImpl("two");
+        const method3 = new MethodSignatureImpl("three"), method4 = new MethodSignatureImpl("four");
+        const getter5 = new GetAccessorDeclarationImpl(false, "five"), getter6 = new GetAccessorDeclarationImpl(false, "six");
+        const setter5 = new SetAccessorDeclarationImpl(false, "five", new ParameterDeclarationImpl("value"));
+        const setter6 = new SetAccessorDeclarationImpl(false, "six", new ParameterDeclarationImpl("value"));
+
+        const membered = new MemberedObjectTypeStructureImpl;
+        membered.properties.push(prop1, prop2);
+        membered.methods.push(method3, method4);
+        membered.getAccessors.push(getter5, getter6);
+        membered.setAccessors.push(setter5, setter6);
+
+        forEachChildSkipAll(membered, [
+          getter5, getter6,
+          method3, method4,
+          prop1, prop2,
+          setter5, setter6
+        ]);
       });
 
       it("TemplateLiteralTypeStructureImpl", () => {
