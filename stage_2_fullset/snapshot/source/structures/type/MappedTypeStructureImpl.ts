@@ -28,9 +28,9 @@ export default class MappedTypeStructureImpl extends TypeStructuresWithTypeParam
 
   readonlyToken: "+readonly" | "-readonly" | "readonly" | undefined;
   parameter: TypeParameterDeclarationImpl;
-  asName: string | TypeStructures | undefined = undefined;
+  asName: TypeStructures | undefined = undefined;
   questionToken: "+?" | "-?" | "?" | undefined;
-  type: string | TypeStructures | undefined;
+  type: TypeStructures | undefined;
 
   constructor(parameter: TypeParameterDeclarationImpl) {
     super();
@@ -53,7 +53,7 @@ export default class MappedTypeStructureImpl extends TypeStructuresWithTypeParam
 
       if (this.asName) {
         writer.write(" as ");
-        MappedTypeStructureImpl.writeStringOrType(writer, this.asName);
+        this.asName.writerFunction(writer);
       }
 
       writer.write("]");
@@ -63,7 +63,7 @@ export default class MappedTypeStructureImpl extends TypeStructuresWithTypeParam
 
       if (this.type) {
         writer.write(": ");
-        MappedTypeStructureImpl.writeStringOrType(writer, this.type);
+        this.type.writerFunction(writer);
       }
 
       writer.write(";");

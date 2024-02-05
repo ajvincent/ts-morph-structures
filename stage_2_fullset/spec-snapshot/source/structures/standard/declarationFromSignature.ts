@@ -3,6 +3,7 @@ import {
   ConstructSignatureDeclarationImpl,
   JSDocImpl,
   JSDocTagImpl,
+  LiteralTypeStructureImpl,
   MethodDeclarationImpl,
   MethodSignatureImpl,
   ParameterDeclarationImpl,
@@ -41,11 +42,11 @@ describe("static fromSignature() methods generally work", () => {
     signature.typeParameters.push(new TypeParameterDeclarationImpl("SignatureType"));
     {
       const param = new ParameterDeclarationImpl("mySignature");
-      param.typeStructure = "SignatureType";
+      param.typeStructure = LiteralTypeStructureImpl.get("SignatureType");
       signature.parameters.push(param);
     }
 
-    signature.returnTypeStructure = "symbol";
+    signature.returnTypeStructure = LiteralTypeStructureImpl.get("symbol");
 
     const decl: ConstructorDeclarationImpl = ConstructorDeclarationImpl.fromSignature(signature);
     checkDoc(decl.docs[0] as JSDocImpl);
@@ -68,7 +69,7 @@ describe("static fromSignature() methods generally work", () => {
     if (decl.parameters.length > 0) {
       const param = decl.parameters[0] as ParameterDeclarationImpl;
       expect(param.name).toBe("mySignature");
-      expect(param.typeStructure).toBe("SignatureType");
+      expect(param.typeStructure).toBe(LiteralTypeStructureImpl.get("SignatureType"));
       expect(param).not.toBe(signature.parameters[0] as ParameterDeclarationImpl);
     }
   });
@@ -83,11 +84,11 @@ describe("static fromSignature() methods generally work", () => {
     signature.typeParameters.push(new TypeParameterDeclarationImpl("SignatureType"));
     {
       const param = new ParameterDeclarationImpl("mySignature");
-      param.typeStructure = "SignatureType";
+      param.typeStructure = LiteralTypeStructureImpl.get("SignatureType");
       signature.parameters.push(param);
     }
 
-    signature.returnTypeStructure = "symbol";
+    signature.returnTypeStructure = LiteralTypeStructureImpl.get("symbol");
 
     const decl: MethodDeclarationImpl = MethodDeclarationImpl.fromSignature(false, signature);
 
@@ -115,11 +116,11 @@ describe("static fromSignature() methods generally work", () => {
     if (decl.parameters.length > 0) {
       const param = decl.parameters[0] as ParameterDeclarationImpl;
       expect(param.name).toBe("mySignature");
-      expect(param.typeStructure).toBe("SignatureType");
+      expect(param.typeStructure).toBe(LiteralTypeStructureImpl.get("SignatureType"));
       expect(param).not.toBe(signature.parameters[0] as ParameterDeclarationImpl);
     }
 
-    expect(decl.returnTypeStructure).toBe("symbol");
+    expect(decl.returnTypeStructure).toBe(LiteralTypeStructureImpl.get("symbol"));
   });
 
   it("on MethodDeclarationImpl with isStatic: true", () => {
@@ -132,11 +133,11 @@ describe("static fromSignature() methods generally work", () => {
     signature.typeParameters.push(new TypeParameterDeclarationImpl("SignatureType"));
     {
       const param = new ParameterDeclarationImpl("mySignature");
-      param.typeStructure = "SignatureType";
+      param.typeStructure = LiteralTypeStructureImpl.get("SignatureType");
       signature.parameters.push(param);
     }
 
-    signature.returnTypeStructure = "symbol";
+    signature.returnTypeStructure = LiteralTypeStructureImpl.get("symbol");
 
     const decl: MethodDeclarationImpl = MethodDeclarationImpl.fromSignature(true, signature);
 
@@ -164,11 +165,11 @@ describe("static fromSignature() methods generally work", () => {
     if (decl.parameters.length > 0) {
       const param = decl.parameters[0] as ParameterDeclarationImpl;
       expect(param.name).toBe("mySignature");
-      expect(param.typeStructure).toBe("SignatureType");
+      expect(param.typeStructure).toBe(LiteralTypeStructureImpl.get("SignatureType"));
       expect(param).not.toBe(signature.parameters[0] as ParameterDeclarationImpl);
     }
 
-    expect(decl.returnTypeStructure).toBe("symbol");
+    expect(decl.returnTypeStructure).toBe(LiteralTypeStructureImpl.get("symbol"));
   });
 
   it("on PropertyDeclarationImpl with isStatic: false", () => {
@@ -179,7 +180,7 @@ describe("static fromSignature() methods generally work", () => {
     signature.hasQuestionToken = true;
 
     //signature.isReadonly = true;
-    signature.typeStructure = "NumberStringType";
+    signature.typeStructure = LiteralTypeStructureImpl.get("NumberStringType");
 
     const decl: PropertyDeclarationImpl = PropertyDeclarationImpl.fromSignature(false, signature);
 
@@ -194,7 +195,7 @@ describe("static fromSignature() methods generally work", () => {
     expect(decl.trailingTrivia).not.toBe(signature.trailingTrivia);
 
     expect(decl.isReadonly).toBe(signature.isReadonly);
-    expect(decl.typeStructure).toBe("NumberStringType");
+    expect(decl.typeStructure).toBe(LiteralTypeStructureImpl.get("NumberStringType"));
   });
 
   it("on PropertyDeclarationImpl with isStatic: true", () => {
@@ -205,7 +206,7 @@ describe("static fromSignature() methods generally work", () => {
     //signature.hasQuestionToken = true;
 
     signature.isReadonly = true;
-    signature.typeStructure = "NumberStringType";
+    signature.typeStructure = LiteralTypeStructureImpl.get("NumberStringType");
 
     const decl: PropertyDeclarationImpl = PropertyDeclarationImpl.fromSignature(true, signature);
 
@@ -220,6 +221,6 @@ describe("static fromSignature() methods generally work", () => {
     expect(decl.trailingTrivia).not.toBe(signature.trailingTrivia);
 
     expect(decl.isReadonly).toBe(signature.isReadonly);
-    expect(decl.typeStructure).toBe("NumberStringType");
+    expect(decl.typeStructure).toBe(LiteralTypeStructureImpl.get("NumberStringType"));
   });
 });

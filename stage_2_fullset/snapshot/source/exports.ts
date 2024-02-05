@@ -78,8 +78,8 @@ export { default as TemplateLiteralTypeStructureImpl } from "./structures/type/T
 export { default as TupleTypeStructureImpl } from "./structures/type/TupleTypeStructureImpl.js";
 export { default as TypeArgumentedTypeStructureImpl } from "./structures/type/TypeArgumentedTypeStructureImpl.js";
 export type {
-  stringTypeStructuresOrNull,
   TypeStructures,
+  TypeStructuresOrNull,
 } from "./structures/type/TypeStructures.js";
 export { default as UnionTypeStructureImpl } from "./structures/type/UnionTypeStructureImpl.js";
 export { default as WriterTypeStructureImpl } from "./structures/type/WriterTypeStructureImpl.js";

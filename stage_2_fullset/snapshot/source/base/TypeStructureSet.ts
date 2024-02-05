@@ -1,7 +1,9 @@
 import type { WriterFunction } from "ts-morph";
 
 import {
+  TypeStructureKind,
   TypeStructures,
+  LiteralTypeStructureImpl,
   WriterTypeStructureImpl,
   type stringOrWriterFunction,
 } from "../exports.js";
@@ -16,11 +18,11 @@ import {
  * proxies.  The goal is to manage type structures and writer functions in one place,
  * where direct array access is troublesome (particularly, "write access").
  */
-export default class TypeStructureSet extends Set<string | TypeStructures> {
-  static #getBackingValue(
-    value: string | TypeStructures,
-  ): stringOrWriterFunction {
-    return typeof value === "object" ? value.writerFunction : value;
+export default class TypeStructureSet extends Set<TypeStructures> {
+  static #getBackingValue(value: TypeStructures): stringOrWriterFunction {
+    return value.kind === TypeStructureKind.Literal
+      ? value.stringValue
+      : value.writerFunction;
   }
 
   readonly #backingArray: Pick<
@@ -37,7 +39,7 @@ export default class TypeStructureSet extends Set<string | TypeStructures> {
 
     for (const value of backingArray) {
       if (typeof value === "string") {
-        super.add(value);
+        super.add(LiteralTypeStructureImpl.get(value));
         continue;
       }
 
@@ -48,7 +50,7 @@ export default class TypeStructureSet extends Set<string | TypeStructures> {
     }
   }
 
-  add(value: string | TypeStructures): this {
+  add(value: TypeStructures): this {
     if (!super.has(value)) {
       this.#backingArray.push(TypeStructureSet.#getBackingValue(value));
     }
@@ -61,7 +63,7 @@ export default class TypeStructureSet extends Set<string | TypeStructures> {
     return super.clear();
   }
 
-  delete(value: string | TypeStructures): boolean {
+  delete(value: TypeStructures): boolean {
     const backingValue = TypeStructureSet.#getBackingValue(value);
     const index = this.#backingArray.indexOf(backingValue);
     if (index === -1) {
@@ -80,7 +82,7 @@ export default class TypeStructureSet extends Set<string | TypeStructures> {
     this.clear();
     array.forEach((value) => {
       if (typeof value === "string") {
-        this.add(value);
+        this.add(LiteralTypeStructureImpl.get(value));
         return;
       }
 

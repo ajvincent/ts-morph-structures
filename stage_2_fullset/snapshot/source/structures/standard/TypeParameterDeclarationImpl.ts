@@ -34,11 +34,11 @@ const TypeParameterDeclarationStructureBase = MultiMixinBuilder<
 >([NamedNodeStructureMixin, StructureMixin], StructureBase);
 
 interface ConstraintInterface {
-  constraintStructure: string | TypeStructures | undefined;
+  constraintStructure: TypeStructures | undefined;
 }
 
 interface DefaultInterface {
-  defaultStructure: string | TypeStructures | undefined;
+  defaultStructure: TypeStructures | undefined;
 }
 
 export default class TypeParameterDeclarationImpl
@@ -70,11 +70,11 @@ export default class TypeParameterDeclarationImpl
     this.#constraintManager.type = value;
   }
 
-  get constraintStructure(): string | TypeStructures | undefined {
+  get constraintStructure(): TypeStructures | undefined {
     return this.#constraintManager.typeStructure;
   }
 
-  set constraintStructure(value: string | TypeStructures | undefined) {
+  set constraintStructure(value: TypeStructures | undefined) {
     this.#constraintManager.typeStructure = value;
   }
 
@@ -86,11 +86,11 @@ export default class TypeParameterDeclarationImpl
     this.#defaultManager.type = value;
   }
 
-  get defaultStructure(): string | TypeStructures | undefined {
+  get defaultStructure(): TypeStructures | undefined {
     return this.#defaultManager.typeStructure;
   }
 
-  set defaultStructure(value: string | TypeStructures | undefined) {
+  set defaultStructure(value: TypeStructures | undefined) {
     this.#defaultManager.typeStructure = value;
   }
 

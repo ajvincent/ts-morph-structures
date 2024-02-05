@@ -21,6 +21,9 @@ extends TypeStructuresBase<TypeStructureKind.String>
 {
   static readonly #cache = new Map<string, StringTypeStructureImpl>;
 
+  /**
+   * Gets a singleton `StringTypeStructureImpl` for the given name.
+   */
   static get(
     name: string
   ): StringTypeStructureImpl
@@ -35,7 +38,7 @@ extends TypeStructuresBase<TypeStructureKind.String>
     other: StringTypeStructureImpl
   ): StringTypeStructureImpl
   {
-    return new StringTypeStructureImpl(other.stringValue);
+    return StringTypeStructureImpl.get(other.stringValue);
   }
 
   readonly kind = TypeStructureKind.String;

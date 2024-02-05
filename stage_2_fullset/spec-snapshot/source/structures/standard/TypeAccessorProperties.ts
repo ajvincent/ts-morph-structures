@@ -4,6 +4,7 @@ import {
 
 import {
   ClassDeclarationImpl,
+  LiteralTypeStructureImpl,
   TypeStructureKind,
   WriterTypeStructureImpl,
 } from "#stage_two/snapshot/source/exports.js";
@@ -37,7 +38,7 @@ describe("Type accessor properties work", () => {
   describe("with direct type access", () => {
     it("setting a literal", () => {
       classDecl.extends = "boolean";
-      expect(classDecl.extendsStructure).toBe("boolean");
+      expect(classDecl.extendsStructure).toBe(LiteralTypeStructureImpl.get("boolean"));
       expect(classDecl.extends).toBe("boolean");
     });
 
@@ -61,7 +62,7 @@ describe("Type accessor properties work", () => {
     });
 
     it("setting back to undefined after setting the type structure", () => {
-      classDecl.extendsStructure = "never";
+      classDecl.extendsStructure = LiteralTypeStructureImpl.get("never");
       classDecl.extends = undefined;
       expect(classDecl.extends).toBe(undefined);
       expect(classDecl.extendsStructure as unknown).toBe(undefined);
@@ -75,9 +76,9 @@ describe("Type accessor properties work", () => {
 
   describe("with type structure access", () => {
     it("setting a literal", () => {
-      classDecl.extendsStructure = "boolean";
+      classDecl.extendsStructure = LiteralTypeStructureImpl.get("boolean");
       expect(classDecl.extends).toBe("boolean");
-      expect(classDecl.extendsStructure).toBe("boolean");
+      expect(classDecl.extendsStructure).toBe(LiteralTypeStructureImpl.get("boolean"));
     });
 
     it("setting a type structure", () => {
@@ -100,7 +101,7 @@ describe("Type accessor properties work", () => {
     });
 
     it("setting back to undefined after setting the type structure", () => {
-      classDecl.extendsStructure = "never";
+      classDecl.extendsStructure = LiteralTypeStructureImpl.get("never");
       classDecl.extendsStructure = undefined;
       expect(classDecl.extends).toBe(undefined);
       expect(classDecl.extendsStructure).toBe(undefined);
@@ -124,7 +125,7 @@ describe("Type accessor properties work", () => {
       classDecl.extends = "boolean";
       cloneDecl = ClassDeclarationImpl.clone(classDecl);
       expect(cloneDecl.extends).toBe("boolean");
-      expect(cloneDecl.extendsStructure).toBe("boolean");
+      expect(cloneDecl.extendsStructure).toBe(LiteralTypeStructureImpl.get("boolean"));
     });
 
     it("with a writer function", () => {
@@ -145,10 +146,10 @@ describe("Type accessor properties work", () => {
     });
 
     it("with a string type structure", () => {
-      classDecl.extendsStructure = "boolean";
+      classDecl.extendsStructure = LiteralTypeStructureImpl.get("boolean");
       cloneDecl = ClassDeclarationImpl.clone(classDecl);
       expect(cloneDecl.extends).toBe("boolean");
-      expect(cloneDecl.extendsStructure).toBe("boolean");
+      expect(cloneDecl.extendsStructure).toBe(LiteralTypeStructureImpl.get("boolean"));
     });
 
     it("with a writer type structure", () => {
@@ -186,7 +187,7 @@ describe("Type accessor properties work", () => {
     });
 
     it("and a string typeStructure field", () => {
-      classDecl.extendsStructure = "boolean";
+      classDecl.extendsStructure = LiteralTypeStructureImpl.get("boolean");
       expect(classDecl.toJSON().extends).toBe("boolean");
     });
 

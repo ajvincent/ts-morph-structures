@@ -79,11 +79,7 @@ export default class GetAccessorDeclarationImpl
   readonly kind: StructureKind.GetAccessor = StructureKind.GetAccessor;
   isStatic: boolean;
 
-  constructor(
-    isStatic: boolean,
-    name: string,
-    returnType?: string | TypeStructures,
-  ) {
+  constructor(isStatic: boolean, name: string, returnType?: TypeStructures) {
     super();
     this.isStatic = isStatic;
     this.name = name;

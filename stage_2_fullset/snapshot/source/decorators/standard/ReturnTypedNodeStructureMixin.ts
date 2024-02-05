@@ -35,7 +35,7 @@ export type ReturnTypedNodeStructureFields = RightExtendsLeft<
 >;
 
 interface ReturnTypeInterface {
-  returnTypeStructure: string | TypeStructures | undefined;
+  returnTypeStructure: TypeStructures | undefined;
 }
 
 export default function ReturnTypedNodeStructureMixin(
@@ -59,11 +59,11 @@ export default function ReturnTypedNodeStructureMixin(
       this.#returnTypeManager.type = value;
     }
 
-    get returnTypeStructure(): string | TypeStructures | undefined {
+    get returnTypeStructure(): TypeStructures | undefined {
       return this.#returnTypeManager.typeStructure;
     }
 
-    set returnTypeStructure(value: string | TypeStructures | undefined) {
+    set returnTypeStructure(value: TypeStructures | undefined) {
       this.#returnTypeManager.typeStructure = value;
     }
 

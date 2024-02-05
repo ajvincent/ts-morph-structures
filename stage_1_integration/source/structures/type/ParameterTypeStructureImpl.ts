@@ -26,7 +26,7 @@ extends TypeStructuresBase<TypeStructureKind.Parameter>
     other: ParameterTypeStructureImpl
   ): ParameterTypeStructureImpl
   {
-    let typeClone: string | TypeStructures | undefined;
+    let typeClone: TypeStructures | undefined;
     if (other.typeStructure)
       typeClone = TypeStructureClassesMap.clone(other.typeStructure);
     return new ParameterTypeStructureImpl(other.name, typeClone);
@@ -36,11 +36,11 @@ extends TypeStructuresBase<TypeStructureKind.Parameter>
   public readonly writerFunction = this.#writerFunction.bind(this);
 
   public name: string;
-  public typeStructure: string | TypeStructures | undefined;
+  public typeStructure: TypeStructures | undefined;
 
   constructor(
     name: string,
-    typeStructure: string | TypeStructures | undefined
+    typeStructure: TypeStructures | undefined
   )
   {
     super();
@@ -56,7 +56,7 @@ extends TypeStructuresBase<TypeStructureKind.Parameter>
     writer.write(this.name);
     if (this.typeStructure) {
       writer.write(": ");
-      TypeStructuresBase.writeStringOrType(writer, this.typeStructure);
+      this.typeStructure.writerFunction(writer);
     }
   }
 

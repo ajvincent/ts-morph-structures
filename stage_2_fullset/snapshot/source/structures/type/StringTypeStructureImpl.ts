@@ -14,6 +14,9 @@ import {
 export default class StringTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.String> {
   static readonly #cache = new Map<string, StringTypeStructureImpl>();
 
+  /**
+   * Gets a singleton `StringTypeStructureImpl` for the given name.
+   */
   static get(name: string): StringTypeStructureImpl {
     if (!this.#cache.has(name)) {
       this.#cache.set(name, new StringTypeStructureImpl(name));
@@ -22,7 +25,7 @@ export default class StringTypeStructureImpl extends TypeStructuresBase<TypeStru
   }
 
   static clone(other: StringTypeStructureImpl): StringTypeStructureImpl {
-    return new StringTypeStructureImpl(other.stringValue);
+    return StringTypeStructureImpl.get(other.stringValue);
   }
 
   readonly kind = TypeStructureKind.String;

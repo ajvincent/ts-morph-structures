@@ -40,4 +40,4 @@ export type TypeStructures = (
   WriterTypeStructureImpl
 );
 
-export type stringTypeStructuresOrNull = string | TypeStructures | null;
+export type TypeStructuresOrNull = TypeStructures | null;

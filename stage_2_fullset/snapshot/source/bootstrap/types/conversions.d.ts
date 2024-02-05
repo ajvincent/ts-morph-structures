@@ -1,9 +1,6 @@
 import { Node, Structures, TypeNode } from "ts-morph";
 
-import type {
-  StructureImpls,
-  stringTypeStructuresOrNull,
-} from "../../exports.js";
+import type { StructureImpls, TypeStructuresOrNull } from "../../exports.js";
 
 export interface NodeWithStructures extends Node {
   getStructure(): Structures;
@@ -36,7 +33,7 @@ export type TypeNodeToTypeStructure = (
   typeNode: TypeNode,
   _console: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-) => stringTypeStructuresOrNull;
+) => TypeStructuresOrNull;
 
 export interface RootStructureWithConvertFailures {
   rootStructure: StructureImpls;

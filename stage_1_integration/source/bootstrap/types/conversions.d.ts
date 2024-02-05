@@ -6,7 +6,7 @@ import {
 
 import type {
   StructureImpls,
-  stringTypeStructuresOrNull
+  TypeStructuresOrNull
 } from "../../../snapshot/source/exports.js";
 
 export interface NodeWithStructures extends Node {
@@ -42,7 +42,7 @@ export type TypeNodeToTypeStructure = (
   typeNode: TypeNode,
   _console: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-) => stringTypeStructuresOrNull
+) => TypeStructuresOrNull
 
 export interface RootStructureWithConvertFailures {
   rootStructure: StructureImpls;

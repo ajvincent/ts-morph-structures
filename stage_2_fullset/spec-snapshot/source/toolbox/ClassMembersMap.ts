@@ -6,8 +6,9 @@ import {
   ClassDeclarationImpl,
   ClassMembersMap,
   ClassFieldStatementsMap,
-  GetAccessorDeclarationImpl,
   ConstructorDeclarationImpl,
+  GetAccessorDeclarationImpl,
+  LiteralTypeStructureImpl,
   ParameterDeclarationImpl,
   PropertyDeclarationImpl,
   MethodDeclarationImpl,
@@ -34,7 +35,7 @@ describe("ClassMembersMap", () => {
     method4 = new MethodDeclarationImpl(false, "four");
 
     const value_five = new ParameterDeclarationImpl("five");
-    value_five.typeStructure = "string";
+    value_five.typeStructure = LiteralTypeStructureImpl.get("string");
 
     getter5 = new GetAccessorDeclarationImpl(false, "five", value_five.typeStructure);
     setter5 = new SetAccessorDeclarationImpl(false, "five", value_five);

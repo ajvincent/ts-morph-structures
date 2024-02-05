@@ -27,6 +27,10 @@ const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
   "Structures": new LiteralTypedStructureImpl("Structures"),
   "SubclassDecorator": new LiteralTypedStructureImpl("SubclassDecorator"),
   "TypeStructures": new LiteralTypedStructureImpl("TypeStructures"),
+  "TypeStructures_Undefined": new UnionTypedStructureImpl([
+    new LiteralTypedStructureImpl("TypeStructures"),
+    new LiteralTypedStructureImpl("undefined"),
+  ]),
   "WriterFunction": new LiteralTypedStructureImpl("WriterFunction"),
   "boolean": new LiteralTypedStructureImpl("boolean"),
   "false": new LiteralTypedStructureImpl("false"),
@@ -35,11 +39,6 @@ const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
   "object": new LiteralTypedStructureImpl("object"),
   "staticFields": new StringTypedStructureImpl("staticFields"),
   "string": new LiteralTypedStructureImpl("string"),
-  "string_TypeStructures_Undefined": new UnionTypedStructureImpl([
-    new LiteralTypedStructureImpl("string"),
-    new LiteralTypedStructureImpl("TypeStructures"),
-    new LiteralTypedStructureImpl("undefined"),
-  ]),
   "stringOrWriterFunction": new LiteralTypedStructureImpl("stringOrWriterFunction"),
   "stringOrWriterFunction[]": new ArrayTypedStructureImpl(
     new LiteralTypedStructureImpl("stringOrWriterFunction")

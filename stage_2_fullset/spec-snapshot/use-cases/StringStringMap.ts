@@ -14,6 +14,7 @@ import {
 import {
   ClassDeclarationImpl,
   InterfaceDeclarationImpl,
+  LiteralTypeStructureImpl,
   type TypeMemberImpl,
   TypeMembersMap,
   VoidTypeNodeToTypeStructureConsole,
@@ -112,12 +113,12 @@ xit("Use cases:  A two-keyed (string, string) map class", async () => {
       // eslint-disable-next-line @typescript-eslint/prefer-for-of
       for (let i = 0; i < method.parameters.length; i++) {
         const param: ParameterDeclarationImpl = method.parameters[i] as ParameterDeclarationImpl;
-        if (param.typeStructure === "K") {
+        if (param.typeStructure === LiteralTypeStructureImpl.get("K")) {
           const firstKey = new ParameterDeclarationImpl("firstKey");
-          firstKey.typeStructure = "string";
+          firstKey.typeStructure = LiteralTypeStructureImpl.get("string");
 
           const secondKey = new ParameterDeclarationImpl("secondKey");
-          secondKey.typeStructure = "string";
+          secondKey.typeStructure = LiteralTypeStructureImpl.get("string");
           method.parameters.splice(i, 1, firstKey, secondKey);
           break;
         }

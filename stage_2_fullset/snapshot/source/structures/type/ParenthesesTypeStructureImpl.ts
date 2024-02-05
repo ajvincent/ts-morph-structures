@@ -9,7 +9,7 @@ import {
 /** Wrap the child type in parentheses. */
 export default class ParenthesesTypeStructureImpl extends TypeStructuresWithChildren<
   TypeStructureKind.Parentheses,
-  [string | TypeStructures]
+  [TypeStructures]
 > {
   static clone(
     other: ParenthesesTypeStructureImpl,
@@ -19,14 +19,14 @@ export default class ParenthesesTypeStructureImpl extends TypeStructuresWithChil
 
   public readonly kind = TypeStructureKind.Parentheses;
   protected readonly objectType: null = null;
-  public readonly childTypes: [string | TypeStructures];
+  public readonly childTypes: [TypeStructures];
 
   protected readonly startToken = "(";
   protected readonly joinChildrenToken = "";
   protected readonly endToken = ")";
   protected readonly maxChildCount = 1;
 
-  constructor(childType: string | TypeStructures) {
+  constructor(childType: TypeStructures) {
     super();
     this.childTypes = [childType];
     this.registerCallbackForTypeStructure();

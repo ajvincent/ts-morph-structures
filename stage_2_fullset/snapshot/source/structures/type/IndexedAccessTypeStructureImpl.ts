@@ -16,7 +16,7 @@ import {
  */
 export default class IndexedAccessTypeStructureImpl extends TypeStructuresWithChildren<
   TypeStructureKind.IndexedAccess,
-  [string | TypeStructures]
+  [TypeStructures]
 > {
   static clone(
     other: IndexedAccessTypeStructureImpl,
@@ -28,18 +28,15 @@ export default class IndexedAccessTypeStructureImpl extends TypeStructuresWithCh
   }
 
   public readonly kind = TypeStructureKind.IndexedAccess;
-  public objectType: string | TypeStructures;
-  public readonly childTypes: [string | TypeStructures];
+  public objectType: TypeStructures;
+  public readonly childTypes: [TypeStructures];
 
   protected readonly startToken = "[";
   protected readonly joinChildrenToken = "";
   protected readonly endToken = "]";
   protected readonly maxChildCount = 1;
 
-  constructor(
-    objectType: string | TypeStructures,
-    indexType: string | TypeStructures,
-  ) {
+  constructor(objectType: TypeStructures, indexType: TypeStructures) {
     super();
     this.objectType = objectType;
     this.childTypes = [indexType];

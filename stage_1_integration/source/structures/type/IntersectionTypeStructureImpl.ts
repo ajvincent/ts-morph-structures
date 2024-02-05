@@ -12,7 +12,7 @@ import {
 /** @example `Foo & Bar & ...` */
 export default
 class IntersectionTypeStructureImpl
-extends TypeStructuresWithChildren<TypeStructureKind.Intersection, (string | TypeStructures)[]>
+extends TypeStructuresWithChildren<TypeStructureKind.Intersection, TypeStructures[]>
 {
   static clone(
     other: IntersectionTypeStructureImpl
@@ -25,14 +25,14 @@ extends TypeStructuresWithChildren<TypeStructureKind.Intersection, (string | Typ
 
   readonly kind = TypeStructureKind.Intersection;
   protected readonly objectType: null = null;
-  public childTypes: (string | TypeStructures)[];
+  public childTypes: TypeStructures[];
   protected readonly startToken = "";
   protected readonly joinChildrenToken = " & ";
   protected readonly endToken = "";
   protected readonly maxChildCount = Infinity;
 
   constructor(
-    childTypes: (string | TypeStructures)[] = []
+    childTypes: TypeStructures[] = []
   )
   {
     super();

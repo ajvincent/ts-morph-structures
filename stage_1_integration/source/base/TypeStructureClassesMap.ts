@@ -18,17 +18,15 @@ class TypeStructureClassesMapClass extends Map<
 >
 {
   clone(
-    structure: string | TypeStructures
-  ): string | TypeStructures
+    structure: TypeStructures
+  ): TypeStructures
   {
-    if (typeof structure === "string")
-      return structure;
     return this.get(structure.kind)!.clone(structure);
   }
 
   cloneArray(
-    structures: (string | TypeStructures)[]
-  ): (string | TypeStructures)[]
+    structures: (TypeStructures)[]
+  ): (TypeStructures)[]
   {
     return structures.map(structure => this.clone(structure));
   }

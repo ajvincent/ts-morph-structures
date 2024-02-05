@@ -33,11 +33,11 @@ export default class PrefixOperatorsTypeStructureImpl extends TypeStructuresBase
 
   readonly kind = TypeStructureKind.PrefixOperators;
   public operators: PrefixUnaryOperator[];
-  public objectType: string | TypeStructures;
+  public objectType: TypeStructures;
 
   constructor(
     operators: readonly PrefixUnaryOperator[],
-    objectType: string | TypeStructures,
+    objectType: TypeStructures,
   ) {
     super();
     this.operators = operators.slice();
@@ -52,7 +52,7 @@ export default class PrefixOperatorsTypeStructureImpl extends TypeStructuresBase
       );
     }
 
-    TypeStructuresBase.writeStringOrType(writer, this.objectType);
+    this.objectType.writerFunction(writer);
   }
 
   readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);

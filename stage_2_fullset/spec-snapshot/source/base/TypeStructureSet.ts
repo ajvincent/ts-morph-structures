@@ -3,6 +3,7 @@ import {
 } from "ts-morph";
 
 import {
+  LiteralTypeStructureImpl,
   StringTypeStructureImpl,
   WriterTypeStructureImpl,
   type stringOrWriterFunction,
@@ -24,43 +25,14 @@ describe("TypeStructureSet", () => {
     expect(writerSet.size).toBe(0);
   })
 
-  it("tracks strings as strings", () => {
-    writerSet.add("boolean");
-    expect(backingArray.includes("boolean")).toBe(true);
-    expect(backingArray.length).toBe(1);
-
-    expect(writerSet.size).toBe(1);
-    expect(writerSet.has("boolean")).toBe(true);
-    expect(Array.from(writerSet)).toEqual(["boolean"]);
-
-    expect(writerSet.delete("boolean")).toBe(true);
-    expect(writerSet.has("boolean")).toBe(false);
-    expect(writerSet.size).toBe(0);
-    expect(Array.from(writerSet)).toEqual([]);
-
-    expect(writerSet.delete("boolean")).toBe(false);
-    expect(writerSet.has("boolean")).toBe(false);
-    expect(writerSet.size).toBe(0);
-    expect(Array.from(writerSet)).toEqual([]);
-
-    writerSet.add("object");
-    writerSet.add("boolean");
-    writerSet.add("void");
-    writerSet.add("object");
-
-    // preserving ordering test
-    expect(Array.from(writerSet)).toEqual(["object", "boolean", "void"]);
-    expect(backingArray).toEqual(["object", "boolean", "void"]);
-  });
-
   it("tracks type structures as themselves", () => {
     const stringFoo = new StringTypeStructureImpl("foo");
     const stringBar = new StringTypeStructureImpl("bar");
 
-    writerSet.add("boolean");
+    writerSet.add(LiteralTypeStructureImpl.get("boolean"));
     writerSet.add(stringFoo);
     expect(backingArray).toEqual(["boolean", stringFoo.writerFunction]);
-    expect(writerSet.has("boolean")).toBe(true);
+    expect(writerSet.has(LiteralTypeStructureImpl.get("boolean"))).toBe(true);
     expect(writerSet.has(stringFoo)).toBe(true);
     expect(writerSet.size).toBe(2);
 
@@ -73,7 +45,7 @@ describe("TypeStructureSet", () => {
     expect(writerSet.has(stringBar)).toBe(true);
     expect(writerSet.size).toBe(3);
     expect(Array.from(writerSet)).toEqual([
-      "boolean", stringFoo, stringBar
+      LiteralTypeStructureImpl.get("boolean"), stringFoo, stringBar
     ]);
 
     writerSet.delete(stringFoo);
@@ -83,7 +55,7 @@ describe("TypeStructureSet", () => {
       "boolean", stringBar.writerFunction
     ]);
     expect(Array.from(writerSet)).toEqual([
-      "boolean", stringBar
+      LiteralTypeStructureImpl.get("boolean"), stringBar
     ]);
 
     writerSet.add(stringFoo);
@@ -94,7 +66,7 @@ describe("TypeStructureSet", () => {
       "boolean", stringFoo.writerFunction
     ]);
     expect(Array.from(writerSet)).toEqual([
-      "boolean", stringFoo
+      LiteralTypeStructureImpl.get("boolean"), stringFoo
     ]);
   });
 
@@ -115,7 +87,7 @@ describe("TypeStructureSet", () => {
 
     writerArray.splice(1, 1);
     expect(writerArray).toEqual([
-      "boolean", stringFoo
+      LiteralTypeStructureImpl.get("boolean"), stringFoo
     ]);
 
     expect(backingArray).toEqual([

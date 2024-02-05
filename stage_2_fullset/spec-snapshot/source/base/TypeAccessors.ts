@@ -4,6 +4,7 @@ import {
 } from "ts-morph";
 
 import {
+  LiteralTypeStructureImpl,
   StringTypeStructureImpl,
   WriterTypeStructureImpl,
 } from "#stage_two/snapshot/source/exports.js";
@@ -31,7 +32,7 @@ describe("TypeAccessors with", () => {
   it("a string type", () => {
     manager.type = "NumberStringType";
     expect(manager.type).toBe("NumberStringType");
-    expect(manager.typeStructure).toBe("NumberStringType");
+    expect(manager.typeStructure).toBe(LiteralTypeStructureImpl.get("NumberStringType"));
 
     const clone = TypeAccessors.cloneType(manager.type);
     expect(clone).toBe(manager.type);

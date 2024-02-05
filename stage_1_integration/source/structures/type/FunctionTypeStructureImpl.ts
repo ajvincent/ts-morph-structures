@@ -36,7 +36,7 @@ export interface FunctionTypeContext {
   typeParameters: TypeParameterDeclarationImpl[];
   parameters: ParameterTypeStructureImpl[];
   restParameter: ParameterTypeStructureImpl | undefined;
-  returnType: string | TypeStructures | undefined;
+  returnType: TypeStructures | undefined;
   writerStyle: FunctionWriterStyle,
 }
 
@@ -66,7 +66,7 @@ extends TypeStructuresWithTypeParameters<TypeStructureKind.Function>
   typeParameters: TypeParameterDeclarationImpl[];
   parameters: ParameterTypeStructureImpl[];
   restParameter: ParameterTypeStructureImpl | undefined;
-  returnType: string | TypeStructures | undefined;
+  returnType: TypeStructures | undefined;
   writerStyle: FunctionWriterStyle = FunctionWriterStyle.Arrow;
 
   constructor(
@@ -142,13 +142,13 @@ extends TypeStructuresWithTypeParameters<TypeStructureKind.Function>
       switch (this.writerStyle) {
         case FunctionWriterStyle.Arrow:
           writer.write(" => ");
-          FunctionTypeStructureImpl.writeStringOrType(writer, this.returnType);
+          this.returnType.writerFunction(writer);
           break;
 
         case FunctionWriterStyle.GetAccessor:
         case FunctionWriterStyle.Method:
           writer.write(": ");
-          FunctionTypeStructureImpl.writeStringOrType(writer, this.returnType);
+          this.returnType.writerFunction(writer);
           break;
       }
     }

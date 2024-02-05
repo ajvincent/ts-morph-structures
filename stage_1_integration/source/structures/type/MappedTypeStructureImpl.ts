@@ -33,9 +33,9 @@ extends TypeStructuresWithTypeParameters<TypeStructureKind.Mapped>
 
   readonlyToken: "+readonly" | "-readonly" | "readonly" | undefined;
   parameter: TypeParameterDeclarationImpl;
-  asName: string | TypeStructures | undefined = undefined;
+  asName: TypeStructures | undefined = undefined;
   questionToken: "+?" | "-?" | "?" | undefined;
-  type: string | TypeStructures | undefined;
+  type: TypeStructures | undefined;
 
   constructor(
     parameter: TypeParameterDeclarationImpl,
@@ -60,7 +60,7 @@ extends TypeStructuresWithTypeParameters<TypeStructureKind.Mapped>
 
       if (this.asName) {
         writer.write(" as " );
-        MappedTypeStructureImpl.writeStringOrType(writer, this.asName);
+        this.asName.writerFunction(writer);
       }
 
       writer.write("]");
@@ -70,7 +70,7 @@ extends TypeStructuresWithTypeParameters<TypeStructureKind.Mapped>
 
       if (this.type) {
         writer.write(": ");
-        MappedTypeStructureImpl.writeStringOrType(writer, this.type);
+        this.type.writerFunction(writer);
       }
 
       writer.write(";");

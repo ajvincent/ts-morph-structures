@@ -75,17 +75,6 @@ implements KindedTypeStructure<Kind>
     writer.write(endToken);
   }
 
-  protected static writeStringOrType(
-    writer: CodeBlockWriter,
-    value: string | TypeStructures
-  ): void
-  {
-    if (typeof value === "string")
-      writer.write(value);
-    else
-      value.writerFunction(writer);
-  }
-
   public abstract readonly kind: Kind;
   public abstract readonly writerFunction: WriterFunction;
 

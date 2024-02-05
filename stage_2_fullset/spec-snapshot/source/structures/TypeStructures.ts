@@ -84,9 +84,9 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
 
   it("ConditionalTypedStructureImpl", () => {
     const checkType = new LiteralTypeStructureImpl("true");
-    const extendsType = "ReturnsModified";
+    const extendsType = LiteralTypeStructureImpl.get("ReturnsModified");
     const trueType = new LiteralTypeStructureImpl("BaseClassType");
-    const falseType = "void";
+    const falseType = LiteralTypeStructureImpl.get("void");
 
     const parts: ConditionalTypeStructureParts = {
       checkType,
@@ -110,7 +110,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
     const typedWriter = new FunctionTypeStructureImpl({
       typeParameters: [typeParam],
       parameters: [new ParameterTypeStructureImpl("nst", nstTyped)],
-      returnType: "boolean",
+      returnType: LiteralTypeStructureImpl.get("boolean"),
       writerStyle: FunctionWriterStyle.Method
     });
     typedWriter.writerFunction(writer);
@@ -156,7 +156,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
   it("MappedTypeStructureImpl", () => {
     const typedWriter = new MappedTypeStructureImpl(typeParam);
     typedWriter.readonlyToken = "+readonly";
-    typedWriter.type = "boolean";
+    typedWriter.type = LiteralTypeStructureImpl.get("boolean");
     typedWriter.writerFunction(writer);
 
     expect<string>(writer.toString()).toBe(`{\n    +readonly [UserType in number]: boolean;\n}`);
@@ -199,7 +199,7 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
   });
 
   it("ParenthesesTypeStructureImpl", () => {
-    const typedWriter = new ParenthesesTypeStructureImpl("true");
+    const typedWriter = new ParenthesesTypeStructureImpl(LiteralTypeStructureImpl.get("true"));
     typedWriter.writerFunction(writer);
 
     expect<string>(writer.toString()).toBe("(true)");
@@ -207,13 +207,13 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
 
     // mutability test for the child type
     writer = new CodeBlockWriter();
-    typedWriter.childTypes[0] = "false";
+    typedWriter.childTypes[0] = LiteralTypeStructureImpl.get("false");
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe("(false)");
 
     // mutability test: if someone puts in too many child types...
     writer = new CodeBlockWriter();
-    typedWriter.childTypes.push("unknown")
+    typedWriter.childTypes.push(LiteralTypeStructureImpl.get("unknown"));
     typedWriter.writerFunction(writer);
     expect<string>(writer.toString()).toBe("(false)");
 

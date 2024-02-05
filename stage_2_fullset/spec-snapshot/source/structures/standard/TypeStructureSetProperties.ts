@@ -6,6 +6,7 @@ import {
 import {
   ClassDeclarationImpl,
   ArrayTypeStructureImpl,
+  LiteralTypeStructureImpl,
   WriterTypeStructureImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
@@ -19,7 +20,7 @@ describe("Type structure set properties work", () => {
   }
 
   const writerTypeStructure = new WriterTypeStructureImpl(writerFunction);
-  const arrayTypeStructure = new ArrayTypeStructureImpl("boolean");
+  const arrayTypeStructure = new ArrayTypeStructureImpl(LiteralTypeStructureImpl.get("boolean"));
 
   let classDecl: ClassDeclarationImpl;
   beforeEach(() => {
@@ -28,8 +29,6 @@ describe("Type structure set properties work", () => {
 
   it("adding types directly", () => {
     classDecl = new ClassDeclarationImpl;
-    classDecl.implementsSet.add("NumberStringType");
-    classDecl.implementsSet.add("NumberStringInterface");
     classDecl.implementsSet.add(writerTypeStructure);
     classDecl.implementsSet.add(arrayTypeStructure);
 
@@ -38,15 +37,11 @@ describe("Type structure set properties work", () => {
     ).toThrow();
 
     expect(classDecl.implements).toEqual([
-      "NumberStringType",
-      "NumberStringInterface",
       writerFunction,
       arrayTypeStructure.writerFunction
     ]);
 
     expect(Array.from(classDecl.implementsSet.values())).toEqual([
-      "NumberStringType",
-      "NumberStringInterface",
       writerTypeStructure,
       arrayTypeStructure
     ]);
@@ -73,8 +68,8 @@ describe("Type structure set properties work", () => {
       ]);
 
       expect(Array.from(classDecl.implementsSet.values())).toEqual([
-        "NumberStringType",
-        "NumberStringInterface",
+        LiteralTypeStructureImpl.get("NumberStringType"),
+        LiteralTypeStructureImpl.get("NumberStringInterface"),
         writerTypeStructure,
         arrayTypeStructure
       ]);
@@ -100,8 +95,8 @@ describe("Type structure set properties work", () => {
 
     it("current structure implementation", () => {
       classDecl = new ClassDeclarationImpl;
-      classDecl.implementsSet.add("NumberStringType");
-      classDecl.implementsSet.add("NumberStringInterface");
+      classDecl.implementsSet.add(LiteralTypeStructureImpl.get("NumberStringType"));
+      classDecl.implementsSet.add(LiteralTypeStructureImpl.get("NumberStringInterface"));
       classDecl.implementsSet.add(writerTypeStructure);
       classDecl.implementsSet.add(arrayTypeStructure);
 
@@ -128,14 +123,10 @@ describe("Type structure set properties work", () => {
 
   it("with .toJSON()", () => {
     classDecl = new ClassDeclarationImpl;
-    classDecl.implementsSet.add("NumberStringType");
-    classDecl.implementsSet.add("NumberStringInterface");
     classDecl.implementsSet.add(writerTypeStructure);
     classDecl.implementsSet.add(arrayTypeStructure);
 
     expect(classDecl.toJSON().implements).toEqual([
-      "NumberStringType",
-      "NumberStringInterface",
       "hello",
       "boolean[]"
     ]);

@@ -22,14 +22,14 @@ import {
 import type {
   StructureImpls,
   TypeStructures,
-  stringTypeStructuresOrNull,
+  TypeStructuresOrNull,
 } from "../exports.js";
 
 import { TypeStructureSet } from "../internal-exports.js";
 // #endregion preamble
 
 type TypeStructureKey<Key extends string> = {
-  [key in Key]: string | TypeStructures | undefined | TypeStructureSet;
+  [key in Key]: TypeStructures | undefined | TypeStructureSet;
 };
 
 /**
@@ -329,10 +329,10 @@ function runConversion(
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
   converter: TypeNodeToTypeStructure,
-  callback: (typeStructure: string | TypeStructures) => void,
+  callback: (typeStructure: TypeStructures) => void,
 ): void {
   if (!typeNode) return;
-  const typeStructure: stringTypeStructuresOrNull = converter(
+  const typeStructure: TypeStructuresOrNull = converter(
     typeNode,
     consoleTrap,
     subStructureResolver,

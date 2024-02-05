@@ -27,16 +27,16 @@ export default class ArrayTypeStructureImpl extends TypeStructuresBase<TypeStruc
   }
 
   readonly kind = TypeStructureKind.Array;
-  public objectType: string | TypeStructures;
+  public objectType: TypeStructures;
 
-  constructor(objectType: string | TypeStructures) {
+  constructor(objectType: TypeStructures) {
     super();
     this.objectType = objectType;
     this.registerCallbackForTypeStructure();
   }
 
   #writerFunction(writer: CodeBlockWriter): void {
-    TypeStructuresBase.writeStringOrType(writer, this.objectType);
+    this.objectType.writerFunction(writer);
     writer.write("[]");
   }
 

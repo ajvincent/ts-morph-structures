@@ -9,7 +9,7 @@ import {
 /** @example `Foo | Bar | ...` */
 export default class UnionTypeStructureImpl extends TypeStructuresWithChildren<
   TypeStructureKind.Union,
-  (string | TypeStructures)[]
+  TypeStructures[]
 > {
   static clone(other: UnionTypeStructureImpl): UnionTypeStructureImpl {
     return new UnionTypeStructureImpl(
@@ -19,13 +19,13 @@ export default class UnionTypeStructureImpl extends TypeStructuresWithChildren<
 
   readonly kind = TypeStructureKind.Union;
   protected readonly objectType: null = null;
-  public childTypes: (string | TypeStructures)[];
+  public childTypes: TypeStructures[];
   protected readonly startToken = "";
   protected readonly joinChildrenToken = " | ";
   protected readonly endToken = "";
   protected readonly maxChildCount = Infinity;
 
-  constructor(childTypes: (string | TypeStructures)[] = []) {
+  constructor(childTypes: TypeStructures[] = []) {
     super();
     this.childTypes = childTypes;
     this.registerCallbackForTypeStructure();

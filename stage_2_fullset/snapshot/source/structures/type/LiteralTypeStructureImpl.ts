@@ -13,15 +13,13 @@ import {
 /**
  * Literals (boolean, number, string, void, etc.), without quotes, brackets, or
  * anything else around them.  Leaf nodes.
- *
- * Please try not to use this.  Type structure classes will generally accept
- * strings as child type structures for the same purpose this fills.
- *
- * @internal
  */
 export default class LiteralTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Literal> {
   static readonly #cache = new Map<string, LiteralTypeStructureImpl>();
 
+  /**
+   * Gets a singleton `LiteralTypeStructureImpl` for the given name.
+   */
   static get(name: string): LiteralTypeStructureImpl {
     if (!this.#cache.has(name)) {
       this.#cache.set(name, new LiteralTypeStructureImpl(name));
@@ -30,7 +28,7 @@ export default class LiteralTypeStructureImpl extends TypeStructuresBase<TypeStr
   }
 
   static clone(other: LiteralTypeStructureImpl): LiteralTypeStructureImpl {
-    return new LiteralTypeStructureImpl(other.stringValue);
+    return LiteralTypeStructureImpl.get(other.stringValue);
   }
 
   readonly kind = TypeStructureKind.Literal;

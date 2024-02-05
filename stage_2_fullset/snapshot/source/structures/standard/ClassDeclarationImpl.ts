@@ -86,7 +86,7 @@ interface ImplementsInterface {
 }
 
 interface ExtendsInterface {
-  extendsStructure: string | TypeStructures | undefined;
+  extendsStructure: TypeStructures | undefined;
 }
 
 export default class ClassDeclarationImpl
@@ -125,11 +125,11 @@ export default class ClassDeclarationImpl
     this.#extendsManager.type = value;
   }
 
-  get extendsStructure(): string | TypeStructures | undefined {
+  get extendsStructure(): TypeStructures | undefined {
     return this.#extendsManager.typeStructure;
   }
 
-  set extendsStructure(value: string | TypeStructures | undefined) {
+  set extendsStructure(value: TypeStructures | undefined) {
     this.#extendsManager.typeStructure = value;
   }
 

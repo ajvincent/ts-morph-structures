@@ -39,4 +39,4 @@ export type TypeStructures =
   | UnionTypeStructureImpl
   | WriterTypeStructureImpl;
 
-export type stringTypeStructuresOrNull = string | TypeStructures | null;
+export type TypeStructuresOrNull = TypeStructures | null;

@@ -42,11 +42,11 @@ extends TypeStructuresBase<TypeStructureKind.PrefixOperators>
 
   readonly kind = TypeStructureKind.PrefixOperators;
   public operators: PrefixUnaryOperator[];
-  public objectType: string | TypeStructures;
+  public objectType: TypeStructures;
 
   constructor(
     operators: readonly PrefixUnaryOperator[],
-    objectType: string | TypeStructures
+    objectType: TypeStructures
   )
   {
     super();
@@ -61,7 +61,7 @@ extends TypeStructuresBase<TypeStructureKind.PrefixOperators>
       writer.write(this.operators.map(op => op === "..." ? op : op + " ").join(""));
     }
 
-    TypeStructuresBase.writeStringOrType(writer, this.objectType);
+    this.objectType.writerFunction(writer);
   }
 
   readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);

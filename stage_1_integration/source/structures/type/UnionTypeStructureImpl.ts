@@ -12,7 +12,7 @@ import {
 /** @example `Foo | Bar | ...` */
 export default
 class UnionTypeStructureImpl
-extends TypeStructuresWithChildren<TypeStructureKind.Union, (string | TypeStructures)[]>
+extends TypeStructuresWithChildren<TypeStructureKind.Union, TypeStructures[]>
 {
   static clone(
     other: UnionTypeStructureImpl
@@ -25,14 +25,14 @@ extends TypeStructuresWithChildren<TypeStructureKind.Union, (string | TypeStruct
 
   readonly kind = TypeStructureKind.Union;
   protected readonly objectType: null = null;
-  public childTypes: (string | TypeStructures)[];
+  public childTypes: TypeStructures[];
   protected readonly startToken = "";
   protected readonly joinChildrenToken = " | ";
   protected readonly endToken = "";
   protected readonly maxChildCount = Infinity;
 
   constructor(
-    childTypes: (string | TypeStructures)[] = []
+    childTypes: TypeStructures[] = []
   )
   {
     super();

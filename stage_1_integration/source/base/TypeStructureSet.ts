@@ -3,7 +3,9 @@ import type {
 } from "ts-morph";
 
 import {
+  TypeStructureKind,
   TypeStructures,
+  LiteralTypeStructureImpl,
   WriterTypeStructureImpl,
   type stringOrWriterFunction,
 } from "../../snapshot/source/exports.js";
@@ -19,13 +21,13 @@ import {
  * where direct array access is troublesome (particularly, "write access").
  */
 export default class TypeStructureSet
-extends Set<string | TypeStructures>
+extends Set<TypeStructures>
 {
   static #getBackingValue(
-    value: string | TypeStructures
+    value: TypeStructures
   ): stringOrWriterFunction
   {
-    return typeof value === "object" ? value.writerFunction : value;
+    return value.kind === TypeStructureKind.Literal ? value.stringValue : value.writerFunction;
   }
 
   readonly #backingArray: Pick<
@@ -45,7 +47,7 @@ extends Set<string | TypeStructures>
 
     for (const value of backingArray) {
       if (typeof value === "string") {
-        super.add(value);
+        super.add(LiteralTypeStructureImpl.get(value));
         continue;
       }
 
@@ -58,7 +60,7 @@ extends Set<string | TypeStructures>
   }
 
   add(
-    value: string | TypeStructures
+    value: TypeStructures
   ): this
   {
     if (!super.has(value)) {
@@ -75,7 +77,7 @@ extends Set<string | TypeStructures>
   }
 
   delete(
-    value: string | TypeStructures
+    value: TypeStructures
   ): boolean
   {
     const backingValue = TypeStructureSet.#getBackingValue(value);
@@ -99,7 +101,7 @@ extends Set<string | TypeStructures>
     this.clear();
     array.forEach(value => {
       if (typeof value === "string") {
-        this.add(value);
+        this.add(LiteralTypeStructureImpl.get(value));
         return;
       }
 

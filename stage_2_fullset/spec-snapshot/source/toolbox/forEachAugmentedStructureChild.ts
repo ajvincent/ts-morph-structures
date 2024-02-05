@@ -10,6 +10,7 @@ import {
   FunctionTypeStructureImpl,
   GetAccessorDeclarationImpl,
   InferTypeStructureImpl,
+  LiteralTypeStructureImpl,
   MappedTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
   MethodDeclarationImpl,
@@ -69,10 +70,17 @@ describe("forEachAugmentedStructureImpl", () => {
     const classDecl = new ClassDeclarationImpl;
     const methodOne = new MethodDeclarationImpl(false, "one");
     const methodTwo = new MethodDeclarationImpl(true, "two");
-    const childUnion = new UnionTypeStructureImpl(["NumberStringType", "NumberStringInterface"]);
+    const childUnion = new UnionTypeStructureImpl([
+      LiteralTypeStructureImpl.get("NumberStringType"),
+      LiteralTypeStructureImpl.get("NumberStringInterface")
+    ]);
 
     // ensuring we don't visit grandchildren
-    const unionDecl = new UnionTypeStructureImpl([childUnion, "NumberStringType", "NumberStringInterface"]);
+    const unionDecl = new UnionTypeStructureImpl([
+      childUnion,
+      LiteralTypeStructureImpl.get("NumberStringType"),
+      LiteralTypeStructureImpl.get("NumberStringInterface")
+    ]);
     methodOne.returnTypeStructure = childUnion;
 
     classDecl.implementsSet.add(unionDecl);
@@ -96,7 +104,10 @@ describe("forEachAugmentedStructureImpl", () => {
     const methodOne = new MethodDeclarationImpl(false, "one");
     const methodTwo = new MethodDeclarationImpl(true, "two");
     const methodThree = new MethodDeclarationImpl(false, "three");
-    const unionDecl = new UnionTypeStructureImpl(["NumberStringType", "NumberStringInterface"]);
+    const unionDecl = new UnionTypeStructureImpl([
+      LiteralTypeStructureImpl.get("NumberStringType"),
+      LiteralTypeStructureImpl.get("NumberStringInterface")
+    ]);
     classDecl.implementsSet.add(unionDecl);
     classDecl.methods.push(methodOne, methodTwo, methodThree);
 
@@ -134,7 +145,10 @@ describe("forEachAugmentedStructureImpl", () => {
     const methodTwo = new MethodDeclarationImpl(true, "two");
     const methodThree = new MethodDeclarationImpl(false, "three");
 
-    const childUnion = new UnionTypeStructureImpl(["NumberStringType", "NumberStringInterface"]);
+    const childUnion = new UnionTypeStructureImpl([
+      LiteralTypeStructureImpl.get("NumberStringType"),
+      LiteralTypeStructureImpl.get("NumberStringInterface")
+    ]);
     const firstType = new UnionTypeStructureImpl([childUnion]),
           secondType = new UnionTypeStructureImpl,
           thirdType = new UnionTypeStructureImpl;
@@ -250,16 +264,17 @@ describe("forEachAugmentedStructureImpl", () => {
 
     describe("with special case types: ", () => {
       it("ConditionalTypeStructureImpl", () => {
-        const stringType = new StringTypeStructureImpl("foo");
+        // doubles as a test for visiting literal types
+        const literalType = LiteralTypeStructureImpl.get("foo");
 
         const type = new ConditionalTypeStructureImpl({
           checkType: firstType,
           extendsType: secondType,
           trueType: thirdType,
-          falseType: stringType
+          falseType: literalType
         });
 
-        forEachChildSkipAll(type, [firstType, secondType, thirdType, stringType]);
+        forEachChildSkipAll(type, [firstType, secondType, thirdType, literalType]);
         forEachChildAcceptSecond(type);
       });
 

@@ -15,7 +15,7 @@ import {
  */
 export default class TupleTypeStructureImpl extends TypeStructuresWithChildren<
   TypeStructureKind.Tuple,
-  (string | TypeStructures)[]
+  TypeStructures[]
 > {
   static clone(other: TupleTypeStructureImpl): TupleTypeStructureImpl {
     return new TupleTypeStructureImpl(
@@ -25,13 +25,13 @@ export default class TupleTypeStructureImpl extends TypeStructuresWithChildren<
 
   readonly kind = TypeStructureKind.Tuple;
   protected readonly objectType: null = null;
-  public childTypes: (string | TypeStructures)[];
+  public childTypes: TypeStructures[];
   protected readonly startToken = "[";
   protected readonly joinChildrenToken = ", ";
   protected readonly endToken = "]";
   protected readonly maxChildCount = Infinity;
 
-  constructor(childTypes: (string | TypeStructures)[] = []) {
+  constructor(childTypes: TypeStructures[] = []) {
     super();
     this.childTypes = childTypes;
     this.registerCallbackForTypeStructure();

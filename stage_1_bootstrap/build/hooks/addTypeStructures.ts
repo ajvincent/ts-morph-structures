@@ -268,12 +268,12 @@ function addTypeAccessor(
   );
 
   const structureGetAccessor = new GetAccessorDeclarationImpl(propertyKey + "Structure");
-  structureGetAccessor.returnTypeStructure = ConstantTypeStructures.string_TypeStructures_Undefined;
+  structureGetAccessor.returnTypeStructure = ConstantTypeStructures.TypeStructures_Undefined;
 
   const structureSetAccessor = new SetAccessorDeclarationImpl(propertyKey + "Structure");
   {
     const value = new ParameterDeclarationImpl("value");
-    value.typeStructure = ConstantTypeStructures.string_TypeStructures_Undefined;
+    value.typeStructure = ConstantTypeStructures.TypeStructures_Undefined;
     structureSetAccessor.parameters.push(value);
   }
 
@@ -370,9 +370,13 @@ function defineStructureAndTypesChildren(
 
     parts.classMembersMap.addMembers([method]);
 
-    parts.classFieldsStatements.set(ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, STRUCTURE_AND_TYPES_CHILDREN_NAME, [
-      `yield* super[STRUCTURE_AND_TYPES_CHILDREN]();`
-    ]);
+    parts.classFieldsStatements.set(
+      ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL,
+      STRUCTURE_AND_TYPES_CHILDREN_NAME,
+      [
+        `yield* super[STRUCTURE_AND_TYPES_CHILDREN]();`
+      ]
+    );
 
     parts.importsManager.addImports({
       pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,

@@ -49,7 +49,7 @@ const IndexSignatureDeclarationStructureBase = MultiMixinBuilder<
 );
 
 interface KeyTypeInterface {
-  keyTypeStructure: string | TypeStructures | undefined;
+  keyTypeStructure: TypeStructures | undefined;
 }
 
 export default class IndexSignatureDeclarationImpl
@@ -74,11 +74,11 @@ export default class IndexSignatureDeclarationImpl
     this.#keyTypeManager.type = value;
   }
 
-  get keyTypeStructure(): string | TypeStructures | undefined {
+  get keyTypeStructure(): TypeStructures | undefined {
     return this.#keyTypeManager.typeStructure;
   }
 
-  set keyTypeStructure(value: string | TypeStructures | undefined) {
+  set keyTypeStructure(value: TypeStructures | undefined) {
     this.#keyTypeManager.typeStructure = value;
   }
 

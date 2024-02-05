@@ -10,6 +10,7 @@ import {
   ClassDeclarationImpl,
   JSDocImpl,
   JSDocTagImpl,
+  LiteralTypeStructureImpl,
   WriterTypeStructureImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
@@ -29,13 +30,13 @@ it("toJSON() generally works", () => {
 
   const classDecl = new ClassDeclarationImpl;
   classDecl.docs.push(doc);
-  classDecl.extendsStructure = "Date";
+  classDecl.extendsStructure = LiteralTypeStructureImpl.get("Date");
 
-  classDecl.implementsSet.add("NumberStringType");
+  classDecl.implementsSet.add(LiteralTypeStructureImpl.get("NumberStringType"));
   classDecl.implementsSet.add(new WriterTypeStructureImpl((writer: CodeBlockWriter): void => {
     writer.write("Foo");
   }));
-  classDecl.implementsSet.add("Bar");
+  classDecl.implementsSet.add(LiteralTypeStructureImpl.get("Bar"));
 
   const tagAsJSON = JSON.stringify(tag, null, 2);
   const tagReparsed = JSON.parse(tagAsJSON) as Required<JSDocTagStructure>;

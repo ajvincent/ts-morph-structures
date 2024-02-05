@@ -35,7 +35,7 @@ export type TypedNodeStructureFields = RightExtendsLeft<
 >;
 
 interface TypeInterface {
-  typeStructure: string | TypeStructures | undefined;
+  typeStructure: TypeStructures | undefined;
 }
 
 export default function TypedNodeStructureMixin(
@@ -59,11 +59,11 @@ export default function TypedNodeStructureMixin(
       this.#typeManager.type = value;
     }
 
-    get typeStructure(): string | TypeStructures | undefined {
+    get typeStructure(): TypeStructures | undefined {
       return this.#typeManager.typeStructure;
     }
 
-    set typeStructure(value: string | TypeStructures | undefined) {
+    set typeStructure(value: TypeStructures | undefined) {
       this.#typeManager.typeStructure = value;
     }
 

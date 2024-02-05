@@ -133,10 +133,7 @@ function addReturnTypeToGetAccessorCtor(
 
   const returnTypeParam = new ParameterDeclarationImpl("returnType");
   returnTypeParam.hasQuestionToken = true;
-  returnTypeParam.typeStructure = new UnionTypedStructureImpl([
-    ConstantTypeStructures.string,
-    ConstantTypeStructures.TypeStructures
-  ]);
+  returnTypeParam.typeStructure = ConstantTypeStructures.TypeStructures;
 
   const ctor = parts.classMembersMap.getAsKind<StructureKind.Constructor>(
     "constructor", StructureKind.Constructor

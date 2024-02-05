@@ -2,6 +2,7 @@
 import type { TypedNodeStructure, WriterFunction } from "ts-morph";
 
 import {
+  LiteralTypeStructureImpl,
   TypeStructures,
   TypeStructureKind,
   type TypedNodeTypeStructure,
@@ -28,10 +29,10 @@ import {
 export default class TypeAccessors
   implements TypedNodeStructure, TypedNodeTypeStructure
 {
-  typeStructure: string | TypeStructures | undefined = undefined;
+  typeStructure: TypeStructures | undefined = undefined;
 
   get type(): string | WriterFunction | undefined {
-    if (typeof this.typeStructure !== "object") return this.typeStructure;
+    if (typeof this.typeStructure === "undefined") return undefined;
 
     if (this.typeStructure.kind === TypeStructureKind.Literal) {
       return this.typeStructure.stringValue;
@@ -41,18 +42,18 @@ export default class TypeAccessors
   }
 
   set type(value: stringOrWriterFunction | undefined) {
-    if (typeof value !== "function") {
-      this.typeStructure = value;
+    if (typeof value === "undefined") {
+      this.typeStructure = undefined;
+      return;
+    }
+
+    if (typeof value === "string") {
+      this.typeStructure = LiteralTypeStructureImpl.get(value);
       return;
     }
 
     const knownTypeStructure =
       TypeStructuresBase.getTypeStructureForCallback(value);
-    if (knownTypeStructure?.kind === TypeStructureKind.Literal) {
-      this.typeStructure = knownTypeStructure.stringValue;
-      return;
-    }
-
     if (knownTypeStructure) {
       this.typeStructure = knownTypeStructure;
       return;
@@ -82,7 +83,6 @@ export default class TypeAccessors
       return typeStructure.stringValue;
 
     const value = TypeStructureClassesMap.clone(typeStructure);
-    if (typeof value === "string") return value;
     return value.writerFunction;
   }
 }

@@ -24,6 +24,7 @@ import {
   ImportSpecifierImpl,
   IndexedAccessTypeStructureImpl,
   InterfaceDeclarationImpl,
+  LiteralTypeStructureImpl,
   MappedTypeStructureImpl,
   MethodDeclarationImpl,
   MemberedObjectTypeStructureImpl,
@@ -115,21 +116,25 @@ it("ts-morph-structures: integration test", () => {
   {
 
     const TypeKeyIndexed = new IndexedAccessTypeStructureImpl(
-      "Type", "key"
+      LiteralTypeStructureImpl.get("Type"),
+      LiteralTypeStructureImpl.get("key")
     );
 
     const SetReturnType_Structure = new TypeArgumentedTypeStructureImpl(
-      "SetReturnType", [TypeKeyIndexed, new TypeArgumentedTypeStructureImpl("ValueWrapper", [
-        new TypeArgumentedTypeStructureImpl("ReturnType", [TypeKeyIndexed])
+      LiteralTypeStructureImpl.get("SetReturnType"),
+      [TypeKeyIndexed, new TypeArgumentedTypeStructureImpl(
+        LiteralTypeStructureImpl.get("ValueWrapper"), [
+        new TypeArgumentedTypeStructureImpl(
+          LiteralTypeStructureImpl.get("ReturnType"), [TypeKeyIndexed])
       ])]
     );
 
     const RestAnyFunction_Structure = new FunctionTypeStructureImpl({
       restParameter: new ParameterTypeStructureImpl(
         "args",
-        new ArrayTypeStructureImpl("any")
+        new ArrayTypeStructureImpl(LiteralTypeStructureImpl.get("any"))
       ),
-      returnType: "any",
+      returnType: LiteralTypeStructureImpl.get("any"),
     });
 
     const conditionalStructure = new ConditionalTypeStructureImpl({
@@ -141,7 +146,7 @@ it("ts-morph-structures: integration test", () => {
 
     const keyInKeyofStructure = new TypeParameterDeclarationImpl("key");
     keyInKeyofStructure.constraintStructure = new PrefixOperatorsTypeStructureImpl(
-      ["keyof"], "Type"
+      ["keyof"], LiteralTypeStructureImpl.get("Type")
     );
 
     const mappedTypeStructure = new MappedTypeStructureImpl(
@@ -178,11 +183,11 @@ it("ts-morph-structures: integration test", () => {
     classDeclaration.isDefaultExport = true;
 
     classDeclaration.implementsSet.add(new TypeArgumentedTypeStructureImpl(
-      "ObjectWrapper", ["NumberStringType"]
+      LiteralTypeStructureImpl.get("ObjectWrapper"), [LiteralTypeStructureImpl.get("NumberStringType")]
     ));
 
     const ValueWrapperString = new TypeArgumentedTypeStructureImpl(
-      "ValueWrapper", ["string"]
+      LiteralTypeStructureImpl.get("ValueWrapper"), [LiteralTypeStructureImpl.get("string")]
     );
 
     const methods: MethodDeclarationImpl[] = NST_InterfaceStructure.methods.map(

@@ -16,7 +16,7 @@ import {
  */
 export default class TypeArgumentedTypeStructureImpl extends TypeStructuresWithChildren<
   TypeStructureKind.TypeArgumented,
-  (string | TypeStructures)[]
+  TypeStructures[]
 > {
   static clone(
     other: TypeArgumentedTypeStructureImpl,
@@ -28,17 +28,14 @@ export default class TypeArgumentedTypeStructureImpl extends TypeStructuresWithC
   }
 
   readonly kind = TypeStructureKind.TypeArgumented;
-  public objectType: string | TypeStructures;
-  public childTypes: (string | TypeStructures)[];
+  public objectType: TypeStructures;
+  public childTypes: TypeStructures[];
   protected readonly startToken = "<";
   protected readonly joinChildrenToken = ", ";
   protected readonly endToken = ">";
   protected readonly maxChildCount = Infinity;
 
-  constructor(
-    objectType: string | TypeStructures,
-    childTypes: (string | TypeStructures)[] = [],
-  ) {
+  constructor(objectType: TypeStructures, childTypes: TypeStructures[] = []) {
     super();
     this.objectType = objectType;
     this.childTypes = childTypes;

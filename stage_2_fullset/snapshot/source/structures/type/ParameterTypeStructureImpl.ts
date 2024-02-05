@@ -21,7 +21,7 @@ export default class ParameterTypeStructureImpl extends TypeStructuresBase<TypeS
   public static clone(
     other: ParameterTypeStructureImpl,
   ): ParameterTypeStructureImpl {
-    let typeClone: string | TypeStructures | undefined;
+    let typeClone: TypeStructures | undefined;
     if (other.typeStructure)
       typeClone = TypeStructureClassesMap.clone(other.typeStructure);
     return new ParameterTypeStructureImpl(other.name, typeClone);
@@ -31,12 +31,9 @@ export default class ParameterTypeStructureImpl extends TypeStructuresBase<TypeS
   public readonly writerFunction = this.#writerFunction.bind(this);
 
   public name: string;
-  public typeStructure: string | TypeStructures | undefined;
+  public typeStructure: TypeStructures | undefined;
 
-  constructor(
-    name: string,
-    typeStructure: string | TypeStructures | undefined,
-  ) {
+  constructor(name: string, typeStructure: TypeStructures | undefined) {
     super();
     this.name = name;
     this.typeStructure = typeStructure;
@@ -47,7 +44,7 @@ export default class ParameterTypeStructureImpl extends TypeStructuresBase<TypeS
     writer.write(this.name);
     if (this.typeStructure) {
       writer.write(": ");
-      TypeStructuresBase.writeStringOrType(writer, this.typeStructure);
+      this.typeStructure.writerFunction(writer);
     }
   }
 

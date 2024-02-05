@@ -97,7 +97,7 @@ function definePublicExports(
     absolutePathToModule: path.join(distDir, "source/structures/type/TypeStructures.ts"),
     exportNames: [
       "TypeStructures",
-      "stringTypeStructuresOrNull"
+      "TypeStructuresOrNull"
     ],
     isDefaultExport: false,
     isType: true

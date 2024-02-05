@@ -12,6 +12,7 @@ import {
   ClassDeclarationImpl,
   FunctionTypeStructureImpl,
   getTypeAugmentedStructure,
+  LiteralTypeStructureImpl,
   MethodDeclarationImpl,
   ParameterDeclarationImpl,
   TypeArgumentedTypeStructureImpl,
@@ -54,7 +55,7 @@ it("getTypeAugmentedStructure gets structures having type structures for types",
     expect(firstParam).toBeInstanceOf(TypeParameterDeclarationImpl);
     if (firstParam instanceof TypeParameterDeclarationImpl) {
       expect(firstParam.name).toBe("K");
-      expect(firstParam.constraintStructure).toBe("object");
+      expect(firstParam.constraintStructure).toBe(LiteralTypeStructureImpl.get("object"));
     }
 
     expect(secondParam).toBeInstanceOf(TypeParameterDeclarationImpl);
@@ -69,9 +70,9 @@ it("getTypeAugmentedStructure gets structures having type structures for types",
 
   expect(extendsStructure).toBeInstanceOf(TypeArgumentedTypeStructureImpl);
   if (extendsStructure instanceof TypeArgumentedTypeStructureImpl) {
-    expect(extendsStructure.objectType).toBe("WeakMap");
-    expect(extendsStructure.childTypes[0]).toBe("K");
-    expect(extendsStructure.childTypes[1]).toBe("V");
+    expect(extendsStructure.objectType).toBe(LiteralTypeStructureImpl.get("WeakMap"));
+    expect(extendsStructure.childTypes[0]).toBe(LiteralTypeStructureImpl.get("K"));
+    expect(extendsStructure.childTypes[1]).toBe(LiteralTypeStructureImpl.get("V"));
   }
 
   expect(rootStructure.methods.length).toBe(1);
@@ -83,13 +84,13 @@ it("getTypeAugmentedStructure gets structures having type structures for types",
     expect(getDefaultMethod.parameters.length).toBe(2);
     if (getDefaultMethod.parameters.length === 2) {
       const [key, builder] = getDefaultMethod.parameters as ParameterDeclarationImpl[];
-      expect(key.typeStructure).toBe("K");
+      expect(key.typeStructure).toBe(LiteralTypeStructureImpl.get("K"));
 
       expect(builder.typeStructure).toBeInstanceOf(FunctionTypeStructureImpl)
       if (builder.typeStructure instanceof FunctionTypeStructureImpl) {
         expect(builder.typeStructure.typeParameters.length).toBe(0)
         expect(builder.typeStructure.parameters.length).toBe(0);
-        expect(builder.typeStructure.returnType).toBe("V");
+        expect(builder.typeStructure.returnType).toBe(LiteralTypeStructureImpl.get("V"));
       }
     }
   }

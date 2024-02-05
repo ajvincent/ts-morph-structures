@@ -24,6 +24,7 @@ import {
   IndexedAccessTypeStructureImpl,
   InferTypeStructureImpl,
   IntersectionTypeStructureImpl,
+  LiteralTypeStructureImpl,
   MappedTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
   ParameterTypeStructureImpl,
@@ -38,7 +39,7 @@ import {
   TypeParameterDeclarationImpl,
   TypeStructures,
   UnionTypeStructureImpl,
-  type stringTypeStructuresOrNull,
+  type TypeStructuresOrNull,
 } from "../../snapshot/source/exports.js";
 
 import type {
@@ -67,24 +68,27 @@ export default function convertTypeNode(
   typeNode: TypeNode,
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver
-): stringTypeStructuresOrNull
+): TypeStructuresOrNull
 {
   if (Node.isLiteralTypeNode(typeNode)) {
     typeNode = typeNode.getFirstChildOrThrow();
   }
-  const kind: SyntaxKind = typeNode.getKind();
 
-  const keyword = LiteralKeywords.get(kind);
-  if (keyword) {
-    return keyword;
+  {
+    const kind: SyntaxKind = typeNode.getKind();
+
+    const keyword = LiteralKeywords.get(kind);
+    if (keyword) {
+      return LiteralTypeStructureImpl.get(keyword);
+    }
   }
 
   if (Node.isNumericLiteral(typeNode)) {
-    return typeNode.getLiteralText();
+    return LiteralTypeStructureImpl.get(typeNode.getLiteralText());
   }
 
   if (Node.isThisTypeNode(typeNode))
-    return "this";
+    return LiteralTypeStructureImpl.get("this");
 
   if (Node.isStringLiteral(typeNode)) {
     return new StringTypeStructureImpl(typeNode.getLiteralText());
@@ -170,7 +174,9 @@ export default function convertTypeNode(
   }
 
   if (Node.isTypeQuery(typeNode)) {
-    const structure = buildStructureForEntityName(typeNode.getExprName());
+    const structureMaybeString = composeQualifiedName(typeNode.getExprName());
+    const structure = (typeof structureMaybeString === "string") ?
+      LiteralTypeStructureImpl.get(structureMaybeString) : structureMaybeString;
     return prependPrefixOperator("typeof", structure);
   }
 
@@ -208,7 +214,7 @@ export default function convertTypeNode(
   // class extends expressionWithTypeArguments
   else if (Node.isExpressionWithTypeArguments(typeNode)) {
     const expression = typeNode.getExpression();
-    const objectType = expression.getText();
+    const objectType = LiteralTypeStructureImpl.get(expression.getText());
 
     childTypeNodes = typeNode.getTypeArguments();
     if (childTypeNodes.length === 0)
@@ -219,7 +225,9 @@ export default function convertTypeNode(
 
   // identifiers, type-argumented type nodes
   else if (Node.isTypeReference(typeNode)) {
-    const objectType = buildStructureForEntityName(typeNode.getTypeName());
+    const objectTypeMaybeString = composeQualifiedName(typeNode.getTypeName());
+    const objectType = typeof objectTypeMaybeString === "string" ?
+      LiteralTypeStructureImpl.get(objectTypeMaybeString) : objectTypeMaybeString;
 
     childTypeNodes = typeNode.getTypeArguments();
     if (childTypeNodes.length === 0) {
@@ -254,25 +262,25 @@ function convertConditionalTypeNode(
   subStructureResolver: SubstructureResolver,
 ): ConditionalTypeStructureImpl | null
 {
-  const checkType: stringTypeStructuresOrNull = convertTypeNode(
+  const checkType: TypeStructuresOrNull = convertTypeNode(
     condition.getCheckType(), consoleTrap, subStructureResolver,
   );
   if (!checkType)
     return null;
 
-  const extendsType: stringTypeStructuresOrNull = convertTypeNode(
+  const extendsType: TypeStructuresOrNull = convertTypeNode(
     condition.getExtendsType(), consoleTrap, subStructureResolver
   );
   if (!extendsType)
     return null;
 
-  const trueType: stringTypeStructuresOrNull = convertTypeNode(
+  const trueType: TypeStructuresOrNull = convertTypeNode(
     condition.getTrueType(), consoleTrap, subStructureResolver
   );
   if (!trueType)
     return null;
 
-  const falseType: stringTypeStructuresOrNull = convertTypeNode(
+  const falseType: TypeStructuresOrNull = convertTypeNode(
     condition.getFalseType(), consoleTrap, subStructureResolver
   );
   if (!falseType)
@@ -327,7 +335,7 @@ function convertFunctionTypeNode(
   );
 
   const returnTypeNode = typeNode.getReturnTypeNode();
-  let returnTypeStructure: string | TypeStructures | undefined = undefined;
+  let returnTypeStructure: TypeStructures | undefined = undefined;
   if (returnTypeNode) {
     returnTypeStructure = convertTypeNode(returnTypeNode, consoleTrap, subStructureResolver) ?? undefined;
   }
@@ -364,7 +372,7 @@ function convertParameterNodeTypeNode(
 ): ParameterTypeStructureImpl
 {
   const paramTypeNode = node.getTypeNode();
-  let paramTypeStructure: stringTypeStructuresOrNull = null;
+  let paramTypeStructure: TypeStructuresOrNull = null;
   if (paramTypeNode) {
     paramTypeStructure = convertTypeNode(
       paramTypeNode, consoleTrap, subStructureResolver
@@ -373,11 +381,11 @@ function convertParameterNodeTypeNode(
   return new ParameterTypeStructureImpl(node.getName(), paramTypeStructure ?? undefined);
 }
 
-function buildStructureForEntityName(
+function composeQualifiedName(
   entity: EntityName
 ): string | QualifiedNameTypeStructureImpl {
   if (Node.isQualifiedName(entity)) {
-    const leftStructure = buildStructureForEntityName(entity.getLeft());
+    const leftStructure = composeQualifiedName(entity.getLeft());
     const rightTypeAsString = entity.getRight().getText();
 
     if (leftStructure instanceof QualifiedNameTypeStructureImpl) {
@@ -413,7 +421,7 @@ function convertMappedTypeNode(
   const mappedStructure = new MappedTypeStructureImpl(parameterStructure);
 
   {
-    let nameStructure: string | TypeStructures | undefined = undefined;
+    let nameStructure: TypeStructures | undefined = undefined;
     const nameTypeNode = mappedTypeNode.getNameTypeNode();
     if (nameTypeNode) {
       nameStructure = convertTypeNode(nameTypeNode, consoleTrap, subStructureResolver) ?? undefined;
@@ -424,7 +432,7 @@ function convertMappedTypeNode(
   }
 
   {
-    let typeStructure: string | TypeStructures | undefined = undefined;
+    let typeStructure: TypeStructures | undefined = undefined;
     const typeNode = mappedTypeNode.getTypeNode();
     if (typeNode) {
       typeStructure = convertTypeNode(typeNode, consoleTrap, subStructureResolver) ?? undefined;
@@ -467,7 +475,7 @@ function convertTemplateLiteralTypeNode(
 ): TemplateLiteralTypeStructureImpl | null
 {
   const headText = templateNode.getHead().getLiteralText();
-  const spans: [string | TypeStructures, string][] = [];
+  const spans: [TypeStructures, string][] = [];
 
   for (const childTypeNode of templateNode.getTemplateSpans()) {
     if (
@@ -487,7 +495,7 @@ function convertTemplateLiteralTypeNode(
       );
     }
 
-    let grandchildStructure: string | TypeStructures | null;
+    let grandchildStructure: TypeStructures | null;
     if (Node.isTypeNode(grandchildTypeNode)) {
       grandchildStructure = convertTypeNode(grandchildTypeNode, consoleTrap, subStructureResolver);
     }
@@ -496,7 +504,7 @@ function convertTemplateLiteralTypeNode(
 
       const keyword = LiteralKeywords.get(kind);
       if (keyword) {
-        grandchildStructure = keyword;
+        grandchildStructure = LiteralTypeStructureImpl.get(keyword);
       }
       else {
         return reportConversionFailure(
@@ -596,7 +604,7 @@ function convertTypeOperatorNode(
 
 function prependPrefixOperator(
   operator: PrefixUnaryOperator,
-  typeStructure: string | TypeStructures
+  typeStructure: TypeStructures
 ): PrefixOperatorsTypeStructureImpl
 {
   if (typeStructure instanceof PrefixOperatorsTypeStructureImpl) {
@@ -611,7 +619,7 @@ function prependPrefixOperator(
 
 function convertAndAppendChildTypes(
   childTypeNodes: readonly TypeNode[],
-  elements: (string | TypeStructures)[],
+  elements: TypeStructures[],
   consoleTrap: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver
 ): boolean

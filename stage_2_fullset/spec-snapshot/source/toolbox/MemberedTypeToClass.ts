@@ -11,6 +11,7 @@ import {
   type ClassMemberImpl,
   type ClassStatementsGetter,
   GetAccessorDeclarationImpl,
+  LiteralTypeStructureImpl,
   IndexSignatureDeclarationImpl,
   InterfaceDeclarationImpl,
   type MemberedStatementsKey,
@@ -223,17 +224,17 @@ describe("MemberedTypeToClass", () => {
     const membersMap: TypeMembersMap = new TypeMembersMap;
 
     const prop1 = new PropertySignatureImpl("one");
-    prop1.typeStructure = "string";
+    prop1.typeStructure = LiteralTypeStructureImpl.get("string");
 
     const prop2 = new PropertySignatureImpl("two");
     prop2.isReadonly = true;
-    prop2.typeStructure = "string";
+    prop2.typeStructure = LiteralTypeStructureImpl.get("string");
 
     const method3 = new MethodSignatureImpl("three");
-    method3.returnTypeStructure = "string";
+    method3.returnTypeStructure = LiteralTypeStructureImpl.get("string");
 
     const private_4: PropertySignatureImpl = new PropertySignatureImpl("#four");
-    private_4.typeStructure = "number";
+    private_4.typeStructure = LiteralTypeStructureImpl.get("number");
 
     const getter4 = new GetAccessorDeclarationImpl(false, "four");
     getter4.returnTypeStructure = private_4.typeStructure;
@@ -338,7 +339,7 @@ describe("MemberedTypeToClass", () => {
       expect(prop1_Decl.isStatic).toBe(false);
       expect(prop1_Decl.isAbstract).toBe(false);
       expect(prop1_Decl.name).toBe("one");
-      expect(prop1_Decl.typeStructure).toBe("string");
+      expect(prop1_Decl.typeStructure).toBe(LiteralTypeStructureImpl.get("string"));
       expect(prop1_Decl.initializer).toBe(`"value one"`);
     }
 
@@ -349,7 +350,7 @@ describe("MemberedTypeToClass", () => {
       expect(prop2_Decl.isStatic).toBe(true);
       expect(prop2_Decl.isAbstract).toBe(false);
       expect(prop2_Decl.name).toBe("two");
-      expect(prop2_Decl.typeStructure).toBe("string");
+      expect(prop2_Decl.typeStructure).toBe(LiteralTypeStructureImpl.get("string"));
       expect(prop2_Decl.initializer).toBe(`"value two"`);
     }
 
@@ -360,7 +361,7 @@ describe("MemberedTypeToClass", () => {
       expect(prop4_PrivateDecl.isStatic).toBe(false);
       expect(prop4_PrivateDecl.isAbstract).toBe(false);
       expect(prop4_PrivateDecl.name).toBe("#four");
-      expect(prop4_PrivateDecl.typeStructure).toBe("number");
+      expect(prop4_PrivateDecl.typeStructure).toBe(LiteralTypeStructureImpl.get("number"));
       expect(prop4_PrivateDecl.initializer).toBe("4");
     }
 
@@ -370,7 +371,7 @@ describe("MemberedTypeToClass", () => {
       expect(method3_Decl.isAbstract).toBe(false);
       expect(method3_Decl.typeParameters.length).toBe(0);
       expect(method3_Decl.parameters.length).toBe(0);
-      expect(method3_Decl.returnTypeStructure).toBe("string");
+      expect(method3_Decl.returnTypeStructure).toBe(LiteralTypeStructureImpl.get("string"));
       expect(method3_Decl.statements).toEqual([
         `return MyClassName.two + " plus one";`
       ]);
@@ -382,7 +383,7 @@ describe("MemberedTypeToClass", () => {
       expect(getter4_Decl.isAbstract).toBe(false);
       expect(getter4_Decl.typeParameters.length).toBe(0);
       expect(getter4_Decl.parameters.length).toBe(0);
-      expect(getter4_Decl.returnTypeStructure).toBe("number");
+      expect(getter4_Decl.returnTypeStructure).toBe(LiteralTypeStructureImpl.get("number"));
       expect(getter4_Decl.statements).toEqual([
         `return this.#four;`
       ]);
@@ -397,7 +398,7 @@ describe("MemberedTypeToClass", () => {
       const fourParam = setter4_Decl.parameters[0] as ParameterDeclarationImpl | undefined;
       if (fourParam) {
         expect(fourParam.name).toBe("value");
-        expect(fourParam.typeStructure).toBe("number");
+        expect(fourParam.typeStructure).toBe(LiteralTypeStructureImpl.get("number"));
       }
       expect(setter4_Decl.statements).toEqual([
         `this.#four = value;`
@@ -412,8 +413,8 @@ describe("MemberedTypeToClass", () => {
   it("will resolve index signatures when it gets them from adding type members", () => {
     const index_C = new IndexSignatureDeclarationImpl;
     index_C.keyName = "Key";
-    index_C.keyTypeStructure = "string";
-    index_C.returnTypeStructure = "boolean";
+    index_C.keyTypeStructure = LiteralTypeStructureImpl.get("string");
+    index_C.returnTypeStructure = LiteralTypeStructureImpl.get("boolean");
 
     statementsGetter.setStatements(
       "foo", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first", [`true`]
@@ -442,7 +443,7 @@ describe("MemberedTypeToClass", () => {
     );
     expect(foo).not.toBeUndefined();
     if (foo) {
-      expect(foo.typeStructure).toBe("boolean");
+      expect(foo.typeStructure).toBe(LiteralTypeStructureImpl.get("boolean"));
       expect(foo.initializer).toBe("true");
     }
 
@@ -451,14 +452,14 @@ describe("MemberedTypeToClass", () => {
     );
     expect(bar).not.toBeUndefined();
     if (bar) {
-      expect(bar.typeStructure).toBe("boolean");
+      expect(bar.typeStructure).toBe(LiteralTypeStructureImpl.get("boolean"));
       expect(bar.initializer).toBe("false");
     }
   });
 
   it("will detect some collisions between type members", () => {
     const prop1 = new PropertySignatureImpl("one");
-    prop1.typeStructure = "string";
+    prop1.typeStructure = LiteralTypeStructureImpl.get("string");
 
     typeToClass.addTypeMember(false, prop1);
     expect(typeToClass.getCurrentTypeMembers(true)).toEqual([]);
@@ -480,14 +481,14 @@ describe("MemberedTypeToClass", () => {
     expect(typeToClass.getCurrentTypeMembers(false)).toEqual([prop1]);
 
     const method1 = new MethodSignatureImpl("one");
-    method1.returnTypeStructure = "string";
+    method1.returnTypeStructure = LiteralTypeStructureImpl.get("string");
     expect(
       () => typeToClass.addTypeMember(false, method1)
     ).toThrowError(`You already have a class member with the key "one".`);
 
     // It's not perfect, you can still do dumb things
     const getter1 = new GetAccessorDeclarationImpl(false, "one");
-    getter1.returnTypeStructure = "string";
+    getter1.returnTypeStructure = LiteralTypeStructureImpl.get("string");
     typeToClass.addTypeMember(false, getter1);
     expect(typeToClass.getCurrentTypeMembers(true)).toEqual([prop1]);
     expect(typeToClass.getCurrentTypeMembers(false)).toEqual([prop1, getter1]);
@@ -538,17 +539,17 @@ describe("MemberedTypeToClass", () => {
     const membersMap: TypeMembersMap = new TypeMembersMap;
 
     const prop1 = new PropertySignatureImpl("one");
-    prop1.typeStructure = "string";
+    prop1.typeStructure = LiteralTypeStructureImpl.get("string");
 
     const prop2 = new PropertySignatureImpl("two");
     prop2.isReadonly = true;
-    prop2.typeStructure = "string";
+    prop2.typeStructure = LiteralTypeStructureImpl.get("string");
 
     const method3 = new MethodSignatureImpl("three");
-    method3.returnTypeStructure = "string";
+    method3.returnTypeStructure = LiteralTypeStructureImpl.get("string");
 
     const private_4: PropertySignatureImpl = new PropertySignatureImpl("#four");
-    private_4.typeStructure = "number";
+    private_4.typeStructure = LiteralTypeStructureImpl.get("number");
 
     const getter4 = new GetAccessorDeclarationImpl(false, "four");
     getter4.returnTypeStructure = private_4.typeStructure;
@@ -616,7 +617,7 @@ describe("MemberedTypeToClass", () => {
       expect(prop1_Decl.isStatic).toBe(false);
       expect(prop1_Decl.isAbstract).toBe(false);
       expect(prop1_Decl.name).toBe("one");
-      expect(prop1_Decl.typeStructure).toBe("string");
+      expect(prop1_Decl.typeStructure).toBe(LiteralTypeStructureImpl.get("string"));
       expect(prop1_Decl.initializer).toBe(`"value one"`);
     }
 
@@ -627,7 +628,7 @@ describe("MemberedTypeToClass", () => {
       expect(prop2_Decl.isStatic).toBe(false);
       expect(prop2_Decl.isAbstract).toBe(true);
       expect(prop2_Decl.name).toBe("two");
-      expect(prop2_Decl.typeStructure).toBe("string");
+      expect(prop2_Decl.typeStructure).toBe(LiteralTypeStructureImpl.get("string"));
       expect(prop2_Decl.initializer).toBe(undefined);
     }
 
@@ -637,7 +638,7 @@ describe("MemberedTypeToClass", () => {
       expect(method3_Decl.isAbstract).toBe(true);
       expect(method3_Decl.typeParameters.length).toBe(0);
       expect(method3_Decl.parameters.length).toBe(0);
-      expect(method3_Decl.returnTypeStructure).toBe("string");
+      expect(method3_Decl.returnTypeStructure).toBe(LiteralTypeStructureImpl.get("string"));
       expect(method3_Decl.statements).toEqual([]);
     }
 
@@ -647,7 +648,7 @@ describe("MemberedTypeToClass", () => {
       expect(getter4_Decl.isAbstract).toBe(true);
       expect(getter4_Decl.typeParameters.length).toBe(0);
       expect(getter4_Decl.parameters.length).toBe(0);
-      expect(getter4_Decl.returnTypeStructure).toBe("number");
+      expect(getter4_Decl.returnTypeStructure).toBe(LiteralTypeStructureImpl.get("number"));
       expect(getter4_Decl.statements).toEqual([]);
     }
 
@@ -660,7 +661,7 @@ describe("MemberedTypeToClass", () => {
       const fourParam = setter4_Decl.parameters[0] as ParameterDeclarationImpl | undefined;
       if (fourParam) {
         expect(fourParam.name).toBe("value");
-        expect(fourParam.typeStructure).toBe("number");
+        expect(fourParam.typeStructure).toBe(LiteralTypeStructureImpl.get("number"));
       }
       expect(setter4_Decl.statements).toEqual([]);
     }
@@ -681,13 +682,13 @@ describe("MemberedTypeToClass", () => {
 
   it("can add scope to class members", () => {
     const prop1 = new PropertySignatureImpl("one");
-    prop1.typeStructure = "string";
+    prop1.typeStructure = LiteralTypeStructureImpl.get("string");
 
     const prop2 = new PropertySignatureImpl("two");
-    prop1.typeStructure = "string";
+    prop1.typeStructure = LiteralTypeStructureImpl.get("string");
 
     const prop3 = new PropertySignatureImpl("three");
-    prop1.typeStructure = "string";
+    prop1.typeStructure = LiteralTypeStructureImpl.get("string");
 
     typeToClass.scopeCallback = {
       getScope: function(
@@ -729,10 +730,10 @@ describe("MemberedTypeToClass", () => {
 
   it("can add isAsync to methods", () => {
     const method1 = new MethodSignatureImpl("one");
-    method1.returnTypeStructure = "string";
+    method1.returnTypeStructure = LiteralTypeStructureImpl.get("string");
 
     const method2 = new MethodSignatureImpl("two");
-    method2.returnTypeStructure = "string";
+    method2.returnTypeStructure = LiteralTypeStructureImpl.get("string");
 
     typeToClass.isAsyncCallback = {
       isAsync: function(isStatic: boolean, kind, name): boolean {
@@ -761,10 +762,10 @@ describe("MemberedTypeToClass", () => {
 
   it("can add isGenerator to methods", () => {
     const method1 = new MethodSignatureImpl("one");
-    method1.returnTypeStructure = "string";
+    method1.returnTypeStructure = LiteralTypeStructureImpl.get("string");
 
     const method2 = new MethodSignatureImpl("two");
-    method2.returnTypeStructure = "string";
+    method2.returnTypeStructure = LiteralTypeStructureImpl.get("string");
 
     typeToClass.isGeneratorCallback = {
       isGenerator: function(isStatic: boolean, kind, name): boolean {

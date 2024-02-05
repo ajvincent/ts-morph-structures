@@ -35,10 +35,10 @@ extends TypeStructuresBase<TypeStructureKind.Array>
   }
 
   readonly kind = TypeStructureKind.Array;
-  public objectType: string | TypeStructures;
+  public objectType: TypeStructures;
 
   constructor(
-    objectType: string | TypeStructures
+    objectType: TypeStructures
   )
   {
     super();
@@ -48,7 +48,7 @@ extends TypeStructuresBase<TypeStructureKind.Array>
 
   #writerFunction(writer: CodeBlockWriter): void
   {
-    TypeStructuresBase.writeStringOrType(writer, this.objectType);
+    this.objectType.writerFunction(writer);
     writer.write("[]");
   }
 

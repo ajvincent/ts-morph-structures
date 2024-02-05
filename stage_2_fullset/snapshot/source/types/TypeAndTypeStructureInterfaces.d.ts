@@ -6,17 +6,17 @@ import {
 import { TypeStructureSet } from "../internal-exports.js";
 
 export interface TypedNodeTypeStructure {
-  typeStructure: string | TypeStructures | undefined;
+  typeStructure: TypeStructures | undefined;
   type: stringOrWriterFunction | undefined;
 }
 
 export interface ReturnTypedNodeTypeStructure {
-  returnTypeStructure: string | TypeStructures | undefined;
+  returnTypeStructure: TypeStructures | undefined;
   returnType: stringOrWriterFunction | undefined;
 }
 
 export interface TypeParameterWithTypeStructures {
-  constraintStructure: string | TypeStructures | undefined;
+  constraintStructure: TypeStructures | undefined;
   constraint: stringOrWriterFunction | undefined;
 
   defaultStructure: TypeStructures | undefined;

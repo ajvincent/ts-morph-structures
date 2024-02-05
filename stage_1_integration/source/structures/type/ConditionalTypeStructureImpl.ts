@@ -14,14 +14,15 @@ import {
   STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructuresBase,
   TypeStructureClassesMap,
+  LiteralTypeStructureImpl,
 } from "../../../snapshot/source/internal-exports.js";
 
 export interface ConditionalTypeStructureParts
 {
-  checkType: string | TypeStructures;
-  extendsType: string | TypeStructures;
-  trueType: string | TypeStructures;
-  falseType: string | TypeStructures;
+  checkType: TypeStructures;
+  extendsType: TypeStructures;
+  trueType: TypeStructures;
+  falseType: TypeStructures;
 }
 
 /** `checkType` extends `extendsType` ? `trueType` : `falseType` */
@@ -44,10 +45,10 @@ extends TypeStructuresBase<TypeStructureKind.Conditional>
   }
 
   readonly kind = TypeStructureKind.Conditional;
-  public checkType: string | TypeStructures;
-  public extendsType: string | TypeStructures;
-  public trueType: string | TypeStructures;
-  public falseType: string | TypeStructures;
+  public checkType: TypeStructures;
+  public extendsType: TypeStructures;
+  public trueType: TypeStructures;
+  public falseType: TypeStructures;
 
   constructor(
     conditionalParts: Partial<ConditionalTypeStructureParts>
@@ -55,23 +56,23 @@ extends TypeStructuresBase<TypeStructureKind.Conditional>
   {
     super();
 
-    this.checkType = conditionalParts.checkType ?? "never";
-    this.extendsType = conditionalParts.extendsType ?? "never";
-    this.trueType = conditionalParts.trueType ?? "never";
-    this.falseType = conditionalParts.falseType ?? "never";
+    this.checkType = conditionalParts.checkType ?? LiteralTypeStructureImpl.get("never");
+    this.extendsType = conditionalParts.extendsType ?? LiteralTypeStructureImpl.get("never");
+    this.trueType = conditionalParts.trueType ?? LiteralTypeStructureImpl.get("never");
+    this.falseType = conditionalParts.falseType ?? LiteralTypeStructureImpl.get("never");
 
     this.registerCallbackForTypeStructure();
   }
 
   #writerFunction(writer: CodeBlockWriter): void
   {
-    TypeStructuresBase.writeStringOrType(writer, this.checkType);
+    this.checkType.writerFunction(writer);
     writer.write(" extends ");
-    TypeStructuresBase.writeStringOrType(writer, this.extendsType);
+    this.extendsType.writerFunction(writer);
     writer.write(" ? ");
-    TypeStructuresBase.writeStringOrType(writer, this.trueType);
+    this.trueType.writerFunction(writer);
     writer.write(" : ");
-    TypeStructuresBase.writeStringOrType(writer, this.falseType);
+    this.falseType.writerFunction(writer);
   }
 
   readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);

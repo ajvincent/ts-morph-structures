@@ -25,8 +25,8 @@ extends TypeStructuresBase<TypeStructureKind.TemplateLiteral>
     other: TemplateLiteralTypeStructureImpl
   ): TemplateLiteralTypeStructureImpl
   {
-    const spans = other.spans.map(
-      span => TypeStructureClassesMap.cloneArray(span) as [string | TypeStructures, string]
+    const spans = other.spans.map<[TypeStructures, string]>(
+      span => [TypeStructureClassesMap.clone(span[0]), span[1]]
     );
     return new TemplateLiteralTypeStructureImpl(other.head, spans);
   }
@@ -35,11 +35,11 @@ extends TypeStructuresBase<TypeStructureKind.TemplateLiteral>
   readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);
 
   head: string;
-  spans: [string | TypeStructures, string][];
+  spans: [TypeStructures, string][];
 
   constructor(
     head: string,
-    spans: [string | TypeStructures, string][]
+    spans: [TypeStructures, string][]
   )
   {
     super();
@@ -55,9 +55,9 @@ extends TypeStructuresBase<TypeStructureKind.TemplateLiteral>
     TypeStructuresBase.pairedWrite(writer, "`", "`", false, false, () => {
       writer.write(this.head);
       this.spans.forEach(span => {
-        TypeStructuresBase.pairedWrite(writer, "${", "}", false, false, () => {
-          TypeStructuresBase.writeStringOrType(writer, span[0]);
-        });
+        TypeStructuresBase.pairedWrite(
+          writer, "${", "}", false, false, () => span[0].writerFunction(writer)
+        );
 
         writer.write(span[1]);
       });

@@ -4,7 +4,7 @@ import {
   TypeStructureKind,
   type StructureImpls,
   type TypeStructures,
-  type stringTypeStructuresOrNull,
+  type TypeStructuresOrNull,
 } from "../../exports.js";
 
 import { STRUCTURE_AND_TYPES_CHILDREN } from "../../internal-exports.js";
@@ -19,12 +19,12 @@ class TypePrinterSettings {
 
 export default abstract class TypeStructuresWithChildren<
   Kind extends TypeStructureKind,
-  Children extends readonly (string | TypeStructures)[],
+  Children extends readonly TypeStructures[],
 > extends TypeStructuresBase<Kind> {
   abstract readonly kind: Kind;
 
   /** This lives outside the start and end tokens.  Think of this as a parent type for the children, ie. `Partial`. */
-  protected abstract objectType: stringTypeStructuresOrNull;
+  protected abstract objectType: TypeStructuresOrNull;
   /** The child types we join together, and wrap in the start and end tokens. */
   public abstract readonly childTypes: Children;
   /** A very short string, one or two characters, before all child types. */
@@ -40,9 +40,7 @@ export default abstract class TypeStructuresWithChildren<
   readonly printerSettings = new TypePrinterSettings();
 
   #writerFunctionOuter(writer: CodeBlockWriter): void {
-    if (this.objectType) {
-      TypeStructuresBase.writeStringOrType(writer, this.objectType);
-    }
+    this.objectType?.writerFunction(writer);
 
     TypeStructuresBase.pairedWrite(
       writer,
@@ -65,7 +63,7 @@ export default abstract class TypeStructuresWithChildren<
 
     const lastChild = childTypes[childTypes.length - 1];
     for (const child of childTypes) {
-      TypeStructuresBase.writeStringOrType(writer, child);
+      child.writerFunction(writer);
       if (child === lastChild) return;
 
       if (this.printerSettings.oneLinePerChild) {
