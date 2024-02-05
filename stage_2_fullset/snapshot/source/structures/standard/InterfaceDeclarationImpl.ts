@@ -7,6 +7,8 @@ import {
   MethodSignatureImpl,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
+  type StructureImpls,
+  type TypeStructures,
 } from "../../exports.js";
 import {
   type AmbientableNodeStructureFields,
@@ -25,6 +27,7 @@ import {
   ReadonlyArrayProxyHandler,
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
+  STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -200,6 +203,16 @@ export default class InterfaceDeclarationImpl
     const target = new InterfaceDeclarationImpl(source.name);
     this[COPY_FIELDS](source, target);
     return target;
+  }
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<
+    StructureImpls | TypeStructures
+  > {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    for (const typeStructure of this.extendsSet) {
+      if (typeof typeStructure === "object") yield typeStructure;
+    }
   }
 
   public toJSON(): StructureClassToJSON<InterfaceDeclarationImpl> {

@@ -23,6 +23,7 @@ const ConstantTypeStructures: Record<string, Readonly<TypeStructures>> = {
   "StructureBase": new LiteralTypedStructureImpl("StructureBase"),
   "StructureClassToJSON": new LiteralTypedStructureImpl("StructureClassToJSON"),
   "StructureKind": new LiteralTypedStructureImpl("StructureKind"),
+  "StructureImpls": new LiteralTypedStructureImpl("StructureImpls"),
   "Structures": new LiteralTypedStructureImpl("Structures"),
   "SubclassDecorator": new LiteralTypedStructureImpl("SubclassDecorator"),
   "TypeStructures": new LiteralTypedStructureImpl("TypeStructures"),

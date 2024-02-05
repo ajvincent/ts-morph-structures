@@ -1,5 +1,5 @@
 //#region preamble
-import type { TypeStructures } from "../../exports.js";
+import type { StructureImpls, TypeStructures } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
@@ -13,6 +13,7 @@ import {
   type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
+  STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -105,6 +106,14 @@ export default class IndexSignatureDeclarationImpl
     const target = new IndexSignatureDeclarationImpl();
     this[COPY_FIELDS](source, target);
     return target;
+  }
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<
+    StructureImpls | TypeStructures
+  > {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    if (typeof this.keyTypeStructure === "object") yield this.keyTypeStructure;
   }
 
   public toJSON(): StructureClassToJSON<IndexSignatureDeclarationImpl> {

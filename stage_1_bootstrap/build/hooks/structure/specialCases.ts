@@ -29,9 +29,9 @@ import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFiel
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 
-const COPY_FIELDS_NAME = ClassMembersMap.keyFromName(
-  StructureKind.Method, true, "[COPY_FIELDS]"
-);
+import {
+  COPY_FIELDS_NAME
+} from "../../constants.js";
 
 export default function structureSpecialCases(
   name: string,

@@ -1,5 +1,6 @@
 import {
   CodeBlockWriter,
+  Scope,
   StructureKind,
 } from "ts-morph";
 
@@ -19,10 +20,14 @@ import {
   GetAccessorDeclarationImpl,
   InterfaceDeclarationImpl,
   LiteralTypedStructureImpl,
+  JSDocImpl,
+  JSDocTagImpl,
+  MethodDeclarationImpl,
   ParameterDeclarationImpl,
   PropertyDeclarationImpl,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
+  TypeArgumentedTypedStructureImpl,
   UnionTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
@@ -30,10 +35,10 @@ import ConstantTypeStructures from "../utilities/ConstantTypeStructures.js";
 import ClassFieldStatementsMap from "../utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "../utilities/public/ClassMembersMap.js";
 import pairedWrite from "../utilities/pairedWrite.js";
-
-const COPY_FIELDS_NAME = ClassMembersMap.keyFromName(
-  StructureKind.Method, true, "[COPY_FIELDS]"
-);
+import {
+  COPY_FIELDS_NAME,
+  STRUCTURE_AND_TYPES_CHILDREN_NAME,
+} from "../constants.js";
 
 export default function addTypeStructures(
   name: string,
@@ -168,6 +173,8 @@ function addTypeStructureSet(
     ]
   );
 
+  defineStructureAndTypesChildren(dictionaries, parts, typeStructureSetProp.name, true);
+
   parts.classMembersMap.addMembers([
     staticProxyHandlerProp,
     shadowArrayProp,
@@ -293,6 +300,8 @@ function addTypeAccessor(
   `} else ${existingStatements[0] as string}`;
   existingStatements.unshift(`const { ${propertyKey}Structure } = source as unknown as ${parts.classDecl.name!};`)
 
+  defineStructureAndTypesChildren(dictionaries, parts, propertyKey + "Structure", false);
+
   parts.classMembersMap.addMembers([
     typeAccessorProp,
     typeGetAccessor,
@@ -322,4 +331,70 @@ function addTypeAccessor(
       parts.classDecl.implementsSet.add(interfaceNameLiteral);
     }
   }
+}
+
+/* public * [STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures> */
+function defineStructureAndTypesChildren(
+  dictionaries: StructureDictionaries,
+  parts: DecoratorParts | StructureParts,
+  fieldName: string,
+  isSet: boolean
+): MethodDeclarationImpl {
+  const statements: string[] = [];
+  parts.classFieldsStatements.set(fieldName, STRUCTURE_AND_TYPES_CHILDREN_NAME, statements);
+  if (isSet) {
+    statements.push(`for (const typeStructure of this.${fieldName}) { if (typeof typeStructure === "object") yield typeStructure; }`);
+  } else {
+    statements.push(`if (typeof this.${fieldName} === "object") yield this.${fieldName};`);
+  }
+
+  if (parts.classMembersMap.has(STRUCTURE_AND_TYPES_CHILDREN_NAME) === false) {
+    const method = new MethodDeclarationImpl("[STRUCTURE_AND_TYPES_CHILDREN]");
+    method.isStatic = false;
+    method.isGenerator = true;
+    method.scope = Scope.Public;
+    method.returnTypeStructure = new TypeArgumentedTypedStructureImpl(
+      new LiteralTypedStructureImpl("IterableIterator"),
+      [
+        new UnionTypedStructureImpl([
+          ConstantTypeStructures.StructureImpls,
+          ConstantTypeStructures.TypeStructures,
+        ])
+      ]
+    );
+
+    const jsdoc = new JSDocImpl;
+    const internalTag = new JSDocTagImpl("internal");
+    jsdoc.tags.push(internalTag);
+    method.docs.push(jsdoc);
+
+    parts.classMembersMap.addMembers([method]);
+
+    parts.classFieldsStatements.set(ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, STRUCTURE_AND_TYPES_CHILDREN_NAME, [
+      `yield* super[STRUCTURE_AND_TYPES_CHILDREN]();`
+    ]);
+
+    parts.importsManager.addImports({
+      pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+      isPackageImport: false,
+      importNames: [
+        "StructureImpls",
+        "TypeStructures",
+      ],
+      isDefaultImport: false,
+      isTypeOnly: true
+    });
+
+    parts.importsManager.addImports({
+      pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
+      isPackageImport: false,
+      importNames: [
+        "STRUCTURE_AND_TYPES_CHILDREN",
+      ],
+      isDefaultImport: false,
+      isTypeOnly: false
+    });
+  }
+
+  return parts.classMembersMap.get(STRUCTURE_AND_TYPES_CHILDREN_NAME) as MethodDeclarationImpl;
 }

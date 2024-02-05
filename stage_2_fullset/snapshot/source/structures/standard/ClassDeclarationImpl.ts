@@ -5,6 +5,7 @@ import {
   MethodDeclarationImpl,
   PropertyDeclarationImpl,
   SetAccessorDeclarationImpl,
+  type StructureImpls,
   type TypeStructures,
 } from "../../exports.js";
 import {
@@ -28,6 +29,7 @@ import {
   ReadonlyArrayProxyHandler,
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
+  STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -213,6 +215,17 @@ export default class ClassDeclarationImpl
     const target = new ClassDeclarationImpl();
     this[COPY_FIELDS](source, target);
     return target;
+  }
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<
+    StructureImpls | TypeStructures
+  > {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    if (typeof this.extendsStructure === "object") yield this.extendsStructure;
+    for (const typeStructure of this.implementsSet) {
+      if (typeof typeStructure === "object") yield typeStructure;
+    }
   }
 
   public toJSON(): StructureClassToJSON<ClassDeclarationImpl> {

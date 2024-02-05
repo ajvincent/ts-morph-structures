@@ -86,6 +86,7 @@ export { default as WriterTypeStructureImpl } from "./structures/type/WriterType
 export { default as ClassFieldStatementsMap } from "./toolbox/ClassFieldStatementsMap.js";
 export { default as ClassMembersMap } from "./toolbox/ClassMembersMap.js";
 export { default as ExportManager } from "./toolbox/ExportManager.js";
+export { default as forEachAugmentedStructureChild } from "./toolbox/forEachAugmentedStructureChild.js";
 export { default as ImportManager } from "./toolbox/ImportManager.js";
 export { default as MemberedTypeToClass } from "./toolbox/MemberedTypeToClass.js";
 export { default as TypeMembersMap } from "./toolbox/TypeMembersMap.js";

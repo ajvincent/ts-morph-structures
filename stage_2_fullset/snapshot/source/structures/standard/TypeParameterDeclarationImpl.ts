@@ -1,5 +1,5 @@
 //#region preamble
-import type { TypeStructures } from "../../exports.js";
+import type { StructureImpls, TypeStructures } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
@@ -9,6 +9,7 @@ import {
   type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
+  STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -127,6 +128,16 @@ export default class TypeParameterDeclarationImpl
     const target = new TypeParameterDeclarationImpl(source.name);
     this[COPY_FIELDS](source, target);
     return target;
+  }
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<
+    StructureImpls | TypeStructures
+  > {
+    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+    if (typeof this.constraintStructure === "object")
+      yield this.constraintStructure;
+    if (typeof this.defaultStructure === "object") yield this.defaultStructure;
   }
 
   public toJSON(): StructureClassToJSON<TypeParameterDeclarationImpl> {

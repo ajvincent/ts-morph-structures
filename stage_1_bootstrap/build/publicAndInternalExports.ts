@@ -146,6 +146,13 @@ function definePublicExports(
   });
 
   dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/forEachAugmentedStructureChild.ts"),
+    exportNames: ["forEachAugmentedStructureChild"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
+  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/toolbox/types/toolbox.d.ts"),
     exportNames: [
       "AddExportContext",
@@ -235,6 +242,7 @@ function defineInternalExports(
     exportNames: [
       "COPY_FIELDS",
       "REPLACE_WRITER_WITH_STRING",
+      "STRUCTURE_AND_TYPES_CHILDREN"
     ],
     isDefaultExport: false,
     isType: false

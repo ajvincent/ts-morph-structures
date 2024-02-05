@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import {
   CodeBlockWriter,
   type OptionalKind,
@@ -8,7 +9,13 @@ import {
 import {
   COPY_FIELDS,
   REPLACE_WRITER_WITH_STRING,
+  STRUCTURE_AND_TYPES_CHILDREN,
 } from "./symbolKeys.js";
+
+import type {
+  StructureImpls,
+  TypeStructures
+} from "../../snapshot/source/exports.js";
 
 export default class StructureBase
 {
@@ -40,5 +47,9 @@ export default class StructureBase
   public toJSON(): object
   {
     return {};
+  }
+
+  /** @internal */
+  public * [STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures> {
   }
 }

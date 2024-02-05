@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import type {
   CodeBlockWriter,
   WriterFunction
@@ -5,9 +6,14 @@ import type {
 
 import {
   KindedTypeStructure,
+  type StructureImpls,
   TypeStructureKind,
   type TypeStructures,
 } from "../../../snapshot/source/exports.js";
+
+import {
+  STRUCTURE_AND_TYPES_CHILDREN
+} from "../../../snapshot/source/internal-exports.js";
 
 export default
 abstract class TypeStructuresBase<Kind extends TypeStructureKind>
@@ -82,4 +88,10 @@ implements KindedTypeStructure<Kind>
 
   public abstract readonly kind: Kind;
   public abstract readonly writerFunction: WriterFunction;
+
+
+  /** @internal */
+  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<
+    StructureImpls | TypeStructures
+  > {}
 }

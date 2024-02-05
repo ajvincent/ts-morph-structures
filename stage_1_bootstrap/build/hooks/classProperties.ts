@@ -9,7 +9,10 @@ import {
   WriterFunction
 } from "ts-morph";
 
-import { distDir } from "#stage_one/build/constants.js";
+import {
+  COPY_FIELDS_NAME,
+  distDir
+} from "#stage_one/build/constants.js";
 
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 import {
@@ -42,12 +45,7 @@ import {
 
 import pairedWrite from "../utilities/pairedWrite.js";
 import ClassFieldStatementsMap from "../utilities/public/ClassFieldStatementsMap.js";
-import ClassMembersMap from "../utilities/public/ClassMembersMap.js";
 // #endregion preamble
-
-const COPY_FIELDS_NAME = ClassMembersMap.keyFromName(
-  StructureKind.Method, true, "[COPY_FIELDS]"
-);
 
 export default function addClassProperties(
   name: string,

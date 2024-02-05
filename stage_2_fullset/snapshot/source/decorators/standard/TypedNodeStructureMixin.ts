@@ -1,11 +1,12 @@
 //#region preamble
-import type { TypeStructures } from "../../exports.js";
+import type { StructureImpls, TypeStructures } from "../../exports.js";
 import {
   COPY_FIELDS,
   type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
   type RequiredOmit,
   type RightExtendsLeft,
+  STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
   type StructureClassToJSON,
   TypeAccessors,
@@ -77,6 +78,14 @@ export default function TypedNodeStructureMixin(
       } else if (source.type) {
         target.type = source.type;
       }
+    }
+
+    /** @internal */
+    public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<
+      StructureImpls | TypeStructures
+    > {
+      yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+      if (typeof this.typeStructure === "object") yield this.typeStructure;
     }
 
     public toJSON(): StructureClassToJSON<TypedNodeStructureMixin> {

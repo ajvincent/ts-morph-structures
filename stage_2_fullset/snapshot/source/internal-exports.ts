@@ -8,7 +8,11 @@ export {
 } from "./base/cloneStructureArray.js";
 export { default as StructureBase } from "./base/StructureBase.js";
 export { default as StructuresClassesMap } from "./base/StructuresClassesMap.js";
-export { COPY_FIELDS, REPLACE_WRITER_WITH_STRING } from "./base/symbolKeys.js";
+export {
+  COPY_FIELDS,
+  REPLACE_WRITER_WITH_STRING,
+  STRUCTURE_AND_TYPES_CHILDREN,
+} from "./base/symbolKeys.js";
 export { default as TypeAccessors } from "./base/TypeAccessors.js";
 export { default as TypeStructureClassesMap } from "./base/TypeStructureClassesMap.js";
 export { default as TypeStructureSet } from "./base/TypeStructureSet.js";

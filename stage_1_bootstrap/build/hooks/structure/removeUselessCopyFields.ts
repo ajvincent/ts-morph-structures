@@ -1,19 +1,12 @@
-import {
-  StructureKind
-} from "ts-morph";
-
 import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
 
 import {
   StructureImplMeta
 } from "#stage_one/build/structureMeta/DataClasses.js";
-import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 
-const COPY_FIELDS_NAME = ClassMembersMap.keyFromName(
-  StructureKind.Method,
-  true,
-  "[COPY_FIELDS]"
-);
+import {
+  COPY_FIELDS_NAME
+} from "../../constants.js";
 
 export default function removeUselessCopyFields(
   name: string,
