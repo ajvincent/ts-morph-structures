@@ -24,13 +24,13 @@
 
 ### CallSignatureDeclarationStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - kind: StructureKind.CallSignature;   From [CallSignatureDeclarationSpecificStructure](#callsignaturedeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### ClassDeclarationSpecificStructure
 
@@ -40,28 +40,28 @@
 
 - ctors?: OptionalKind<[ConstructorDeclarationStructure](#constructordeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - decorators?: OptionalKind<[DecoratorStructure](#decoratorstructure)>[];   From [DecoratableNodeStructure](#decoratablenodestructure).
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
-- extends?: string | WriterFunction;   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- extends?: string \| WriterFunction;   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - getAccessors?: OptionalKind<[GetAccessorDeclarationStructure](#getaccessordeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - hasDeclareKeyword?: boolean;   From [AmbientableNodeStructure](#ambientablenodestructure).
-- implements?: (string | WriterFunction)[] | WriterFunction;   From [ImplementsClauseableNodeStructure](#implementsclauseablenodestructure).
+- implements?: (string \| WriterFunction)[] \| WriterFunction;   From [ImplementsClauseableNodeStructure](#implementsclauseablenodestructure).
 - isAbstract?: boolean;   From [AbstractableNodeStructure](#abstractablenodestructure).
 - isDefaultExport?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - isExported?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - kind: StructureKind.Class;   From [ClassDeclarationSpecificStructure](#classdeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - methods?: OptionalKind<[MethodDeclarationStructure](#methoddeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - name?: string;   From [NameableNodeStructure](#nameablenodestructure).
 - name?: string; The class name.
 - properties?: OptionalKind<[PropertyDeclarationStructure](#propertydeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - setAccessors?: OptionalKind<[SetAccessorDeclarationStructure](#setaccessordeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### ClassLikeDeclarationBaseSpecificStructure
 
 - ctors?: OptionalKind<[ConstructorDeclarationStructure](#constructordeclarationstructure)>[];
-- extends?: string | WriterFunction;
+- extends?: string \| WriterFunction;
 - getAccessors?: OptionalKind<[GetAccessorDeclarationStructure](#getaccessordeclarationstructure)>[];
 - methods?: OptionalKind<[MethodDeclarationStructure](#methoddeclarationstructure)>[];
 - properties?: OptionalKind<[PropertyDeclarationStructure](#propertydeclarationstructure)>[];
@@ -71,16 +71,16 @@
 
 - ctors?: OptionalKind<[ConstructorDeclarationStructure](#constructordeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - decorators?: OptionalKind<[DecoratorStructure](#decoratorstructure)>[];   From [DecoratableNodeStructure](#decoratablenodestructure).
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
-- extends?: string | WriterFunction;   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- extends?: string \| WriterFunction;   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - getAccessors?: OptionalKind<[GetAccessorDeclarationStructure](#getaccessordeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
-- implements?: (string | WriterFunction)[] | WriterFunction;   From [ImplementsClauseableNodeStructure](#implementsclauseablenodestructure).
+- implements?: (string \| WriterFunction)[] \| WriterFunction;   From [ImplementsClauseableNodeStructure](#implementsclauseablenodestructure).
 - isAbstract?: boolean;   From [AbstractableNodeStructure](#abstractablenodestructure).
 - methods?: OptionalKind<[MethodDeclarationStructure](#methoddeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - name?: string;   From [NameableNodeStructure](#nameablenodestructure).
 - properties?: OptionalKind<[PropertyDeclarationStructure](#propertydeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - setAccessors?: OptionalKind<[SetAccessorDeclarationStructure](#setaccessordeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### ClassMemberStructures
 
@@ -97,11 +97,11 @@
 
 ### ClassStaticBlockDeclarationStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - kind: StructureKind.ClassStaticBlock;   From [ClassStaticBlockDeclarationSpecificStructure](#classstaticblockdeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
-- statements?: (string | WriterFunction | [StatementStructures](#statementstructures))[] | string | WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- statements?: (string \| WriterFunction \| [StatementStructures](#statementstructures))[] \| string \| WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### ConstructSignatureDeclarationSpecificStructure
 
@@ -109,13 +109,13 @@
 
 ### ConstructSignatureDeclarationStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - kind: StructureKind.ConstructSignature;   From [ConstructSignatureDeclarationSpecificStructure](#constructsignaturedeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### ConstructorDeclarationOverloadSpecificStructure
 
@@ -123,14 +123,14 @@
 
 ### ConstructorDeclarationOverloadStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - kind: StructureKind.ConstructorOverload;   From [ConstructorDeclarationOverloadSpecificStructure](#constructordeclarationoverloadspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
 - scope?: Scope;   From [ScopedNodeStructure](#scopednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### ConstructorDeclarationSpecificStructure
 
@@ -139,16 +139,16 @@
 
 ### ConstructorDeclarationStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - kind: StructureKind.Constructor;   From [ConstructorDeclarationSpecificStructure](#constructordeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - overloads?: OptionalKind<[ConstructorDeclarationOverloadStructure](#constructordeclarationoverloadstructure)>[];   From [ConstructorDeclarationSpecificStructure](#constructordeclarationspecificstructure).
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
 - scope?: Scope;   From [ScopedNodeStructure](#scopednodestructure).
-- statements?: (string | WriterFunction | [StatementStructures](#statementstructures))[] | string | WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- statements?: (string \| WriterFunction \| [StatementStructures](#statementstructures))[] \| string \| WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### DecoratableNodeStructure
 
@@ -156,18 +156,18 @@
 
 ### DecoratorSpecificStructure
 
-- arguments?: (string | WriterFunction)[] | WriterFunction; Arguments for a decorator factory.
+- arguments?: (string \| WriterFunction)[] \| WriterFunction; Arguments for a decorator factory.
 - kind: StructureKind.Decorator;
 - name: string;
 - typeArguments?: string[];
 
 ### DecoratorStructure
 
-- arguments?: (string | WriterFunction)[] | WriterFunction; Arguments for a decorator factory.  From [DecoratorSpecificStructure](#decoratorspecificstructure).
+- arguments?: (string \| WriterFunction)[] \| WriterFunction; Arguments for a decorator factory.  From [DecoratorSpecificStructure](#decoratorspecificstructure).
 - kind: StructureKind.Decorator;   From [DecoratorSpecificStructure](#decoratorspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [DecoratorSpecificStructure](#decoratorspecificstructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 - typeArguments?: string[];   From [DecoratorSpecificStructure](#decoratorspecificstructure).
 
 ### EnumDeclarationSpecificStructure
@@ -178,31 +178,31 @@
 
 ### EnumDeclarationStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - hasDeclareKeyword?: boolean;   From [AmbientableNodeStructure](#ambientablenodestructure).
 - isConst?: boolean;   From [EnumDeclarationSpecificStructure](#enumdeclarationspecificstructure).
 - isDefaultExport?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - isExported?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - kind: StructureKind.Enum;   From [EnumDeclarationSpecificStructure](#enumdeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - members?: OptionalKind<[EnumMemberStructure](#enummemberstructure)>[];   From [EnumDeclarationSpecificStructure](#enumdeclarationspecificstructure).
 - name: string;   From [NamedNodeStructure](#namednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### EnumMemberSpecificStructure
 
 - kind: StructureKind.EnumMember;
-- value?: number | string; Convenience property for setting the initializer.
+- value?: number \| string; Convenience property for setting the initializer.
 
 ### EnumMemberStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
-- initializer?: string | WriterFunction;   From [InitializerExpressionableNodeStructure](#initializerexpressionablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- initializer?: string \| WriterFunction;   From [InitializerExpressionableNodeStructure](#initializerexpressionablenodestructure).
 - kind: StructureKind.EnumMember;   From [EnumMemberSpecificStructure](#enummemberspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [PropertyNamedNodeStructure](#propertynamednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- value?: number | string; Convenience property for setting the initializer.  From [EnumMemberSpecificStructure](#enummemberspecificstructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- value?: number \| string; Convenience property for setting the initializer.  From [EnumMemberSpecificStructure](#enummemberspecificstructure).
 
 ### ExclamationTokenableNodeStructure
 
@@ -210,38 +210,38 @@
 
 ### ExportAssignmentSpecificStructure
 
-- expression: string | WriterFunction;
+- expression: string \| WriterFunction;
 - isExportEquals?: boolean;
 - kind: StructureKind.ExportAssignment;
 
 ### ExportAssignmentStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
-- expression: string | WriterFunction;   From [ExportAssignmentSpecificStructure](#exportassignmentspecificstructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- expression: string \| WriterFunction;   From [ExportAssignmentSpecificStructure](#exportassignmentspecificstructure).
 - isExportEquals?: boolean;   From [ExportAssignmentSpecificStructure](#exportassignmentspecificstructure).
 - kind: StructureKind.ExportAssignment;   From [ExportAssignmentSpecificStructure](#exportassignmentspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### ExportDeclarationSpecificStructure
 
-- attributes?: OptionalKind<[ImportAttributeStructure](#importattributestructure)>[] | undefined;
+- attributes?: OptionalKind<[ImportAttributeStructure](#importattributestructure)>[] \| undefined;
 - isTypeOnly?: boolean;
 - kind: StructureKind.ExportDeclaration;
 - moduleSpecifier?: string;
-- namedExports?: (string | OptionalKind<[ExportSpecifierStructure](#exportspecifierstructure)> | WriterFunction)[] | WriterFunction;
+- namedExports?: (string \| OptionalKind<[ExportSpecifierStructure](#exportspecifierstructure)> \| WriterFunction)[] \| WriterFunction;
 - namespaceExport?: string;
 
 ### ExportDeclarationStructure
 
-- attributes?: OptionalKind<[ImportAttributeStructure](#importattributestructure)>[] | undefined;   From [ExportDeclarationSpecificStructure](#exportdeclarationspecificstructure).
+- attributes?: OptionalKind<[ImportAttributeStructure](#importattributestructure)>[] \| undefined;   From [ExportDeclarationSpecificStructure](#exportdeclarationspecificstructure).
 - isTypeOnly?: boolean;   From [ExportDeclarationSpecificStructure](#exportdeclarationspecificstructure).
 - kind: StructureKind.ExportDeclaration;   From [ExportDeclarationSpecificStructure](#exportdeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - moduleSpecifier?: string;   From [ExportDeclarationSpecificStructure](#exportdeclarationspecificstructure).
-- namedExports?: (string | OptionalKind<[ExportSpecifierStructure](#exportspecifierstructure)> | WriterFunction)[] | WriterFunction;   From [ExportDeclarationSpecificStructure](#exportdeclarationspecificstructure).
+- namedExports?: (string \| OptionalKind<[ExportSpecifierStructure](#exportspecifierstructure)> \| WriterFunction)[] \| WriterFunction;   From [ExportDeclarationSpecificStructure](#exportdeclarationspecificstructure).
 - namespaceExport?: string;   From [ExportDeclarationSpecificStructure](#exportdeclarationspecificstructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### ExportSpecifierSpecificStructure
 
@@ -255,9 +255,9 @@
 - alias?: string;   From [ExportSpecifierSpecificStructure](#exportspecifierspecificstructure).
 - isTypeOnly?: boolean;   From [ExportSpecifierSpecificStructure](#exportspecifierspecificstructure).
 - kind: StructureKind.ExportSpecifier;   From [ExportSpecifierSpecificStructure](#exportspecifierspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [ExportSpecifierSpecificStructure](#exportspecifierspecificstructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### ExportableNodeStructure
 
@@ -266,11 +266,11 @@
 
 ### ExpressionedNodeStructure
 
-- expression: string | WriterFunction;
+- expression: string \| WriterFunction;
 
 ### ExtendsClauseableNodeStructure
 
-- extends?: (string | WriterFunction)[] | WriterFunction;
+- extends?: (string \| WriterFunction)[] \| WriterFunction;
 
 ### FunctionDeclarationOverloadSpecificStructure
 
@@ -278,18 +278,18 @@
 
 ### FunctionDeclarationOverloadStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - hasDeclareKeyword?: boolean;   From [AmbientableNodeStructure](#ambientablenodestructure).
 - isAsync?: boolean;   From [AsyncableNodeStructure](#asyncablenodestructure).
 - isDefaultExport?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - isExported?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - isGenerator?: boolean;   From [GeneratorableNodeStructure](#generatorablenodestructure).
 - kind: StructureKind.FunctionOverload;   From [FunctionDeclarationOverloadSpecificStructure](#functiondeclarationoverloadspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### FunctionDeclarationSpecificStructure
 
@@ -298,29 +298,29 @@
 
 ### FunctionDeclarationStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - hasDeclareKeyword?: boolean;   From [AmbientableNodeStructure](#ambientablenodestructure).
 - isAsync?: boolean;   From [AsyncableNodeStructure](#asyncablenodestructure).
 - isDefaultExport?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - isExported?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - isGenerator?: boolean;   From [GeneratorableNodeStructure](#generatorablenodestructure).
 - kind: StructureKind.Function;   From [FunctionDeclarationSpecificStructure](#functiondeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name?: string;   From [NameableNodeStructure](#nameablenodestructure).
 - overloads?: OptionalKind<[FunctionDeclarationOverloadStructure](#functiondeclarationoverloadstructure)>[];   From [FunctionDeclarationSpecificStructure](#functiondeclarationspecificstructure).
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
-- statements?: (string | WriterFunction | [StatementStructures](#statementstructures))[] | string | WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- statements?: (string \| WriterFunction \| [StatementStructures](#statementstructures))[] \| string \| WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### FunctionLikeDeclarationStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
-- statements?: (string | WriterFunction | [StatementStructures](#statementstructures))[] | string | WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- statements?: (string \| WriterFunction \| [StatementStructures](#statementstructures))[] \| string \| WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### GeneratorableNodeStructure
 
@@ -333,22 +333,22 @@
 ### GetAccessorDeclarationStructure
 
 - decorators?: OptionalKind<[DecoratorStructure](#decoratorstructure)>[];   From [DecoratableNodeStructure](#decoratablenodestructure).
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - isAbstract?: boolean;   From [AbstractableNodeStructure](#abstractablenodestructure).
 - isStatic?: boolean;   From [StaticableNodeStructure](#staticablenodestructure).
 - kind: StructureKind.GetAccessor;   From [GetAccessorDeclarationSpecificStructure](#getaccessordeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [PropertyNamedNodeStructure](#propertynamednodestructure).
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
 - scope?: Scope;   From [ScopedNodeStructure](#scopednodestructure).
-- statements?: (string | WriterFunction | [StatementStructures](#statementstructures))[] | string | WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- statements?: (string \| WriterFunction \| [StatementStructures](#statementstructures))[] \| string \| WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### ImplementsClauseableNodeStructure
 
-- implements?: (string | WriterFunction)[] | WriterFunction;
+- implements?: (string \| WriterFunction)[] \| WriterFunction;
 
 ### ImportAttributeNamedNodeStructure
 
@@ -357,9 +357,9 @@
 ### ImportAttributeStructure
 
 - kind: StructureKind.ImportAttribute;   From [ImportAttributeStructureSpecificStructure](#importattributestructurespecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [ImportAttributeNamedNodeStructure](#importattributenamednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 - value: string; Expression value. Quote this when providing a string.  From [ImportAttributeStructureSpecificStructure](#importattributestructurespecificstructure).
 
 ### ImportAttributeStructureSpecificStructure
@@ -369,25 +369,25 @@
 
 ### ImportDeclarationSpecificStructure
 
-- attributes?: OptionalKind<[ImportAttributeStructure](#importattributestructure)>[] | undefined;
+- attributes?: OptionalKind<[ImportAttributeStructure](#importattributestructure)>[] \| undefined;
 - defaultImport?: string;
 - isTypeOnly?: boolean;
 - kind: StructureKind.ImportDeclaration;
 - moduleSpecifier: string;
-- namedImports?: (OptionalKind<[ImportSpecifierStructure](#importspecifierstructure)> | string | WriterFunction)[] | WriterFunction;
+- namedImports?: (OptionalKind<[ImportSpecifierStructure](#importspecifierstructure)> \| string \| WriterFunction)[] \| WriterFunction;
 - namespaceImport?: string;
 
 ### ImportDeclarationStructure
 
-- attributes?: OptionalKind<[ImportAttributeStructure](#importattributestructure)>[] | undefined;   From [ImportDeclarationSpecificStructure](#importdeclarationspecificstructure).
+- attributes?: OptionalKind<[ImportAttributeStructure](#importattributestructure)>[] \| undefined;   From [ImportDeclarationSpecificStructure](#importdeclarationspecificstructure).
 - defaultImport?: string;   From [ImportDeclarationSpecificStructure](#importdeclarationspecificstructure).
 - isTypeOnly?: boolean;   From [ImportDeclarationSpecificStructure](#importdeclarationspecificstructure).
 - kind: StructureKind.ImportDeclaration;   From [ImportDeclarationSpecificStructure](#importdeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - moduleSpecifier: string;   From [ImportDeclarationSpecificStructure](#importdeclarationspecificstructure).
-- namedImports?: (OptionalKind<[ImportSpecifierStructure](#importspecifierstructure)> | string | WriterFunction)[] | WriterFunction;   From [ImportDeclarationSpecificStructure](#importdeclarationspecificstructure).
+- namedImports?: (OptionalKind<[ImportSpecifierStructure](#importspecifierstructure)> \| string \| WriterFunction)[] \| WriterFunction;   From [ImportDeclarationSpecificStructure](#importdeclarationspecificstructure).
 - namespaceImport?: string;   From [ImportDeclarationSpecificStructure](#importdeclarationspecificstructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### ImportSpecifierSpecificStructure
 
@@ -401,9 +401,9 @@
 - alias?: string;   From [ImportSpecifierSpecificStructure](#importspecifierspecificstructure).
 - isTypeOnly?: boolean;   From [ImportSpecifierSpecificStructure](#importspecifierspecificstructure).
 - kind: StructureKind.ImportSpecifier;   From [ImportSpecifierSpecificStructure](#importspecifierspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [ImportSpecifierSpecificStructure](#importspecifierspecificstructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### IndexSignatureDeclarationSpecificStructure
 
@@ -413,18 +413,18 @@
 
 ### IndexSignatureDeclarationStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - isReadonly?: boolean;   From [ReadonlyableNodeStructure](#readonlyablenodestructure).
 - keyName?: string;   From [IndexSignatureDeclarationSpecificStructure](#indexsignaturedeclarationspecificstructure).
 - keyType?: string;   From [IndexSignatureDeclarationSpecificStructure](#indexsignaturedeclarationspecificstructure).
 - kind: StructureKind.IndexSignature;   From [IndexSignatureDeclarationSpecificStructure](#indexsignaturedeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### InitializerExpressionableNodeStructure
 
-- initializer?: string | WriterFunction;
+- initializer?: string \| WriterFunction;
 
 ### InterfaceDeclarationSpecificStructure
 
@@ -434,21 +434,21 @@
 
 - callSignatures?: OptionalKind<[CallSignatureDeclarationStructure](#callsignaturedeclarationstructure)>[];   From [TypeElementMemberedNodeStructure](#typeelementmemberednodestructure).
 - constructSignatures?: OptionalKind<[ConstructSignatureDeclarationStructure](#constructsignaturedeclarationstructure)>[];   From [TypeElementMemberedNodeStructure](#typeelementmemberednodestructure).
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
-- extends?: (string | WriterFunction)[] | WriterFunction;   From [ExtendsClauseableNodeStructure](#extendsclauseablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- extends?: (string \| WriterFunction)[] \| WriterFunction;   From [ExtendsClauseableNodeStructure](#extendsclauseablenodestructure).
 - getAccessors?: OptionalKind<[GetAccessorDeclarationStructure](#getaccessordeclarationstructure)>[];   From [TypeElementMemberedNodeStructure](#typeelementmemberednodestructure).
 - hasDeclareKeyword?: boolean;   From [AmbientableNodeStructure](#ambientablenodestructure).
 - indexSignatures?: OptionalKind<[IndexSignatureDeclarationStructure](#indexsignaturedeclarationstructure)>[];   From [TypeElementMemberedNodeStructure](#typeelementmemberednodestructure).
 - isDefaultExport?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - isExported?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - kind: StructureKind.Interface;   From [InterfaceDeclarationSpecificStructure](#interfacedeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - methods?: OptionalKind<[MethodSignatureStructure](#methodsignaturestructure)>[];   From [TypeElementMemberedNodeStructure](#typeelementmemberednodestructure).
 - name: string;   From [NamedNodeStructure](#namednodestructure).
 - properties?: OptionalKind<[PropertySignatureStructure](#propertysignaturestructure)>[];   From [TypeElementMemberedNodeStructure](#typeelementmemberednodestructure).
 - setAccessors?: OptionalKind<[SetAccessorDeclarationStructure](#setaccessordeclarationstructure)>[];   From [TypeElementMemberedNodeStructure](#typeelementmemberednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### InterfaceMemberStructures
 
@@ -461,71 +461,71 @@
 
 ### JSDocSpecificStructure
 
-- description?: string | WriterFunction; The description of the JS doc.
+- description?: string \| WriterFunction; The description of the JS doc.
 - kind: StructureKind.JSDoc;
 - tags?: OptionalKind<[JSDocTagStructure](#jsdoctagstructure)>[]; JS doc tags (ex. `&#64;param value - Some description.`).
 
 ### JSDocStructure
 
-- description?: string | WriterFunction; The description of the JS doc.  From [JSDocSpecificStructure](#jsdocspecificstructure).
+- description?: string \| WriterFunction; The description of the JS doc.  From [JSDocSpecificStructure](#jsdocspecificstructure).
 - kind: StructureKind.JSDoc;   From [JSDocSpecificStructure](#jsdocspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - tags?: OptionalKind<[JSDocTagStructure](#jsdoctagstructure)>[]; JS doc tags (ex. `&#64;param value - Some description.`).  From [JSDocSpecificStructure](#jsdocspecificstructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### JSDocTagSpecificStructure
 
 - kind: StructureKind.JSDocTag;
 - tagName: string; The name for the JS doc tag that comes after the "at" symbol.
-- text?: string | WriterFunction; The text that follows the tag name.
+- text?: string \| WriterFunction; The text that follows the tag name.
 
 ### JSDocTagStructure
 
 - kind: StructureKind.JSDocTag;   From [JSDocTagSpecificStructure](#jsdoctagspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - tagName: string; The name for the JS doc tag that comes after the "at" symbol.  From [JSDocTagSpecificStructure](#jsdoctagspecificstructure).
-- text?: string | WriterFunction; The text that follows the tag name.  From [JSDocTagSpecificStructure](#jsdoctagspecificstructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- text?: string \| WriterFunction; The text that follows the tag name.  From [JSDocTagSpecificStructure](#jsdoctagspecificstructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### JSDocableNodeStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];
 
 ### JsxAttributeSpecificStructure
 
 - initializer?: string;
 - kind: StructureKind.JsxAttribute;
-- name: string | JsxNamespacedNameStructure;
+- name: string \| JsxNamespacedNameStructure;
 
 ### JsxAttributeStructure
 
 - initializer?: string;   From [JsxAttributeSpecificStructure](#jsxattributespecificstructure).
 - kind: StructureKind.JsxAttribute;   From [JsxAttributeSpecificStructure](#jsxattributespecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
-- name: string | JsxNamespacedNameStructure;   From [JsxAttributeSpecificStructure](#jsxattributespecificstructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- name: string \| JsxNamespacedNameStructure;   From [JsxAttributeSpecificStructure](#jsxattributespecificstructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### JsxAttributedNodeStructure
 
-- attributes?: (OptionalKind<[JsxAttributeStructure](#jsxattributestructure)> | [JsxSpreadAttributeStructure](#jsxspreadattributestructure))[];
+- attributes?: (OptionalKind<[JsxAttributeStructure](#jsxattributestructure)> \| [JsxSpreadAttributeStructure](#jsxspreadattributestructure))[];
 
 ### JsxElementSpecificStructure
 
-- attributes?: (OptionalKind<[JsxAttributeStructure](#jsxattributestructure)> | [JsxSpreadAttributeStructure](#jsxspreadattributestructure))[];
+- attributes?: (OptionalKind<[JsxAttributeStructure](#jsxattributestructure)> \| [JsxSpreadAttributeStructure](#jsxspreadattributestructure))[];
 - bodyText?: string;
-- children?: (OptionalKind<[JsxElementStructure](#jsxelementstructure)> | [JsxSelfClosingElementStructure](#jsxselfclosingelementstructure))[];
+- children?: (OptionalKind<[JsxElementStructure](#jsxelementstructure)> \| [JsxSelfClosingElementStructure](#jsxselfclosingelementstructure))[];
 - kind: StructureKind.JsxElement;
 - name: string;
 
 ### JsxElementStructure
 
-- attributes?: (OptionalKind<[JsxAttributeStructure](#jsxattributestructure)> | [JsxSpreadAttributeStructure](#jsxspreadattributestructure))[];   From [JsxElementSpecificStructure](#jsxelementspecificstructure).
+- attributes?: (OptionalKind<[JsxAttributeStructure](#jsxattributestructure)> \| [JsxSpreadAttributeStructure](#jsxspreadattributestructure))[];   From [JsxElementSpecificStructure](#jsxelementspecificstructure).
 - bodyText?: string;   From [JsxElementSpecificStructure](#jsxelementspecificstructure).
-- children?: (OptionalKind<[JsxElementStructure](#jsxelementstructure)> | [JsxSelfClosingElementStructure](#jsxselfclosingelementstructure))[];   From [JsxElementSpecificStructure](#jsxelementspecificstructure).
+- children?: (OptionalKind<[JsxElementStructure](#jsxelementstructure)> \| [JsxSelfClosingElementStructure](#jsxselfclosingelementstructure))[];   From [JsxElementSpecificStructure](#jsxelementspecificstructure).
 - kind: StructureKind.JsxElement;   From [JsxElementSpecificStructure](#jsxelementspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [JsxElementSpecificStructure](#jsxelementspecificstructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### JsxSelfClosingElementSpecificStructure
 
@@ -533,11 +533,11 @@
 
 ### JsxSelfClosingElementStructure
 
-- attributes?: (OptionalKind<[JsxAttributeStructure](#jsxattributestructure)> | [JsxSpreadAttributeStructure](#jsxspreadattributestructure))[];   From [JsxAttributedNodeStructure](#jsxattributednodestructure).
+- attributes?: (OptionalKind<[JsxAttributeStructure](#jsxattributestructure)> \| [JsxSpreadAttributeStructure](#jsxspreadattributestructure))[];   From [JsxAttributedNodeStructure](#jsxattributednodestructure).
 - kind: StructureKind.JsxSelfClosingElement;   From [JsxSelfClosingElementSpecificStructure](#jsxselfclosingelementspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [JsxTagNamedNodeStructure](#jsxtagnamednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### JsxSpreadAttributeSpecificStructure
 
@@ -548,8 +548,8 @@
 
 - expression: string;   From [JsxSpreadAttributeSpecificStructure](#jsxspreadattributespecificstructure).
 - kind: StructureKind.JsxSpreadAttribute;   From [JsxSpreadAttributeSpecificStructure](#jsxspreadattributespecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### JsxStructures
 
@@ -572,7 +572,7 @@
 
 ### MethodDeclarationOverloadStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - hasOverrideKeyword?: boolean;   From [OverrideableNodeStructure](#overrideablenodestructure).
 - hasQuestionToken?: boolean;   From [QuestionTokenableNodeStructure](#questiontokenablenodestructure).
 - isAbstract?: boolean;   From [AbstractableNodeStructure](#abstractablenodestructure).
@@ -580,12 +580,12 @@
 - isGenerator?: boolean;   From [GeneratorableNodeStructure](#generatorablenodestructure).
 - isStatic?: boolean;   From [StaticableNodeStructure](#staticablenodestructure).
 - kind: StructureKind.MethodOverload;   From [MethodDeclarationOverloadSpecificStructure](#methoddeclarationoverloadspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
 - scope?: Scope;   From [ScopedNodeStructure](#scopednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### MethodDeclarationSpecificStructure
 
@@ -595,7 +595,7 @@
 ### MethodDeclarationStructure
 
 - decorators?: OptionalKind<[DecoratorStructure](#decoratorstructure)>[];   From [DecoratableNodeStructure](#decoratablenodestructure).
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - hasOverrideKeyword?: boolean;   From [OverrideableNodeStructure](#overrideablenodestructure).
 - hasQuestionToken?: boolean;   From [QuestionTokenableNodeStructure](#questiontokenablenodestructure).
 - isAbstract?: boolean;   From [AbstractableNodeStructure](#abstractablenodestructure).
@@ -603,15 +603,15 @@
 - isGenerator?: boolean;   From [GeneratorableNodeStructure](#generatorablenodestructure).
 - isStatic?: boolean;   From [StaticableNodeStructure](#staticablenodestructure).
 - kind: StructureKind.Method;   From [MethodDeclarationSpecificStructure](#methoddeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [PropertyNamedNodeStructure](#propertynamednodestructure).
 - overloads?: OptionalKind<[MethodDeclarationOverloadStructure](#methoddeclarationoverloadstructure)>[];   From [MethodDeclarationSpecificStructure](#methoddeclarationspecificstructure).
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
 - scope?: Scope;   From [ScopedNodeStructure](#scopednodestructure).
-- statements?: (string | WriterFunction | [StatementStructures](#statementstructures))[] | string | WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- statements?: (string \| WriterFunction \| [StatementStructures](#statementstructures))[] \| string \| WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### MethodSignatureSpecificStructure
 
@@ -619,15 +619,15 @@
 
 ### MethodSignatureStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - hasQuestionToken?: boolean;   From [QuestionTokenableNodeStructure](#questiontokenablenodestructure).
 - kind: StructureKind.MethodSignature;   From [MethodSignatureSpecificStructure](#methodsignaturespecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [PropertyNamedNodeStructure](#propertynamednodestructure).
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### ModuleDeclarationSpecificStructure
 
@@ -637,15 +637,15 @@
 ### ModuleDeclarationStructure
 
 - declarationKind?: ModuleDeclarationKind; The module declaration kind.  From [ModuleDeclarationSpecificStructure](#moduledeclarationspecificstructure).
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - hasDeclareKeyword?: boolean;   From [AmbientableNodeStructure](#ambientablenodestructure).
 - isDefaultExport?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - isExported?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - kind: StructureKind.Module;   From [ModuleDeclarationSpecificStructure](#moduledeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [ModuleNamedNodeStructure](#modulenamednodestructure).
-- statements?: (string | WriterFunction | [StatementStructures](#statementstructures))[] | string | WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- statements?: (string \| WriterFunction \| [StatementStructures](#statementstructures))[] \| string \| WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### ModuleNamedNodeStructure
 
@@ -682,15 +682,15 @@
 - decorators?: OptionalKind<[DecoratorStructure](#decoratorstructure)>[];   From [DecoratableNodeStructure](#decoratablenodestructure).
 - hasOverrideKeyword?: boolean;   From [OverrideableNodeStructure](#overrideablenodestructure).
 - hasQuestionToken?: boolean;   From [QuestionTokenableNodeStructure](#questiontokenablenodestructure).
-- initializer?: string | WriterFunction;   From [InitializerExpressionableNodeStructure](#initializerexpressionablenodestructure).
+- initializer?: string \| WriterFunction;   From [InitializerExpressionableNodeStructure](#initializerexpressionablenodestructure).
 - isReadonly?: boolean;   From [ReadonlyableNodeStructure](#readonlyablenodestructure).
 - isRestParameter?: boolean;   From [ParameterDeclarationSpecificStructure](#parameterdeclarationspecificstructure).
 - kind: StructureKind.Parameter;   From [ParameterDeclarationSpecificStructure](#parameterdeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [BindingNamedNodeStructure](#bindingnamednodestructure).
 - scope?: Scope;   From [ScopeableNodeStructure](#scopeablenodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- type?: string | WriterFunction;   From [TypedNodeStructure](#typednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- type?: string \| WriterFunction;   From [TypedNodeStructure](#typednodestructure).
 
 ### ParameteredNodeStructure
 
@@ -698,16 +698,16 @@
 
 ### PropertyAssignmentSpecificStructure
 
-- initializer: string | WriterFunction;
+- initializer: string \| WriterFunction;
 - kind: StructureKind.PropertyAssignment;
 
 ### PropertyAssignmentStructure
 
-- initializer: string | WriterFunction;   From [PropertyAssignmentSpecificStructure](#propertyassignmentspecificstructure).
+- initializer: string \| WriterFunction;   From [PropertyAssignmentSpecificStructure](#propertyassignmentspecificstructure).
 - kind: StructureKind.PropertyAssignment;   From [PropertyAssignmentSpecificStructure](#propertyassignmentspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [PropertyNamedNodeStructure](#propertynamednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### PropertyDeclarationSpecificStructure
 
@@ -717,22 +717,22 @@
 ### PropertyDeclarationStructure
 
 - decorators?: OptionalKind<[DecoratorStructure](#decoratorstructure)>[];   From [DecoratableNodeStructure](#decoratablenodestructure).
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - hasAccessorKeyword?: boolean;   From [PropertyDeclarationSpecificStructure](#propertydeclarationspecificstructure).
 - hasDeclareKeyword?: boolean;   From [AmbientableNodeStructure](#ambientablenodestructure).
 - hasExclamationToken?: boolean;   From [ExclamationTokenableNodeStructure](#exclamationtokenablenodestructure).
 - hasOverrideKeyword?: boolean;   From [OverrideableNodeStructure](#overrideablenodestructure).
 - hasQuestionToken?: boolean;   From [QuestionTokenableNodeStructure](#questiontokenablenodestructure).
-- initializer?: string | WriterFunction;   From [InitializerExpressionableNodeStructure](#initializerexpressionablenodestructure).
+- initializer?: string \| WriterFunction;   From [InitializerExpressionableNodeStructure](#initializerexpressionablenodestructure).
 - isAbstract?: boolean;   From [AbstractableNodeStructure](#abstractablenodestructure).
 - isReadonly?: boolean;   From [ReadonlyableNodeStructure](#readonlyablenodestructure).
 - isStatic?: boolean;   From [StaticableNodeStructure](#staticablenodestructure).
 - kind: StructureKind.Property;   From [PropertyDeclarationSpecificStructure](#propertydeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [PropertyNamedNodeStructure](#propertynamednodestructure).
 - scope?: Scope;   From [ScopedNodeStructure](#scopednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- type?: string | WriterFunction;   From [TypedNodeStructure](#typednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- type?: string \| WriterFunction;   From [TypedNodeStructure](#typednodestructure).
 
 ### PropertyNamedNodeStructure
 
@@ -744,15 +744,15 @@
 
 ### PropertySignatureStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - hasQuestionToken?: boolean;   From [QuestionTokenableNodeStructure](#questiontokenablenodestructure).
-- initializer?: string | WriterFunction;   From [InitializerExpressionableNodeStructure](#initializerexpressionablenodestructure).
+- initializer?: string \| WriterFunction;   From [InitializerExpressionableNodeStructure](#initializerexpressionablenodestructure).
 - isReadonly?: boolean;   From [ReadonlyableNodeStructure](#readonlyablenodestructure).
 - kind: StructureKind.PropertySignature;   From [PropertySignatureSpecificStructure](#propertysignaturespecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [PropertyNamedNodeStructure](#propertynamednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- type?: string | WriterFunction;   From [TypedNodeStructure](#typednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- type?: string \| WriterFunction;   From [TypedNodeStructure](#typednodestructure).
 
 ### QuestionTokenableNodeStructure
 
@@ -764,7 +764,7 @@
 
 ### ReturnTypedNodeStructure
 
-- returnType?: string | WriterFunction;
+- returnType?: string \| WriterFunction;
 
 ### ScopeableNodeStructure
 
@@ -781,18 +781,18 @@
 ### SetAccessorDeclarationStructure
 
 - decorators?: OptionalKind<[DecoratorStructure](#decoratorstructure)>[];   From [DecoratableNodeStructure](#decoratablenodestructure).
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - isAbstract?: boolean;   From [AbstractableNodeStructure](#abstractablenodestructure).
 - isStatic?: boolean;   From [StaticableNodeStructure](#staticablenodestructure).
 - kind: StructureKind.SetAccessor;   From [SetAccessorDeclarationSpecificStructure](#setaccessordeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [PropertyNamedNodeStructure](#propertynamednodestructure).
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
 - scope?: Scope;   From [ScopedNodeStructure](#scopednodestructure).
-- statements?: (string | WriterFunction | [StatementStructures](#statementstructures))[] | string | WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- statements?: (string \| WriterFunction \| [StatementStructures](#statementstructures))[] \| string \| WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### ShorthandPropertyAssignmentSpecificStructure
 
@@ -801,14 +801,14 @@
 ### ShorthandPropertyAssignmentStructure
 
 - kind: StructureKind.ShorthandPropertyAssignment;   From [ShorthandPropertyAssignmentSpecificStructure](#shorthandpropertyassignmentspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [NamedNodeStructure](#namednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### SignaturedDeclarationStructure
 
 - parameters?: OptionalKind<[ParameterDeclarationStructure](#parameterdeclarationstructure)>[];   From [ParameteredNodeStructure](#parameterednodestructure).
-- returnType?: string | WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
+- returnType?: string \| WriterFunction;   From [ReturnTypedNodeStructure](#returntypednodestructure).
 
 ### SourceFileSpecificStructure
 
@@ -817,9 +817,9 @@
 ### SourceFileStructure
 
 - kind: StructureKind.SourceFile;   From [SourceFileSpecificStructure](#sourcefilespecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
-- statements?: (string | WriterFunction | [StatementStructures](#statementstructures))[] | string | WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- statements?: (string \| WriterFunction \| [StatementStructures](#statementstructures))[] \| string \| WriterFunction;   From [StatementedNodeStructure](#statementednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### SpreadAssignmentSpecificStructure
 
@@ -827,10 +827,10 @@
 
 ### SpreadAssignmentStructure
 
-- expression: string | WriterFunction;   From [ExpressionedNodeStructure](#expressionednodestructure).
+- expression: string \| WriterFunction;   From [ExpressionedNodeStructure](#expressionednodestructure).
 - kind: StructureKind.SpreadAssignment;   From [SpreadAssignmentSpecificStructure](#spreadassignmentspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 
 ### StatementStructures
 
@@ -847,7 +847,7 @@
 
 ### StatementedNodeStructure
 
-- statements?: (string | WriterFunction | [StatementStructures](#statementstructures))[] | string | WriterFunction;
+- statements?: (string \| WriterFunction \| [StatementStructures](#statementstructures))[] \| string \| WriterFunction;
 
 ### StaticableNodeStructure
 
@@ -855,8 +855,8 @@
 
 ### Structure
 
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.
 
 ### Structures
 
@@ -915,22 +915,22 @@
 ### TypeAliasDeclarationSpecificStructure
 
 - kind: StructureKind.TypeAlias;
-- type: string | WriterFunction;
+- type: string \| WriterFunction;
 
 ### TypeAliasDeclarationStructure
 
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - hasDeclareKeyword?: boolean;   From [AmbientableNodeStructure](#ambientablenodestructure).
 - isDefaultExport?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - isExported?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - kind: StructureKind.TypeAlias;   From [TypeAliasDeclarationSpecificStructure](#typealiasdeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [NamedNodeStructure](#namednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- type: string | WriterFunction;   From [TypeAliasDeclarationSpecificStructure](#typealiasdeclarationspecificstructure).
-- type?: string | WriterFunction;   From [TypedNodeStructure](#typednodestructure).
-- type: string | WriterFunction;
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- type: string \| WriterFunction;   From [TypeAliasDeclarationSpecificStructure](#typealiasdeclarationspecificstructure).
+- type?: string \| WriterFunction;   From [TypedNodeStructure](#typednodestructure).
+- type: string \| WriterFunction;
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### TypeElementMemberStructures
 
@@ -952,30 +952,30 @@
 
 ### TypeParameterDeclarationSpecificStructure
 
-- constraint?: string | WriterFunction;
-- default?: string | WriterFunction;
+- constraint?: string \| WriterFunction;
+- default?: string \| WriterFunction;
 - isConst?: boolean;
 - kind: StructureKind.TypeParameter;
 - variance?: TypeParameterVariance;
 
 ### TypeParameterDeclarationStructure
 
-- constraint?: string | WriterFunction;   From [TypeParameterDeclarationSpecificStructure](#typeparameterdeclarationspecificstructure).
-- default?: string | WriterFunction;   From [TypeParameterDeclarationSpecificStructure](#typeparameterdeclarationspecificstructure).
+- constraint?: string \| WriterFunction;   From [TypeParameterDeclarationSpecificStructure](#typeparameterdeclarationspecificstructure).
+- default?: string \| WriterFunction;   From [TypeParameterDeclarationSpecificStructure](#typeparameterdeclarationspecificstructure).
 - isConst?: boolean;   From [TypeParameterDeclarationSpecificStructure](#typeparameterdeclarationspecificstructure).
 - kind: StructureKind.TypeParameter;   From [TypeParameterDeclarationSpecificStructure](#typeparameterdeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [NamedNodeStructure](#namednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 - variance?: TypeParameterVariance;   From [TypeParameterDeclarationSpecificStructure](#typeparameterdeclarationspecificstructure).
 
 ### TypeParameteredNodeStructure
 
-- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> | string)[];
+- typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];
 
 ### TypedNodeStructure
 
-- type?: string | WriterFunction;
+- type?: string \| WriterFunction;
 
 ### VariableDeclarationSpecificStructure
 
@@ -984,12 +984,12 @@
 ### VariableDeclarationStructure
 
 - hasExclamationToken?: boolean;   From [ExclamationTokenableNodeStructure](#exclamationtokenablenodestructure).
-- initializer?: string | WriterFunction;   From [InitializerExpressionableNodeStructure](#initializerexpressionablenodestructure).
+- initializer?: string \| WriterFunction;   From [InitializerExpressionableNodeStructure](#initializerexpressionablenodestructure).
 - kind: StructureKind.VariableDeclaration;   From [VariableDeclarationSpecificStructure](#variabledeclarationspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
 - name: string;   From [BindingNamedNodeStructure](#bindingnamednodestructure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
-- type?: string | WriterFunction;   From [TypedNodeStructure](#typednodestructure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- type?: string \| WriterFunction;   From [TypedNodeStructure](#typednodestructure).
 
 ### VariableStatementSpecificStructure
 
@@ -1001,10 +1001,10 @@
 
 - declarationKind?: VariableDeclarationKind;   From [VariableStatementSpecificStructure](#variablestatementspecificstructure).
 - declarations: OptionalKind<[VariableDeclarationStructure](#variabledeclarationstructure)>[];   From [VariableStatementSpecificStructure](#variablestatementspecificstructure).
-- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> | string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
+- docs?: (OptionalKind<[JSDocStructure](#jsdocstructure)> \| string)[];   From [JSDocableNodeStructure](#jsdocablenodestructure).
 - hasDeclareKeyword?: boolean;   From [AmbientableNodeStructure](#ambientablenodestructure).
 - isDefaultExport?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - isExported?: boolean;   From [ExportableNodeStructure](#exportablenodestructure).
 - kind: StructureKind.VariableStatement;   From [VariableStatementSpecificStructure](#variablestatementspecificstructure).
-- leadingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
-- trailingTrivia?: string | WriterFunction | (string | WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
+- leadingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Leading comments or whitespace.  From [Structure](#structure).
+- trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).

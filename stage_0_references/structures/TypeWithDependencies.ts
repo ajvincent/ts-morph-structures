@@ -418,7 +418,7 @@ extends TypeWithDependencies<InterfaceDeclarationStructure, InterfaceDeclaration
 
 ${this.#allProperties.map(
   property => InterfaceWithDependencies.#propertyAsMarkdown(
-    this.structure.name, property)).join("\n")
+    this.structure.name, property)).join("\n").replace(/\|/g, "\\|")
 }
   `.trim() + "\n";
 }
@@ -448,7 +448,7 @@ ${this.#allProperties.map(
     const linkText = (interfaceName !== fromInterface) ?
       `  From ${this.buildMarkdownLink(fromInterface)}.` :
       "";
-  
+
     return [
       "- ",
       property.isReadonly ? "readonly " : "",
