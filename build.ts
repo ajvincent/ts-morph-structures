@@ -30,7 +30,17 @@ const BPSet = new BuildPromiseSet;
   });
 }
 
-{ // stage 1
+{ // stage 0 references
+  const target = BPSet.get("stage_0_references");
+
+  target.addTask(async () => {
+    console.log("starting stage_0_references");
+    await recursiveBuild("stage_0_references", "buildStage.ts");
+    console.log("completed stage_0_references");
+  });
+}
+
+{ // stage 1 bootstrap
   const target = BPSet.get("stage_1_bootstrap");
 
   target.addTask(async () => {
@@ -65,6 +75,7 @@ BPSet.markReady();
 {
   BPSet.main.addSubtarget("build:jasmine");
   BPSet.main.addSubtarget("build:eslint");
+  BPSet.main.addSubtarget("stage_0_references");
   BPSet.main.addSubtarget("stage_1_bootstrap");
   BPSet.main.addSubtarget("stage_1_integration");
   BPSet.main.addSubtarget("stage_2_fullset");
