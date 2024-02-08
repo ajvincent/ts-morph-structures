@@ -12,4 +12,4 @@ Sorry.  If you're expecting `ts-morph-structures` documentation, it doesn't exis
 
 ### References
 
-- [Structure types](./reference/structure-types.md)
+- [ts-morph Structures Reference](./reference/structure-types.md)

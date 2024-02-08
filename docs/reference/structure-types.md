@@ -1,4 +1,4 @@
-# Reference
+# ts-morph Structures Reference
 
 ## Table of contents
 

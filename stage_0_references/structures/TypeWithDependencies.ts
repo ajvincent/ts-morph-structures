@@ -158,7 +158,7 @@ abstract class TypeWithDependencies<
     const contents = typesWithDeps.map(typeWithDep => typeWithDep.getMarkdown());
 
     return `
-# Reference
+# ts-morph Structures Reference
 
 ## Table of contents
 
