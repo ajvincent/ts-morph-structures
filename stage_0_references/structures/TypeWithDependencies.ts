@@ -153,11 +153,16 @@ abstract class TypeWithDependencies<
       if (a.name > b.name)
         return +1;
       return 0;
-    })
+    });
+    const toc = typesWithDeps.map(typeWithDep => typeWithDep.getMarkdownTOCLink())
     const contents = typesWithDeps.map(typeWithDep => typeWithDep.getMarkdown());
 
     return `
 # Reference
+
+## Table of contents
+
+${toc.join("\n")}
 
 ## Structures in ts-morph
 
@@ -279,6 +284,7 @@ ${contents.join("\n\n")}
   ) : Promise<PropertyArray>;
 
   protected abstract getDependencyArray() : readonly string[];
+  protected abstract getMarkdownTOCLink(): string;
   protected abstract getMarkdown() : string;
   protected abstract getHTML() : string;
 }
@@ -410,6 +416,10 @@ extends TypeWithDependencies<InterfaceDeclarationStructure, InterfaceDeclaration
     if (a.name > b.name)
       return +1;
     return 0;
+  }
+
+  protected getMarkdownTOCLink(): string {
+    return `- [${this.structure.name}](#${this.structure.name.toLowerCase()})`;
   }
 
   protected getMarkdown(): string {
@@ -568,6 +578,10 @@ extends TypeWithDependencies<TypeAliasDeclarationStructure, TypeAliasDeclaration
 
   protected getDependencyArray(): readonly string[] {
     return typeArrayFromAlias(this.structure);
+  }
+
+  protected getMarkdownTOCLink(): string {
+    return `- [${this.structure.name}](#${this.structure.name.toLowerCase()})`;
   }
 
   protected getMarkdown(): string {
