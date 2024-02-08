@@ -9,3 +9,7 @@ Sorry.  If you're expecting `ts-morph-structures` documentation, it doesn't exis
 ### Use cases
 
 - [`Two-string keyed map`](./use-cases/TwoKeyedMap.md)
+
+### References
+
+- [Structure types](./reference/structure-types.md)
