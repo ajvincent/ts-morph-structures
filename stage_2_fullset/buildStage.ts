@@ -53,7 +53,7 @@ const BPSet = new BuildPromiseSet;
   const target = BPSet.get("build");
 
   target.addTask(async (): Promise<void> => {
-    console.log("starting stage_1_bootstrap:build");
+    console.log("starting stage_2_bootstrap:build");
     const support = (await import("./build/support.js")).default;
     await support();
   });

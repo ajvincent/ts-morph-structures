@@ -25,7 +25,8 @@ export function runModule(
   const child = fork(pathToModule, moduleArgs, {
     env,
     //execArgv: process.execArgv.concat(...extraNodeArgs),
-    silent: false
+    silent: false,
+    stdio: ["ignore", "inherit", "inherit", "ipc"],
   });
   child.on('exit', code => code ? d.reject(code) : d.resolve());
 

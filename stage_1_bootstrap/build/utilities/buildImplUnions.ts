@@ -26,7 +26,7 @@ export default async function buildImplUnions(
   const sourcePath = path.join(distDir, "source/types/StructureImplUnions.d.ts");
 
   const importManager = new ImportManager(sourcePath);
-  const typesToImport: string[] = [];
+  const typesToImport = new Set<string>;
 
   dictionary.unions.forEach((unionStructure: StructureUnionMeta, nameOfUnion: string) => {
     const typeAlias = new TypeAliasDeclarationImpl(nameOfUnion.replace(/Structures$/, "StructureImpls"));
@@ -35,7 +35,7 @@ export default async function buildImplUnions(
 
     unionStructure.structureNames.forEach(name => {
       name = name.replace(/Structure$/, "Impl");
-      typesToImport.push(name);
+      typesToImport.add(name);
       unionElements.push(new LiteralTypedStructureImpl(name.replace(/Structure$/, "Impl")));
     });
     unionStructure.unionKeys.forEach(name => unionElements.push(
@@ -60,7 +60,7 @@ export default async function buildImplUnions(
     isDefaultImport: false,
     isPackageImport: false,
     isTypeOnly: true,
-    importNames: typesToImport
+    importNames: Array.from(typesToImport)
   });
 
   sourceFile.statements.unshift(...importManager.getDeclarations());

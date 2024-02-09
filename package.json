@@ -1,9 +1,13 @@
 {
-  "name": "@ajvincent/ts-morph-structures",
+  "name": "ts-morph-structures",
   "version": "0.1.0",
   "description": "Structure classes for ts-morph, including type structure classes.",
-  "main": "exports.js",
-  "typings": "exports.d.ts",
+  "main": "dist/exports.js",
+  "typings": "dist/exports.d.ts",
+  "files": [
+    "dist/exports.js",
+    "dist/exports.d.ts"
+  ],
   "type": "module",
   "engines": {
     "node": ">=18.19"
@@ -32,6 +36,7 @@
   },
   "homepage": "https://github.com/ajvincent/ts-morph-structures#readme",
   "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.6",
     "@tsconfig/node18": "^18.2.2",
     "@types/jasmine": "^4.6.4",
     "@types/node": "^20.10.6",
@@ -47,7 +52,10 @@
     "jasmine": "^5.1.0",
     "patch-package": "^8.0.0",
     "prettier": "^3.1.1",
+    "rollup": "^4.9.6",
+    "rollup-plugin-dts": "^6.1.0",
     "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {

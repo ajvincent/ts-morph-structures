@@ -1,6 +1,7 @@
 import { BuildPromiseSet } from "#utilities/source/BuildPromise.js";
 import copySnapshot from "./build/copySnapshot.js";
 import structureToSyntax from "./build/structureToSyntax.js";
+import doBundles from "./build/bundle.js";
 
 const BPSet = new BuildPromiseSet;
 
@@ -30,11 +31,20 @@ const BPSet = new BuildPromiseSet;
   });
 }
 
+{ // bundle
+  const target = BPSet.get("bundle");
+  target.addTask(async () => {
+    console.log("starting stage_2_fullset:bundle");
+    await doBundles();
+  });
+}
+
 BPSet.markReady();
 {
   BPSet.main.addSubtarget("copySnapshot");
   BPSet.main.addSubtarget("build");
   BPSet.main.addSubtarget("structureToSyntax");
+  BPSet.main.addSubtarget("bundle");
 }
 await BPSet.main.run();
 export default Promise.resolve();

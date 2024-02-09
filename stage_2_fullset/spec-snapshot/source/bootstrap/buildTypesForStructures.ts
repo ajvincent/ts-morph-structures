@@ -22,7 +22,7 @@ import {
   VariableDeclarationImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
-import {
+import type {
   NodeWithStructures
 } from "#stage_two/snapshot/source/bootstrap/types/conversions.js";
 

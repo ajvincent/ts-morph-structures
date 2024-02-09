@@ -2,11 +2,11 @@ import type { Class } from "type-fest";
 
 import type { OptionalKind, Structure } from "ts-morph";
 
-import type { StructuresImpl, TypeStructures } from "../exports.js";
+import type { StructureImpls, TypeStructures } from "../exports.js";
 
 export type CloneableStructure<
   Base extends Structure,
-  Result extends StructuresImpl,
+  Result extends StructureImpls,
 > = Class<Base> & {
   clone(other: OptionalKind<Base> | Base): Result;
 };
