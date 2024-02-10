@@ -66,9 +66,9 @@ export default class ExportManager {
    * @param context - a description of the exports to add.
    */
   addExports(context: AddExportContext): void {
-    const { absolutePathToModule, exportNames, isDefaultExport, isType } =
+    const { pathToExportedModule, exportNames, isDefaultExport, isType } =
       context;
-    if (!absolutePathToModule.endsWith(".ts"))
+    if (!pathToExportedModule.endsWith(".ts"))
       throw new Error("path to module must end with .ts");
 
     if (isDefaultExport && exportNames.length !== 1) {
@@ -76,8 +76,8 @@ export default class ExportManager {
     }
 
     const declaration = this.#pathToDeclarationMap.getDefault(
-      absolutePathToModule,
-      () => this.#buildDeclaration(absolutePathToModule),
+      pathToExportedModule,
+      () => this.#buildDeclaration(pathToExportedModule),
     );
 
     if (!isType && declaration.isTypeOnly) {
@@ -115,12 +115,12 @@ export default class ExportManager {
     declaration.namedExports.push(...specifiers);
   }
 
-  #buildDeclaration(absolutePathToModule: string): ExportDeclarationImpl {
+  #buildDeclaration(pathToExportedModule: string): ExportDeclarationImpl {
     const decl = new ExportDeclarationImpl();
 
     decl.moduleSpecifier = path.relative(
       path.dirname(this.absolutePathToExportFile),
-      absolutePathToModule.replace(/(\.d)?\.(m?)ts$/, ".$2js"),
+      pathToExportedModule.replace(/(\.d)?\.(m?)ts$/, ".$2js"),
     );
     if (!decl.moduleSpecifier.startsWith("../"))
       decl.moduleSpecifier = "./" + decl.moduleSpecifier;

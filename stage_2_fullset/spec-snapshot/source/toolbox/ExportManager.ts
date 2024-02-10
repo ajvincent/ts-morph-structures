@@ -22,28 +22,28 @@ it("ExportManager can export values from submodules", () => {
   const manager = new ExportManager(pathToExport);
 
   manager.addExports({
-    absolutePathToModule: path.join(baseDir, "source/foo.ts"),
+    pathToExportedModule: path.join(baseDir, "source/foo.ts"),
     exportNames: ["Foo"],
     isDefaultExport: true,
     isType: false,
   });
 
   manager.addExports({
-    absolutePathToModule: path.join(baseDir, "source/foo.ts"),
+    pathToExportedModule: path.join(baseDir, "source/foo.ts"),
     exportNames: ["FooInterface", "FooType"],
     isDefaultExport: false,
     isType: true,
   });
 
   manager.addExports({
-    absolutePathToModule: path.join(baseDir, "source/foo.ts"),
+    pathToExportedModule: path.join(baseDir, "source/foo.ts"),
     exportNames: ["LittleFoo"],
     isDefaultExport: false,
     isType: false
   });
 
   manager.addExports({
-    absolutePathToModule: path.join(baseDir, "source/bar.ts"),
+    pathToExportedModule: path.join(baseDir, "source/bar.ts"),
     exportNames: ["BarType", "BarInterface"],
     isDefaultExport: false,
     isType: true

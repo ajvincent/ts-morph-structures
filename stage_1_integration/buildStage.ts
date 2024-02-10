@@ -34,7 +34,7 @@ const BPSet = new BuildPromiseSet;
 { // bundle
   const target = BPSet.get("bundle");
   target.addTask(async () => {
-    console.log("starting stage_2_fullset:bundle");
+    console.log("starting stage_1_integration:bundle");
     await doBundles();
   });
 }

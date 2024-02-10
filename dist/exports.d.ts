@@ -1741,9 +1741,16 @@ declare class TypeMembersMap extends Map<string, TypeMemberImpl> {
 
 /** A description of the exports to add. */
 interface AddExportContext {
-  absolutePathToModule: string;
+  /** This could be an absolute path, or a package import like "ts-morph-structures". */
+  pathToExportedModule: string;
+
+  /** The names to add to the import.  Pass an empty array for "*". */
   exportNames: readonly string[];
+
+  /** True if the import is the default.  exportNames will then be the default export name. */
   isDefaultExport: boolean;
+
+  /** True if the export names are types only. */
   isType: boolean;
 }
 
@@ -1759,8 +1766,13 @@ interface AddImportContext {
    */
   isPackageImport: boolean;
 
+  /** The names to add to the import.  Pass an empty array for "*". */
   importNames: readonly string[];
+
+  /** True if the import is the default.  importNames will then be the default import. */
   isDefaultImport: boolean;
+
+  /** True if the import names are types only. */
   isTypeOnly: boolean;
 }
 
