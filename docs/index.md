@@ -1,11 +1,13 @@
 # Hello World
 
-Sorry.  If you're expecting `ts-morph-structures` documentation, it doesn't exist yet.
+Work-in-progress documentation.
 
 ### Guides
 
+- [Navigating Structures](./guides/NavigatingStructures.md)
 - [Import and Export Managers](./guides/ImportsAndExports.md)
 - ["Membered Type To Class" Primer](./guides/MemberedTypeToClass.md)
+  - includes tools such as `ClassMembersMap` and `TypeMembersMap`
 
 ### Use cases
 
