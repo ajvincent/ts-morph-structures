@@ -4665,6 +4665,17 @@ class ClassFieldStatementsMap {
     }
 }
 
+class OrderedMap extends Map {
+    sortEntries(comparator) {
+        const entries = Array.from(this.entries());
+        entries.sort(comparator);
+        this.clear();
+        for (const [key, value] of entries) {
+            this.set(key, value);
+        }
+    }
+}
+
 var _a$1;
 /**
  * A map for class methods, properties, accessors and a constructor.  This doesn't
@@ -4681,7 +4692,7 @@ var _a$1;
  * map.moveMembersToClass(classDecl);
  * // classDecl.properties === [foo];
  */
-class ClassMembersMap extends Map {
+class ClassMembersMap extends OrderedMap {
     /**
      * Get a map key from a potential class member.
      * @param member - the class member
@@ -5671,7 +5682,7 @@ var _a;
  * map.moveMembersToType(interfaceDecl);
  * // interfaceDecl.properties === [foo];
  */
-class TypeMembersMap extends Map {
+class TypeMembersMap extends OrderedMap {
     static #uniqueKey = new WeakMap();
     static #uniqueKeyCounter = 0;
     /**

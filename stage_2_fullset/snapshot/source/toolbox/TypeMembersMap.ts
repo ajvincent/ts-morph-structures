@@ -29,6 +29,8 @@ import {
   cloneStructureOrStringArray,
 } from "../internal-exports.js";
 
+import OrderedMap from "./OrderedMap.js";
+
 /**
  * A map for members of `InterfaceDeclarationImpl` and `MemberedObjectTypeStructureImpl`.  This
  * doesn't replace the structures, rather it _feeds_ them.
@@ -43,7 +45,7 @@ import {
  * map.moveMembersToType(interfaceDecl);
  * // interfaceDecl.properties === [foo];
  */
-export default class TypeMembersMap extends Map<string, TypeMemberImpl> {
+export default class TypeMembersMap extends OrderedMap<string, TypeMemberImpl> {
   static readonly #uniqueKey = new WeakMap<TypeMemberImpl, string>();
   static #uniqueKeyCounter = 0;
 

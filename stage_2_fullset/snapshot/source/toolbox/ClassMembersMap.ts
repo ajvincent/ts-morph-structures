@@ -22,6 +22,8 @@ import {
   cloneStructureOrStringArray,
 } from "../internal-exports.js";
 
+import OrderedMap from "./OrderedMap.js";
+
 /**
  * A map for class methods, properties, accessors and a constructor.  This doesn't
  * replace `ClassDeclarationImpl`, rather, it _feeds_ `ClassDeclarationImpl`.
@@ -37,7 +39,10 @@ import {
  * map.moveMembersToClass(classDecl);
  * // classDecl.properties === [foo];
  */
-export default class ClassMembersMap extends Map<string, ClassMemberImpl> {
+export default class ClassMembersMap extends OrderedMap<
+  string,
+  ClassMemberImpl
+> {
   /**
    * Get a map key from a potential class member.
    * @param member - the class member

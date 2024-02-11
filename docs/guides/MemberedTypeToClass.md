@@ -126,6 +126,7 @@ Individual maps have specific helper methods:
 - `getAsKind<Kind extends TypeMemberImpl["kind"]>(kind: Kind, name: string)`
 - `moveMembersToType(owner: InterfaceDeclarationImpl | MemberedObjectTypeStructureImpl): void`
 - `resolveIndexSignature(signature: IndexSignatureDeclarationImpl, names: string[]): void`
+- `sortEntries(comparator: (a: [string, TypeMemberImpl], b: [string, TypeMemberImpl]) => number): void;`
 
 The `resolveIndexSignature()` method needs some explanation.  [Index signatures](https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures) represent methods and properties, but with variable _names_ for the methods and properties.  Classes require concrete names.  This method lets you provide the concrete names to replace the index signature with.
 
@@ -144,6 +145,7 @@ export type ClassMemberImpl = (
 ```
 
 The key algorithm is similar as well.  The methods for generating keys are:
+
 - `static keyFromMember(member: ClassMemberImpl): string`
 - `static keyFromName(kind: ClassMemberImpl["kind"], isStatic: boolean, name: string,): string`
 
@@ -170,6 +172,7 @@ The class member map's non-static methods are similar too:
 - `convertPropertyToAccessors(isStatic: boolean, name: string, toGetter: boolean, toSetter: boolean);`
 - `getAsKind<kind extend ClassMemberImpl["kind"]>(kind: Kind, key: string);`
 - `moveStatementsToMembers(statementMaps: ClassFieldStatementsMap[]): void;`
+- `sortEntries(comparator: (a: [string, ClassMemberImpl], b: [string, ClassMemberImpl]) => number): void;`
 
 The `moveStatementsToMembers()` method requires an explanation of `ClassFieldStatementsMap`.
 

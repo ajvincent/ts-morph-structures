@@ -11,6 +11,8 @@ import {
 
 import ClassFieldStatementsMap from "./ClassFieldStatementsMap.js";
 
+import OrderedMap from "./OrderedMap.js";
+
 export type ClassMemberImpl = (
   ConstructorDeclarationImpl |
   PropertyDeclarationImpl |
@@ -35,7 +37,7 @@ export type ClassMemberImpl = (
  * // classDecl.properties === [foo];
  */
 export default class ClassMembersMap
-extends Map<string, ClassMemberImpl>
+extends OrderedMap<string, ClassMemberImpl>
 {
   /**
    * Get a map key from a potential class member.

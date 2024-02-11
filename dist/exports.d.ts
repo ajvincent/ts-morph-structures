@@ -1425,6 +1425,10 @@ declare class ClassFieldStatementsMap {
     groupStatementsMap(statementGroup: string): ReadonlyMap<string, ClassFieldStatement[]> | undefined;
 }
 
+declare class OrderedMap<K, V> extends Map<K, V> {
+    sortEntries(comparator: (a: [K, V], b: [K, V]) => number): void;
+}
+
 /**
  * A map for class methods, properties, accessors and a constructor.  This doesn't
  * replace `ClassDeclarationImpl`, rather, it _feeds_ `ClassDeclarationImpl`.
@@ -1440,7 +1444,7 @@ declare class ClassFieldStatementsMap {
  * map.moveMembersToClass(classDecl);
  * // classDecl.properties === [foo];
  */
-declare class ClassMembersMap extends Map<string, ClassMemberImpl> {
+declare class ClassMembersMap extends OrderedMap<string, ClassMemberImpl> {
     #private;
     /**
      * Get a map key from a potential class member.
@@ -1667,7 +1671,7 @@ declare class MemberedTypeToClass {
  * map.moveMembersToType(interfaceDecl);
  * // interfaceDecl.properties === [foo];
  */
-declare class TypeMembersMap extends Map<string, TypeMemberImpl> {
+declare class TypeMembersMap extends OrderedMap<string, TypeMemberImpl> {
     #private;
     /**
      * Get a map key from a potential type member.

@@ -13,6 +13,8 @@ import {
   PropertySignatureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
+import OrderedMap from "./OrderedMap.js";
+
 export type TypeMemberImpl = (
   CallSignatureDeclarationImpl |
   ConstructSignatureDeclarationImpl |
@@ -24,7 +26,7 @@ export type TypeMemberImpl = (
 export type NamedTypeMemberImpl = Extract<TypeMemberImpl, { name: string }>;
 
 export default class TypeMembersMap
-extends Map<string, TypeMemberImpl>
+extends OrderedMap<string, TypeMemberImpl>
 {
   static readonly #uniqueKey = new WeakMap<TypeMemberImpl, string>;
   static #uniqueKeyCounter = 0;
