@@ -10,6 +10,11 @@ import {
   UnionTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
+import {
+  getStructureImplName,
+  getUnionOfStructuresName,
+} from "#utilities/source/StructureNameTransforms.js";
+
 import ImportManager from "./public/ImportManager.js";
 
 import saveSourceFile from "./saveSourceFile.js";
@@ -29,17 +34,17 @@ export default async function buildImplUnions(
   const typesToImport = new Set<string>;
 
   dictionary.unions.forEach((unionStructure: StructureUnionMeta, nameOfUnion: string) => {
-    const typeAlias = new TypeAliasDeclarationImpl(nameOfUnion.replace(/Structures$/, "StructureImpls"));
+    const typeAlias = new TypeAliasDeclarationImpl(getUnionOfStructuresName(nameOfUnion));
     typeAlias.isExported = true;
     const unionElements: LiteralTypedStructureImpl[] = [];
 
     unionStructure.structureNames.forEach(name => {
-      name = name.replace(/Structure$/, "Impl");
+      name = getStructureImplName(name);
       typesToImport.add(name);
-      unionElements.push(new LiteralTypedStructureImpl(name.replace(/Structure$/, "Impl")));
+      unionElements.push(new LiteralTypedStructureImpl(name));
     });
     unionStructure.unionKeys.forEach(name => unionElements.push(
-      new LiteralTypedStructureImpl(name.replace(/Structures$/, "StructureImpls"))
+      new LiteralTypedStructureImpl(getUnionOfStructuresName(name))
     ));
 
     unionElements.sort();

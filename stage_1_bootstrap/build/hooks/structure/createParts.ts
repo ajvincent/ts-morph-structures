@@ -30,6 +30,9 @@ import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFiel
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 import ImportManager from "#stage_one/build/utilities/public/ImportManager.js";
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
+import {
+  getStructureImplName,
+} from "#utilities/source/StructureNameTransforms.js";
 
 export default function createStructureParts(
   name: string,
@@ -39,7 +42,7 @@ export default function createStructureParts(
 {
   const parts: Partial<StructureParts> = {};
   parts.classDecl = new ClassDeclarationImpl;
-  parts.classDecl.name = meta.structureName.replace(/Structure$/, "Impl");
+  parts.classDecl.name = getStructureImplName(meta.structureName);
   parts.classDecl.isDefaultExport = true;
   parts.classDecl.extendsStructure = new LiteralTypedStructureImpl(name + "Base");
 

@@ -45,6 +45,9 @@ import {
 
 import pairedWrite from "../utilities/pairedWrite.js";
 import ClassFieldStatementsMap from "../utilities/public/ClassFieldStatementsMap.js";
+import {
+  getStructureImplName,
+} from '#utilities/source/StructureNameTransforms.js';
 // #endregion preamble
 
 export default function addClassProperties(
@@ -270,7 +273,7 @@ function getTypeStructureArrayForValue(
 
   value.otherTypes.forEach(valueInUnion => {
     if (valueInUnion.structureName && dictionaries.structures.has(valueInUnion.structureName)) {
-      const implName = valueInUnion.structureName.replace(/Structure$/, "Impl");
+      const implName = getStructureImplName(valueInUnion.structureName);
       typeStructures.push(new LiteralTypedStructureImpl(implName));
 
       if (implName !== parts.classDecl.name) {
@@ -391,11 +394,11 @@ function write_cloneRequiredAndOptionalArray(
 
   const requiredName = propertyValue.otherTypes[1].structureName
   const requiredKind = dictionaries.structures.get(requiredName)!.structureKindName;
-  const requiredImpl = requiredName.replace(/Structure$/, "Impl");
+  const requiredImpl = getStructureImplName(requiredName);
 
   const optionalName = propertyValue.otherTypes[0].structureName;
   const optionalKind = dictionaries.structures.get(optionalName)!.structureKindName;
-  const optionalImpl = optionalName.replace(/Structure$/, "Impl");
+  const optionalImpl = getStructureImplName(optionalName);
 
   parts.importsManager.addImports({
     pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
@@ -497,7 +500,7 @@ function write_cloneStructureArray(
     cloneImportName = "cloneStructureArray";
   }
   const otherType = propertyValue.otherTypes[0];
-  const targetImpl = otherType.structureName!.replace(/Structure$/, "Impl");
+  const targetImpl = getStructureImplName(otherType.structureName!);
   let sourceType = otherType.structureName!;
   const sourceKind = dictionaries.structures.get(sourceType)!.structureKindName;
 

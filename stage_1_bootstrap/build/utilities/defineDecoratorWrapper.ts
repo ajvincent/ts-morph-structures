@@ -9,6 +9,10 @@ import {
   TypeAliasDeclarationImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
+import {
+  getStructureMixinName,
+} from "#utilities/source/StructureNameTransforms.js";
+
 import type {
   DecoratorImplMeta
 } from "../structureMeta/DataClasses.js";
@@ -24,7 +28,7 @@ export default function defineDecoratorWrapper(
 ): FunctionDeclarationImpl
 {
   const fnDecl = new FunctionDeclarationImpl;
-  fnDecl.name = meta.structureName.replace(/Structure$/, "StructureMixin");
+  fnDecl.name = getStructureMixinName(meta.structureName);
   fnDecl.isDefaultExport = true;
 
   const baseClassParam = new ParameterDeclarationImpl("baseClass");

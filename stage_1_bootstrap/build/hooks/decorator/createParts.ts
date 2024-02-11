@@ -18,6 +18,10 @@ import defineFieldsType from "#stage_one/build/utilities/defineFieldsType.js";
 import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 
+import {
+  getStructureMixinName,
+} from "#utilities/source/StructureNameTransforms.js";
+
 export default function createDecoratorParts(
   name: string,
   meta: DecoratorImplMeta,
@@ -26,7 +30,7 @@ export default function createDecoratorParts(
 {
   const parts: Partial<DecoratorParts> = {};
   parts.classDecl = new ClassDeclarationImpl;
-  parts.classDecl.name = meta.structureName.replace(/Structure$/, "StructureMixin");
+  parts.classDecl.name = getStructureMixinName(meta.structureName);
   parts.classDecl.extends = "baseClass";
 
   parts.classFieldsStatements = new ClassFieldStatementsMap;
