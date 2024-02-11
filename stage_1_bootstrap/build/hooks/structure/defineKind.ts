@@ -5,6 +5,7 @@ import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFiel
 import {
   LiteralTypedStructureImpl,
   PropertyDeclarationImpl,
+  PropertySignatureImpl,
   QualifiedNameTypedStructureImpl
 } from "#stage_one/prototype-snapshot/exports.js";
 
@@ -20,11 +21,29 @@ export default function defineKindProperty(
 
   const {
     classFieldsStatements,
+    implementsImports,
+    classImplementsMap,
     classMembersMap,
     importsManager
   } = parts;
   if (classMembersMap.has("kind"))
     return Promise.resolve();
+
+  const kindSignature = new PropertySignatureImpl("kind");
+  kindSignature.isReadonly = true;
+  kindSignature.typeStructure = new QualifiedNameTypedStructureImpl([
+    ConstantTypeStructures.StructureKind,
+    new LiteralTypedStructureImpl(meta.structureKindName)
+  ]);
+  classImplementsMap.addMembers([kindSignature]);
+
+  implementsImports.addImports({
+    pathToImportedModule: "ts-morph",
+    isPackageImport: true,
+    isDefaultImport: false,
+    isTypeOnly: true,
+    importNames: ["StructureKind"]
+  });
 
   const kindProperty = new PropertyDeclarationImpl("kind");
   kindProperty.isReadonly = true;

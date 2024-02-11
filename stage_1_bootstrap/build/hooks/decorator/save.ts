@@ -2,7 +2,11 @@ import {
   WriterFunction,
 } from "ts-morph";
 
-import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
+import {
+  SourceFileImpl,
+} from "#stage_one/prototype-snapshot/exports.js";
+
+import StructureDictionaries, { DecoratorParts } from "#stage_one/build/StructureDictionaries.js";
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 import defineSatisfiesWriter from "#stage_one/build/utilities/defineSatisfiesWriter.js";
 import saveSourceFile from "#stage_one/build/utilities/saveSourceFile.js";
@@ -11,7 +15,7 @@ import type {
   DecoratorImplMeta
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
-export default async function saveDecoratorFile(
+export default async function saveFiles(
   name: string,
   meta: DecoratorImplMeta,
   dictionaries: StructureDictionaries
@@ -21,6 +25,19 @@ export default async function saveDecoratorFile(
   if (!parts)
     return Promise.resolve();
 
+  await Promise.all([
+    saveDecoratorFile(name, meta, dictionaries, parts),
+    saveClassInterfaceFile(name, meta, dictionaries, parts)
+  ]);
+}
+
+async function saveDecoratorFile(
+  name: string,
+  meta: DecoratorImplMeta,
+  dictionaries: StructureDictionaries,
+  parts: DecoratorParts
+): Promise<void>
+{
   parts.sourceFile.statements = [
     "//#region preamble",
     ...parts.importsManager.getDeclarations(),
@@ -65,4 +82,24 @@ function declareConstSymbol(
     ConstantTypeStructures.uniqueSymbol.writerFunction(writer);
     writer.writeLine(";");
   };
+}
+
+async function saveClassInterfaceFile(
+  name: string,
+  meta: DecoratorImplMeta,
+  dictionaries: StructureDictionaries,
+  parts: DecoratorParts
+): Promise<void>
+{
+  parts.classImplementsMap.moveMembersToType(parts.classImplementsIfc);
+
+  const sourceFile = new SourceFileImpl;
+  sourceFile.statements.push(
+    ...parts.implementsImports.getDeclarations(),
+    parts.classImplementsIfc,
+  );
+  await saveSourceFile(
+    parts.implementsImports.absolutePathToModule,
+    sourceFile
+  );
 }

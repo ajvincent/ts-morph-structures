@@ -3,11 +3,12 @@ import path from "path";
 import {
   ClassDeclarationImpl,
   LiteralTypedStructureImpl,
-  TypeArgumentedTypedStructureImpl,
+  InterfaceDeclarationImpl,
   SourceFileImpl,
-  UnionTypedStructureImpl,
-  TypeStructures,
   StringTypedStructureImpl,
+  TypeArgumentedTypedStructureImpl,
+  TypeStructures,
+  UnionTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import StructureDictionaries, {
@@ -30,7 +31,11 @@ import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFiel
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 import ImportManager from "#stage_one/build/utilities/public/ImportManager.js";
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
+import TypeMembersMap from "#stage_one/build/utilities/public/TypeMembersMap.js";
+
 import {
+  getClassInterfaceName,
+  getStructureClassBaseName,
   getStructureImplName,
 } from "#utilities/source/StructureNameTransforms.js";
 
@@ -44,12 +49,20 @@ export default function createStructureParts(
   parts.classDecl = new ClassDeclarationImpl;
   parts.classDecl.name = getStructureImplName(meta.structureName);
   parts.classDecl.isDefaultExport = true;
-  parts.classDecl.extendsStructure = new LiteralTypedStructureImpl(name + "Base");
+  parts.classDecl.extendsStructure = new LiteralTypedStructureImpl(getStructureClassBaseName(name));
 
   parts.classDecl.implementsSet.add(defineRequiredOmit(meta, dictionaries));
 
   parts.classFieldsStatements = new ClassFieldStatementsMap;
   parts.classMembersMap = new ClassMembersMap;
+
+  parts.classImplementsMap = new TypeMembersMap;
+  parts.classImplementsIfc = new InterfaceDeclarationImpl(getClassInterfaceName(meta.structureName));
+  parts.classImplementsIfc.isExported = true;
+  //parts.classImplementsIfc.extendsSet.add(meta.structureName);
+  parts.implementsImports = new ImportManager(
+    path.join(distDir, "source/interfaces/standard", parts.classImplementsIfc.name + ".d.ts")
+  );
 
   parts.sourceFile = new SourceFileImpl;
 
@@ -57,6 +70,7 @@ export default function createStructureParts(
     path.join(distDir, "source", "structures", "standard", parts.classDecl.name + ".ts")
   );
 
+  // still necessary for the "satisfies" statement
   parts.importsManager.addImports({
     pathToImportedModule: "ts-morph",
     isPackageImport: true,
@@ -87,6 +101,13 @@ export default function createStructureParts(
       "PreferArrayFields",
       "RequiredOmit",
     ]
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: parts.implementsImports.absolutePathToModule,
+    isDefaultExport: false,
+    isType: true,
+    exportNames: [ parts.classImplementsIfc.name ]
   });
 
   parts.mixinBaseWriter = StructureMixinWriter(

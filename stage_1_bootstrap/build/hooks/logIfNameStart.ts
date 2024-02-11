@@ -44,6 +44,7 @@ export default function logIfNameStart(
       classDecl,
       classFieldsStatements,
       classMembersMap,
+      classImplementsMap,
     } = parts;
 
     const fields = Array.from(classFieldsStatements.entries()).map(entry => [
@@ -54,6 +55,7 @@ export default function logIfNameStart(
       booleanKeys: Object.fromEntries(booleanKeys.entries()),
       structureFields: Object.fromEntries(structureFields.entries()),
       structureFieldArrays: Object.fromEntries(structureFieldArrays.entries()),
+      interfaceMembers: Object.fromEntries(classImplementsMap.entries()),
       members: Object.fromEntries(classMembersMap.entries()),
       fields,
       classDecl,

@@ -3,7 +3,7 @@ import {
   type CodeBlockWriter
 } from "ts-morph";
 
-import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
+import StructureDictionaries, { StructureParts } from "#stage_one/build/StructureDictionaries.js";
 import saveSourceFile from "#stage_one/build/utilities/saveSourceFile.js";
 
 import type {
@@ -15,12 +15,13 @@ import {
   IndexedAccessTypedStructureImpl,
   IntersectionTypedStructureImpl,
   LiteralTypedStructureImpl,
+  SourceFileImpl,
   TypeArgumentedTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 
-export default async function saveDecoratorFile(
+export default async function saveFiles(
   name: string,
   meta: StructureImplMeta,
   dictionaries: StructureDictionaries
@@ -30,6 +31,19 @@ export default async function saveDecoratorFile(
   if (!parts)
     return Promise.resolve();
 
+  await Promise.all([
+    saveStructureFile(name, meta, dictionaries, parts),
+    saveClassInterfaceFile(name, meta, dictionaries, parts),
+  ]);
+}
+
+async function saveStructureFile(
+  name: string,
+  meta: StructureImplMeta,
+  dictionaries: StructureDictionaries,
+  parts: StructureParts,
+): Promise<void>
+{
   parts.sourceFile.statements = [
     "//#region preamble",
     ...parts.importsManager.getDeclarations(),
@@ -102,4 +116,24 @@ function addToCloneableMapWriter(
   return function(writer: CodeBlockWriter): void {
     writer.writeLine(`StructuresClassesMap.set(StructureKind.${structureKindName}, ${classDecl.name!});`);
   }
+}
+
+async function saveClassInterfaceFile(
+  name: string,
+  meta: StructureImplMeta,
+  dictionaries: StructureDictionaries,
+  parts: StructureParts
+): Promise<void>
+{
+  parts.classImplementsMap.moveMembersToType(parts.classImplementsIfc);
+
+  const sourceFile = new SourceFileImpl;
+  sourceFile.statements.push(
+    ...parts.implementsImports.getDeclarations(),
+    parts.classImplementsIfc,
+  );
+  await saveSourceFile(
+    parts.implementsImports.absolutePathToModule,
+    sourceFile
+  );
 }

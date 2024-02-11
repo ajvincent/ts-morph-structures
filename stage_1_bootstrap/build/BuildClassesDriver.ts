@@ -6,6 +6,7 @@ import fillDictionaries from "./structureMeta/fillDictionaries.js";
 
 import createDecoratorParts from "./hooks/decorator/createParts.js";
 import addClassProperties from "./hooks/classProperties.js";
+import addInterfaceFields from "./hooks/addInterfaceFields.js";
 import add_toJSON from "./hooks/add_toJSON.js";
 import addTSDoc from "./hooks/addTSDoc.js";
 import addTypeStructures from "./hooks/addTypeStructures.js";
@@ -26,6 +27,7 @@ import buildImplUnions from "./utilities/buildImplUnions.js";
 import defineExistingExports from "./publicAndInternalExports.js";
 
 import logIfNameStart from "./hooks/logIfNameStart.js";
+import sortInterfaceFields from "./hooks/sortInterfaceFields.js";
 void(logIfNameStart);
 
 // #endregion hooks
@@ -39,16 +41,19 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   fillDictionaries(dictionary);
 
   dictionary.addDecoratorHook("create decorator parts", createDecoratorParts);
+  dictionary.addDecoratorHook("add interface fields", addInterfaceFields);
   dictionary.addDecoratorHook("add class properties", addClassProperties);
   dictionary.addDecoratorHook("add .toJSON()", add_toJSON);
   dictionary.addDecoratorHook("add TSDoc", addTSDoc);
   dictionary.addDecoratorHook("add type structures", addTypeStructures);
   dictionary.addDecoratorHook("move members to class", moveMembersToClass);
+  dictionary.addDecoratorHook("sort interface members", sortInterfaceFields);
   dictionary.addDecoratorHook("sort class members", sortClassMembers);
   dictionary.addDecoratorHook("sort required omit", sortRequiredOmit);
   dictionary.addDecoratorHook("save decorator file", saveDecoratorFile);
 
   dictionary.addStructureHook("create structure parts", createStructureParts);
+  dictionary.addStructureHook("add interface fields", addInterfaceFields);
   dictionary.addStructureHook("add class properties", addClassProperties);
   dictionary.addStructureHook("define structure kind", defineKindProperty);
   dictionary.addStructureHook("add constructor", addConstructor);
@@ -60,6 +65,7 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addStructureHook("add TSDoc", addTSDoc);
   dictionary.addStructureHook("special cases", structureSpecialCases);
   dictionary.addStructureHook("move members to class", moveMembersToClass);
+  dictionary.addStructureHook("sort interface members", sortInterfaceFields);
   dictionary.addStructureHook("sort class members", sortClassMembers);
   dictionary.addStructureHook("sort required omit", sortRequiredOmit);
   dictionary.addStructureHook("save structure file", saveStructureFile);

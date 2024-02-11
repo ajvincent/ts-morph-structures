@@ -1,7 +1,14 @@
+import path from "path";
+
 import {
   ClassDeclarationImpl,
+  InterfaceDeclarationImpl,
   SourceFileImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
+
+import {
+  distDir
+} from "#stage_one/build/constants.js";
 
 import StructureDictionaries, {
   DecoratorParts,
@@ -17,8 +24,11 @@ import defineFieldsType from "#stage_one/build/utilities/defineFieldsType.js";
 
 import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
+import TypeMembersMap from "#stage_one/build/utilities/public/TypeMembersMap.js";
+import ImportManager from "#stage_one/build/utilities/public/ImportManager.js";
 
 import {
+  getClassInterfaceName,
   getStructureMixinName,
 } from "#utilities/source/StructureNameTransforms.js";
 
@@ -35,6 +45,13 @@ export default function createDecoratorParts(
 
   parts.classFieldsStatements = new ClassFieldStatementsMap;
   parts.classMembersMap = new ClassMembersMap;
+
+  parts.classImplementsMap = new TypeMembersMap;
+  parts.classImplementsIfc = new InterfaceDeclarationImpl(getClassInterfaceName(meta.structureName));
+  parts.classImplementsIfc.isExported = true;
+  parts.implementsImports = new ImportManager(
+    path.join(distDir, "source/interfaces/standard", parts.classImplementsIfc.name + ".d.ts")
+  );
 
   parts.importsManager = defineDecoratorImports(meta, parts.classDecl.name);
   parts.sourceFile = new SourceFileImpl;
@@ -64,6 +81,13 @@ export default function createDecoratorParts(
   }
 
   parts.moduleInterfaces = [];
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: parts.implementsImports.absolutePathToModule,
+    isDefaultExport: false,
+    isType: true,
+    exportNames: [ parts.classImplementsIfc.name ]
+  });
 
   dictionaries.decoratorParts.set(meta, parts as DecoratorParts);
   return Promise.resolve();

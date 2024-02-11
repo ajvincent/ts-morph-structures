@@ -1,5 +1,5 @@
 import * as ts_morph from 'ts-morph';
-import { OptionalKind, Structures, WriterFunction, TypeNode, Node, CodeBlockWriter, CallSignatureDeclarationStructure, StructureKind, ClassDeclarationStructure, ClassStaticBlockDeclarationStructure, ConstructorDeclarationStructure, ConstructorDeclarationOverloadStructure, ConstructSignatureDeclarationStructure, DecoratorStructure, EnumDeclarationStructure, EnumMemberStructure, ExportAssignmentStructure, ExportDeclarationStructure, ExportSpecifierStructure, FunctionDeclarationStructure, FunctionDeclarationOverloadStructure, GetAccessorDeclarationStructure, ImportAttributeStructure, ImportDeclarationStructure, ImportSpecifierStructure, IndexSignatureDeclarationStructure, InterfaceDeclarationStructure, JSDocStructure, JSDocTagStructure, JsxAttributeStructure, JsxNamespacedNameStructure, JsxElementStructure, JsxSelfClosingElementStructure, JsxSpreadAttributeStructure, MethodDeclarationStructure, MethodDeclarationOverloadStructure, MethodSignatureStructure, ModuleDeclarationStructure, ModuleDeclarationKind, ParameterDeclarationStructure, Scope, PropertyAssignmentStructure, PropertyDeclarationStructure, PropertySignatureStructure, SetAccessorDeclarationStructure, ShorthandPropertyAssignmentStructure, SourceFileStructure, SpreadAssignmentStructure, TypeAliasDeclarationStructure, TypeParameterDeclarationStructure, TypeParameterVariance, VariableDeclarationStructure, VariableStatementStructure, VariableDeclarationKind, KindedStructure } from 'ts-morph';
+import { OptionalKind, Structures, WriterFunction, TypeNode, Node, CodeBlockWriter, StructureKind, JsxNamespacedNameStructure, ModuleDeclarationKind, Scope, StatementStructures, TypeParameterVariance, VariableDeclarationKind, CallSignatureDeclarationStructure, ClassDeclarationStructure, ClassStaticBlockDeclarationStructure, ConstructorDeclarationStructure, ConstructorDeclarationOverloadStructure, ConstructSignatureDeclarationStructure, DecoratorStructure, EnumDeclarationStructure, EnumMemberStructure, ExportAssignmentStructure, ExportDeclarationStructure, ExportSpecifierStructure, FunctionDeclarationStructure, FunctionDeclarationOverloadStructure, GetAccessorDeclarationStructure, ImportAttributeStructure, ImportDeclarationStructure, ImportSpecifierStructure, IndexSignatureDeclarationStructure, InterfaceDeclarationStructure, JSDocStructure, JSDocTagStructure, JsxAttributeStructure, JsxElementStructure, JsxSelfClosingElementStructure, JsxSpreadAttributeStructure, MethodDeclarationStructure, MethodDeclarationOverloadStructure, MethodSignatureStructure, ModuleDeclarationStructure, ParameterDeclarationStructure, PropertyAssignmentStructure, PropertyDeclarationStructure, PropertySignatureStructure, SetAccessorDeclarationStructure, ShorthandPropertyAssignmentStructure, SourceFileStructure, SpreadAssignmentStructure, TypeAliasDeclarationStructure, TypeParameterDeclarationStructure, VariableDeclarationStructure, VariableStatementStructure, KindedStructure } from 'ts-morph';
 import * as mixin_decorators from 'mixin-decorators';
 import { Simplify, Writable, ReadonlyDeep } from 'type-fest';
 
@@ -184,6 +184,335 @@ interface KindedTypeStructure<TKind extends TypeStructureKind> extends TypedNode
 declare function getTypeAugmentedStructure(rootNode: NodeWithStructures, userConsole: TypeNodeToTypeStructureConsole, assertNoFailures: boolean): RootStructureWithConvertFailures;
 
 declare function VoidTypeNodeToTypeStructureConsole(message: string, failingTypeNode: TypeNode): void;
+
+interface AbstractableNodeStructureClassIfc {
+  isAbstract: boolean;
+}
+
+interface AmbientableNodeStructureClassIfc {
+  hasDeclareKeyword: boolean;
+}
+
+interface AsyncableNodeStructureClassIfc {
+  isAsync: boolean;
+}
+
+interface CallSignatureDeclarationStructureClassIfc {
+  readonly kind: StructureKind.CallSignature;
+}
+
+type stringOrWriterFunction = string | WriterFunction;
+
+interface ClassDeclarationStructureClassIfc {
+  readonly kind: StructureKind.Class;
+  ctors: ConstructorDeclarationImpl[];
+  extends: stringOrWriterFunction;
+  getAccessors: GetAccessorDeclarationImpl[];
+  implements: stringOrWriterFunction[];
+  methods: MethodDeclarationImpl[];
+  properties: PropertyDeclarationImpl[];
+  setAccessors: SetAccessorDeclarationImpl[];
+}
+
+interface ClassStaticBlockDeclarationStructureClassIfc {
+  readonly kind: StructureKind.ClassStaticBlock;
+}
+
+interface ConstructorDeclarationOverloadStructureClassIfc {
+  readonly kind: StructureKind.ConstructorOverload;
+}
+
+interface ConstructorDeclarationStructureClassIfc {
+  readonly kind: StructureKind.Constructor;
+  overloads: ConstructorDeclarationOverloadImpl[];
+}
+
+interface ConstructSignatureDeclarationStructureClassIfc {
+  readonly kind: StructureKind.ConstructSignature;
+}
+
+interface DecoratableNodeStructureClassIfc {
+  decorators: DecoratorImpl[];
+}
+
+interface DecoratorStructureClassIfc {
+  readonly kind: StructureKind.Decorator;
+  arguments: stringOrWriterFunction[];
+  typeArguments: string[];
+}
+
+interface EnumDeclarationStructureClassIfc {
+  readonly kind: StructureKind.Enum;
+  isConst: boolean;
+  members: EnumMemberImpl[];
+}
+
+interface EnumMemberStructureClassIfc {
+  readonly kind: StructureKind.EnumMember;
+  value: string | number;
+}
+
+interface ExclamationTokenableNodeStructureClassIfc {
+  hasExclamationToken: boolean;
+}
+
+interface ExportableNodeStructureClassIfc {
+  isDefaultExport: boolean;
+  isExported: boolean;
+}
+
+interface ExportAssignmentStructureClassIfc {
+  readonly kind: StructureKind.ExportAssignment;
+  expression: stringOrWriterFunction;
+  isExportEquals: boolean;
+}
+
+interface ExportDeclarationStructureClassIfc {
+  readonly kind: StructureKind.ExportDeclaration;
+  attributes: ImportAttributeImpl[];
+  isTypeOnly: boolean;
+  moduleSpecifier: string;
+  namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[];
+  namespaceExport: string;
+}
+
+interface ExportSpecifierStructureClassIfc {
+  readonly kind: StructureKind.ExportSpecifier;
+  alias: string;
+  isTypeOnly: boolean;
+}
+
+interface FunctionDeclarationOverloadStructureClassIfc {
+  readonly kind: StructureKind.FunctionOverload;
+}
+
+interface FunctionDeclarationStructureClassIfc {
+  readonly kind: StructureKind.Function;
+  overloads: FunctionDeclarationOverloadImpl[];
+}
+
+interface GeneratorableNodeStructureClassIfc {
+  isGenerator: boolean;
+}
+
+interface GetAccessorDeclarationStructureClassIfc {
+  readonly kind: StructureKind.GetAccessor;
+  isStatic: boolean;
+}
+
+interface ImportAttributeStructureClassIfc {
+  readonly kind: StructureKind.ImportAttribute;
+  name: string;
+  value: string;
+}
+
+interface ImportDeclarationStructureClassIfc {
+  readonly kind: StructureKind.ImportDeclaration;
+  attributes: ImportAttributeImpl[];
+  defaultImport: string;
+  isTypeOnly: boolean;
+  moduleSpecifier: string;
+  namedImports: (stringOrWriterFunction | ImportSpecifierImpl)[];
+  namespaceImport: string;
+}
+
+interface ImportSpecifierStructureClassIfc {
+  readonly kind: StructureKind.ImportSpecifier;
+  alias: string;
+  isTypeOnly: boolean;
+}
+
+interface IndexSignatureDeclarationStructureClassIfc {
+  readonly kind: StructureKind.IndexSignature;
+  keyName: string;
+  keyType: string;
+}
+
+interface InitializerExpressionableNodeStructureClassIfc {
+  initializer: stringOrWriterFunction;
+}
+
+interface InterfaceDeclarationStructureClassIfc {
+  readonly kind: StructureKind.Interface;
+  callSignatures: CallSignatureDeclarationImpl[];
+  constructSignatures: ConstructSignatureDeclarationImpl[];
+  extends: stringOrWriterFunction[];
+  getAccessors: GetAccessorDeclarationImpl[];
+  indexSignatures: IndexSignatureDeclarationImpl[];
+  methods: MethodSignatureImpl[];
+  properties: PropertySignatureImpl[];
+  setAccessors: SetAccessorDeclarationImpl[];
+}
+
+interface JSDocableNodeStructureClassIfc {
+  docs: (string | JSDocImpl)[];
+}
+
+interface JSDocStructureClassIfc {
+  readonly kind: StructureKind.JSDoc;
+  description: stringOrWriterFunction;
+  tags: JSDocTagImpl[];
+}
+
+interface JSDocTagStructureClassIfc {
+  readonly kind: StructureKind.JSDocTag;
+  tagName: string;
+  text: stringOrWriterFunction;
+}
+
+interface JsxAttributeStructureClassIfc {
+  readonly kind: StructureKind.JsxAttribute;
+  initializer: string;
+  name: string | JsxNamespacedNameStructure;
+}
+
+interface JsxElementStructureClassIfc {
+  readonly kind: StructureKind.JsxElement;
+  attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[];
+  bodyText: string;
+  children: (JsxElementImpl | JsxSelfClosingElementImpl)[];
+}
+
+interface JsxSelfClosingElementStructureClassIfc {
+  readonly kind: StructureKind.JsxSelfClosingElement;
+  attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[];
+}
+
+interface JsxSpreadAttributeStructureClassIfc {
+  readonly kind: StructureKind.JsxSpreadAttribute;
+  expression: string;
+}
+
+interface MethodDeclarationOverloadStructureClassIfc {
+  readonly kind: StructureKind.MethodOverload;
+  isStatic: boolean;
+}
+
+interface MethodDeclarationStructureClassIfc {
+  readonly kind: StructureKind.Method;
+  isStatic: boolean;
+  overloads: MethodDeclarationOverloadImpl[];
+}
+
+interface MethodSignatureStructureClassIfc {
+  readonly kind: StructureKind.MethodSignature;
+}
+
+interface ModuleDeclarationStructureClassIfc {
+  readonly kind: StructureKind.Module;
+  declarationKind: ModuleDeclarationKind;
+}
+
+interface NameableNodeStructureClassIfc {
+  name: string;
+}
+
+interface NamedNodeStructureClassIfc {
+  name: string;
+}
+
+interface OverrideableNodeStructureClassIfc {
+  hasOverrideKeyword: boolean;
+}
+
+interface ParameterDeclarationStructureClassIfc {
+  readonly kind: StructureKind.Parameter;
+  isRestParameter: boolean;
+  scope: Scope;
+}
+
+interface ParameteredNodeStructureClassIfc {
+  parameters: ParameterDeclarationImpl[];
+}
+
+interface PropertyAssignmentStructureClassIfc {
+  readonly kind: StructureKind.PropertyAssignment;
+  initializer: stringOrWriterFunction;
+}
+
+interface PropertyDeclarationStructureClassIfc {
+  readonly kind: StructureKind.Property;
+  hasAccessorKeyword: boolean;
+  isStatic: boolean;
+}
+
+interface PropertySignatureStructureClassIfc {
+  readonly kind: StructureKind.PropertySignature;
+}
+
+interface QuestionTokenableNodeStructureClassIfc {
+  hasQuestionToken: boolean;
+}
+
+interface ReadonlyableNodeStructureClassIfc {
+  isReadonly: boolean;
+}
+
+interface ReturnTypedNodeStructureClassIfc {
+  returnType: stringOrWriterFunction;
+}
+
+interface ScopedNodeStructureClassIfc {
+  scope: Scope;
+}
+
+interface SetAccessorDeclarationStructureClassIfc {
+  readonly kind: StructureKind.SetAccessor;
+  isStatic: boolean;
+}
+
+interface ShorthandPropertyAssignmentStructureClassIfc {
+  readonly kind: StructureKind.ShorthandPropertyAssignment;
+}
+
+interface SourceFileStructureClassIfc {
+  readonly kind: StructureKind.SourceFile;
+}
+
+interface SpreadAssignmentStructureClassIfc {
+  readonly kind: StructureKind.SpreadAssignment;
+  expression: stringOrWriterFunction;
+}
+
+interface StatementedNodeStructureClassIfc {
+  statements: (stringOrWriterFunction | StatementStructures)[];
+}
+
+interface StructureClassIfc {
+  leadingTrivia: stringOrWriterFunction[];
+  trailingTrivia: stringOrWriterFunction[];
+}
+
+interface TypeAliasDeclarationStructureClassIfc {
+  readonly kind: StructureKind.TypeAlias;
+  type: stringOrWriterFunction;
+}
+
+interface TypedNodeStructureClassIfc {
+  type: stringOrWriterFunction;
+}
+
+interface TypeParameterDeclarationStructureClassIfc {
+  readonly kind: StructureKind.TypeParameter;
+  constraint: stringOrWriterFunction;
+  default: stringOrWriterFunction;
+  isConst: boolean;
+  variance: TypeParameterVariance;
+}
+
+interface TypeParameteredNodeStructureClassIfc {
+  typeParameters: (string | TypeParameterDeclarationImpl)[];
+}
+
+interface VariableDeclarationStructureClassIfc {
+  readonly kind: StructureKind.VariableDeclaration;
+}
+
+interface VariableStatementStructureClassIfc {
+  readonly kind: StructureKind.VariableStatement;
+  declarationKind: VariableDeclarationKind;
+  declarations: VariableDeclarationImpl[];
+}
 
 /**
  * `boolean[]`
@@ -529,8 +858,6 @@ declare class CallSignatureDeclarationImpl extends CallSignatureDeclarationStruc
     static clone(source: OptionalKind<CallSignatureDeclarationStructure>): CallSignatureDeclarationImpl;
     toJSON(): StructureClassToJSON<CallSignatureDeclarationImpl>;
 }
-
-type stringOrWriterFunction = string | WriterFunction;
 
 declare const ClassDeclarationStructureBase: mixin_decorators.MixinClass<object, {
     typeParameters: (string | OptionalKind<ts_morph.TypeParameterDeclarationStructure>)[];
@@ -1950,4 +2277,4 @@ interface InterfaceDeclarationWithExtendsTypeStructures {
   extends: stringOrWriterFunction[];
 }
 
-export { type AddExportContext, type AddImportContext, ArrayTypeStructureImpl, CallSignatureDeclarationImpl, type ClassAbstractMemberQuestion, type ClassAsyncMethodQuestion, ClassDeclarationImpl, type ClassDeclarationWithImplementsTypeStructures, type ClassFieldStatement, ClassFieldStatementsMap, type ClassGeneratorMethodQuestion, type ClassMemberImpl, type ClassMemberStructureImpls, ClassMembersMap, type ClassScopeMemberQuestion, type ClassStatementsGetter, ClassStaticBlockDeclarationImpl, ConditionalTypeStructureImpl, type ConditionalTypeStructureParts, ConstructSignatureDeclarationImpl, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, DecoratorImpl, EnumDeclarationImpl, EnumMemberImpl, ExportAssignmentImpl, ExportDeclarationImpl, ExportManager, ExportSpecifierImpl, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, type FunctionTypeContext, FunctionTypeStructureImpl, FunctionWriterStyle, GetAccessorDeclarationImpl, ImportAttributeImpl, ImportDeclarationImpl, ImportManager, ImportSpecifierImpl, IndexSignatureDeclarationImpl, type IndexSignatureResolver, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, InterfaceDeclarationImpl, type InterfaceDeclarationWithExtendsTypeStructures, type InterfaceMemberStructureImpls, IntersectionTypeStructureImpl, JSDocImpl, JSDocTagImpl, JsxAttributeImpl, JsxElementImpl, JsxSelfClosingElementImpl, JsxSpreadAttributeImpl, type JsxStructureImpls, type KindedTypeStructure, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, type MemberedStatementsKey, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, MethodSignatureImpl, ModuleDeclarationImpl, type NamedClassMemberImpl, type NamedTypeMemberImpl, type ObjectLiteralExpressionPropertyStructureImpls, ParameterDeclarationImpl, ParameterTypeStructureImpl, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, type PrefixUnaryOperator, PropertyAssignmentImpl, PropertyDeclarationImpl, PropertySignatureImpl, QualifiedNameTypeStructureImpl, type ReturnTypedNodeTypeStructure, SetAccessorDeclarationImpl, ShorthandPropertyAssignmentImpl, SourceFileImpl, SpreadAssignmentImpl, type StatementStructureImpls, StringTypeStructureImpl, type StructureImpls, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, TypeArgumentedTypeStructureImpl, type TypeElementMemberStructureImpls, type TypeMemberImpl, TypeMembersMap, type TypeNodeToTypeStructureConsole, TypeParameterDeclarationImpl, type TypeParameterWithTypeStructures, TypeStructureKind, type TypeStructures, type TypeStructuresOrNull, type TypedNodeTypeStructure, UnionTypeStructureImpl, VariableDeclarationImpl, VariableStatementImpl, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, type stringOrWriterFunction, type stringWriterOrStatementImpl };
+export { type AbstractableNodeStructureClassIfc, type AddExportContext, type AddImportContext, type AmbientableNodeStructureClassIfc, ArrayTypeStructureImpl, type AsyncableNodeStructureClassIfc, CallSignatureDeclarationImpl, type CallSignatureDeclarationStructureClassIfc, type ClassAbstractMemberQuestion, type ClassAsyncMethodQuestion, ClassDeclarationImpl, type ClassDeclarationStructureClassIfc, type ClassDeclarationWithImplementsTypeStructures, type ClassFieldStatement, ClassFieldStatementsMap, type ClassGeneratorMethodQuestion, type ClassMemberImpl, type ClassMemberStructureImpls, ClassMembersMap, type ClassScopeMemberQuestion, type ClassStatementsGetter, ClassStaticBlockDeclarationImpl, type ClassStaticBlockDeclarationStructureClassIfc, ConditionalTypeStructureImpl, type ConditionalTypeStructureParts, ConstructSignatureDeclarationImpl, type ConstructSignatureDeclarationStructureClassIfc, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, type ConstructorDeclarationOverloadStructureClassIfc, type ConstructorDeclarationStructureClassIfc, type DecoratableNodeStructureClassIfc, DecoratorImpl, type DecoratorStructureClassIfc, EnumDeclarationImpl, type EnumDeclarationStructureClassIfc, EnumMemberImpl, type EnumMemberStructureClassIfc, type ExclamationTokenableNodeStructureClassIfc, ExportAssignmentImpl, type ExportAssignmentStructureClassIfc, ExportDeclarationImpl, type ExportDeclarationStructureClassIfc, ExportManager, ExportSpecifierImpl, type ExportSpecifierStructureClassIfc, type ExportableNodeStructureClassIfc, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, type FunctionDeclarationOverloadStructureClassIfc, type FunctionDeclarationStructureClassIfc, type FunctionTypeContext, FunctionTypeStructureImpl, FunctionWriterStyle, type GeneratorableNodeStructureClassIfc, GetAccessorDeclarationImpl, type GetAccessorDeclarationStructureClassIfc, ImportAttributeImpl, type ImportAttributeStructureClassIfc, ImportDeclarationImpl, type ImportDeclarationStructureClassIfc, ImportManager, ImportSpecifierImpl, type ImportSpecifierStructureClassIfc, IndexSignatureDeclarationImpl, type IndexSignatureDeclarationStructureClassIfc, type IndexSignatureResolver, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, type InitializerExpressionableNodeStructureClassIfc, InterfaceDeclarationImpl, type InterfaceDeclarationStructureClassIfc, type InterfaceDeclarationWithExtendsTypeStructures, type InterfaceMemberStructureImpls, IntersectionTypeStructureImpl, JSDocImpl, type JSDocStructureClassIfc, JSDocTagImpl, type JSDocTagStructureClassIfc, type JSDocableNodeStructureClassIfc, JsxAttributeImpl, type JsxAttributeStructureClassIfc, JsxElementImpl, type JsxElementStructureClassIfc, JsxSelfClosingElementImpl, type JsxSelfClosingElementStructureClassIfc, JsxSpreadAttributeImpl, type JsxSpreadAttributeStructureClassIfc, type JsxStructureImpls, type KindedTypeStructure, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, type MemberedStatementsKey, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, type MethodDeclarationOverloadStructureClassIfc, type MethodDeclarationStructureClassIfc, MethodSignatureImpl, type MethodSignatureStructureClassIfc, ModuleDeclarationImpl, type ModuleDeclarationStructureClassIfc, type NameableNodeStructureClassIfc, type NamedClassMemberImpl, type NamedNodeStructureClassIfc, type NamedTypeMemberImpl, type ObjectLiteralExpressionPropertyStructureImpls, type OverrideableNodeStructureClassIfc, ParameterDeclarationImpl, type ParameterDeclarationStructureClassIfc, ParameterTypeStructureImpl, type ParameteredNodeStructureClassIfc, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, type PrefixUnaryOperator, PropertyAssignmentImpl, type PropertyAssignmentStructureClassIfc, PropertyDeclarationImpl, type PropertyDeclarationStructureClassIfc, PropertySignatureImpl, type PropertySignatureStructureClassIfc, QualifiedNameTypeStructureImpl, type QuestionTokenableNodeStructureClassIfc, type ReadonlyableNodeStructureClassIfc, type ReturnTypedNodeStructureClassIfc, type ReturnTypedNodeTypeStructure, type ScopedNodeStructureClassIfc, SetAccessorDeclarationImpl, type SetAccessorDeclarationStructureClassIfc, ShorthandPropertyAssignmentImpl, type ShorthandPropertyAssignmentStructureClassIfc, SourceFileImpl, type SourceFileStructureClassIfc, SpreadAssignmentImpl, type SpreadAssignmentStructureClassIfc, type StatementStructureImpls, type StatementedNodeStructureClassIfc, StringTypeStructureImpl, type StructureClassIfc, type StructureImpls, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, type TypeAliasDeclarationStructureClassIfc, TypeArgumentedTypeStructureImpl, type TypeElementMemberStructureImpls, type TypeMemberImpl, TypeMembersMap, type TypeNodeToTypeStructureConsole, TypeParameterDeclarationImpl, type TypeParameterDeclarationStructureClassIfc, type TypeParameterWithTypeStructures, type TypeParameteredNodeStructureClassIfc, TypeStructureKind, type TypeStructures, type TypeStructuresOrNull, type TypedNodeStructureClassIfc, type TypedNodeTypeStructure, UnionTypeStructureImpl, VariableDeclarationImpl, type VariableDeclarationStructureClassIfc, VariableStatementImpl, type VariableStatementStructureClassIfc, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, type stringOrWriterFunction, type stringWriterOrStatementImpl };

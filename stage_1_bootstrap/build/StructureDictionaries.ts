@@ -15,6 +15,7 @@ import {
   MethodDeclarationImpl,
   SourceFileImpl,
   TypeAliasDeclarationImpl,
+  UnionTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import {
@@ -34,6 +35,7 @@ import {
 import { pathToModule } from "#utilities/source/AsyncSpecModules.js";
 import ExportManagerCommit from "./utilities/ExportManagerCommit.js";
 import ClassFieldStatementsMap from "./utilities/public/ClassFieldStatementsMap.js";
+import TypeMembersMap from "./utilities/public/TypeMembersMap.js";
 //#endregion preamble
 
 export type DecoratorHook = (
@@ -59,17 +61,28 @@ export interface DecoratorParts {
   fieldsTypeAlias: TypeAliasDeclarationImpl;
   fieldsInstanceType: IntersectionTypedStructure;
   wrapperFunction: FunctionDeclarationImpl;
+
+  classImplementsMap: TypeMembersMap;
+  classImplementsIfc: InterfaceDeclarationImpl;
+  requiredOmitUnion: UnionTypedStructureImpl;
+  implementsImports: ImportManager;
 }
 
 export interface StructureParts {
   mixinBaseWriter: WriterFunction;
   classDecl: ClassDeclarationImpl;
+
   classFieldsStatements: ClassFieldStatementsMap;
   classMembersMap: ClassMembersMap;
   importsManager: ImportManager;
   moduleInterfaces: InterfaceDeclarationImpl[];
   sourceFile: SourceFileImpl;
   copyFields: MethodDeclarationImpl;
+
+  classImplementsMap: TypeMembersMap;
+  classImplementsIfc: InterfaceDeclarationImpl;
+  requiredOmitUnion: UnionTypedStructureImpl;
+  implementsImports: ImportManager;
 }
 
 const InternalExports = new ExportManagerCommit(

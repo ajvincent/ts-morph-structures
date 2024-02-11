@@ -17,6 +17,7 @@
   "ignorePatterns": [
     "**/*.js",
     "**/*.d.ts",
+    "!_*/**/interfaces/**/*.d.ts",
     "!_*/**/types/**/*.d.ts"
   ],
 
