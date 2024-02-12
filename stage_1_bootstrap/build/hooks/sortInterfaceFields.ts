@@ -8,7 +8,9 @@ import {
   StructureImplMeta,
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
-import { TypeMemberImpl } from "#stage_one/dist/source/internal-exports.js";
+import type {
+  TypeMemberImpl
+} from "#stage_one/build/utilities/public/TypeMembersMap.js";
 
 export default function sortInterfaceFields(
   name: string,
