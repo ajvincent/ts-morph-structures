@@ -152,23 +152,24 @@ interface TypedNodeWriter {
 declare enum TypeStructureKind {
     Literal = 1000000000,
     String = 1000000001,
-    Writer = 1000000002,
-    QualifiedName = 1000000003,
-    Parentheses = 1000000004,
-    PrefixOperators = 1000000005,
-    Infer = 1000000006,
-    Union = 1000000007,
-    Intersection = 1000000008,
-    Tuple = 1000000009,
-    Array = 1000000010,
-    Conditional = 1000000011,
-    IndexedAccess = 1000000012,
-    Mapped = 1000000013,
-    TypeArgumented = 1000000014,
-    Function = 1000000015,
-    Parameter = 1000000016,
-    TemplateLiteral = 1000000017,
-    MemberedObject = 1000000018
+    Number = 1000000002,
+    Writer = 1000000003,
+    QualifiedName = 1000000004,
+    Parentheses = 1000000005,
+    PrefixOperators = 1000000006,
+    Infer = 1000000007,
+    Union = 1000000008,
+    Intersection = 1000000009,
+    Tuple = 1000000010,
+    Array = 1000000011,
+    Conditional = 1000000012,
+    IndexedAccess = 1000000013,
+    Mapped = 1000000014,
+    TypeArgumented = 1000000015,
+    Function = 1000000016,
+    Parameter = 1000000017,
+    TemplateLiteral = 1000000018,
+    MemberedObject = 1000000019
 }
 interface KindedTypeStructure<TKind extends TypeStructureKind> extends TypedNodeWriter {
     readonly kind: TKind;
@@ -373,6 +374,23 @@ declare class MemberedObjectTypeStructureImpl extends TypeStructuresBase<TypeStr
     [STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures>;
 }
 
+/**
+ * Numbers (boolean, number, string, void, etc.), without quotes, brackets, or
+ * anything else around them.  Leaf nodes.
+ */
+declare class NumberTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Number> {
+    #private;
+    /**
+     * Gets a singleton `NumberTypeStructureImpl` for the given name.
+     */
+    static get(name: number): NumberTypeStructureImpl;
+    static clone(other: NumberTypeStructureImpl): NumberTypeStructureImpl;
+    readonly kind = TypeStructureKind.Number;
+    readonly numberValue: number;
+    constructor(value: number);
+    readonly writerFunction: WriterFunction;
+}
+
 /** Just a parameter name and type for a `FunctionTypeStructureImpl`. */
 declare class ParameterTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Parameter> {
     #private;
@@ -512,7 +530,7 @@ declare class WriterTypeStructureImpl extends TypeStructuresBase<TypeStructureKi
     constructor(writer: WriterFunction);
 }
 
-type TypeStructures = ArrayTypeStructureImpl | ConditionalTypeStructureImpl | FunctionTypeStructureImpl | IndexedAccessTypeStructureImpl | InferTypeStructureImpl | IntersectionTypeStructureImpl | LiteralTypeStructureImpl | MappedTypeStructureImpl | MemberedObjectTypeStructureImpl | ParameterTypeStructureImpl | ParenthesesTypeStructureImpl | PrefixOperatorsTypeStructureImpl | QualifiedNameTypeStructureImpl | StringTypeStructureImpl | TemplateLiteralTypeStructureImpl | TupleTypeStructureImpl | TypeArgumentedTypeStructureImpl | UnionTypeStructureImpl | WriterTypeStructureImpl;
+type TypeStructures = ArrayTypeStructureImpl | ConditionalTypeStructureImpl | FunctionTypeStructureImpl | IndexedAccessTypeStructureImpl | InferTypeStructureImpl | IntersectionTypeStructureImpl | LiteralTypeStructureImpl | MappedTypeStructureImpl | MemberedObjectTypeStructureImpl | NumberTypeStructureImpl | ParameterTypeStructureImpl | ParenthesesTypeStructureImpl | PrefixOperatorsTypeStructureImpl | QualifiedNameTypeStructureImpl | StringTypeStructureImpl | TemplateLiteralTypeStructureImpl | TupleTypeStructureImpl | TypeArgumentedTypeStructureImpl | UnionTypeStructureImpl | WriterTypeStructureImpl;
 type TypeStructuresOrNull = TypeStructures | null;
 
 declare const CallSignatureDeclarationStructureBase: mixin_decorators.MixinClass<object, {
@@ -1950,4 +1968,4 @@ interface InterfaceDeclarationWithExtendsTypeStructures {
   extends: stringOrWriterFunction[];
 }
 
-export { type AddExportContext, type AddImportContext, ArrayTypeStructureImpl, CallSignatureDeclarationImpl, type ClassAbstractMemberQuestion, type ClassAsyncMethodQuestion, ClassDeclarationImpl, type ClassDeclarationWithImplementsTypeStructures, type ClassFieldStatement, ClassFieldStatementsMap, type ClassGeneratorMethodQuestion, type ClassMemberImpl, type ClassMemberStructureImpls, ClassMembersMap, type ClassScopeMemberQuestion, type ClassStatementsGetter, ClassStaticBlockDeclarationImpl, ConditionalTypeStructureImpl, type ConditionalTypeStructureParts, ConstructSignatureDeclarationImpl, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, DecoratorImpl, EnumDeclarationImpl, EnumMemberImpl, ExportAssignmentImpl, ExportDeclarationImpl, ExportManager, ExportSpecifierImpl, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, type FunctionTypeContext, FunctionTypeStructureImpl, FunctionWriterStyle, GetAccessorDeclarationImpl, ImportAttributeImpl, ImportDeclarationImpl, ImportManager, ImportSpecifierImpl, IndexSignatureDeclarationImpl, type IndexSignatureResolver, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, InterfaceDeclarationImpl, type InterfaceDeclarationWithExtendsTypeStructures, type InterfaceMemberStructureImpls, IntersectionTypeStructureImpl, JSDocImpl, JSDocTagImpl, JsxAttributeImpl, JsxElementImpl, JsxSelfClosingElementImpl, JsxSpreadAttributeImpl, type JsxStructureImpls, type KindedTypeStructure, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, type MemberedStatementsKey, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, MethodSignatureImpl, ModuleDeclarationImpl, type NamedClassMemberImpl, type NamedTypeMemberImpl, type ObjectLiteralExpressionPropertyStructureImpls, ParameterDeclarationImpl, ParameterTypeStructureImpl, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, type PrefixUnaryOperator, PropertyAssignmentImpl, PropertyDeclarationImpl, PropertySignatureImpl, QualifiedNameTypeStructureImpl, type ReturnTypedNodeTypeStructure, SetAccessorDeclarationImpl, ShorthandPropertyAssignmentImpl, SourceFileImpl, SpreadAssignmentImpl, type StatementStructureImpls, StringTypeStructureImpl, type StructureImpls, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, TypeArgumentedTypeStructureImpl, type TypeElementMemberStructureImpls, type TypeMemberImpl, TypeMembersMap, type TypeNodeToTypeStructureConsole, TypeParameterDeclarationImpl, type TypeParameterWithTypeStructures, TypeStructureKind, type TypeStructures, type TypeStructuresOrNull, type TypedNodeTypeStructure, UnionTypeStructureImpl, VariableDeclarationImpl, VariableStatementImpl, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, type stringOrWriterFunction, type stringWriterOrStatementImpl };
+export { type AddExportContext, type AddImportContext, ArrayTypeStructureImpl, CallSignatureDeclarationImpl, type ClassAbstractMemberQuestion, type ClassAsyncMethodQuestion, ClassDeclarationImpl, type ClassDeclarationWithImplementsTypeStructures, type ClassFieldStatement, ClassFieldStatementsMap, type ClassGeneratorMethodQuestion, type ClassMemberImpl, type ClassMemberStructureImpls, ClassMembersMap, type ClassScopeMemberQuestion, type ClassStatementsGetter, ClassStaticBlockDeclarationImpl, ConditionalTypeStructureImpl, type ConditionalTypeStructureParts, ConstructSignatureDeclarationImpl, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, DecoratorImpl, EnumDeclarationImpl, EnumMemberImpl, ExportAssignmentImpl, ExportDeclarationImpl, ExportManager, ExportSpecifierImpl, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, type FunctionTypeContext, FunctionTypeStructureImpl, FunctionWriterStyle, GetAccessorDeclarationImpl, ImportAttributeImpl, ImportDeclarationImpl, ImportManager, ImportSpecifierImpl, IndexSignatureDeclarationImpl, type IndexSignatureResolver, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, InterfaceDeclarationImpl, type InterfaceDeclarationWithExtendsTypeStructures, type InterfaceMemberStructureImpls, IntersectionTypeStructureImpl, JSDocImpl, JSDocTagImpl, JsxAttributeImpl, JsxElementImpl, JsxSelfClosingElementImpl, JsxSpreadAttributeImpl, type JsxStructureImpls, type KindedTypeStructure, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, type MemberedStatementsKey, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, MethodSignatureImpl, ModuleDeclarationImpl, type NamedClassMemberImpl, type NamedTypeMemberImpl, NumberTypeStructureImpl, type ObjectLiteralExpressionPropertyStructureImpls, ParameterDeclarationImpl, ParameterTypeStructureImpl, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, type PrefixUnaryOperator, PropertyAssignmentImpl, PropertyDeclarationImpl, PropertySignatureImpl, QualifiedNameTypeStructureImpl, type ReturnTypedNodeTypeStructure, SetAccessorDeclarationImpl, ShorthandPropertyAssignmentImpl, SourceFileImpl, SpreadAssignmentImpl, type StatementStructureImpls, StringTypeStructureImpl, type StructureImpls, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, TypeArgumentedTypeStructureImpl, type TypeElementMemberStructureImpls, type TypeMemberImpl, TypeMembersMap, type TypeNodeToTypeStructureConsole, TypeParameterDeclarationImpl, type TypeParameterWithTypeStructures, TypeStructureKind, type TypeStructures, type TypeStructuresOrNull, type TypedNodeTypeStructure, UnionTypeStructureImpl, VariableDeclarationImpl, VariableStatementImpl, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, type stringOrWriterFunction, type stringWriterOrStatementImpl };

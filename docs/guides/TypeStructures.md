@@ -9,9 +9,12 @@ Where ts-morph stops in its structure objects, ts-morph-structures lends a furth
 Type structures are instances of classes, representing type nodes in the TypeScript AST.  There are a few fundamental type structures (meaning they can't get any simpler, and thus they have no children):
 
 - `LiteralTypeStructureImpl`, representing literal values (boolean, string, null, object, this, void, etc.) and identifiers (Foo, NumberStringType, etc.), which I print as-is.
+- `NumberTypeStructureImpl`, representing numbers, which I print as-is.
 - `StringTypeStructureImpl`, which represents strings in double quotes.
 
 `LiteralTypeStructureImpl` and `StringTypeStructureImpl` have a read-only `stringValue` property.  Their constructors take a single string as the string value.  
+
+Similarly, `NumberTypeStructureImpl` has a readonly `numberValue` property, and a constructor taking a numeric value.
 
 Also, each of these has a static `.get()` method, which returns a singleton structure for the value you pass in.  These structures are not cloneable because of their constant values, but I don't see this being a big problem.
 
@@ -36,6 +39,7 @@ These are type structures which contain other type structures.
 | [InferTypeStructureImpl](../api/structures/type/InferTypeStructureImpl.md) | `Elements extends [infer Head, ...infer Tail]` | typeParameter |
 | [IntersectionTypeStructureImpl](../api/structures/type/IntersectionTypeStructureImpl.md) | `Foo & Bar` | childTypes |
 | [LiteralTypeStructureImpl](../api/structures/type/LiteralTypeStructureImpl.md) | `string`, `number`, identifiers, etc. | stringValue |
+| [NumberTypeStructureImpl](../api/structures/type/NumberTypeStructureImpl.md) | 1, 2, 3, 4.5, 6, Infinity, 0.25, etc. | numberValue |
 | [MappedTypeTypeStructureImpl](../api/structures/type/MappedTypeTypeStructureImpl.md) | `{ readonly [key in keyof Foo]: boolean }` | parameter, type |
 | [MemberedObjectTypeStructureImpl](../api/structures/type/MemberedObjectTypeStructureImpl.md) | See below | getAccessors, indexSignatures, methods, properties, setAccessors |
 | [ParameterTypeStructureImpl](../api/structures/type/ParameterTypeStructureImpl.md) | `foo: boolean` | name, typeStructure |

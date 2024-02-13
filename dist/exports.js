@@ -7,23 +7,24 @@ var TypeStructureKind;
 (function (TypeStructureKind) {
     TypeStructureKind[TypeStructureKind["Literal"] = 1000000000] = "Literal";
     TypeStructureKind[TypeStructureKind["String"] = 1000000001] = "String";
-    TypeStructureKind[TypeStructureKind["Writer"] = 1000000002] = "Writer";
-    TypeStructureKind[TypeStructureKind["QualifiedName"] = 1000000003] = "QualifiedName";
-    TypeStructureKind[TypeStructureKind["Parentheses"] = 1000000004] = "Parentheses";
-    TypeStructureKind[TypeStructureKind["PrefixOperators"] = 1000000005] = "PrefixOperators";
-    TypeStructureKind[TypeStructureKind["Infer"] = 1000000006] = "Infer";
-    TypeStructureKind[TypeStructureKind["Union"] = 1000000007] = "Union";
-    TypeStructureKind[TypeStructureKind["Intersection"] = 1000000008] = "Intersection";
-    TypeStructureKind[TypeStructureKind["Tuple"] = 1000000009] = "Tuple";
-    TypeStructureKind[TypeStructureKind["Array"] = 1000000010] = "Array";
-    TypeStructureKind[TypeStructureKind["Conditional"] = 1000000011] = "Conditional";
-    TypeStructureKind[TypeStructureKind["IndexedAccess"] = 1000000012] = "IndexedAccess";
-    TypeStructureKind[TypeStructureKind["Mapped"] = 1000000013] = "Mapped";
-    TypeStructureKind[TypeStructureKind["TypeArgumented"] = 1000000014] = "TypeArgumented";
-    TypeStructureKind[TypeStructureKind["Function"] = 1000000015] = "Function";
-    TypeStructureKind[TypeStructureKind["Parameter"] = 1000000016] = "Parameter";
-    TypeStructureKind[TypeStructureKind["TemplateLiteral"] = 1000000017] = "TemplateLiteral";
-    TypeStructureKind[TypeStructureKind["MemberedObject"] = 1000000018] = "MemberedObject";
+    TypeStructureKind[TypeStructureKind["Number"] = 1000000002] = "Number";
+    TypeStructureKind[TypeStructureKind["Writer"] = 1000000003] = "Writer";
+    TypeStructureKind[TypeStructureKind["QualifiedName"] = 1000000004] = "QualifiedName";
+    TypeStructureKind[TypeStructureKind["Parentheses"] = 1000000005] = "Parentheses";
+    TypeStructureKind[TypeStructureKind["PrefixOperators"] = 1000000006] = "PrefixOperators";
+    TypeStructureKind[TypeStructureKind["Infer"] = 1000000007] = "Infer";
+    TypeStructureKind[TypeStructureKind["Union"] = 1000000008] = "Union";
+    TypeStructureKind[TypeStructureKind["Intersection"] = 1000000009] = "Intersection";
+    TypeStructureKind[TypeStructureKind["Tuple"] = 1000000010] = "Tuple";
+    TypeStructureKind[TypeStructureKind["Array"] = 1000000011] = "Array";
+    TypeStructureKind[TypeStructureKind["Conditional"] = 1000000012] = "Conditional";
+    TypeStructureKind[TypeStructureKind["IndexedAccess"] = 1000000013] = "IndexedAccess";
+    TypeStructureKind[TypeStructureKind["Mapped"] = 1000000014] = "Mapped";
+    TypeStructureKind[TypeStructureKind["TypeArgumented"] = 1000000015] = "TypeArgumented";
+    TypeStructureKind[TypeStructureKind["Function"] = 1000000016] = "Function";
+    TypeStructureKind[TypeStructureKind["Parameter"] = 1000000017] = "Parameter";
+    TypeStructureKind[TypeStructureKind["TemplateLiteral"] = 1000000018] = "TemplateLiteral";
+    TypeStructureKind[TypeStructureKind["MemberedObject"] = 1000000019] = "MemberedObject";
 })(TypeStructureKind || (TypeStructureKind = {}));
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -1553,7 +1554,7 @@ function convertTypeNode(typeNode, consoleTrap, subStructureResolver) {
         }
     }
     if (Node.isNumericLiteral(typeNode)) {
-        return LiteralTypeStructureImpl.get(typeNode.getLiteralText());
+        return NumberTypeStructureImpl.get(typeNode.getLiteralValue());
     }
     if (Node.isThisTypeNode(typeNode))
         return LiteralTypeStructureImpl.get("this");
@@ -4181,6 +4182,43 @@ class MemberedObjectTypeStructureImpl extends TypeStructuresBase {
 TypeStructureClassesMap$1.set(TypeStructureKind.MemberedObject, MemberedObjectTypeStructureImpl);
 
 // #endregion preamble
+/**
+ * Numbers (boolean, number, string, void, etc.), without quotes, brackets, or
+ * anything else around them.  Leaf nodes.
+ */
+class NumberTypeStructureImpl extends TypeStructuresBase {
+    static #cache = new Map();
+    /**
+     * Gets a singleton `NumberTypeStructureImpl` for the given name.
+     */
+    static get(name) {
+        if (!this.#cache.has(name)) {
+            this.#cache.set(name, new NumberTypeStructureImpl(name));
+        }
+        return this.#cache.get(name);
+    }
+    static clone(other) {
+        return NumberTypeStructureImpl.get(other.numberValue);
+    }
+    kind = TypeStructureKind.Number;
+    numberValue;
+    constructor(value) {
+        super();
+        this.numberValue = value;
+        Reflect.defineProperty(this, "numberValue", {
+            writable: false,
+            configurable: false,
+        });
+        this.registerCallbackForTypeStructure();
+    }
+    #writerFunction(writer) {
+        writer.write(this.numberValue.toString());
+    }
+    writerFunction = this.#writerFunction.bind(this);
+}
+TypeStructureClassesMap$1.set(TypeStructureKind.Number, NumberTypeStructureImpl);
+
+// #endregion preamble
 /** Just a parameter name and type for a `FunctionTypeStructureImpl`. */
 class ParameterTypeStructureImpl extends TypeStructuresBase {
     static clone(other) {
@@ -5962,4 +6000,4 @@ class TypeMembersMap extends OrderedMap {
 _a = TypeMembersMap;
 var TypeMembersMap$1 = TypeMembersMap;
 
-export { ArrayTypeStructureImpl, CallSignatureDeclarationImpl, ClassDeclarationImpl, ClassFieldStatementsMap, ClassMembersMap, ClassStaticBlockDeclarationImpl, ConditionalTypeStructureImpl, ConstructSignatureDeclarationImpl, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, DecoratorImpl, EnumDeclarationImpl, EnumMemberImpl, ExportAssignmentImpl, ExportDeclarationImpl, ExportManager, ExportSpecifierImpl, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, FunctionTypeStructureImpl, FunctionWriterStyle, GetAccessorDeclarationImpl, ImportAttributeImpl, ImportDeclarationImpl, ImportManager, ImportSpecifierImpl, IndexSignatureDeclarationImpl, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, InterfaceDeclarationImpl, IntersectionTypeStructureImpl, JSDocImpl, JSDocTagImpl, JsxAttributeImpl, JsxElementImpl, JsxSelfClosingElementImpl, JsxSpreadAttributeImpl, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, MethodSignatureImpl, ModuleDeclarationImpl, ParameterDeclarationImpl, ParameterTypeStructureImpl, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, PropertyAssignmentImpl, PropertyDeclarationImpl, PropertySignatureImpl, QualifiedNameTypeStructureImpl, SetAccessorDeclarationImpl, ShorthandPropertyAssignmentImpl, SourceFileImpl, SpreadAssignmentImpl, StringTypeStructureImpl, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, TypeArgumentedTypeStructureImpl, TypeMembersMap$1 as TypeMembersMap, TypeParameterDeclarationImpl, TypeStructureKind, UnionTypeStructureImpl, VariableDeclarationImpl, VariableStatementImpl, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure };
+export { ArrayTypeStructureImpl, CallSignatureDeclarationImpl, ClassDeclarationImpl, ClassFieldStatementsMap, ClassMembersMap, ClassStaticBlockDeclarationImpl, ConditionalTypeStructureImpl, ConstructSignatureDeclarationImpl, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, DecoratorImpl, EnumDeclarationImpl, EnumMemberImpl, ExportAssignmentImpl, ExportDeclarationImpl, ExportManager, ExportSpecifierImpl, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, FunctionTypeStructureImpl, FunctionWriterStyle, GetAccessorDeclarationImpl, ImportAttributeImpl, ImportDeclarationImpl, ImportManager, ImportSpecifierImpl, IndexSignatureDeclarationImpl, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, InterfaceDeclarationImpl, IntersectionTypeStructureImpl, JSDocImpl, JSDocTagImpl, JsxAttributeImpl, JsxElementImpl, JsxSelfClosingElementImpl, JsxSpreadAttributeImpl, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, MethodSignatureImpl, ModuleDeclarationImpl, NumberTypeStructureImpl, ParameterDeclarationImpl, ParameterTypeStructureImpl, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, PropertyAssignmentImpl, PropertyDeclarationImpl, PropertySignatureImpl, QualifiedNameTypeStructureImpl, SetAccessorDeclarationImpl, ShorthandPropertyAssignmentImpl, SourceFileImpl, SpreadAssignmentImpl, StringTypeStructureImpl, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, TypeArgumentedTypeStructureImpl, TypeMembersMap$1 as TypeMembersMap, TypeParameterDeclarationImpl, TypeStructureKind, UnionTypeStructureImpl, VariableDeclarationImpl, VariableStatementImpl, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure };

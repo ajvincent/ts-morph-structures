@@ -19,6 +19,7 @@ import {
   IntersectionTypeStructureImpl,
   MappedTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
+  NumberTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   PrefixOperatorsTypeStructureImpl,
   QualifiedNameTypeStructureImpl,
@@ -132,7 +133,7 @@ let A: string;
 
   it("number literal", () => {
     setTypeStructure("12.5", failCallback);
-    expect(structure).toBe(LiteralTypeStructureImpl.get("12.5"));
+    expect(structure).toBe(NumberTypeStructureImpl.get(12.5));
     expect(failMessage).toBeUndefined()
     expect(failNode).toBeNull();
   });

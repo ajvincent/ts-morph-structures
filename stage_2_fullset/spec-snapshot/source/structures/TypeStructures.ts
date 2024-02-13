@@ -19,6 +19,7 @@ import {
   MappedTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
   MethodSignatureImpl,
+  NumberTypeStructureImpl,
   ParameterDeclarationImpl,
   ParameterTypeStructureImpl,
   ParenthesesTypeStructureImpl,
@@ -183,6 +184,14 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
 
     expect(typedWriter.kind).toBe(TypeStructureKind.MemberedObject);
     checkCloneAndRegistration(typedWriter, MemberedObjectTypeStructureImpl, false);
+  });
+
+  it("NumberTypeStructureImpl", () => {
+    const typedWriter = new NumberTypeStructureImpl(47);
+    typedWriter.writerFunction(writer);
+
+    expect<string>(writer.toString()).toBe("47");
+    checkCloneAndRegistration(typedWriter, NumberTypeStructureImpl, false);
   });
 
   it("ParameterTypeStructureImpl", () => {

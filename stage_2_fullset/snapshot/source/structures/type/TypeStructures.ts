@@ -7,6 +7,7 @@ import IntersectionTypeStructureImpl from "./IntersectionTypeStructureImpl.js";
 import LiteralTypeStructureImpl from "./LiteralTypeStructureImpl.js";
 import MappedTypeStructureImpl from "./MappedTypeStructureImpl.js";
 import MemberedObjectTypeStructureImpl from "./MemberedObjectTypeStructureImpl.js";
+import NumberTypeStructureImpl from "./NumberTypeStructureImpl.js";
 import ParameterTypeStructureImpl from "./ParameterTypeStructureImpl.js";
 import ParenthesesTypeStructureImpl from "./ParenthesesTypeStructureImpl.js";
 import PrefixOperatorsTypeStructureImpl from "./PrefixOperatorsTypeStructureImpl.js";
@@ -28,6 +29,7 @@ export type TypeStructures =
   | LiteralTypeStructureImpl
   | MappedTypeStructureImpl
   | MemberedObjectTypeStructureImpl
+  | NumberTypeStructureImpl
   | ParameterTypeStructureImpl
   | ParenthesesTypeStructureImpl
   | PrefixOperatorsTypeStructureImpl

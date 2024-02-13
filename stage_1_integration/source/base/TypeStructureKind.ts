@@ -5,6 +5,7 @@ import type {
 export enum TypeStructureKind {
   Literal = 1000000000,
   String,
+  Number,
   Writer,
   QualifiedName,
   Parentheses,
