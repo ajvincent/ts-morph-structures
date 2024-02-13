@@ -129,6 +129,7 @@ export { default as IntersectionTypeStructureImpl } from "./structures/type/Inte
 export { default as LiteralTypeStructureImpl } from "./structures/type/LiteralTypeStructureImpl.js";
 export { default as MappedTypeStructureImpl } from "./structures/type/MappedTypeStructureImpl.js";
 export { default as MemberedObjectTypeStructureImpl } from "./structures/type/MemberedObjectTypeStructureImpl.js";
+export { default as NumberTypeStructureImpl } from "./structures/type/NumberTypeStructureImpl.js";
 export { default as ParameterTypeStructureImpl } from "./structures/type/ParameterTypeStructureImpl.js";
 export { default as ParenthesesTypeStructureImpl } from "./structures/type/ParenthesesTypeStructureImpl.js";
 export {

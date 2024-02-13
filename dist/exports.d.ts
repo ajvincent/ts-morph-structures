@@ -152,23 +152,24 @@ interface TypedNodeWriter {
 declare enum TypeStructureKind {
     Literal = 1000000000,
     String = 1000000001,
-    Writer = 1000000002,
-    QualifiedName = 1000000003,
-    Parentheses = 1000000004,
-    PrefixOperators = 1000000005,
-    Infer = 1000000006,
-    Union = 1000000007,
-    Intersection = 1000000008,
-    Tuple = 1000000009,
-    Array = 1000000010,
-    Conditional = 1000000011,
-    IndexedAccess = 1000000012,
-    Mapped = 1000000013,
-    TypeArgumented = 1000000014,
-    Function = 1000000015,
-    Parameter = 1000000016,
-    TemplateLiteral = 1000000017,
-    MemberedObject = 1000000018
+    Number = 1000000002,
+    Writer = 1000000003,
+    QualifiedName = 1000000004,
+    Parentheses = 1000000005,
+    PrefixOperators = 1000000006,
+    Infer = 1000000007,
+    Union = 1000000008,
+    Intersection = 1000000009,
+    Tuple = 1000000010,
+    Array = 1000000011,
+    Conditional = 1000000012,
+    IndexedAccess = 1000000013,
+    Mapped = 1000000014,
+    TypeArgumented = 1000000015,
+    Function = 1000000016,
+    Parameter = 1000000017,
+    TemplateLiteral = 1000000018,
+    MemberedObject = 1000000019
 }
 interface KindedTypeStructure<TKind extends TypeStructureKind> extends TypedNodeWriter {
     readonly kind: TKind;
@@ -702,6 +703,23 @@ declare class MemberedObjectTypeStructureImpl extends TypeStructuresBase<TypeStr
     [STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures>;
 }
 
+/**
+ * Numbers (boolean, number, string, void, etc.), without quotes, brackets, or
+ * anything else around them.  Leaf nodes.
+ */
+declare class NumberTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Number> {
+    #private;
+    /**
+     * Gets a singleton `NumberTypeStructureImpl` for the given name.
+     */
+    static get(name: number): NumberTypeStructureImpl;
+    static clone(other: NumberTypeStructureImpl): NumberTypeStructureImpl;
+    readonly kind = TypeStructureKind.Number;
+    readonly numberValue: number;
+    constructor(value: number);
+    readonly writerFunction: WriterFunction;
+}
+
 /** Just a parameter name and type for a `FunctionTypeStructureImpl`. */
 declare class ParameterTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Parameter> {
     #private;
@@ -841,7 +859,7 @@ declare class WriterTypeStructureImpl extends TypeStructuresBase<TypeStructureKi
     constructor(writer: WriterFunction);
 }
 
-type TypeStructures = ArrayTypeStructureImpl | ConditionalTypeStructureImpl | FunctionTypeStructureImpl | IndexedAccessTypeStructureImpl | InferTypeStructureImpl | IntersectionTypeStructureImpl | LiteralTypeStructureImpl | MappedTypeStructureImpl | MemberedObjectTypeStructureImpl | ParameterTypeStructureImpl | ParenthesesTypeStructureImpl | PrefixOperatorsTypeStructureImpl | QualifiedNameTypeStructureImpl | StringTypeStructureImpl | TemplateLiteralTypeStructureImpl | TupleTypeStructureImpl | TypeArgumentedTypeStructureImpl | UnionTypeStructureImpl | WriterTypeStructureImpl;
+type TypeStructures = ArrayTypeStructureImpl | ConditionalTypeStructureImpl | FunctionTypeStructureImpl | IndexedAccessTypeStructureImpl | InferTypeStructureImpl | IntersectionTypeStructureImpl | LiteralTypeStructureImpl | MappedTypeStructureImpl | MemberedObjectTypeStructureImpl | NumberTypeStructureImpl | ParameterTypeStructureImpl | ParenthesesTypeStructureImpl | PrefixOperatorsTypeStructureImpl | QualifiedNameTypeStructureImpl | StringTypeStructureImpl | TemplateLiteralTypeStructureImpl | TupleTypeStructureImpl | TypeArgumentedTypeStructureImpl | UnionTypeStructureImpl | WriterTypeStructureImpl;
 type TypeStructuresOrNull = TypeStructures | null;
 
 declare const CallSignatureDeclarationStructureBase: mixin_decorators.MixinClass<object, {
@@ -2277,4 +2295,4 @@ interface InterfaceDeclarationWithExtendsTypeStructures {
   extends: stringOrWriterFunction[];
 }
 
-export { type AbstractableNodeStructureClassIfc, type AddExportContext, type AddImportContext, type AmbientableNodeStructureClassIfc, ArrayTypeStructureImpl, type AsyncableNodeStructureClassIfc, CallSignatureDeclarationImpl, type CallSignatureDeclarationStructureClassIfc, type ClassAbstractMemberQuestion, type ClassAsyncMethodQuestion, ClassDeclarationImpl, type ClassDeclarationStructureClassIfc, type ClassDeclarationWithImplementsTypeStructures, type ClassFieldStatement, ClassFieldStatementsMap, type ClassGeneratorMethodQuestion, type ClassMemberImpl, type ClassMemberStructureImpls, ClassMembersMap, type ClassScopeMemberQuestion, type ClassStatementsGetter, ClassStaticBlockDeclarationImpl, type ClassStaticBlockDeclarationStructureClassIfc, ConditionalTypeStructureImpl, type ConditionalTypeStructureParts, ConstructSignatureDeclarationImpl, type ConstructSignatureDeclarationStructureClassIfc, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, type ConstructorDeclarationOverloadStructureClassIfc, type ConstructorDeclarationStructureClassIfc, type DecoratableNodeStructureClassIfc, DecoratorImpl, type DecoratorStructureClassIfc, EnumDeclarationImpl, type EnumDeclarationStructureClassIfc, EnumMemberImpl, type EnumMemberStructureClassIfc, type ExclamationTokenableNodeStructureClassIfc, ExportAssignmentImpl, type ExportAssignmentStructureClassIfc, ExportDeclarationImpl, type ExportDeclarationStructureClassIfc, ExportManager, ExportSpecifierImpl, type ExportSpecifierStructureClassIfc, type ExportableNodeStructureClassIfc, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, type FunctionDeclarationOverloadStructureClassIfc, type FunctionDeclarationStructureClassIfc, type FunctionTypeContext, FunctionTypeStructureImpl, FunctionWriterStyle, type GeneratorableNodeStructureClassIfc, GetAccessorDeclarationImpl, type GetAccessorDeclarationStructureClassIfc, ImportAttributeImpl, type ImportAttributeStructureClassIfc, ImportDeclarationImpl, type ImportDeclarationStructureClassIfc, ImportManager, ImportSpecifierImpl, type ImportSpecifierStructureClassIfc, IndexSignatureDeclarationImpl, type IndexSignatureDeclarationStructureClassIfc, type IndexSignatureResolver, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, type InitializerExpressionableNodeStructureClassIfc, InterfaceDeclarationImpl, type InterfaceDeclarationStructureClassIfc, type InterfaceDeclarationWithExtendsTypeStructures, type InterfaceMemberStructureImpls, IntersectionTypeStructureImpl, JSDocImpl, type JSDocStructureClassIfc, JSDocTagImpl, type JSDocTagStructureClassIfc, type JSDocableNodeStructureClassIfc, JsxAttributeImpl, type JsxAttributeStructureClassIfc, JsxElementImpl, type JsxElementStructureClassIfc, JsxSelfClosingElementImpl, type JsxSelfClosingElementStructureClassIfc, JsxSpreadAttributeImpl, type JsxSpreadAttributeStructureClassIfc, type JsxStructureImpls, type KindedTypeStructure, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, type MemberedStatementsKey, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, type MethodDeclarationOverloadStructureClassIfc, type MethodDeclarationStructureClassIfc, MethodSignatureImpl, type MethodSignatureStructureClassIfc, ModuleDeclarationImpl, type ModuleDeclarationStructureClassIfc, type NameableNodeStructureClassIfc, type NamedClassMemberImpl, type NamedNodeStructureClassIfc, type NamedTypeMemberImpl, type ObjectLiteralExpressionPropertyStructureImpls, type OverrideableNodeStructureClassIfc, ParameterDeclarationImpl, type ParameterDeclarationStructureClassIfc, ParameterTypeStructureImpl, type ParameteredNodeStructureClassIfc, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, type PrefixUnaryOperator, PropertyAssignmentImpl, type PropertyAssignmentStructureClassIfc, PropertyDeclarationImpl, type PropertyDeclarationStructureClassIfc, PropertySignatureImpl, type PropertySignatureStructureClassIfc, QualifiedNameTypeStructureImpl, type QuestionTokenableNodeStructureClassIfc, type ReadonlyableNodeStructureClassIfc, type ReturnTypedNodeStructureClassIfc, type ReturnTypedNodeTypeStructure, type ScopedNodeStructureClassIfc, SetAccessorDeclarationImpl, type SetAccessorDeclarationStructureClassIfc, ShorthandPropertyAssignmentImpl, type ShorthandPropertyAssignmentStructureClassIfc, SourceFileImpl, type SourceFileStructureClassIfc, SpreadAssignmentImpl, type SpreadAssignmentStructureClassIfc, type StatementStructureImpls, type StatementedNodeStructureClassIfc, StringTypeStructureImpl, type StructureClassIfc, type StructureImpls, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, type TypeAliasDeclarationStructureClassIfc, TypeArgumentedTypeStructureImpl, type TypeElementMemberStructureImpls, type TypeMemberImpl, TypeMembersMap, type TypeNodeToTypeStructureConsole, TypeParameterDeclarationImpl, type TypeParameterDeclarationStructureClassIfc, type TypeParameterWithTypeStructures, type TypeParameteredNodeStructureClassIfc, TypeStructureKind, type TypeStructures, type TypeStructuresOrNull, type TypedNodeStructureClassIfc, type TypedNodeTypeStructure, UnionTypeStructureImpl, VariableDeclarationImpl, type VariableDeclarationStructureClassIfc, VariableStatementImpl, type VariableStatementStructureClassIfc, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, type stringOrWriterFunction, type stringWriterOrStatementImpl };
+export { type AbstractableNodeStructureClassIfc, type AddExportContext, type AddImportContext, type AmbientableNodeStructureClassIfc, ArrayTypeStructureImpl, type AsyncableNodeStructureClassIfc, CallSignatureDeclarationImpl, type CallSignatureDeclarationStructureClassIfc, type ClassAbstractMemberQuestion, type ClassAsyncMethodQuestion, ClassDeclarationImpl, type ClassDeclarationStructureClassIfc, type ClassDeclarationWithImplementsTypeStructures, type ClassFieldStatement, ClassFieldStatementsMap, type ClassGeneratorMethodQuestion, type ClassMemberImpl, type ClassMemberStructureImpls, ClassMembersMap, type ClassScopeMemberQuestion, type ClassStatementsGetter, ClassStaticBlockDeclarationImpl, type ClassStaticBlockDeclarationStructureClassIfc, ConditionalTypeStructureImpl, type ConditionalTypeStructureParts, ConstructSignatureDeclarationImpl, type ConstructSignatureDeclarationStructureClassIfc, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, type ConstructorDeclarationOverloadStructureClassIfc, type ConstructorDeclarationStructureClassIfc, type DecoratableNodeStructureClassIfc, DecoratorImpl, type DecoratorStructureClassIfc, EnumDeclarationImpl, type EnumDeclarationStructureClassIfc, EnumMemberImpl, type EnumMemberStructureClassIfc, type ExclamationTokenableNodeStructureClassIfc, ExportAssignmentImpl, type ExportAssignmentStructureClassIfc, ExportDeclarationImpl, type ExportDeclarationStructureClassIfc, ExportManager, ExportSpecifierImpl, type ExportSpecifierStructureClassIfc, type ExportableNodeStructureClassIfc, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, type FunctionDeclarationOverloadStructureClassIfc, type FunctionDeclarationStructureClassIfc, type FunctionTypeContext, FunctionTypeStructureImpl, FunctionWriterStyle, type GeneratorableNodeStructureClassIfc, GetAccessorDeclarationImpl, type GetAccessorDeclarationStructureClassIfc, ImportAttributeImpl, type ImportAttributeStructureClassIfc, ImportDeclarationImpl, type ImportDeclarationStructureClassIfc, ImportManager, ImportSpecifierImpl, type ImportSpecifierStructureClassIfc, IndexSignatureDeclarationImpl, type IndexSignatureDeclarationStructureClassIfc, type IndexSignatureResolver, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, type InitializerExpressionableNodeStructureClassIfc, InterfaceDeclarationImpl, type InterfaceDeclarationStructureClassIfc, type InterfaceDeclarationWithExtendsTypeStructures, type InterfaceMemberStructureImpls, IntersectionTypeStructureImpl, JSDocImpl, type JSDocStructureClassIfc, JSDocTagImpl, type JSDocTagStructureClassIfc, type JSDocableNodeStructureClassIfc, JsxAttributeImpl, type JsxAttributeStructureClassIfc, JsxElementImpl, type JsxElementStructureClassIfc, JsxSelfClosingElementImpl, type JsxSelfClosingElementStructureClassIfc, JsxSpreadAttributeImpl, type JsxSpreadAttributeStructureClassIfc, type JsxStructureImpls, type KindedTypeStructure, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, type MemberedStatementsKey, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, type MethodDeclarationOverloadStructureClassIfc, type MethodDeclarationStructureClassIfc, MethodSignatureImpl, type MethodSignatureStructureClassIfc, ModuleDeclarationImpl, type ModuleDeclarationStructureClassIfc, type NameableNodeStructureClassIfc, type NamedClassMemberImpl, type NamedNodeStructureClassIfc, type NamedTypeMemberImpl, NumberTypeStructureImpl, type ObjectLiteralExpressionPropertyStructureImpls, type OverrideableNodeStructureClassIfc, ParameterDeclarationImpl, type ParameterDeclarationStructureClassIfc, ParameterTypeStructureImpl, type ParameteredNodeStructureClassIfc, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, type PrefixUnaryOperator, PropertyAssignmentImpl, type PropertyAssignmentStructureClassIfc, PropertyDeclarationImpl, type PropertyDeclarationStructureClassIfc, PropertySignatureImpl, type PropertySignatureStructureClassIfc, QualifiedNameTypeStructureImpl, type QuestionTokenableNodeStructureClassIfc, type ReadonlyableNodeStructureClassIfc, type ReturnTypedNodeStructureClassIfc, type ReturnTypedNodeTypeStructure, type ScopedNodeStructureClassIfc, SetAccessorDeclarationImpl, type SetAccessorDeclarationStructureClassIfc, ShorthandPropertyAssignmentImpl, type ShorthandPropertyAssignmentStructureClassIfc, SourceFileImpl, type SourceFileStructureClassIfc, SpreadAssignmentImpl, type SpreadAssignmentStructureClassIfc, type StatementStructureImpls, type StatementedNodeStructureClassIfc, StringTypeStructureImpl, type StructureClassIfc, type StructureImpls, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, type TypeAliasDeclarationStructureClassIfc, TypeArgumentedTypeStructureImpl, type TypeElementMemberStructureImpls, type TypeMemberImpl, TypeMembersMap, type TypeNodeToTypeStructureConsole, TypeParameterDeclarationImpl, type TypeParameterDeclarationStructureClassIfc, type TypeParameterWithTypeStructures, type TypeParameteredNodeStructureClassIfc, TypeStructureKind, type TypeStructures, type TypeStructuresOrNull, type TypedNodeStructureClassIfc, type TypedNodeTypeStructure, UnionTypeStructureImpl, VariableDeclarationImpl, type VariableDeclarationStructureClassIfc, VariableStatementImpl, type VariableStatementStructureClassIfc, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, type stringOrWriterFunction, type stringWriterOrStatementImpl };

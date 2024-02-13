@@ -27,6 +27,7 @@ import {
   LiteralTypeStructureImpl,
   MappedTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
+  NumberTypeStructureImpl,
   ParameterTypeStructureImpl,
   ParenthesesTypeStructureImpl,
   PrefixOperatorsTypeStructureImpl,
@@ -83,7 +84,7 @@ export default function convertTypeNode(
   }
 
   if (Node.isNumericLiteral(typeNode)) {
-    return LiteralTypeStructureImpl.get(typeNode.getLiteralText());
+    return NumberTypeStructureImpl.get(typeNode.getLiteralValue());
   }
 
   if (Node.isThisTypeNode(typeNode))
