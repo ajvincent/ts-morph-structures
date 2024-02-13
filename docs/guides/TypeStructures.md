@@ -86,40 +86,6 @@ It's a trade-off.  Simpler types for obvious uses, or consistent API for conveni
 
 Besides, if I _had_ kept strings as literals, I would forever be reserving them for that purpose, and no future expansion of this library could ever use them for any other purpose.  I can't justify that right now.
 
-## Accessing type structures from existing structures
-
-Generally speaking, where you have a single type field:
-
-- The type is a string or writer function, per ts-morph.
-- There is a matching type structure field, with the name matching and a suffix "Structure".
-
-Example:
-
-```typescript
-const method = new MethodSignatureDeclarationImpl("foo");
-method.returnTypeStructure = LiteralTypeStructureImpl.get("boolean");
-console.log(method.returnType); // writes "boolean", without the quotes.
-```
-
-Where you have an _array_ of type structures (specifically, `ClassDeclarationImpl::implements` and `InterfaceDeclarationImpl::extends`), there are some special rules:
-
-- The ts-morph structure types define these as `(string | WriterFunction)[]`.
-  - This is great for serialization.
-  - This doesn't allow for foreign types, like my `TypeStructure` objects.
-  - As arrays, there is an implication of _ordered_ arrays, which isn't really necessary for types.
-- These are effectively _readonly_ arrays in ts-morph-structures, because the structure class must maintain strict control of the array at all times.
-  - Under the hood, these are _JavaScript proxies_ to a `ReadonlyArrayProxy` to control indexed access.
-  - Modifying the array requires more complicated support.  It's not necessarily _hard_, just not a priority right now.
-
-So how _do_ you modify the array of types?
-
-These classes also provide type structure sets, in `ClassDeclarationImpl::implementsSet` and `InterfaceDeclarationImpl::extendsSet`, respectively.  Each of these is a `Set<TypeStructures>` object, with a couple extra methods:
-
-- `cloneFromTypeStructureSet(other: TypeStructureSet): void;`
-- `replaceFromTypeArray(array: (string | WriterFunction)[]): void;`
-
-So you can just call `classDecl.implementsSet.add(typeStructure);`, and it will update `classDecl.implements` for you.
-
 ## A few notes
 
 - Some of these type structures wrap standard structure classes:

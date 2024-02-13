@@ -4,7 +4,8 @@ Work-in-progress documentation.
 
 ### Guides
 
-- [Type Structures](./guides//TypeStructures.md)
+- [Structure Classes](./guides/StructureClasses.md)
+- [Type Structures](./guides/TypeStructures.md)
 - [Navigating Structures](./guides/NavigatingStructures.md)
 - [Import and Export Managers](./guides/ImportsAndExports.md)
 - ["Membered Type To Class" Primer](./guides/MemberedTypeToClass.md)
