@@ -1,8 +1,7 @@
 //#region preamble
+import type { QuestionTokenableNodeStructureClassIfc } from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -19,9 +18,7 @@ export type QuestionTokenableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof QuestionTokenableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<
-      PreferArrayFields<QuestionTokenableNodeStructure>
-    >;
+    instanceFields: QuestionTokenableNodeStructureClassIfc;
     symbolKey: typeof QuestionTokenableNodeStructureKey;
   }
 >;

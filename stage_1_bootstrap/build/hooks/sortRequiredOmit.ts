@@ -1,4 +1,5 @@
 import StructureDictionaries, {
+  MetaPartsType,
   type DecoratorParts,
   type StructureParts,
 } from "#stage_one/build/StructureDictionaries.js";
@@ -32,9 +33,13 @@ export default function sortRequiredOmit(
   }
 
   let typeArgumented: TypeArgumentedTypedStructure;
-  if ("fieldsInstanceType" in parts)
+  if (parts.partsType === MetaPartsType.DECORATOR)
+    /*
     typeArgumented = parts.fieldsInstanceType.childTypes[0] as TypeArgumentedTypedStructure;
-  else {
+    */
+    return Promise.resolve();
+
+  {
     const { implementsSet } = parts.classDecl;
     const implementsArray = Array.from(implementsSet);
     typeArgumented = implementsArray[0] as TypeArgumentedTypedStructureImpl;

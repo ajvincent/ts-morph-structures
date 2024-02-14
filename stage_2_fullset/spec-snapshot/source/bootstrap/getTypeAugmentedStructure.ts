@@ -14,7 +14,6 @@ import {
   getTypeAugmentedStructure,
   LiteralTypeStructureImpl,
   MethodDeclarationImpl,
-  ParameterDeclarationImpl,
   TypeArgumentedTypeStructureImpl,
   TypeNodeToTypeStructureConsole,
   TypeParameterDeclarationImpl,
@@ -83,7 +82,7 @@ it("getTypeAugmentedStructure gets structures having type structures for types",
     expect(getDefaultMethod.typeParameters.length).toBe(0);
     expect(getDefaultMethod.parameters.length).toBe(2);
     if (getDefaultMethod.parameters.length === 2) {
-      const [key, builder] = getDefaultMethod.parameters as ParameterDeclarationImpl[];
+      const [key, builder] = getDefaultMethod.parameters;
       expect(key.typeStructure).toBe(LiteralTypeStructureImpl.get("K"));
 
       expect(builder.typeStructure).toBeInstanceOf(FunctionTypeStructureImpl)

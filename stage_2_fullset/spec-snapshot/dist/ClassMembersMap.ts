@@ -195,7 +195,7 @@ describe("ClassMembersMap (from dist)", () => {
       expect(setter1).not.toBeUndefined();
       if (setter1) {
         expect(setter1.parameters.length).toBe(1);
-        const [parameter] = setter1.parameters as ParameterDeclarationImpl[];
+        const [parameter] = setter1.parameters;
         expect(parameter).not.toBeUndefined();
         if (parameter) {
           expect(parameter.name).toBe("value");
@@ -239,7 +239,7 @@ describe("ClassMembersMap (from dist)", () => {
       expect(setter1).not.toBeUndefined();
       if (setter1) {
         expect(setter1.parameters.length).toBe(1);
-        const [parameter] = setter1.parameters as ParameterDeclarationImpl[];
+        const [parameter] = setter1.parameters;
         expect(parameter).not.toBeUndefined();
         if (parameter) {
           expect(parameter.name).toBe("value");
@@ -300,7 +300,7 @@ describe("ClassMembersMap (from dist)", () => {
       expect(prop5).not.toBeUndefined();
       if (prop5) {
         expect(prop5.name).toBe(setter5.name);
-        const param = setter5.parameters[0] as ParameterDeclarationImpl;
+        const param = setter5.parameters[0];
         expect(prop5.typeStructure).toBe(param.typeStructure);
       }
 

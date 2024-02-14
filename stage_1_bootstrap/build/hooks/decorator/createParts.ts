@@ -12,6 +12,7 @@ import {
 
 import StructureDictionaries, {
   DecoratorParts,
+  MetaPartsType,
 } from "#stage_one/build/StructureDictionaries.js";
 import type {
   DecoratorImplMeta
@@ -38,7 +39,9 @@ export default function createDecoratorParts(
   dictionaries: StructureDictionaries
 ): Promise<void>
 {
-  const parts: Partial<DecoratorParts> = {};
+  const parts: Partial<DecoratorParts> = {
+    partsType: MetaPartsType.DECORATOR,
+  };
   parts.classDecl = new ClassDeclarationImpl;
   parts.classDecl.name = getStructureMixinName(meta.structureName);
   parts.classDecl.extends = "baseClass";
@@ -68,7 +71,7 @@ export default function createDecoratorParts(
   const {
     fieldType,
     instanceFieldsArgumented
-  } = defineFieldsType(meta.structureName);
+  } = defineFieldsType(meta.structureName, parts.importsManager, dictionaries);
 
   parts.fieldsTypeAlias = fieldType;
   parts.fieldsInstanceType = instanceFieldsArgumented;

@@ -68,7 +68,7 @@ function convertConstructor(
   parts.classFieldsStatements.set("parameters", groupName, [
     `declaration.parameters.push(
       ...StructuresClassesMap.cloneArray(
-        signature.parameters as ParameterDeclarationImpl[]
+        signature.parameters
       ) as ParameterDeclarationImpl[]
     );`,
   ]);
@@ -110,7 +110,7 @@ function convertMethod(
   parts.classFieldsStatements.set("parameters", groupName, [
     `declaration.parameters.push(
       ...StructuresClassesMap.cloneArray(
-        signature.parameters as ParameterDeclarationImpl[]
+        signature.parameters
       ) as ParameterDeclarationImpl[]
     );`,
   ]);
@@ -226,7 +226,7 @@ function copyDocs(
       StructureKind.JSDoc,
       JSDocImpl
     >(
-      signature.docs as (string | JSDocImpl)[],
+      signature.docs,
       StructureKind.JSDoc
     ) as JSDocImpl[]);`,
   ]);

@@ -149,16 +149,13 @@ export default class MethodDeclarationImpl
         JSDocImpl,
         StructureKind.JSDoc,
         JSDocImpl
-      >(
-        signature.docs as (string | JSDocImpl)[],
-        StructureKind.JSDoc,
-      ) as JSDocImpl[]),
+      >(signature.docs, StructureKind.JSDoc) as JSDocImpl[]),
     );
     declaration.hasQuestionToken = signature.hasQuestionToken;
     declaration.leadingTrivia.push(...signature.leadingTrivia);
     declaration.parameters.push(
       ...(StructuresClassesMap.cloneArray(
-        signature.parameters as ParameterDeclarationImpl[],
+        signature.parameters,
       ) as ParameterDeclarationImpl[]),
     );
     if (signature.returnTypeStructure) {

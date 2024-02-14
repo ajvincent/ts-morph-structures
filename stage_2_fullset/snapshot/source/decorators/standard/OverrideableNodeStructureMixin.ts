@@ -1,8 +1,7 @@
 //#region preamble
+import type { OverrideableNodeStructureClassIfc } from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -19,7 +18,7 @@ export type OverrideableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof OverrideableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<OverrideableNodeStructure>>;
+    instanceFields: OverrideableNodeStructureClassIfc;
     symbolKey: typeof OverrideableNodeStructureKey;
   }
 >;

@@ -1,8 +1,7 @@
 //#region preamble
+import type { AmbientableNodeStructureClassIfc } from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -19,7 +18,7 @@ export type AmbientableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof AmbientableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<AmbientableNodeStructure>>;
+    instanceFields: AmbientableNodeStructureClassIfc;
     symbolKey: typeof AmbientableNodeStructureKey;
   }
 >;

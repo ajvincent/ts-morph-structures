@@ -112,7 +112,7 @@ xit("Use cases:  A two-keyed (string, string) map class", async () => {
 
       // eslint-disable-next-line @typescript-eslint/prefer-for-of
       for (let i = 0; i < method.parameters.length; i++) {
-        const param: ParameterDeclarationImpl = method.parameters[i] as ParameterDeclarationImpl;
+        const param: ParameterDeclarationImpl = method.parameters[i];
         if (param.typeStructure === LiteralTypeStructureImpl.get("K")) {
           const firstKey = new ParameterDeclarationImpl("firstKey");
           firstKey.typeStructure = LiteralTypeStructureImpl.get("string");

@@ -1,8 +1,7 @@
 //#region preamble
+import type { GeneratorableNodeStructureClassIfc } from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -19,7 +18,7 @@ export type GeneratorableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof GeneratorableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<GeneratorableNodeStructure>>;
+    instanceFields: GeneratorableNodeStructureClassIfc;
     symbolKey: typeof GeneratorableNodeStructureKey;
   }
 >;

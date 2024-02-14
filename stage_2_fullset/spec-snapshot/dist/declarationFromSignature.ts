@@ -67,10 +67,10 @@ describe("static fromSignature() methods generally work (from dist)", () => {
 
     expect(decl.parameters.length).toBe(1);
     if (decl.parameters.length > 0) {
-      const param = decl.parameters[0] as ParameterDeclarationImpl;
+      const param = decl.parameters[0];
       expect(param.name).toBe("mySignature");
       expect(param.typeStructure).toBe(LiteralTypeStructureImpl.get("SignatureType"));
-      expect(param).not.toBe(signature.parameters[0] as ParameterDeclarationImpl);
+      expect(param).not.toBe(signature.parameters[0]);
     }
   });
 
@@ -114,10 +114,10 @@ describe("static fromSignature() methods generally work (from dist)", () => {
 
     expect(decl.parameters.length).toBe(1);
     if (decl.parameters.length > 0) {
-      const param = decl.parameters[0] as ParameterDeclarationImpl;
+      const param = decl.parameters[0];
       expect(param.name).toBe("mySignature");
       expect(param.typeStructure).toBe(LiteralTypeStructureImpl.get("SignatureType"));
-      expect(param).not.toBe(signature.parameters[0] as ParameterDeclarationImpl);
+      expect(param).not.toBe(signature.parameters[0]);
     }
 
     expect(decl.returnTypeStructure).toBe(LiteralTypeStructureImpl.get("symbol"));
@@ -163,10 +163,10 @@ describe("static fromSignature() methods generally work (from dist)", () => {
 
     expect(decl.parameters.length).toBe(1);
     if (decl.parameters.length > 0) {
-      const param = decl.parameters[0] as ParameterDeclarationImpl;
+      const param = decl.parameters[0];
       expect(param.name).toBe("mySignature");
       expect(param.typeStructure).toBe(LiteralTypeStructureImpl.get("SignatureType"));
-      expect(param).not.toBe(signature.parameters[0] as ParameterDeclarationImpl);
+      expect(param).not.toBe(signature.parameters[0]);
     }
 
     expect(decl.returnTypeStructure).toBe(LiteralTypeStructureImpl.get("symbol"));

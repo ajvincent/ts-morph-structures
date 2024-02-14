@@ -1,8 +1,7 @@
 //#region preamble
+import type { ReadonlyableNodeStructureClassIfc } from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -19,7 +18,7 @@ export type ReadonlyableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof ReadonlyableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<ReadonlyableNodeStructure>>;
+    instanceFields: ReadonlyableNodeStructureClassIfc;
     symbolKey: typeof ReadonlyableNodeStructureKey;
   }
 >;

@@ -45,6 +45,7 @@ export default function logIfNameStart(
       classFieldsStatements,
       classMembersMap,
       classImplementsMap,
+      importsManager,
     } = parts;
 
     const fields = Array.from(classFieldsStatements.entries()).map(entry => [
@@ -52,6 +53,7 @@ export default function logIfNameStart(
     ]);
 
     console.log(JSON.stringify({
+      imports: importsManager.getDeclarations().map(decl => decl.toJSON()),
       booleanKeys: Object.fromEntries(booleanKeys.entries()),
       structureFields: Object.fromEntries(structureFields.entries()),
       structureFieldArrays: Object.fromEntries(structureFieldArrays.entries()),

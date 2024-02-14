@@ -11,7 +11,7 @@ import {
   ClassDeclarationImpl,
   FunctionDeclarationImpl,
   InterfaceDeclarationImpl,
-  IntersectionTypedStructure,
+  LiteralTypedStructure,
   MethodDeclarationImpl,
   SourceFileImpl,
   TypeAliasDeclarationImpl,
@@ -50,7 +50,14 @@ export type StructureHook = (
   dictionaries: StructureDictionaries
 ) => Promise<void>;
 
+export enum MetaPartsType {
+  DECORATOR = "Decorator",
+  STRUCTURE = "Structure",
+}
+
 export interface DecoratorParts {
+  readonly partsType: MetaPartsType.DECORATOR;
+
   classDecl: ClassDeclarationImpl;
   classFieldsStatements: ClassFieldStatementsMap;
   classMembersMap: ClassMembersMap;
@@ -59,7 +66,7 @@ export interface DecoratorParts {
   sourceFile: SourceFileImpl;
   copyFields: MethodDeclarationImpl;
   fieldsTypeAlias: TypeAliasDeclarationImpl;
-  fieldsInstanceType: IntersectionTypedStructure;
+  fieldsInstanceType: LiteralTypedStructure;
   wrapperFunction: FunctionDeclarationImpl;
 
   classImplementsMap: TypeMembersMap;
@@ -69,6 +76,8 @@ export interface DecoratorParts {
 }
 
 export interface StructureParts {
+  readonly partsType: MetaPartsType.STRUCTURE;
+
   mixinBaseWriter: WriterFunction;
   classDecl: ClassDeclarationImpl;
 

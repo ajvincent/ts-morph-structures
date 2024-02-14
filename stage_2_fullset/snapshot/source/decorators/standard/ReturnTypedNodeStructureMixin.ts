@@ -1,10 +1,12 @@
 //#region preamble
-import type { StructureImpls, TypeStructures } from "../../exports.js";
+import type {
+  ReturnTypedNodeStructureClassIfc,
+  StructureImpls,
+  TypeStructures,
+} from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   type RightExtendsLeft,
   STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
@@ -25,18 +27,10 @@ export type ReturnTypedNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof ReturnTypedNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<
-      PreferArrayFields<ReturnTypedNodeStructure>,
-      "returnType"
-    > &
-      ReturnTypeInterface;
+    instanceFields: ReturnTypedNodeStructureClassIfc;
     symbolKey: typeof ReturnTypedNodeStructureKey;
   }
 >;
-
-interface ReturnTypeInterface {
-  returnTypeStructure: TypeStructures | undefined;
-}
 
 export default function ReturnTypedNodeStructureMixin(
   baseClass: typeof StructureBase,

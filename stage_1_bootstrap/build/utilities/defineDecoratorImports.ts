@@ -51,8 +51,6 @@ export default function defineDecoratorImports(
     isDefaultImport: false,
     isTypeOnly: true,
     importNames: [
-      "PreferArrayFields",
-      "RequiredOmit",
       "RightExtendsLeft",
     ]
   });

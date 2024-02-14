@@ -33,6 +33,7 @@ import {
 
 import StructureDictionaries, {
   DecoratorParts,
+  MetaPartsType,
   StructureParts,
 } from "#stage_one/build/StructureDictionaries.js";
 
@@ -167,8 +168,10 @@ function addStructureField(
   prop.hasQuestionToken = propertyValue.hasQuestionToken;
 
   if (prop.hasQuestionToken) {
-    if ("fieldsInstanceType" in parts) {
-      omitPropertyFromRequired(parts.fieldsInstanceType.childTypes[0] as TypeArgumentedTypedStructureImpl, propertyKey);
+    if (parts.partsType === MetaPartsType.DECORATOR) {
+      parts.classImplementsMap.getAsKind<StructureKind.PropertySignature>(
+        propertyKey, StructureKind.PropertySignature
+      )!.hasQuestionToken = true;
     }
     else {
       omitFromClassRequired(parts.classDecl, propertyKey);

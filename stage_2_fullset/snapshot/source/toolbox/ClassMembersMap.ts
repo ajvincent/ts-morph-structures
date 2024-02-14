@@ -226,7 +226,7 @@ export default class ClassMembersMap extends OrderedMap<
           JSDocStructure,
           StructureKind.JSDoc,
           JSDocImpl
-        >(docs as (string | JSDocImpl)[], StructureKind.JSDoc),
+        >(docs, StructureKind.JSDoc),
       );
     }
 
@@ -243,7 +243,7 @@ export default class ClassMembersMap extends OrderedMap<
         getter.returnTypeStructure,
       );
     } else if (setter) {
-      const setterParam = setter.parameters[0] as ParameterDeclarationImpl;
+      const setterParam = setter.parameters[0];
       if (setterParam.typeStructure) {
         prop.typeStructure = TypeStructureClassesMap.clone(
           setterParam.typeStructure,
@@ -308,7 +308,7 @@ export default class ClassMembersMap extends OrderedMap<
             JSDocStructure,
             StructureKind.JSDoc,
             JSDocImpl
-          >(prop.docs as (string | JSDocImpl)[], StructureKind.JSDoc),
+          >(prop.docs, StructureKind.JSDoc),
         );
       }
 
@@ -340,7 +340,7 @@ export default class ClassMembersMap extends OrderedMap<
             JSDocStructure,
             StructureKind.JSDoc,
             JSDocImpl
-          >(prop.docs as (string | JSDocImpl)[], StructureKind.JSDoc),
+          >(prop.docs, StructureKind.JSDoc),
         );
       }
 

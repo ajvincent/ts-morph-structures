@@ -198,7 +198,7 @@ extends OrderedMap<string, TypeMemberImpl>
     const docs = getter?.docs ?? setter!.docs;
     if (docs) {
       prop.docs.push(...cloneStructureOrStringArray<JSDocStructure, StructureKind.JSDoc, JSDocImpl>(
-        docs as (string | JSDocImpl)[], StructureKind.JSDoc
+        docs, StructureKind.JSDoc
       ));
     }
 
@@ -209,7 +209,7 @@ extends OrderedMap<string, TypeMemberImpl>
       prop.typeStructure = TypeStructureClassesMap.clone(getter.returnTypeStructure);
     }
     else if (setter) {
-      const setterParam = setter.parameters[0] as ParameterDeclarationImpl;
+      const setterParam = setter.parameters[0];
       if (setterParam.typeStructure) {
         prop.typeStructure = TypeStructureClassesMap.clone(setterParam.typeStructure);
       }
@@ -248,7 +248,7 @@ extends OrderedMap<string, TypeMemberImpl>
       const getter = new GetAccessorDeclarationImpl(false, prop.name, prop.typeStructure);
       if (prop.docs) {
         getter.docs.push(...cloneStructureOrStringArray<JSDocStructure, StructureKind.JSDoc, JSDocImpl>(
-          prop.docs as (string | JSDocImpl)[]
+          prop.docs
         , StructureKind.JSDoc))
       }
 
@@ -267,7 +267,7 @@ extends OrderedMap<string, TypeMemberImpl>
 
       if (prop.docs) {
         setter.docs.push(...cloneStructureOrStringArray<JSDocStructure, StructureKind.JSDoc, JSDocImpl>(
-          prop.docs as (string | JSDocImpl)[]
+          prop.docs
         , StructureKind.JSDoc))
       }
 

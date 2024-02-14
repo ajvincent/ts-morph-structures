@@ -1,8 +1,7 @@
 //#region preamble
+import type { ScopedNodeStructureClassIfc } from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -19,10 +18,7 @@ export type ScopedNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof ScopedNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<
-      PreferArrayFields<ScopedNodeStructure>,
-      "scope"
-    >;
+    instanceFields: ScopedNodeStructureClassIfc;
     symbolKey: typeof ScopedNodeStructureKey;
   }
 >;

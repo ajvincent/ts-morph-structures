@@ -6,6 +6,7 @@ import {
 
 import StructureDictionaries, {
   DecoratorParts,
+  MetaPartsType,
   StructureParts,
 } from "#stage_one/build/StructureDictionaries.js";
 
@@ -184,7 +185,20 @@ function addTypeStructureSet(
   ]);
 
   // add the necessary interface to the class
-  {
+  if (parts.partsType === MetaPartsType.DECORATOR) {
+    const typeProperty = new PropertySignatureImpl(typeStructureSetProp.name);
+    typeProperty.typeStructure = new LiteralTypedStructureImpl("TypeStructureSet");
+    parts.classImplementsMap.addMembers([typeProperty]);
+
+    parts.implementsImports.addImports({
+      pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
+      isPackageImport: false,
+      isDefaultImport: false,
+      isTypeOnly: true,
+      importNames: ["TypeStructureSet"]
+    });
+  }
+  else {
     let name = propertyKey + "Interface";
     name = name[0].toUpperCase() + name.substring(1);
 
@@ -197,12 +211,7 @@ function addTypeStructureSet(
 
     const interfaceNameLiteral = new LiteralTypedStructureImpl(name);
 
-    if ("fieldsInstanceType" in parts) {
-      parts.fieldsInstanceType.appendStructures([interfaceNameLiteral]);
-    }
-    else {
-      parts.classDecl.implementsSet.add(interfaceNameLiteral);
-    }
+    parts.classDecl.implementsSet.add(interfaceNameLiteral);
   }
 }
 
@@ -311,7 +320,19 @@ function addTypeAccessor(
   ]);
 
   // add the necessary interface to the class
-  {
+  if (parts.partsType === MetaPartsType.DECORATOR) {
+    const typeProperty = new PropertySignatureImpl(structureGetAccessor.name);
+    typeProperty.typeStructure = structureGetAccessor.returnTypeStructure;
+    parts.classImplementsMap.addMembers([typeProperty]);
+
+    parts.implementsImports.addImports({
+      pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+      isPackageImport: false,
+      isDefaultImport: false,
+      isTypeOnly: true,
+      importNames: ["TypeStructures"]
+    });
+  } else {
     let name = propertyKey + "Interface";
     name = name[0].toUpperCase() + name.substring(1);
 
@@ -324,12 +345,7 @@ function addTypeAccessor(
 
     const interfaceNameLiteral = new LiteralTypedStructureImpl(name);
 
-    if ("fieldsInstanceType" in parts) {
-      parts.fieldsInstanceType.appendStructures([interfaceNameLiteral]);
-    }
-    else {
-      parts.classDecl.implementsSet.add(interfaceNameLiteral);
-    }
+    parts.classDecl.implementsSet.add(interfaceNameLiteral);
   }
 }
 

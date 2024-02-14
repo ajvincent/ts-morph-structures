@@ -1,8 +1,7 @@
 //#region preamble
+import type { NamedNodeStructureClassIfc } from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -19,7 +18,7 @@ export type NamedNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof NamedNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<NamedNodeStructure>>;
+    instanceFields: NamedNodeStructureClassIfc;
     symbolKey: typeof NamedNodeStructureKey;
   }
 >;

@@ -1,9 +1,8 @@
 //#region preamble
+import type { InitializerExpressionableNodeStructureClassIfc } from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -24,10 +23,7 @@ export type InitializerExpressionableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof InitializerExpressionableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<
-      PreferArrayFields<InitializerExpressionableNodeStructure>,
-      "initializer"
-    >;
+    instanceFields: InitializerExpressionableNodeStructureClassIfc;
     symbolKey: typeof InitializerExpressionableNodeStructureKey;
   }
 >;

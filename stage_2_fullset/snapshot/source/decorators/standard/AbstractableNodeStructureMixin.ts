@@ -1,8 +1,7 @@
 //#region preamble
+import type { AbstractableNodeStructureClassIfc } from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -19,7 +18,7 @@ export type AbstractableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof AbstractableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<AbstractableNodeStructure>>;
+    instanceFields: AbstractableNodeStructureClassIfc;
     symbolKey: typeof AbstractableNodeStructureKey;
   }
 >;

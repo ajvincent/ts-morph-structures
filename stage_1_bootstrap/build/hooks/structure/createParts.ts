@@ -12,6 +12,7 @@ import {
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import StructureDictionaries, {
+  MetaPartsType,
   type StructureParts
 } from "#stage_one/build/StructureDictionaries.js";
 
@@ -45,7 +46,9 @@ export default function createStructureParts(
   dictionaries: StructureDictionaries
 ): Promise<void>
 {
-  const parts: Partial<StructureParts> = {};
+  const parts: Partial<StructureParts> = {
+    partsType: MetaPartsType.STRUCTURE,
+  };
   parts.classDecl = new ClassDeclarationImpl;
   parts.classDecl.name = getStructureImplName(meta.structureName);
   parts.classDecl.isDefaultExport = true;

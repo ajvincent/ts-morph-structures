@@ -1,9 +1,8 @@
 //#region preamble
+import type { StructureClassIfc } from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -21,7 +20,7 @@ export type StructureFields = RightExtendsLeft<
   StaticAndInstance<typeof StructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<Structure>>;
+    instanceFields: StructureClassIfc;
     symbolKey: typeof StructureKey;
   }
 >;

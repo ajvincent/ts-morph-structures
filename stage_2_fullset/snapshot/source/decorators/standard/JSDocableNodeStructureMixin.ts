@@ -1,10 +1,11 @@
 //#region preamble
-import { JSDocImpl } from "../../exports.js";
+import {
+  type JSDocableNodeStructureClassIfc,
+  JSDocImpl,
+} from "../../exports.js";
 import {
   cloneStructureOrStringArray,
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -27,7 +28,7 @@ export type JSDocableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof JSDocableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<JSDocableNodeStructure>>;
+    instanceFields: JSDocableNodeStructureClassIfc;
     symbolKey: typeof JSDocableNodeStructureKey;
   }
 >;

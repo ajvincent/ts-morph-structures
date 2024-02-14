@@ -1,10 +1,11 @@
 //#region preamble
-import type { StatementStructureImpls } from "../../exports.js";
+import type {
+  StatementedNodeStructureClassIfc,
+  StatementStructureImpls,
+} from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -27,7 +28,7 @@ export type StatementedNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof StatementedNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<StatementedNodeStructure>>;
+    instanceFields: StatementedNodeStructureClassIfc;
     symbolKey: typeof StatementedNodeStructureKey;
   }
 >;

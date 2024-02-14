@@ -1,8 +1,7 @@
 // #region preamble
 import {
+  LiteralTypedStructure,
   LiteralTypedStructureImpl,
-  IntersectionTypedStructure,
-  IntersectionTypedStructureImpl,
   MemberedObjectTypeStructureImpl,
   PrefixOperatorsTypedStructureImpl,
   PropertySignatureImpl,
@@ -10,17 +9,25 @@ import {
   TypeAliasDeclarationImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
+import ImportManager from "#stage_one/build/utilities/public/ImportManager.js";
+import StructureDictionaries from "#stage_one/build/StructureDictionaries.js";
+import {
+  getClassInterfaceName
+} from "#utilities/source/StructureNameTransforms.js";
+
 import ConstantTypeStructures from "./ConstantTypeStructures.js";
 
 // #endregion preamble
 
 type FieldsTypeAliasContext = {
   fieldType: TypeAliasDeclarationImpl;
-  instanceFieldsArgumented: IntersectionTypedStructure;
+  instanceFieldsArgumented: LiteralTypedStructure;
 }
 
 export default function defineFieldsType(
-  name: string
+  name: string,
+  importManager: ImportManager,
+  dictionaries: StructureDictionaries,
 ): FieldsTypeAliasContext
 {
   const alias = new TypeAliasDeclarationImpl(name + "Fields");
@@ -31,14 +38,15 @@ export default function defineFieldsType(
 
   const instanceFields = new PropertySignatureImpl("instanceFields");
 
-  const literalType = new LiteralTypedStructureImpl(name);
-  let typeArgumented = new TypeArgumentedTypedStructureImpl(
-    ConstantTypeStructures.PreferArrayFields, [literalType]
-  );
-  typeArgumented = new TypeArgumentedTypedStructureImpl(
-    ConstantTypeStructures.RequiredOmit, [typeArgumented]
-  );
-  instanceFields.typeStructure = new IntersectionTypedStructureImpl([typeArgumented]);
+  const className = getClassInterfaceName(name);
+  instanceFields.typeStructure = new LiteralTypedStructureImpl(className);
+  importManager.addImports({
+    pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+    isPackageImport: false,
+    importNames: [ className ],
+    isDefaultImport: false,
+    isTypeOnly: true,
+  });
 
   const symbolKey = new PropertySignatureImpl("symbolKey");
   symbolKey.typeStructure = new PrefixOperatorsTypedStructureImpl(

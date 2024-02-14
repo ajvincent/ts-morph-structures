@@ -110,15 +110,12 @@ export default class ConstructorDeclarationImpl
         JSDocImpl,
         StructureKind.JSDoc,
         JSDocImpl
-      >(
-        signature.docs as (string | JSDocImpl)[],
-        StructureKind.JSDoc,
-      ) as JSDocImpl[]),
+      >(signature.docs, StructureKind.JSDoc) as JSDocImpl[]),
     );
     declaration.leadingTrivia.push(...signature.leadingTrivia);
     declaration.parameters.push(
       ...(StructuresClassesMap.cloneArray(
-        signature.parameters as ParameterDeclarationImpl[],
+        signature.parameters,
       ) as ParameterDeclarationImpl[]),
     );
     if (signature.returnTypeStructure) {

@@ -1,8 +1,7 @@
 //#region preamble
+import type { ExclamationTokenableNodeStructureClassIfc } from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -19,9 +18,7 @@ export type ExclamationTokenableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof ExclamationTokenableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<
-      PreferArrayFields<ExclamationTokenableNodeStructure>
-    >;
+    instanceFields: ExclamationTokenableNodeStructureClassIfc;
     symbolKey: typeof ExclamationTokenableNodeStructureKey;
   }
 >;

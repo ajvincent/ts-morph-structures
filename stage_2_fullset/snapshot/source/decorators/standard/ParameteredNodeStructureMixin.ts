@@ -1,10 +1,11 @@
 //#region preamble
-import { ParameterDeclarationImpl } from "../../exports.js";
+import {
+  ParameterDeclarationImpl,
+  type ParameteredNodeStructureClassIfc,
+} from "../../exports.js";
 import {
   cloneStructureArray,
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -27,7 +28,7 @@ export type ParameteredNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof ParameteredNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<ParameteredNodeStructure>>;
+    instanceFields: ParameteredNodeStructureClassIfc;
     symbolKey: typeof ParameteredNodeStructureKey;
   }
 >;

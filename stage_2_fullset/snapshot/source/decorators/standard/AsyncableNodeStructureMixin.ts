@@ -1,8 +1,7 @@
 //#region preamble
+import type { AsyncableNodeStructureClassIfc } from "../../exports.js";
 import {
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -19,7 +18,7 @@ export type AsyncableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof AsyncableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<AsyncableNodeStructure>>;
+    instanceFields: AsyncableNodeStructureClassIfc;
     symbolKey: typeof AsyncableNodeStructureKey;
   }
 >;

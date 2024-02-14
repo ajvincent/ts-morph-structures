@@ -199,7 +199,7 @@ describe("TypeMembersMap (from dist)", () => {
       expect(setter1).not.toBeUndefined();
       if (setter1) {
         expect(setter1.parameters.length).toBe(1);
-        const [parameter] = setter1.parameters as ParameterDeclarationImpl[];
+        const [parameter] = setter1.parameters;
         expect(parameter).not.toBeUndefined();
         if (parameter) {
           expect(parameter.name).toBe("value");
@@ -237,7 +237,7 @@ describe("TypeMembersMap (from dist)", () => {
       expect(setter1).not.toBeUndefined();
       if (setter1) {
         expect(setter1.parameters.length).toBe(1);
-        const [parameter] = setter1.parameters as ParameterDeclarationImpl[];
+        const [parameter] = setter1.parameters;
         expect(parameter).not.toBeUndefined();
         if (parameter) {
           expect(parameter.name).toBe("value");
@@ -295,7 +295,7 @@ describe("TypeMembersMap (from dist)", () => {
       expect(prop4).not.toBeUndefined();
       if (prop4) {
         expect(prop4.name).toBe(setter4.name);
-        const param = setter4.parameters[0] as ParameterDeclarationImpl;
+        const param = setter4.parameters[0];
         expect(prop4.typeStructure).toBe(param.typeStructure);
       }
 
@@ -454,7 +454,7 @@ describe("TypeMembersMap (from dist)", () => {
       expect(prop6.parameters.length).toBe(1);
       expect(prop6.parameters[0].name).toBe("n");
       expect(
-        (prop6.parameters[0] as ParameterDeclarationImpl).typeStructure
+        prop6.parameters[0].typeStructure
       ).toBe(LiteralTypeStructureImpl.get("number"));
       expect(prop6.returnTypeStructure).toBe(LiteralTypeStructureImpl.get("string"));
       const sixKey = TypeMembersMap.keyFromMember(prop6);
@@ -468,7 +468,7 @@ describe("TypeMembersMap (from dist)", () => {
       expect(prop7.parameters.length).toBe(1);
       expect(prop7.parameters[0].name).toBe("n");
       expect(
-        (prop7.parameters[0] as ParameterDeclarationImpl).typeStructure
+        prop7.parameters[0].typeStructure
       ).toBe(LiteralTypeStructureImpl.get("number"));
       expect(prop7.returnTypeStructure).toBe(LiteralTypeStructureImpl.get("string"));
       const sevenKey = TypeMembersMap.keyFromMember(prop7);

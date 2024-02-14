@@ -129,10 +129,7 @@ export default class PropertyDeclarationImpl
         JSDocImpl,
         StructureKind.JSDoc,
         JSDocImpl
-      >(
-        signature.docs as (string | JSDocImpl)[],
-        StructureKind.JSDoc,
-      ) as JSDocImpl[]),
+      >(signature.docs, StructureKind.JSDoc) as JSDocImpl[]),
     );
     declaration.hasQuestionToken = signature.hasQuestionToken;
     declaration.isReadonly = signature.isReadonly;

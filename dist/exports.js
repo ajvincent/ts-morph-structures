@@ -414,7 +414,6 @@ const StructureKindToSyntaxKindMap = new Map([
     [StructureKind.VariableDeclaration, SyntaxKind.VariableDeclaration],
 ]);
 
-//#region preamble
 function AbstractableNodeStructureMixin(baseClass, context) {
     class AbstractableNodeStructureMixin extends baseClass {
         isAbstract = false;
@@ -431,7 +430,6 @@ function AbstractableNodeStructureMixin(baseClass, context) {
     return AbstractableNodeStructureMixin;
 }
 
-//#region preamble
 function AmbientableNodeStructureMixin(baseClass, context) {
     class AmbientableNodeStructureMixin extends baseClass {
         hasDeclareKeyword = false;
@@ -448,7 +446,6 @@ function AmbientableNodeStructureMixin(baseClass, context) {
     return AmbientableNodeStructureMixin;
 }
 
-//#region preamble
 function AsyncableNodeStructureMixin(baseClass, context) {
     class AsyncableNodeStructureMixin extends baseClass {
         isAsync = false;
@@ -483,7 +480,6 @@ function DecoratableNodeStructureMixin(baseClass, context) {
     return DecoratableNodeStructureMixin;
 }
 
-//#region preamble
 function ExclamationTokenableNodeStructureMixin(baseClass, context) {
     class ExclamationTokenableNodeStructureMixin extends baseClass {
         hasExclamationToken = false;
@@ -500,7 +496,6 @@ function ExclamationTokenableNodeStructureMixin(baseClass, context) {
     return ExclamationTokenableNodeStructureMixin;
 }
 
-//#region preamble
 function ExportableNodeStructureMixin(baseClass, context) {
     class ExportableNodeStructureMixin extends baseClass {
         isDefaultExport = false;
@@ -520,7 +515,6 @@ function ExportableNodeStructureMixin(baseClass, context) {
     return ExportableNodeStructureMixin;
 }
 
-//#region preamble
 function GeneratorableNodeStructureMixin(baseClass, context) {
     class GeneratorableNodeStructureMixin extends baseClass {
         isGenerator = false;
@@ -537,7 +531,6 @@ function GeneratorableNodeStructureMixin(baseClass, context) {
     return GeneratorableNodeStructureMixin;
 }
 
-//#region preamble
 function InitializerExpressionableNodeStructureMixin(baseClass, context) {
     class InitializerExpressionableNodeStructureMixin extends baseClass {
         initializer = undefined;
@@ -579,7 +572,6 @@ function JSDocableNodeStructureMixin(baseClass, context) {
     return JSDocableNodeStructureMixin;
 }
 
-//#region preamble
 function NameableNodeStructureMixin(baseClass, context) {
     class NameableNodeStructureMixin extends baseClass {
         name = undefined;
@@ -603,7 +595,6 @@ function NameableNodeStructureMixin(baseClass, context) {
     return NameableNodeStructureMixin;
 }
 
-//#region preamble
 function NamedNodeStructureMixin(baseClass, context) {
     class NamedNodeStructureMixin extends baseClass {
         name = "";
@@ -622,7 +613,6 @@ function NamedNodeStructureMixin(baseClass, context) {
     return NamedNodeStructureMixin;
 }
 
-//#region preamble
 function OverrideableNodeStructureMixin(baseClass, context) {
     class OverrideableNodeStructureMixin extends baseClass {
         hasOverrideKeyword = false;
@@ -657,7 +647,6 @@ function ParameteredNodeStructureMixin(baseClass, context) {
     return ParameteredNodeStructureMixin;
 }
 
-//#region preamble
 function QuestionTokenableNodeStructureMixin(baseClass, context) {
     class QuestionTokenableNodeStructureMixin extends baseClass {
         /** When true, inserts a question mark (?) after the field name. */
@@ -675,7 +664,6 @@ function QuestionTokenableNodeStructureMixin(baseClass, context) {
     return QuestionTokenableNodeStructureMixin;
 }
 
-//#region preamble
 function ReadonlyableNodeStructureMixin(baseClass, context) {
     class ReadonlyableNodeStructureMixin extends baseClass {
         isReadonly = false;
@@ -738,7 +726,6 @@ function ReturnTypedNodeStructureMixin(baseClass, context) {
     return ReturnTypedNodeStructureMixin;
 }
 
-//#region preamble
 function ScopedNodeStructureMixin(baseClass, context) {
     class ScopedNodeStructureMixin extends baseClass {
         scope = undefined;
@@ -796,7 +783,6 @@ function StatementedNodeStructureMixin(baseClass, context) {
     return StatementedNodeStructureMixin;
 }
 
-//#region preamble
 function StructureMixin(baseClass, context) {
     class StructureMixin extends baseClass {
         leadingTrivia = [];

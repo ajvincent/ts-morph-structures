@@ -1,10 +1,11 @@
 //#region preamble
-import { DecoratorImpl } from "../../exports.js";
+import {
+  type DecoratableNodeStructureClassIfc,
+  DecoratorImpl,
+} from "../../exports.js";
 import {
   cloneStructureArray,
   COPY_FIELDS,
-  type PreferArrayFields,
-  type RequiredOmit,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
@@ -27,7 +28,7 @@ export type DecoratableNodeStructureFields = RightExtendsLeft<
   StaticAndInstance<typeof DecoratableNodeStructureKey>,
   {
     staticFields: object;
-    instanceFields: RequiredOmit<PreferArrayFields<DecoratableNodeStructure>>;
+    instanceFields: DecoratableNodeStructureClassIfc;
     symbolKey: typeof DecoratableNodeStructureKey;
   }
 >;
