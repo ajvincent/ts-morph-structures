@@ -15,7 +15,6 @@ import {
   MethodDeclarationImpl,
   SourceFileImpl,
   TypeAliasDeclarationImpl,
-  UnionTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import {
@@ -71,7 +70,6 @@ export interface DecoratorParts {
 
   classImplementsMap: TypeMembersMap;
   classImplementsIfc: InterfaceDeclarationImpl;
-  requiredOmitUnion: UnionTypedStructureImpl;
   implementsImports: ImportManager;
 }
 
@@ -90,7 +88,6 @@ export interface StructureParts {
 
   classImplementsMap: TypeMembersMap;
   classImplementsIfc: InterfaceDeclarationImpl;
-  requiredOmitUnion: UnionTypedStructureImpl;
   implementsImports: ImportManager;
 }
 

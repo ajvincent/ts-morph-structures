@@ -116,8 +116,6 @@ export type {
   CloneableTypeStructure,
 } from "./types/CloneableStructure.js";
 export type { ExtractStructure } from "./types/ExtractStructure.js";
-export type { PreferArrayFields } from "./types/PreferArrayFields.js";
-export type { RequiredOmit } from "./types/RequiredOmit.js";
 export type { RightExtendsLeft } from "./types/RightExtendsLeft.js";
 export type { StructureClassToJSON } from "./types/StructureClassToJSON.js";
 export type { TypedNodeWriter } from "./types/ts-morph-typednodewriter.js";
