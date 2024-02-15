@@ -47,14 +47,6 @@ function definePublicExports(
     isType: false
   });
 
-  dictionaries.publicExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/bootstrap/typeNodeConsoles.ts"),
-    exportNames: [
-      "VoidTypeNodeToTypeStructureConsole"
-    ],
-    isDefaultExport: false,
-    isType: false
-  });
 
   dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/bootstrap/getTypeAugmentedStructure.ts"),
@@ -63,6 +55,24 @@ function definePublicExports(
     ],
     isDefaultExport: false,
     isType: true
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/bootstrap/parseLiteralType.ts"),
+    exportNames: [
+      "parseLiteralType"
+    ],
+    isDefaultExport: true,
+    isType: false
+  });
+
+  dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/bootstrap/typeNodeConsoles.ts"),
+    exportNames: [
+      "VoidTypeNodeToTypeStructureConsole"
+    ],
+    isDefaultExport: false,
+    isType: false
   });
 
   dictionaries.publicExports.addExports({

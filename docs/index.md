@@ -4,11 +4,13 @@ Work-in-progress documentation.
 
 ### Guides
 
-- [Type Structures](./guides//TypeStructures.md)
+- [Structure Classes](./guides/StructureClasses.md)
+- [Type Structures](./guides/TypeStructures.md)
 - [Navigating Structures](./guides/NavigatingStructures.md)
 - [Import and Export Managers](./guides/ImportsAndExports.md)
 - ["Membered Type To Class" Primer](./guides/MemberedTypeToClass.md)
   - includes tools such as `ClassMembersMap` and `TypeMembersMap`
+- [When to use this library, versus direct ts-morph interaction](./guides/when-to-use.md)
 
 ### Use cases
 

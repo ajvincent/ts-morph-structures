@@ -18,13 +18,19 @@ const compilerOptions = {
   "forceConsistentCasingInFileNames": true,
 };
 
-export default [
+const RollupOptions = [
   {
     input: "./source/exports.ts",
     output: {
       dir: "./dist",
-      format: "es"
+      format: "es",
     },
+    external: [
+      "mixin-decorators",
+      "node:assert/strict",
+      "path",
+      "ts-morph",
+    ],
     plugins: [
       ts_plugin(
         {
@@ -40,6 +46,12 @@ export default [
       dir: "./dist",
       format: "es"
     },
+    external: [
+      "mixin-decorators",
+      "node:assert/strict",
+      "path",
+      "ts-morph",
+    ],
     plugins: [
       dts(
         {
@@ -49,3 +61,5 @@ export default [
     ],
   },
 ];
+
+export default RollupOptions;

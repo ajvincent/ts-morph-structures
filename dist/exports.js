@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { CodeBlockWriter, StructureKind, SyntaxKind, Node, forEachStructureChild, ConstructorTypeNode, Writers } from 'ts-morph';
+import { CodeBlockWriter, StructureKind, SyntaxKind, Node, forEachStructureChild, ConstructorTypeNode, ModuleKind, ScriptTarget, ModuleResolutionKind, Project, Writers } from 'ts-morph';
 import path from 'path';
 import MultiMixinBuilder from 'mixin-decorators';
 
@@ -1545,7 +1545,7 @@ function convertTypeNode(typeNode, consoleTrap, subStructureResolver) {
     if (Node.isThisTypeNode(typeNode))
         return LiteralTypeStructureImpl.get("this");
     if (Node.isStringLiteral(typeNode)) {
-        return new StringTypeStructureImpl(typeNode.getLiteralText());
+        return StringTypeStructureImpl.get(typeNode.getLiteralText());
     }
     if (Node.isArrayTypeNode(typeNode)) {
         const childStructure = convertTypeNode(typeNode.getElementTypeNode(), consoleTrap, subStructureResolver);
@@ -1948,6 +1948,40 @@ function getTypeAugmentedStructure(rootNode, userConsole, assertNoFailures) {
         rootNode,
         failures,
     };
+}
+
+let ParseLiteralProject;
+function parseLiteralType(source) {
+    let name = "SOMERANDOMSTRING_";
+    for (let i = 0; i < 10; i++) {
+        name += String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+    }
+    ParseLiteralProject ??= defineProject();
+    const tempFile = ParseLiteralProject.createSourceFile("tempFile.ts");
+    try {
+        const aliasStructure = getTypeAugmentedStructure(tempFile.addTypeAlias(new TypeAliasDeclarationImpl(name, source)), VoidTypeNodeToTypeStructureConsole, true).rootStructure;
+        return aliasStructure.typeStructure;
+    }
+    finally {
+        // You might wonder, "why not just empty the file and reuse it?" - this is safer.
+        ParseLiteralProject.removeSourceFile(tempFile);
+    }
+}
+function defineProject() {
+    const TSC_CONFIG = {
+        compilerOptions: {
+            lib: ["es2022"],
+            module: ModuleKind.ESNext,
+            target: ScriptTarget.ESNext,
+            moduleResolution: ModuleResolutionKind.NodeNext,
+            sourceMap: true,
+            declaration: true,
+        },
+        skipAddingFilesFromTsConfig: true,
+        skipFileDependencyResolution: true,
+        useInMemoryFileSystem: true,
+    };
+    return new Project(TSC_CONFIG);
 }
 
 function VoidTypeNodeToTypeStructureConsole(message, failingTypeNode) {
@@ -5986,4 +6020,4 @@ class TypeMembersMap extends OrderedMap {
 _a = TypeMembersMap;
 var TypeMembersMap$1 = TypeMembersMap;
 
-export { ArrayTypeStructureImpl, CallSignatureDeclarationImpl, ClassDeclarationImpl, ClassFieldStatementsMap, ClassMembersMap, ClassStaticBlockDeclarationImpl, ConditionalTypeStructureImpl, ConstructSignatureDeclarationImpl, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, DecoratorImpl, EnumDeclarationImpl, EnumMemberImpl, ExportAssignmentImpl, ExportDeclarationImpl, ExportManager, ExportSpecifierImpl, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, FunctionTypeStructureImpl, FunctionWriterStyle, GetAccessorDeclarationImpl, ImportAttributeImpl, ImportDeclarationImpl, ImportManager, ImportSpecifierImpl, IndexSignatureDeclarationImpl, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, InterfaceDeclarationImpl, IntersectionTypeStructureImpl, JSDocImpl, JSDocTagImpl, JsxAttributeImpl, JsxElementImpl, JsxSelfClosingElementImpl, JsxSpreadAttributeImpl, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, MethodSignatureImpl, ModuleDeclarationImpl, NumberTypeStructureImpl, ParameterDeclarationImpl, ParameterTypeStructureImpl, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, PropertyAssignmentImpl, PropertyDeclarationImpl, PropertySignatureImpl, QualifiedNameTypeStructureImpl, SetAccessorDeclarationImpl, ShorthandPropertyAssignmentImpl, SourceFileImpl, SpreadAssignmentImpl, StringTypeStructureImpl, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, TypeArgumentedTypeStructureImpl, TypeMembersMap$1 as TypeMembersMap, TypeParameterDeclarationImpl, TypeStructureKind, UnionTypeStructureImpl, VariableDeclarationImpl, VariableStatementImpl, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure };
+export { ArrayTypeStructureImpl, CallSignatureDeclarationImpl, ClassDeclarationImpl, ClassFieldStatementsMap, ClassMembersMap, ClassStaticBlockDeclarationImpl, ConditionalTypeStructureImpl, ConstructSignatureDeclarationImpl, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, DecoratorImpl, EnumDeclarationImpl, EnumMemberImpl, ExportAssignmentImpl, ExportDeclarationImpl, ExportManager, ExportSpecifierImpl, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, FunctionTypeStructureImpl, FunctionWriterStyle, GetAccessorDeclarationImpl, ImportAttributeImpl, ImportDeclarationImpl, ImportManager, ImportSpecifierImpl, IndexSignatureDeclarationImpl, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, InterfaceDeclarationImpl, IntersectionTypeStructureImpl, JSDocImpl, JSDocTagImpl, JsxAttributeImpl, JsxElementImpl, JsxSelfClosingElementImpl, JsxSpreadAttributeImpl, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, MethodSignatureImpl, ModuleDeclarationImpl, NumberTypeStructureImpl, ParameterDeclarationImpl, ParameterTypeStructureImpl, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, PropertyAssignmentImpl, PropertyDeclarationImpl, PropertySignatureImpl, QualifiedNameTypeStructureImpl, SetAccessorDeclarationImpl, ShorthandPropertyAssignmentImpl, SourceFileImpl, SpreadAssignmentImpl, StringTypeStructureImpl, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, TypeArgumentedTypeStructureImpl, TypeMembersMap$1 as TypeMembersMap, TypeParameterDeclarationImpl, TypeStructureKind, UnionTypeStructureImpl, VariableDeclarationImpl, VariableStatementImpl, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, parseLiteralType };
