@@ -198,7 +198,7 @@ interface ClassDeclarationStructureClassIfc {
   readonly getAccessors: GetAccessorDeclarationImpl[];
   /** Treat this as a read-only array.  Use `.implementsSet` to modify this. */
   readonly implements: stringOrWriterFunction[];
-  implementsSet: TypeStructureSet;
+  readonly implementsSet: TypeStructureSet;
   readonly methods: MethodDeclarationImpl[];
   readonly properties: PropertyDeclarationImpl[];
   readonly setAccessors: SetAccessorDeclarationImpl[];
@@ -329,7 +329,7 @@ interface InterfaceDeclarationStructureClassIfc {
   readonly constructSignatures: ConstructSignatureDeclarationImpl[];
   /** Treat this as a read-only array.  Use `.extendsSet` to modify this. */
   readonly extends: stringOrWriterFunction[];
-  extendsSet: TypeStructureSet;
+  readonly extendsSet: TypeStructureSet;
   readonly getAccessors: GetAccessorDeclarationImpl[];
   readonly indexSignatures: IndexSignatureDeclarationImpl[];
   readonly methods: MethodSignatureImpl[];

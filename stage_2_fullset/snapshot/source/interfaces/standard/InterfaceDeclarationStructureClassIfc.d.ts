@@ -17,7 +17,7 @@ export interface InterfaceDeclarationStructureClassIfc {
   readonly constructSignatures: ConstructSignatureDeclarationImpl[];
   /** Treat this as a read-only array.  Use `.extendsSet` to modify this. */
   readonly extends: stringOrWriterFunction[];
-  extendsSet: TypeStructureSet;
+  readonly extendsSet: TypeStructureSet;
   readonly getAccessors: GetAccessorDeclarationImpl[];
   readonly indexSignatures: IndexSignatureDeclarationImpl[];
   readonly methods: MethodSignatureImpl[];

@@ -185,6 +185,7 @@ function addTypeStructureSet(
   // add the necessary interface to the class
   const typeProperty = new PropertySignatureImpl(typeStructureSetProp.name);
   typeProperty.typeStructure = new LiteralTypedStructureImpl("TypeStructureSet");
+  typeProperty.isReadonly = true;
   parts.classImplementsMap.addMembers([typeProperty]);
 
   const originalTypeArraySignature = parts.classImplementsMap.getAsKind<StructureKind.PropertySignature>(
