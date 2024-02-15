@@ -4,6 +4,14 @@ In ts-morph, types in structures appear as strings, writer functions, or arrays 
 
 Where ts-morph stops in its structure objects, ts-morph-structures lends a further hand.  This project bootstraps from ts-morph nodes to build a more complete (not complete - see "statements") structure tree, including subtrees for types.
 
+## If you just want to parse a type string
+
+```typescript
+declare function parseLiteralType(source: string): TypeStructures;
+```
+
+`parseLiteralType()` will take a stringified type, and return a `TypeStructures` object.  (It works by creating a temporary type alias, then converting the type alias's type node into a type structure.)
+
 ## Basic type structures
 
 Type structures are instances of classes, representing type nodes in the TypeScript AST.  There are a few fundamental type structures (meaning they can't get any simpler, and thus they have no children):

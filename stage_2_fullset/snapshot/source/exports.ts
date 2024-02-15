@@ -7,6 +7,7 @@ export {
   default as getTypeAugmentedStructure,
   type TypeNodeToTypeStructureConsole,
 } from "./bootstrap/getTypeAugmentedStructure.js";
+export { default as parseLiteralType } from "./bootstrap/parseLiteralType.js";
 export { VoidTypeNodeToTypeStructureConsole } from "./bootstrap/typeNodeConsoles.js";
 export { default as CallSignatureDeclarationImpl } from "./structures/standard/CallSignatureDeclarationImpl.js";
 export { default as ClassDeclarationImpl } from "./structures/standard/ClassDeclarationImpl.js";
