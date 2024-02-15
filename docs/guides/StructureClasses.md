@@ -2,10 +2,6 @@
 
 In ts-morph, [structures](https://ts-morph.com/manipulation/structures) represent the abstract syntax trees of source files and their descendant nodes... at least partially.  If you have a structure, you can create an equivalent node from it.
 
-Structures themselves are somewhat opaque in `ts-morph`.  The documentation on them is sparse.  If you don't have one to start with, you can read the documentation on the ts-morph website (hardly complete) or the `ts-morph` source code to figure out how to create one.  There are lots of little details to get right.
-
-The structure classes from ts-morph-structures exist to fill this gap.
-
 ## Philosophy of the structure classes
 
 - Compatible with `ts-morph` API's
