@@ -1,7 +1,7 @@
 import * as ts_morph from 'ts-morph';
 import { OptionalKind, Structures, WriterFunction, TypeNode, Node, CodeBlockWriter, StructureKind, JsxNamespacedNameStructure, ModuleDeclarationKind, Scope, StatementStructures, TypeParameterVariance, VariableDeclarationKind, JSDocStructure, TypeParameterDeclarationStructure, DecoratorStructure, ParameterDeclarationStructure, CallSignatureDeclarationStructure, ClassDeclarationStructure, ClassStaticBlockDeclarationStructure, ConstructorDeclarationStructure, ConstructorDeclarationOverloadStructure, ConstructSignatureDeclarationStructure, EnumDeclarationStructure, EnumMemberStructure, ExportAssignmentStructure, ExportDeclarationStructure, ExportSpecifierStructure, FunctionDeclarationStructure, FunctionDeclarationOverloadStructure, GetAccessorDeclarationStructure, ImportAttributeStructure, ImportDeclarationStructure, ImportSpecifierStructure, IndexSignatureDeclarationStructure, InterfaceDeclarationStructure, JSDocTagStructure, JsxAttributeStructure, JsxElementStructure, JsxSelfClosingElementStructure, JsxSpreadAttributeStructure, MethodDeclarationStructure, MethodDeclarationOverloadStructure, MethodSignatureStructure, ModuleDeclarationStructure, PropertyAssignmentStructure, PropertyDeclarationStructure, PropertySignatureStructure, SetAccessorDeclarationStructure, ShorthandPropertyAssignmentStructure, SourceFileStructure, SpreadAssignmentStructure, TypeAliasDeclarationStructure, VariableDeclarationStructure, VariableStatementStructure, KindedStructure } from 'ts-morph';
 import * as mixin_decorators from 'mixin-decorators';
-import { Simplify, Writable, ReadonlyDeep } from 'type-fest';
+import { Writable, ReadonlyDeep } from 'type-fest';
 
 declare const COPY_FIELDS: unique symbol;
 declare const REPLACE_WRITER_WITH_STRING: unique symbol;
@@ -123,22 +123,6 @@ declare abstract class TypeStructuresWithTypeParameters<Kind extends TypeStructu
     protected static writeTypeParameter(typeParam: TypeParameterDeclarationImpl, writer: CodeBlockWriter, constraintMode: "extends" | "in"): void;
 }
 
-type PreferArray<MaybeArray> = Extract<
-  MaybeArray,
-  readonly unknown[]
-> extends never
-  ? MaybeArray
-  : Extract<MaybeArray, readonly unknown[]>;
-
-type PreferArrayFields<ObjectType extends object> = {
-  [Key in keyof ObjectType]: PreferArray<ObjectType[Key]>;
-};
-
-type RequiredOmit<
-  ObjectType extends object,
-  Keys extends keyof ObjectType = never,
-> = Simplify<ObjectType & Required<Omit<ObjectType, Keys>>>;
-
 type OmitWriter<T> = T extends (infer A)[] ? OmitWriter<A>[] : Exclude<T, WriterFunction>;
 type OmitWriterFromFields<T extends object> = {
     [key in keyof T]: OmitWriter<T[key]>;
@@ -208,13 +192,16 @@ type stringOrWriterFunction = string | WriterFunction;
 
 interface ClassDeclarationStructureClassIfc {
   readonly kind: StructureKind.Class;
-  ctors: ConstructorDeclarationImpl[];
-  extends: stringOrWriterFunction;
-  getAccessors: GetAccessorDeclarationImpl[];
-  implements: stringOrWriterFunction[];
-  methods: MethodDeclarationImpl[];
-  properties: PropertyDeclarationImpl[];
-  setAccessors: SetAccessorDeclarationImpl[];
+  readonly ctors: ConstructorDeclarationImpl[];
+  extends?: stringOrWriterFunction;
+  extendsStructure: TypeStructures | undefined;
+  readonly getAccessors: GetAccessorDeclarationImpl[];
+  /** Treat this as a read-only array.  Use `.implementsSet` to modify this. */
+  readonly implements: stringOrWriterFunction[];
+  implementsSet: TypeStructureSet;
+  readonly methods: MethodDeclarationImpl[];
+  readonly properties: PropertyDeclarationImpl[];
+  readonly setAccessors: SetAccessorDeclarationImpl[];
 }
 
 interface ClassStaticBlockDeclarationStructureClassIfc {
@@ -227,7 +214,7 @@ interface ConstructorDeclarationOverloadStructureClassIfc {
 
 interface ConstructorDeclarationStructureClassIfc {
   readonly kind: StructureKind.Constructor;
-  overloads: ConstructorDeclarationOverloadImpl[];
+  readonly overloads: ConstructorDeclarationOverloadImpl[];
 }
 
 interface ConstructSignatureDeclarationStructureClassIfc {
@@ -235,24 +222,24 @@ interface ConstructSignatureDeclarationStructureClassIfc {
 }
 
 interface DecoratableNodeStructureClassIfc {
-  decorators: DecoratorImpl[];
+  readonly decorators: DecoratorImpl[];
 }
 
 interface DecoratorStructureClassIfc {
   readonly kind: StructureKind.Decorator;
-  arguments: stringOrWriterFunction[];
-  typeArguments: string[];
+  readonly arguments: stringOrWriterFunction[];
+  readonly typeArguments: string[];
 }
 
 interface EnumDeclarationStructureClassIfc {
   readonly kind: StructureKind.Enum;
   isConst: boolean;
-  members: EnumMemberImpl[];
+  readonly members: EnumMemberImpl[];
 }
 
 interface EnumMemberStructureClassIfc {
   readonly kind: StructureKind.EnumMember;
-  value: string | number;
+  value?: string | number;
 }
 
 interface ExclamationTokenableNodeStructureClassIfc {
@@ -272,16 +259,16 @@ interface ExportAssignmentStructureClassIfc {
 
 interface ExportDeclarationStructureClassIfc {
   readonly kind: StructureKind.ExportDeclaration;
-  attributes: ImportAttributeImpl[];
+  attributes?: ImportAttributeImpl[];
   isTypeOnly: boolean;
-  moduleSpecifier: string;
-  namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[];
-  namespaceExport: string;
+  moduleSpecifier?: string;
+  readonly namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[];
+  namespaceExport?: string;
 }
 
 interface ExportSpecifierStructureClassIfc {
   readonly kind: StructureKind.ExportSpecifier;
-  alias: string;
+  alias?: string;
   isTypeOnly: boolean;
 }
 
@@ -291,7 +278,7 @@ interface FunctionDeclarationOverloadStructureClassIfc {
 
 interface FunctionDeclarationStructureClassIfc {
   readonly kind: StructureKind.Function;
-  overloads: FunctionDeclarationOverloadImpl[];
+  readonly overloads: FunctionDeclarationOverloadImpl[];
 }
 
 interface GeneratorableNodeStructureClassIfc {
@@ -311,24 +298,25 @@ interface ImportAttributeStructureClassIfc {
 
 interface ImportDeclarationStructureClassIfc {
   readonly kind: StructureKind.ImportDeclaration;
-  attributes: ImportAttributeImpl[];
-  defaultImport: string;
+  attributes?: ImportAttributeImpl[];
+  defaultImport?: string;
   isTypeOnly: boolean;
   moduleSpecifier: string;
-  namedImports: (stringOrWriterFunction | ImportSpecifierImpl)[];
-  namespaceImport: string;
+  readonly namedImports: (stringOrWriterFunction | ImportSpecifierImpl)[];
+  namespaceImport?: string;
 }
 
 interface ImportSpecifierStructureClassIfc {
   readonly kind: StructureKind.ImportSpecifier;
-  alias: string;
+  alias?: string;
   isTypeOnly: boolean;
 }
 
 interface IndexSignatureDeclarationStructureClassIfc {
   readonly kind: StructureKind.IndexSignature;
-  keyName: string;
-  keyType: string;
+  keyName?: string;
+  keyType?: string;
+  keyTypeStructure: TypeStructures | undefined;
 }
 
 interface InitializerExpressionableNodeStructureClassIfc {
@@ -337,48 +325,50 @@ interface InitializerExpressionableNodeStructureClassIfc {
 
 interface InterfaceDeclarationStructureClassIfc {
   readonly kind: StructureKind.Interface;
-  callSignatures: CallSignatureDeclarationImpl[];
-  constructSignatures: ConstructSignatureDeclarationImpl[];
-  extends: stringOrWriterFunction[];
-  getAccessors: GetAccessorDeclarationImpl[];
-  indexSignatures: IndexSignatureDeclarationImpl[];
-  methods: MethodSignatureImpl[];
-  properties: PropertySignatureImpl[];
-  setAccessors: SetAccessorDeclarationImpl[];
+  readonly callSignatures: CallSignatureDeclarationImpl[];
+  readonly constructSignatures: ConstructSignatureDeclarationImpl[];
+  /** Treat this as a read-only array.  Use `.extendsSet` to modify this. */
+  readonly extends: stringOrWriterFunction[];
+  extendsSet: TypeStructureSet;
+  readonly getAccessors: GetAccessorDeclarationImpl[];
+  readonly indexSignatures: IndexSignatureDeclarationImpl[];
+  readonly methods: MethodSignatureImpl[];
+  readonly properties: PropertySignatureImpl[];
+  readonly setAccessors: SetAccessorDeclarationImpl[];
 }
 
 interface JSDocableNodeStructureClassIfc {
-  docs: (string | JSDocImpl)[];
+  readonly docs: (string | JSDocImpl)[];
 }
 
 interface JSDocStructureClassIfc {
   readonly kind: StructureKind.JSDoc;
-  description: stringOrWriterFunction;
-  tags: JSDocTagImpl[];
+  description?: stringOrWriterFunction;
+  readonly tags: JSDocTagImpl[];
 }
 
 interface JSDocTagStructureClassIfc {
   readonly kind: StructureKind.JSDocTag;
   tagName: string;
-  text: stringOrWriterFunction;
+  text?: stringOrWriterFunction;
 }
 
 interface JsxAttributeStructureClassIfc {
   readonly kind: StructureKind.JsxAttribute;
-  initializer: string;
+  initializer?: string;
   name: string | JsxNamespacedNameStructure;
 }
 
 interface JsxElementStructureClassIfc {
   readonly kind: StructureKind.JsxElement;
-  attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[];
-  bodyText: string;
-  children: (JsxElementImpl | JsxSelfClosingElementImpl)[];
+  readonly attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[];
+  bodyText?: string;
+  readonly children: (JsxElementImpl | JsxSelfClosingElementImpl)[];
 }
 
 interface JsxSelfClosingElementStructureClassIfc {
   readonly kind: StructureKind.JsxSelfClosingElement;
-  attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[];
+  readonly attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[];
 }
 
 interface JsxSpreadAttributeStructureClassIfc {
@@ -394,7 +384,7 @@ interface MethodDeclarationOverloadStructureClassIfc {
 interface MethodDeclarationStructureClassIfc {
   readonly kind: StructureKind.Method;
   isStatic: boolean;
-  overloads: MethodDeclarationOverloadImpl[];
+  readonly overloads: MethodDeclarationOverloadImpl[];
 }
 
 interface MethodSignatureStructureClassIfc {
@@ -403,7 +393,7 @@ interface MethodSignatureStructureClassIfc {
 
 interface ModuleDeclarationStructureClassIfc {
   readonly kind: StructureKind.Module;
-  declarationKind: ModuleDeclarationKind;
+  declarationKind?: ModuleDeclarationKind;
 }
 
 interface NameableNodeStructureClassIfc {
@@ -421,11 +411,11 @@ interface OverrideableNodeStructureClassIfc {
 interface ParameterDeclarationStructureClassIfc {
   readonly kind: StructureKind.Parameter;
   isRestParameter: boolean;
-  scope: Scope;
+  scope?: Scope;
 }
 
 interface ParameteredNodeStructureClassIfc {
-  parameters: ParameterDeclarationImpl[];
+  readonly parameters: ParameterDeclarationImpl[];
 }
 
 interface PropertyAssignmentStructureClassIfc {
@@ -479,12 +469,12 @@ interface SpreadAssignmentStructureClassIfc {
 }
 
 interface StatementedNodeStructureClassIfc {
-  statements: (stringOrWriterFunction | StatementStructures)[];
+  readonly statements: (stringOrWriterFunction | StatementStructures)[];
 }
 
 interface StructureClassIfc {
-  leadingTrivia: stringOrWriterFunction[];
-  trailingTrivia: stringOrWriterFunction[];
+  readonly leadingTrivia: stringOrWriterFunction[];
+  readonly trailingTrivia: stringOrWriterFunction[];
 }
 
 interface TypeAliasDeclarationStructureClassIfc {
@@ -499,14 +489,16 @@ interface TypedNodeStructureClassIfc {
 
 interface TypeParameterDeclarationStructureClassIfc {
   readonly kind: StructureKind.TypeParameter;
-  constraint: stringOrWriterFunction;
-  default: stringOrWriterFunction;
+  constraint?: stringOrWriterFunction;
+  constraintStructure: TypeStructures | undefined;
+  default?: stringOrWriterFunction;
+  defaultStructure: TypeStructures | undefined;
   isConst: boolean;
-  variance: TypeParameterVariance;
+  variance?: TypeParameterVariance;
 }
 
 interface TypeParameteredNodeStructureClassIfc {
-  typeParameters: (string | TypeParameterDeclarationImpl)[];
+  readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
 }
 
 interface VariableDeclarationStructureClassIfc {
@@ -515,15 +507,15 @@ interface VariableDeclarationStructureClassIfc {
 
 interface VariableStatementStructureClassIfc {
   readonly kind: StructureKind.VariableStatement;
-  declarationKind: VariableDeclarationKind;
-  declarations: VariableDeclarationImpl[];
+  declarationKind?: VariableDeclarationKind;
+  readonly declarations: VariableDeclarationImpl[];
 }
 
 declare const JSDocStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
-declare class JSDocImpl extends JSDocStructureBase implements RequiredOmit<PreferArrayFields<JSDocStructure>, "description"> {
+declare class JSDocImpl extends JSDocStructureBase implements JSDocStructureClassIfc {
     readonly kind: StructureKind.JSDoc;
     description?: stringOrWriterFunction;
     readonly tags: JSDocTagImpl[];
@@ -533,17 +525,11 @@ declare class JSDocImpl extends JSDocStructureBase implements RequiredOmit<Prefe
 }
 
 declare const TypeParameterDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
 }, typeof StructureBase>;
-interface ConstraintInterface {
-    constraintStructure: TypeStructures | undefined;
-}
-interface DefaultInterface {
-    defaultStructure: TypeStructures | undefined;
-}
-declare class TypeParameterDeclarationImpl extends TypeParameterDeclarationStructureBase implements RequiredOmit<PreferArrayFields<TypeParameterDeclarationStructure>, "constraint" | "default" | "variance">, ConstraintInterface, DefaultInterface {
+declare class TypeParameterDeclarationImpl extends TypeParameterDeclarationStructureBase implements TypeParameterDeclarationStructureClassIfc {
     #private;
     readonly kind: StructureKind.TypeParameter;
     isConst: boolean;
@@ -912,11 +898,11 @@ type TypeStructures = ArrayTypeStructureImpl | ConditionalTypeStructureImpl | Fu
 type TypeStructuresOrNull = TypeStructures | null;
 
 declare const DecoratorStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
 }, typeof StructureBase>;
-declare class DecoratorImpl extends DecoratorStructureBase implements RequiredOmit<PreferArrayFields<DecoratorStructure>> {
+declare class DecoratorImpl extends DecoratorStructureBase implements DecoratorStructureClassIfc {
     readonly kind: StructureKind.Decorator;
     readonly arguments: stringOrWriterFunction[];
     readonly typeArguments: string[];
@@ -927,8 +913,8 @@ declare class DecoratorImpl extends DecoratorStructureBase implements RequiredOm
 }
 
 declare const ParameterDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     initializer?: stringOrWriterFunction | undefined;
     hasOverrideKeyword: boolean;
@@ -936,9 +922,9 @@ declare const ParameterDeclarationStructureBase: mixin_decorators.MixinClass<obj
     isReadonly: boolean;
     type?: stringOrWriterFunction | undefined;
     typeStructure: TypeStructures | undefined;
-    decorators: DecoratorImpl[];
+    readonly decorators: DecoratorImpl[];
 }, typeof StructureBase>;
-declare class ParameterDeclarationImpl extends ParameterDeclarationStructureBase implements RequiredOmit<PreferArrayFields<ParameterDeclarationStructure>, "initializer" | "scope" | "type"> {
+declare class ParameterDeclarationImpl extends ParameterDeclarationStructureBase implements ParameterDeclarationStructureClassIfc {
     readonly kind: StructureKind.Parameter;
     isRestParameter: boolean;
     scope?: Scope;
@@ -949,39 +935,33 @@ declare class ParameterDeclarationImpl extends ParameterDeclarationStructureBase
 }
 
 declare const CallSignatureDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    parameters: ParameterDeclarationImpl[];
+    readonly parameters: ParameterDeclarationImpl[];
     returnType?: stringOrWriterFunction | undefined;
     returnTypeStructure: TypeStructures | undefined;
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
-declare class CallSignatureDeclarationImpl extends CallSignatureDeclarationStructureBase implements RequiredOmit<PreferArrayFields<CallSignatureDeclarationStructure>, "returnType"> {
+declare class CallSignatureDeclarationImpl extends CallSignatureDeclarationStructureBase implements CallSignatureDeclarationStructureClassIfc {
     readonly kind: StructureKind.CallSignature;
     static clone(source: OptionalKind<CallSignatureDeclarationStructure>): CallSignatureDeclarationImpl;
     toJSON(): StructureClassToJSON<CallSignatureDeclarationImpl>;
 }
 
 declare const ClassDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     isDefaultExport: boolean;
     isExported: boolean;
     hasDeclareKeyword: boolean;
     isAbstract: boolean;
-    decorators: DecoratorImpl[];
+    readonly decorators: DecoratorImpl[];
     name?: string | undefined;
 }, typeof StructureBase>;
-interface ImplementsInterface {
-    implementsSet: TypeStructureSet;
-}
-interface ExtendsInterface$1 {
-    extendsStructure: TypeStructures | undefined;
-}
-declare class ClassDeclarationImpl extends ClassDeclarationStructureBase implements RequiredOmit<PreferArrayFields<ClassDeclarationStructure>, "extends" | "name">, ImplementsInterface, ExtendsInterface$1 {
+declare class ClassDeclarationImpl extends ClassDeclarationStructureBase implements ClassDeclarationStructureClassIfc {
     #private;
     readonly kind: StructureKind.Class;
     readonly ctors: ConstructorDeclarationImpl[];
@@ -1003,12 +983,12 @@ declare class ClassDeclarationImpl extends ClassDeclarationStructureBase impleme
 }
 
 declare const ClassStaticBlockDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
-    statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
+    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
 }, typeof StructureBase>;
-declare class ClassStaticBlockDeclarationImpl extends ClassStaticBlockDeclarationStructureBase implements RequiredOmit<PreferArrayFields<ClassStaticBlockDeclarationStructure>> {
+declare class ClassStaticBlockDeclarationImpl extends ClassStaticBlockDeclarationStructureBase implements ClassStaticBlockDeclarationStructureClassIfc {
     readonly kind: StructureKind.ClassStaticBlock;
     static clone(source: OptionalKind<ClassStaticBlockDeclarationStructure>): ClassStaticBlockDeclarationImpl;
     toJSON(): StructureClassToJSON<ClassStaticBlockDeclarationImpl>;
@@ -1016,16 +996,16 @@ declare class ClassStaticBlockDeclarationImpl extends ClassStaticBlockDeclaratio
 
 declare const ConstructorDeclarationStructureBase: mixin_decorators.MixinClass<object, {
     scope?: ts_morph.Scope | undefined;
-    parameters: ParameterDeclarationImpl[];
+    readonly parameters: ParameterDeclarationImpl[];
     returnType?: stringOrWriterFunction | undefined;
     returnTypeStructure: TypeStructures | undefined;
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
-    statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
+    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
 }, typeof StructureBase>;
-declare class ConstructorDeclarationImpl extends ConstructorDeclarationStructureBase implements RequiredOmit<PreferArrayFields<ConstructorDeclarationStructure>, "returnType" | "scope"> {
+declare class ConstructorDeclarationImpl extends ConstructorDeclarationStructureBase implements ConstructorDeclarationStructureClassIfc {
     readonly kind: StructureKind.Constructor;
     readonly overloads: ConstructorDeclarationOverloadImpl[];
     static [COPY_FIELDS](source: OptionalKind<ConstructorDeclarationStructure>, target: ConstructorDeclarationImpl): void;
@@ -1036,45 +1016,45 @@ declare class ConstructorDeclarationImpl extends ConstructorDeclarationStructure
 
 declare const ConstructorDeclarationOverloadStructureBase: mixin_decorators.MixinClass<object, {
     scope?: ts_morph.Scope | undefined;
-    parameters: ParameterDeclarationImpl[];
+    readonly parameters: ParameterDeclarationImpl[];
     returnType?: stringOrWriterFunction | undefined;
     returnTypeStructure: TypeStructures | undefined;
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
-declare class ConstructorDeclarationOverloadImpl extends ConstructorDeclarationOverloadStructureBase implements RequiredOmit<PreferArrayFields<ConstructorDeclarationOverloadStructure>, "returnType" | "scope"> {
+declare class ConstructorDeclarationOverloadImpl extends ConstructorDeclarationOverloadStructureBase implements ConstructorDeclarationOverloadStructureClassIfc {
     readonly kind: StructureKind.ConstructorOverload;
     static clone(source: OptionalKind<ConstructorDeclarationOverloadStructure>): ConstructorDeclarationOverloadImpl;
     toJSON(): StructureClassToJSON<ConstructorDeclarationOverloadImpl>;
 }
 
 declare const ConstructSignatureDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    parameters: ParameterDeclarationImpl[];
+    readonly parameters: ParameterDeclarationImpl[];
     returnType?: stringOrWriterFunction | undefined;
     returnTypeStructure: TypeStructures | undefined;
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
-declare class ConstructSignatureDeclarationImpl extends ConstructSignatureDeclarationStructureBase implements RequiredOmit<PreferArrayFields<ConstructSignatureDeclarationStructure>, "returnType"> {
+declare class ConstructSignatureDeclarationImpl extends ConstructSignatureDeclarationStructureBase implements ConstructSignatureDeclarationStructureClassIfc {
     readonly kind: StructureKind.ConstructSignature;
     static clone(source: OptionalKind<ConstructSignatureDeclarationStructure>): ConstructSignatureDeclarationImpl;
     toJSON(): StructureClassToJSON<ConstructSignatureDeclarationImpl>;
 }
 
 declare const EnumDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     isDefaultExport: boolean;
     isExported: boolean;
     hasDeclareKeyword: boolean;
 }, typeof StructureBase>;
-declare class EnumDeclarationImpl extends EnumDeclarationStructureBase implements RequiredOmit<PreferArrayFields<EnumDeclarationStructure>> {
+declare class EnumDeclarationImpl extends EnumDeclarationStructureBase implements EnumDeclarationStructureClassIfc {
     readonly kind: StructureKind.Enum;
     isConst: boolean;
     readonly members: EnumMemberImpl[];
@@ -1085,13 +1065,13 @@ declare class EnumDeclarationImpl extends EnumDeclarationStructureBase implement
 }
 
 declare const EnumMemberStructureBase: mixin_decorators.MixinClass<object, {
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     initializer?: stringOrWriterFunction | undefined;
 }, typeof StructureBase>;
-declare class EnumMemberImpl extends EnumMemberStructureBase implements RequiredOmit<PreferArrayFields<EnumMemberStructure>, "initializer" | "value"> {
+declare class EnumMemberImpl extends EnumMemberStructureBase implements EnumMemberStructureClassIfc {
     readonly kind: StructureKind.EnumMember;
     value?: string | number;
     constructor(name: string);
@@ -1101,11 +1081,11 @@ declare class EnumMemberImpl extends EnumMemberStructureBase implements Required
 }
 
 declare const ExportAssignmentStructureBase: mixin_decorators.MixinClass<object, {
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
-declare class ExportAssignmentImpl extends ExportAssignmentStructureBase implements RequiredOmit<PreferArrayFields<ExportAssignmentStructure>> {
+declare class ExportAssignmentImpl extends ExportAssignmentStructureBase implements ExportAssignmentStructureClassIfc {
     readonly kind: StructureKind.ExportAssignment;
     expression: stringOrWriterFunction;
     isExportEquals: boolean;
@@ -1116,10 +1096,10 @@ declare class ExportAssignmentImpl extends ExportAssignmentStructureBase impleme
 }
 
 declare const ExportDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
-declare class ExportDeclarationImpl extends ExportDeclarationStructureBase implements RequiredOmit<PreferArrayFields<ExportDeclarationStructure>, "attributes" | "moduleSpecifier" | "namespaceExport"> {
+declare class ExportDeclarationImpl extends ExportDeclarationStructureBase implements ExportDeclarationStructureClassIfc {
     readonly kind: StructureKind.ExportDeclaration;
     attributes?: ImportAttributeImpl[];
     isTypeOnly: boolean;
@@ -1132,11 +1112,11 @@ declare class ExportDeclarationImpl extends ExportDeclarationStructureBase imple
 }
 
 declare const ExportSpecifierStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
 }, typeof StructureBase>;
-declare class ExportSpecifierImpl extends ExportSpecifierStructureBase implements RequiredOmit<PreferArrayFields<ExportSpecifierStructure>, "alias"> {
+declare class ExportSpecifierImpl extends ExportSpecifierStructureBase implements ExportSpecifierStructureClassIfc {
     readonly kind: StructureKind.ExportSpecifier;
     alias?: string;
     isTypeOnly: boolean;
@@ -1147,22 +1127,22 @@ declare class ExportSpecifierImpl extends ExportSpecifierStructureBase implement
 }
 
 declare const FunctionDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    parameters: ParameterDeclarationImpl[];
+    readonly parameters: ParameterDeclarationImpl[];
     returnType?: stringOrWriterFunction | undefined;
     returnTypeStructure: TypeStructures | undefined;
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     isAsync: boolean;
     isGenerator: boolean;
     isDefaultExport: boolean;
     isExported: boolean;
     hasDeclareKeyword: boolean;
-    statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
     name?: string | undefined;
 }, typeof StructureBase>;
-declare class FunctionDeclarationImpl extends FunctionDeclarationStructureBase implements RequiredOmit<PreferArrayFields<FunctionDeclarationStructure>, "name" | "returnType"> {
+declare class FunctionDeclarationImpl extends FunctionDeclarationStructureBase implements FunctionDeclarationStructureClassIfc {
     readonly kind: StructureKind.Function;
     readonly overloads: FunctionDeclarationOverloadImpl[];
     static [COPY_FIELDS](source: OptionalKind<FunctionDeclarationStructure>, target: FunctionDeclarationImpl): void;
@@ -1171,20 +1151,20 @@ declare class FunctionDeclarationImpl extends FunctionDeclarationStructureBase i
 }
 
 declare const FunctionDeclarationOverloadStructureBase: mixin_decorators.MixinClass<object, {
-    parameters: ParameterDeclarationImpl[];
+    readonly parameters: ParameterDeclarationImpl[];
     returnType?: stringOrWriterFunction | undefined;
     returnTypeStructure: TypeStructures | undefined;
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     isAsync: boolean;
     isGenerator: boolean;
     isDefaultExport: boolean;
     isExported: boolean;
     hasDeclareKeyword: boolean;
 }, typeof StructureBase>;
-declare class FunctionDeclarationOverloadImpl extends FunctionDeclarationOverloadStructureBase implements RequiredOmit<PreferArrayFields<FunctionDeclarationOverloadStructure>, "returnType"> {
+declare class FunctionDeclarationOverloadImpl extends FunctionDeclarationOverloadStructureBase implements FunctionDeclarationOverloadStructureClassIfc {
     readonly kind: StructureKind.FunctionOverload;
     static clone(source: OptionalKind<FunctionDeclarationOverloadStructure>): FunctionDeclarationOverloadImpl;
     toJSON(): StructureClassToJSON<FunctionDeclarationOverloadImpl>;
@@ -1192,19 +1172,19 @@ declare class FunctionDeclarationOverloadImpl extends FunctionDeclarationOverloa
 
 declare const GetAccessorDeclarationStructureBase: mixin_decorators.MixinClass<object, {
     scope?: ts_morph.Scope | undefined;
-    parameters: ParameterDeclarationImpl[];
+    readonly parameters: ParameterDeclarationImpl[];
     returnType?: stringOrWriterFunction | undefined;
     returnTypeStructure: TypeStructures | undefined;
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     isAbstract: boolean;
-    decorators: DecoratorImpl[];
-    statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly decorators: DecoratorImpl[];
+    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
 }, typeof StructureBase>;
-declare class GetAccessorDeclarationImpl extends GetAccessorDeclarationStructureBase implements RequiredOmit<PreferArrayFields<GetAccessorDeclarationStructure>, "returnType" | "scope"> {
+declare class GetAccessorDeclarationImpl extends GetAccessorDeclarationStructureBase implements GetAccessorDeclarationStructureClassIfc {
     readonly kind: StructureKind.GetAccessor;
     isStatic: boolean;
     constructor(isStatic: boolean, name: string, returnType?: TypeStructures);
@@ -1213,10 +1193,10 @@ declare class GetAccessorDeclarationImpl extends GetAccessorDeclarationStructure
 }
 
 declare const ImportAttributeStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
-declare class ImportAttributeImpl extends ImportAttributeStructureBase implements RequiredOmit<PreferArrayFields<ImportAttributeStructure>> {
+declare class ImportAttributeImpl extends ImportAttributeStructureBase implements ImportAttributeStructureClassIfc {
     readonly kind: StructureKind.ImportAttribute;
     name: string;
     value: string;
@@ -1227,10 +1207,10 @@ declare class ImportAttributeImpl extends ImportAttributeStructureBase implement
 }
 
 declare const ImportDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
-declare class ImportDeclarationImpl extends ImportDeclarationStructureBase implements RequiredOmit<PreferArrayFields<ImportDeclarationStructure>, "attributes" | "defaultImport" | "namespaceImport"> {
+declare class ImportDeclarationImpl extends ImportDeclarationStructureBase implements ImportDeclarationStructureClassIfc {
     readonly kind: StructureKind.ImportDeclaration;
     attributes?: ImportAttributeImpl[];
     defaultImport?: string;
@@ -1245,11 +1225,11 @@ declare class ImportDeclarationImpl extends ImportDeclarationStructureBase imple
 }
 
 declare const ImportSpecifierStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
 }, typeof StructureBase>;
-declare class ImportSpecifierImpl extends ImportSpecifierStructureBase implements RequiredOmit<PreferArrayFields<ImportSpecifierStructure>, "alias"> {
+declare class ImportSpecifierImpl extends ImportSpecifierStructureBase implements ImportSpecifierStructureClassIfc {
     readonly kind: StructureKind.ImportSpecifier;
     alias?: string;
     isTypeOnly: boolean;
@@ -1262,15 +1242,12 @@ declare class ImportSpecifierImpl extends ImportSpecifierStructureBase implement
 declare const IndexSignatureDeclarationStructureBase: mixin_decorators.MixinClass<object, {
     returnType?: stringOrWriterFunction | undefined;
     returnTypeStructure: TypeStructures | undefined;
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     isReadonly: boolean;
 }, typeof StructureBase>;
-interface KeyTypeInterface {
-    keyTypeStructure: TypeStructures | undefined;
-}
-declare class IndexSignatureDeclarationImpl extends IndexSignatureDeclarationStructureBase implements RequiredOmit<PreferArrayFields<IndexSignatureDeclarationStructure>, "keyName" | "keyType" | "returnType">, KeyTypeInterface {
+declare class IndexSignatureDeclarationImpl extends IndexSignatureDeclarationStructureBase implements IndexSignatureDeclarationStructureClassIfc {
     #private;
     readonly kind: StructureKind.IndexSignature;
     keyName?: string;
@@ -1286,19 +1263,16 @@ declare class IndexSignatureDeclarationImpl extends IndexSignatureDeclarationStr
 }
 
 declare const InterfaceDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     isDefaultExport: boolean;
     isExported: boolean;
     hasDeclareKeyword: boolean;
 }, typeof StructureBase>;
-interface ExtendsInterface {
-    extendsSet: TypeStructureSet;
-}
-declare class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase implements RequiredOmit<PreferArrayFields<InterfaceDeclarationStructure>>, ExtendsInterface {
+declare class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase implements InterfaceDeclarationStructureClassIfc {
     #private;
     readonly kind: StructureKind.Interface;
     readonly callSignatures: CallSignatureDeclarationImpl[];
@@ -1319,10 +1293,10 @@ declare class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase
 }
 
 declare const JSDocTagStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
-declare class JSDocTagImpl extends JSDocTagStructureBase implements RequiredOmit<PreferArrayFields<JSDocTagStructure>, "text"> {
+declare class JSDocTagImpl extends JSDocTagStructureBase implements JSDocTagStructureClassIfc {
     readonly kind: StructureKind.JSDocTag;
     tagName: string;
     text?: stringOrWriterFunction;
@@ -1333,10 +1307,10 @@ declare class JSDocTagImpl extends JSDocTagStructureBase implements RequiredOmit
 }
 
 declare const JsxAttributeStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
-declare class JsxAttributeImpl extends JsxAttributeStructureBase implements RequiredOmit<PreferArrayFields<JsxAttributeStructure>, "initializer"> {
+declare class JsxAttributeImpl extends JsxAttributeStructureBase implements JsxAttributeStructureClassIfc {
     readonly kind: StructureKind.JsxAttribute;
     initializer?: string;
     name: string | JsxNamespacedNameStructure;
@@ -1347,11 +1321,11 @@ declare class JsxAttributeImpl extends JsxAttributeStructureBase implements Requ
 }
 
 declare const JsxElementStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
 }, typeof StructureBase>;
-declare class JsxElementImpl extends JsxElementStructureBase implements RequiredOmit<PreferArrayFields<JsxElementStructure>, "bodyText"> {
+declare class JsxElementImpl extends JsxElementStructureBase implements JsxElementStructureClassIfc {
     readonly kind: StructureKind.JsxElement;
     readonly attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[];
     bodyText?: string;
@@ -1363,11 +1337,11 @@ declare class JsxElementImpl extends JsxElementStructureBase implements Required
 }
 
 declare const JsxSelfClosingElementStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
 }, typeof StructureBase>;
-declare class JsxSelfClosingElementImpl extends JsxSelfClosingElementStructureBase implements RequiredOmit<PreferArrayFields<JsxSelfClosingElementStructure>> {
+declare class JsxSelfClosingElementImpl extends JsxSelfClosingElementStructureBase implements JsxSelfClosingElementStructureClassIfc {
     readonly kind: StructureKind.JsxSelfClosingElement;
     readonly attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[];
     constructor(name: string);
@@ -1377,10 +1351,10 @@ declare class JsxSelfClosingElementImpl extends JsxSelfClosingElementStructureBa
 }
 
 declare const JsxSpreadAttributeStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
-declare class JsxSpreadAttributeImpl extends JsxSpreadAttributeStructureBase implements RequiredOmit<PreferArrayFields<JsxSpreadAttributeStructure>> {
+declare class JsxSpreadAttributeImpl extends JsxSpreadAttributeStructureBase implements JsxSpreadAttributeStructureClassIfc {
     readonly kind: StructureKind.JsxSpreadAttribute;
     expression: string;
     constructor(expression: string);
@@ -1391,23 +1365,23 @@ declare class JsxSpreadAttributeImpl extends JsxSpreadAttributeStructureBase imp
 
 declare const MethodDeclarationStructureBase: mixin_decorators.MixinClass<object, {
     scope?: ts_morph.Scope | undefined;
-    parameters: ParameterDeclarationImpl[];
+    readonly parameters: ParameterDeclarationImpl[];
     returnType?: stringOrWriterFunction | undefined;
     returnTypeStructure: TypeStructures | undefined;
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     isAsync: boolean;
     isGenerator: boolean;
     hasOverrideKeyword: boolean;
     isAbstract: boolean;
     hasQuestionToken: boolean;
-    decorators: DecoratorImpl[];
-    statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly decorators: DecoratorImpl[];
+    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
 }, typeof StructureBase>;
-declare class MethodDeclarationImpl extends MethodDeclarationStructureBase implements RequiredOmit<PreferArrayFields<MethodDeclarationStructure>, "returnType" | "scope"> {
+declare class MethodDeclarationImpl extends MethodDeclarationStructureBase implements MethodDeclarationStructureClassIfc {
     readonly kind: StructureKind.Method;
     isStatic: boolean;
     readonly overloads: MethodDeclarationOverloadImpl[];
@@ -1420,20 +1394,20 @@ declare class MethodDeclarationImpl extends MethodDeclarationStructureBase imple
 
 declare const MethodDeclarationOverloadStructureBase: mixin_decorators.MixinClass<object, {
     scope?: ts_morph.Scope | undefined;
-    parameters: ParameterDeclarationImpl[];
+    readonly parameters: ParameterDeclarationImpl[];
     returnType?: stringOrWriterFunction | undefined;
     returnTypeStructure: TypeStructures | undefined;
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     isAsync: boolean;
     isGenerator: boolean;
     hasOverrideKeyword: boolean;
     isAbstract: boolean;
     hasQuestionToken: boolean;
 }, typeof StructureBase>;
-declare class MethodDeclarationOverloadImpl extends MethodDeclarationOverloadStructureBase implements RequiredOmit<PreferArrayFields<MethodDeclarationOverloadStructure>, "returnType" | "scope"> {
+declare class MethodDeclarationOverloadImpl extends MethodDeclarationOverloadStructureBase implements MethodDeclarationOverloadStructureClassIfc {
     readonly kind: StructureKind.MethodOverload;
     isStatic: boolean;
     constructor(isStatic: boolean);
@@ -1442,17 +1416,17 @@ declare class MethodDeclarationOverloadImpl extends MethodDeclarationOverloadStr
 }
 
 declare const MethodSignatureStructureBase: mixin_decorators.MixinClass<object, {
-    parameters: ParameterDeclarationImpl[];
+    readonly parameters: ParameterDeclarationImpl[];
     returnType?: stringOrWriterFunction | undefined;
     returnTypeStructure: TypeStructures | undefined;
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     hasQuestionToken: boolean;
 }, typeof StructureBase>;
-declare class MethodSignatureImpl extends MethodSignatureStructureBase implements RequiredOmit<PreferArrayFields<MethodSignatureStructure>, "returnType"> {
+declare class MethodSignatureImpl extends MethodSignatureStructureBase implements MethodSignatureStructureClassIfc {
     readonly kind: StructureKind.MethodSignature;
     constructor(name: string);
     static clone(source: OptionalKind<MethodSignatureStructure>): MethodSignatureImpl;
@@ -1460,16 +1434,16 @@ declare class MethodSignatureImpl extends MethodSignatureStructureBase implement
 }
 
 declare const ModuleDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     isDefaultExport: boolean;
     isExported: boolean;
     hasDeclareKeyword: boolean;
-    statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
 }, typeof StructureBase>;
-declare class ModuleDeclarationImpl extends ModuleDeclarationStructureBase implements RequiredOmit<PreferArrayFields<ModuleDeclarationStructure>, "declarationKind"> {
+declare class ModuleDeclarationImpl extends ModuleDeclarationStructureBase implements ModuleDeclarationStructureClassIfc {
     readonly kind: StructureKind.Module;
     declarationKind?: ModuleDeclarationKind;
     constructor(name: string);
@@ -1479,11 +1453,11 @@ declare class ModuleDeclarationImpl extends ModuleDeclarationStructureBase imple
 }
 
 declare const PropertyAssignmentStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
 }, typeof StructureBase>;
-declare class PropertyAssignmentImpl extends PropertyAssignmentStructureBase implements RequiredOmit<PreferArrayFields<PropertyAssignmentStructure>> {
+declare class PropertyAssignmentImpl extends PropertyAssignmentStructureBase implements PropertyAssignmentStructureClassIfc {
     readonly kind: StructureKind.PropertyAssignment;
     initializer: stringOrWriterFunction;
     constructor(name: string, initializer: stringOrWriterFunction);
@@ -1494,9 +1468,9 @@ declare class PropertyAssignmentImpl extends PropertyAssignmentStructureBase imp
 
 declare const PropertyDeclarationStructureBase: mixin_decorators.MixinClass<object, {
     scope?: ts_morph.Scope | undefined;
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     initializer?: stringOrWriterFunction | undefined;
     hasDeclareKeyword: boolean;
@@ -1506,10 +1480,10 @@ declare const PropertyDeclarationStructureBase: mixin_decorators.MixinClass<obje
     isReadonly: boolean;
     type?: stringOrWriterFunction | undefined;
     typeStructure: TypeStructures | undefined;
-    decorators: DecoratorImpl[];
+    readonly decorators: DecoratorImpl[];
     hasExclamationToken: boolean;
 }, typeof StructureBase>;
-declare class PropertyDeclarationImpl extends PropertyDeclarationStructureBase implements RequiredOmit<PreferArrayFields<PropertyDeclarationStructure>, "initializer" | "scope" | "type"> {
+declare class PropertyDeclarationImpl extends PropertyDeclarationStructureBase implements PropertyDeclarationStructureClassIfc {
     readonly kind: StructureKind.Property;
     hasAccessorKeyword: boolean;
     isStatic: boolean;
@@ -1521,9 +1495,9 @@ declare class PropertyDeclarationImpl extends PropertyDeclarationStructureBase i
 }
 
 declare const PropertySignatureStructureBase: mixin_decorators.MixinClass<object, {
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     initializer?: stringOrWriterFunction | undefined;
     hasQuestionToken: boolean;
@@ -1531,7 +1505,7 @@ declare const PropertySignatureStructureBase: mixin_decorators.MixinClass<object
     type?: stringOrWriterFunction | undefined;
     typeStructure: TypeStructures | undefined;
 }, typeof StructureBase>;
-declare class PropertySignatureImpl extends PropertySignatureStructureBase implements RequiredOmit<PreferArrayFields<PropertySignatureStructure>, "initializer" | "type"> {
+declare class PropertySignatureImpl extends PropertySignatureStructureBase implements PropertySignatureStructureClassIfc {
     readonly kind: StructureKind.PropertySignature;
     constructor(name: string);
     static clone(source: OptionalKind<PropertySignatureStructure>): PropertySignatureImpl;
@@ -1540,19 +1514,19 @@ declare class PropertySignatureImpl extends PropertySignatureStructureBase imple
 
 declare const SetAccessorDeclarationStructureBase: mixin_decorators.MixinClass<object, {
     scope?: ts_morph.Scope | undefined;
-    parameters: ParameterDeclarationImpl[];
+    readonly parameters: ParameterDeclarationImpl[];
     returnType?: stringOrWriterFunction | undefined;
     returnTypeStructure: TypeStructures | undefined;
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     isAbstract: boolean;
-    decorators: DecoratorImpl[];
-    statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly decorators: DecoratorImpl[];
+    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
 }, typeof StructureBase>;
-declare class SetAccessorDeclarationImpl extends SetAccessorDeclarationStructureBase implements RequiredOmit<PreferArrayFields<SetAccessorDeclarationStructure>, "returnType" | "scope"> {
+declare class SetAccessorDeclarationImpl extends SetAccessorDeclarationStructureBase implements SetAccessorDeclarationStructureClassIfc {
     readonly kind: StructureKind.SetAccessor;
     isStatic: boolean;
     constructor(isStatic: boolean, name: string, setterParameter: ParameterDeclarationImpl);
@@ -1561,11 +1535,11 @@ declare class SetAccessorDeclarationImpl extends SetAccessorDeclarationStructure
 }
 
 declare const ShorthandPropertyAssignmentStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
 }, typeof StructureBase>;
-declare class ShorthandPropertyAssignmentImpl extends ShorthandPropertyAssignmentStructureBase implements RequiredOmit<PreferArrayFields<ShorthandPropertyAssignmentStructure>> {
+declare class ShorthandPropertyAssignmentImpl extends ShorthandPropertyAssignmentStructureBase implements ShorthandPropertyAssignmentStructureClassIfc {
     readonly kind: StructureKind.ShorthandPropertyAssignment;
     constructor(name: string);
     static clone(source: OptionalKind<ShorthandPropertyAssignmentStructure>): ShorthandPropertyAssignmentImpl;
@@ -1573,21 +1547,21 @@ declare class ShorthandPropertyAssignmentImpl extends ShorthandPropertyAssignmen
 }
 
 declare const SourceFileStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
-    statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
+    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
 }, typeof StructureBase>;
-declare class SourceFileImpl extends SourceFileStructureBase implements RequiredOmit<PreferArrayFields<SourceFileStructure>> {
+declare class SourceFileImpl extends SourceFileStructureBase implements SourceFileStructureClassIfc {
     readonly kind: StructureKind.SourceFile;
     static clone(source: OptionalKind<SourceFileStructure>): SourceFileImpl;
     toJSON(): StructureClassToJSON<SourceFileImpl>;
 }
 
 declare const SpreadAssignmentStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
-declare class SpreadAssignmentImpl extends SpreadAssignmentStructureBase implements RequiredOmit<PreferArrayFields<SpreadAssignmentStructure>> {
+declare class SpreadAssignmentImpl extends SpreadAssignmentStructureBase implements SpreadAssignmentStructureClassIfc {
     readonly kind: StructureKind.SpreadAssignment;
     expression: stringOrWriterFunction;
     constructor(expression: stringOrWriterFunction);
@@ -1597,10 +1571,10 @@ declare class SpreadAssignmentImpl extends SpreadAssignmentStructureBase impleme
 }
 
 declare const TypeAliasDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    typeParameters: (string | TypeParameterDeclarationImpl)[];
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     isDefaultExport: boolean;
     isExported: boolean;
@@ -1608,7 +1582,7 @@ declare const TypeAliasDeclarationStructureBase: mixin_decorators.MixinClass<obj
     type?: stringOrWriterFunction | undefined;
     typeStructure: TypeStructures | undefined;
 }, typeof StructureBase>;
-declare class TypeAliasDeclarationImpl extends TypeAliasDeclarationStructureBase implements RequiredOmit<PreferArrayFields<TypeAliasDeclarationStructure>, "type"> {
+declare class TypeAliasDeclarationImpl extends TypeAliasDeclarationStructureBase implements TypeAliasDeclarationStructureClassIfc {
     readonly kind: StructureKind.TypeAlias;
     constructor(name: string, type: stringOrWriterFunction);
     get type(): stringOrWriterFunction;
@@ -1619,15 +1593,15 @@ declare class TypeAliasDeclarationImpl extends TypeAliasDeclarationStructureBase
 }
 
 declare const VariableDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     name: string;
     initializer?: stringOrWriterFunction | undefined;
     type?: stringOrWriterFunction | undefined;
     typeStructure: TypeStructures | undefined;
     hasExclamationToken: boolean;
 }, typeof StructureBase>;
-declare class VariableDeclarationImpl extends VariableDeclarationStructureBase implements RequiredOmit<PreferArrayFields<VariableDeclarationStructure>, "initializer" | "type"> {
+declare class VariableDeclarationImpl extends VariableDeclarationStructureBase implements VariableDeclarationStructureClassIfc {
     readonly kind: StructureKind.VariableDeclaration;
     constructor(name: string);
     static clone(source: OptionalKind<VariableDeclarationStructure>): VariableDeclarationImpl;
@@ -1635,14 +1609,14 @@ declare class VariableDeclarationImpl extends VariableDeclarationStructureBase i
 }
 
 declare const VariableStatementStructureBase: mixin_decorators.MixinClass<object, {
-    docs: (string | JSDocImpl)[];
-    leadingTrivia: stringOrWriterFunction[];
-    trailingTrivia: stringOrWriterFunction[];
+    readonly docs: (string | JSDocImpl)[];
+    readonly leadingTrivia: stringOrWriterFunction[];
+    readonly trailingTrivia: stringOrWriterFunction[];
     isDefaultExport: boolean;
     isExported: boolean;
     hasDeclareKeyword: boolean;
 }, typeof StructureBase>;
-declare class VariableStatementImpl extends VariableStatementStructureBase implements RequiredOmit<PreferArrayFields<VariableStatementStructure>, "declarationKind"> {
+declare class VariableStatementImpl extends VariableStatementStructureBase implements VariableStatementStructureClassIfc {
     readonly kind: StructureKind.VariableStatement;
     declarationKind?: VariableDeclarationKind;
     readonly declarations: VariableDeclarationImpl[];

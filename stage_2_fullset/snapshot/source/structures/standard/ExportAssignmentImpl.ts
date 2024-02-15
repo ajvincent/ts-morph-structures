@@ -2,12 +2,11 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExportAssignmentStructureClassIfc,
   type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
-  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -30,7 +29,7 @@ const ExportAssignmentStructureBase = MultiMixinBuilder<
 
 export default class ExportAssignmentImpl
   extends ExportAssignmentStructureBase
-  implements RequiredOmit<PreferArrayFields<ExportAssignmentStructure>>
+  implements ExportAssignmentStructureClassIfc
 {
   readonly kind: StructureKind.ExportAssignment =
     StructureKind.ExportAssignment;

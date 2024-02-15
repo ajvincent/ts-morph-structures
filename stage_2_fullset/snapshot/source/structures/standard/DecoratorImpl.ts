@@ -2,12 +2,11 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type DecoratorStructureClassIfc,
   type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -26,7 +25,7 @@ const DecoratorStructureBase = MultiMixinBuilder<
 
 export default class DecoratorImpl
   extends DecoratorStructureBase
-  implements RequiredOmit<PreferArrayFields<DecoratorStructure>>
+  implements DecoratorStructureClassIfc
 {
   readonly kind: StructureKind.Decorator = StructureKind.Decorator;
   readonly arguments: stringOrWriterFunction[] = [];

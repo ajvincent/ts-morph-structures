@@ -12,7 +12,6 @@ import addTSDoc from "./hooks/addTSDoc.js";
 import addTypeStructures from "./hooks/addTypeStructures.js";
 import moveMembersToClass from "./hooks/moveMembersToClass.js";
 import sortClassMembers from "./hooks/sortClassMembers.js";
-import sortRequiredOmit from "./hooks/sortRequiredOmit.js";
 import saveDecoratorFile from "./hooks/decorator/save.js";
 import createStructureParts from "./hooks/structure/createParts.js";
 import defineKindProperty from "./hooks/structure/defineKind.js";
@@ -49,7 +48,6 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addDecoratorHook("move members to class", moveMembersToClass);
   dictionary.addDecoratorHook("sort interface members", sortInterfaceFields);
   dictionary.addDecoratorHook("sort class members", sortClassMembers);
-  dictionary.addDecoratorHook("sort required omit", sortRequiredOmit);
   dictionary.addDecoratorHook("save decorator file", saveDecoratorFile);
 
   dictionary.addStructureHook("create structure parts", createStructureParts);
@@ -67,7 +65,6 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addStructureHook("move members to class", moveMembersToClass);
   dictionary.addStructureHook("sort interface members", sortInterfaceFields);
   dictionary.addStructureHook("sort class members", sortClassMembers);
-  dictionary.addStructureHook("sort required omit", sortRequiredOmit);
   dictionary.addStructureHook("save structure file", saveStructureFile);
 
   await dictionary.build();

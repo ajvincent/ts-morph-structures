@@ -11,13 +11,12 @@ import {
   type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
+  type VariableStatementStructureClassIfc,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -49,11 +48,7 @@ const VariableStatementStructureBase = MultiMixinBuilder<
 
 export default class VariableStatementImpl
   extends VariableStatementStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<VariableStatementStructure>,
-      "declarationKind"
-    >
+  implements VariableStatementStructureClassIfc
 {
   readonly kind: StructureKind.VariableStatement =
     StructureKind.VariableStatement;

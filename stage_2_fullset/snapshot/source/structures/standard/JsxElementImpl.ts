@@ -9,10 +9,9 @@ import {
   cloneRequiredAndOptionalArray,
   COPY_FIELDS,
   type ExtractStructure,
+  type JsxElementStructureClassIfc,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -37,7 +36,7 @@ const JsxElementStructureBase = MultiMixinBuilder<
 
 export default class JsxElementImpl
   extends JsxElementStructureBase
-  implements RequiredOmit<PreferArrayFields<JsxElementStructure>, "bodyText">
+  implements JsxElementStructureClassIfc
 {
   readonly kind: StructureKind.JsxElement = StructureKind.JsxElement;
   readonly attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[] = [];

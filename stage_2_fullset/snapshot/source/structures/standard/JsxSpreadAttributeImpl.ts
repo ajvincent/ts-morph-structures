@@ -3,8 +3,7 @@ import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
-  type PreferArrayFields,
-  type RequiredOmit,
+  type JsxSpreadAttributeStructureClassIfc,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -26,7 +25,7 @@ const JsxSpreadAttributeStructureBase = MultiMixinBuilder<
 
 export default class JsxSpreadAttributeImpl
   extends JsxSpreadAttributeStructureBase
-  implements RequiredOmit<PreferArrayFields<JsxSpreadAttributeStructure>>
+  implements JsxSpreadAttributeStructureClassIfc
 {
   readonly kind: StructureKind.JsxSpreadAttribute =
     StructureKind.JsxSpreadAttribute;

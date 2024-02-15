@@ -22,16 +22,15 @@ import {
   GeneratorableNodeStructureMixin,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
+  type MethodDeclarationStructureClassIfc,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   type OverrideableNodeStructureFields,
   OverrideableNodeStructureMixin,
   type ParameteredNodeStructureFields,
   ParameteredNodeStructureMixin,
-  type PreferArrayFields,
   type QuestionTokenableNodeStructureFields,
   QuestionTokenableNodeStructureMixin,
-  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   type ScopedNodeStructureFields,
@@ -96,11 +95,7 @@ const MethodDeclarationStructureBase = MultiMixinBuilder<
 
 export default class MethodDeclarationImpl
   extends MethodDeclarationStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<MethodDeclarationStructure>,
-      "returnType" | "scope"
-    >
+  implements MethodDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.Method = StructureKind.Method;
   isStatic: boolean;

@@ -6,9 +6,7 @@ import {
   type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
   type StructureClassToJSON,
@@ -16,6 +14,7 @@ import {
   StructureMixin,
   StructuresClassesMap,
   TypeAccessors,
+  type TypeParameterDeclarationStructureClassIfc,
   TypeStructureClassesMap,
 } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
@@ -33,23 +32,9 @@ const TypeParameterDeclarationStructureBase = MultiMixinBuilder<
   typeof StructureBase
 >([NamedNodeStructureMixin, StructureMixin], StructureBase);
 
-interface ConstraintInterface {
-  constraintStructure: TypeStructures | undefined;
-}
-
-interface DefaultInterface {
-  defaultStructure: TypeStructures | undefined;
-}
-
 export default class TypeParameterDeclarationImpl
   extends TypeParameterDeclarationStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<TypeParameterDeclarationStructure>,
-      "constraint" | "default" | "variance"
-    >,
-    ConstraintInterface,
-    DefaultInterface
+  implements TypeParameterDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.TypeParameter = StructureKind.TypeParameter;
   readonly #constraintManager = new TypeAccessors();

@@ -2,11 +2,10 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type ExportSpecifierStructureClassIfc,
   type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -28,7 +27,7 @@ const ExportSpecifierStructureBase = MultiMixinBuilder<
 
 export default class ExportSpecifierImpl
   extends ExportSpecifierStructureBase
-  implements RequiredOmit<PreferArrayFields<ExportSpecifierStructure>, "alias">
+  implements ExportSpecifierStructureClassIfc
 {
   readonly kind: StructureKind.ExportSpecifier = StructureKind.ExportSpecifier;
   alias?: string = undefined;

@@ -9,10 +9,9 @@ import {
   type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
+  type ModuleDeclarationStructureClassIfc,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
@@ -54,11 +53,7 @@ const ModuleDeclarationStructureBase = MultiMixinBuilder<
 
 export default class ModuleDeclarationImpl
   extends ModuleDeclarationStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<ModuleDeclarationStructure>,
-      "declarationKind"
-    >
+  implements ModuleDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.Module = StructureKind.Module;
   declarationKind?: ModuleDeclarationKind = undefined;

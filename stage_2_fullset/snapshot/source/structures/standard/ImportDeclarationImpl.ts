@@ -6,9 +6,8 @@ import {
   cloneStructureStringOrWriterArray,
   COPY_FIELDS,
   type ExtractStructure,
-  type PreferArrayFields,
+  type ImportDeclarationStructureClassIfc,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -33,11 +32,7 @@ const ImportDeclarationStructureBase = MultiMixinBuilder<
 
 export default class ImportDeclarationImpl
   extends ImportDeclarationStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<ImportDeclarationStructure>,
-      "attributes" | "defaultImport" | "namespaceImport"
-    >
+  implements ImportDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.ImportDeclaration =
     StructureKind.ImportDeclaration;

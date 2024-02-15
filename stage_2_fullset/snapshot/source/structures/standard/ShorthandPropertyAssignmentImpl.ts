@@ -5,8 +5,7 @@ import {
   type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
+  type ShorthandPropertyAssignmentStructureClassIfc,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -28,8 +27,7 @@ const ShorthandPropertyAssignmentStructureBase = MultiMixinBuilder<
 
 export default class ShorthandPropertyAssignmentImpl
   extends ShorthandPropertyAssignmentStructureBase
-  implements
-    RequiredOmit<PreferArrayFields<ShorthandPropertyAssignmentStructure>>
+  implements ShorthandPropertyAssignmentStructureClassIfc
 {
   readonly kind: StructureKind.ShorthandPropertyAssignment =
     StructureKind.ShorthandPropertyAssignment;

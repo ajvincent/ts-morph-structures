@@ -4,5 +4,5 @@ import type { StructureKind } from "ts-morph";
 export interface MethodDeclarationStructureClassIfc {
   readonly kind: StructureKind.Method;
   isStatic: boolean;
-  overloads: MethodDeclarationOverloadImpl[];
+  readonly overloads: MethodDeclarationOverloadImpl[];
 }

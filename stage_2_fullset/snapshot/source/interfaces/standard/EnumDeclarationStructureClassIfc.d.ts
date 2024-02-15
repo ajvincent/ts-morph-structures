@@ -4,5 +4,5 @@ import type { StructureKind } from "ts-morph";
 export interface EnumDeclarationStructureClassIfc {
   readonly kind: StructureKind.Enum;
   isConst: boolean;
-  members: EnumMemberImpl[];
+  readonly members: EnumMemberImpl[];
 }

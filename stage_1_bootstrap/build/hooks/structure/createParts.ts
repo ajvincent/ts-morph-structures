@@ -5,10 +5,6 @@ import {
   LiteralTypedStructureImpl,
   InterfaceDeclarationImpl,
   SourceFileImpl,
-  StringTypedStructureImpl,
-  TypeArgumentedTypedStructureImpl,
-  TypeStructures,
-  UnionTypedStructureImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import StructureDictionaries, {
@@ -17,7 +13,6 @@ import StructureDictionaries, {
 } from "#stage_one/build/StructureDictionaries.js";
 
 import type {
-  DecoratorImplMeta,
   StructureImplMeta,
 } from "#stage_one/build/structureMeta/DataClasses.js";
 
@@ -31,7 +26,6 @@ import defineCopyFieldsMethod from "#stage_one/build/utilities/defineCopyFieldsM
 import ClassFieldStatementsMap from "#stage_one/build/utilities/public/ClassFieldStatementsMap.js";
 import ClassMembersMap from "#stage_one/build/utilities/public/ClassMembersMap.js";
 import ImportManager from "#stage_one/build/utilities/public/ImportManager.js";
-import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 import TypeMembersMap from "#stage_one/build/utilities/public/TypeMembersMap.js";
 
 import {
@@ -54,8 +48,6 @@ export default function createStructureParts(
   parts.classDecl.isDefaultExport = true;
   parts.classDecl.extendsStructure = new LiteralTypedStructureImpl(getStructureClassBaseName(name));
 
-  parts.classDecl.implementsSet.add(defineRequiredOmit(meta, dictionaries));
-
   parts.classFieldsStatements = new ClassFieldStatementsMap;
   parts.classMembersMap = new ClassMembersMap;
 
@@ -66,6 +58,8 @@ export default function createStructureParts(
   parts.implementsImports = new ImportManager(
     path.join(distDir, "source/interfaces/standard", parts.classImplementsIfc.name + ".d.ts")
   );
+
+  parts.classDecl.implementsSet.add(new LiteralTypedStructureImpl(parts.classImplementsIfc.name));
 
   parts.sourceFile = new SourceFileImpl;
 
@@ -101,8 +95,7 @@ export default function createStructureParts(
     isTypeOnly: true,
     importNames: [
       "ExtractStructure",
-      "PreferArrayFields",
-      "RequiredOmit",
+      parts.classImplementsIfc.name,
     ]
   });
 
@@ -130,35 +123,4 @@ export default function createStructureParts(
 
   dictionaries.structureParts.set(meta, parts as StructureParts);
   return Promise.resolve();
-}
-
-function defineRequiredOmit(
-  meta: StructureImplMeta,
-  dictionaries: StructureDictionaries
-): TypeArgumentedTypedStructureImpl
-{
-  const literalType = new LiteralTypedStructureImpl(meta.structureName);
-  const typeArgumented = new TypeArgumentedTypedStructureImpl(
-    ConstantTypeStructures.PreferArrayFields, [literalType]
-  );
-
-  const requiredOmitChildren: TypeStructures[] = [typeArgumented];
-
-  const unionChildTypes: TypeStructures[] = [];
-  meta.decoratorKeys.forEach((decoratorName): void => {
-    const decoratorData: DecoratorImplMeta = dictionaries.decorators.get(decoratorName)!;
-    decoratorData.structureFields.forEach((propertyValue, key) => {
-      if (propertyValue.hasQuestionToken)
-        unionChildTypes.push(new StringTypedStructureImpl(key));
-    });
-  });
-
-  if (unionChildTypes.length > 0) {
-    requiredOmitChildren.push(new UnionTypedStructureImpl(unionChildTypes))
-  }
-
-  return new TypeArgumentedTypedStructureImpl(
-    ConstantTypeStructures.RequiredOmit,
-    requiredOmitChildren
-  );
 }

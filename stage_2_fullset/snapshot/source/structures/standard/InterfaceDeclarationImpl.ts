@@ -19,14 +19,13 @@ import {
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type ExtractStructure,
+  type InterfaceDeclarationStructureClassIfc,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
   ReadonlyArrayProxyHandler,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
   type StructureClassToJSON,
@@ -75,15 +74,9 @@ const InterfaceDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-interface ExtendsInterface {
-  extendsSet: TypeStructureSet;
-}
-
 export default class InterfaceDeclarationImpl
   extends InterfaceDeclarationStructureBase
-  implements
-    RequiredOmit<PreferArrayFields<InterfaceDeclarationStructure>>,
-    ExtendsInterface
+  implements InterfaceDeclarationStructureClassIfc
 {
   static readonly #extendsArrayReadonlyHandler = new ReadonlyArrayProxyHandler(
     "The extends array is read-only.  Please use this.extendsSet to set strings and type structures.",

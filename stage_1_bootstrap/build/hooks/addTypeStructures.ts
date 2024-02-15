@@ -6,7 +6,6 @@ import {
 
 import StructureDictionaries, {
   DecoratorParts,
-  MetaPartsType,
   StructureParts,
 } from "#stage_one/build/StructureDictionaries.js";
 
@@ -19,7 +18,6 @@ import {
 
 import {
   GetAccessorDeclarationImpl,
-  InterfaceDeclarationImpl,
   LiteralTypedStructureImpl,
   JSDocImpl,
   JSDocTagImpl,
@@ -185,34 +183,28 @@ function addTypeStructureSet(
   ]);
 
   // add the necessary interface to the class
-  if (parts.partsType === MetaPartsType.DECORATOR) {
-    const typeProperty = new PropertySignatureImpl(typeStructureSetProp.name);
-    typeProperty.typeStructure = new LiteralTypedStructureImpl("TypeStructureSet");
-    parts.classImplementsMap.addMembers([typeProperty]);
+  const typeProperty = new PropertySignatureImpl(typeStructureSetProp.name);
+  typeProperty.typeStructure = new LiteralTypedStructureImpl("TypeStructureSet");
+  parts.classImplementsMap.addMembers([typeProperty]);
 
-    parts.implementsImports.addImports({
-      pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
-      isPackageImport: false,
-      isDefaultImport: false,
-      isTypeOnly: true,
-      importNames: ["TypeStructureSet"]
-    });
-  }
-  else {
-    let name = propertyKey + "Interface";
-    name = name[0].toUpperCase() + name.substring(1);
+  const originalTypeArraySignature = parts.classImplementsMap.getAsKind<StructureKind.PropertySignature>(
+    propertyKey, StructureKind.PropertySignature
+  )!;
+  originalTypeArraySignature.isReadonly = true;
 
-    const typeInterface = new InterfaceDeclarationImpl(name);
-    parts.moduleInterfaces.push(typeInterface);
+  const typeDocs = new JSDocImpl();
+  originalTypeArraySignature.docs.push(
+    typeDocs
+  );
+  typeDocs.description = `Treat this as a read-only array.  Use \`.${typeStructureSetProp.name}\` to modify this.`;
 
-    const typeProperty = new PropertySignatureImpl(typeStructureSetProp.name);
-    typeProperty.typeStructure = new LiteralTypedStructureImpl("TypeStructureSet");
-    typeInterface.properties.push(typeProperty);
-
-    const interfaceNameLiteral = new LiteralTypedStructureImpl(name);
-
-    parts.classDecl.implementsSet.add(interfaceNameLiteral);
-  }
+  parts.implementsImports.addImports({
+    pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
+    isPackageImport: false,
+    isDefaultImport: false,
+    isTypeOnly: true,
+    importNames: ["TypeStructureSet"]
+  });
 }
 
 function addTypeAccessor(
@@ -320,33 +312,17 @@ function addTypeAccessor(
   ]);
 
   // add the necessary interface to the class
-  if (parts.partsType === MetaPartsType.DECORATOR) {
-    const typeProperty = new PropertySignatureImpl(structureGetAccessor.name);
-    typeProperty.typeStructure = structureGetAccessor.returnTypeStructure;
-    parts.classImplementsMap.addMembers([typeProperty]);
+  const typeProperty = new PropertySignatureImpl(structureGetAccessor.name);
+  typeProperty.typeStructure = structureGetAccessor.returnTypeStructure;
+  parts.classImplementsMap.addMembers([typeProperty]);
 
-    parts.implementsImports.addImports({
-      pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
-      isPackageImport: false,
-      isDefaultImport: false,
-      isTypeOnly: true,
-      importNames: ["TypeStructures"]
-    });
-  } else {
-    let name = propertyKey + "Interface";
-    name = name[0].toUpperCase() + name.substring(1);
-
-    const typeInterface = new InterfaceDeclarationImpl(name);
-    parts.moduleInterfaces.push(typeInterface);
-
-    const typeProperty = new PropertySignatureImpl(structureGetAccessor.name);
-    typeProperty.typeStructure = structureGetAccessor.returnTypeStructure;
-    typeInterface.properties.push(typeProperty);
-
-    const interfaceNameLiteral = new LiteralTypedStructureImpl(name);
-
-    parts.classDecl.implementsSet.add(interfaceNameLiteral);
-  }
+  parts.implementsImports.addImports({
+    pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+    isPackageImport: false,
+    isDefaultImport: false,
+    isTypeOnly: true,
+    importNames: ["TypeStructures"]
+  });
 }
 
 /* public * [STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures> */

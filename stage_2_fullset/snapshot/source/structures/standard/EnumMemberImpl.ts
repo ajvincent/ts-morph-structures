@@ -2,6 +2,7 @@
 import {
   type CloneableStructure,
   COPY_FIELDS,
+  type EnumMemberStructureClassIfc,
   type ExtractStructure,
   type InitializerExpressionableNodeStructureFields,
   InitializerExpressionableNodeStructureMixin,
@@ -9,8 +10,6 @@ import {
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -45,11 +44,7 @@ const EnumMemberStructureBase = MultiMixinBuilder<
 
 export default class EnumMemberImpl
   extends EnumMemberStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<EnumMemberStructure>,
-      "initializer" | "value"
-    >
+  implements EnumMemberStructureClassIfc
 {
   readonly kind: StructureKind.EnumMember = StructureKind.EnumMember;
   value?: string | number = undefined;

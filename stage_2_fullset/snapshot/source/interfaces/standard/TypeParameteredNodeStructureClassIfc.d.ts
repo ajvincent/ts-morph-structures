@@ -1,5 +1,5 @@
 import type { TypeParameterDeclarationImpl } from "../../exports.js";
 
 export interface TypeParameteredNodeStructureClassIfc {
-  typeParameters: (string | TypeParameterDeclarationImpl)[];
+  readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
 }

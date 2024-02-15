@@ -7,10 +7,10 @@ import type { StructureKind } from "ts-morph";
 
 export interface ImportDeclarationStructureClassIfc {
   readonly kind: StructureKind.ImportDeclaration;
-  attributes: ImportAttributeImpl[];
-  defaultImport: string;
+  attributes?: ImportAttributeImpl[];
+  defaultImport?: string;
   isTypeOnly: boolean;
   moduleSpecifier: string;
-  namedImports: (stringOrWriterFunction | ImportSpecifierImpl)[];
-  namespaceImport: string;
+  readonly namedImports: (stringOrWriterFunction | ImportSpecifierImpl)[];
+  namespaceImport?: string;
 }

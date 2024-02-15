@@ -18,9 +18,6 @@ import {
   LiteralTypedStructureImpl,
   ParameterDeclarationImpl,
   SetAccessorDeclarationImpl,
-  StringTypedStructureImpl,
-  type TypeArgumentedTypedStructureImpl,
-  UnionTypedStructureImpl,
   VariableDeclarationImpl,
   VariableStatementImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
@@ -257,6 +254,13 @@ function makeAttributesPropertyOptional(
   dictionaries: StructureDictionaries,
 ): void
 {
+  const attrsSignature = parts.classImplementsMap.getAsKind<StructureKind.PropertySignature>(
+    "attributes", StructureKind.PropertySignature
+  )!;
+
+  attrsSignature.hasQuestionToken = true;
+  attrsSignature.isReadonly = false;
+
   const attrs = parts.classMembersMap.getAsKind(
     ClassMembersMap.keyFromName(StructureKind.Property, false, "attributes"),
     StructureKind.Property,
@@ -269,12 +273,9 @@ function makeAttributesPropertyOptional(
     "attributes", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
   );
 
-  // RequiredOmit<..., "attributes" | ...>
-  const requiredOmit = Array.from(
-    parts.classDecl.implementsSet.values()
-  )[0] as TypeArgumentedTypedStructureImpl;
-  const requiredOmitChildren = requiredOmit.childTypes[requiredOmit.childTypes.length - 1] as UnionTypedStructureImpl;
-  requiredOmitChildren.childTypes.unshift(new StringTypedStructureImpl("attributes"));
+  parts.classImplementsMap.getAsKind<StructureKind.PropertySignature>(
+    "attributes", StructureKind.PropertySignature
+  )!.hasQuestionToken = true;
 
   // if (source.attributes) { target.attributes =
   const originalStatement = parts.classFieldsStatements.get("attributes", COPY_FIELDS_NAME)![0] as WriterFunction;

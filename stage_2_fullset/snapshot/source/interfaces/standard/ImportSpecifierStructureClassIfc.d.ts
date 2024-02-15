@@ -2,6 +2,6 @@ import type { StructureKind } from "ts-morph";
 
 export interface ImportSpecifierStructureClassIfc {
   readonly kind: StructureKind.ImportSpecifier;
-  alias: string;
+  alias?: string;
   isTypeOnly: boolean;
 }

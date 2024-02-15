@@ -7,17 +7,20 @@ import type {
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
 } from "../../exports.js";
+import type { TypeStructureSet } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import type { StructureKind } from "ts-morph";
 
 export interface InterfaceDeclarationStructureClassIfc {
   readonly kind: StructureKind.Interface;
-  callSignatures: CallSignatureDeclarationImpl[];
-  constructSignatures: ConstructSignatureDeclarationImpl[];
-  extends: stringOrWriterFunction[];
-  getAccessors: GetAccessorDeclarationImpl[];
-  indexSignatures: IndexSignatureDeclarationImpl[];
-  methods: MethodSignatureImpl[];
-  properties: PropertySignatureImpl[];
-  setAccessors: SetAccessorDeclarationImpl[];
+  readonly callSignatures: CallSignatureDeclarationImpl[];
+  readonly constructSignatures: ConstructSignatureDeclarationImpl[];
+  /** Treat this as a read-only array.  Use `.extendsSet` to modify this. */
+  readonly extends: stringOrWriterFunction[];
+  extendsSet: TypeStructureSet;
+  readonly getAccessors: GetAccessorDeclarationImpl[];
+  readonly indexSignatures: IndexSignatureDeclarationImpl[];
+  readonly methods: MethodSignatureImpl[];
+  readonly properties: PropertySignatureImpl[];
+  readonly setAccessors: SetAccessorDeclarationImpl[];
 }

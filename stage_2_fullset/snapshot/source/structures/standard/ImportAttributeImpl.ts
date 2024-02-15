@@ -3,8 +3,7 @@ import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
-  type PreferArrayFields,
-  type RequiredOmit,
+  type ImportAttributeStructureClassIfc,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -26,7 +25,7 @@ const ImportAttributeStructureBase = MultiMixinBuilder<
 
 export default class ImportAttributeImpl
   extends ImportAttributeStructureBase
-  implements RequiredOmit<PreferArrayFields<ImportAttributeStructure>>
+  implements ImportAttributeStructureClassIfc
 {
   readonly kind: StructureKind.ImportAttribute = StructureKind.ImportAttribute;
   name: string;

@@ -13,6 +13,7 @@ import {
   AbstractableNodeStructureMixin,
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
+  type ClassDeclarationStructureClassIfc,
   type CloneableStructure,
   cloneStructureArray,
   COPY_FIELDS,
@@ -25,10 +26,8 @@ import {
   JSDocableNodeStructureMixin,
   type NameableNodeStructureFields,
   NameableNodeStructureMixin,
-  type PreferArrayFields,
   ReadonlyArrayProxyHandler,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
   type StructureClassToJSON,
@@ -81,23 +80,9 @@ const ClassDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-interface ImplementsInterface {
-  implementsSet: TypeStructureSet;
-}
-
-interface ExtendsInterface {
-  extendsStructure: TypeStructures | undefined;
-}
-
 export default class ClassDeclarationImpl
   extends ClassDeclarationStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<ClassDeclarationStructure>,
-      "extends" | "name"
-    >,
-    ImplementsInterface,
-    ExtendsInterface
+  implements ClassDeclarationStructureClassIfc
 {
   static readonly #implementsArrayReadonlyHandler =
     new ReadonlyArrayProxyHandler(

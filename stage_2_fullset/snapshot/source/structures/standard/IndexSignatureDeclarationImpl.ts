@@ -4,13 +4,12 @@ import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
+  type IndexSignatureDeclarationStructureClassIfc,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
-  type PreferArrayFields,
   type ReadonlyableNodeStructureFields,
   ReadonlyableNodeStructureMixin,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   STRUCTURE_AND_TYPES_CHILDREN,
@@ -48,18 +47,9 @@ const IndexSignatureDeclarationStructureBase = MultiMixinBuilder<
   StructureBase,
 );
 
-interface KeyTypeInterface {
-  keyTypeStructure: TypeStructures | undefined;
-}
-
 export default class IndexSignatureDeclarationImpl
   extends IndexSignatureDeclarationStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<IndexSignatureDeclarationStructure>,
-      "keyName" | "keyType" | "returnType"
-    >,
-    KeyTypeInterface
+  implements IndexSignatureDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.IndexSignature = StructureKind.IndexSignature;
   readonly #keyTypeManager = new TypeAccessors();

@@ -7,9 +7,9 @@ import type { StructureKind } from "ts-morph";
 
 export interface ExportDeclarationStructureClassIfc {
   readonly kind: StructureKind.ExportDeclaration;
-  attributes: ImportAttributeImpl[];
+  attributes?: ImportAttributeImpl[];
   isTypeOnly: boolean;
-  moduleSpecifier: string;
-  namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[];
-  namespaceExport: string;
+  moduleSpecifier?: string;
+  readonly namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[];
+  namespaceExport?: string;
 }

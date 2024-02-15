@@ -3,6 +3,6 @@ import type { StructureKind, VariableDeclarationKind } from "ts-morph";
 
 export interface VariableStatementStructureClassIfc {
   readonly kind: StructureKind.VariableStatement;
-  declarationKind: VariableDeclarationKind;
-  declarations: VariableDeclarationImpl[];
+  declarationKind?: VariableDeclarationKind;
+  readonly declarations: VariableDeclarationImpl[];
 }

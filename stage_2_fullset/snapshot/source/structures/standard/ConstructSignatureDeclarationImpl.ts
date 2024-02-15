@@ -1,14 +1,13 @@
 //#region preamble
 import {
   type CloneableStructure,
+  type ConstructSignatureDeclarationStructureClassIfc,
   COPY_FIELDS,
   type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
   ParameteredNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   StructureBase,
@@ -49,11 +48,7 @@ const ConstructSignatureDeclarationStructureBase = MultiMixinBuilder<
 
 export default class ConstructSignatureDeclarationImpl
   extends ConstructSignatureDeclarationStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<ConstructSignatureDeclarationStructure>,
-      "returnType"
-    >
+  implements ConstructSignatureDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.ConstructSignature =
     StructureKind.ConstructSignature;

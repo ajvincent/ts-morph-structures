@@ -5,10 +5,9 @@ import {
   cloneStructureArray,
   cloneStructureStringOrWriterArray,
   COPY_FIELDS,
+  type ExportDeclarationStructureClassIfc,
   type ExtractStructure,
-  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -33,11 +32,7 @@ const ExportDeclarationStructureBase = MultiMixinBuilder<
 
 export default class ExportDeclarationImpl
   extends ExportDeclarationStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<ExportDeclarationStructure>,
-      "attributes" | "moduleSpecifier" | "namespaceExport"
-    >
+  implements ExportDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.ExportDeclaration =
     StructureKind.ExportDeclaration;

@@ -3,8 +3,7 @@ import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
-  type PreferArrayFields,
-  type RequiredOmit,
+  type JsxAttributeStructureClassIfc,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -27,8 +26,7 @@ const JsxAttributeStructureBase = MultiMixinBuilder<
 
 export default class JsxAttributeImpl
   extends JsxAttributeStructureBase
-  implements
-    RequiredOmit<PreferArrayFields<JsxAttributeStructure>, "initializer">
+  implements JsxAttributeStructureClassIfc
 {
   readonly kind: StructureKind.JsxAttribute = StructureKind.JsxAttribute;
   initializer?: string = undefined;

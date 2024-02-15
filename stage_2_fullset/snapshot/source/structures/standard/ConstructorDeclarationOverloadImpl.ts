@@ -1,14 +1,13 @@
 //#region preamble
 import {
   type CloneableStructure,
+  type ConstructorDeclarationOverloadStructureClassIfc,
   COPY_FIELDS,
   type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ParameteredNodeStructureFields,
   ParameteredNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   type ScopedNodeStructureFields,
@@ -53,11 +52,7 @@ const ConstructorDeclarationOverloadStructureBase = MultiMixinBuilder<
 
 export default class ConstructorDeclarationOverloadImpl
   extends ConstructorDeclarationOverloadStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<ConstructorDeclarationOverloadStructure>,
-      "returnType" | "scope"
-    >
+  implements ConstructorDeclarationOverloadStructureClassIfc
 {
   readonly kind: StructureKind.ConstructorOverload =
     StructureKind.ConstructorOverload;

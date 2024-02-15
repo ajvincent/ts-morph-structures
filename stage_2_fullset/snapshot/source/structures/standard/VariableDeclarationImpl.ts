@@ -9,8 +9,6 @@ import {
   InitializerExpressionableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -18,6 +16,7 @@ import {
   StructuresClassesMap,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
+  type VariableDeclarationStructureClassIfc,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -49,11 +48,7 @@ const VariableDeclarationStructureBase = MultiMixinBuilder<
 
 export default class VariableDeclarationImpl
   extends VariableDeclarationStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<VariableDeclarationStructure>,
-      "initializer" | "type"
-    >
+  implements VariableDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.VariableDeclaration =
     StructureKind.VariableDeclaration;

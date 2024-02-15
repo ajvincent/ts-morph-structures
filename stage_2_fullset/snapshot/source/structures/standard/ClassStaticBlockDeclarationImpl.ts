@@ -1,12 +1,11 @@
 //#region preamble
 import {
+  type ClassStaticBlockDeclarationStructureClassIfc,
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
@@ -37,8 +36,7 @@ const ClassStaticBlockDeclarationStructureBase = MultiMixinBuilder<
 
 export default class ClassStaticBlockDeclarationImpl
   extends ClassStaticBlockDeclarationStructureBase
-  implements
-    RequiredOmit<PreferArrayFields<ClassStaticBlockDeclarationStructure>>
+  implements ClassStaticBlockDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.ClassStaticBlock =
     StructureKind.ClassStaticBlock;

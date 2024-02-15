@@ -5,9 +5,8 @@ import {
   type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
+  type PropertyAssignmentStructureClassIfc,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -30,7 +29,7 @@ const PropertyAssignmentStructureBase = MultiMixinBuilder<
 
 export default class PropertyAssignmentImpl
   extends PropertyAssignmentStructureBase
-  implements RequiredOmit<PreferArrayFields<PropertyAssignmentStructure>>
+  implements PropertyAssignmentStructureClassIfc
 {
   readonly kind: StructureKind.PropertyAssignment =
     StructureKind.PropertyAssignment;

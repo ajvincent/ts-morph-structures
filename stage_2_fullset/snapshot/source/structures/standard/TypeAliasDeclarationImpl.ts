@@ -11,14 +11,13 @@ import {
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
   REPLACE_WRITER_WITH_STRING,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
   StructuresClassesMap,
+  type TypeAliasDeclarationStructureClassIfc,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
   type TypeParameteredNodeStructureFields,
@@ -59,8 +58,7 @@ const TypeAliasDeclarationStructureBase = MultiMixinBuilder<
 
 export default class TypeAliasDeclarationImpl
   extends TypeAliasDeclarationStructureBase
-  implements
-    RequiredOmit<PreferArrayFields<TypeAliasDeclarationStructure>, "type">
+  implements TypeAliasDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.TypeAlias = StructureKind.TypeAlias;
 

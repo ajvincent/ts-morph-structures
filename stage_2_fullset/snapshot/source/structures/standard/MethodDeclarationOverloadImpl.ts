@@ -11,14 +11,13 @@ import {
   GeneratorableNodeStructureMixin,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
+  type MethodDeclarationOverloadStructureClassIfc,
   type OverrideableNodeStructureFields,
   OverrideableNodeStructureMixin,
   type ParameteredNodeStructureFields,
   ParameteredNodeStructureMixin,
-  type PreferArrayFields,
   type QuestionTokenableNodeStructureFields,
   QuestionTokenableNodeStructureMixin,
-  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   type ScopedNodeStructureFields,
@@ -73,11 +72,7 @@ const MethodDeclarationOverloadStructureBase = MultiMixinBuilder<
 
 export default class MethodDeclarationOverloadImpl
   extends MethodDeclarationOverloadStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<MethodDeclarationOverloadStructure>,
-      "returnType" | "scope"
-    >
+  implements MethodDeclarationOverloadStructureClassIfc
 {
   readonly kind: StructureKind.MethodOverload = StructureKind.MethodOverload;
   isStatic: boolean;

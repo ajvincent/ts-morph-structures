@@ -17,14 +17,11 @@ import {
 import ConstantTypeStructures from "#stage_one/build/utilities/ConstantTypeStructures.js";
 import {
   ArrayTypedStructureImpl,
-  ClassDeclarationImpl,
   LiteralTypedStructureImpl,
   MethodDeclarationImpl,
   ParameterDeclarationImpl,
   ParenthesesTypedStructureImpl,
   PropertyDeclarationImpl,
-  StringTypedStructureImpl,
-  TypeArgumentedTypedStructureImpl,
   TypeStructureClassesMap,
   TypeStructureKind,
   TypeStructures,
@@ -33,7 +30,6 @@ import {
 
 import StructureDictionaries, {
   DecoratorParts,
-  MetaPartsType,
   StructureParts,
 } from "#stage_one/build/StructureDictionaries.js";
 
@@ -104,6 +100,11 @@ function addStructureFieldArray(
   propertyKey: PropertyName
 ): void
 {
+  const signature = parts.classImplementsMap.getAsKind<StructureKind.PropertySignature>(
+    propertyKey, StructureKind.PropertySignature
+  )!;
+  signature.isReadonly = true;
+
   const prop = new PropertyDeclarationImpl(propertyKey);
   prop.isReadonly = true;
 
@@ -168,14 +169,9 @@ function addStructureField(
   prop.hasQuestionToken = propertyValue.hasQuestionToken;
 
   if (prop.hasQuestionToken) {
-    if (parts.partsType === MetaPartsType.DECORATOR) {
-      parts.classImplementsMap.getAsKind<StructureKind.PropertySignature>(
-        propertyKey, StructureKind.PropertySignature
-      )!.hasQuestionToken = true;
-    }
-    else {
-      omitFromClassRequired(parts.classDecl, propertyKey);
-    }
+    parts.classImplementsMap.getAsKind<StructureKind.PropertySignature>(
+      propertyKey, StructureKind.PropertySignature
+    )!.hasQuestionToken = true;
   }
 
   let typeStructure = getTypeStructureForValue(propertyValue, parts, dictionaries);
@@ -671,31 +667,4 @@ target.statements.push(
 );
     `);
   };
-}
-
-export function omitPropertyFromRequired(
-  requiredOmit: TypeArgumentedTypedStructureImpl,
-  propertyName: string
-): void
-{
-  let unionType: UnionTypedStructureImpl;
-  if (requiredOmit.childTypes.length < 2) {
-    unionType = new UnionTypedStructureImpl;
-    requiredOmit.childTypes.push(unionType);
-  } else {
-    unionType = requiredOmit.childTypes[1] as UnionTypedStructureImpl;
-  }
-
-  unionType.childTypes.push(new StringTypedStructureImpl(propertyName));
-}
-
-function omitFromClassRequired(
-  classDecl: ClassDeclarationImpl,
-  propertyName: string
-): void
-{
-  omitPropertyFromRequired(
-    Array.from(classDecl.implementsSet)[0] as TypeArgumentedTypedStructureImpl,
-    propertyName
-  );
 }

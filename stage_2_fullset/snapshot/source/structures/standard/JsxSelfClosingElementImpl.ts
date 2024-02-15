@@ -5,10 +5,9 @@ import {
   cloneRequiredAndOptionalArray,
   COPY_FIELDS,
   type ExtractStructure,
+  type JsxSelfClosingElementStructureClassIfc,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -32,7 +31,7 @@ const JsxSelfClosingElementStructureBase = MultiMixinBuilder<
 
 export default class JsxSelfClosingElementImpl
   extends JsxSelfClosingElementStructureBase
-  implements RequiredOmit<PreferArrayFields<JsxSelfClosingElementStructure>>
+  implements JsxSelfClosingElementStructureClassIfc
 {
   readonly kind: StructureKind.JsxSelfClosingElement =
     StructureKind.JsxSelfClosingElement;

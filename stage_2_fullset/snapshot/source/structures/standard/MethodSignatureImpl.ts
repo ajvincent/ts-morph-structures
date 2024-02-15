@@ -5,14 +5,13 @@ import {
   type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
+  type MethodSignatureStructureClassIfc,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   type ParameteredNodeStructureFields,
   ParameteredNodeStructureMixin,
-  type PreferArrayFields,
   type QuestionTokenableNodeStructureFields,
   QuestionTokenableNodeStructureMixin,
-  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   StructureBase,
@@ -57,8 +56,7 @@ const MethodSignatureStructureBase = MultiMixinBuilder<
 
 export default class MethodSignatureImpl
   extends MethodSignatureStructureBase
-  implements
-    RequiredOmit<PreferArrayFields<MethodSignatureStructure>, "returnType">
+  implements MethodSignatureStructureClassIfc
 {
   readonly kind: StructureKind.MethodSignature = StructureKind.MethodSignature;
 

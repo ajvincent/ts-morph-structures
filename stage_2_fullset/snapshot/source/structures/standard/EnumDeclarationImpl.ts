@@ -6,6 +6,7 @@ import {
   type CloneableStructure,
   cloneStructureArray,
   COPY_FIELDS,
+  type EnumDeclarationStructureClassIfc,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type ExtractStructure,
@@ -13,8 +14,6 @@ import {
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
   StructureBase,
   type StructureClassToJSON,
   type StructureFields,
@@ -52,7 +51,7 @@ const EnumDeclarationStructureBase = MultiMixinBuilder<
 
 export default class EnumDeclarationImpl
   extends EnumDeclarationStructureBase
-  implements RequiredOmit<PreferArrayFields<EnumDeclarationStructure>>
+  implements EnumDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.Enum = StructureKind.Enum;
   isConst = false;

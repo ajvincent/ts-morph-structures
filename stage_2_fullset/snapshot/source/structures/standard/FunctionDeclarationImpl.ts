@@ -11,6 +11,7 @@ import {
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type ExtractStructure,
+  type FunctionDeclarationStructureClassIfc,
   type GeneratorableNodeStructureFields,
   GeneratorableNodeStructureMixin,
   type JSDocableNodeStructureFields,
@@ -19,8 +20,6 @@ import {
   NameableNodeStructureMixin,
   type ParameteredNodeStructureFields,
   ParameteredNodeStructureMixin,
-  type PreferArrayFields,
-  type RequiredOmit,
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   type StatementedNodeStructureFields,
@@ -76,11 +75,7 @@ const FunctionDeclarationStructureBase = MultiMixinBuilder<
 
 export default class FunctionDeclarationImpl
   extends FunctionDeclarationStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<FunctionDeclarationStructure>,
-      "name" | "returnType"
-    >
+  implements FunctionDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.Function = StructureKind.Function;
   readonly overloads: FunctionDeclarationOverloadImpl[] = [];

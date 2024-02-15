@@ -21,12 +21,11 @@ import {
   NamedNodeStructureMixin,
   type OverrideableNodeStructureFields,
   OverrideableNodeStructureMixin,
-  type PreferArrayFields,
+  type PropertyDeclarationStructureClassIfc,
   type QuestionTokenableNodeStructureFields,
   QuestionTokenableNodeStructureMixin,
   type ReadonlyableNodeStructureFields,
   ReadonlyableNodeStructureMixin,
-  type RequiredOmit,
   type ScopedNodeStructureFields,
   ScopedNodeStructureMixin,
   StructureBase,
@@ -84,11 +83,7 @@ const PropertyDeclarationStructureBase = MultiMixinBuilder<
 
 export default class PropertyDeclarationImpl
   extends PropertyDeclarationStructureBase
-  implements
-    RequiredOmit<
-      PreferArrayFields<PropertyDeclarationStructure>,
-      "initializer" | "scope" | "type"
-    >
+  implements PropertyDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.Property = StructureKind.Property;
   hasAccessorKeyword = false;

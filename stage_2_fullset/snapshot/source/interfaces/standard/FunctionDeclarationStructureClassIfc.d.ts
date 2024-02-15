@@ -3,5 +3,5 @@ import type { StructureKind } from "ts-morph";
 
 export interface FunctionDeclarationStructureClassIfc {
   readonly kind: StructureKind.Function;
-  overloads: FunctionDeclarationOverloadImpl[];
+  readonly overloads: FunctionDeclarationOverloadImpl[];
 }

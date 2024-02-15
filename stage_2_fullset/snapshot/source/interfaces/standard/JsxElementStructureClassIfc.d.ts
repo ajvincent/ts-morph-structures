@@ -8,7 +8,7 @@ import type { StructureKind } from "ts-morph";
 
 export interface JsxElementStructureClassIfc {
   readonly kind: StructureKind.JsxElement;
-  attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[];
-  bodyText: string;
-  children: (JsxElementImpl | JsxSelfClosingElementImpl)[];
+  readonly attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[];
+  bodyText?: string;
+  readonly children: (JsxElementImpl | JsxSelfClosingElementImpl)[];
 }
