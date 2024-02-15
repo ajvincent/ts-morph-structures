@@ -56,8 +56,6 @@ async function structureToSyntax(): Promise<void>
       classesToStructureMethods.set(_class, _getStructure);
   }
 
-  const syntaxKindToStructureKinds = new Map<SyntaxKind, Set<StructureKind>>;
-
   fileWriter.writeLine("// This file is generated.  Do not edit.  See ../../build/structureToSyntax.ts instead.");
 
   fileWriter.writeLine(`import { StructureKind, SyntaxKind } from "ts-morph";`);
@@ -70,11 +68,6 @@ async function structureToSyntax(): Promise<void>
 
     const firstType = _method.getReturnType();
     const returnTypes: Type[] = firstType.isUnion() ? firstType.getUnionTypes() : [firstType];
-
-    const structureKindSet = new Set<StructureKind>;
-    const syntaxKind = classToSyntaxKindMap.get(_class)!;
-
-    syntaxKindToStructureKinds.set(syntaxKind, structureKindSet);
 
     try {
       returnTypes.forEach(baseType => {
