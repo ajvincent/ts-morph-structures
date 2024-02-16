@@ -5,6 +5,7 @@ import {
 
 import {
   PromiseAllParallel,
+  PromiseAllSequence,
 } from "#utilities/source/PromiseTypes.js";
 
 import {
@@ -153,7 +154,7 @@ class StructureDictionaries extends StructureMetaDictionaries
     const decorator: DecoratorImplMeta = this.decorators.get(name)!
 
     const errors: unknown[] = [];
-    await PromiseAllParallel(entries, async ([hookName, hook]): Promise<void> => {
+    await PromiseAllSequence(entries, async ([hookName, hook]): Promise<void> => {
       try {
         await hook(name, decorator, this);
       }
@@ -178,7 +179,7 @@ class StructureDictionaries extends StructureMetaDictionaries
 
     const errors: unknown[] = [];
 
-    await PromiseAllParallel(entries, async ([hookName, hook]): Promise<void> => {
+    await PromiseAllSequence(entries, async ([hookName, hook]): Promise<void> => {
       try {
         await hook(name, structure, this);
       }

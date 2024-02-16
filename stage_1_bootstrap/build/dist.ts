@@ -48,4 +48,3 @@ export default async function buildDist(): Promise<void>
 
   await runPrettify(distDir);
 }
-

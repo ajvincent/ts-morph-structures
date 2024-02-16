@@ -1,4 +1,3 @@
-
 import StructureDictionaries from "./StructureDictionaries.js";
 import fillDictionaries from "./structureMeta/fillDictionaries.js";
 

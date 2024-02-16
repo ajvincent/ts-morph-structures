@@ -78,6 +78,4 @@ BPSet.markReady();
 }
 await BPSet.main.run();
 
-//process.exit(0);
-
 export default Promise.resolve();

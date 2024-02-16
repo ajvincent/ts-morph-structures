@@ -29,6 +29,7 @@ function fillDictionaries(
 ): void
 {
   const structureNames = new Set<string>(addStructureUnion(dictionary, "Structures").sort());
+
   const decoratorNameEntries: string[] = [];
   structureNames.forEach(name => {
     decoratorNameEntries.push(...addStructure(dictionary, name, name));
@@ -44,6 +45,12 @@ function fillDictionaries(
   consolidateDecorator(dictionary, "StaticableNodeStructure");
 }
 
+/**
+ * Add "structure union metadata" for a given union type to our dictionary.
+ * @param dictionary - our shared metadata about structures and unions.
+ * @param name - the name of the union type in ts-morph.
+ * @returns the list of structure interface names the union represents.
+ */
 function addStructureUnion(
   dictionary: StructureMetaDictionaries,
   name: string,
@@ -57,12 +64,14 @@ function addStructureUnion(
     identifiers = [getIdentifierFromTypeReference(typeNode)];
   }
   else {
+    // union of type references
     identifiers = typeNode.asKindOrThrow(SyntaxKind.UnionType).getTypeNodes().map(getIdentifierFromTypeReference);
     identifiers.sort();
   }
 
   const data = new StructureUnionMeta(name);
 
+  // For the "Structures" union at least, the identifiers refer to other unions of types.  Set up for recursion.
   identifiers.forEach(id => {
     let idSet: Set<string>;
     if (id.endsWith("Structures")) {
@@ -91,6 +100,16 @@ function getIdentifierFromTypeReference(
   return refNode.getTypeName().getText();
 }
 
+/**
+ *
+ * @param dictionary - our shared metadata about structures and unions.
+ * @param interfaceName - the name of the source interface.
+ * @param targetInterfaceName - the name of the interface we really want to write.
+ * @returns the decorator keys we get from this structure.
+ *
+ * @privateRemarks
+ * Come on, give a better JSDoc than this!
+ */
 function addStructure(
   dictionary: StructureMetaDictionaries,
   interfaceName: string,
