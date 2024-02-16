@@ -8,7 +8,7 @@ const BPSet = new BuildPromiseSet;
 {  // copySnapshot
   const target = BPSet.get("copySnapshot");
   target.addTask(async () => {
-    console.log("starting stage_1_integration:copySnapshot");
+    console.log("starting stage_2_integration:copySnapshot");
     await copySnapshot();
   });
 }
@@ -17,7 +17,7 @@ const BPSet = new BuildPromiseSet;
   const target = BPSet.get("build");
 
   target.addTask(async (): Promise<void> => {
-    console.log("starting stage_1_integration:build");
+    console.log("starting stage_2_integration:build");
     const support = (await import("./build/support.js")).default;
     await support();
   });
@@ -26,7 +26,7 @@ const BPSet = new BuildPromiseSet;
 { // structureToSyntax
   const target = BPSet.get("structureToSyntax");
   target.addTask(async () => {
-    console.log("starting stage_1_integration:structureToSyntax");
+    console.log("starting stage_2_integration:structureToSyntax");
     await structureToSyntax();
   });
 }
@@ -34,7 +34,7 @@ const BPSet = new BuildPromiseSet;
 { // bundle
   const target = BPSet.get("bundle");
   target.addTask(async () => {
-    console.log("starting stage_1_integration:bundle");
+    console.log("starting stage_2_integration:bundle");
     await doBundles();
   });
 }

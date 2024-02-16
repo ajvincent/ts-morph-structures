@@ -358,7 +358,7 @@ async function defineTypeStructurePublicExports(
   distDir: string,
 ): Promise<void>
 {
-  const sourceDir = pathToModule(projectDir, "stage_1_integration/source/structures/type");
+  const sourceDir = pathToModule(projectDir, "stage_2_integration/source/structures/type");
   const typeStructureFiles = (await fs.readdir(
     sourceDir
   )).filter(f => f.endsWith("TypeStructureImpl.ts"));

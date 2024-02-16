@@ -9,7 +9,7 @@ In the spirit of [self-hosting compilers](https://en.wikipedia.org/wiki/Bootstra
 - Create modules structure classes and interfaces, using my [mixin-decorators](https://github.com/ajvincent/mixin-decorators) project
 - Create export modules for both public exports ("what we ship") and internal exports ("what we use but don't want others to use")
 
-Notably you will _not_ find the exported type structure classes here.  These live in [the stage 1 integration directory](../stage_1_integration/), which combines the module code I generate in this directory with the hand-written code to complete the stage 2 snapshot.
+Notably you will _not_ find the exported type structure classes here.  These live in [the stage 1 integration directory](../stage_2_integration/), which combines the module code I generate in this directory with the hand-written code to complete the stage 2 snapshot.
 
 ## Decorator and structure hooks
 

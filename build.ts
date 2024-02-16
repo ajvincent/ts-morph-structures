@@ -59,16 +59,6 @@ const BPSet = new BuildPromiseSet;
   });
 }
 
-{ // stage 1 integration
-  const target = BPSet.get("stage_1_integration");
-
-  target.addTask(async () => {
-    console.log("starting stage_1_integration");
-    await recursiveBuild("stage_1_integration", "buildStage.ts");
-    console.log("completed stage_1_integration");
-  });
-}
-
 // #region stage 2
 {
   const target = BPSet.get("stage 2");
@@ -86,8 +76,11 @@ const BPSet = new BuildPromiseSet;
 
 {
   const target = BPSet.get("stage_2_integration");
+
   target.addTask(async (): Promise<void> => {
-    await Promise.resolve();
+    console.log("starting stage_2_integration");
+    await recursiveBuild("stage_2_integration", "buildStage.ts");
+    console.log("completed stage_2_integration");
   });
 }
 
@@ -107,7 +100,7 @@ BPSet.markReady();
   BPSet.main.addSubtarget("build");
   BPSet.main.addSubtarget("stage_0_references");
   BPSet.main.addSubtarget("stage_1_bootstrap");
-  BPSet.main.addSubtarget("stage_1_integration");
+  BPSet.main.addSubtarget("stage_2_integration");
   BPSet.main.addSubtarget("stage 2");
 }
 await BPSet.main.run();
