@@ -2,9 +2,9 @@ node_modules
 playground
 stage_1_bootstrap/dist
 stage_1_integration/snapshot
-stage_2_fullset/snapshot/dist
-stage_2_fullset/snapshot/docs
-stage_2_fullset/snapshot/coverage
+stage_2_snapshot/snapshot/dist
+stage_2_snapshot/snapshot/docs
+stage_2_snapshot/snapshot/coverage
 stage_3_fullset/snapshot/dist
 stage_3_fullset/snapshot/docs
 stage_3_fullset/snapshot/coverage

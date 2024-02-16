@@ -14,9 +14,6 @@
   },
   "scripts": {
     "build": "node --import ./register-hooks.js ./build.ts",
-    "debug-build": "TSMS_DEBUG='build' node --import ./register-hooks.js ./build.ts",
-    "debug-stage-one-test": "TSMS_DEBUG='stage_one_test' node --import ./register-hooks.js ./build.ts",
-    "debug-stage-one-build": "TSMS_DEBUG='stage_one_build' node --import ./register-hooks.js ./build.ts",
     "debug-stage-two-test": "TSMS_DEBUG='stage_two_test' node --import ./register-hooks.js ./build.ts",
     "tsc-tasks": "tsc --project ./utilities/source/tasks/tsconfig.json",
     "postinstall": "patch-package"
@@ -67,7 +64,8 @@
   },
   "imports": {
     "#stage_one/*": "./stage_1_bootstrap/*",
-    "#stage_two/*": "./stage_2_fullset/*",
+    "#stage_two/fixtures/*": "./stage_2_snapshot/fixtures/*",
+    "#stage_two/snapshot/*": "./stage_2_snapshot/snapshot/*",
     "#utilities/*": "./utilities/*"
   }
 }

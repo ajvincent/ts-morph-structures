@@ -9,7 +9,7 @@ const BPSet = new BuildPromiseSet;
 {  // copySnapshot
   const target = BPSet.get("copySnapshot");
   target.addTask(async () => {
-    console.log("starting stage_2_fullset:copySnapshot");
+    console.log("starting stage_2_snapshot:copySnapshot");
     await copySnapshot();
   });
 }
@@ -18,7 +18,7 @@ const BPSet = new BuildPromiseSet;
   const target = BPSet.get("test");
 
   target.addTask(async () => {
-    console.log("starting stage_2_fullset:jasmine");
+    console.log("starting stage_2_snapshot:jasmine");
     await runJasmine("./spec-snapshot/support/jasmine.json", "stage_two_test");
   });
 }
@@ -38,7 +38,7 @@ const BPSet = new BuildPromiseSet;
   args.push("spec-snapshot/**/*.ts");
 
   target.addTask(() => {
-    console.log("starting stage_2_fullset:eslint");
+    console.log("starting stage_2_snapshot:eslint");
     return Promise.resolve();
   });
 

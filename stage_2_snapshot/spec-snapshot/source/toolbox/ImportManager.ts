@@ -12,7 +12,7 @@ import {
 
 const stageDir: ModuleSourceDirectory = {
   isAbsolutePath: true,
-  pathToDirectory: "#stage_two",
+  pathToDirectory: "#stage_two/snapshot",
 };
 
 it("ImportManager can import values from submodules", () => {

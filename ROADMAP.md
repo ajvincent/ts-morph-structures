@@ -27,7 +27,7 @@ The es-membrane prototype was a rush job, basically enough to be usable.  This i
   - dist: The full output set, git-ignored, including exports.
     - source
     - bundle
-- stage_2_fullset:
+- stage_2_snapshot:
   - build: Stage-build files.
   - snapshot: Copied from stage_1_bootstrap/dist
   - spec-snapshot: Test files for the snapshot.
@@ -39,7 +39,7 @@ The es-membrane prototype was a rush job, basically enough to be usable.  This i
     - bundle
 - stage_3_fullset:
   - build: Stage-build files, including export.
-  - snapshot: Copied from stage_2_fullset/dist
+  - snapshot: Copied from stage_2_snapshot/dist
   - spec-snapshot: Test files for the snapshot.
 - dist: the final snapshot.
 - utilities: Shared utilities for internal use.
