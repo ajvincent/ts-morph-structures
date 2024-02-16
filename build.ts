@@ -49,7 +49,7 @@ const BPSet = new BuildPromiseSet;
   });
 }
 
-{ // stage 1 bootstrap
+{ // stage 1 snapshot
   const target = BPSet.get("stage_1_snapshot");
 
   target.addTask(async () => {
