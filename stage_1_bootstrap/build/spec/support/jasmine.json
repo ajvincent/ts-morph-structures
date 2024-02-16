@@ -1,6 +1,0 @@
-{
-  "spec_files": [
-    "build/spec/**/*.ts"
-  ],
-  "stopSpecOnExpectationFailure": false
-}

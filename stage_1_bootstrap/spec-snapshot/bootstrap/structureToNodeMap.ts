@@ -20,7 +20,7 @@ import {
 
 import {
   PromiseAllParallel
-} from "#stage_one/fixtures/stage_utilities/PromiseTypes.js";
+} from "#utilities/source/PromiseTypes.js";
 
 import StructureKindToSyntaxKindMap from "#stage_one/prototype-snapshot/generated/structureToSyntax.js";
 import structureToNodeMap from "#stage_one/prototype-snapshot/bootstrap/structureToNodeMap.js";
