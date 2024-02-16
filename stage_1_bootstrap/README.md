@@ -37,7 +37,7 @@ Ideally, I would contribute these structure classes to become part of `ts-morph`
 
 One thing I will _not_ do is fork `ts-morph` to release my own version of it.  I do not want the maintenance headaches that would ensue, particularly as TypeScript and `ts-morph` continue to evolve.
 
-Depending on community feedback, I may publish an independent package on `npmjs.com` as a support library for `ts-morph`.  I won't call it `ts-morph-structures` or anything similar.  If I do, I will give it a specific name (say, `@ajvincent/ts-morph-structures`) which should make it clear it is separate from (albeit dependent on) the upstream `ts-morph` project.
+Depending on community feedback, I may publish an independent package on `npmjs.com` as a support library for `ts-morph`.
 
 ## Features
 
