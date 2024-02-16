@@ -19,7 +19,7 @@ import {
   snapshotDir,
 } from "./constants.js";
 
-const previousDist = pathToModule(stageDir, "../stage_1_bootstrap/dist");
+const previousDist = pathToModule(stageDir, "../stage_2_generation/dist");
 
 export default async function copySnapshot(): Promise<void> {
   await fs.rm(snapshotDir, { recursive: true, force: true });

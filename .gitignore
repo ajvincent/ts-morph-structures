@@ -1,6 +1,7 @@
 node_modules
 playground
 stage_1_bootstrap/dist
+stage_2_generation/dist
 stage_2_integration/snapshot
 stage_2_snapshot/snapshot/dist
 stage_2_snapshot/snapshot/docs

@@ -69,8 +69,10 @@ const BPSet = new BuildPromiseSet;
 
 {
   const target = BPSet.get("stage_2_generation");
-  target.addTask(async (): Promise<void> => {
-    await Promise.resolve();
+  target.addTask(async () => {
+    console.log("starting stage_2_generation");
+    await recursiveBuild("stage_2_generation", "buildStage.ts");
+    console.log("completed stage_2_generation");
   });
 }
 
@@ -100,7 +102,6 @@ BPSet.markReady();
   BPSet.main.addSubtarget("build");
   BPSet.main.addSubtarget("stage_0_references");
   BPSet.main.addSubtarget("stage_1_bootstrap");
-  BPSet.main.addSubtarget("stage_2_integration");
   BPSet.main.addSubtarget("stage 2");
 }
 await BPSet.main.run();
