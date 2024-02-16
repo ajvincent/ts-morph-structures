@@ -7,7 +7,7 @@
 
     "baseUrl": ".",
     "paths": {
-      "#stage_one/*": ["./stage_1_bootstrap/*"],
+      "#stage_one/*": ["./stage_1_snapshot/*"],
       "#stage_two/fixtures/*": ["./stage_2_snapshot/fixtures/*"],
       "#stage_two/generation/*": ["./stage_2_generation/*"],
       "#stage_two/snapshot/*": ["./stage_2_snapshot/snapshot/*"],

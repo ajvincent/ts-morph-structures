@@ -17,7 +17,7 @@ The es-membrane prototype was a rush job, basically enough to be usable.  This i
 
 ## Directory layout
 
-- stage_1_bootstrap:
+- stage_1_snapshot:
   - prototype-snapshot: The es-membrane prototype
   - spec-snapshot: Test files for the snapshot or prototype snapshot.
   - fixtures: Test fixtures for the snapshot or prototype snapshot.
@@ -29,7 +29,7 @@ The es-membrane prototype was a rush job, basically enough to be usable.  This i
     - bundle
 - stage_2_snapshot:
   - build: Stage-build files.
-  - snapshot: Copied from stage_1_bootstrap/dist
+  - snapshot: Copied from stage_1_snapshot/dist
   - spec-snapshot: Test files for the snapshot.
   - fixtures: Test fixtures for the snapshot.
   - source: Code to create the output set.
@@ -37,7 +37,7 @@ The es-membrane prototype was a rush job, basically enough to be usable.  This i
   - dist: The full output set, git-ignored, including exports.
     - source
     - bundle
-- stage_3_fullset:
+- stage_3_snapshot:
   - build: Stage-build files, including export.
   - snapshot: Copied from stage_2_snapshot/dist
   - spec-snapshot: Test files for the snapshot.

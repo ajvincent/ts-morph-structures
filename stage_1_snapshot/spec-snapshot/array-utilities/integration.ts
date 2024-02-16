@@ -7,11 +7,11 @@ import TypeStructureSet from "#stage_one/prototype-snapshot/base/TypeStructureSe
 import ReadonlyArrayProxyHandler from "#stage_one/prototype-snapshot/array-utilities/ReadonlyArrayProxyHandler.js";
 import type {
   stringOrWriterFunction
-} from '#stage_one/prototype-snapshot/types/ts-morph-native.js';
+} from "#stage_one/prototype-snapshot/types/ts-morph-native.js";
 import {
   LiteralTypedStructureImpl,
   TypeStructures,
-} from '#stage_one/prototype-snapshot/exports.js';
+} from "#stage_one/prototype-snapshot/exports.js";
 
 it("ts-morph structures: implements array and set, integration test", () => {
   class ImplementsArrayOwner implements Required<ImplementsClauseableNodeStructure>

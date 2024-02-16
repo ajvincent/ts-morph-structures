@@ -8,7 +8,7 @@ const BPSet = new BuildPromiseSet;
   const target = BPSet.get("test");
 
   target.addTask(async () => {
-    console.log("starting stage_1_bootstrap:test");
+    console.log("starting stage_1_snapshot:test");
     await runJasmine("./spec-snapshot/support/jasmine.json", "stage_one_test");
   });
 }
@@ -27,7 +27,7 @@ const BPSet = new BuildPromiseSet;
   args.push("spec-snapshot/**/*.ts");
 
   target.addTask(() => {
-    console.log("starting stage_1_bootstrap:eslint");
+    console.log("starting stage_1_snapshot:eslint");
     return Promise.resolve();
   });
 
