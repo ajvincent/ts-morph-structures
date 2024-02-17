@@ -8,11 +8,11 @@ const stageDir: ModuleSourceDirectory = {
   pathToDirectory: "../.."
 };
 
-const snapshotDir = pathToModule(stageDir, "snapshot");
-const distSnapshotDir = pathToModule(stageDir, "dist");
+const snapshotDir: string = pathToModule(stageDir, "snapshot");
+const typingsSnapshotDir: string = pathToModule(stageDir, "typings-snapshot");
 
 export {
   stageDir,
   snapshotDir,
-  distSnapshotDir,
+  typingsSnapshotDir,
 };
