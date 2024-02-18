@@ -23,6 +23,7 @@ export enum TypeStructureKind {
   MemberedObject,
   Infer,
   QualifiedName,
+  Import,
 }
 
 export interface KindedTypeStructure<

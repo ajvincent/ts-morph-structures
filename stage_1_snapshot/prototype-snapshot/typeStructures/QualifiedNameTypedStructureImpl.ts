@@ -30,7 +30,7 @@ export default class QualifiedNameTypedStructureImpl
 implements QualifiedNameTypedStructure
 {
   static clone(
-    other: QualifiedNameTypedStructureImpl
+    other: QualifiedNameTypedStructure
   ): QualifiedNameTypedStructureImpl
   {
     return new QualifiedNameTypedStructureImpl(

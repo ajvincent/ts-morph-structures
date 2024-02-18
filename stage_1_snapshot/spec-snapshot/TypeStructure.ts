@@ -7,6 +7,7 @@ import {
   ConditionalTypedStructureImpl,
   FunctionTypedStructureImpl,
   FunctionWriterStyle,
+  ImportTypedStructureImpl,
   IndexedAccessTypedStructureImpl,
   IntersectionTypedStructureImpl,
   LiteralTypedStructureImpl,
@@ -396,5 +397,14 @@ describe("TypeStructure for ts-morph (stage 1): ", () => {
     expect<string>(writer.toString()).toBe(`{\n  foo(firstArg: string): void;\n}`);
 
     expect(typedWriter.kind).toBe(TypeStructureKind.MemberedObject);
+  });
+
+  it("ImportTypedStructureImpl", () => {
+    const typedWriter = new ImportTypedStructureImpl(
+      stringBarTyped, nstTyped, [fooTyped]
+    );
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`import("bar").NumberStringType<foo>`);
+    expect(typedWriter.kind).toBe(TypeStructureKind.Import);
   });
 });

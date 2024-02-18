@@ -15,6 +15,7 @@ import {
   ConditionalTypedStructureImpl,
   FunctionTypedStructureImpl,
   FunctionWriterStyle,
+  ImportTypedStructureImpl,
   IndexedAccessTypedStructureImpl,
   InferTypedStructureImpl,
   IntersectionTypedStructureImpl,
@@ -679,5 +680,23 @@ const A: string;
 
     expect(failMessage).toBe(undefined);
     expect(failNode).toBe(null);
+  });
+
+  it(`import("bar").NumberStringType<foo> (import type)`, () => {
+    setTypeStructure(`import("bar").NumberStringType<foo>`, failCallback);
+
+    expect(structure).toBeInstanceOf(ImportTypedStructureImpl);
+    if (!(structure instanceof ImportTypedStructureImpl))
+      return;
+
+    expect(structure.argument.stringValue).toBe("bar");
+    expect(structure.qualifier!.kind).toBe(TypeStructureKind.Literal);
+    expect((structure.qualifier as LiteralTypedStructureImpl).stringValue).toBe("NumberStringType");
+    expect(structure.childTypes.length).toBe(1);
+    const typeArg = structure.childTypes[0]!;
+    expect(typeArg.kind).toBe(TypeStructureKind.Literal);
+    if (typeArg.kind === TypeStructureKind.Literal) {
+      expect(typeArg.stringValue).toBe("foo");
+    }
   });
 });

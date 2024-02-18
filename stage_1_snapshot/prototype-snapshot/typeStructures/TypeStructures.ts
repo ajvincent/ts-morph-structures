@@ -268,6 +268,20 @@ export type InferTypedStructure = Simplify<
   ReplaceableDescendants
 >;
 
+export interface ImportTypedStructureFields {
+  argument: StringTypedStructure;
+  qualifier: LiteralTypedStructure | QualifiedNameTypedStructure | null;
+  /*
+  readonly attributes: ImportAttributeDecl[]
+  */
+}
+
+export type ImportTypedStructure = Simplify<
+  TypedStructureWithChildren<TypeStructureKind.Import> &
+  ImportTypedStructureFields &
+  ReplaceableDescendants
+>;
+
 export type TypeStructures = (
   WriterTypedStructure |
   LiteralTypedStructure |
@@ -288,5 +302,6 @@ export type TypeStructures = (
   TemplateLiteralTypedStructure |
   MemberedObjectTypedStructure |
   InferTypedStructure |
-  QualifiedNameTypedStructure
+  QualifiedNameTypedStructure |
+  ImportTypedStructure
 );

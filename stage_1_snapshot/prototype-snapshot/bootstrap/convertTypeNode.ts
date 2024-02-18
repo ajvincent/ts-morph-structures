@@ -16,11 +16,13 @@ import {
   MappedTypeNode,
   TemplateLiteralTypeNode,
   TypeLiteralNode,
+  ImportTypeNode,
 } from "ts-morph"
 
 import {
   ArrayTypedStructureImpl,
   ConditionalTypedStructureImpl,
+  ImportTypedStructureImpl,
   IndexedAccessTypedStructureImpl,
   InferTypedStructureImpl,
   IntersectionTypedStructureImpl,
@@ -196,6 +198,10 @@ export default function convertTypeNode(
 
   if (Node.isTypeLiteral(typeNode)) {
     return convertTypeLiteralNode(typeNode, conversionFailCallback, subStructureResolver);
+  }
+
+  if (Node.isImportTypeNode(typeNode)) {
+    return convertImportTypeNode(typeNode, conversionFailCallback, subStructureResolver);
   }
 
   // Type nodes with generic type node children, based on a type.
@@ -643,6 +649,41 @@ function convertTypeLiteralNode(
   }
 
   return structure;
+}
+
+function convertImportTypeNode(
+  importTypeNode: ImportTypeNode,
+  conversionFailCallback: TypeNodeToTypeStructureConsole,
+  subStructureResolver: (node: NodeWithStructures) => Structures,
+): ImportTypedStructureImpl | null
+{
+  const argument: StringTypedStructureImpl | null = convertTypeNode(
+    importTypeNode.getArgument(),
+    conversionFailCallback,
+    subStructureResolver
+  ) as StringTypedStructureImpl | null;
+  if (!argument)
+    return null;
+
+  const qualifierType = importTypeNode.getQualifier();
+  let qualifier: LiteralTypedStructureImpl | QualifiedNameTypedStructureImpl | null = null;
+  if (qualifierType) {
+    qualifier = buildStructureForEntityName(qualifierType);
+  }
+
+  const childTypeNodes: TypeNode[] = importTypeNode.getTypeArguments();
+  const childTypes: TypeStructures[] = [];
+  const success = convertAndAppendChildTypes(
+    childTypeNodes,
+    childTypes,
+    conversionFailCallback,
+    subStructureResolver,
+  );
+  if (success === false) {
+    return null;
+  }
+
+  return new ImportTypedStructureImpl(argument, qualifier, childTypes);
 }
 
 function reportConversionFailure(
