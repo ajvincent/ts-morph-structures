@@ -99,7 +99,10 @@ type ClassMemberQuestion<
 >;
 
 export interface ClassAbstractMemberQuestion {
-  isAbstract(kind: ClassMemberType["kind"], memberName: string): boolean
+  isAbstract(
+    kind: Exclude<ClassMemberImpl, ConstructorDeclarationImpl>["kind"],
+    memberName: string
+  ): boolean
 }
 
 export type ClassAsyncMethodQuestion = ClassMemberQuestion<
