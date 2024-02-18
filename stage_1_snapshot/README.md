@@ -114,6 +114,7 @@ export class TypePrinterSettingsBase {
 | [TemplateLiteralTypedStructureImpl](./prototype-snapshot/typeStructures/TemplateLiteralTypedStructureImpl.ts) | &#x60;`one${"A"}two${"C"}three`&#x60; | childTypes |
 | [ObjectLiteralTypedStructureImpl](./prototype-snapshot/typeStructures/ObjectLiteralTypedStructureImpl.ts) | See below | callSignatures, constructSignatures, indexSignatures, methods, properties |
 | [InferTypedStructureImpl](./prototype-snapshot/typeStructures/InferTypedStructureImpl.ts) | `Elements extends [infer Head, ...infer Tail]` | typeParameter |
+| [ImportTypedStructureImpl](./prototype-snapshot/typeStructures/ImportTypedStructureImpl.ts) | `import("bar").NumberStringType<foo>` | argument, qualifier, childTypes |
 
 ### Object literals
 

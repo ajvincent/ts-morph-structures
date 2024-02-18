@@ -29,7 +29,7 @@ export default class StringTypedStructureImpl implements StringTypedStructure
 {
   static clone(
     other: StringTypedStructure
-  ): StringTypedStructure
+  ): StringTypedStructureImpl
   {
     return new StringTypedStructureImpl(other.stringValue);
   }

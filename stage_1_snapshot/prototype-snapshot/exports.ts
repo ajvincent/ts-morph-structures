@@ -77,6 +77,7 @@ export {
 export { default as ArrayTypedStructureImpl } from "./typeStructures/ArrayTypedStructureImpl.js";
 export { default as ConditionalTypedStructureImpl } from "./typeStructures/ConditionalTypedStructureImpl.js";
 export { default as FunctionTypedStructureImpl } from "./typeStructures/FunctionTypedStructureImpl.js";
+export { default as ImportTypedStructureImpl } from "./typeStructures/ImportTypedStructureImpl.js";
 export { default as IndexedAccessTypedStructureImpl } from "./typeStructures/IndexedAccessTypedStructureImpl.js";
 export { default as InferTypedStructureImpl } from "./typeStructures/InferTypedStructureImpl.js";
 export { default as IntersectionTypedStructureImpl } from "./typeStructures/IntersectionTypedStructureImpl.js"
