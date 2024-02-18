@@ -24,6 +24,8 @@ import {
 } from "../../../snapshot/source/internal-exports.js";
 
 /**
+ * Properties, methods, getters, setters, and index signatures.  Very much like interfaces.  Usually in type aliases.
+ * @example
  * ```typescript
  * {
  *    (callSignatureArgument) => string;
