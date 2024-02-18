@@ -4145,6 +4145,8 @@ class MappedTypeStructureImpl extends TypeStructuresWithTypeParameters {
 TypeStructureClassesMap$1.set(TypeStructureKind.Mapped, MappedTypeStructureImpl);
 
 /**
+ * Properties, methods, getters, setters, and index signatures.  Very much like interfaces.  Usually in type aliases.
+ * @example
  * ```typescript
  * {
  *    (callSignatureArgument) => string;
