@@ -54,7 +54,7 @@ const StatementClassesMap = new Map<
 >;
 
 // with a couple additional utility methods
-const TypeStrucureClassesMap = new Map<
+const TypeStructureClassesMap = new Map<
   TypeStructureKind,
   CloneableStructure<TypeStructures> & Class<KindedTypeStructure<TypeStructureKind>>
 >;
