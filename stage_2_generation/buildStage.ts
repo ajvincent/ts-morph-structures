@@ -50,8 +50,8 @@ const BPSet = new BuildPromiseSet;
 
 BPSet.markReady();
 {
-  BPSet.main.addSubtarget("build");
   BPSet.main.addSubtarget("eslint");
+  BPSet.main.addSubtarget("build");
 }
 await BPSet.main.run();
 

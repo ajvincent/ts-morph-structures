@@ -123,11 +123,20 @@ declare abstract class TypeStructuresWithTypeParameters<Kind extends TypeStructu
     protected static writeTypeParameter(typeParam: TypeParameterDeclarationImpl, writer: CodeBlockWriter, constraintMode: "extends" | "in"): void;
 }
 
-type OmitWriter<T> = T extends (infer A)[] ? OmitWriter<A>[] : Exclude<T, WriterFunction>;
+type OmitWriter<T> = T extends (infer A)[]
+  ? OmitWriter<A>[]
+  : Exclude<T, WriterFunction>;
+
 type OmitWriterFromFields<T extends object> = {
-    [key in keyof T]: OmitWriter<T[key]>;
+  [key in keyof T]: OmitWriter<T[key]>;
 };
-type StructureClassToJSON<T extends object> = Writable<Omit<OmitWriterFromFields<T>, "toJSON" | `${string}Structure` | `${string}Set`>>;
+
+type StructureClassToJSON<T extends object> = Writable<
+  Omit<
+    OmitWriterFromFields<T>,
+    "toJSON" | `${string}Structure` | `${string}Set`
+  >
+>;
 
 interface TypedNodeWriter {
   writerFunction: WriterFunction;
@@ -2145,7 +2154,10 @@ type ClassMemberQuestion<
 >;
 
 interface ClassAbstractMemberQuestion {
-  isAbstract(kind: ClassMemberType["kind"], memberName: string): boolean;
+  isAbstract(
+    kind: Exclude<ClassMemberImpl, ConstructorDeclarationImpl>["kind"],
+    memberName: string,
+  ): boolean;
 }
 
 type ClassAsyncMethodQuestion = ClassMemberQuestion<
