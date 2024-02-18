@@ -14,6 +14,9 @@
   },
   "scripts": {
     "build": "node --import ./register-hooks.js ./build.ts",
+    "clean": "node --import ./register-hooks.js ./clean.ts",
+    "debug-stage-two-generation": "TSMS_DEBUG='stage_2_generation' node --import ./register-hooks.js ./build.ts",
+    "debug-stage-two-integration": "TSMS_DEBUG='stage_2_integration' node --import ./register-hooks.js ./build.ts",
     "debug-stage-two-test": "TSMS_DEBUG='stage_two_test' node --import ./register-hooks.js ./build.ts",
     "tsc-tasks": "tsc --project ./utilities/source/tasks/tsconfig.json",
     "postinstall": "patch-package"
