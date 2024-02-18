@@ -3,6 +3,7 @@ import copySnapshot from "./build/copySnapshot.js";
 import structureToSyntax from "./build/structureToSyntax.js";
 import compileTypeDefinitions from "./build/typedefs.js";
 import doBundles from "./build/bundle.js";
+import runAPIExtractor from "./build/runAPIExtractor.js";
 
 const BPSet = new BuildPromiseSet;
 
@@ -38,6 +39,7 @@ const BPSet = new BuildPromiseSet;
     console.log("starting stage_2_integration:bundle");
     await compileTypeDefinitions();
     await doBundles();
+    await runAPIExtractor();
   });
 }
 
