@@ -4,6 +4,7 @@ import structureToSyntax from "./build/structureToSyntax.js";
 import compileTypeDefinitions from "./build/typedefs.js";
 import doBundles from "./build/bundle.js";
 import runAPIExtractor from "./build/runAPIExtractor.js";
+import runAPIDocumenter from "./build/runAPIDocumenter.js";
 
 const BPSet = new BuildPromiseSet;
 
@@ -40,6 +41,7 @@ const BPSet = new BuildPromiseSet;
     await compileTypeDefinitions();
     await doBundles();
     await runAPIExtractor();
+    await runAPIDocumenter();
   });
 }
 
