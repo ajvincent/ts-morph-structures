@@ -84,7 +84,7 @@ All of these are exports from `"ts-morph-structures"`:
 
 ## Creating from scratch
 
-Where you see a [structure](../reference/structure-types.md) (where the name ends with `Structure`), there is an equivalent structure implementation class (where the name ends with `StructureImpl`).  For example:
+Where you see a [structure](../reference/structure-types.md) (where the name ends with `Structure`), there is an equivalent structure implementation class (where the name ends with `Impl`).  For example:
 
 ```typescript
 // simplified for readability
