@@ -25,3 +25,4 @@ I solve this with a completely independent (but not complete) structure classes 
 ## References
 
 - [ts-morph Structures Reference](./reference/structure-types.md)
+- [Auto-generated documentation](./api/ts-morph-structures.md) (courtesy of [API Extractor](https://api-extractor.com/) and [API Documenter](https://api-extractor.com/pages/setup/generating_docs/))
