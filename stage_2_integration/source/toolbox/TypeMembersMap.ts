@@ -23,7 +23,7 @@ import {
 } from "../../snapshot/source/exports.js";
 
 import {
-  StructuresClassesMap,
+  StructureClassesMap,
   TypeStructureClassesMap,
 } from "../../snapshot/source/internal-exports.js";
 
@@ -168,7 +168,7 @@ extends OrderedMap<string, TypeMemberImpl>
   /** Get a clone of this map. */
   public clone(): TypeMembersMap
   {
-    const members = StructuresClassesMap.cloneArray<
+    const members = StructureClassesMap.cloneArray<
       TypeMemberImpl, TypeMemberImpl
     >(Array.from(this.values()));
 
@@ -196,7 +196,7 @@ extends OrderedMap<string, TypeMemberImpl>
 
     const docs = getter?.docs ?? setter!.docs;
     if (docs) {
-      prop.docs.push(...StructuresClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(docs));
+      prop.docs.push(...StructureClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(docs));
     }
 
     prop.leadingTrivia.push(...(getter?.leadingTrivia ?? setter!.leadingTrivia));
@@ -244,7 +244,7 @@ extends OrderedMap<string, TypeMemberImpl>
     if (toGetter) {
       const getter = new GetAccessorDeclarationImpl(false, prop.name, prop.typeStructure);
       if (prop.docs) {
-        getter.docs.push(...StructuresClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(prop.docs));
+        getter.docs.push(...StructureClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(prop.docs));
       }
 
       getter.leadingTrivia.push(...prop.leadingTrivia);
@@ -261,7 +261,7 @@ extends OrderedMap<string, TypeMemberImpl>
       const setter = new SetAccessorDeclarationImpl(false, prop.name, param);
 
       if (prop.docs) {
-        setter.docs.push(...StructuresClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(prop.docs))
+        setter.docs.push(...StructureClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(prop.docs))
       }
 
       setter.leadingTrivia.push(...prop.leadingTrivia);

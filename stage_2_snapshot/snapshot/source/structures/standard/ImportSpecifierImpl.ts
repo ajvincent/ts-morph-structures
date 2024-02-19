@@ -7,10 +7,10 @@ import {
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -78,4 +78,4 @@ ImportSpecifierImpl satisfies CloneableStructure<
   ImportSpecifierImpl
 > &
   Class<ExtractStructure<ImportSpecifierStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.ImportSpecifier, ImportSpecifierImpl);
+StructureClassesMap.set(StructureKind.ImportSpecifier, ImportSpecifierImpl);

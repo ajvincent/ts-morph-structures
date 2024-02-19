@@ -12,10 +12,10 @@ import {
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -55,7 +55,7 @@ export default class JsxElementImpl
     super[COPY_FIELDS](source, target);
     if (source.attributes) {
       target.attributes.push(
-        ...StructuresClassesMap.cloneRequiredAndOptionalArray<
+        ...StructureClassesMap.cloneRequiredAndOptionalArray<
           JsxSpreadAttributeStructure,
           StructureKind.JsxSpreadAttribute,
           OptionalKind<JsxAttributeStructure>,
@@ -76,7 +76,7 @@ export default class JsxElementImpl
 
     if (source.children) {
       target.children.push(
-        ...StructuresClassesMap.cloneRequiredAndOptionalArray<
+        ...StructureClassesMap.cloneRequiredAndOptionalArray<
           JsxSelfClosingElementStructure,
           StructureKind.JsxSelfClosingElement,
           OptionalKind<JsxElementStructure>,
@@ -120,4 +120,4 @@ JsxElementImpl satisfies CloneableStructure<
   JsxElementImpl
 > &
   Class<ExtractStructure<JsxElementStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.JsxElement, JsxElementImpl);
+StructureClassesMap.set(StructureKind.JsxElement, JsxElementImpl);

@@ -8,10 +8,10 @@ import {
   type PropertyAssignmentStructureClassIfc,
   REPLACE_WRITER_WITH_STRING,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -75,7 +75,7 @@ PropertyAssignmentImpl satisfies CloneableStructure<
   PropertyAssignmentImpl
 > &
   Class<ExtractStructure<PropertyAssignmentStructure["kind"]>>;
-StructuresClassesMap.set(
+StructureClassesMap.set(
   StructureKind.PropertyAssignment,
   PropertyAssignmentImpl,
 );

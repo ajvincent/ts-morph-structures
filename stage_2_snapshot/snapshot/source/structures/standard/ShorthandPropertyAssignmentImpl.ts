@@ -7,10 +7,10 @@ import {
   NamedNodeStructureMixin,
   type ShorthandPropertyAssignmentStructureClassIfc,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -58,7 +58,7 @@ ShorthandPropertyAssignmentImpl satisfies CloneableStructure<
   ShorthandPropertyAssignmentImpl
 > &
   Class<ExtractStructure<ShorthandPropertyAssignmentStructure["kind"]>>;
-StructuresClassesMap.set(
+StructureClassesMap.set(
   StructureKind.ShorthandPropertyAssignment,
   ShorthandPropertyAssignmentImpl,
 );

@@ -11,10 +11,10 @@ import {
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type VariableStatementStructureClassIfc,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -65,13 +65,13 @@ export default class VariableStatementImpl
     }
 
     target.declarations.push(
-      ...StructuresClassesMap.cloneArrayWithKind<
+      ...StructureClassesMap.cloneArrayWithKind<
         VariableDeclarationStructure,
         StructureKind.VariableDeclaration,
         VariableDeclarationImpl
       >(
         StructureKind.VariableDeclaration,
-        StructuresClassesMap.forceArray(source.declarations),
+        StructureClassesMap.forceArray(source.declarations),
       ),
     );
   }
@@ -103,7 +103,4 @@ VariableStatementImpl satisfies CloneableStructure<
   VariableStatementImpl
 > &
   Class<ExtractStructure<VariableStatementStructure["kind"]>>;
-StructuresClassesMap.set(
-  StructureKind.VariableStatement,
-  VariableStatementImpl,
-);
+StructureClassesMap.set(StructureKind.VariableStatement, VariableStatementImpl);

@@ -14,10 +14,10 @@ import {
   ReturnTypedNodeStructureMixin,
   STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   TypeAccessors,
   TypeStructureClassesMap,
 } from "../../internal-exports.js";
@@ -132,7 +132,7 @@ IndexSignatureDeclarationImpl satisfies CloneableStructure<
   IndexSignatureDeclarationImpl
 > &
   Class<ExtractStructure<IndexSignatureDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(
+StructureClassesMap.set(
   StructureKind.IndexSignature,
   IndexSignatureDeclarationImpl,
 );

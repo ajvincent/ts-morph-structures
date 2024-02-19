@@ -28,10 +28,10 @@ import {
   type ScopedNodeStructureFields,
   ScopedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
   TypeStructureClassesMap,
@@ -120,10 +120,9 @@ export default class PropertyDeclarationImpl
   ): PropertyDeclarationImpl {
     const declaration = new PropertyDeclarationImpl(isStatic, signature.name);
     declaration.docs.push(
-      ...StructuresClassesMap.cloneArray<
-        string | JSDocImpl,
-        string | JSDocImpl
-      >(signature.docs),
+      ...StructureClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(
+        signature.docs,
+      ),
     );
     declaration.hasQuestionToken = signature.hasQuestionToken;
     declaration.isReadonly = signature.isReadonly;
@@ -152,4 +151,4 @@ PropertyDeclarationImpl satisfies CloneableStructure<
   PropertyDeclarationImpl
 > &
   Class<ExtractStructure<PropertyDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.Property, PropertyDeclarationImpl);
+StructureClassesMap.set(StructureKind.Property, PropertyDeclarationImpl);

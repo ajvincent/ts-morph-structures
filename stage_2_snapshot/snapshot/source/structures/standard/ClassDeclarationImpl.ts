@@ -29,10 +29,10 @@ import {
   REPLACE_WRITER_WITH_STRING,
   STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   TypeAccessors,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
@@ -129,13 +129,13 @@ export default class ClassDeclarationImpl
     super[COPY_FIELDS](source, target);
     if (source.ctors) {
       target.ctors.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           ConstructorDeclarationStructure,
           StructureKind.Constructor,
           ConstructorDeclarationImpl
         >(
           StructureKind.Constructor,
-          StructuresClassesMap.forceArray(source.ctors),
+          StructureClassesMap.forceArray(source.ctors),
         ),
       );
     }
@@ -149,13 +149,13 @@ export default class ClassDeclarationImpl
 
     if (source.getAccessors) {
       target.getAccessors.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           GetAccessorDeclarationStructure,
           StructureKind.GetAccessor,
           GetAccessorDeclarationImpl
         >(
           StructureKind.GetAccessor,
-          StructuresClassesMap.forceArray(source.getAccessors),
+          StructureClassesMap.forceArray(source.getAccessors),
         ),
       );
     }
@@ -171,39 +171,36 @@ export default class ClassDeclarationImpl
 
     if (source.methods) {
       target.methods.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           MethodDeclarationStructure,
           StructureKind.Method,
           MethodDeclarationImpl
-        >(
-          StructureKind.Method,
-          StructuresClassesMap.forceArray(source.methods),
-        ),
+        >(StructureKind.Method, StructureClassesMap.forceArray(source.methods)),
       );
     }
 
     if (source.properties) {
       target.properties.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           PropertyDeclarationStructure,
           StructureKind.Property,
           PropertyDeclarationImpl
         >(
           StructureKind.Property,
-          StructuresClassesMap.forceArray(source.properties),
+          StructureClassesMap.forceArray(source.properties),
         ),
       );
     }
 
     if (source.setAccessors) {
       target.setAccessors.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           SetAccessorDeclarationStructure,
           StructureKind.SetAccessor,
           SetAccessorDeclarationImpl
         >(
           StructureKind.SetAccessor,
-          StructuresClassesMap.forceArray(source.setAccessors),
+          StructureClassesMap.forceArray(source.setAccessors),
         ),
       );
     }
@@ -254,4 +251,4 @@ ClassDeclarationImpl satisfies CloneableStructure<
   ClassDeclarationImpl
 > &
   Class<ExtractStructure<ClassDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.Class, ClassDeclarationImpl);
+StructureClassesMap.set(StructureKind.Class, ClassDeclarationImpl);

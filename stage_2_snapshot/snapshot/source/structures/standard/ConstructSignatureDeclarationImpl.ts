@@ -11,10 +11,10 @@ import {
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../../internal-exports.js";
@@ -74,7 +74,7 @@ ConstructSignatureDeclarationImpl satisfies CloneableStructure<
   ConstructSignatureDeclarationImpl
 > &
   Class<ExtractStructure<ConstructSignatureDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(
+StructureClassesMap.set(
   StructureKind.ConstructSignature,
   ConstructSignatureDeclarationImpl,
 );

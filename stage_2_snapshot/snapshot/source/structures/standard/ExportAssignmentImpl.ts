@@ -8,10 +8,10 @@ import {
   JSDocableNodeStructureMixin,
   REPLACE_WRITER_WITH_STRING,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -76,4 +76,4 @@ ExportAssignmentImpl satisfies CloneableStructure<
   ExportAssignmentImpl
 > &
   Class<ExtractStructure<ExportAssignmentStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.ExportAssignment, ExportAssignmentImpl);
+StructureClassesMap.set(StructureKind.ExportAssignment, ExportAssignmentImpl);

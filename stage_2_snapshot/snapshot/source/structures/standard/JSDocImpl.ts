@@ -7,10 +7,10 @@ import {
   type JSDocStructureClassIfc,
   REPLACE_WRITER_WITH_STRING,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -47,11 +47,11 @@ export default class JSDocImpl
 
     if (source.tags) {
       target.tags.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           JSDocTagStructure,
           StructureKind.JSDocTag,
           JSDocTagImpl
-        >(StructureKind.JSDocTag, StructuresClassesMap.forceArray(source.tags)),
+        >(StructureKind.JSDocTag, StructureClassesMap.forceArray(source.tags)),
       );
     }
   }
@@ -80,4 +80,4 @@ export default class JSDocImpl
 
 JSDocImpl satisfies CloneableStructure<JSDocStructure, JSDocImpl> &
   Class<ExtractStructure<JSDocStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.JSDoc, JSDocImpl);
+StructureClassesMap.set(StructureKind.JSDoc, JSDocImpl);

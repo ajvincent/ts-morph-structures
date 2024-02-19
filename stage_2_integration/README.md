@@ -27,7 +27,7 @@ All ts-morph structure classes inherit from [`StructureBase`](./source/base/Stru
 There are two class maps for this project:
 
 ```typescript
-const StructuresClassesMap = new Map<
+const StructureClassesMap = new Map<
   StructureKind,
   CloneableStructure<Structures> & Class<KindedStructure<StructureKind>>
 >;
@@ -53,7 +53,7 @@ export type CloneableTypeStructure<Base extends TypeStructures> =
 
 These provide a common API for cloning a structure or type structure:  get the class from the map, then invoke the class's static `clone()` method.
 
-The source files are [StructureClassesMap](./source/base/StructuresClassesMap.ts) and [TypeStructureClassesMap](./source/base/TypeStructureClassesMap.ts).
+The source files are [StructureClassesMap](./source/base/StructureClassesMap.ts) and [TypeStructureClassesMap](./source/base/TypeStructureClassesMap.ts).
 
 ## Type structures overview
 

@@ -22,10 +22,10 @@ import {
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../../internal-exports.js";
@@ -108,4 +108,4 @@ GetAccessorDeclarationImpl satisfies CloneableStructure<
   GetAccessorDeclarationImpl
 > &
   Class<ExtractStructure<GetAccessorDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.GetAccessor, GetAccessorDeclarationImpl);
+StructureClassesMap.set(StructureKind.GetAccessor, GetAccessorDeclarationImpl);

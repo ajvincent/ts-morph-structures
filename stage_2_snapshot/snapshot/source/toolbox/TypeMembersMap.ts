@@ -20,7 +20,7 @@ import {
 } from "../exports.js";
 
 import {
-  StructuresClassesMap,
+  StructureClassesMap,
   TypeStructureClassesMap,
 } from "../internal-exports.js";
 
@@ -139,7 +139,7 @@ export default class TypeMembersMap extends OrderedMap<string, TypeMemberImpl> {
 
   /** Get a clone of this map. */
   public clone(): TypeMembersMap {
-    const members = StructuresClassesMap.cloneArray<
+    const members = StructureClassesMap.cloneArray<
       TypeMemberImpl,
       TypeMemberImpl
     >(Array.from(this.values()));
@@ -172,7 +172,7 @@ export default class TypeMembersMap extends OrderedMap<string, TypeMemberImpl> {
     const docs = getter?.docs ?? setter!.docs;
     if (docs) {
       prop.docs.push(
-        ...StructuresClassesMap.cloneArray<
+        ...StructureClassesMap.cloneArray<
           string | JSDocImpl,
           string | JSDocImpl
         >(docs),
@@ -240,7 +240,7 @@ export default class TypeMembersMap extends OrderedMap<string, TypeMemberImpl> {
       );
       if (prop.docs) {
         getter.docs.push(
-          ...StructuresClassesMap.cloneArray<
+          ...StructureClassesMap.cloneArray<
             string | JSDocImpl,
             string | JSDocImpl
           >(prop.docs),
@@ -262,7 +262,7 @@ export default class TypeMembersMap extends OrderedMap<string, TypeMemberImpl> {
 
       if (prop.docs) {
         setter.docs.push(
-          ...StructuresClassesMap.cloneArray<
+          ...StructureClassesMap.cloneArray<
             string | JSDocImpl,
             string | JSDocImpl
           >(prop.docs),

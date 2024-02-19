@@ -17,7 +17,7 @@ import {
 } from "../exports.js";
 
 import {
-  StructuresClassesMap,
+  StructureClassesMap,
   TypeStructureClassesMap,
 } from "../internal-exports.js";
 
@@ -174,7 +174,7 @@ export default class ClassMembersMap extends OrderedMap<
 
   /** Get a clone of this map. */
   public clone(): ClassMembersMap {
-    const members = StructuresClassesMap.cloneArray<
+    const members = StructureClassesMap.cloneArray<
       ClassMemberImpl,
       ClassMemberImpl
     >(Array.from(this.values()));
@@ -221,7 +221,7 @@ export default class ClassMembersMap extends OrderedMap<
     const docs = getter?.docs ?? setter!.docs;
     if (docs) {
       prop.docs.push(
-        ...StructuresClassesMap.cloneArray<
+        ...StructureClassesMap.cloneArray<
           string | JSDocImpl,
           string | JSDocImpl
         >(docs),
@@ -302,7 +302,7 @@ export default class ClassMembersMap extends OrderedMap<
 
       if (prop.docs) {
         getter.docs.push(
-          ...StructuresClassesMap.cloneArray<
+          ...StructureClassesMap.cloneArray<
             string | JSDocImpl,
             string | JSDocImpl
           >(prop.docs),
@@ -333,7 +333,7 @@ export default class ClassMembersMap extends OrderedMap<
 
       if (prop.docs) {
         setter.docs.push(
-          ...StructuresClassesMap.cloneArray<
+          ...StructureClassesMap.cloneArray<
             string | JSDocImpl,
             string | JSDocImpl
           >(prop.docs),

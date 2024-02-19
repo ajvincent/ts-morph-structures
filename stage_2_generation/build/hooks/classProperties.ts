@@ -434,7 +434,7 @@ function write_cloneRequiredAndOptionalArray(
     writer.write(`target.${propertyKey}.push`);
     pairedWrite(writer, "(", ");", false, false, () => {
       writer.indent(() => {
-        writer.write("...StructuresClassesMap.cloneRequiredAndOptionalArray");
+        writer.write("...StructureClassesMap.cloneRequiredAndOptionalArray");
         pairedWrite(writer, "<", ">", true, true, () => {
           writer.writeLine(requiredName + ",");
           writer.writeLine(`StructureKind.${requiredKind},`);
@@ -495,7 +495,7 @@ function write_cloneStructureArray(
     isPackageImport: false,
     isDefaultImport: false,
     isTypeOnly: false,
-    importNames: ["StructuresClassesMap"]
+    importNames: ["StructureClassesMap"]
   });
 
   let targetImpl: string = getStructureImplName(sourceStructureName);
@@ -525,7 +525,7 @@ function write_cloneStructureArray(
   const addPush = (writer: CodeBlockWriter): void => {
     writer.write(`target.${propertyKey}.push`);
     pairedWrite(writer, "(", ");", true, true, () => {
-      writer.write("...StructuresClassesMap.cloneArrayWithKind");
+      writer.write("...StructureClassesMap.cloneArrayWithKind");
       pairedWrite(writer, "<", ">", false, false, () => {
         writer.write(sourceStructureName + ", ");
         writer.write(`StructureKind.${sourceKind}, `);
@@ -533,7 +533,7 @@ function write_cloneStructureArray(
       });
       pairedWrite(writer, "(", ")", false, false, () => {
         writer.write(`StructureKind.${sourceKind},`);
-        writer.write(`StructuresClassesMap.forceArray(source.${propertyKey}),`);
+        writer.write(`StructureClassesMap.forceArray(source.${propertyKey}),`);
       });
     });
   }
@@ -559,7 +559,7 @@ function write_cloneStatementsArray(
     isPackageImport: false,
     isTypeOnly: false,
     importNames: [
-      "StructuresClassesMap",
+      "StructureClassesMap",
     ]
   });
 
@@ -615,7 +615,7 @@ function write_cloneStatementsArray(
   cloneStatementMethod.statements.push(writer => {
     writer.write(`if (typeof source !== "object") `);
     writer.block(() => writer.write("return source;"));
-    writer.writeLine(`return StructuresClassesMap.clone<StatementStructures, StatementStructureImpls>(source);`);
+    writer.writeLine(`return StructureClassesMap.clone<StatementStructures, StatementStructureImpls>(source);`);
   });
 
   parts.classMembersMap.addMembers([cloneStatementMethod]);

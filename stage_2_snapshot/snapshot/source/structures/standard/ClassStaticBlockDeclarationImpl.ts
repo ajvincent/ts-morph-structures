@@ -9,10 +9,10 @@ import {
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -62,7 +62,7 @@ ClassStaticBlockDeclarationImpl satisfies CloneableStructure<
   ClassStaticBlockDeclarationImpl
 > &
   Class<ExtractStructure<ClassStaticBlockDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(
+StructureClassesMap.set(
   StructureKind.ClassStaticBlock,
   ClassStaticBlockDeclarationImpl,
 );

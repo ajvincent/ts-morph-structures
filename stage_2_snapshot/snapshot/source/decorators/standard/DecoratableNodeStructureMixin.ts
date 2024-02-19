@@ -7,8 +7,8 @@ import {
   COPY_FIELDS,
   type RightExtendsLeft,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type {
   MixinClass,
@@ -53,13 +53,13 @@ export default function DecoratableNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       if (source.decorators) {
         target.decorators.push(
-          ...StructuresClassesMap.cloneArrayWithKind<
+          ...StructureClassesMap.cloneArrayWithKind<
             DecoratorStructure,
             StructureKind.Decorator,
             DecoratorImpl
           >(
             StructureKind.Decorator,
-            StructuresClassesMap.forceArray(source.decorators),
+            StructureClassesMap.forceArray(source.decorators),
           ),
         );
       }

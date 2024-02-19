@@ -15,10 +15,10 @@ import {
   type ReadonlyableNodeStructureFields,
   ReadonlyableNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
 } from "../../internal-exports.js";
@@ -86,7 +86,4 @@ PropertySignatureImpl satisfies CloneableStructure<
   PropertySignatureImpl
 > &
   Class<ExtractStructure<PropertySignatureStructure["kind"]>>;
-StructuresClassesMap.set(
-  StructureKind.PropertySignature,
-  PropertySignatureImpl,
-);
+StructureClassesMap.set(StructureKind.PropertySignature, PropertySignatureImpl);

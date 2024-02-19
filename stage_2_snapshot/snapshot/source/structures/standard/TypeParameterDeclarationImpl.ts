@@ -9,10 +9,10 @@ import {
   REPLACE_WRITER_WITH_STRING,
   STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   TypeAccessors,
   type TypeParameterDeclarationStructureClassIfc,
   TypeStructureClassesMap,
@@ -160,7 +160,7 @@ TypeParameterDeclarationImpl satisfies CloneableStructure<
   TypeParameterDeclarationImpl
 > &
   Class<ExtractStructure<TypeParameterDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(
+StructureClassesMap.set(
   StructureKind.TypeParameter,
   TypeParameterDeclarationImpl,
 );

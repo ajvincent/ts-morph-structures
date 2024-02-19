@@ -22,10 +22,10 @@ import {
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
   TypeStructureClassesMap,
@@ -78,13 +78,13 @@ export default class ConstructorDeclarationImpl
     super[COPY_FIELDS](source, target);
     if (source.overloads) {
       target.overloads.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           ConstructorDeclarationOverloadStructure,
           StructureKind.ConstructorOverload,
           ConstructorDeclarationOverloadImpl
         >(
           StructureKind.ConstructorOverload,
-          StructuresClassesMap.forceArray(source.overloads),
+          StructureClassesMap.forceArray(source.overloads),
         ),
       );
     }
@@ -103,14 +103,13 @@ export default class ConstructorDeclarationImpl
   ): ConstructorDeclarationImpl {
     const declaration = new ConstructorDeclarationImpl();
     declaration.docs.push(
-      ...StructuresClassesMap.cloneArray<
-        string | JSDocImpl,
-        string | JSDocImpl
-      >(signature.docs),
+      ...StructureClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(
+        signature.docs,
+      ),
     );
     declaration.leadingTrivia.push(...signature.leadingTrivia);
     declaration.parameters.push(
-      ...StructuresClassesMap.cloneArray<
+      ...StructureClassesMap.cloneArray<
         ParameterDeclarationImpl,
         ParameterDeclarationImpl
       >(signature.parameters),
@@ -123,7 +122,7 @@ export default class ConstructorDeclarationImpl
 
     declaration.trailingTrivia.push(...signature.trailingTrivia);
     declaration.typeParameters.push(
-      ...StructuresClassesMap.cloneArray<
+      ...StructureClassesMap.cloneArray<
         string | TypeParameterDeclarationImpl,
         string | TypeParameterDeclarationImpl
       >(signature.typeParameters),
@@ -145,4 +144,4 @@ ConstructorDeclarationImpl satisfies CloneableStructure<
   ConstructorDeclarationImpl
 > &
   Class<ExtractStructure<ConstructorDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.Constructor, ConstructorDeclarationImpl);
+StructureClassesMap.set(StructureKind.Constructor, ConstructorDeclarationImpl);

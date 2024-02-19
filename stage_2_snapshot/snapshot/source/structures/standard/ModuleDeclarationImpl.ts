@@ -15,10 +15,10 @@ import {
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -100,4 +100,4 @@ ModuleDeclarationImpl satisfies CloneableStructure<
   ModuleDeclarationImpl
 > &
   Class<ExtractStructure<ModuleDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.Module, ModuleDeclarationImpl);
+StructureClassesMap.set(StructureKind.Module, ModuleDeclarationImpl);

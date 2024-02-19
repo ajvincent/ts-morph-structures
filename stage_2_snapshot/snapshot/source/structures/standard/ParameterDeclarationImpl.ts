@@ -17,10 +17,10 @@ import {
   type ReadonlyableNodeStructureFields,
   ReadonlyableNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
 } from "../../internal-exports.js";
@@ -111,4 +111,4 @@ ParameterDeclarationImpl satisfies CloneableStructure<
   ParameterDeclarationImpl
 > &
   Class<ExtractStructure<ParameterDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.Parameter, ParameterDeclarationImpl);
+StructureClassesMap.set(StructureKind.Parameter, ParameterDeclarationImpl);

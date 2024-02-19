@@ -7,8 +7,8 @@ import {
   COPY_FIELDS,
   type RightExtendsLeft,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type {
   MixinClass,
@@ -53,13 +53,13 @@ export default function TypeParameteredNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       if (source.typeParameters) {
         target.typeParameters.push(
-          ...StructuresClassesMap.cloneArrayWithKind<
+          ...StructureClassesMap.cloneArrayWithKind<
             TypeParameterDeclarationStructure,
             StructureKind.TypeParameter,
             string | TypeParameterDeclarationImpl
           >(
             StructureKind.TypeParameter,
-            StructuresClassesMap.forceArray(source.typeParameters),
+            StructureClassesMap.forceArray(source.typeParameters),
           ),
         );
       }

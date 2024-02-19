@@ -59,7 +59,7 @@ function convertConstructor(
 
   parts.classFieldsStatements.set("typeParameters", groupName, [
     `declaration.typeParameters.push(
-      ...StructuresClassesMap.cloneArray<
+      ...StructureClassesMap.cloneArray<
         string | TypeParameterDeclarationImpl,
         string | TypeParameterDeclarationImpl
       >(signature.typeParameters),
@@ -67,7 +67,7 @@ function convertConstructor(
   ]);
   parts.classFieldsStatements.set("parameters", groupName, [
     `declaration.parameters.push(
-      ...StructuresClassesMap.cloneArray<
+      ...StructureClassesMap.cloneArray<
         ParameterDeclarationImpl,
         ParameterDeclarationImpl
       >(signature.parameters)
@@ -102,7 +102,7 @@ function convertMethod(
 
   parts.classFieldsStatements.set("typeParameters", groupName, [
     `declaration.typeParameters.push(
-      ...StructuresClassesMap.cloneArray<
+      ...StructureClassesMap.cloneArray<
         string | TypeParameterDeclarationImpl,
         string | TypeParameterDeclarationImpl
       >(signature.typeParameters),
@@ -110,7 +110,7 @@ function convertMethod(
   ]);
   parts.classFieldsStatements.set("parameters", groupName, [
     `declaration.parameters.push(
-      ...StructuresClassesMap.cloneArray<
+      ...StructureClassesMap.cloneArray<
         ParameterDeclarationImpl,
         ParameterDeclarationImpl
       >(signature.parameters)
@@ -222,7 +222,7 @@ function copyDocs(
 ): void
 {
   parts.classFieldsStatements.set("docs", groupName, [
-    `declaration.docs.push(...StructuresClassesMap.cloneArray<
+    `declaration.docs.push(...StructureClassesMap.cloneArray<
       string | JSDocImpl,
       string | JSDocImpl
     >(signature.docs));`,

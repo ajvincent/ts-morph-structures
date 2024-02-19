@@ -8,8 +8,8 @@ import {
   REPLACE_WRITER_WITH_STRING,
   type RightExtendsLeft,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import type {
@@ -79,7 +79,7 @@ export default function StatementedNodeStructureMixin(
       if (typeof source !== "object") {
         return source;
       }
-      return StructuresClassesMap.clone<
+      return StructureClassesMap.clone<
         StatementStructures,
         StatementStructureImpls
       >(source);

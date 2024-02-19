@@ -114,7 +114,7 @@ function addToCloneableMapWriter(
 ): WriterFunction
 {
   return function(writer: CodeBlockWriter): void {
-    writer.writeLine(`StructuresClassesMap.set(StructureKind.${structureKindName}, ${classDecl.name!});`);
+    writer.writeLine(`StructureClassesMap.set(StructureKind.${structureKindName}, ${classDecl.name!});`);
   }
 }
 

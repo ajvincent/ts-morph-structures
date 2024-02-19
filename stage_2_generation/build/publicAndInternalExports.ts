@@ -227,8 +227,8 @@ function defineInternalExports(
   });
 
   dictionaries.internalExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/base/StructuresClassesMap.ts"),
-    exportNames: ["StructuresClassesMap"],
+    absolutePathToModule: path.join(distDir, "source/base/StructureClassesMap.ts"),
+    exportNames: ["StructureClassesMap"],
     isDefaultExport: true,
     isType: false
   });

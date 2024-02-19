@@ -7,10 +7,10 @@ import {
   type ExtractStructure,
   REPLACE_WRITER_WITH_STRING,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -49,13 +49,13 @@ export default class ExportDeclarationImpl
     if (source.attributes) {
       target.attributes = [];
       target.attributes.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           ImportAttributeStructure,
           StructureKind.ImportAttribute,
           ImportAttributeImpl
         >(
           StructureKind.ImportAttribute,
-          StructuresClassesMap.forceArray(source.attributes),
+          StructureClassesMap.forceArray(source.attributes),
         ),
       );
     }
@@ -67,13 +67,13 @@ export default class ExportDeclarationImpl
 
     if (source.namedExports) {
       target.namedExports.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           ExportSpecifierStructure,
           StructureKind.ExportSpecifier,
           stringOrWriterFunction | ExportSpecifierImpl
         >(
           StructureKind.ExportSpecifier,
-          StructuresClassesMap.forceArray(source.namedExports),
+          StructureClassesMap.forceArray(source.namedExports),
         ),
       );
     }
@@ -123,7 +123,4 @@ ExportDeclarationImpl satisfies CloneableStructure<
   ExportDeclarationImpl
 > &
   Class<ExtractStructure<ExportDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(
-  StructureKind.ExportDeclaration,
-  ExportDeclarationImpl,
-);
+StructureClassesMap.set(StructureKind.ExportDeclaration, ExportDeclarationImpl);

@@ -15,10 +15,10 @@ import {
   type ReturnTypedNodeStructureFields,
   ReturnTypedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../../internal-exports.js";
@@ -85,4 +85,4 @@ MethodSignatureImpl satisfies CloneableStructure<
   MethodSignatureImpl
 > &
   Class<ExtractStructure<MethodSignatureStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.MethodSignature, MethodSignatureImpl);
+StructureClassesMap.set(StructureKind.MethodSignature, MethodSignatureImpl);

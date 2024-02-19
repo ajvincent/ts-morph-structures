@@ -24,10 +24,10 @@ import {
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../../internal-exports.js";
@@ -87,13 +87,13 @@ export default class FunctionDeclarationImpl
     super[COPY_FIELDS](source, target);
     if (source.overloads) {
       target.overloads.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           FunctionDeclarationOverloadStructure,
           StructureKind.FunctionOverload,
           FunctionDeclarationOverloadImpl
         >(
           StructureKind.FunctionOverload,
-          StructuresClassesMap.forceArray(source.overloads),
+          StructureClassesMap.forceArray(source.overloads),
         ),
       );
     }
@@ -120,4 +120,4 @@ FunctionDeclarationImpl satisfies CloneableStructure<
   FunctionDeclarationImpl
 > &
   Class<ExtractStructure<FunctionDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.Function, FunctionDeclarationImpl);
+StructureClassesMap.set(StructureKind.Function, FunctionDeclarationImpl);

@@ -62,7 +62,7 @@ export default function addStaticClone(
     isDefaultImport: false,
     isTypeOnly: false,
     importNames: [
-      "StructuresClassesMap",
+      "StructureClassesMap",
     ]
   });
 

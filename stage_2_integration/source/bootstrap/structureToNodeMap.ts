@@ -16,7 +16,7 @@ import {
 import {
   type StructureImpls,
   StructureKindToSyntaxKindMap,
-  StructuresClassesMap
+  StructureClassesMap
 } from "../../snapshot/source/internal-exports.js";
 
 import type {
@@ -128,7 +128,7 @@ class StructureAndNodeData
 
     this.#rootStructure = this.#rootNode.getStructure();
     if (useTypeAwareStructures)
-      this.#rootStructure = StructuresClassesMap.get(this.#rootStructure.kind)!.clone(this.#rootStructure);
+      this.#rootStructure = StructureClassesMap.get(this.#rootStructure.kind)!.clone(this.#rootStructure);
 
     this.#collectDescendantStructures(this.#rootStructure, "");
     if (hashNeedle) {

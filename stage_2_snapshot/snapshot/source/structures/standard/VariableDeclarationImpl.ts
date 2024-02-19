@@ -10,10 +10,10 @@ import {
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
   type VariableDeclarationStructureClassIfc,
@@ -78,7 +78,7 @@ VariableDeclarationImpl satisfies CloneableStructure<
   VariableDeclarationImpl
 > &
   Class<ExtractStructure<VariableDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(
+StructureClassesMap.set(
   StructureKind.VariableDeclaration,
   VariableDeclarationImpl,
 );

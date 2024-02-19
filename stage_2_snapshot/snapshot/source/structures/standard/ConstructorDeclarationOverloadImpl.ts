@@ -13,10 +13,10 @@ import {
   type ScopedNodeStructureFields,
   ScopedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../../internal-exports.js";
@@ -78,7 +78,7 @@ ConstructorDeclarationOverloadImpl satisfies CloneableStructure<
   ConstructorDeclarationOverloadImpl
 > &
   Class<ExtractStructure<ConstructorDeclarationOverloadStructure["kind"]>>;
-StructuresClassesMap.set(
+StructureClassesMap.set(
   StructureKind.ConstructorOverload,
   ConstructorDeclarationOverloadImpl,
 );

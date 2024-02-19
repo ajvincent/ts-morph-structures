@@ -27,10 +27,10 @@ import {
   REPLACE_WRITER_WITH_STRING,
   STRUCTURE_AND_TYPES_CHILDREN,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
   TypeStructureSet,
@@ -112,26 +112,26 @@ export default class InterfaceDeclarationImpl
     super[COPY_FIELDS](source, target);
     if (source.callSignatures) {
       target.callSignatures.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           CallSignatureDeclarationStructure,
           StructureKind.CallSignature,
           CallSignatureDeclarationImpl
         >(
           StructureKind.CallSignature,
-          StructuresClassesMap.forceArray(source.callSignatures),
+          StructureClassesMap.forceArray(source.callSignatures),
         ),
       );
     }
 
     if (source.constructSignatures) {
       target.constructSignatures.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           ConstructSignatureDeclarationStructure,
           StructureKind.ConstructSignature,
           ConstructSignatureDeclarationImpl
         >(
           StructureKind.ConstructSignature,
-          StructuresClassesMap.forceArray(source.constructSignatures),
+          StructureClassesMap.forceArray(source.constructSignatures),
         ),
       );
     }
@@ -147,65 +147,65 @@ export default class InterfaceDeclarationImpl
 
     if (source.getAccessors) {
       target.getAccessors.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           GetAccessorDeclarationStructure,
           StructureKind.GetAccessor,
           GetAccessorDeclarationImpl
         >(
           StructureKind.GetAccessor,
-          StructuresClassesMap.forceArray(source.getAccessors),
+          StructureClassesMap.forceArray(source.getAccessors),
         ),
       );
     }
 
     if (source.indexSignatures) {
       target.indexSignatures.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           IndexSignatureDeclarationStructure,
           StructureKind.IndexSignature,
           IndexSignatureDeclarationImpl
         >(
           StructureKind.IndexSignature,
-          StructuresClassesMap.forceArray(source.indexSignatures),
+          StructureClassesMap.forceArray(source.indexSignatures),
         ),
       );
     }
 
     if (source.methods) {
       target.methods.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           MethodSignatureStructure,
           StructureKind.MethodSignature,
           MethodSignatureImpl
         >(
           StructureKind.MethodSignature,
-          StructuresClassesMap.forceArray(source.methods),
+          StructureClassesMap.forceArray(source.methods),
         ),
       );
     }
 
     if (source.properties) {
       target.properties.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           PropertySignatureStructure,
           StructureKind.PropertySignature,
           PropertySignatureImpl
         >(
           StructureKind.PropertySignature,
-          StructuresClassesMap.forceArray(source.properties),
+          StructureClassesMap.forceArray(source.properties),
         ),
       );
     }
 
     if (source.setAccessors) {
       target.setAccessors.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           SetAccessorDeclarationStructure,
           StructureKind.SetAccessor,
           SetAccessorDeclarationImpl
         >(
           StructureKind.SetAccessor,
-          StructuresClassesMap.forceArray(source.setAccessors),
+          StructureClassesMap.forceArray(source.setAccessors),
         ),
       );
     }
@@ -251,4 +251,4 @@ InterfaceDeclarationImpl satisfies CloneableStructure<
   InterfaceDeclarationImpl
 > &
   Class<ExtractStructure<InterfaceDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.Interface, InterfaceDeclarationImpl);
+StructureClassesMap.set(StructureKind.Interface, InterfaceDeclarationImpl);

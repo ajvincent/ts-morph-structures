@@ -8,10 +8,10 @@ import {
   NamedNodeStructureMixin,
   REPLACE_WRITER_WITH_STRING,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -74,4 +74,4 @@ export default class DecoratorImpl
 
 DecoratorImpl satisfies CloneableStructure<DecoratorStructure, DecoratorImpl> &
   Class<ExtractStructure<DecoratorStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.Decorator, DecoratorImpl);
+StructureClassesMap.set(StructureKind.Decorator, DecoratorImpl);

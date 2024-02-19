@@ -5,10 +5,10 @@ import {
   type ExtractStructure,
   type JsxSpreadAttributeStructureClassIfc,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -68,7 +68,7 @@ JsxSpreadAttributeImpl satisfies CloneableStructure<
   JsxSpreadAttributeImpl
 > &
   Class<ExtractStructure<JsxSpreadAttributeStructure["kind"]>>;
-StructuresClassesMap.set(
+StructureClassesMap.set(
   StructureKind.JsxSpreadAttribute,
   JsxSpreadAttributeImpl,
 );

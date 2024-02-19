@@ -6,10 +6,10 @@ import {
   REPLACE_WRITER_WITH_STRING,
   type SpreadAssignmentStructureClassIfc,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -70,4 +70,4 @@ SpreadAssignmentImpl satisfies CloneableStructure<
   SpreadAssignmentImpl
 > &
   Class<ExtractStructure<SpreadAssignmentStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.SpreadAssignment, SpreadAssignmentImpl);
+StructureClassesMap.set(StructureKind.SpreadAssignment, SpreadAssignmentImpl);

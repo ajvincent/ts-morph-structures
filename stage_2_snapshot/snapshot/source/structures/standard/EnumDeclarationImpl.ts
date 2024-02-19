@@ -14,10 +14,10 @@ import {
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -70,13 +70,13 @@ export default class EnumDeclarationImpl
     target.isConst = source.isConst ?? false;
     if (source.members) {
       target.members.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           EnumMemberStructure,
           StructureKind.EnumMember,
           EnumMemberImpl
         >(
           StructureKind.EnumMember,
-          StructuresClassesMap.forceArray(source.members),
+          StructureClassesMap.forceArray(source.members),
         ),
       );
     }
@@ -104,4 +104,4 @@ EnumDeclarationImpl satisfies CloneableStructure<
   EnumDeclarationImpl
 > &
   Class<ExtractStructure<EnumDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.Enum, EnumDeclarationImpl);
+StructureClassesMap.set(StructureKind.Enum, EnumDeclarationImpl);

@@ -36,10 +36,10 @@ import {
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
   TypeStructureClassesMap,
@@ -113,13 +113,13 @@ export default class MethodDeclarationImpl
     super[COPY_FIELDS](source, target);
     if (source.overloads) {
       target.overloads.push(
-        ...StructuresClassesMap.cloneArrayWithKind<
+        ...StructureClassesMap.cloneArrayWithKind<
           MethodDeclarationOverloadStructure,
           StructureKind.MethodOverload,
           MethodDeclarationOverloadImpl
         >(
           StructureKind.MethodOverload,
-          StructuresClassesMap.forceArray(source.overloads),
+          StructureClassesMap.forceArray(source.overloads),
         ),
       );
     }
@@ -142,15 +142,14 @@ export default class MethodDeclarationImpl
   ): MethodDeclarationImpl {
     const declaration = new MethodDeclarationImpl(isStatic, signature.name);
     declaration.docs.push(
-      ...StructuresClassesMap.cloneArray<
-        string | JSDocImpl,
-        string | JSDocImpl
-      >(signature.docs),
+      ...StructureClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(
+        signature.docs,
+      ),
     );
     declaration.hasQuestionToken = signature.hasQuestionToken;
     declaration.leadingTrivia.push(...signature.leadingTrivia);
     declaration.parameters.push(
-      ...StructuresClassesMap.cloneArray<
+      ...StructureClassesMap.cloneArray<
         ParameterDeclarationImpl,
         ParameterDeclarationImpl
       >(signature.parameters),
@@ -163,7 +162,7 @@ export default class MethodDeclarationImpl
 
     declaration.trailingTrivia.push(...signature.trailingTrivia);
     declaration.typeParameters.push(
-      ...StructuresClassesMap.cloneArray<
+      ...StructureClassesMap.cloneArray<
         string | TypeParameterDeclarationImpl,
         string | TypeParameterDeclarationImpl
       >(signature.typeParameters),
@@ -185,4 +184,4 @@ MethodDeclarationImpl satisfies CloneableStructure<
   MethodDeclarationImpl
 > &
   Class<ExtractStructure<MethodDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.Method, MethodDeclarationImpl);
+StructureClassesMap.set(StructureKind.Method, MethodDeclarationImpl);

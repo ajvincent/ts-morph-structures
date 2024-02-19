@@ -20,7 +20,7 @@ import {
 } from "../../snapshot/source/exports.js";
 
 import {
-  StructuresClassesMap,
+  StructureClassesMap,
   TypeStructureClassesMap,
 } from "../../snapshot/source/internal-exports.js";
 
@@ -190,7 +190,7 @@ extends OrderedMap<string, ClassMemberImpl>
   /** Get a clone of this map. */
   public clone(): ClassMembersMap
   {
-    const members = StructuresClassesMap.cloneArray<
+    const members = StructureClassesMap.cloneArray<
       ClassMemberImpl, ClassMemberImpl
     >(Array.from(this.values()));
 
@@ -225,7 +225,7 @@ extends OrderedMap<string, ClassMemberImpl>
     const docs = getter?.docs ?? setter!.docs;
     if (docs) {
       prop.docs.push(
-        ...StructuresClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(docs)
+        ...StructureClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(docs)
       );
     }
 
@@ -282,7 +282,7 @@ extends OrderedMap<string, ClassMemberImpl>
       const getter = new GetAccessorDeclarationImpl(prop.isStatic, prop.name, prop.typeStructure);
 
       if (prop.docs) {
-        getter.docs.push(...StructuresClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(prop.docs));
+        getter.docs.push(...StructureClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(prop.docs));
       }
 
       if (prop.isAbstract) {
@@ -304,7 +304,7 @@ extends OrderedMap<string, ClassMemberImpl>
       const setter = new SetAccessorDeclarationImpl(prop.isStatic, prop.name, param);
 
       if (prop.docs) {
-        setter.docs.push(...StructuresClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(prop.docs));
+        setter.docs.push(...StructureClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(prop.docs));
       }
 
       if (prop.isAbstract) {

@@ -7,8 +7,8 @@ import {
   COPY_FIELDS,
   type RightExtendsLeft,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type {
   MixinClass,
@@ -53,11 +53,11 @@ export default function JSDocableNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       if (source.docs) {
         target.docs.push(
-          ...StructuresClassesMap.cloneArrayWithKind<
+          ...StructureClassesMap.cloneArrayWithKind<
             JSDocStructure,
             StructureKind.JSDoc,
             string | JSDocImpl
-          >(StructureKind.JSDoc, StructuresClassesMap.forceArray(source.docs)),
+          >(StructureKind.JSDoc, StructureClassesMap.forceArray(source.docs)),
         );
       }
     }

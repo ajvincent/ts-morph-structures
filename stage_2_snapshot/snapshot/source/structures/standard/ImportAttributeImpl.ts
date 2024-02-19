@@ -5,10 +5,10 @@ import {
   type ExtractStructure,
   type ImportAttributeStructureClassIfc,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -74,4 +74,4 @@ ImportAttributeImpl satisfies CloneableStructure<
   ImportAttributeImpl
 > &
   Class<ExtractStructure<ImportAttributeStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.ImportAttribute, ImportAttributeImpl);
+StructureClassesMap.set(StructureKind.ImportAttribute, ImportAttributeImpl);

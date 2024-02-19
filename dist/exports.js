@@ -165,7 +165,7 @@ class StructureBase {
 }
 
 /** @internal */
-class StructuresClassesMapClass extends Map {
+class StructureClassesMapClass extends Map {
     clone(structure) {
         return this.get(structure.kind).clone(structure);
     }
@@ -203,7 +203,7 @@ class StructuresClassesMapClass extends Map {
         return [sources];
     }
 }
-const StructuresClassesMap = new StructuresClassesMapClass();
+const StructureClassesMap = new StructureClassesMapClass();
 
 // #endregion preamble
 /**
@@ -456,7 +456,7 @@ function DecoratableNodeStructureMixin(baseClass, context) {
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (source.decorators) {
-                target.decorators.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.Decorator, StructuresClassesMap.forceArray(source.decorators)));
+                target.decorators.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.Decorator, StructureClassesMap.forceArray(source.decorators)));
             }
         }
         toJSON() {
@@ -553,7 +553,7 @@ function JSDocableNodeStructureMixin(baseClass, context) {
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (source.docs) {
-                target.docs.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.JSDoc, StructuresClassesMap.forceArray(source.docs)));
+                target.docs.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.JSDoc, StructureClassesMap.forceArray(source.docs)));
             }
         }
         toJSON() {
@@ -632,7 +632,7 @@ function ParameteredNodeStructureMixin(baseClass, context) {
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (source.parameters) {
-                target.parameters.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.Parameter, StructuresClassesMap.forceArray(source.parameters)));
+                target.parameters.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.Parameter, StructureClassesMap.forceArray(source.parameters)));
             }
         }
         toJSON() {
@@ -769,7 +769,7 @@ function StatementedNodeStructureMixin(baseClass, context) {
             if (typeof source !== "object") {
                 return source;
             }
-            return StructuresClassesMap.clone(source);
+            return StructureClassesMap.clone(source);
         }
         toJSON() {
             const rv = super.toJSON();
@@ -872,7 +872,7 @@ function TypeParameteredNodeStructureMixin(baseClass, context) {
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (source.typeParameters) {
-                target.typeParameters.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.TypeParameter, StructuresClassesMap.forceArray(source.typeParameters)));
+                target.typeParameters.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.TypeParameter, StructureClassesMap.forceArray(source.typeParameters)));
             }
         }
         toJSON() {
@@ -1142,7 +1142,7 @@ class StructureAndNodeData {
         }
         this.#rootStructure = this.#rootNode.getStructure();
         if (useTypeAwareStructures)
-            this.#rootStructure = StructuresClassesMap.get(this.#rootStructure.kind).clone(this.#rootStructure);
+            this.#rootStructure = StructureClassesMap.get(this.#rootStructure.kind).clone(this.#rootStructure);
         this.#collectDescendantStructures(this.#rootStructure, "");
         if (hashNeedle) {
             this.#structureToHash.forEach((hash, structure) => {
@@ -2014,7 +2014,7 @@ class CallSignatureDeclarationImpl extends CallSignatureDeclarationStructureBase
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.CallSignature, CallSignatureDeclarationImpl);
+StructureClassesMap.set(StructureKind.CallSignature, CallSignatureDeclarationImpl);
 
 var _a$4;
 //#endregion preamble
@@ -2059,7 +2059,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.ctors) {
-            target.ctors.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.Constructor, StructuresClassesMap.forceArray(source.ctors)));
+            target.ctors.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.Constructor, StructureClassesMap.forceArray(source.ctors)));
         }
         const { extendsStructure } = source;
         if (extendsStructure) {
@@ -2069,7 +2069,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
             target.extends = source.extends;
         }
         if (source.getAccessors) {
-            target.getAccessors.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.GetAccessor, StructuresClassesMap.forceArray(source.getAccessors)));
+            target.getAccessors.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.GetAccessor, StructureClassesMap.forceArray(source.getAccessors)));
         }
         const { implementsSet } = source;
         if (implementsSet instanceof TypeStructureSet) {
@@ -2082,13 +2082,13 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
             target.implementsSet.replaceFromTypeArray([source.implements]);
         }
         if (source.methods) {
-            target.methods.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.Method, StructuresClassesMap.forceArray(source.methods)));
+            target.methods.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.Method, StructureClassesMap.forceArray(source.methods)));
         }
         if (source.properties) {
-            target.properties.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.Property, StructuresClassesMap.forceArray(source.properties)));
+            target.properties.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.Property, StructureClassesMap.forceArray(source.properties)));
         }
         if (source.setAccessors) {
-            target.setAccessors.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.SetAccessor, StructuresClassesMap.forceArray(source.setAccessors)));
+            target.setAccessors.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.SetAccessor, StructureClassesMap.forceArray(source.setAccessors)));
         }
     }
     static clone(source) {
@@ -2127,7 +2127,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
     }
 }
 _a$4 = ClassDeclarationImpl;
-StructuresClassesMap.set(StructureKind.Class, ClassDeclarationImpl);
+StructureClassesMap.set(StructureKind.Class, ClassDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -2145,7 +2145,7 @@ class ClassStaticBlockDeclarationImpl extends ClassStaticBlockDeclarationStructu
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.ClassStaticBlock, ClassStaticBlockDeclarationImpl);
+StructureClassesMap.set(StructureKind.ClassStaticBlock, ClassStaticBlockDeclarationImpl);
 
 //#endregion preamble
 const ConstructorDeclarationStructureBase = MultiMixinBuilder([
@@ -2164,7 +2164,7 @@ class ConstructorDeclarationImpl extends ConstructorDeclarationStructureBase {
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.overloads) {
-            target.overloads.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.ConstructorOverload, StructuresClassesMap.forceArray(source.overloads)));
+            target.overloads.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.ConstructorOverload, StructureClassesMap.forceArray(source.overloads)));
         }
     }
     static clone(source) {
@@ -2174,14 +2174,14 @@ class ConstructorDeclarationImpl extends ConstructorDeclarationStructureBase {
     }
     static fromSignature(signature) {
         const declaration = new ConstructorDeclarationImpl();
-        declaration.docs.push(...StructuresClassesMap.cloneArray(signature.docs));
+        declaration.docs.push(...StructureClassesMap.cloneArray(signature.docs));
         declaration.leadingTrivia.push(...signature.leadingTrivia);
-        declaration.parameters.push(...StructuresClassesMap.cloneArray(signature.parameters));
+        declaration.parameters.push(...StructureClassesMap.cloneArray(signature.parameters));
         if (signature.returnTypeStructure) {
             declaration.returnTypeStructure = TypeStructureClassesMap$1.clone(signature.returnTypeStructure);
         }
         declaration.trailingTrivia.push(...signature.trailingTrivia);
-        declaration.typeParameters.push(...StructuresClassesMap.cloneArray(signature.typeParameters));
+        declaration.typeParameters.push(...StructureClassesMap.cloneArray(signature.typeParameters));
         return declaration;
     }
     toJSON() {
@@ -2191,7 +2191,7 @@ class ConstructorDeclarationImpl extends ConstructorDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.Constructor, ConstructorDeclarationImpl);
+StructureClassesMap.set(StructureKind.Constructor, ConstructorDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -2216,7 +2216,7 @@ class ConstructorDeclarationOverloadImpl extends ConstructorDeclarationOverloadS
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.ConstructorOverload, ConstructorDeclarationOverloadImpl);
+StructureClassesMap.set(StructureKind.ConstructorOverload, ConstructorDeclarationOverloadImpl);
 
 //#region preamble
 //#endregion preamble
@@ -2240,7 +2240,7 @@ class ConstructSignatureDeclarationImpl extends ConstructSignatureDeclarationStr
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.ConstructSignature, ConstructSignatureDeclarationImpl);
+StructureClassesMap.set(StructureKind.ConstructSignature, ConstructSignatureDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -2284,7 +2284,7 @@ class DecoratorImpl extends DecoratorStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.Decorator, DecoratorImpl);
+StructureClassesMap.set(StructureKind.Decorator, DecoratorImpl);
 
 //#endregion preamble
 const EnumDeclarationStructureBase = MultiMixinBuilder([
@@ -2307,7 +2307,7 @@ class EnumDeclarationImpl extends EnumDeclarationStructureBase {
         super[COPY_FIELDS](source, target);
         target.isConst = source.isConst ?? false;
         if (source.members) {
-            target.members.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.EnumMember, StructuresClassesMap.forceArray(source.members)));
+            target.members.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.EnumMember, StructureClassesMap.forceArray(source.members)));
         }
     }
     static clone(source) {
@@ -2323,7 +2323,7 @@ class EnumDeclarationImpl extends EnumDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.Enum, EnumDeclarationImpl);
+StructureClassesMap.set(StructureKind.Enum, EnumDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -2364,7 +2364,7 @@ class EnumMemberImpl extends EnumMemberStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.EnumMember, EnumMemberImpl);
+StructureClassesMap.set(StructureKind.EnumMember, EnumMemberImpl);
 
 //#region preamble
 //#endregion preamble
@@ -2398,7 +2398,7 @@ class ExportAssignmentImpl extends ExportAssignmentStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.ExportAssignment, ExportAssignmentImpl);
+StructureClassesMap.set(StructureKind.ExportAssignment, ExportAssignmentImpl);
 
 //#endregion preamble
 const ExportDeclarationStructureBase = MultiMixinBuilder([StructureMixin], StructureBase);
@@ -2414,14 +2414,14 @@ class ExportDeclarationImpl extends ExportDeclarationStructureBase {
         super[COPY_FIELDS](source, target);
         if (source.attributes) {
             target.attributes = [];
-            target.attributes.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.ImportAttribute, StructuresClassesMap.forceArray(source.attributes)));
+            target.attributes.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.ImportAttribute, StructureClassesMap.forceArray(source.attributes)));
         }
         target.isTypeOnly = source.isTypeOnly ?? false;
         if (source.moduleSpecifier) {
             target.moduleSpecifier = source.moduleSpecifier;
         }
         if (source.namedExports) {
-            target.namedExports.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.ExportSpecifier, StructuresClassesMap.forceArray(source.namedExports)));
+            target.namedExports.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.ExportSpecifier, StructureClassesMap.forceArray(source.namedExports)));
         }
         if (source.namespaceExport) {
             target.namespaceExport = source.namespaceExport;
@@ -2458,7 +2458,7 @@ class ExportDeclarationImpl extends ExportDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.ExportDeclaration, ExportDeclarationImpl);
+StructureClassesMap.set(StructureKind.ExportDeclaration, ExportDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -2497,7 +2497,7 @@ class ExportSpecifierImpl extends ExportSpecifierStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.ExportSpecifier, ExportSpecifierImpl);
+StructureClassesMap.set(StructureKind.ExportSpecifier, ExportSpecifierImpl);
 
 //#endregion preamble
 const FunctionDeclarationStructureBase = MultiMixinBuilder([
@@ -2520,7 +2520,7 @@ class FunctionDeclarationImpl extends FunctionDeclarationStructureBase {
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.overloads) {
-            target.overloads.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.FunctionOverload, StructuresClassesMap.forceArray(source.overloads)));
+            target.overloads.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.FunctionOverload, StructureClassesMap.forceArray(source.overloads)));
         }
     }
     static clone(source) {
@@ -2535,7 +2535,7 @@ class FunctionDeclarationImpl extends FunctionDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.Function, FunctionDeclarationImpl);
+StructureClassesMap.set(StructureKind.Function, FunctionDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -2563,7 +2563,7 @@ class FunctionDeclarationOverloadImpl extends FunctionDeclarationOverloadStructu
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.FunctionOverload, FunctionDeclarationOverloadImpl);
+StructureClassesMap.set(StructureKind.FunctionOverload, FunctionDeclarationOverloadImpl);
 
 //#endregion preamble
 const GetAccessorDeclarationStructureBase = MultiMixinBuilder([
@@ -2601,7 +2601,7 @@ class GetAccessorDeclarationImpl extends GetAccessorDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.GetAccessor, GetAccessorDeclarationImpl);
+StructureClassesMap.set(StructureKind.GetAccessor, GetAccessorDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -2638,7 +2638,7 @@ class ImportAttributeImpl extends ImportAttributeStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.ImportAttribute, ImportAttributeImpl);
+StructureClassesMap.set(StructureKind.ImportAttribute, ImportAttributeImpl);
 
 //#endregion preamble
 const ImportDeclarationStructureBase = MultiMixinBuilder([StructureMixin], StructureBase);
@@ -2659,7 +2659,7 @@ class ImportDeclarationImpl extends ImportDeclarationStructureBase {
         super[COPY_FIELDS](source, target);
         if (source.attributes) {
             target.attributes = [];
-            target.attributes.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.ImportAttribute, StructuresClassesMap.forceArray(source.attributes)));
+            target.attributes.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.ImportAttribute, StructureClassesMap.forceArray(source.attributes)));
         }
         if (source.defaultImport) {
             target.defaultImport = source.defaultImport;
@@ -2669,7 +2669,7 @@ class ImportDeclarationImpl extends ImportDeclarationStructureBase {
             target.moduleSpecifier = source.moduleSpecifier;
         }
         if (source.namedImports) {
-            target.namedImports.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.ImportSpecifier, StructuresClassesMap.forceArray(source.namedImports)));
+            target.namedImports.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.ImportSpecifier, StructureClassesMap.forceArray(source.namedImports)));
         }
         if (source.namespaceImport) {
             target.namespaceImport = source.namespaceImport;
@@ -2707,7 +2707,7 @@ class ImportDeclarationImpl extends ImportDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.ImportDeclaration, ImportDeclarationImpl);
+StructureClassesMap.set(StructureKind.ImportDeclaration, ImportDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -2746,7 +2746,7 @@ class ImportSpecifierImpl extends ImportSpecifierStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.ImportSpecifier, ImportSpecifierImpl);
+StructureClassesMap.set(StructureKind.ImportSpecifier, ImportSpecifierImpl);
 
 //#endregion preamble
 const IndexSignatureDeclarationStructureBase = MultiMixinBuilder([
@@ -2815,7 +2815,7 @@ class IndexSignatureDeclarationImpl extends IndexSignatureDeclarationStructureBa
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.IndexSignature, IndexSignatureDeclarationImpl);
+StructureClassesMap.set(StructureKind.IndexSignature, IndexSignatureDeclarationImpl);
 
 var _a$3;
 //#endregion preamble
@@ -2851,10 +2851,10 @@ class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase {
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.callSignatures) {
-            target.callSignatures.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.CallSignature, StructuresClassesMap.forceArray(source.callSignatures)));
+            target.callSignatures.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.CallSignature, StructureClassesMap.forceArray(source.callSignatures)));
         }
         if (source.constructSignatures) {
-            target.constructSignatures.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.ConstructSignature, StructuresClassesMap.forceArray(source.constructSignatures)));
+            target.constructSignatures.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.ConstructSignature, StructureClassesMap.forceArray(source.constructSignatures)));
         }
         const { extendsSet } = source;
         if (extendsSet instanceof TypeStructureSet) {
@@ -2867,19 +2867,19 @@ class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase {
             target.extendsSet.replaceFromTypeArray([source.extends]);
         }
         if (source.getAccessors) {
-            target.getAccessors.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.GetAccessor, StructuresClassesMap.forceArray(source.getAccessors)));
+            target.getAccessors.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.GetAccessor, StructureClassesMap.forceArray(source.getAccessors)));
         }
         if (source.indexSignatures) {
-            target.indexSignatures.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.IndexSignature, StructuresClassesMap.forceArray(source.indexSignatures)));
+            target.indexSignatures.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.IndexSignature, StructureClassesMap.forceArray(source.indexSignatures)));
         }
         if (source.methods) {
-            target.methods.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.MethodSignature, StructuresClassesMap.forceArray(source.methods)));
+            target.methods.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.MethodSignature, StructureClassesMap.forceArray(source.methods)));
         }
         if (source.properties) {
-            target.properties.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.PropertySignature, StructuresClassesMap.forceArray(source.properties)));
+            target.properties.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.PropertySignature, StructureClassesMap.forceArray(source.properties)));
         }
         if (source.setAccessors) {
-            target.setAccessors.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.SetAccessor, StructuresClassesMap.forceArray(source.setAccessors)));
+            target.setAccessors.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.SetAccessor, StructureClassesMap.forceArray(source.setAccessors)));
         }
     }
     static clone(source) {
@@ -2912,7 +2912,7 @@ class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase {
     }
 }
 _a$3 = InterfaceDeclarationImpl;
-StructuresClassesMap.set(StructureKind.Interface, InterfaceDeclarationImpl);
+StructureClassesMap.set(StructureKind.Interface, InterfaceDeclarationImpl);
 
 //#endregion preamble
 const JSDocStructureBase = MultiMixinBuilder([StructureMixin], StructureBase);
@@ -2927,7 +2927,7 @@ class JSDocImpl extends JSDocStructureBase {
             target.description = source.description;
         }
         if (source.tags) {
-            target.tags.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.JSDocTag, StructuresClassesMap.forceArray(source.tags)));
+            target.tags.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.JSDocTag, StructureClassesMap.forceArray(source.tags)));
         }
     }
     static clone(source) {
@@ -2948,7 +2948,7 @@ class JSDocImpl extends JSDocStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.JSDoc, JSDocImpl);
+StructureClassesMap.set(StructureKind.JSDoc, JSDocImpl);
 
 //#region preamble
 //#endregion preamble
@@ -2989,7 +2989,7 @@ class JSDocTagImpl extends JSDocTagStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.JSDocTag, JSDocTagImpl);
+StructureClassesMap.set(StructureKind.JSDocTag, JSDocTagImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3030,7 +3030,7 @@ class JsxAttributeImpl extends JsxAttributeStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.JsxAttribute, JsxAttributeImpl);
+StructureClassesMap.set(StructureKind.JsxAttribute, JsxAttributeImpl);
 
 //#endregion preamble
 const JsxElementStructureBase = MultiMixinBuilder([NamedNodeStructureMixin, StructureMixin], StructureBase);
@@ -3047,13 +3047,13 @@ class JsxElementImpl extends JsxElementStructureBase {
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.attributes) {
-            target.attributes.push(...StructuresClassesMap.cloneRequiredAndOptionalArray(source.attributes, StructureKind.JsxSpreadAttribute, StructureKind.JsxAttribute));
+            target.attributes.push(...StructureClassesMap.cloneRequiredAndOptionalArray(source.attributes, StructureKind.JsxSpreadAttribute, StructureKind.JsxAttribute));
         }
         if (source.bodyText) {
             target.bodyText = source.bodyText;
         }
         if (source.children) {
-            target.children.push(...StructuresClassesMap.cloneRequiredAndOptionalArray(source.children, StructureKind.JsxSelfClosingElement, StructureKind.JsxElement));
+            target.children.push(...StructureClassesMap.cloneRequiredAndOptionalArray(source.children, StructureKind.JsxSelfClosingElement, StructureKind.JsxElement));
         }
     }
     static clone(source) {
@@ -3075,7 +3075,7 @@ class JsxElementImpl extends JsxElementStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.JsxElement, JsxElementImpl);
+StructureClassesMap.set(StructureKind.JsxElement, JsxElementImpl);
 
 //#endregion preamble
 const JsxSelfClosingElementStructureBase = MultiMixinBuilder([NamedNodeStructureMixin, StructureMixin], StructureBase);
@@ -3090,7 +3090,7 @@ class JsxSelfClosingElementImpl extends JsxSelfClosingElementStructureBase {
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.attributes) {
-            target.attributes.push(...StructuresClassesMap.cloneRequiredAndOptionalArray(source.attributes, StructureKind.JsxSpreadAttribute, StructureKind.JsxAttribute));
+            target.attributes.push(...StructureClassesMap.cloneRequiredAndOptionalArray(source.attributes, StructureKind.JsxSpreadAttribute, StructureKind.JsxAttribute));
         }
     }
     static clone(source) {
@@ -3105,7 +3105,7 @@ class JsxSelfClosingElementImpl extends JsxSelfClosingElementStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.JsxSelfClosingElement, JsxSelfClosingElementImpl);
+StructureClassesMap.set(StructureKind.JsxSelfClosingElement, JsxSelfClosingElementImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3136,7 +3136,7 @@ class JsxSpreadAttributeImpl extends JsxSpreadAttributeStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.JsxSpreadAttribute, JsxSpreadAttributeImpl);
+StructureClassesMap.set(StructureKind.JsxSpreadAttribute, JsxSpreadAttributeImpl);
 
 //#endregion preamble
 const MethodDeclarationStructureBase = MultiMixinBuilder([
@@ -3168,7 +3168,7 @@ class MethodDeclarationImpl extends MethodDeclarationStructureBase {
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.overloads) {
-            target.overloads.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.MethodOverload, StructuresClassesMap.forceArray(source.overloads)));
+            target.overloads.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.MethodOverload, StructureClassesMap.forceArray(source.overloads)));
         }
     }
     static clone(source) {
@@ -3178,15 +3178,15 @@ class MethodDeclarationImpl extends MethodDeclarationStructureBase {
     }
     static fromSignature(isStatic, signature) {
         const declaration = new MethodDeclarationImpl(isStatic, signature.name);
-        declaration.docs.push(...StructuresClassesMap.cloneArray(signature.docs));
+        declaration.docs.push(...StructureClassesMap.cloneArray(signature.docs));
         declaration.hasQuestionToken = signature.hasQuestionToken;
         declaration.leadingTrivia.push(...signature.leadingTrivia);
-        declaration.parameters.push(...StructuresClassesMap.cloneArray(signature.parameters));
+        declaration.parameters.push(...StructureClassesMap.cloneArray(signature.parameters));
         if (signature.returnTypeStructure) {
             declaration.returnTypeStructure = TypeStructureClassesMap$1.clone(signature.returnTypeStructure);
         }
         declaration.trailingTrivia.push(...signature.trailingTrivia);
-        declaration.typeParameters.push(...StructuresClassesMap.cloneArray(signature.typeParameters));
+        declaration.typeParameters.push(...StructureClassesMap.cloneArray(signature.typeParameters));
         return declaration;
     }
     toJSON() {
@@ -3197,7 +3197,7 @@ class MethodDeclarationImpl extends MethodDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.Method, MethodDeclarationImpl);
+StructureClassesMap.set(StructureKind.Method, MethodDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3233,7 +3233,7 @@ class MethodDeclarationOverloadImpl extends MethodDeclarationOverloadStructureBa
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.MethodOverload, MethodDeclarationOverloadImpl);
+StructureClassesMap.set(StructureKind.MethodOverload, MethodDeclarationOverloadImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3263,7 +3263,7 @@ class MethodSignatureImpl extends MethodSignatureStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.MethodSignature, MethodSignatureImpl);
+StructureClassesMap.set(StructureKind.MethodSignature, MethodSignatureImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3306,7 +3306,7 @@ class ModuleDeclarationImpl extends ModuleDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.Module, ModuleDeclarationImpl);
+StructureClassesMap.set(StructureKind.Module, ModuleDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3354,7 +3354,7 @@ class ParameterDeclarationImpl extends ParameterDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.Parameter, ParameterDeclarationImpl);
+StructureClassesMap.set(StructureKind.Parameter, ParameterDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3386,7 +3386,7 @@ class PropertyAssignmentImpl extends PropertyAssignmentStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.PropertyAssignment, PropertyAssignmentImpl);
+StructureClassesMap.set(StructureKind.PropertyAssignment, PropertyAssignmentImpl);
 
 //#endregion preamble
 const PropertyDeclarationStructureBase = MultiMixinBuilder([
@@ -3425,7 +3425,7 @@ class PropertyDeclarationImpl extends PropertyDeclarationStructureBase {
     }
     static fromSignature(isStatic, signature) {
         const declaration = new PropertyDeclarationImpl(isStatic, signature.name);
-        declaration.docs.push(...StructuresClassesMap.cloneArray(signature.docs));
+        declaration.docs.push(...StructureClassesMap.cloneArray(signature.docs));
         declaration.hasQuestionToken = signature.hasQuestionToken;
         declaration.isReadonly = signature.isReadonly;
         declaration.leadingTrivia.push(...signature.leadingTrivia);
@@ -3443,7 +3443,7 @@ class PropertyDeclarationImpl extends PropertyDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.Property, PropertyDeclarationImpl);
+StructureClassesMap.set(StructureKind.Property, PropertyDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3473,7 +3473,7 @@ class PropertySignatureImpl extends PropertySignatureStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.PropertySignature, PropertySignatureImpl);
+StructureClassesMap.set(StructureKind.PropertySignature, PropertySignatureImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3516,7 +3516,7 @@ class SetAccessorDeclarationImpl extends SetAccessorDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.SetAccessor, SetAccessorDeclarationImpl);
+StructureClassesMap.set(StructureKind.SetAccessor, SetAccessorDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3538,7 +3538,7 @@ class ShorthandPropertyAssignmentImpl extends ShorthandPropertyAssignmentStructu
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.ShorthandPropertyAssignment, ShorthandPropertyAssignmentImpl);
+StructureClassesMap.set(StructureKind.ShorthandPropertyAssignment, ShorthandPropertyAssignmentImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3556,7 +3556,7 @@ class SourceFileImpl extends SourceFileStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.SourceFile, SourceFileImpl);
+StructureClassesMap.set(StructureKind.SourceFile, SourceFileImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3587,7 +3587,7 @@ class SpreadAssignmentImpl extends SpreadAssignmentStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.SpreadAssignment, SpreadAssignmentImpl);
+StructureClassesMap.set(StructureKind.SpreadAssignment, SpreadAssignmentImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3632,7 +3632,7 @@ class TypeAliasDeclarationImpl extends TypeAliasDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.TypeAlias, TypeAliasDeclarationImpl);
+StructureClassesMap.set(StructureKind.TypeAlias, TypeAliasDeclarationImpl);
 
 //#endregion preamble
 const TypeParameterDeclarationStructureBase = MultiMixinBuilder([NamedNodeStructureMixin, StructureMixin], StructureBase);
@@ -3731,7 +3731,7 @@ class TypeParameterDeclarationImpl extends TypeParameterDeclarationStructureBase
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.TypeParameter, TypeParameterDeclarationImpl);
+StructureClassesMap.set(StructureKind.TypeParameter, TypeParameterDeclarationImpl);
 
 //#region preamble
 //#endregion preamble
@@ -3759,7 +3759,7 @@ class VariableDeclarationImpl extends VariableDeclarationStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.VariableDeclaration, VariableDeclarationImpl);
+StructureClassesMap.set(StructureKind.VariableDeclaration, VariableDeclarationImpl);
 
 //#endregion preamble
 const VariableStatementStructureBase = MultiMixinBuilder([
@@ -3778,7 +3778,7 @@ class VariableStatementImpl extends VariableStatementStructureBase {
         if (source.declarationKind) {
             target.declarationKind = source.declarationKind;
         }
-        target.declarations.push(...StructuresClassesMap.cloneArrayWithKind(StructureKind.VariableDeclaration, StructuresClassesMap.forceArray(source.declarations)));
+        target.declarations.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.VariableDeclaration, StructureClassesMap.forceArray(source.declarations)));
     }
     static clone(source) {
         const target = new VariableStatementImpl();
@@ -3798,7 +3798,7 @@ class VariableStatementImpl extends VariableStatementStructureBase {
         return rv;
     }
 }
-StructuresClassesMap.set(StructureKind.VariableStatement, VariableStatementImpl);
+StructureClassesMap.set(StructureKind.VariableStatement, VariableStatementImpl);
 
 /**
  * `boolean[]`
@@ -4951,7 +4951,7 @@ class ClassMembersMap extends OrderedMap {
     }
     /** Get a clone of this map. */
     clone() {
-        const members = StructuresClassesMap.cloneArray(Array.from(this.values()));
+        const members = StructureClassesMap.cloneArray(Array.from(this.values()));
         const newMap = new _a$1();
         newMap.addMembers(members);
         return newMap;
@@ -4974,7 +4974,7 @@ class ClassMembersMap extends OrderedMap {
         // This is a merge operation: prefer getter fields over setter fields
         const docs = getter?.docs ?? setter.docs;
         if (docs) {
-            prop.docs.push(...StructuresClassesMap.cloneArray(docs));
+            prop.docs.push(...StructureClassesMap.cloneArray(docs));
         }
         prop.leadingTrivia.push(...(getter?.leadingTrivia ?? setter.leadingTrivia));
         prop.scope = getter?.scope ?? setter?.scope;
@@ -5016,7 +5016,7 @@ class ClassMembersMap extends OrderedMap {
         if (toGetter) {
             const getter = new GetAccessorDeclarationImpl(prop.isStatic, prop.name, prop.typeStructure);
             if (prop.docs) {
-                getter.docs.push(...StructuresClassesMap.cloneArray(prop.docs));
+                getter.docs.push(...StructureClassesMap.cloneArray(prop.docs));
             }
             if (prop.isAbstract) {
                 getter.isAbstract = true;
@@ -5032,7 +5032,7 @@ class ClassMembersMap extends OrderedMap {
                 param.typeStructure = TypeStructureClassesMap$1.clone(prop.typeStructure);
             const setter = new SetAccessorDeclarationImpl(prop.isStatic, prop.name, param);
             if (prop.docs) {
-                setter.docs.push(...StructuresClassesMap.cloneArray(prop.docs));
+                setter.docs.push(...StructureClassesMap.cloneArray(prop.docs));
             }
             if (prop.isAbstract) {
                 setter.isAbstract = true;
@@ -5924,7 +5924,7 @@ class TypeMembersMap extends OrderedMap {
     }
     /** Get a clone of this map. */
     clone() {
-        const members = StructuresClassesMap.cloneArray(Array.from(this.values()));
+        const members = StructureClassesMap.cloneArray(Array.from(this.values()));
         const newMap = new _a();
         newMap.addMembers(members);
         return newMap;
@@ -5943,7 +5943,7 @@ class TypeMembersMap extends OrderedMap {
         // This is a merge operation: prefer getter fields over setter fields
         const docs = getter?.docs ?? setter.docs;
         if (docs) {
-            prop.docs.push(...StructuresClassesMap.cloneArray(docs));
+            prop.docs.push(...StructureClassesMap.cloneArray(docs));
         }
         prop.leadingTrivia.push(...(getter?.leadingTrivia ?? setter.leadingTrivia));
         prop.trailingTrivia.push(...(getter?.leadingTrivia ?? setter.leadingTrivia));
@@ -5980,7 +5980,7 @@ class TypeMembersMap extends OrderedMap {
         if (toGetter) {
             const getter = new GetAccessorDeclarationImpl(false, prop.name, prop.typeStructure);
             if (prop.docs) {
-                getter.docs.push(...StructuresClassesMap.cloneArray(prop.docs));
+                getter.docs.push(...StructureClassesMap.cloneArray(prop.docs));
             }
             getter.leadingTrivia.push(...prop.leadingTrivia);
             getter.trailingTrivia.push(...prop.trailingTrivia);
@@ -5992,7 +5992,7 @@ class TypeMembersMap extends OrderedMap {
                 param.typeStructure = TypeStructureClassesMap$1.clone(prop.typeStructure);
             const setter = new SetAccessorDeclarationImpl(false, prop.name, param);
             if (prop.docs) {
-                setter.docs.push(...StructuresClassesMap.cloneArray(prop.docs));
+                setter.docs.push(...StructureClassesMap.cloneArray(prop.docs));
             }
             setter.leadingTrivia.push(...prop.leadingTrivia);
             setter.trailingTrivia.push(...prop.trailingTrivia);

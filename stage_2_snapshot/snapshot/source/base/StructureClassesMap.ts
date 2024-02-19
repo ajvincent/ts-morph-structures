@@ -14,7 +14,7 @@ import { type CloneableStructure } from "../internal-exports.js";
 type ValueOrArray<T> = T | readonly T[];
 
 /** @internal */
-class StructuresClassesMapClass extends Map<
+class StructureClassesMapClass extends Map<
   StructureKind,
   CloneableStructure<Structures, StructureImpls> & Class<StructureImpls>
 > {
@@ -147,5 +147,5 @@ class StructuresClassesMapClass extends Map<
   }
 }
 
-const StructuresClassesMap = new StructuresClassesMapClass();
-export default StructuresClassesMap;
+const StructureClassesMap = new StructureClassesMapClass();
+export default StructureClassesMap;

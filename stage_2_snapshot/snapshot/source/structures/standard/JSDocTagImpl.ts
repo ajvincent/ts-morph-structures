@@ -6,10 +6,10 @@ import {
   type JSDocTagStructureClassIfc,
   REPLACE_WRITER_WITH_STRING,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -71,4 +71,4 @@ export default class JSDocTagImpl
 
 JSDocTagImpl satisfies CloneableStructure<JSDocTagStructure, JSDocTagImpl> &
   Class<ExtractStructure<JSDocTagStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.JSDocTag, JSDocTagImpl);
+StructureClassesMap.set(StructureKind.JSDocTag, JSDocTagImpl);

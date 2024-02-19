@@ -16,7 +16,7 @@ import {
 import {
   type StructureImpls,
   StructureKindToSyntaxKindMap,
-  StructuresClassesMap,
+  StructureClassesMap,
 } from "../internal-exports.js";
 
 import type { NodeWithStructures } from "./types/conversions.js";
@@ -127,7 +127,7 @@ class StructureAndNodeData {
 
     this.#rootStructure = this.#rootNode.getStructure();
     if (useTypeAwareStructures)
-      this.#rootStructure = StructuresClassesMap.get(
+      this.#rootStructure = StructureClassesMap.get(
         this.#rootStructure.kind,
       )!.clone(this.#rootStructure);
 

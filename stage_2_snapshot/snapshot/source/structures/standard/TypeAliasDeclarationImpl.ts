@@ -13,10 +13,10 @@ import {
   NamedNodeStructureMixin,
   REPLACE_WRITER_WITH_STRING,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
   type TypeAliasDeclarationStructureClassIfc,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
@@ -108,4 +108,4 @@ TypeAliasDeclarationImpl satisfies CloneableStructure<
   TypeAliasDeclarationImpl
 > &
   Class<ExtractStructure<TypeAliasDeclarationStructure["kind"]>>;
-StructuresClassesMap.set(StructureKind.TypeAlias, TypeAliasDeclarationImpl);
+StructureClassesMap.set(StructureKind.TypeAlias, TypeAliasDeclarationImpl);

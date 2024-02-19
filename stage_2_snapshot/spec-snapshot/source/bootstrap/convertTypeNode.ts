@@ -32,7 +32,7 @@ import {
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
-  StructuresClassesMap
+  StructureClassesMap
 } from "#stage_two/snapshot/source/internal-exports.js";
 
 import convertTypeNode from "#stage_two/snapshot/source/bootstrap/convertTypeNode.js";
@@ -99,7 +99,7 @@ let A: string;
     structure = convertTypeNode(
       typeNode,
       console,
-      node => StructuresClassesMap.clone(node.getStructure())
+      node => StructureClassesMap.clone(node.getStructure())
     );
   }
   //#endregion set-up, teardown

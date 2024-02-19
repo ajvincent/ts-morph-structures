@@ -8,10 +8,10 @@ import {
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,
+  StructureClassesMap,
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  StructuresClassesMap,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
@@ -49,7 +49,7 @@ export default class JsxSelfClosingElementImpl
     super[COPY_FIELDS](source, target);
     if (source.attributes) {
       target.attributes.push(
-        ...StructuresClassesMap.cloneRequiredAndOptionalArray<
+        ...StructureClassesMap.cloneRequiredAndOptionalArray<
           JsxSpreadAttributeStructure,
           StructureKind.JsxSpreadAttribute,
           OptionalKind<JsxAttributeStructure>,
@@ -87,7 +87,7 @@ JsxSelfClosingElementImpl satisfies CloneableStructure<
   JsxSelfClosingElementImpl
 > &
   Class<ExtractStructure<JsxSelfClosingElementStructure["kind"]>>;
-StructuresClassesMap.set(
+StructureClassesMap.set(
   StructureKind.JsxSelfClosingElement,
   JsxSelfClosingElementImpl,
 );
