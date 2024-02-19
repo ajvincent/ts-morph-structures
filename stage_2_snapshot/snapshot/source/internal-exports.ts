@@ -1,11 +1,6 @@
 // This file is generated.  Do not edit.
 export { default as ReadonlyArrayProxyHandler } from "./array-utilities/ReadonlyArrayProxyHandler.js";
-export {
-  cloneRequiredAndOptionalArray,
-  cloneStructureArray,
-  cloneStructureOrStringArray,
-  cloneStructureStringOrWriterArray,
-} from "./base/cloneStructureArray.js";
+export { cloneRequiredAndOptionalArray } from "./base/cloneStructureArray.js";
 export { default as StructureBase } from "./base/StructureBase.js";
 export { default as StructuresClassesMap } from "./base/StructuresClassesMap.js";
 export {

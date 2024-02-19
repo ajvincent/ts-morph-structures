@@ -4,7 +4,6 @@ import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
   type CloneableStructure,
-  cloneStructureArray,
   COPY_FIELDS,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
@@ -20,7 +19,7 @@ import {
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  type OptionalKind,
+  OptionalKind,
   StructureKind,
   VariableDeclarationKind,
   type VariableDeclarationStructure,
@@ -66,11 +65,14 @@ export default class VariableStatementImpl
     }
 
     target.declarations.push(
-      ...cloneStructureArray<
-        OptionalKind<VariableDeclarationStructure>,
+      ...StructuresClassesMap.cloneArrayWithKind<
+        VariableDeclarationStructure,
         StructureKind.VariableDeclaration,
         VariableDeclarationImpl
-      >(source.declarations, StructureKind.VariableDeclaration),
+      >(
+        StructureKind.VariableDeclaration,
+        StructuresClassesMap.forceArray(source.declarations),
+      ),
     );
   }
 

@@ -3,9 +3,7 @@ import type {
 } from "type-fest";
 
 import {
-  /*
   type KindedStructure,
-  */
   type OptionalKind,
   StructureKind,
   type Structures,
@@ -54,34 +52,35 @@ class StructuresClassesMapClass extends Map<
     }) as StructureImplType[];
   }
 
+  public cloneArrayWithKind<
+    StructureType extends Structures,
+    Kind extends StructureKind,
+    ResultType extends (stringOrWriterFunction | Extract<StructureImpls, KindedStructure<Kind>>)
+  >
+  (
+    kind: Kind,
+    structures: readonly (stringOrWriterFunction | OptionalKind<StructureType>)[]
+  ): ResultType[]
+  {
+    return structures.map(structure => {
+      if (typeof structure === "string" || typeof structure === "function")
+        return structure;
+      return this.get(kind)!.clone(structure) as Extract<StructureImpls, KindedStructure<Kind>>;
+    }) as ResultType[];
+  }
+
   public forceArray<
     SourceType extends Structures | OptionalKind<Structures> | stringOrWriterFunction
   >
   (
     sources: ValueOrArray<SourceType>
-  ): readonly SourceType[]
+  ): SourceType[]
   {
     if (Array.isArray(sources)) {
       return sources as SourceType[];
     }
     return [sources as SourceType];
   }
-
-  /*
-
-  #cloneStructureWithKind<
-    SourceType extends Structures | OptionalKind<Structures>,
-    Kind extends StructureKind,
-    TargetType extends KindedStructure<StructureKind>,
-  >
-  (
-    sourceValue: SourceType,
-    sourceKind: Kind,
-  ): TargetType
-  {
-    return this.get(sourceKind)!.clone(sourceValue) as unknown as TargetType;
-  }
-  */
 }
 
 const StructuresClassesMap = new StructuresClassesMapClass;

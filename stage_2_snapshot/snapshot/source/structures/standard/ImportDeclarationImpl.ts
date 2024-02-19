@@ -2,8 +2,6 @@
 import { ImportAttributeImpl, ImportSpecifierImpl } from "../../exports.js";
 import {
   type CloneableStructure,
-  cloneStructureArray,
-  cloneStructureStringOrWriterArray,
   COPY_FIELDS,
   type ExtractStructure,
   type ImportDeclarationStructureClassIfc,
@@ -20,7 +18,7 @@ import {
   type ImportAttributeStructure,
   type ImportDeclarationStructure,
   type ImportSpecifierStructure,
-  type OptionalKind,
+  OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";
@@ -57,11 +55,14 @@ export default class ImportDeclarationImpl
     if (source.attributes) {
       target.attributes = [];
       target.attributes.push(
-        ...cloneStructureArray<
-          OptionalKind<ImportAttributeStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          ImportAttributeStructure,
           StructureKind.ImportAttribute,
           ImportAttributeImpl
-        >(source.attributes, StructureKind.ImportAttribute),
+        >(
+          StructureKind.ImportAttribute,
+          StructuresClassesMap.forceArray(source.attributes),
+        ),
       );
     }
 
@@ -76,11 +77,14 @@ export default class ImportDeclarationImpl
 
     if (source.namedImports) {
       target.namedImports.push(
-        ...cloneStructureStringOrWriterArray<
-          OptionalKind<ImportSpecifierStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          ImportSpecifierStructure,
           StructureKind.ImportSpecifier,
-          ImportSpecifierImpl
-        >(source.namedImports, StructureKind.ImportSpecifier),
+          stringOrWriterFunction | ImportSpecifierImpl
+        >(
+          StructureKind.ImportSpecifier,
+          StructuresClassesMap.forceArray(source.namedImports),
+        ),
       );
     }
 

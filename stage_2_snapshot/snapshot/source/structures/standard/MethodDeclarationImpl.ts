@@ -12,7 +12,6 @@ import {
   type AsyncableNodeStructureFields,
   AsyncableNodeStructureMixin,
   type CloneableStructure,
-  cloneStructureArray,
   COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
@@ -49,7 +48,7 @@ import MultiMixinBuilder from "mixin-decorators";
 import {
   type MethodDeclarationOverloadStructure,
   type MethodDeclarationStructure,
-  type OptionalKind,
+  OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";
@@ -114,11 +113,14 @@ export default class MethodDeclarationImpl
     super[COPY_FIELDS](source, target);
     if (source.overloads) {
       target.overloads.push(
-        ...cloneStructureArray<
-          OptionalKind<MethodDeclarationOverloadStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          MethodDeclarationOverloadStructure,
           StructureKind.MethodOverload,
           MethodDeclarationOverloadImpl
-        >(source.overloads, StructureKind.MethodOverload),
+        >(
+          StructureKind.MethodOverload,
+          StructuresClassesMap.forceArray(source.overloads),
+        ),
       );
     }
   }

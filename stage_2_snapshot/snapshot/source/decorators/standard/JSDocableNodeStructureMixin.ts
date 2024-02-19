@@ -4,11 +4,11 @@ import {
   JSDocImpl,
 } from "../../exports.js";
 import {
-  cloneStructureOrStringArray,
   COPY_FIELDS,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
+  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type {
   MixinClass,
@@ -18,7 +18,6 @@ import type {
 import {
   type JSDocableNodeStructure,
   type JSDocStructure,
-  type OptionalKind,
   StructureKind,
   type Structures,
 } from "ts-morph";
@@ -54,11 +53,11 @@ export default function JSDocableNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       if (source.docs) {
         target.docs.push(
-          ...cloneStructureOrStringArray<
-            OptionalKind<JSDocStructure>,
+          ...StructuresClassesMap.cloneArrayWithKind<
+            JSDocStructure,
             StructureKind.JSDoc,
-            JSDocImpl
-          >(source.docs, StructureKind.JSDoc),
+            string | JSDocImpl
+          >(StructureKind.JSDoc, StructuresClassesMap.forceArray(source.docs)),
         );
       }
     }

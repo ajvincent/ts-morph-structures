@@ -8,7 +8,6 @@ import {
 } from "../../exports.js";
 import {
   type CloneableStructure,
-  cloneStructureArray,
   type ConstructorDeclarationStructureClassIfc,
   COPY_FIELDS,
   type ExtractStructure,
@@ -35,7 +34,7 @@ import MultiMixinBuilder from "mixin-decorators";
 import {
   type ConstructorDeclarationOverloadStructure,
   type ConstructorDeclarationStructure,
-  type OptionalKind,
+  OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";
@@ -79,11 +78,14 @@ export default class ConstructorDeclarationImpl
     super[COPY_FIELDS](source, target);
     if (source.overloads) {
       target.overloads.push(
-        ...cloneStructureArray<
-          OptionalKind<ConstructorDeclarationOverloadStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          ConstructorDeclarationOverloadStructure,
           StructureKind.ConstructorOverload,
           ConstructorDeclarationOverloadImpl
-        >(source.overloads, StructureKind.ConstructorOverload),
+        >(
+          StructureKind.ConstructorOverload,
+          StructuresClassesMap.forceArray(source.overloads),
+        ),
       );
     }
   }

@@ -15,7 +15,6 @@ import {
   AmbientableNodeStructureMixin,
   type ClassDeclarationStructureClassIfc,
   type CloneableStructure,
-  cloneStructureArray,
   COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
@@ -47,7 +46,7 @@ import {
   type ConstructorDeclarationStructure,
   type GetAccessorDeclarationStructure,
   type MethodDeclarationStructure,
-  type OptionalKind,
+  OptionalKind,
   type PropertyDeclarationStructure,
   type SetAccessorDeclarationStructure,
   StructureKind,
@@ -130,11 +129,14 @@ export default class ClassDeclarationImpl
     super[COPY_FIELDS](source, target);
     if (source.ctors) {
       target.ctors.push(
-        ...cloneStructureArray<
-          OptionalKind<ConstructorDeclarationStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          ConstructorDeclarationStructure,
           StructureKind.Constructor,
           ConstructorDeclarationImpl
-        >(source.ctors, StructureKind.Constructor),
+        >(
+          StructureKind.Constructor,
+          StructuresClassesMap.forceArray(source.ctors),
+        ),
       );
     }
 
@@ -147,11 +149,14 @@ export default class ClassDeclarationImpl
 
     if (source.getAccessors) {
       target.getAccessors.push(
-        ...cloneStructureArray<
-          OptionalKind<GetAccessorDeclarationStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          GetAccessorDeclarationStructure,
           StructureKind.GetAccessor,
           GetAccessorDeclarationImpl
-        >(source.getAccessors, StructureKind.GetAccessor),
+        >(
+          StructureKind.GetAccessor,
+          StructuresClassesMap.forceArray(source.getAccessors),
+        ),
       );
     }
 
@@ -166,31 +171,40 @@ export default class ClassDeclarationImpl
 
     if (source.methods) {
       target.methods.push(
-        ...cloneStructureArray<
-          OptionalKind<MethodDeclarationStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          MethodDeclarationStructure,
           StructureKind.Method,
           MethodDeclarationImpl
-        >(source.methods, StructureKind.Method),
+        >(
+          StructureKind.Method,
+          StructuresClassesMap.forceArray(source.methods),
+        ),
       );
     }
 
     if (source.properties) {
       target.properties.push(
-        ...cloneStructureArray<
-          OptionalKind<PropertyDeclarationStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          PropertyDeclarationStructure,
           StructureKind.Property,
           PropertyDeclarationImpl
-        >(source.properties, StructureKind.Property),
+        >(
+          StructureKind.Property,
+          StructuresClassesMap.forceArray(source.properties),
+        ),
       );
     }
 
     if (source.setAccessors) {
       target.setAccessors.push(
-        ...cloneStructureArray<
-          OptionalKind<SetAccessorDeclarationStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          SetAccessorDeclarationStructure,
           StructureKind.SetAccessor,
           SetAccessorDeclarationImpl
-        >(source.setAccessors, StructureKind.SetAccessor),
+        >(
+          StructureKind.SetAccessor,
+          StructuresClassesMap.forceArray(source.setAccessors),
+        ),
       );
     }
   }

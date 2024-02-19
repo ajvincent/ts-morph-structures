@@ -4,11 +4,11 @@ import {
   type TypeParameteredNodeStructureClassIfc,
 } from "../../exports.js";
 import {
-  cloneStructureOrStringArray,
   COPY_FIELDS,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
+  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type {
   MixinClass,
@@ -16,7 +16,6 @@ import type {
   SubclassDecorator,
 } from "mixin-decorators";
 import {
-  type OptionalKind,
   StructureKind,
   type Structures,
   type TypeParameterDeclarationStructure,
@@ -54,11 +53,14 @@ export default function TypeParameteredNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       if (source.typeParameters) {
         target.typeParameters.push(
-          ...cloneStructureOrStringArray<
-            OptionalKind<TypeParameterDeclarationStructure>,
+          ...StructuresClassesMap.cloneArrayWithKind<
+            TypeParameterDeclarationStructure,
             StructureKind.TypeParameter,
-            TypeParameterDeclarationImpl
-          >(source.typeParameters, StructureKind.TypeParameter),
+            string | TypeParameterDeclarationImpl
+          >(
+            StructureKind.TypeParameter,
+            StructuresClassesMap.forceArray(source.typeParameters),
+          ),
         );
       }
     }

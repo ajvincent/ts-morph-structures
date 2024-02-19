@@ -2,7 +2,6 @@
 import { JSDocTagImpl } from "../../exports.js";
 import {
   type CloneableStructure,
-  cloneStructureArray,
   COPY_FIELDS,
   type ExtractStructure,
   type JSDocStructureClassIfc,
@@ -18,7 +17,7 @@ import MultiMixinBuilder from "mixin-decorators";
 import {
   type JSDocStructure,
   type JSDocTagStructure,
-  type OptionalKind,
+  OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";
@@ -48,11 +47,11 @@ export default class JSDocImpl
 
     if (source.tags) {
       target.tags.push(
-        ...cloneStructureArray<
-          OptionalKind<JSDocTagStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          JSDocTagStructure,
           StructureKind.JSDocTag,
           JSDocTagImpl
-        >(source.tags, StructureKind.JSDocTag),
+        >(StructureKind.JSDocTag, StructuresClassesMap.forceArray(source.tags)),
       );
     }
   }

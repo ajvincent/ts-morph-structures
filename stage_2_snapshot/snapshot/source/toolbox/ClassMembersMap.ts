@@ -1,4 +1,4 @@
-import { JSDocStructure, KindedStructure, StructureKind } from "ts-morph";
+import { KindedStructure, StructureKind } from "ts-morph";
 
 import {
   ClassDeclarationImpl,
@@ -19,7 +19,6 @@ import {
 import {
   StructuresClassesMap,
   TypeStructureClassesMap,
-  cloneStructureOrStringArray,
 } from "../internal-exports.js";
 
 import OrderedMap from "./OrderedMap.js";
@@ -222,11 +221,10 @@ export default class ClassMembersMap extends OrderedMap<
     const docs = getter?.docs ?? setter!.docs;
     if (docs) {
       prop.docs.push(
-        ...cloneStructureOrStringArray<
-          JSDocStructure,
-          StructureKind.JSDoc,
-          JSDocImpl
-        >(docs, StructureKind.JSDoc),
+        ...StructuresClassesMap.cloneArray<
+          string | JSDocImpl,
+          string | JSDocImpl
+        >(docs),
       );
     }
 
@@ -304,11 +302,10 @@ export default class ClassMembersMap extends OrderedMap<
 
       if (prop.docs) {
         getter.docs.push(
-          ...cloneStructureOrStringArray<
-            JSDocStructure,
-            StructureKind.JSDoc,
-            JSDocImpl
-          >(prop.docs, StructureKind.JSDoc),
+          ...StructuresClassesMap.cloneArray<
+            string | JSDocImpl,
+            string | JSDocImpl
+          >(prop.docs),
         );
       }
 
@@ -336,11 +333,10 @@ export default class ClassMembersMap extends OrderedMap<
 
       if (prop.docs) {
         setter.docs.push(
-          ...cloneStructureOrStringArray<
-            JSDocStructure,
-            StructureKind.JSDoc,
-            JSDocImpl
-          >(prop.docs, StructureKind.JSDoc),
+          ...StructuresClassesMap.cloneArray<
+            string | JSDocImpl,
+            string | JSDocImpl
+          >(prop.docs),
         );
       }
 

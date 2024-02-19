@@ -486,28 +486,12 @@ function write_cloneStructureArray(
     `expected propertyValue.otherTypes.length to be 1 or 2 for structure name ${structureName}, property name ${propertyKey}`
   );
 
-  let cloneImportName: string;
-  if (propertyValue.mayBeString && propertyValue.mayBeWriter)
-    cloneImportName = "cloneStructureStringOrWriterArray";
-  else if (propertyValue.mayBeString)
-    cloneImportName = "cloneStructureOrStringArray";
-  else {
-    assert(
-      propertyValue.mayBeWriter === false,
-      `expected propertyValue.mayBeWriter to be false for structure name ${structureName}, property name ${propertyKey}`
-    );
-    cloneImportName = "cloneStructureArray";
-  }
   const otherType = propertyValue.otherTypes[0];
-  const targetImpl = getStructureImplName(otherType.structureName!);
-  let sourceType = otherType.structureName!;
-  const sourceKind = dictionaries.structures.get(sourceType)!.structureKindName;
+  const sourceStructureName = otherType.structureName!;
+  const sourceKind = dictionaries.structures.get(sourceStructureName)!.structureKindName;
 
-  const tsMorphImportNames: string[] = [sourceType];
-  if (otherType.isOptionalKind) {
-    sourceType = `OptionalKind<${sourceType}>`;
-    tsMorphImportNames.push("OptionalKind");
-  }
+  const tsMorphImportNames: string[] = [sourceStructureName];
+
   parts.importsManager.addImports({
     pathToImportedModule: "ts-morph",
     isPackageImport: true,
@@ -527,33 +511,26 @@ function write_cloneStructureArray(
   });
 
   parts.importsManager.addImports({
-    pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
-    isDefaultImport: false,
-    isPackageImport: false,
-    isTypeOnly: false,
-    importNames: [
-      targetImpl
-    ]
-  });
-
-  parts.importsManager.addImports({
     pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
-    isDefaultImport: false,
     isPackageImport: false,
+    isDefaultImport: false,
     isTypeOnly: false,
-    importNames: [
-      cloneImportName
-    ]
+    importNames: ["StructuresClassesMap"]
   });
 
-  dictionaries.internalExports.addExports({
-    absolutePathToModule: cloneStructureArrayModule,
-    isDefaultExport: false,
-    isType: false,
-    exportNames: [
-      cloneImportName
-    ]
-  });
+  let targetImpl: string = getStructureImplName(sourceStructureName);
+  if (propertyValue.mayBeString && propertyValue.mayBeWriter) {
+    targetImpl = `stringOrWriterFunction | ${targetImpl}`;
+  }
+  else if (propertyValue.mayBeString) {
+    targetImpl = `string | ${targetImpl}`;
+  }
+  else {
+    assert(
+      propertyValue.mayBeWriter === false,
+      `expected propertyValue.mayBeWriter to be false for structure name ${structureName}, property name ${propertyKey}`
+    );
+  }
 
   const statement = (writer: CodeBlockWriter): void => {
     if (propertyValue.mayBeUndefined || propertyValue.hasQuestionToken) {
@@ -568,15 +545,15 @@ function write_cloneStructureArray(
   const addPush = (writer: CodeBlockWriter): void => {
     writer.write(`target.${propertyKey}.push`);
     pairedWrite(writer, "(", ");", true, true, () => {
-      writer.write("..." + cloneImportName);
+      writer.write("...StructuresClassesMap.cloneArrayWithKind");
       pairedWrite(writer, "<", ">", false, false, () => {
-        writer.write(sourceType + ", ");
+        writer.write(sourceStructureName + ", ");
         writer.write(`StructureKind.${sourceKind}, `);
         writer.write(targetImpl)
       });
       pairedWrite(writer, "(", ")", false, false, () => {
-        writer.write(`source.${propertyKey}, `);
-        writer.write(`StructureKind.${sourceKind}`);
+        writer.write(`StructureKind.${sourceKind},`);
+        writer.write(`StructuresClassesMap.forceArray(source.${propertyKey}),`);
       });
     });
   }

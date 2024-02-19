@@ -14,7 +14,6 @@ import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
   type CloneableStructure,
-  cloneStructureArray,
   COPY_FIELDS,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
@@ -45,7 +44,7 @@ import {
   type IndexSignatureDeclarationStructure,
   type InterfaceDeclarationStructure,
   type MethodSignatureStructure,
-  type OptionalKind,
+  OptionalKind,
   type PropertySignatureStructure,
   type SetAccessorDeclarationStructure,
   StructureKind,
@@ -113,21 +112,27 @@ export default class InterfaceDeclarationImpl
     super[COPY_FIELDS](source, target);
     if (source.callSignatures) {
       target.callSignatures.push(
-        ...cloneStructureArray<
-          OptionalKind<CallSignatureDeclarationStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          CallSignatureDeclarationStructure,
           StructureKind.CallSignature,
           CallSignatureDeclarationImpl
-        >(source.callSignatures, StructureKind.CallSignature),
+        >(
+          StructureKind.CallSignature,
+          StructuresClassesMap.forceArray(source.callSignatures),
+        ),
       );
     }
 
     if (source.constructSignatures) {
       target.constructSignatures.push(
-        ...cloneStructureArray<
-          OptionalKind<ConstructSignatureDeclarationStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          ConstructSignatureDeclarationStructure,
           StructureKind.ConstructSignature,
           ConstructSignatureDeclarationImpl
-        >(source.constructSignatures, StructureKind.ConstructSignature),
+        >(
+          StructureKind.ConstructSignature,
+          StructuresClassesMap.forceArray(source.constructSignatures),
+        ),
       );
     }
 
@@ -142,51 +147,66 @@ export default class InterfaceDeclarationImpl
 
     if (source.getAccessors) {
       target.getAccessors.push(
-        ...cloneStructureArray<
-          OptionalKind<GetAccessorDeclarationStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          GetAccessorDeclarationStructure,
           StructureKind.GetAccessor,
           GetAccessorDeclarationImpl
-        >(source.getAccessors, StructureKind.GetAccessor),
+        >(
+          StructureKind.GetAccessor,
+          StructuresClassesMap.forceArray(source.getAccessors),
+        ),
       );
     }
 
     if (source.indexSignatures) {
       target.indexSignatures.push(
-        ...cloneStructureArray<
-          OptionalKind<IndexSignatureDeclarationStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          IndexSignatureDeclarationStructure,
           StructureKind.IndexSignature,
           IndexSignatureDeclarationImpl
-        >(source.indexSignatures, StructureKind.IndexSignature),
+        >(
+          StructureKind.IndexSignature,
+          StructuresClassesMap.forceArray(source.indexSignatures),
+        ),
       );
     }
 
     if (source.methods) {
       target.methods.push(
-        ...cloneStructureArray<
-          OptionalKind<MethodSignatureStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          MethodSignatureStructure,
           StructureKind.MethodSignature,
           MethodSignatureImpl
-        >(source.methods, StructureKind.MethodSignature),
+        >(
+          StructureKind.MethodSignature,
+          StructuresClassesMap.forceArray(source.methods),
+        ),
       );
     }
 
     if (source.properties) {
       target.properties.push(
-        ...cloneStructureArray<
-          OptionalKind<PropertySignatureStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          PropertySignatureStructure,
           StructureKind.PropertySignature,
           PropertySignatureImpl
-        >(source.properties, StructureKind.PropertySignature),
+        >(
+          StructureKind.PropertySignature,
+          StructuresClassesMap.forceArray(source.properties),
+        ),
       );
     }
 
     if (source.setAccessors) {
       target.setAccessors.push(
-        ...cloneStructureArray<
-          OptionalKind<SetAccessorDeclarationStructure>,
+        ...StructuresClassesMap.cloneArrayWithKind<
+          SetAccessorDeclarationStructure,
           StructureKind.SetAccessor,
           SetAccessorDeclarationImpl
-        >(source.setAccessors, StructureKind.SetAccessor),
+        >(
+          StructureKind.SetAccessor,
+          StructuresClassesMap.forceArray(source.setAccessors),
+        ),
       );
     }
   }

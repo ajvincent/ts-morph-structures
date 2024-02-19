@@ -1,5 +1,4 @@
 import {
-  JSDocStructure,
   KindedStructure,
   StructureKind,
 } from "ts-morph";
@@ -23,7 +22,6 @@ import {
 import {
   StructuresClassesMap,
   TypeStructureClassesMap,
-  cloneStructureOrStringArray,
 } from "../../snapshot/source/internal-exports.js";
 
 import OrderedMap from "./OrderedMap.js";
@@ -226,9 +224,9 @@ extends OrderedMap<string, ClassMemberImpl>
 
     const docs = getter?.docs ?? setter!.docs;
     if (docs) {
-      prop.docs.push(...cloneStructureOrStringArray<JSDocStructure, StructureKind.JSDoc, JSDocImpl>(
-        docs, StructureKind.JSDoc
-      ));
+      prop.docs.push(
+        ...StructuresClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(docs)
+      );
     }
 
     prop.leadingTrivia.push(...(getter?.leadingTrivia ?? setter!.leadingTrivia));
@@ -284,9 +282,7 @@ extends OrderedMap<string, ClassMemberImpl>
       const getter = new GetAccessorDeclarationImpl(prop.isStatic, prop.name, prop.typeStructure);
 
       if (prop.docs) {
-        getter.docs.push(...cloneStructureOrStringArray<JSDocStructure, StructureKind.JSDoc, JSDocImpl>(
-          prop.docs
-        , StructureKind.JSDoc))
+        getter.docs.push(...StructuresClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(prop.docs));
       }
 
       if (prop.isAbstract) {
@@ -308,9 +304,7 @@ extends OrderedMap<string, ClassMemberImpl>
       const setter = new SetAccessorDeclarationImpl(prop.isStatic, prop.name, param);
 
       if (prop.docs) {
-        setter.docs.push(...cloneStructureOrStringArray<JSDocStructure, StructureKind.JSDoc, JSDocImpl>(
-          prop.docs
-        , StructureKind.JSDoc))
+        setter.docs.push(...StructuresClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(prop.docs));
       }
 
       if (prop.isAbstract) {

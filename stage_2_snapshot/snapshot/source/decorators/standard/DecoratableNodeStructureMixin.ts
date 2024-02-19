@@ -4,11 +4,11 @@ import {
   DecoratorImpl,
 } from "../../exports.js";
 import {
-  cloneStructureArray,
   COPY_FIELDS,
   type RightExtendsLeft,
   StructureBase,
   type StructureClassToJSON,
+  StructuresClassesMap,
 } from "../../internal-exports.js";
 import type {
   MixinClass,
@@ -18,7 +18,6 @@ import type {
 import {
   type DecoratableNodeStructure,
   type DecoratorStructure,
-  type OptionalKind,
   StructureKind,
   type Structures,
 } from "ts-morph";
@@ -54,11 +53,14 @@ export default function DecoratableNodeStructureMixin(
       super[COPY_FIELDS](source, target);
       if (source.decorators) {
         target.decorators.push(
-          ...cloneStructureArray<
-            OptionalKind<DecoratorStructure>,
+          ...StructuresClassesMap.cloneArrayWithKind<
+            DecoratorStructure,
             StructureKind.Decorator,
             DecoratorImpl
-          >(source.decorators, StructureKind.Decorator),
+          >(
+            StructureKind.Decorator,
+            StructuresClassesMap.forceArray(source.decorators),
+          ),
         );
       }
     }
