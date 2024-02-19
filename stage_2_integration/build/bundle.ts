@@ -28,8 +28,6 @@ async function doRollup(): Promise<void>
   const d = new Deferred<void>;
   const rollupLocation = path.join(projectDir, "node_modules/rollup/dist/bin/rollup");
   const pathToConfig = pathToModule(stageDir, "build/rollup.config.js");
-  console.log(rollupLocation);
-  console.log(pathToConfig);
   const child = spawn(
     "node",
     [
