@@ -267,3 +267,40 @@ The `buildTypesForStructures()` function handles a null return from `convertType
 1. It returns the root structure, the root node, and all conversion failures it accumulated.
 
 ### Checklist for adding a new type structure class
+
+- [ ] In [source/base/TypeStructureKind.ts](./source/base/TypeStructureKind.ts), append a new enum member of `TypeStructureKind`
+- [ ] Import what you need:
+  - [ ] from ts-morph:
+    - [ ] `type CodeBlockWriter`,
+    - [ ] `type WriterFunction`
+  - [ ] From `../../../snapshot/source/exports.js`:
+    - [ ] `type TypeStructureKind`
+    - [ ] `type StructureImpls`
+    - [ ] `type TypeStructures`
+  - [ ] From `../../../snapshot/source/internal-exports.js`:
+    - [ ] `type CloneableTypeStructure`
+    - [ ] `STRUCTURE_AND_TYPES_CHILDREN`
+    - [ ] one of the type structure bases from `internal-exports.js`:
+      - `TypeStructuresBase`
+      - `TypeStructuresWithChildren`
+      - `TypeStructuresWithTypeParameters`
+- [ ] Implement your type structure class
+  - [ ] `@example` TSDoc tag above the type structure class to describe its output
+  - [ ] extending your type structure base
+  - [ ] `readonly kind: TypeStructureKind<Foo> = TypeStructureKind<Foo>;`
+  - [ ] References to other type structures should be instances of existing type structure classes
+  - [ ] References to regular structures should be instances of existing structure classes
+  - [ ] `#writerFunction(writer: CodeBlockWriter): void;`
+  - [ ] `readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);`
+  - [ ] Implement `public static clone()`
+    -[ ] The source parameter should be of the same type as your type alias
+    - [ ] Use `TypeStructureClassesMap.clone()` (or `cloneArray()`) and your decorators' `cloneFoo(source, target)` functions where practical
+  - [ ] Implement `[STRUCTURE_AND_TYPES_CHILDREN]` to iterate over type structures you own
+    - [ ] `/** @internal */`
+- [ ] Add a `satisfies` constraint for your class for the static clone method:  `ConditionalTypedStructureImpl satisfies CloneableTypeStructure<ConditionalTypedStructure>;` for example
+- [ ] Add your class to the `TypeStructureClassesMap`, with your key being your `TypeStructureKind`
+- [ ] Add your class to the [`TypeStructures` union](./source/structures/type/TypeStructures.ts)
+- [ ] Update [convertTypeNode.ts](./source/bootstrap/convertTypeNode.ts) for the new structure and its matching type node.
+- [ ] Do a build, so the new type structure class arrives in the final snapshot
+- [ ] Update [the type structures test file in the final snapshot directory](../stage_2_snapshot/spec-snapshot/source/structures/TypeStructures.ts) as you see fit.
+- [ ] Update [docs/guides/TypeStructures.md](/docs/guides/TypeStructures.md) to include the new type structure.
