@@ -211,13 +211,23 @@ class StructureBase {
     *[STRUCTURE_AND_TYPES_CHILDREN]() { }
 }
 
+/** @internal */
 class StructuresClassesMapClass extends Map {
     clone(structure) {
         return this.get(structure.kind).clone(structure);
     }
     cloneArray(structures) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        return structures.map((structure) => this.clone(structure));
+        return structures.map((structure) => {
+            if (typeof structure === "string" || typeof structure === "function")
+                return structure;
+            return this.clone(structure);
+        });
+    }
+    forceArray(sources) {
+        if (Array.isArray(sources)) {
+            return sources;
+        }
+        return [sources];
     }
 }
 const StructuresClassesMap = new StructuresClassesMapClass();
@@ -2191,7 +2201,7 @@ class ConstructorDeclarationImpl extends ConstructorDeclarationStructureBase {
     }
     static fromSignature(signature) {
         const declaration = new ConstructorDeclarationImpl();
-        declaration.docs.push(...cloneStructureOrStringArray(signature.docs, StructureKind.JSDoc));
+        declaration.docs.push(...StructuresClassesMap.cloneArray(signature.docs));
         declaration.leadingTrivia.push(...signature.leadingTrivia);
         declaration.parameters.push(...StructuresClassesMap.cloneArray(signature.parameters));
         if (signature.returnTypeStructure) {
@@ -3195,7 +3205,7 @@ class MethodDeclarationImpl extends MethodDeclarationStructureBase {
     }
     static fromSignature(isStatic, signature) {
         const declaration = new MethodDeclarationImpl(isStatic, signature.name);
-        declaration.docs.push(...cloneStructureOrStringArray(signature.docs, StructureKind.JSDoc));
+        declaration.docs.push(...StructuresClassesMap.cloneArray(signature.docs));
         declaration.hasQuestionToken = signature.hasQuestionToken;
         declaration.leadingTrivia.push(...signature.leadingTrivia);
         declaration.parameters.push(...StructuresClassesMap.cloneArray(signature.parameters));
@@ -3442,7 +3452,7 @@ class PropertyDeclarationImpl extends PropertyDeclarationStructureBase {
     }
     static fromSignature(isStatic, signature) {
         const declaration = new PropertyDeclarationImpl(isStatic, signature.name);
-        declaration.docs.push(...cloneStructureOrStringArray(signature.docs, StructureKind.JSDoc));
+        declaration.docs.push(...StructuresClassesMap.cloneArray(signature.docs));
         declaration.hasQuestionToken = signature.hasQuestionToken;
         declaration.isReadonly = signature.isReadonly;
         declaration.leadingTrivia.push(...signature.leadingTrivia);
@@ -4968,8 +4978,7 @@ class ClassMembersMap extends OrderedMap {
     }
     /** Get a clone of this map. */
     clone() {
-        let members = Array.from(this.values());
-        members = members.map((member) => StructuresClassesMap.clone(member));
+        const members = StructuresClassesMap.cloneArray(Array.from(this.values()));
         const newMap = new _a$1();
         newMap.addMembers(members);
         return newMap;
@@ -5942,8 +5951,7 @@ class TypeMembersMap extends OrderedMap {
     }
     /** Get a clone of this map. */
     clone() {
-        let members = Array.from(this.values());
-        members = members.map((member) => StructuresClassesMap.clone(member));
+        const members = StructuresClassesMap.cloneArray(Array.from(this.values()));
         const newMap = new _a();
         newMap.addMembers(members);
         return newMap;

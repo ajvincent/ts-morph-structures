@@ -192,8 +192,9 @@ extends OrderedMap<string, ClassMemberImpl>
   /** Get a clone of this map. */
   public clone(): ClassMembersMap
   {
-    let members = Array.from(this.values());
-    members = members.map(member => StructuresClassesMap.clone(member) as ClassMemberImpl);
+    const members = StructuresClassesMap.cloneArray<
+      ClassMemberImpl, ClassMemberImpl
+    >(Array.from(this.values()));
 
     const newMap = new ClassMembersMap;
     newMap.addMembers(members);

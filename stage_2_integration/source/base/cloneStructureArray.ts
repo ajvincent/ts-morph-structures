@@ -13,7 +13,7 @@ import {
   StructuresClassesMap,
 } from "../../snapshot/source/internal-exports.js";
 
-type ArrayOrValue<T> = T | readonly T[];
+type ValueOrArray<T> = T | readonly T[];
 
 // example: ImportDeclarationStructure::namedImports: OptionalKind<ImportSpecifierStructure>[]
 export function cloneStructureStringOrWriterArray<
@@ -22,7 +22,7 @@ export function cloneStructureStringOrWriterArray<
   TargetType extends KindedStructure<Kind>,
 >
 (
-  sources: ArrayOrValue<SourceType | stringOrWriterFunction>,
+  sources: ValueOrArray<SourceType | stringOrWriterFunction>,
   sourceKind: Kind,
 ): readonly (TargetType | stringOrWriterFunction)[]
 {
@@ -41,7 +41,7 @@ export function cloneStructureOrStringArray<
   TargetType extends KindedStructure<Kind>,
 >
 (
-  sources: ArrayOrValue<SourceType | string>,
+  sources: ValueOrArray<SourceType | string>,
   sourceKind: Kind,
 ): readonly (TargetType | string)[]
 {
@@ -63,7 +63,7 @@ export function cloneRequiredAndOptionalArray<
   OptionalTargetType extends KindedStructure<OptionalSourceKind>
 >
 (
-  sources: ArrayOrValue<RequiredSourceType | OptionalSourceType>,
+  sources: ValueOrArray<RequiredSourceType | OptionalSourceType>,
   requiredSourceKind: RequiredSourceKind,
   optionalSourceKind: OptionalSourceKind,
 ): readonly (RequiredTargetType | OptionalTargetType)[]
@@ -88,7 +88,7 @@ export function cloneStructureArray<
   TargetType extends KindedStructure<Kind>,
 >
 (
-  sources: ArrayOrValue<SourceType>,
+  sources: ValueOrArray<SourceType>,
   sourceKind: Kind,
 ): readonly TargetType[]
 {
@@ -100,7 +100,7 @@ function forceArray<
   SourceType extends Structures  | OptionalKind<Structures> | stringOrWriterFunction
 >
 (
-  sources: ArrayOrValue<SourceType>
+  sources: ValueOrArray<SourceType>
 ): readonly SourceType[]
 {
   if (Array.isArray(sources)) {

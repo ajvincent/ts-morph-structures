@@ -584,6 +584,7 @@ function write_cloneStructureArray(
   return statement;
 }
 
+/* FIXME: this should be using the classFieldStatementsMap, and should be a special case for the `StatementedNodeStructureMixin` */
 function write_cloneStatementsArray(
   structureName: string,
   dictionaries: StructureDictionaries,
@@ -602,6 +603,16 @@ function write_cloneStatementsArray(
     isTypeOnly: false,
     importNames: [
       "StructuresClassesMap",
+    ]
+  });
+
+  parts.importsManager.addImports({
+    pathToImportedModule: "ts-morph",
+    isDefaultImport: false,
+    isPackageImport: true,
+    isTypeOnly: true,
+    importNames: [
+      "StatementStructures",
     ]
   });
 
@@ -647,7 +658,7 @@ function write_cloneStatementsArray(
   cloneStatementMethod.statements.push(writer => {
     writer.write(`if (typeof source !== "object") `);
     writer.block(() => writer.write("return source;"));
-    writer.writeLine(`return StructuresClassesMap.clone(source) as StatementStructureImpls;`);
+    writer.writeLine(`return StructuresClassesMap.clone<StatementStructures, StatementStructureImpls>(source);`);
   });
 
   parts.classMembersMap.addMembers([cloneStatementMethod]);

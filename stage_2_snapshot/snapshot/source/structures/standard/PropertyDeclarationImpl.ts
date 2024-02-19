@@ -6,7 +6,6 @@ import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
   type CloneableStructure,
-  cloneStructureOrStringArray,
   COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
@@ -121,11 +120,10 @@ export default class PropertyDeclarationImpl
   ): PropertyDeclarationImpl {
     const declaration = new PropertyDeclarationImpl(isStatic, signature.name);
     declaration.docs.push(
-      ...(cloneStructureOrStringArray<
-        JSDocImpl,
-        StructureKind.JSDoc,
-        JSDocImpl
-      >(signature.docs, StructureKind.JSDoc) as JSDocImpl[]),
+      ...StructuresClassesMap.cloneArray<
+        string | JSDocImpl,
+        string | JSDocImpl
+      >(signature.docs),
     );
     declaration.hasQuestionToken = signature.hasQuestionToken;
     declaration.isReadonly = signature.isReadonly;

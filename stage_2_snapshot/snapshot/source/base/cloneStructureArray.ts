@@ -9,7 +9,7 @@ import type { stringOrWriterFunction } from "../exports.js";
 
 import { StructuresClassesMap } from "../internal-exports.js";
 
-type ArrayOrValue<T> = T | readonly T[];
+type ValueOrArray<T> = T | readonly T[];
 
 // example: ImportDeclarationStructure::namedImports: OptionalKind<ImportSpecifierStructure>[]
 export function cloneStructureStringOrWriterArray<
@@ -17,7 +17,7 @@ export function cloneStructureStringOrWriterArray<
   Kind extends StructureKind,
   TargetType extends KindedStructure<Kind>,
 >(
-  sources: ArrayOrValue<SourceType | stringOrWriterFunction>,
+  sources: ValueOrArray<SourceType | stringOrWriterFunction>,
   sourceKind: Kind,
 ): readonly (TargetType | stringOrWriterFunction)[] {
   const sourceArray = forceArray<SourceType | stringOrWriterFunction>(sources);
@@ -35,7 +35,7 @@ export function cloneStructureOrStringArray<
   Kind extends StructureKind,
   TargetType extends KindedStructure<Kind>,
 >(
-  sources: ArrayOrValue<SourceType | string>,
+  sources: ValueOrArray<SourceType | string>,
   sourceKind: Kind,
 ): readonly (TargetType | string)[] {
   const sourceArray = forceArray<SourceType | string>(sources);
@@ -56,7 +56,7 @@ export function cloneRequiredAndOptionalArray<
   RequiredTargetType extends RequiredSourceType,
   OptionalTargetType extends KindedStructure<OptionalSourceKind>,
 >(
-  sources: ArrayOrValue<RequiredSourceType | OptionalSourceType>,
+  sources: ValueOrArray<RequiredSourceType | OptionalSourceType>,
   requiredSourceKind: RequiredSourceKind,
   optionalSourceKind: OptionalSourceKind,
 ): readonly (RequiredTargetType | OptionalTargetType)[] {
@@ -80,7 +80,7 @@ export function cloneStructureArray<
   SourceType extends Structures | OptionalKind<Structures>,
   Kind extends StructureKind,
   TargetType extends KindedStructure<Kind>,
->(sources: ArrayOrValue<SourceType>, sourceKind: Kind): readonly TargetType[] {
+>(sources: ValueOrArray<SourceType>, sourceKind: Kind): readonly TargetType[] {
   const sourceArray = forceArray<SourceType>(sources);
   return sourceArray.map((sourceValue) =>
     cloneStructure<SourceType, Kind, TargetType>(sourceValue, sourceKind),
@@ -92,7 +92,7 @@ function forceArray<
     | Structures
     | OptionalKind<Structures>
     | stringOrWriterFunction,
->(sources: ArrayOrValue<SourceType>): readonly SourceType[] {
+>(sources: ValueOrArray<SourceType>): readonly SourceType[] {
   if (Array.isArray(sources)) {
     return sources as SourceType[];
   }

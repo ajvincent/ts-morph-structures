@@ -79,7 +79,10 @@ export default function StatementedNodeStructureMixin(
       if (typeof source !== "object") {
         return source;
       }
-      return StructuresClassesMap.clone(source) as StatementStructureImpls;
+      return StructuresClassesMap.clone<
+        StatementStructures,
+        StatementStructureImpls
+      >(source);
     }
 
     public toJSON(): StructureClassToJSON<StatementedNodeStructureMixin> {

@@ -46,7 +46,6 @@ function convertConstructor(
   dictionaries: StructureDictionaries
 ): void
 {
-  addImport(parts, dictionaries, false, false, "cloneStructureOrStringArray");
   addImport(parts, dictionaries, true, true, "JSDocImpl");
   addImport(parts, dictionaries, true, true, "ParameterDeclarationImpl");
   addImport(parts, dictionaries, true, true, "TypeParameterDeclarationImpl");
@@ -60,16 +59,18 @@ function convertConstructor(
 
   parts.classFieldsStatements.set("typeParameters", groupName, [
     `declaration.typeParameters.push(
-      ...StructuresClassesMap.cloneArray(
-        signature.typeParameters as TypeParameterDeclarationImpl[]
-      ) as TypeParameterDeclarationImpl[],
+      ...StructuresClassesMap.cloneArray<
+        string | TypeParameterDeclarationImpl,
+        string | TypeParameterDeclarationImpl
+      >(signature.typeParameters),
     );`
   ]);
   parts.classFieldsStatements.set("parameters", groupName, [
     `declaration.parameters.push(
-      ...StructuresClassesMap.cloneArray(
-        signature.parameters
-      ) as ParameterDeclarationImpl[]
+      ...StructuresClassesMap.cloneArray<
+        ParameterDeclarationImpl,
+        ParameterDeclarationImpl
+      >(signature.parameters)
     );`,
   ]);
   parts.classFieldsStatements.set("returnType", groupName, [
@@ -85,7 +86,6 @@ function convertMethod(
 ): void
 {
   addImport(parts, dictionaries, true, true, "JSDocImpl");
-  addImport(parts, dictionaries, false, false, "cloneStructureOrStringArray");
   addImport(parts, dictionaries, true, true, "ParameterDeclarationImpl");
   addImport(parts, dictionaries, true, true, "TypeParameterDeclarationImpl");
   addImport(parts, dictionaries, false, false, "TypeStructureClassesMap");
@@ -102,16 +102,18 @@ function convertMethod(
 
   parts.classFieldsStatements.set("typeParameters", groupName, [
     `declaration.typeParameters.push(
-      ...StructuresClassesMap.cloneArray(
-        signature.typeParameters as TypeParameterDeclarationImpl[]
-      ) as TypeParameterDeclarationImpl[],
+      ...StructuresClassesMap.cloneArray<
+        string | TypeParameterDeclarationImpl,
+        string | TypeParameterDeclarationImpl
+      >(signature.typeParameters),
     );`
   ]);
   parts.classFieldsStatements.set("parameters", groupName, [
     `declaration.parameters.push(
-      ...StructuresClassesMap.cloneArray(
-        signature.parameters
-      ) as ParameterDeclarationImpl[]
+      ...StructuresClassesMap.cloneArray<
+        ParameterDeclarationImpl,
+        ParameterDeclarationImpl
+      >(signature.parameters)
     );`,
   ]);
   parts.classFieldsStatements.set("returnType", groupName, [
@@ -126,7 +128,6 @@ function convertProperty(
   dictionaries: StructureDictionaries
 ): void
 {
-  addImport(parts, dictionaries, false, false, "cloneStructureOrStringArray");
   addImport(parts, dictionaries, true, true, "JSDocImpl");
   addImport(parts, dictionaries, false, false, "TypeStructureClassesMap");
   const signatureImplClass = "PropertySignatureImpl";
@@ -221,14 +222,10 @@ function copyDocs(
 ): void
 {
   parts.classFieldsStatements.set("docs", groupName, [
-    `declaration.docs.push(...cloneStructureOrStringArray<
-      JSDocImpl,
-      StructureKind.JSDoc,
-      JSDocImpl
-    >(
-      signature.docs,
-      StructureKind.JSDoc
-    ) as JSDocImpl[]);`,
+    `declaration.docs.push(...StructuresClassesMap.cloneArray<
+      string | JSDocImpl,
+      string | JSDocImpl
+    >(signature.docs));`,
   ]);
 }
 

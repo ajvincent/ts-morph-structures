@@ -9,7 +9,6 @@ import {
 import {
   type CloneableStructure,
   cloneStructureArray,
-  cloneStructureOrStringArray,
   type ConstructorDeclarationStructureClassIfc,
   COPY_FIELDS,
   type ExtractStructure,
@@ -102,17 +101,17 @@ export default class ConstructorDeclarationImpl
   ): ConstructorDeclarationImpl {
     const declaration = new ConstructorDeclarationImpl();
     declaration.docs.push(
-      ...(cloneStructureOrStringArray<
-        JSDocImpl,
-        StructureKind.JSDoc,
-        JSDocImpl
-      >(signature.docs, StructureKind.JSDoc) as JSDocImpl[]),
+      ...StructuresClassesMap.cloneArray<
+        string | JSDocImpl,
+        string | JSDocImpl
+      >(signature.docs),
     );
     declaration.leadingTrivia.push(...signature.leadingTrivia);
     declaration.parameters.push(
-      ...(StructuresClassesMap.cloneArray(
-        signature.parameters,
-      ) as ParameterDeclarationImpl[]),
+      ...StructuresClassesMap.cloneArray<
+        ParameterDeclarationImpl,
+        ParameterDeclarationImpl
+      >(signature.parameters),
     );
     if (signature.returnTypeStructure) {
       declaration.returnTypeStructure = TypeStructureClassesMap.clone(
@@ -122,9 +121,10 @@ export default class ConstructorDeclarationImpl
 
     declaration.trailingTrivia.push(...signature.trailingTrivia);
     declaration.typeParameters.push(
-      ...(StructuresClassesMap.cloneArray(
-        signature.typeParameters as TypeParameterDeclarationImpl[],
-      ) as TypeParameterDeclarationImpl[]),
+      ...StructuresClassesMap.cloneArray<
+        string | TypeParameterDeclarationImpl,
+        string | TypeParameterDeclarationImpl
+      >(signature.typeParameters),
     );
     return declaration;
   }

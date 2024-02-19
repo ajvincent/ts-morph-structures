@@ -13,7 +13,6 @@ import {
   AsyncableNodeStructureMixin,
   type CloneableStructure,
   cloneStructureArray,
-  cloneStructureOrStringArray,
   COPY_FIELDS,
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
@@ -141,18 +140,18 @@ export default class MethodDeclarationImpl
   ): MethodDeclarationImpl {
     const declaration = new MethodDeclarationImpl(isStatic, signature.name);
     declaration.docs.push(
-      ...(cloneStructureOrStringArray<
-        JSDocImpl,
-        StructureKind.JSDoc,
-        JSDocImpl
-      >(signature.docs, StructureKind.JSDoc) as JSDocImpl[]),
+      ...StructuresClassesMap.cloneArray<
+        string | JSDocImpl,
+        string | JSDocImpl
+      >(signature.docs),
     );
     declaration.hasQuestionToken = signature.hasQuestionToken;
     declaration.leadingTrivia.push(...signature.leadingTrivia);
     declaration.parameters.push(
-      ...(StructuresClassesMap.cloneArray(
-        signature.parameters,
-      ) as ParameterDeclarationImpl[]),
+      ...StructuresClassesMap.cloneArray<
+        ParameterDeclarationImpl,
+        ParameterDeclarationImpl
+      >(signature.parameters),
     );
     if (signature.returnTypeStructure) {
       declaration.returnTypeStructure = TypeStructureClassesMap.clone(
@@ -162,9 +161,10 @@ export default class MethodDeclarationImpl
 
     declaration.trailingTrivia.push(...signature.trailingTrivia);
     declaration.typeParameters.push(
-      ...(StructuresClassesMap.cloneArray(
-        signature.typeParameters as TypeParameterDeclarationImpl[],
-      ) as TypeParameterDeclarationImpl[]),
+      ...StructuresClassesMap.cloneArray<
+        string | TypeParameterDeclarationImpl,
+        string | TypeParameterDeclarationImpl
+      >(signature.typeParameters),
     );
     return declaration;
   }
