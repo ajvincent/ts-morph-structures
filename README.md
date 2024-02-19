@@ -141,7 +141,7 @@ function addTypeFestSimplify(sourceFile: SourceFile): void {
   const aliasNode: TypeAliasDeclaration = sourceFile.getTypeAliasOrThrow("PushableArray");
 
   let typeStructure: TypeStructures = parseLiteralType(aliasNode.getTypeNodeOrThrow().getText());
-  typeStructures = new TypeArgumentedTypeStructureLiteral(
+  typeStructures = new TypeArgumentedTypeStructureImpl(
     LiteralTypeStructureImpl.get("Simplify"), [ typeStructure ]
   );
   aliasNode.setType(typeStructure.writerFunction);
