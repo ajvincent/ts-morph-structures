@@ -28,7 +28,7 @@ export default class ImportTypeStructureImpl extends TypeStructuresBase<TypeStru
 |  [argument](./ts-morph-structures.importtypestructureimpl.argument.md) |  | [StringTypeStructureImpl](./ts-morph-structures.stringtypestructureimpl.md) |  |
 |  [childTypes](./ts-morph-structures.importtypestructureimpl.childtypes.md) | <code>readonly</code> | [TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\[\] |  |
 |  [kind](./ts-morph-structures.importtypestructureimpl.kind.md) | <code>readonly</code> | [TypeStructureKind.Import](./ts-morph-structures.typestructurekind.md) |  |
-|  [qualifier](./ts-morph-structures.importtypestructureimpl.qualifier.md) |  | QualifierImpl \| null |  |
+|  [qualifier](./ts-morph-structures.importtypestructureimpl.qualifier.md) |  | [LiteralTypeStructureImpl](./ts-morph-structures.literaltypestructureimpl.md) \| [QualifiedNameTypeStructureImpl](./ts-morph-structures.qualifiednametypestructureimpl.md) \| null |  |
 |  [writerFunction](./ts-morph-structures.importtypestructureimpl.writerfunction.md) | <code>readonly</code> | WriterFunction |  |
 
 ## Methods

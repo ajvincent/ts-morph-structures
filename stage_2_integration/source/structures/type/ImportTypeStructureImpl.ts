@@ -25,8 +25,6 @@ import {
 
 import LiteralTypeStructureImpl from "./LiteralTypeStructureImpl.js";
 
-type QualifierImpl = LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl;
-
 /** @example `import("ts-morph").StatementStructures` */
 export default
 class ImportTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Import>
@@ -44,7 +42,7 @@ class ImportTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Impor
 
   constructor(
     argument: StringTypeStructureImpl,
-    qualifier: QualifierImpl | null,
+    qualifier: LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl | null,
     typeArguments: TypeStructures[]
   )
   {
@@ -71,14 +69,14 @@ class ImportTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Impor
     this.#packageIdentifier.childTypes[0] = value;
   }
 
-  get qualifier(): QualifierImpl | null
+  get qualifier(): LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl | null
   {
     if (this.#typeArguments.objectType === ImportTypeStructureImpl.#nullIdentifier)
       return null;
-    return this.#typeArguments.objectType as QualifierImpl;
+    return this.#typeArguments.objectType as LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl;
   }
   set qualifier(
-    value: QualifierImpl | null
+    value: LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl | null
   )
   {
     this.#typeArguments.objectType = value ?? ImportTypeStructureImpl.#nullIdentifier;
@@ -124,7 +122,7 @@ class ImportTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Impor
 
     return new ImportTypeStructureImpl(
       other.argument,
-      other.qualifier,
+      qualifier,
       TypeStructureClassesMap.cloneArray(other.childTypes)
     );
   }

@@ -9,7 +9,7 @@ Constructs a new instance of the `ImportTypeStructureImpl` class
 **Signature:**
 
 ```typescript
-constructor(argument: StringTypeStructureImpl, qualifier: QualifierImpl | null, typeArguments: TypeStructures[]);
+constructor(argument: StringTypeStructureImpl, qualifier: LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl | null, typeArguments: TypeStructures[]);
 ```
 
 ## Parameters
@@ -17,6 +17,6 @@ constructor(argument: StringTypeStructureImpl, qualifier: QualifierImpl | null, 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  argument | [StringTypeStructureImpl](./ts-morph-structures.stringtypestructureimpl.md) |  |
-|  qualifier | QualifierImpl \| null |  |
+|  qualifier | [LiteralTypeStructureImpl](./ts-morph-structures.literaltypestructureimpl.md) \| [QualifiedNameTypeStructureImpl](./ts-morph-structures.qualifiednametypestructureimpl.md) \| null |  |
 |  typeArguments | [TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\[\] |  |
 

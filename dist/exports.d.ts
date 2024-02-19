@@ -650,17 +650,16 @@ declare class LiteralTypeStructureImpl extends TypeStructuresBase<TypeStructureK
     readonly writerFunction: WriterFunction;
 }
 
-type QualifierImpl = LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl;
 /** @example `import("ts-morph").StatementStructures` */
 declare class ImportTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Import> {
     #private;
     readonly kind: TypeStructureKind.Import;
     readonly childTypes: TypeStructures[];
-    constructor(argument: StringTypeStructureImpl, qualifier: QualifierImpl | null, typeArguments: TypeStructures[]);
+    constructor(argument: StringTypeStructureImpl, qualifier: LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl | null, typeArguments: TypeStructures[]);
     get argument(): StringTypeStructureImpl;
     set argument(value: StringTypeStructureImpl);
-    get qualifier(): QualifierImpl | null;
-    set qualifier(value: QualifierImpl | null);
+    get qualifier(): LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl | null;
+    set qualifier(value: LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl | null);
     readonly writerFunction: WriterFunction;
     /** @internal */
     [STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures>;

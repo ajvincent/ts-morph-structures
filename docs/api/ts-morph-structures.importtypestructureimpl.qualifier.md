@@ -7,7 +7,7 @@
 **Signature:**
 
 ```typescript
-get qualifier(): QualifierImpl | null;
+get qualifier(): LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl | null;
 
-set qualifier(value: QualifierImpl | null);
+set qualifier(value: LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl | null);
 ```

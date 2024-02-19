@@ -4113,7 +4113,7 @@ class ImportTypeStructureImpl extends TypeStructuresBase {
         else if (qualifier?.kind === TypeStructureKind.QualifiedName) {
             qualifier = QualifiedNameTypeStructureImpl.clone(qualifier);
         }
-        return new ImportTypeStructureImpl(other.argument, other.qualifier, TypeStructureClassesMap$1.cloneArray(other.childTypes));
+        return new ImportTypeStructureImpl(other.argument, qualifier, TypeStructureClassesMap$1.cloneArray(other.childTypes));
     }
 }
 TypeStructureClassesMap$1.set(TypeStructureKind.Import, ImportTypeStructureImpl);
