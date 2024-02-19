@@ -47,7 +47,7 @@ These are type structures which contain other type structures.
 | [InferTypeStructureImpl](../api/ts-morph-structures.infertypestructureimpl.md) | `Elements extends [infer Head, ...infer Tail]` | typeParameter |
 | [IntersectionTypeStructureImpl](../api/ts-morph-structures.intersectiontypestructureimpl.md) | `Foo & Bar` | childTypes |
 | [LiteralTypeStructureImpl](../api/ts-morph-structures.literaltypestructureimpl.md) | `string`, `number`, identifiers, etc. | stringValue |
-| [MappedTypeTypeStructureImpl](../api/ts-morph-structures.mappedtypetypestructureimpl.md) | `{ readonly [key in keyof Foo]: boolean }` | parameter, type |
+| [MappedTypeStructureImpl](../api/ts-morph-structures.mappedtypestructureimpl.md) | `{ readonly [key in keyof Foo]: boolean }` | parameter, type |
 | [MemberedObjectTypeStructureImpl](../api/ts-morph-structures.memberedobjecttypestructureimpl.md) | See below | getAccessors, indexSignatures, methods, properties, setAccessors |
 | [NumberTypeStructureImpl](../api/ts-morph-structures.numbertypestructureimpl.md) | 1, 2, 3, 4.5, 6, Infinity, 0.25, etc. | numberValue |
 | [ParameterTypeStructureImpl](../api/ts-morph-structures.parametertypestructureimpl.md) | `foo: boolean` | name, typeStructure |
