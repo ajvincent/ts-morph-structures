@@ -293,7 +293,7 @@ The `buildTypesForStructures()` function handles a null return from `convertType
   - [ ] `#writerFunction(writer: CodeBlockWriter): void;`
   - [ ] `readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);`
   - [ ] Implement `public static clone()`
-    -[ ] The source parameter should be of the same type as your type alias
+    - [ ] The source parameter should be of the same type as your type alias
     - [ ] Use `TypeStructureClassesMap.clone()` (or `cloneArray()`) and your decorators' `cloneFoo(source, target)` functions where practical
   - [ ] Implement `[STRUCTURE_AND_TYPES_CHILDREN]` to iterate over type structures you own
     - [ ] `/** @internal */`
