@@ -12,6 +12,7 @@ import {
   type ConditionalTypeStructureParts,
   FunctionTypeStructureImpl,
   FunctionWriterStyle,
+  ImportTypeStructureImpl,
   IndexedAccessTypeStructureImpl,
   InferTypeStructureImpl,
   IntersectionTypeStructureImpl,
@@ -119,6 +120,15 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
 
     expect(typedWriter.kind).toBe(TypeStructureKind.Function);
     checkCloneAndRegistration(typedWriter, FunctionTypeStructureImpl, false);
+  });
+
+  it("ImportTypeStructureImpl", () => {
+    const typedWriter = new ImportTypeStructureImpl(
+      stringBarTyped, nstTyped, [fooTyped]
+    );
+    typedWriter.writerFunction(writer);
+    expect<string>(writer.toString()).toBe(`import("bar").NumberStringType<foo>`);
+    expect(typedWriter.kind).toBe(TypeStructureKind.Import);
   });
 
   it("IndexedAccessTypeStructureImpl", () => {

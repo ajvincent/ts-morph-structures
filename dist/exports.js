@@ -25,6 +25,7 @@ var TypeStructureKind;
     TypeStructureKind[TypeStructureKind["Parameter"] = 1000000017] = "Parameter";
     TypeStructureKind[TypeStructureKind["TemplateLiteral"] = 1000000018] = "TemplateLiteral";
     TypeStructureKind[TypeStructureKind["MemberedObject"] = 1000000019] = "MemberedObject";
+    TypeStructureKind[TypeStructureKind["Import"] = 1000000020] = "Import";
 })(TypeStructureKind || (TypeStructureKind = {}));
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -4017,6 +4018,105 @@ class FunctionTypeStructureImpl extends TypeStructuresWithTypeParameters {
 _a$2 = FunctionTypeStructureImpl;
 TypeStructureClassesMap$1.set(TypeStructureKind.Function, FunctionTypeStructureImpl);
 
+// #endregion preamble
+/**
+ * Literals (boolean, number, string, void, etc.), without quotes, brackets, or
+ * anything else around them.  Leaf nodes.
+ */
+class LiteralTypeStructureImpl extends TypeStructuresBase {
+    static #cache = new Map();
+    /**
+     * Gets a singleton `LiteralTypeStructureImpl` for the given name.
+     */
+    static get(name) {
+        if (!this.#cache.has(name)) {
+            this.#cache.set(name, new LiteralTypeStructureImpl(name));
+        }
+        return this.#cache.get(name);
+    }
+    static clone(other) {
+        return LiteralTypeStructureImpl.get(other.stringValue);
+    }
+    kind = TypeStructureKind.Literal;
+    stringValue;
+    constructor(literal) {
+        super();
+        this.stringValue = literal;
+        Reflect.defineProperty(this, "stringValue", {
+            writable: false,
+            configurable: false,
+        });
+        this.registerCallbackForTypeStructure();
+    }
+    #writerFunction(writer) {
+        writer.write(this.stringValue);
+    }
+    writerFunction = this.#writerFunction.bind(this);
+}
+TypeStructureClassesMap$1.set(TypeStructureKind.Literal, LiteralTypeStructureImpl);
+
+class ImportTypeStructureImpl extends TypeStructuresBase {
+    static #nullIdentifier = new LiteralTypeStructureImpl("");
+    #packageIdentifier;
+    #typeArguments;
+    kind = TypeStructureKind.Import;
+    /*
+    readonly attributes: ImportAttributeImpl[] = [];
+    */
+    childTypes;
+    constructor(argument, qualifier, typeArguments) {
+        super();
+        this.#packageIdentifier = new ParenthesesTypeStructureImpl(argument);
+        typeArguments = typeArguments.slice();
+        this.#typeArguments = new TypeArgumentedTypeStructureImpl(qualifier ?? ImportTypeStructureImpl.#nullIdentifier, typeArguments);
+        this.childTypes = typeArguments;
+    }
+    get argument() {
+        return this.#packageIdentifier.childTypes[0];
+    }
+    set argument(value) {
+        this.#packageIdentifier.childTypes[0] = value;
+    }
+    get qualifier() {
+        if (this.#typeArguments.objectType === ImportTypeStructureImpl.#nullIdentifier)
+            return null;
+        return this.#typeArguments.objectType;
+    }
+    set qualifier(value) {
+        this.#typeArguments.objectType =
+            value ?? ImportTypeStructureImpl.#nullIdentifier;
+    }
+    #writerFunction(writer) {
+        writer.write("import");
+        this.#packageIdentifier.writerFunction(writer);
+        if (this.qualifier) {
+            writer.write(".");
+            this.#typeArguments.writerFunction(writer);
+        }
+    }
+    writerFunction = this.#writerFunction.bind(this);
+    /** @internal */
+    *[STRUCTURE_AND_TYPES_CHILDREN]() {
+        yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
+        yield this.argument;
+        const qualifier = this.qualifier;
+        if (qualifier)
+            yield qualifier;
+        yield* this.childTypes;
+    }
+    static clone(other) {
+        let { qualifier } = other;
+        if (qualifier?.kind === TypeStructureKind.Literal) {
+            qualifier = LiteralTypeStructureImpl.clone(qualifier);
+        }
+        else if (qualifier?.kind === TypeStructureKind.QualifiedName) {
+            qualifier = QualifiedNameTypeStructureImpl.clone(qualifier);
+        }
+        return new ImportTypeStructureImpl(other.argument, other.qualifier, TypeStructureClassesMap$1.cloneArray(other.childTypes));
+    }
+}
+TypeStructureClassesMap$1.set(TypeStructureKind.Import, ImportTypeStructureImpl);
+
 /**
  * @example
  * `Foo["index"]`
@@ -4090,43 +4190,6 @@ class IntersectionTypeStructureImpl extends TypeStructuresWithChildren {
     }
 }
 TypeStructureClassesMap$1.set(TypeStructureKind.Intersection, IntersectionTypeStructureImpl);
-
-// #endregion preamble
-/**
- * Literals (boolean, number, string, void, etc.), without quotes, brackets, or
- * anything else around them.  Leaf nodes.
- */
-class LiteralTypeStructureImpl extends TypeStructuresBase {
-    static #cache = new Map();
-    /**
-     * Gets a singleton `LiteralTypeStructureImpl` for the given name.
-     */
-    static get(name) {
-        if (!this.#cache.has(name)) {
-            this.#cache.set(name, new LiteralTypeStructureImpl(name));
-        }
-        return this.#cache.get(name);
-    }
-    static clone(other) {
-        return LiteralTypeStructureImpl.get(other.stringValue);
-    }
-    kind = TypeStructureKind.Literal;
-    stringValue;
-    constructor(literal) {
-        super();
-        this.stringValue = literal;
-        Reflect.defineProperty(this, "stringValue", {
-            writable: false,
-            configurable: false,
-        });
-        this.registerCallbackForTypeStructure();
-    }
-    #writerFunction(writer) {
-        writer.write(this.stringValue);
-    }
-    writerFunction = this.#writerFunction.bind(this);
-}
-TypeStructureClassesMap$1.set(TypeStructureKind.Literal, LiteralTypeStructureImpl);
 
 // #endregion preamble
 /**
@@ -6072,4 +6135,4 @@ class TypeMembersMap extends OrderedMap {
 _a = TypeMembersMap;
 var TypeMembersMap$1 = TypeMembersMap;
 
-export { ArrayTypeStructureImpl, CallSignatureDeclarationImpl, ClassDeclarationImpl, ClassFieldStatementsMap, ClassMembersMap, ClassStaticBlockDeclarationImpl, ConditionalTypeStructureImpl, ConstructSignatureDeclarationImpl, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, DecoratorImpl, EnumDeclarationImpl, EnumMemberImpl, ExportAssignmentImpl, ExportDeclarationImpl, ExportManager, ExportSpecifierImpl, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, FunctionTypeStructureImpl, FunctionWriterStyle, GetAccessorDeclarationImpl, ImportAttributeImpl, ImportDeclarationImpl, ImportManager, ImportSpecifierImpl, IndexSignatureDeclarationImpl, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, InterfaceDeclarationImpl, IntersectionTypeStructureImpl, JSDocImpl, JSDocTagImpl, JsxAttributeImpl, JsxElementImpl, JsxSelfClosingElementImpl, JsxSpreadAttributeImpl, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, MethodSignatureImpl, ModuleDeclarationImpl, NumberTypeStructureImpl, ParameterDeclarationImpl, ParameterTypeStructureImpl, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, PropertyAssignmentImpl, PropertyDeclarationImpl, PropertySignatureImpl, QualifiedNameTypeStructureImpl, SetAccessorDeclarationImpl, ShorthandPropertyAssignmentImpl, SourceFileImpl, SpreadAssignmentImpl, StringTypeStructureImpl, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, TypeArgumentedTypeStructureImpl, TypeMembersMap$1 as TypeMembersMap, TypeParameterDeclarationImpl, TypeStructureKind, UnionTypeStructureImpl, VariableDeclarationImpl, VariableStatementImpl, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, parseLiteralType };
+export { ArrayTypeStructureImpl, CallSignatureDeclarationImpl, ClassDeclarationImpl, ClassFieldStatementsMap, ClassMembersMap, ClassStaticBlockDeclarationImpl, ConditionalTypeStructureImpl, ConstructSignatureDeclarationImpl, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, DecoratorImpl, EnumDeclarationImpl, EnumMemberImpl, ExportAssignmentImpl, ExportDeclarationImpl, ExportManager, ExportSpecifierImpl, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, FunctionTypeStructureImpl, FunctionWriterStyle, GetAccessorDeclarationImpl, ImportAttributeImpl, ImportDeclarationImpl, ImportManager, ImportSpecifierImpl, ImportTypeStructureImpl, IndexSignatureDeclarationImpl, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, InterfaceDeclarationImpl, IntersectionTypeStructureImpl, JSDocImpl, JSDocTagImpl, JsxAttributeImpl, JsxElementImpl, JsxSelfClosingElementImpl, JsxSpreadAttributeImpl, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, MethodSignatureImpl, ModuleDeclarationImpl, NumberTypeStructureImpl, ParameterDeclarationImpl, ParameterTypeStructureImpl, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, PropertyAssignmentImpl, PropertyDeclarationImpl, PropertySignatureImpl, QualifiedNameTypeStructureImpl, SetAccessorDeclarationImpl, ShorthandPropertyAssignmentImpl, SourceFileImpl, SpreadAssignmentImpl, StringTypeStructureImpl, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, TypeArgumentedTypeStructureImpl, TypeMembersMap$1 as TypeMembersMap, TypeParameterDeclarationImpl, TypeStructureKind, UnionTypeStructureImpl, VariableDeclarationImpl, VariableStatementImpl, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, parseLiteralType };

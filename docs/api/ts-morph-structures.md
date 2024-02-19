@@ -33,6 +33,7 @@
 |  [ImportDeclarationImpl](./ts-morph-structures.importdeclarationimpl.md) |  |
 |  [ImportManager](./ts-morph-structures.importmanager.md) | This manages import declarations and specifiers, for including in a source file. |
 |  [ImportSpecifierImpl](./ts-morph-structures.importspecifierimpl.md) |  |
+|  [ImportTypeStructureImpl](./ts-morph-structures.importtypestructureimpl.md) |  |
 |  [IndexedAccessTypeStructureImpl](./ts-morph-structures.indexedaccesstypestructureimpl.md) |  |
 |  [IndexSignatureDeclarationImpl](./ts-morph-structures.indexsignaturedeclarationimpl.md) |  |
 |  [InferTypeStructureImpl](./ts-morph-structures.infertypestructureimpl.md) |  |

@@ -17,6 +17,7 @@ export declare enum TypeStructureKind
 |  Array | <code>1000000011</code> |  |
 |  Conditional | <code>1000000012</code> |  |
 |  Function | <code>1000000016</code> |  |
+|  Import | <code>1000000020</code> |  |
 |  IndexedAccess | <code>1000000013</code> |  |
 |  Infer | <code>1000000007</code> |  |
 |  Intersection | <code>1000000009</code> |  |

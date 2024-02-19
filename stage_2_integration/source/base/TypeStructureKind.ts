@@ -23,6 +23,7 @@ export enum TypeStructureKind {
   Parameter,
   TemplateLiteral,
   MemberedObject,
+  Import,
 }
 
 export interface KindedTypeStructure<

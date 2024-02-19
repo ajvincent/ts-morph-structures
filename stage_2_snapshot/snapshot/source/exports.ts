@@ -124,6 +124,7 @@ export {
   type FunctionTypeContext,
   FunctionWriterStyle,
 } from "./structures/type/FunctionTypeStructureImpl.js";
+export { default as ImportTypeStructureImpl } from "./structures/type/ImportTypeStructureImpl.js";
 export { default as IndexedAccessTypeStructureImpl } from "./structures/type/IndexedAccessTypeStructureImpl.js";
 export { default as InferTypeStructureImpl } from "./structures/type/InferTypeStructureImpl.js";
 export { default as IntersectionTypeStructureImpl } from "./structures/type/IntersectionTypeStructureImpl.js";

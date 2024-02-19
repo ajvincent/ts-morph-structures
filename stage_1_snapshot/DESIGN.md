@@ -389,35 +389,35 @@ Augmenting structures with type structures, and cloning structures, was really t
 
 ### Checklist for adding a new type structure class
 
-- In [source/base/TypeStructureKind.ts](./prototype-snapshot/base/TypeStructureKind.ts), append a new enum member of `TypeStructureKind`
-- In [TypeStructures.ts](./prototype-snapshot/typeStructures/TypeStructures.ts), define the type alias your type structure class will implement
-  - Include `KindedStructure<TypeStructureKind.YourNewType>`
-    - Depending on child types, this may be `TypedStructureWithChildren` or `TypedStructureWithOneChild`.
-  - Include `ReplaceableDescendants`
-  - Wrap the alias's type in the `Simplify` type, to make it easier to read when someone hovers over it in an IDE
-  - Append your new type to `TypeStructures`
+- [ ] In [prototype-snapshot/base/TypeStructureKind.ts](./prototype-snapshot/base/TypeStructureKind.ts), append a new enum member of `TypeStructureKind`
+- [ ] In [TypeStructures.ts](./prototype-snapshot/typeStructures/TypeStructures.ts), define the type alias your type structure class will implement
+  - [ ]  Include `KindedStructure<TypeStructureKind.YourNewType>`
+    - [ ]  Depending on child types, this may be `TypedStructureWithChildren` or `TypedStructureWithOneChild`.
+  - [ ] Include `ReplaceableDescendants`
+  - [ ] Wrap the alias's type in the `Simplify` type, to make it easier to read when someone hovers over it in an IDE
+  - [ ]  Append your new type to `TypeStructures`
 - Import what you need:
-  - from ts-morph: `CodeBlockWriter`
-  - from `TypeStructures`, your new structure's type alias, and `TypeStructures`
-  - `TypeStructureKind` from `TypeStructureKind.mjs`
-  - `registerCallbackForTypeStructure` from `callbackToTypeStructureRegistry`
-  - `TypeStructureClassesMap`, `CloneableStructure` for cloneable classes support
-  - `replaceDescendantTypeStructures` if there will be descendant types
+  - [ ] from ts-morph: `CodeBlockWriter`, `WriterFunction`
+  - [ ] from `TypeStructures`, your new structure's type alias, and `TypeStructures`
+  - [ ] `TypeStructureKind` from `TypeStructureKind.mjs`
+  - [ ] `registerCallbackForTypeStructure` from `callbackToTypeStructureRegistry`
+  - [ ] `TypeStructureClassesMap`, `CloneableStructure` for cloneable classes support
+  - [ ] `replaceDescendantTypeStructures` if there will be descendant types
 - Implement your type structure class.
-  - `implements YourTypeStructureTypeAlias`
-  - `readonly kind: TypeStructureKind<Foo> = TypeStructureKind<Foo>`
-  - `constructor()` must call `registerCallbackForTypeStructure(this)`
+  - [ ] `implements YourTypeStructureTypeAlias`
+  - [ ] `readonly kind: TypeStructureKind<Foo> = TypeStructureKind<Foo>`
+  - [ ] `constructor()` must call `registerCallbackForTypeStructure(this)`
   - References to other type structures should be instances of existing type structure classes
   - References to regular structures should be instances of existing structure classes
-  - `#writerFunction(writer: CodeBlockWriter): void`
-  - `readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);`
-  - `replaceDescendantTypes()` if there are descendant types
-  - Implement `public static clone()`
-    - The source parameter should be of the same type as your type alias
+  - [ ] `#writerFunction(writer: CodeBlockWriter): void`
+  - [ ] `readonly writerFunction: WriterFunction = this.#writerFunction.bind(this);`
+  - [ ] `replaceDescendantTypes()` if there are descendant types
+  - [ ] Implement `public static clone()`
+    -[ ] The source parameter should be of the same type as your type alias
     - [ ] Use `TypeStructureClassesMap.clone()` (or `cloneArray()`) and your decorators' `cloneFoo(source, target)` functions where practical
   - [ ] Add a `satisfies` constraint for your class for the static clone method:  `ConditionalTypedStructureImpl satisfies CloneableStructure<ConditionalTypedStructure>;` for example
   - [ ] Add your class to the `TypeStructureClassesMap`, with your key being your `TypeStructureKind`
   - [ ] Add your class as an export from `exports.ts`
   - [ ] Write whatever tests and/or documentation you feel is appropriate
-- Update [convertTypeNode.ts](./prototype-snapshot/bootstrap/convertTypeNode.ts) and its corresponding [test file](./spec-snapshot/bootstrap/convertTypeNode.ts) for the new structure and its matching type node.
-- Update the [README.md](./README.md) file for the new type structure.
+- [ ] Update [convertTypeNode.ts](./prototype-snapshot/bootstrap/convertTypeNode.ts) and its corresponding [test file](./spec-snapshot/bootstrap/convertTypeNode.ts) for the new structure and its matching type node.
+- [ ] Update the [README.md](./README.md) file for the new type structure.
