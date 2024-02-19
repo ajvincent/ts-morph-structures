@@ -53,7 +53,7 @@ These are type structures which contain other type structures.
 | [ParameterTypeStructureImpl](../api/ts-morph-structures.parametertypestructureimpl.md) | `foo: boolean` | name, typeStructure |
 | [ParenthesesTypeStructureImpl](../api/ts-morph-structures.parenthesestypestructureimpl.md) | `(string)` | childTypes (`[TypeStructure]`) |
 | [PrefixOperatorsTypeStructureImpl](../api/ts-morph-structures.prefixoperatorstypestructureimpl.md) | `keyof typeof MyClass` | operators, objectType |
-| [QualifiedNameTypeStructureImpl](../api/ts-morph-structures./qualifiednametypestructureimpl.md) | `SyntaxKind.SourceFile` | childTypes (`string[]`)|
+| [QualifiedNameTypeStructureImpl](../api/ts-morph-structures.qualifiednametypestructureimpl.md) | `SyntaxKind.SourceFile` | childTypes (`string[]`)|
 | [StringTypeStructureImpl](../api/ts-morph-structures.stringtypestructureimpl.md)  | `"Hello World"` | stringValue |
 | [TemplateLiteralTypeStructureImpl](../api/ts-morph-structures.templateliteraltypestructureimpl.md) | &#x60;`one${"A"}two${"C"}three`&#x60; | head, spans |
 | [TupleTypeStructureImpl](../api/ts-morph-structures.tupletypestructureimpl.md) | `[string, number]` | childTypes |
