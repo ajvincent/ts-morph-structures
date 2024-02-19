@@ -1,4 +1,11 @@
-import { BuildPromiseSet } from "#utilities/source/BuildPromise.js";
+import {
+  BuildPromiseSet
+} from "#utilities/source/BuildPromise.js";
+
+import {
+  runModule
+} from "#utilities/source/runModule.js";
+
 import copySnapshot from "./build/copySnapshot.js";
 import structureToSyntax from "./build/structureToSyntax.js";
 import compileTypeDefinitions from "./build/typedefs.js";
@@ -8,6 +15,25 @@ import applyDecoratorsForDocModel from "./build/decoratorsInDocModel.js";
 import runAPIDocumenter from "./build/runAPIDocumenter.js";
 
 const BPSet = new BuildPromiseSet;
+
+{ // eslint
+  const target = BPSet.get("eslint");
+
+  const args = [
+    "-c", "./.eslintrc.json",
+    "--max-warnings=0",
+  ];
+
+  args.push("buildStage.ts");
+  args.push("build/**/*.ts");
+
+  target.addTask(
+    async () => {
+      console.log("starting stage_2_integration:eslint");
+      await runModule("../node_modules/eslint/bin/eslint.js", args);
+    }
+  );
+}
 
 {  // copySnapshot
   const target = BPSet.get("copySnapshot");
@@ -47,6 +73,7 @@ const BPSet = new BuildPromiseSet;
 
 BPSet.markReady();
 {
+  BPSet.main.addSubtarget("eslint");
   BPSet.main.addSubtarget("copySnapshot");
   BPSet.main.addSubtarget("structureToSyntax");
   BPSet.main.addSubtarget("bundle");
