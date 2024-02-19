@@ -6,6 +6,7 @@ import doBundles from "./build/bundle.js";
 import runAPIExtractor from "./build/runAPIExtractor.js";
 import applyDecoratorsForDocModel from "./build/decoratorsInDocModel.js";
 import runAPIDocumenter from "./build/runAPIDocumenter.js";
+import removeExtracted from "./build/removeExtracted.js";
 
 const BPSet = new BuildPromiseSet;
 
@@ -14,16 +15,6 @@ const BPSet = new BuildPromiseSet;
   target.addTask(async () => {
     console.log("starting stage_2_integration:copySnapshot");
     await copySnapshot();
-  });
-}
-
-{ // build
-  const target = BPSet.get("build");
-
-  target.addTask(async (): Promise<void> => {
-    console.log("starting stage_2_integration:build");
-    const support = (await import("./build/support.js")).default;
-    await support();
   });
 }
 
@@ -52,13 +43,14 @@ const BPSet = new BuildPromiseSet;
     console.log("Running API Extractor...");
     await runAPIExtractor();
     await runAPIDocumenter();
+
+    await removeExtracted();
   });
 }
 
 BPSet.markReady();
 {
   BPSet.main.addSubtarget("copySnapshot");
-  BPSet.main.addSubtarget("build");
   BPSet.main.addSubtarget("structureToSyntax");
   BPSet.main.addSubtarget("bundle");
   BPSet.main.addSubtarget("docs");
