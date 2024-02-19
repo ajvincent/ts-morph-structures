@@ -6,7 +6,6 @@ import {
 } from "../../exports.js";
 import {
   type CloneableStructure,
-  cloneRequiredAndOptionalArray,
   COPY_FIELDS,
   type ExtractStructure,
   type JsxElementStructureClassIfc,
@@ -56,7 +55,7 @@ export default class JsxElementImpl
     super[COPY_FIELDS](source, target);
     if (source.attributes) {
       target.attributes.push(
-        ...cloneRequiredAndOptionalArray<
+        ...StructuresClassesMap.cloneRequiredAndOptionalArray<
           JsxSpreadAttributeStructure,
           StructureKind.JsxSpreadAttribute,
           OptionalKind<JsxAttributeStructure>,
@@ -77,7 +76,7 @@ export default class JsxElementImpl
 
     if (source.children) {
       target.children.push(
-        ...cloneRequiredAndOptionalArray<
+        ...StructuresClassesMap.cloneRequiredAndOptionalArray<
           JsxSelfClosingElementStructure,
           StructureKind.JsxSelfClosingElement,
           OptionalKind<JsxElementStructure>,

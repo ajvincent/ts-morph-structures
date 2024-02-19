@@ -222,7 +222,6 @@ function getTypeStructureForValue(
 }
 
 const stringOrWriterModule = path.join(distDir, "source/types/stringOrWriterFunction.d.ts");
-const cloneStructureArrayModule = path.join(distDir, "source/base/cloneStructureArray.ts");
 
 function getTypeStructureArrayForValue(
   value: PropertyValue,
@@ -400,16 +399,6 @@ function write_cloneRequiredAndOptionalArray(
   const optionalImpl = getStructureImplName(optionalName);
 
   parts.importsManager.addImports({
-    pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
-    isDefaultImport: false,
-    isPackageImport: false,
-    isTypeOnly: false,
-    importNames: [
-      "cloneRequiredAndOptionalArray"
-    ]
-  });
-
-  parts.importsManager.addImports({
     pathToImportedModule: "ts-morph",
     isPackageImport: true,
     isDefaultImport: false,
@@ -431,15 +420,6 @@ function write_cloneRequiredAndOptionalArray(
     ]
   });
 
-  dictionaries.internalExports.addExports({
-    absolutePathToModule: cloneStructureArrayModule,
-    isDefaultExport: false,
-    isType: false,
-    exportNames: [
-      "cloneRequiredAndOptionalArray"
-    ]
-  });
-
   const statement = (writer: CodeBlockWriter): void => {
     if (propertyValue.mayBeUndefined || propertyValue.hasQuestionToken) {
       writer.write(`if (source.${propertyKey}) `);
@@ -454,7 +434,7 @@ function write_cloneRequiredAndOptionalArray(
     writer.write(`target.${propertyKey}.push`);
     pairedWrite(writer, "(", ");", false, false, () => {
       writer.indent(() => {
-        writer.write("...cloneRequiredAndOptionalArray");
+        writer.write("...StructuresClassesMap.cloneRequiredAndOptionalArray");
         pairedWrite(writer, "<", ">", true, true, () => {
           writer.writeLine(requiredName + ",");
           writer.writeLine(`StructureKind.${requiredKind},`);

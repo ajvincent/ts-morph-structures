@@ -2,7 +2,6 @@
 import { JsxAttributeImpl, JsxSpreadAttributeImpl } from "../../exports.js";
 import {
   type CloneableStructure,
-  cloneRequiredAndOptionalArray,
   COPY_FIELDS,
   type ExtractStructure,
   type JsxSelfClosingElementStructureClassIfc,
@@ -50,7 +49,7 @@ export default class JsxSelfClosingElementImpl
     super[COPY_FIELDS](source, target);
     if (source.attributes) {
       target.attributes.push(
-        ...cloneRequiredAndOptionalArray<
+        ...StructuresClassesMap.cloneRequiredAndOptionalArray<
           JsxSpreadAttributeStructure,
           StructureKind.JsxSpreadAttribute,
           OptionalKind<JsxAttributeStructure>,

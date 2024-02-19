@@ -139,28 +139,6 @@ class ReadonlyArrayProxyHandler {
     }
 }
 
-// example: JsxElementStructure::attributes: (JsxSpreadAttributeStructure | OptionalKind<JsxAttributeStructure>)[]
-function cloneRequiredAndOptionalArray(sources, requiredSourceKind, optionalSourceKind) {
-    const sourceArray = forceArray(sources);
-    return sourceArray.map((sourceValue) => cloneRequiredOrOptionalStructure(sourceValue, requiredSourceKind, optionalSourceKind));
-}
-function forceArray(sources) {
-    if (Array.isArray(sources)) {
-        return sources;
-    }
-    return [sources];
-}
-function cloneRequiredOrOptionalStructure(sourceValue, requiredSourceKind, optionalSourceKind) {
-    if (sourceValue.kind === requiredSourceKind) {
-        return cloneStructure(sourceValue, requiredSourceKind);
-    }
-    return cloneStructure(sourceValue, optionalSourceKind);
-}
-function cloneStructure(sourceValue, sourceKind) {
-    const CloneClass = StructuresClassesMap.get(sourceKind);
-    return CloneClass.clone(sourceValue);
-}
-
 const COPY_FIELDS = Symbol("copy fields");
 const REPLACE_WRITER_WITH_STRING = Symbol("replaceWriterWithString");
 const STRUCTURE_AND_TYPES_CHILDREN = Symbol("otherwise unreachable structure and type-structure children");
@@ -191,6 +169,9 @@ class StructuresClassesMapClass extends Map {
     clone(structure) {
         return this.get(structure.kind).clone(structure);
     }
+    #cloneWithKind(kind, structure) {
+        return this.get(kind).clone(structure);
+    }
     cloneArray(structures) {
         return structures.map((structure) => {
             if (typeof structure === "string" || typeof structure === "function")
@@ -204,6 +185,16 @@ class StructuresClassesMapClass extends Map {
                 return structure;
             return this.get(kind).clone(structure);
         });
+    }
+    cloneRequiredAndOptionalArray(sources, requiredSourceKind, optionalSourceKind) {
+        const sourceArray = this.forceArray(sources);
+        return sourceArray.map((sourceValue) => this.#cloneRequiredOrOptionalStructure(sourceValue, requiredSourceKind, optionalSourceKind));
+    }
+    #cloneRequiredOrOptionalStructure(sourceValue, requiredSourceKind, optionalSourceKind) {
+        if (sourceValue.kind === requiredSourceKind) {
+            return this.#cloneWithKind(requiredSourceKind, sourceValue);
+        }
+        return this.#cloneWithKind(optionalSourceKind, sourceValue);
     }
     forceArray(sources) {
         if (Array.isArray(sources)) {
@@ -3056,13 +3047,13 @@ class JsxElementImpl extends JsxElementStructureBase {
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.attributes) {
-            target.attributes.push(...cloneRequiredAndOptionalArray(source.attributes, StructureKind.JsxSpreadAttribute, StructureKind.JsxAttribute));
+            target.attributes.push(...StructuresClassesMap.cloneRequiredAndOptionalArray(source.attributes, StructureKind.JsxSpreadAttribute, StructureKind.JsxAttribute));
         }
         if (source.bodyText) {
             target.bodyText = source.bodyText;
         }
         if (source.children) {
-            target.children.push(...cloneRequiredAndOptionalArray(source.children, StructureKind.JsxSelfClosingElement, StructureKind.JsxElement));
+            target.children.push(...StructuresClassesMap.cloneRequiredAndOptionalArray(source.children, StructureKind.JsxSelfClosingElement, StructureKind.JsxElement));
         }
     }
     static clone(source) {
@@ -3099,7 +3090,7 @@ class JsxSelfClosingElementImpl extends JsxSelfClosingElementStructureBase {
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.attributes) {
-            target.attributes.push(...cloneRequiredAndOptionalArray(source.attributes, StructureKind.JsxSpreadAttribute, StructureKind.JsxAttribute));
+            target.attributes.push(...StructuresClassesMap.cloneRequiredAndOptionalArray(source.attributes, StructureKind.JsxSpreadAttribute, StructureKind.JsxAttribute));
         }
     }
     static clone(source) {
