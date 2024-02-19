@@ -22,7 +22,7 @@ async function runAPIDocumenter(): Promise<void>
       "markdown",
 
       "--input-folder",
-      pathToModule(stageDir, "extracted"),
+      pathToModule(stageDir, "typings-snapshot/extracted"),
 
       "--output-folder",
       path.join(projectDir, "docs/api")

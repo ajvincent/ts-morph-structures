@@ -6,7 +6,6 @@ import doBundles from "./build/bundle.js";
 import runAPIExtractor from "./build/runAPIExtractor.js";
 import applyDecoratorsForDocModel from "./build/decoratorsInDocModel.js";
 import runAPIDocumenter from "./build/runAPIDocumenter.js";
-import removeExtracted from "./build/removeExtracted.js";
 
 const BPSet = new BuildPromiseSet;
 
@@ -43,8 +42,6 @@ const BPSet = new BuildPromiseSet;
     console.log("Running API Extractor...");
     await runAPIExtractor();
     await runAPIDocumenter();
-
-    await removeExtracted();
   });
 }
 

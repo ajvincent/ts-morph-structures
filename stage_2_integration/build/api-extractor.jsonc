@@ -161,7 +161,7 @@
      * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
      * DEFAULT VALUE: "<projectFolder>/temp/"
      */
-    "reportFolder": "../typings-snapshot/coverage/",
+    "reportFolder": "../typings-snapshot/extracted/",
 
     /**
      * Specifies the folder where the temporary report file is written.  The file name portion is determined by
@@ -206,7 +206,7 @@
      * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
      * DEFAULT VALUE: "<projectFolder>/temp/<unscopedPackageName>.api.json"
      */
-    "apiJsonFilePath": "../extracted/docModel.api.json",
+    "apiJsonFilePath": "../typings-snapshot/extracted/docModel.api.json",
 
     /**
      * Whether "forgotten exports" should be included in the doc model file. Forgotten exports are declarations
@@ -328,7 +328,7 @@
      * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
      * DEFAULT VALUE: "<lookup>"
      */
-    "tsdocMetadataFilePath": "../extracted/tsdoc-metadata.json"
+    "tsdocMetadataFilePath": "../typings-snapshot/model/tsdoc-metadata.json"
   },
 
   /**
