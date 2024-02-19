@@ -61,6 +61,7 @@ export default function ReturnTypedNodeStructureMixin(
       this.#returnTypeManager.typeStructure = value;
     }
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: ReturnTypedNodeStructure & Structures,
       target: ReturnTypedNodeStructureMixin & Structures,

@@ -37,6 +37,7 @@ export default class JsxAttributeImpl
     this.name = name;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<JsxAttributeStructure>,
     target: JsxAttributeImpl,

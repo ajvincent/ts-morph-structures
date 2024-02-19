@@ -54,6 +54,7 @@ export default class EnumMemberImpl
     this.name = name;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<EnumMemberStructure>,
     target: EnumMemberImpl,

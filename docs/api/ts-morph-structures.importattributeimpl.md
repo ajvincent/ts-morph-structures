@@ -31,7 +31,6 @@ export default class ImportAttributeImpl implements ImportAttributeStructureClas
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.importattributeimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.importattributeimpl.clone.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.importattributeimpl.tojson.md) |  |  |
 

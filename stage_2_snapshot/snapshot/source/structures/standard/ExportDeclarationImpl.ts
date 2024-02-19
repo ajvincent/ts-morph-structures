@@ -42,6 +42,7 @@ export default class ExportDeclarationImpl
   readonly namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[] = [];
   namespaceExport?: string = undefined;
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<ExportDeclarationStructure>,
     target: ExportDeclarationImpl,

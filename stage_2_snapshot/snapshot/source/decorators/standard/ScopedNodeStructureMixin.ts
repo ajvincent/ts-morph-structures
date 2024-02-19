@@ -36,6 +36,7 @@ export default function ScopedNodeStructureMixin(
   class ScopedNodeStructureMixin extends baseClass {
     scope?: Scope = undefined;
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: ScopedNodeStructure & Structures,
       target: ScopedNodeStructureMixin & Structures,

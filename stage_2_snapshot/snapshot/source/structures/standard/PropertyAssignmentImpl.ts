@@ -41,6 +41,7 @@ export default class PropertyAssignmentImpl
     this.name = name;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<PropertyAssignmentStructure>,
     target: PropertyAssignmentImpl,

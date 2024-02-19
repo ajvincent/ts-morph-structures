@@ -63,6 +63,7 @@ export default class ModuleDeclarationImpl
     this.name = name;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<ModuleDeclarationStructure>,
     target: ModuleDeclarationImpl,

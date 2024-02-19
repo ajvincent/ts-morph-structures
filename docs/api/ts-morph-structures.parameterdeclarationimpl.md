@@ -39,7 +39,6 @@ export default class ParameterDeclarationImpl implements ParameterDeclarationStr
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.parameterdeclarationimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.parameterdeclarationimpl.clone.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.parameterdeclarationimpl.tojson.md) |  |  |
 

@@ -46,6 +46,7 @@ export default function ParameteredNodeStructureMixin(
   class ParameteredNodeStructureMixin extends baseClass {
     readonly parameters: ParameterDeclarationImpl[] = [];
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: ParameteredNodeStructure & Structures,
       target: ParameteredNodeStructureMixin & Structures,

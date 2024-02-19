@@ -28,7 +28,6 @@ export default class ExportDeclarationImpl implements ExportDeclarationStructure
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.exportdeclarationimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.exportdeclarationimpl.clone.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.exportdeclarationimpl.tojson.md) |  |  |
 

@@ -42,6 +42,7 @@ export default class JsxSelfClosingElementImpl
     this.name = name;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<JsxSelfClosingElementStructure>,
     target: JsxSelfClosingElementImpl,

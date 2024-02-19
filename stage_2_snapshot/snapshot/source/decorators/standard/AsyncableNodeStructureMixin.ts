@@ -36,6 +36,7 @@ export default function AsyncableNodeStructureMixin(
   class AsyncableNodeStructureMixin extends baseClass {
     isAsync = false;
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: AsyncableNodeStructure & Structures,
       target: AsyncableNodeStructureMixin & Structures,

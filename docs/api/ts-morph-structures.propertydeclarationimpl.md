@@ -44,7 +44,6 @@ export default class PropertyDeclarationImpl implements PropertyDeclarationStruc
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.propertydeclarationimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.propertydeclarationimpl.clone.md) | <code>static</code> |  |
 |  [fromSignature(isStatic, signature)](./ts-morph-structures.propertydeclarationimpl.fromsignature.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.propertydeclarationimpl.tojson.md) |  |  |

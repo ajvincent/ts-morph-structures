@@ -34,6 +34,7 @@ export default class JSDocTagImpl
     this.tagName = tagName;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<JSDocTagStructure>,
     target: JSDocTagImpl,

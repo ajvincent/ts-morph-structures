@@ -46,6 +46,7 @@ export default function JSDocableNodeStructureMixin(
   class JSDocableNodeStructureMixin extends baseClass {
     readonly docs: (string | JSDocImpl)[] = [];
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: JSDocableNodeStructure & Structures,
       target: JSDocableNodeStructureMixin & Structures,

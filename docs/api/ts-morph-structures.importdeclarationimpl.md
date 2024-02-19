@@ -35,7 +35,6 @@ export default class ImportDeclarationImpl implements ImportDeclarationStructure
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.importdeclarationimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.importdeclarationimpl.clone.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.importdeclarationimpl.tojson.md) |  |  |
 

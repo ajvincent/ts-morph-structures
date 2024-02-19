@@ -37,6 +37,7 @@ export default function QuestionTokenableNodeStructureMixin(
     /** When true, inserts a question mark (?) after the field name. */
     hasQuestionToken = false;
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: QuestionTokenableNodeStructure & Structures,
       target: QuestionTokenableNodeStructureMixin & Structures,

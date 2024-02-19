@@ -36,6 +36,7 @@ export default function GeneratorableNodeStructureMixin(
   class GeneratorableNodeStructureMixin extends baseClass {
     isGenerator = false;
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: GeneratorableNodeStructure & Structures,
       target: GeneratorableNodeStructureMixin & Structures,

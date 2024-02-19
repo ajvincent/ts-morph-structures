@@ -79,6 +79,7 @@ export default class TypeParameterDeclarationImpl
     this.#defaultManager.typeStructure = value;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<TypeParameterDeclarationStructure>,
     target: TypeParameterDeclarationImpl,

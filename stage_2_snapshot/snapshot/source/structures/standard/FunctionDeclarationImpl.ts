@@ -80,6 +80,7 @@ export default class FunctionDeclarationImpl
   readonly kind: StructureKind.Function = StructureKind.Function;
   readonly overloads: FunctionDeclarationOverloadImpl[] = [];
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<FunctionDeclarationStructure>,
     target: FunctionDeclarationImpl,

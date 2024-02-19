@@ -95,6 +95,7 @@ export default class PropertyDeclarationImpl
     this.name = name;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<PropertyDeclarationStructure>,
     target: PropertyDeclarationImpl,

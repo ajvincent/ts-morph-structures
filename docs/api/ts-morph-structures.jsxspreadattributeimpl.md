@@ -30,7 +30,6 @@ export default class JsxSpreadAttributeImpl implements JsxSpreadAttributeStructu
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.jsxspreadattributeimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.jsxspreadattributeimpl.clone.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.jsxspreadattributeimpl.tojson.md) |  |  |
 

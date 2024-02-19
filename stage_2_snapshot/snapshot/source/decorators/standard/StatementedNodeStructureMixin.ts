@@ -47,6 +47,7 @@ export default function StatementedNodeStructureMixin(
     readonly statements: (stringOrWriterFunction | StatementStructureImpls)[] =
       [];
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: StatementedNodeStructure & Structures,
       target: StatementedNodeStructureMixin & Structures,

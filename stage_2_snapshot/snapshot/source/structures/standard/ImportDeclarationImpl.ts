@@ -48,6 +48,7 @@ export default class ImportDeclarationImpl
     this.moduleSpecifier = moduleSpecifier;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<ImportDeclarationStructure>,
     target: ImportDeclarationImpl,

@@ -5,6 +5,8 @@ import {
 } from "ts-morph";
 
 import {
+  JSDocImpl,
+  JSDocTagImpl,
   LiteralTypedStructureImpl,
   MethodDeclarationImpl,
   ParameterDeclarationImpl,
@@ -29,6 +31,9 @@ import ClassMembersMap from "./public/ClassMembersMap.js";
 
 // #endregion preamble
 
+const internalDoc = new JSDocImpl()
+internalDoc.tags.push(new JSDocTagImpl("internal"));
+
 export default function defineCopyFieldsMethod(
   meta: DecoratorImplMeta | StructureImplMeta,
   parts: Pick<
@@ -46,6 +51,7 @@ export default function defineCopyFieldsMethod(
   const copyFields = new MethodDeclarationImpl("[COPY_FIELDS]");
   copyFields.scope = Scope.Public;
   copyFields.isStatic = true;
+  copyFields.docs.push(JSDocImpl.clone(internalDoc));
 
   importsManager.addImports({
     pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,

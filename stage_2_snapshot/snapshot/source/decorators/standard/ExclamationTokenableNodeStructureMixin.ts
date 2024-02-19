@@ -36,6 +36,7 @@ export default function ExclamationTokenableNodeStructureMixin(
   class ExclamationTokenableNodeStructureMixin extends baseClass {
     hasExclamationToken = false;
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: ExclamationTokenableNodeStructure & Structures,
       target: ExclamationTokenableNodeStructureMixin & Structures,

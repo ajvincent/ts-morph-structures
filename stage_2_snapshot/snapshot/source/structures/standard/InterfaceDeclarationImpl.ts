@@ -105,6 +105,7 @@ export default class InterfaceDeclarationImpl
     return this.#extendsProxyArray;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<InterfaceDeclarationStructure>,
     target: InterfaceDeclarationImpl,

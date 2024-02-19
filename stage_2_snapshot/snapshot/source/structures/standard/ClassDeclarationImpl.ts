@@ -122,6 +122,7 @@ export default class ClassDeclarationImpl
     return this.#implementsProxyArray;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<ClassDeclarationStructure>,
     target: ClassDeclarationImpl,

@@ -37,6 +37,7 @@ export default function ExportableNodeStructureMixin(
     isDefaultExport = false;
     isExported = false;
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: ExportableNodeStructure & Structures,
       target: ExportableNodeStructureMixin & Structures,

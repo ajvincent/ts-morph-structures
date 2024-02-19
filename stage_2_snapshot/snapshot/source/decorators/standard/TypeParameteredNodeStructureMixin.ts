@@ -46,6 +46,7 @@ export default function TypeParameteredNodeStructureMixin(
   class TypeParameteredNodeStructureMixin extends baseClass {
     readonly typeParameters: (string | TypeParameterDeclarationImpl)[] = [];
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: TypeParameteredNodeStructure & Structures,
       target: TypeParameteredNodeStructureMixin & Structures,

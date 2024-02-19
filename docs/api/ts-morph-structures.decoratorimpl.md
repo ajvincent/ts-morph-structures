@@ -32,7 +32,6 @@ export default class DecoratorImpl implements DecoratorStructureClassIfc
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.decoratorimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.decoratorimpl.clone.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.decoratorimpl.tojson.md) |  |  |
 

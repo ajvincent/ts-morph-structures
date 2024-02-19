@@ -55,6 +55,7 @@ export default class VariableStatementImpl
   declarationKind?: VariableDeclarationKind = undefined;
   readonly declarations: VariableDeclarationImpl[] = [];
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<VariableStatementStructure>,
     target: VariableStatementImpl,

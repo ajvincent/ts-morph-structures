@@ -38,6 +38,7 @@ export default class SpreadAssignmentImpl
     this.expression = expression;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<SpreadAssignmentStructure>,
     target: SpreadAssignmentImpl,

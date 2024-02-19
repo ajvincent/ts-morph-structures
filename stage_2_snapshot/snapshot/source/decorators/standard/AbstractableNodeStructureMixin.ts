@@ -36,6 +36,7 @@ export default function AbstractableNodeStructureMixin(
   class AbstractableNodeStructureMixin extends baseClass {
     isAbstract = false;
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: AbstractableNodeStructure & Structures,
       target: AbstractableNodeStructureMixin & Structures,

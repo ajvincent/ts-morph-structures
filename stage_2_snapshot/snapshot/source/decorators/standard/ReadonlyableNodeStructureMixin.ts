@@ -36,6 +36,7 @@ export default function ReadonlyableNodeStructureMixin(
   class ReadonlyableNodeStructureMixin extends baseClass {
     isReadonly = false;
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: ReadonlyableNodeStructure & Structures,
       target: ReadonlyableNodeStructureMixin & Structures,

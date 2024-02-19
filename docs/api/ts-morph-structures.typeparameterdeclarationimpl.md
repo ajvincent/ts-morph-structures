@@ -36,7 +36,6 @@ export default class TypeParameterDeclarationImpl implements TypeParameterDeclar
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.typeparameterdeclarationimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.typeparameterdeclarationimpl.clone.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.typeparameterdeclarationimpl.tojson.md) |  |  |
 

@@ -72,6 +72,7 @@ export default class IndexSignatureDeclarationImpl
     this.#keyTypeManager.typeStructure = value;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<IndexSignatureDeclarationStructure>,
     target: IndexSignatureDeclarationImpl,

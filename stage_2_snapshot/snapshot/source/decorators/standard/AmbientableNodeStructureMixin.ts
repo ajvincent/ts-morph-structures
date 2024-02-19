@@ -36,6 +36,7 @@ export default function AmbientableNodeStructureMixin(
   class AmbientableNodeStructureMixin extends baseClass {
     hasDeclareKeyword = false;
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: AmbientableNodeStructure & Structures,
       target: AmbientableNodeStructureMixin & Structures,

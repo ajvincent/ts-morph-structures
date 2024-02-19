@@ -36,6 +36,7 @@ export default function OverrideableNodeStructureMixin(
   class OverrideableNodeStructureMixin extends baseClass {
     hasOverrideKeyword = false;
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: OverrideableNodeStructure & Structures,
       target: OverrideableNodeStructureMixin & Structures,

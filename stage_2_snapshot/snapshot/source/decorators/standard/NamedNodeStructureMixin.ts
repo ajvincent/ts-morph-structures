@@ -36,6 +36,7 @@ export default function NamedNodeStructureMixin(
   class NamedNodeStructureMixin extends baseClass {
     name = "";
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: NamedNodeStructure & Structures,
       target: NamedNodeStructureMixin & Structures,

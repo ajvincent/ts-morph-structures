@@ -61,6 +61,7 @@ export default function TypedNodeStructureMixin(
       this.#typeManager.typeStructure = value;
     }
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: TypedNodeStructure & Structures,
       target: TypedNodeStructureMixin & Structures,

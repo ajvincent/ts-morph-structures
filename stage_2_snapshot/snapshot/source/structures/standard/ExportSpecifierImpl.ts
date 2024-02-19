@@ -38,6 +38,7 @@ export default class ExportSpecifierImpl
     this.name = name;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<ExportSpecifierStructure>,
     target: ExportSpecifierImpl,

@@ -41,6 +41,7 @@ export default class ExportAssignmentImpl
     this.expression = expression;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<ExportAssignmentStructure>,
     target: ExportAssignmentImpl,

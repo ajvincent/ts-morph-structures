@@ -417,6 +417,7 @@ const StructureKindToSyntaxKindMap = new Map([
 function AbstractableNodeStructureMixin(baseClass, context) {
     class AbstractableNodeStructureMixin extends baseClass {
         isAbstract = false;
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             target.isAbstract = source.isAbstract ?? false;
@@ -433,6 +434,7 @@ function AbstractableNodeStructureMixin(baseClass, context) {
 function AmbientableNodeStructureMixin(baseClass, context) {
     class AmbientableNodeStructureMixin extends baseClass {
         hasDeclareKeyword = false;
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             target.hasDeclareKeyword = source.hasDeclareKeyword ?? false;
@@ -449,6 +451,7 @@ function AmbientableNodeStructureMixin(baseClass, context) {
 function AsyncableNodeStructureMixin(baseClass, context) {
     class AsyncableNodeStructureMixin extends baseClass {
         isAsync = false;
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             target.isAsync = source.isAsync ?? false;
@@ -465,6 +468,7 @@ function AsyncableNodeStructureMixin(baseClass, context) {
 function DecoratableNodeStructureMixin(baseClass, context) {
     class DecoratableNodeStructureMixin extends baseClass {
         decorators = [];
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (source.decorators) {
@@ -483,6 +487,7 @@ function DecoratableNodeStructureMixin(baseClass, context) {
 function ExclamationTokenableNodeStructureMixin(baseClass, context) {
     class ExclamationTokenableNodeStructureMixin extends baseClass {
         hasExclamationToken = false;
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             target.hasExclamationToken = source.hasExclamationToken ?? false;
@@ -500,6 +505,7 @@ function ExportableNodeStructureMixin(baseClass, context) {
     class ExportableNodeStructureMixin extends baseClass {
         isDefaultExport = false;
         isExported = false;
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             target.isDefaultExport = source.isDefaultExport ?? false;
@@ -518,6 +524,7 @@ function ExportableNodeStructureMixin(baseClass, context) {
 function GeneratorableNodeStructureMixin(baseClass, context) {
     class GeneratorableNodeStructureMixin extends baseClass {
         isGenerator = false;
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             target.isGenerator = source.isGenerator ?? false;
@@ -534,6 +541,7 @@ function GeneratorableNodeStructureMixin(baseClass, context) {
 function InitializerExpressionableNodeStructureMixin(baseClass, context) {
     class InitializerExpressionableNodeStructureMixin extends baseClass {
         initializer = undefined;
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (source.initializer) {
@@ -557,6 +565,7 @@ function InitializerExpressionableNodeStructureMixin(baseClass, context) {
 function JSDocableNodeStructureMixin(baseClass, context) {
     class JSDocableNodeStructureMixin extends baseClass {
         docs = [];
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (source.docs) {
@@ -575,6 +584,7 @@ function JSDocableNodeStructureMixin(baseClass, context) {
 function NameableNodeStructureMixin(baseClass, context) {
     class NameableNodeStructureMixin extends baseClass {
         name = undefined;
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (source.name) {
@@ -598,6 +608,7 @@ function NameableNodeStructureMixin(baseClass, context) {
 function NamedNodeStructureMixin(baseClass, context) {
     class NamedNodeStructureMixin extends baseClass {
         name = "";
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (source.name) {
@@ -616,6 +627,7 @@ function NamedNodeStructureMixin(baseClass, context) {
 function OverrideableNodeStructureMixin(baseClass, context) {
     class OverrideableNodeStructureMixin extends baseClass {
         hasOverrideKeyword = false;
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             target.hasOverrideKeyword = source.hasOverrideKeyword ?? false;
@@ -632,6 +644,7 @@ function OverrideableNodeStructureMixin(baseClass, context) {
 function ParameteredNodeStructureMixin(baseClass, context) {
     class ParameteredNodeStructureMixin extends baseClass {
         parameters = [];
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (source.parameters) {
@@ -651,6 +664,7 @@ function QuestionTokenableNodeStructureMixin(baseClass, context) {
     class QuestionTokenableNodeStructureMixin extends baseClass {
         /** When true, inserts a question mark (?) after the field name. */
         hasQuestionToken = false;
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             target.hasQuestionToken = source.hasQuestionToken ?? false;
@@ -667,6 +681,7 @@ function QuestionTokenableNodeStructureMixin(baseClass, context) {
 function ReadonlyableNodeStructureMixin(baseClass, context) {
     class ReadonlyableNodeStructureMixin extends baseClass {
         isReadonly = false;
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             target.isReadonly = source.isReadonly ?? false;
@@ -695,6 +710,7 @@ function ReturnTypedNodeStructureMixin(baseClass, context) {
         set returnTypeStructure(value) {
             this.#returnTypeManager.typeStructure = value;
         }
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             const { returnTypeStructure } = source;
@@ -729,6 +745,7 @@ function ReturnTypedNodeStructureMixin(baseClass, context) {
 function ScopedNodeStructureMixin(baseClass, context) {
     class ScopedNodeStructureMixin extends baseClass {
         scope = undefined;
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (source.scope) {
@@ -752,6 +769,7 @@ function ScopedNodeStructureMixin(baseClass, context) {
 function StatementedNodeStructureMixin(baseClass, context) {
     class StatementedNodeStructureMixin extends baseClass {
         statements = [];
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             let statementsArray = [];
@@ -787,6 +805,7 @@ function StructureMixin(baseClass, context) {
     class StructureMixin extends baseClass {
         leadingTrivia = [];
         trailingTrivia = [];
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (Array.isArray(source.leadingTrivia)) {
@@ -831,6 +850,7 @@ function TypedNodeStructureMixin(baseClass, context) {
         set typeStructure(value) {
             this.#typeManager.typeStructure = value;
         }
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             const { typeStructure } = source;
@@ -864,6 +884,7 @@ function TypedNodeStructureMixin(baseClass, context) {
 function TypeParameteredNodeStructureMixin(baseClass, context) {
     class TypeParameteredNodeStructureMixin extends baseClass {
         typeParameters = [];
+        /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
             if (source.typeParameters) {
@@ -2050,6 +2071,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
     get implements() {
         return this.#implementsProxyArray;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.ctors) {
@@ -2154,6 +2176,7 @@ const ConstructorDeclarationStructureBase = MultiMixinBuilder([
 class ConstructorDeclarationImpl extends ConstructorDeclarationStructureBase {
     kind = StructureKind.Constructor;
     overloads = [];
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.overloads) {
@@ -2246,6 +2269,7 @@ class DecoratorImpl extends DecoratorStructureBase {
         super();
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (Array.isArray(source.arguments)) {
@@ -2294,6 +2318,7 @@ class EnumDeclarationImpl extends EnumDeclarationStructureBase {
         super();
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         target.isConst = source.isConst ?? false;
@@ -2331,6 +2356,7 @@ class EnumMemberImpl extends EnumMemberStructureBase {
         super();
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.value) {
@@ -2367,6 +2393,7 @@ class ExportAssignmentImpl extends ExportAssignmentStructureBase {
         super();
         this.expression = expression;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.expression) {
@@ -2398,6 +2425,7 @@ class ExportDeclarationImpl extends ExportDeclarationStructureBase {
     moduleSpecifier = undefined;
     namedExports = [];
     namespaceExport = undefined;
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.attributes) {
@@ -2459,6 +2487,7 @@ class ExportSpecifierImpl extends ExportSpecifierStructureBase {
         super();
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.alias) {
@@ -2503,6 +2532,7 @@ const FunctionDeclarationStructureBase = MultiMixinBuilder([
 class FunctionDeclarationImpl extends FunctionDeclarationStructureBase {
     kind = StructureKind.Function;
     overloads = [];
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.overloads) {
@@ -2601,6 +2631,7 @@ class ImportAttributeImpl extends ImportAttributeStructureBase {
         this.name = name;
         this.value = value;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.name) {
@@ -2639,6 +2670,7 @@ class ImportDeclarationImpl extends ImportDeclarationStructureBase {
         super();
         this.moduleSpecifier = moduleSpecifier;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.attributes) {
@@ -2704,6 +2736,7 @@ class ImportSpecifierImpl extends ImportSpecifierStructureBase {
         super();
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.alias) {
@@ -2755,6 +2788,7 @@ class IndexSignatureDeclarationImpl extends IndexSignatureDeclarationStructureBa
     set keyTypeStructure(value) {
         this.#keyTypeManager.typeStructure = value;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.keyName) {
@@ -2829,6 +2863,7 @@ class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase {
     get extends() {
         return this.#extendsProxyArray;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.callSignatures) {
@@ -2901,6 +2936,7 @@ class JSDocImpl extends JSDocStructureBase {
     kind = StructureKind.JSDoc;
     description = undefined;
     tags = [];
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.description) {
@@ -2941,6 +2977,7 @@ class JSDocTagImpl extends JSDocTagStructureBase {
         super();
         this.tagName = tagName;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.tagName) {
@@ -2981,6 +3018,7 @@ class JsxAttributeImpl extends JsxAttributeStructureBase {
         super();
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.initializer) {
@@ -3021,6 +3059,7 @@ class JsxElementImpl extends JsxElementStructureBase {
         super();
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.attributes) {
@@ -3063,6 +3102,7 @@ class JsxSelfClosingElementImpl extends JsxSelfClosingElementStructureBase {
         super();
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.attributes) {
@@ -3093,6 +3133,7 @@ class JsxSpreadAttributeImpl extends JsxSpreadAttributeStructureBase {
         super();
         this.expression = expression;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.expression) {
@@ -3139,6 +3180,7 @@ class MethodDeclarationImpl extends MethodDeclarationStructureBase {
         this.isStatic = isStatic;
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.overloads) {
@@ -3256,6 +3298,7 @@ class ModuleDeclarationImpl extends ModuleDeclarationStructureBase {
         super();
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.declarationKind) {
@@ -3301,6 +3344,7 @@ class ParameterDeclarationImpl extends ParameterDeclarationStructureBase {
         super();
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         target.isRestParameter = source.isRestParameter ?? false;
@@ -3339,6 +3383,7 @@ class PropertyAssignmentImpl extends PropertyAssignmentStructureBase {
         this.initializer = initializer;
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.initializer) {
@@ -3384,6 +3429,7 @@ class PropertyDeclarationImpl extends PropertyDeclarationStructureBase {
         this.isStatic = isStatic;
         this.name = name;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         target.hasAccessorKeyword = source.hasAccessorKeyword ?? false;
@@ -3538,6 +3584,7 @@ class SpreadAssignmentImpl extends SpreadAssignmentStructureBase {
         super();
         this.expression = expression;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.expression) {
@@ -3582,6 +3629,7 @@ class TypeAliasDeclarationImpl extends TypeAliasDeclarationStructureBase {
     set type(value) {
         super.type = value;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.type) {
@@ -3638,6 +3686,7 @@ class TypeParameterDeclarationImpl extends TypeParameterDeclarationStructureBase
     set defaultStructure(value) {
         this.#defaultManager.typeStructure = value;
     }
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         const { constraintStructure } = source;
@@ -3739,6 +3788,7 @@ class VariableStatementImpl extends VariableStatementStructureBase {
     kind = StructureKind.VariableStatement;
     declarationKind = undefined;
     declarations = [];
+    /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         if (source.declarationKind) {

@@ -48,6 +48,7 @@ export default class JsxElementImpl
     this.name = name;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<JsxElementStructure>,
     target: JsxElementImpl,

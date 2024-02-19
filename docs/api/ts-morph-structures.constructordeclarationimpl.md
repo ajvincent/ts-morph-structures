@@ -31,7 +31,6 @@ export default class ConstructorDeclarationImpl implements ConstructorDeclaratio
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.constructordeclarationimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.constructordeclarationimpl.clone.md) | <code>static</code> |  |
 |  [fromSignature(signature)](./ts-morph-structures.constructordeclarationimpl.fromsignature.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.constructordeclarationimpl.tojson.md) |  |  |

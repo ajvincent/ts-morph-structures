@@ -36,7 +36,6 @@ export default class ModuleDeclarationImpl implements ModuleDeclarationStructure
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.moduledeclarationimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.moduledeclarationimpl.clone.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.moduledeclarationimpl.tojson.md) |  |  |
 

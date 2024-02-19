@@ -46,6 +46,7 @@ export default function DecoratableNodeStructureMixin(
   class DecoratableNodeStructureMixin extends baseClass {
     readonly decorators: DecoratorImpl[] = [];
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: DecoratableNodeStructure & Structures,
       target: DecoratableNodeStructureMixin & Structures,

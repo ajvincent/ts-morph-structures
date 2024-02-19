@@ -528,6 +528,7 @@ declare class JSDocImpl extends JSDocStructureBase implements JSDocStructureClas
     readonly kind: StructureKind.JSDoc;
     description?: stringOrWriterFunction;
     readonly tags: JSDocTagImpl[];
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<JSDocStructure>, target: JSDocImpl): void;
     static clone(source: OptionalKind<JSDocStructure>): JSDocImpl;
     toJSON(): StructureClassToJSON<JSDocImpl>;
@@ -552,6 +553,7 @@ declare class TypeParameterDeclarationImpl extends TypeParameterDeclarationStruc
     set default(value: stringOrWriterFunction | undefined);
     get defaultStructure(): TypeStructures | undefined;
     set defaultStructure(value: TypeStructures | undefined);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<TypeParameterDeclarationStructure>, target: TypeParameterDeclarationImpl): void;
     static clone(source: OptionalKind<TypeParameterDeclarationStructure>): TypeParameterDeclarationImpl;
     /** @internal */
@@ -918,6 +920,7 @@ declare class DecoratorImpl extends DecoratorStructureBase implements DecoratorS
     readonly arguments: stringOrWriterFunction[];
     readonly typeArguments: string[];
     constructor(name: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<DecoratorStructure>, target: DecoratorImpl): void;
     static clone(source: OptionalKind<DecoratorStructure>): DecoratorImpl;
     toJSON(): StructureClassToJSON<DecoratorImpl>;
@@ -940,6 +943,7 @@ declare class ParameterDeclarationImpl extends ParameterDeclarationStructureBase
     isRestParameter: boolean;
     scope?: Scope;
     constructor(name: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ParameterDeclarationStructure>, target: ParameterDeclarationImpl): void;
     static clone(source: OptionalKind<ParameterDeclarationStructure>): ParameterDeclarationImpl;
     toJSON(): StructureClassToJSON<ParameterDeclarationImpl>;
@@ -986,6 +990,7 @@ declare class ClassDeclarationImpl extends ClassDeclarationStructureBase impleme
     get extendsStructure(): TypeStructures | undefined;
     set extendsStructure(value: TypeStructures | undefined);
     get implements(): stringOrWriterFunction[];
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ClassDeclarationStructure>, target: ClassDeclarationImpl): void;
     static clone(source: OptionalKind<ClassDeclarationStructure>): ClassDeclarationImpl;
     /** @internal */
@@ -1019,6 +1024,7 @@ declare const ConstructorDeclarationStructureBase: mixin_decorators.MixinClass<o
 declare class ConstructorDeclarationImpl extends ConstructorDeclarationStructureBase implements ConstructorDeclarationStructureClassIfc {
     readonly kind: StructureKind.Constructor;
     readonly overloads: ConstructorDeclarationOverloadImpl[];
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ConstructorDeclarationStructure>, target: ConstructorDeclarationImpl): void;
     static clone(source: OptionalKind<ConstructorDeclarationStructure>): ConstructorDeclarationImpl;
     static fromSignature(signature: ConstructSignatureDeclarationImpl): ConstructorDeclarationImpl;
@@ -1070,6 +1076,7 @@ declare class EnumDeclarationImpl extends EnumDeclarationStructureBase implement
     isConst: boolean;
     readonly members: EnumMemberImpl[];
     constructor(name: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<EnumDeclarationStructure>, target: EnumDeclarationImpl): void;
     static clone(source: OptionalKind<EnumDeclarationStructure>): EnumDeclarationImpl;
     toJSON(): StructureClassToJSON<EnumDeclarationImpl>;
@@ -1086,6 +1093,7 @@ declare class EnumMemberImpl extends EnumMemberStructureBase implements EnumMemb
     readonly kind: StructureKind.EnumMember;
     value?: string | number;
     constructor(name: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<EnumMemberStructure>, target: EnumMemberImpl): void;
     static clone(source: OptionalKind<EnumMemberStructure>): EnumMemberImpl;
     toJSON(): StructureClassToJSON<EnumMemberImpl>;
@@ -1101,6 +1109,7 @@ declare class ExportAssignmentImpl extends ExportAssignmentStructureBase impleme
     expression: stringOrWriterFunction;
     isExportEquals: boolean;
     constructor(expression: stringOrWriterFunction);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ExportAssignmentStructure>, target: ExportAssignmentImpl): void;
     static clone(source: OptionalKind<ExportAssignmentStructure>): ExportAssignmentImpl;
     toJSON(): StructureClassToJSON<ExportAssignmentImpl>;
@@ -1117,6 +1126,7 @@ declare class ExportDeclarationImpl extends ExportDeclarationStructureBase imple
     moduleSpecifier?: string;
     readonly namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[];
     namespaceExport?: string;
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ExportDeclarationStructure>, target: ExportDeclarationImpl): void;
     static clone(source: OptionalKind<ExportDeclarationStructure>): ExportDeclarationImpl;
     toJSON(): StructureClassToJSON<ExportDeclarationImpl>;
@@ -1132,6 +1142,7 @@ declare class ExportSpecifierImpl extends ExportSpecifierStructureBase implement
     alias?: string;
     isTypeOnly: boolean;
     constructor(name: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ExportSpecifierStructure>, target: ExportSpecifierImpl): void;
     static clone(source: OptionalKind<ExportSpecifierStructure>): ExportSpecifierImpl;
     toJSON(): StructureClassToJSON<ExportSpecifierImpl>;
@@ -1156,6 +1167,7 @@ declare const FunctionDeclarationStructureBase: mixin_decorators.MixinClass<obje
 declare class FunctionDeclarationImpl extends FunctionDeclarationStructureBase implements FunctionDeclarationStructureClassIfc {
     readonly kind: StructureKind.Function;
     readonly overloads: FunctionDeclarationOverloadImpl[];
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<FunctionDeclarationStructure>, target: FunctionDeclarationImpl): void;
     static clone(source: OptionalKind<FunctionDeclarationStructure>): FunctionDeclarationImpl;
     toJSON(): StructureClassToJSON<FunctionDeclarationImpl>;
@@ -1212,6 +1224,7 @@ declare class ImportAttributeImpl extends ImportAttributeStructureBase implement
     name: string;
     value: string;
     constructor(value: string, name: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ImportAttributeStructure>, target: ImportAttributeImpl): void;
     static clone(source: OptionalKind<ImportAttributeStructure>): ImportAttributeImpl;
     toJSON(): StructureClassToJSON<ImportAttributeImpl>;
@@ -1230,6 +1243,7 @@ declare class ImportDeclarationImpl extends ImportDeclarationStructureBase imple
     readonly namedImports: (stringOrWriterFunction | ImportSpecifierImpl)[];
     namespaceImport?: string;
     constructor(moduleSpecifier: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ImportDeclarationStructure>, target: ImportDeclarationImpl): void;
     static clone(source: OptionalKind<ImportDeclarationStructure>): ImportDeclarationImpl;
     toJSON(): StructureClassToJSON<ImportDeclarationImpl>;
@@ -1245,6 +1259,7 @@ declare class ImportSpecifierImpl extends ImportSpecifierStructureBase implement
     alias?: string;
     isTypeOnly: boolean;
     constructor(name: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ImportSpecifierStructure>, target: ImportSpecifierImpl): void;
     static clone(source: OptionalKind<ImportSpecifierStructure>): ImportSpecifierImpl;
     toJSON(): StructureClassToJSON<ImportSpecifierImpl>;
@@ -1266,6 +1281,7 @@ declare class IndexSignatureDeclarationImpl extends IndexSignatureDeclarationStr
     set keyType(value: string | undefined);
     get keyTypeStructure(): TypeStructures | undefined;
     set keyTypeStructure(value: TypeStructures | undefined);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<IndexSignatureDeclarationStructure>, target: IndexSignatureDeclarationImpl): void;
     static clone(source: OptionalKind<IndexSignatureDeclarationStructure>): IndexSignatureDeclarationImpl;
     /** @internal */
@@ -1296,6 +1312,7 @@ declare class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase
     readonly setAccessors: SetAccessorDeclarationImpl[];
     constructor(name: string);
     get extends(): stringOrWriterFunction[];
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<InterfaceDeclarationStructure>, target: InterfaceDeclarationImpl): void;
     static clone(source: OptionalKind<InterfaceDeclarationStructure>): InterfaceDeclarationImpl;
     /** @internal */
@@ -1312,6 +1329,7 @@ declare class JSDocTagImpl extends JSDocTagStructureBase implements JSDocTagStru
     tagName: string;
     text?: stringOrWriterFunction;
     constructor(tagName: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<JSDocTagStructure>, target: JSDocTagImpl): void;
     static clone(source: OptionalKind<JSDocTagStructure>): JSDocTagImpl;
     toJSON(): StructureClassToJSON<JSDocTagImpl>;
@@ -1326,6 +1344,7 @@ declare class JsxAttributeImpl extends JsxAttributeStructureBase implements JsxA
     initializer?: string;
     name: string | JsxNamespacedNameStructure;
     constructor(name: string | JsxNamespacedNameStructure);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<JsxAttributeStructure>, target: JsxAttributeImpl): void;
     static clone(source: OptionalKind<JsxAttributeStructure>): JsxAttributeImpl;
     toJSON(): StructureClassToJSON<JsxAttributeImpl>;
@@ -1342,6 +1361,7 @@ declare class JsxElementImpl extends JsxElementStructureBase implements JsxEleme
     bodyText?: string;
     readonly children: (JsxElementImpl | JsxSelfClosingElementImpl)[];
     constructor(name: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<JsxElementStructure>, target: JsxElementImpl): void;
     static clone(source: OptionalKind<JsxElementStructure>): JsxElementImpl;
     toJSON(): StructureClassToJSON<JsxElementImpl>;
@@ -1356,6 +1376,7 @@ declare class JsxSelfClosingElementImpl extends JsxSelfClosingElementStructureBa
     readonly kind: StructureKind.JsxSelfClosingElement;
     readonly attributes: (JsxAttributeImpl | JsxSpreadAttributeImpl)[];
     constructor(name: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<JsxSelfClosingElementStructure>, target: JsxSelfClosingElementImpl): void;
     static clone(source: OptionalKind<JsxSelfClosingElementStructure>): JsxSelfClosingElementImpl;
     toJSON(): StructureClassToJSON<JsxSelfClosingElementImpl>;
@@ -1369,6 +1390,7 @@ declare class JsxSpreadAttributeImpl extends JsxSpreadAttributeStructureBase imp
     readonly kind: StructureKind.JsxSpreadAttribute;
     expression: string;
     constructor(expression: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<JsxSpreadAttributeStructure>, target: JsxSpreadAttributeImpl): void;
     static clone(source: OptionalKind<JsxSpreadAttributeStructure>): JsxSpreadAttributeImpl;
     toJSON(): StructureClassToJSON<JsxSpreadAttributeImpl>;
@@ -1397,6 +1419,7 @@ declare class MethodDeclarationImpl extends MethodDeclarationStructureBase imple
     isStatic: boolean;
     readonly overloads: MethodDeclarationOverloadImpl[];
     constructor(isStatic: boolean, name: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<MethodDeclarationStructure>, target: MethodDeclarationImpl): void;
     static clone(source: OptionalKind<MethodDeclarationStructure>): MethodDeclarationImpl;
     static fromSignature(isStatic: boolean, signature: MethodSignatureImpl): MethodDeclarationImpl;
@@ -1458,6 +1481,7 @@ declare class ModuleDeclarationImpl extends ModuleDeclarationStructureBase imple
     readonly kind: StructureKind.Module;
     declarationKind?: ModuleDeclarationKind;
     constructor(name: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ModuleDeclarationStructure>, target: ModuleDeclarationImpl): void;
     static clone(source: OptionalKind<ModuleDeclarationStructure>): ModuleDeclarationImpl;
     toJSON(): StructureClassToJSON<ModuleDeclarationImpl>;
@@ -1472,6 +1496,7 @@ declare class PropertyAssignmentImpl extends PropertyAssignmentStructureBase imp
     readonly kind: StructureKind.PropertyAssignment;
     initializer: stringOrWriterFunction;
     constructor(name: string, initializer: stringOrWriterFunction);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<PropertyAssignmentStructure>, target: PropertyAssignmentImpl): void;
     static clone(source: OptionalKind<PropertyAssignmentStructure>): PropertyAssignmentImpl;
     toJSON(): StructureClassToJSON<PropertyAssignmentImpl>;
@@ -1499,6 +1524,7 @@ declare class PropertyDeclarationImpl extends PropertyDeclarationStructureBase i
     hasAccessorKeyword: boolean;
     isStatic: boolean;
     constructor(isStatic: boolean, name: string);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<PropertyDeclarationStructure>, target: PropertyDeclarationImpl): void;
     static clone(source: OptionalKind<PropertyDeclarationStructure>): PropertyDeclarationImpl;
     static fromSignature(isStatic: boolean, signature: PropertySignatureImpl): PropertyDeclarationImpl;
@@ -1576,6 +1602,7 @@ declare class SpreadAssignmentImpl extends SpreadAssignmentStructureBase impleme
     readonly kind: StructureKind.SpreadAssignment;
     expression: stringOrWriterFunction;
     constructor(expression: stringOrWriterFunction);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<SpreadAssignmentStructure>, target: SpreadAssignmentImpl): void;
     static clone(source: OptionalKind<SpreadAssignmentStructure>): SpreadAssignmentImpl;
     toJSON(): StructureClassToJSON<SpreadAssignmentImpl>;
@@ -1598,6 +1625,7 @@ declare class TypeAliasDeclarationImpl extends TypeAliasDeclarationStructureBase
     constructor(name: string, type: stringOrWriterFunction);
     get type(): stringOrWriterFunction;
     set type(value: stringOrWriterFunction);
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<TypeAliasDeclarationStructure>, target: TypeAliasDeclarationImpl): void;
     static clone(source: OptionalKind<TypeAliasDeclarationStructure>): TypeAliasDeclarationImpl;
     toJSON(): StructureClassToJSON<TypeAliasDeclarationImpl>;
@@ -1631,6 +1659,7 @@ declare class VariableStatementImpl extends VariableStatementStructureBase imple
     readonly kind: StructureKind.VariableStatement;
     declarationKind?: VariableDeclarationKind;
     readonly declarations: VariableDeclarationImpl[];
+    /** @internal */
     static [COPY_FIELDS](source: OptionalKind<VariableStatementStructure>, target: VariableStatementImpl): void;
     static clone(source: OptionalKind<VariableStatementStructure>): VariableStatementImpl;
     toJSON(): StructureClassToJSON<VariableStatementImpl>;

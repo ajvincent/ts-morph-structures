@@ -36,6 +36,7 @@ export default class JSDocImpl
   description?: stringOrWriterFunction = undefined;
   readonly tags: JSDocTagImpl[] = [];
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<JSDocStructure>,
     target: JSDocImpl,

@@ -37,7 +37,6 @@ export default class TypeAliasDeclarationImpl implements TypeAliasDeclarationStr
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.typealiasdeclarationimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.typealiasdeclarationimpl.clone.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.typealiasdeclarationimpl.tojson.md) |  |  |
 

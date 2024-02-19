@@ -36,7 +36,6 @@ export default class EnumDeclarationImpl implements EnumDeclarationStructureClas
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.enumdeclarationimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.enumdeclarationimpl.clone.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.enumdeclarationimpl.tojson.md) |  |  |
 

@@ -30,7 +30,6 @@ export default class IndexSignatureDeclarationImpl implements IndexSignatureDecl
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.indexsignaturedeclarationimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.indexsignaturedeclarationimpl.clone.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.indexsignaturedeclarationimpl.tojson.md) |  |  |
 

@@ -39,6 +39,7 @@ export default function StructureMixin(
     readonly leadingTrivia: stringOrWriterFunction[] = [];
     readonly trailingTrivia: stringOrWriterFunction[] = [];
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: Structure & Structures,
       target: StructureMixin & Structures,

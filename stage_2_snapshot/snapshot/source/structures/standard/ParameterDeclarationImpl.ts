@@ -72,6 +72,7 @@ export default class ParameterDeclarationImpl
     this.name = name;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<ParameterDeclarationStructure>,
     target: ParameterDeclarationImpl,

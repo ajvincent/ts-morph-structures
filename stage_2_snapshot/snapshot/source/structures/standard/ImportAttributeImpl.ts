@@ -37,6 +37,7 @@ export default class ImportAttributeImpl
     this.value = value;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<ImportAttributeStructure>,
     target: ImportAttributeImpl,

@@ -45,7 +45,6 @@ export default class MethodDeclarationImpl implements MethodDeclarationStructure
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.methoddeclarationimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.methoddeclarationimpl.clone.md) | <code>static</code> |  |
 |  [fromSignature(isStatic, signature)](./ts-morph-structures.methoddeclarationimpl.fromsignature.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.methoddeclarationimpl.tojson.md) |  |  |

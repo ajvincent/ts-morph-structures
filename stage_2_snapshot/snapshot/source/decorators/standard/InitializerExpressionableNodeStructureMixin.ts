@@ -41,6 +41,7 @@ export default function InitializerExpressionableNodeStructureMixin(
   class InitializerExpressionableNodeStructureMixin extends baseClass {
     initializer?: stringOrWriterFunction = undefined;
 
+    /** @internal */
     public static [COPY_FIELDS](
       source: InitializerExpressionableNodeStructure & Structures,
       target: InitializerExpressionableNodeStructureMixin & Structures,

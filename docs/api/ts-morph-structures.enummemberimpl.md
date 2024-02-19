@@ -33,7 +33,6 @@ export default class EnumMemberImpl implements EnumMemberStructureClassIfc
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [\[COPY\_FIELDS\](source, target)](./ts-morph-structures.enummemberimpl._copy_fields_.md) | <code>static</code> |  |
 |  [clone(source)](./ts-morph-structures.enummemberimpl.clone.md) | <code>static</code> |  |
 |  [toJSON()](./ts-morph-structures.enummemberimpl.tojson.md) |  |  |
 

@@ -72,6 +72,7 @@ export default class ConstructorDeclarationImpl
   readonly kind: StructureKind.Constructor = StructureKind.Constructor;
   readonly overloads: ConstructorDeclarationOverloadImpl[] = [];
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<ConstructorDeclarationStructure>,
     target: ConstructorDeclarationImpl,

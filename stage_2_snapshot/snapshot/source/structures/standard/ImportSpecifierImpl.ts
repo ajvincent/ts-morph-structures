@@ -38,6 +38,7 @@ export default class ImportSpecifierImpl
     this.name = name;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<ImportSpecifierStructure>,
     target: ImportSpecifierImpl,

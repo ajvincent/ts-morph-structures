@@ -36,6 +36,7 @@ export default class DecoratorImpl
     this.name = name;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<DecoratorStructure>,
     target: DecoratorImpl,

@@ -76,6 +76,7 @@ export default class TypeAliasDeclarationImpl
     super.type = value;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<TypeAliasDeclarationStructure>,
     target: TypeAliasDeclarationImpl,

@@ -36,6 +36,7 @@ export default class JsxSpreadAttributeImpl
     this.expression = expression;
   }
 
+  /** @internal */
   public static [COPY_FIELDS](
     source: OptionalKind<JsxSpreadAttributeStructure>,
     target: JsxSpreadAttributeImpl,
