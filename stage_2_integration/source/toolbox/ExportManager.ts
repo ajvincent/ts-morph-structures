@@ -21,7 +21,7 @@ import {
  * @example
  * ```typescript
  * publicExports.addExports({
- *   absolutePathToModule: path.join(distDir, "source/toolbox/ExportManager.ts"),
+ *   pathToExportedModule: path.join(distDir, "source/toolbox/ExportManager.ts"),
  *   exportNames: ["ExportManager"],
  *   isDefaultExport: true,
  *   isType: false,
