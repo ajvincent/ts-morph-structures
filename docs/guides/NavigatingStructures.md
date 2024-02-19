@@ -6,7 +6,7 @@ Here are some tools for finding your way around.
 
 Everything I have builds atop the existing [`Structure` interface and derived interfaces](../reference/structure-types.md) from ts-morph.  
 
-You can see at a glance the existing classes' API [in one page](../reference/structure-classes.md) or the more detailed API on a [per-class basis](../api/ts-morph-structures.md).  The class API is necessarily tighter than the interface API, for several reasons.
+You can see at a glance the existing classes' API on a [per-class basis](../api/ts-morph-structures.md).  The class API is necessarily tighter than the interface API, for several reasons.
 
 ## forEachAugmentedStructureChild()
 
