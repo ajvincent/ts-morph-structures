@@ -27,6 +27,7 @@ import LiteralTypeStructureImpl from "./LiteralTypeStructureImpl.js";
 
 type QualifierImpl = LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl;
 
+/** @example `import("ts-morph").StatementStructures` */
 export default
 class ImportTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Import>
 {

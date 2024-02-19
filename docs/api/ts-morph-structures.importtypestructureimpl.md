@@ -11,6 +11,10 @@ export default class ImportTypeStructureImpl extends TypeStructuresBase<TypeStru
 ```
 **Extends:** TypeStructuresBase&lt;[TypeStructureKind.Import](./ts-morph-structures.typestructurekind.md)<!-- -->&gt;
 
+## Example
+
+`import("ts-morph").StatementStructures`
+
 ## Constructors
 
 |  Constructor | Modifiers | Description |

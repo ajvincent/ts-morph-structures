@@ -651,6 +651,7 @@ declare class LiteralTypeStructureImpl extends TypeStructuresBase<TypeStructureK
 }
 
 type QualifierImpl = LiteralTypeStructureImpl | QualifiedNameTypeStructureImpl;
+/** @example `import("ts-morph").StatementStructures` */
 declare class ImportTypeStructureImpl extends TypeStructuresBase<TypeStructureKind.Import> {
     #private;
     readonly kind: TypeStructureKind.Import;

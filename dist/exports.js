@@ -4055,6 +4055,7 @@ class LiteralTypeStructureImpl extends TypeStructuresBase {
 }
 TypeStructureClassesMap$1.set(TypeStructureKind.Literal, LiteralTypeStructureImpl);
 
+/** @example `import("ts-morph").StatementStructures` */
 class ImportTypeStructureImpl extends TypeStructuresBase {
     static #nullIdentifier = new LiteralTypeStructureImpl("");
     #packageIdentifier;
