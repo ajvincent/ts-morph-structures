@@ -21,7 +21,7 @@ You may wonder why "test everything" isn't on this list.  I normally would do th
 
 With TypeScript 5.0, [ECMAScript decorators](https://github.com/tc39/proposal-decorators) are now available.  I decided to use them.
 
-As part of this, I'm using my [mixin-decorators](../_02_mixin_decorators/) project to ensure strong typing support via `MultiMixinBuilder`.  This allows me to create mixins with static methods, and ensure each class has the right type definitions.  (It also gives me a second use case for mixin-decorators, so I can confirm it is stable.)
+As part of this, I'm using my [mixin-decorators](https://github.com/ajvincent/mixin-decorators) project to ensure strong typing support via `MultiMixinBuilder`.  This allows me to create mixins with static methods, and ensure each class has the right type definitions.  (It also gives me a second use case for mixin-decorators, so I can confirm it is stable.)
 
 The source code is significantly more verbose than I would like, but easy to verify, especially visually.  I follow a particular pattern with class decorators in structures:
 
@@ -239,7 +239,7 @@ class ClassDeclarationImpl
 
 We get structures from ts-morph's `getStructures()` method, which ts-morph defines on `SourceFile` and several other node classes.  Given any node with a `getStructures()` method, and ts-morph's utilities for traversing structure trees and node trees, I can build the rest.
 
-The source code for these lives in the [source/bootstrap](./prototype-snapshot/bootstrap/) directory.
+The source code for these lives in the [prototype-snapshot/bootstrap](./prototype-snapshot/bootstrap/) directory.
 
 ### Structure-to-node map
 
