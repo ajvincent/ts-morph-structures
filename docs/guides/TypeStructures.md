@@ -40,26 +40,26 @@ These are type structures which contain other type structures.
 
 | Class name | Examples | Key properties |
 |------------|----------|----------------|
-| [ArrayTypeStructureImpl](../api/structures/type/ArrayTypeStructureImpl.md) | `string[]` | objectType |
-| [ConditionalTypeStructureImpl](../api/structures/type/ConditionalTypeStructureImpl.md) | `foo extends true ? string : never` | checkType, extendsType, trueType, falseType |
-| [FunctionTypeStructureImpl](../api/structures/type/FunctionTypeStructureImpl.md) | `("new" or "get" or "set" or "") name<typeParameters>(parameters, ...restParameter) ("=>" or ":" ) returnType` | name, typeParameters, parameters, restParameter, returnType, writerStyle |
-| [IndexedAccessStructureImpl](../api/structures/type/IndexedAccessTypeStructureImpl.md) | `NumberStringType["repeatForward"]` | objectType, childTypes (`[TypeStructures]`) |
-| [InferTypeStructureImpl](../api/structures/type/InferTypeStructureImpl.md) | `Elements extends [infer Head, ...infer Tail]` | typeParameter |
-| [IntersectionTypeStructureImpl](../api/structures/type/IntersectionTypeStructureImpl.md) | `Foo & Bar` | childTypes |
-| [LiteralTypeStructureImpl](../api/structures/type/LiteralTypeStructureImpl.md) | `string`, `number`, identifiers, etc. | stringValue |
-| [NumberTypeStructureImpl](../api/structures/type/NumberTypeStructureImpl.md) | 1, 2, 3, 4.5, 6, Infinity, 0.25, etc. | numberValue |
-| [MappedTypeTypeStructureImpl](../api/structures/type/MappedTypeTypeStructureImpl.md) | `{ readonly [key in keyof Foo]: boolean }` | parameter, type |
-| [MemberedObjectTypeStructureImpl](../api/structures/type/MemberedObjectTypeStructureImpl.md) | See below | getAccessors, indexSignatures, methods, properties, setAccessors |
-| [ParameterTypeStructureImpl](../api/structures/type/ParameterTypeStructureImpl.md) | `foo: boolean` | name, typeStructure |
-| [ParenthesesTypeStructureImpl](../api/structures/type/ParenthesesTypeStructureImpl.md) | `(string)` | childTypes (`[TypeStructure]`) |
-| [PrefixOperatorsTypeStructureImpl](../api/structures/type/PrefixOperatorsTypeStructureImpl.md) | `keyof typeof MyClass` | operators, objectType |
-| [QualifiedNameTypeStructureImpl](../api/structures/type//QualifiedNameTypeStructureImpl.md) | `SyntaxKind.SourceFile` | childTypes (`string[]`)|
-| [StringTypeStructureImpl](../api/structures/type/StringTypeStructureImpl.md)  | `"Hello World"` | stringValue |
-| [TemplateLiteralTypeStructureImpl](../api/structures/type/TemplateLiteralTypeStructureImpl.md) | &#x60;`one${"A"}two${"C"}three`&#x60; | head, spans |
-| [TupleTypeStructureImpl](../api/structures/type/TupleTypeStructureImpl.md) | `[string, number]` | childTypes |
-| [TypeArgumentedTypeStructureImpl](../api/structures/type/TypeArgumentedTypeStructureImpl.md) | `Pick<Array, "slice">` | objectType, childTypes |
-| [UnionTypeStructureImpl](../api/structures/type/UnionTypeStructureImpl.md) | "one" &#x7c; "two" &#x7c; "three" | childTypes |
-| [WriterTypeStructureImpl](../api/structures/type/WriterTypeStructureImpl.md) | Wrapper for `(writer: CodeBlockWriter) => void` | writerFunction |
+| [ArrayTypeStructureImpl](../api/ts-morph-structures.arraytypestructureimpl.md) | `string[]` | objectType |
+| [ConditionalTypeStructureImpl](../api/ts-morph-structures.conditionaltypestructureimpl.md) | `foo extends true ? string : never` | checkType, extendsType, trueType, falseType |
+| [FunctionTypeStructureImpl](../api/ts-morph-structures.functiontypestructureimpl.md) | `("new" or "get" or "set" or "") name<typeParameters>(parameters, ...restParameter) ("=>" or ":" ) returnType` | name, typeParameters, parameters, restParameter, returnType, writerStyle |
+| [IndexedAccessStructureImpl](../api/ts-morph-structures.indexedaccesstypestructureimpl.md) | `NumberStringType["repeatForward"]` | objectType, childTypes (`[TypeStructures]`) |
+| [InferTypeStructureImpl](../api/ts-morph-structures.infertypestructureimpl.md) | `Elements extends [infer Head, ...infer Tail]` | typeParameter |
+| [IntersectionTypeStructureImpl](../api/ts-morph-structures.intersectiontypestructureimpl.md) | `Foo & Bar` | childTypes |
+| [LiteralTypeStructureImpl](../api/ts-morph-structures.literaltypestructureimpl.md) | `string`, `number`, identifiers, etc. | stringValue |
+| [MappedTypeTypeStructureImpl](../api/ts-morph-structures.mappedtypetypestructureimpl.md) | `{ readonly [key in keyof Foo]: boolean }` | parameter, type |
+| [MemberedObjectTypeStructureImpl](../api/ts-morph-structures.memberedobjecttypestructureimpl.md) | See below | getAccessors, indexSignatures, methods, properties, setAccessors |
+| [NumberTypeStructureImpl](../api/ts-morph-structures.numbertypestructureimpl.md) | 1, 2, 3, 4.5, 6, Infinity, 0.25, etc. | numberValue |
+| [ParameterTypeStructureImpl](../api/ts-morph-structures.parametertypestructureimpl.md) | `foo: boolean` | name, typeStructure |
+| [ParenthesesTypeStructureImpl](../api/ts-morph-structures.parenthesestypestructureimpl.md) | `(string)` | childTypes (`[TypeStructure]`) |
+| [PrefixOperatorsTypeStructureImpl](../api/ts-morph-structures.prefixoperatorstypestructureimpl.md) | `keyof typeof MyClass` | operators, objectType |
+| [QualifiedNameTypeStructureImpl](../api/ts-morph-structures./qualifiednametypestructureimpl.md) | `SyntaxKind.SourceFile` | childTypes (`string[]`)|
+| [StringTypeStructureImpl](../api/ts-morph-structures.stringtypestructureimpl.md)  | `"Hello World"` | stringValue |
+| [TemplateLiteralTypeStructureImpl](../api/ts-morph-structures.templateliteraltypestructureimpl.md) | &#x60;`one${"A"}two${"C"}three`&#x60; | head, spans |
+| [TupleTypeStructureImpl](../api/ts-morph-structures.tupletypestructureimpl.md) | `[string, number]` | childTypes |
+| [TypeArgumentedTypeStructureImpl](../api/ts-morph-structures.typeargumentedtypestructureimpl.md) | `Pick<Array, "slice">` | objectType, childTypes |
+| [UnionTypeStructureImpl](../api/ts-morph-structures.uniontypestructureimpl.md) | "one" &#x7c; "two" &#x7c; "three" | childTypes |
+| [WriterTypeStructureImpl](../api/ts-morph-structures.writertypestructureimpl.md) | Wrapper for `(writer: CodeBlockWriter) => void` | writerFunction |
 
 ### Membered object types
 

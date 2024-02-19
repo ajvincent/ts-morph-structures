@@ -17,9 +17,9 @@ import {
 } from "ts-morph";
 ```
 
-[`ImportDeclarationImpl`](../api/structures/standard/ImportDeclarationImpl.md) works to support this, but it can be messy to organize several of these.  This is especially true with the `namedImports` property, which uses [`ImportSpecifierImpl`](../api/structures/standard/ImportSpecifierImpl.md) instances.
+[`ImportDeclarationImpl`](../api/ts-morph-structures.importdeclarationimpl.md) works to support this, but it can be messy to organize several of these.  This is especially true with the `namedImports` property, which uses [`ImportSpecifierImpl`](../api/ts-morph-structures.importspecifierimpl.md) instances.
 
-To make this _much_ easier to deal with, I provide an [`ImportManager`](../api/toolbox/ImportManager.md) class.  There's also an equivalent for export declarations in the [`ExportManager`](../api/toolbox/ExportManager.md) class.
+To make this _much_ easier to deal with, I provide an [`ImportManager`](../api/ts-morph-structures.importmanager.md) class.  There's also an equivalent for export declarations in the [`ExportManager`](../api/ts-morph-structures.exportmanager.md) class.
 
 ## Import Manager
 
@@ -29,9 +29,9 @@ At its heart, the `ImportManager` class has three key parts:
   - Pass in files ending in `.ts` or `.mts`.
   - I may support `.js` and `.mjs` if someone asks for it.
 2. The `addImports(context: AddImportContext)` method, which allows you to define what you're importing.
-3. The `getDeclarations()` method, which returns `ImportDeclarationImpl[]` for you to add as statements to a [`SourceFileImpl`](../api/structures/standard/SourceFileImpl.md) for your source file.
+3. The `getDeclarations()` method, which returns `ImportDeclarationImpl[]` for you to add as statements to a [`SourceFileImpl`](../api/ts-morph-structures.sourcefileimpl.md) for your source file.
 
-The [`AddImportContext`](../api/toolbox/types/toolbox.d.ts) interface is very simple:
+The [`AddImportContext`](../api/ts-morph-structures.addimportcontext.md) interface is very simple:
 
 - `pathToImportedModule`, an absolute path to the module you're importing from.
   - Packages (as opposed to modules) you can pass in, with `isPackageImport` set to true.

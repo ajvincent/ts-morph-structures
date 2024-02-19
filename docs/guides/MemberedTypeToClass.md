@@ -12,7 +12,7 @@ Some of this may seem obvious to any programmer reading this, but it's important
 
 Properties of a class represent the actual data of the class.  They are what's specific to a particular instance of a class - or for static properties, what's specific to the class itself.  Everything else in the class builds on top of them (and the base class, of course).
 
-In ts-morph-structures, the [`PropertyDeclarationImpl`](../api/structures/standard/PropertyDeclarationImpl.md) represents a property structure, and has specific (pun not intended) properties:
+In ts-morph-structures, the [`PropertyDeclarationImpl`](../api/ts-morph-structures.propertydeclarationimpl.md) represents a property structure, and has specific (pun not intended) properties:
 
 - name
 - type
@@ -25,7 +25,7 @@ In ts-morph-structures, the [`PropertyDeclarationImpl`](../api/structures/standa
 
 For type-to-class purposes, we're concerned mostly with "name", "type" and "initializer".
 
-### Constructors, methods and accessors interact with properties via [statements](../api/decorators/StatementedNodeStructureMixin.ts)
+### Constructors, methods and accessors interact with properties via statements
 
 The first part of this is obvious to any programmer, but the most important part here is in the last word.  Without statements (in a particular order), methods are useless.  So are constructors, getters and setters.
 
@@ -53,32 +53,32 @@ Yes, four dimensions of statement complexity:
 
 This becomes really important later ("ClassFieldStatementsMap").
 
-### Definition: "Membered object" = [`InterfaceDeclarationImpl`](../api/structures/standard/InterfaceDeclarationImpl.md) | [`MemberedObjectTypeStructureImpl`](../api/structures/type/MemberedObjectTypeStructureImpl.md)
+### Definition: "Membered object" = [`InterfaceDeclarationImpl`](../api/ts-morph-structures.interfacedeclarationimpl.md) | [`MemberedObjectTypeStructureImpl`](../api/ts-morph-structures.memberedobjecttypestructureimpl.md)
 
 Both of these implement ts-morph's `TypeElementMemberedNodeStructure` interface, which has several properties:
 
-- `callSignatures`: [`CallSignatureDeclarationImpl[]`](../api/structures/standard/CallSignatureDeclarationImpl.md), _`(x: string): void;`_
-- `constructSignatures`: [`ConstructSignatureDeclarationImpl[]`](../api/structures/standard/ConstructSignatureDeclarationImpl.md), _`new (x: string): SomeObject`_
-- `getAccessors`: [`GetAccessorDeclarationImpl[]`](../api/structures/standard/GetAccessorDeclarationImpl.md), _`get y(): number`_
-- `indexSignatures`: [`IndexSignatureDeclarationImpl[]`](../api/structures/standard/IndexSignatureDeclarationImpl.md), _`[key: string]: boolean;`_
-- `methods`: [`MethodSignatureImpl[]`](../api/structures/standard/MethodSignatureImpl.md), _`doSomething(value: string): void`_
-- `properties`: [`PropertySignatureImpl[]`](../api/structures/standard/PropertySignatureImpl.md), _`color: string`_
-- `setAccessors`: [`SetAccessorDeclarationImpl[]`](../api/structures/standard/SetAccessorDeclarationImpl.md), _`set y(value: number);`_
+- `callSignatures`: [`CallSignatureDeclarationImpl[]`](../api/ts-morph-structures.callsignaturedeclarationimpl.md), _`(x: string): void;`_
+- `constructSignatures`: [`ConstructSignatureDeclarationImpl[]`](../api/ts-morph-structures.constructsignaturedeclarationimpl.md), _`new (x: string): SomeObject`_
+- `getAccessors`: [`GetAccessorDeclarationImpl[]`](../api/ts-morph-structures.getaccessordeclarationimpl.md), _`get y(): number`_
+- `indexSignatures`: [`IndexSignatureDeclarationImpl[]`](../api/ts-morph-structures.indexsignaturedeclarationimpl.md), _`[key: string]: boolean;`_
+- `methods`: [`MethodSignatureImpl[]`](../api/ts-morph-structures.methodsignatureimpl.md), _`doSomething(value: string): void`_
+- `properties`: [`PropertySignatureImpl[]`](../api/ts-morph-structures.propertysignatureimpl.md), _`color: string`_
+- `setAccessors`: [`SetAccessorDeclarationImpl[]`](../api/ts-morph-structures.setaccessordeclarationimpl.md), _`set y(value: number);`_
 
-Class structures have a different, partially compatible interface: [`ClassDeclarationImpl`](../api/structures/standard/ClassDeclarationImpl.md).
+Class structures have a different, partially compatible interface: [`ClassDeclarationImpl`](../api/ts-morph-structures.classdeclarationimpl.md).
 
-- `ctors`: [`ConstructorDeclarationImpl[]`](../api/structures/standard/ClassDeclarationImpl.md): _`constructor(color: string) {/* ... */}`_
+- `ctors`: [`ConstructorDeclarationImpl[]`](../api/ts-morph-structures.constructordeclarationimpl.md): _`constructor(color: string) {/* ... */}`_
   - Maybe there is some relation to `ConstructSignatureDeclarationImpl` above, but not in this context right now.  I very much build my own here.
 - `getAccessors`: `GetAccessorDeclarationImpl[]`
-- `methods`: [`MethodDeclarationImpl[]`](../api/structures/standard/MethodDeclarationImpl.md)
-- `properties`: [`PropertyDeclarationImpl[]`](../api/structures/standard/PropertyDeclarationImpl.md)
+- `methods`: [`MethodDeclarationImpl[]`](../api/ts-morph-structures.methoddeclarationimpl.md)
+- `properties`: [`PropertyDeclarationImpl[]`](../api/ts-morph-structures.propertydeclarationimpl.md)
 - `setAccessors`: `SetAccessorDeclarationImpl[]`
 
 `MemberedTypeToClass` and its helpers try to bridge this specific gap.
 
 ## Supporting tools
 
-### [`TypeMembersMap`](../api/toolbox/TypeMembersMap.md)
+### [`TypeMembersMap`](../api/ts-morph-structures.typemembersmap.md)
 
 A membered object is ideal for serializing (writer functions not withstanding), but for getting a specific member, or for defining one, it's less direct.  `TypeMembersMap` extends `Map<string, TypeMemberImpl>` with the following definition:
 
@@ -130,7 +130,7 @@ Individual maps have specific helper methods:
 
 The `resolveIndexSignature()` method needs some explanation.  [Index signatures](https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures) represent methods and properties, but with variable _names_ for the methods and properties.  Classes require concrete names.  This method lets you provide the concrete names to replace the index signature with.
 
-### [`ClassMembersMap`](../api/toolbox/ClassMembersMap.md)
+### [`ClassMembersMap`](../api/ts-morph-structures.classmembersmap.md)
 
 Similar to `TypeMembersMap`, `ClassMembersMap extends Map<string, ClassMemberImpl>`.
 
@@ -176,7 +176,7 @@ The class member map's non-static methods are similar too:
 
 The `moveStatementsToMembers()` method requires an explanation of `ClassFieldStatementsMap`.
 
-### [`ClassFieldStatementsMap`](../api/toolbox/ClassFieldStatementsMap.md)
+### [`ClassFieldStatementsMap`](../api/ts-morph-structures.classfieldstatementsmap.md)
 
 Consider the following example:
 
@@ -313,7 +313,7 @@ Other useful methods:
 - `static normalizeKeys(fieldName: string, statementGroup: string): [string, string];`
 - `static fieldComparator(a: string, b: string): number;` (for sorting statements by field name)
 
-## [`MemberedTypeToClass`](../api/toolbox/MemberedTypeToClass.md): your driver for creating stub classes
+## [`MemberedTypeToClass`](../api/ts-morph-structures.memberedtypetoclass.md): your driver for creating stub classes
 
 Now we get to the center of it all: the `MemberedTypeToClass` class.  Primarily, it has a few tasks, in order:
 
@@ -352,7 +352,7 @@ declare class MemberedTypeToClass {
 }
 ```
 
-With an [`InterfaceDeclarationImpl`](../api/structures/standard/InterfaceDeclarationImpl.md) or a [`MemberedObjectTypeStructureImpl`](../api/structures/type/MemberedObjectTypeStructureImpl.md), or a `TypeMembersMap`, or an ordinary type member, you can define class members to build.
+With an [`InterfaceDeclarationImpl`](../api/ts-morph-structures.interfacedeclarationimpl.md) or a [`MemberedObjectTypeStructureImpl`](../api/ts-morph-structures.memberedobjecttypestructureimpl.md), or a `TypeMembersMap`, or an ordinary type member, you can define class members to build.
 
 Please note the type members you define might not be the type members you start with.  For example, your original interface might say:
 
