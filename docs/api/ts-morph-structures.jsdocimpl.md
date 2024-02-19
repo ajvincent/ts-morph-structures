@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class JSDocImpl extends JSDocStructureBase implements JSDocStructureClassIfc 
+export default class JSDocImpl implements JSDocStructureClassIfc 
 ```
-**Extends:** JSDocStructureBase
-
 **Implements:** [JSDocStructureClassIfc](./ts-morph-structures.jsdocstructureclassifc.md)
 
 ## Properties
@@ -19,7 +17,9 @@ export default class JSDocImpl extends JSDocStructureBase implements JSDocStruct
 |  --- | --- | --- | --- |
 |  [description?](./ts-morph-structures.jsdocimpl.description.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
 |  [kind](./ts-morph-structures.jsdocimpl.kind.md) | <code>readonly</code> | StructureKind.JSDoc |  |
+|  [leadingTrivia](./ts-morph-structures.jsdocimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [tags](./ts-morph-structures.jsdocimpl.tags.md) | <code>readonly</code> | [JSDocTagImpl](./ts-morph-structures.jsdoctagimpl.md)<!-- -->\[\] |  |
+|  [trailingTrivia](./ts-morph-structures.jsdocimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

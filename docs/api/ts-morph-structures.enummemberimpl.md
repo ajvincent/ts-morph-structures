@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class EnumMemberImpl extends EnumMemberStructureBase implements EnumMemberStructureClassIfc 
+export default class EnumMemberImpl implements EnumMemberStructureClassIfc 
 ```
-**Extends:** EnumMemberStructureBase
-
 **Implements:** [EnumMemberStructureClassIfc](./ts-morph-structures.enummemberstructureclassifc.md)
 
 ## Constructors
@@ -23,7 +21,12 @@ export default class EnumMemberImpl extends EnumMemberStructureBase implements E
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [docs](./ts-morph-structures.enummemberimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [initializer?](./ts-morph-structures.enummemberimpl.initializer.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
 |  [kind](./ts-morph-structures.enummemberimpl.kind.md) | <code>readonly</code> | StructureKind.EnumMember |  |
+|  [leadingTrivia](./ts-morph-structures.enummemberimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.enummemberimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.enummemberimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [value?](./ts-morph-structures.enummemberimpl.value.md) |  | string \| number | _(Optional)_ |
 
 ## Methods

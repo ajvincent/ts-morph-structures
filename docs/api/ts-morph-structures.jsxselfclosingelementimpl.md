@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class JsxSelfClosingElementImpl extends JsxSelfClosingElementStructureBase implements JsxSelfClosingElementStructureClassIfc 
+export default class JsxSelfClosingElementImpl implements JsxSelfClosingElementStructureClassIfc 
 ```
-**Extends:** JsxSelfClosingElementStructureBase
-
 **Implements:** [JsxSelfClosingElementStructureClassIfc](./ts-morph-structures.jsxselfclosingelementstructureclassifc.md)
 
 ## Constructors
@@ -25,6 +23,9 @@ export default class JsxSelfClosingElementImpl extends JsxSelfClosingElementStru
 |  --- | --- | --- | --- |
 |  [attributes](./ts-morph-structures.jsxselfclosingelementimpl.attributes.md) | <code>readonly</code> | ([JsxAttributeImpl](./ts-morph-structures.jsxattributeimpl.md) \| [JsxSpreadAttributeImpl](./ts-morph-structures.jsxspreadattributeimpl.md)<!-- -->)\[\] |  |
 |  [kind](./ts-morph-structures.jsxselfclosingelementimpl.kind.md) | <code>readonly</code> | StructureKind.JsxSelfClosingElement |  |
+|  [leadingTrivia](./ts-morph-structures.jsxselfclosingelementimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.jsxselfclosingelementimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.jsxselfclosingelementimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

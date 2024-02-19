@@ -12,7 +12,7 @@ const snapshotDir: string = pathToModule(stageDir, "snapshot");
 const typingsSnapshotDir: string = pathToModule(stageDir, "typings-snapshot");
 
 export {
-  stageDir,
   snapshotDir,
+  stageDir,
   typingsSnapshotDir,
 };

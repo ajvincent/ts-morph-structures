@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class ExportSpecifierImpl extends ExportSpecifierStructureBase implements ExportSpecifierStructureClassIfc 
+export default class ExportSpecifierImpl implements ExportSpecifierStructureClassIfc 
 ```
-**Extends:** ExportSpecifierStructureBase
-
 **Implements:** [ExportSpecifierStructureClassIfc](./ts-morph-structures.exportspecifierstructureclassifc.md)
 
 ## Constructors
@@ -26,6 +24,9 @@ export default class ExportSpecifierImpl extends ExportSpecifierStructureBase im
 |  [alias?](./ts-morph-structures.exportspecifierimpl.alias.md) |  | string | _(Optional)_ |
 |  [isTypeOnly](./ts-morph-structures.exportspecifierimpl.istypeonly.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.exportspecifierimpl.kind.md) | <code>readonly</code> | StructureKind.ExportSpecifier |  |
+|  [leadingTrivia](./ts-morph-structures.exportspecifierimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.exportspecifierimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.exportspecifierimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

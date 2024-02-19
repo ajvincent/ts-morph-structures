@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class ShorthandPropertyAssignmentImpl extends ShorthandPropertyAssignmentStructureBase implements ShorthandPropertyAssignmentStructureClassIfc 
+export default class ShorthandPropertyAssignmentImpl implements ShorthandPropertyAssignmentStructureClassIfc 
 ```
-**Extends:** ShorthandPropertyAssignmentStructureBase
-
 **Implements:** [ShorthandPropertyAssignmentStructureClassIfc](./ts-morph-structures.shorthandpropertyassignmentstructureclassifc.md)
 
 ## Constructors
@@ -24,6 +22,9 @@ export default class ShorthandPropertyAssignmentImpl extends ShorthandPropertyAs
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [kind](./ts-morph-structures.shorthandpropertyassignmentimpl.kind.md) | <code>readonly</code> | StructureKind.ShorthandPropertyAssignment |  |
+|  [leadingTrivia](./ts-morph-structures.shorthandpropertyassignmentimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.shorthandpropertyassignmentimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.shorthandpropertyassignmentimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class PropertyAssignmentImpl extends PropertyAssignmentStructureBase implements PropertyAssignmentStructureClassIfc 
+export default class PropertyAssignmentImpl implements PropertyAssignmentStructureClassIfc 
 ```
-**Extends:** PropertyAssignmentStructureBase
-
 **Implements:** [PropertyAssignmentStructureClassIfc](./ts-morph-structures.propertyassignmentstructureclassifc.md)
 
 ## Constructors
@@ -25,6 +23,9 @@ export default class PropertyAssignmentImpl extends PropertyAssignmentStructureB
 |  --- | --- | --- | --- |
 |  [initializer](./ts-morph-structures.propertyassignmentimpl.initializer.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) |  |
 |  [kind](./ts-morph-structures.propertyassignmentimpl.kind.md) | <code>readonly</code> | StructureKind.PropertyAssignment |  |
+|  [leadingTrivia](./ts-morph-structures.propertyassignmentimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.propertyassignmentimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.propertyassignmentimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

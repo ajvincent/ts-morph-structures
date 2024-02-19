@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class JsxAttributeImpl extends JsxAttributeStructureBase implements JsxAttributeStructureClassIfc 
+export default class JsxAttributeImpl implements JsxAttributeStructureClassIfc 
 ```
-**Extends:** JsxAttributeStructureBase
-
 **Implements:** [JsxAttributeStructureClassIfc](./ts-morph-structures.jsxattributestructureclassifc.md)
 
 ## Constructors
@@ -25,7 +23,9 @@ export default class JsxAttributeImpl extends JsxAttributeStructureBase implemen
 |  --- | --- | --- | --- |
 |  [initializer?](./ts-morph-structures.jsxattributeimpl.initializer.md) |  | string | _(Optional)_ |
 |  [kind](./ts-morph-structures.jsxattributeimpl.kind.md) | <code>readonly</code> | StructureKind.JsxAttribute |  |
+|  [leadingTrivia](./ts-morph-structures.jsxattributeimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [name](./ts-morph-structures.jsxattributeimpl.name.md) |  | string \| JsxNamespacedNameStructure |  |
+|  [trailingTrivia](./ts-morph-structures.jsxattributeimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

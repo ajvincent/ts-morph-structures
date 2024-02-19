@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class ModuleDeclarationImpl extends ModuleDeclarationStructureBase implements ModuleDeclarationStructureClassIfc 
+export default class ModuleDeclarationImpl implements ModuleDeclarationStructureClassIfc 
 ```
-**Extends:** ModuleDeclarationStructureBase
-
 **Implements:** [ModuleDeclarationStructureClassIfc](./ts-morph-structures.moduledeclarationstructureclassifc.md)
 
 ## Constructors
@@ -24,7 +22,15 @@ export default class ModuleDeclarationImpl extends ModuleDeclarationStructureBas
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [declarationKind?](./ts-morph-structures.moduledeclarationimpl.declarationkind.md) |  | ModuleDeclarationKind | _(Optional)_ |
+|  [docs](./ts-morph-structures.moduledeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [hasDeclareKeyword](./ts-morph-structures.moduledeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
+|  [isDefaultExport](./ts-morph-structures.moduledeclarationimpl.isdefaultexport.md) |  | boolean |  |
+|  [isExported](./ts-morph-structures.moduledeclarationimpl.isexported.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.moduledeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Module |  |
+|  [leadingTrivia](./ts-morph-structures.moduledeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.moduledeclarationimpl.name.md) |  | string |  |
+|  [statements](./ts-morph-structures.moduledeclarationimpl.statements.md) | <code>readonly</code> | (import("ts-morph").StatementStructures&lt;&gt; \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
+|  [trailingTrivia](./ts-morph-structures.moduledeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

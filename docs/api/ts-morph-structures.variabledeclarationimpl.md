@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class VariableDeclarationImpl extends VariableDeclarationStructureBase implements VariableDeclarationStructureClassIfc 
+export default class VariableDeclarationImpl implements VariableDeclarationStructureClassIfc 
 ```
-**Extends:** VariableDeclarationStructureBase
-
 **Implements:** [VariableDeclarationStructureClassIfc](./ts-morph-structures.variabledeclarationstructureclassifc.md)
 
 ## Constructors
@@ -23,7 +21,14 @@ export default class VariableDeclarationImpl extends VariableDeclarationStructur
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [hasExclamationToken](./ts-morph-structures.variabledeclarationimpl.hasexclamationtoken.md) |  | boolean |  |
+|  [initializer?](./ts-morph-structures.variabledeclarationimpl.initializer.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
 |  [kind](./ts-morph-structures.variabledeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.VariableDeclaration |  |
+|  [leadingTrivia](./ts-morph-structures.variabledeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.variabledeclarationimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.variabledeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [type?](./ts-morph-structures.variabledeclarationimpl.type.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [typeStructure](./ts-morph-structures.variabledeclarationimpl.typestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 
 ## Methods
 

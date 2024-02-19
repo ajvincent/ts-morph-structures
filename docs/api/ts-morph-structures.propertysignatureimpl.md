@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class PropertySignatureImpl extends PropertySignatureStructureBase implements PropertySignatureStructureClassIfc 
+export default class PropertySignatureImpl implements PropertySignatureStructureClassIfc 
 ```
-**Extends:** PropertySignatureStructureBase
-
 **Implements:** [PropertySignatureStructureClassIfc](./ts-morph-structures.propertysignaturestructureclassifc.md)
 
 ## Constructors
@@ -23,7 +21,16 @@ export default class PropertySignatureImpl extends PropertySignatureStructureBas
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [docs](./ts-morph-structures.propertysignatureimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [hasQuestionToken](./ts-morph-structures.propertysignatureimpl.hasquestiontoken.md) |  | boolean |  |
+|  [initializer?](./ts-morph-structures.propertysignatureimpl.initializer.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [isReadonly](./ts-morph-structures.propertysignatureimpl.isreadonly.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.propertysignatureimpl.kind.md) | <code>readonly</code> | StructureKind.PropertySignature |  |
+|  [leadingTrivia](./ts-morph-structures.propertysignatureimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.propertysignatureimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.propertysignatureimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [type?](./ts-morph-structures.propertysignatureimpl.type.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [typeStructure](./ts-morph-structures.propertysignatureimpl.typestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 
 ## Methods
 

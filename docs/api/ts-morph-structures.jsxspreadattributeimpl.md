@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class JsxSpreadAttributeImpl extends JsxSpreadAttributeStructureBase implements JsxSpreadAttributeStructureClassIfc 
+export default class JsxSpreadAttributeImpl implements JsxSpreadAttributeStructureClassIfc 
 ```
-**Extends:** JsxSpreadAttributeStructureBase
-
 **Implements:** [JsxSpreadAttributeStructureClassIfc](./ts-morph-structures.jsxspreadattributestructureclassifc.md)
 
 ## Constructors
@@ -25,6 +23,8 @@ export default class JsxSpreadAttributeImpl extends JsxSpreadAttributeStructureB
 |  --- | --- | --- | --- |
 |  [expression](./ts-morph-structures.jsxspreadattributeimpl.expression.md) |  | string |  |
 |  [kind](./ts-morph-structures.jsxspreadattributeimpl.kind.md) | <code>readonly</code> | StructureKind.JsxSpreadAttribute |  |
+|  [leadingTrivia](./ts-morph-structures.jsxspreadattributeimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [trailingTrivia](./ts-morph-structures.jsxspreadattributeimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

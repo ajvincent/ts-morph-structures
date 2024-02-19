@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class DecoratorImpl extends DecoratorStructureBase implements DecoratorStructureClassIfc 
+export default class DecoratorImpl implements DecoratorStructureClassIfc 
 ```
-**Extends:** DecoratorStructureBase
-
 **Implements:** [DecoratorStructureClassIfc](./ts-morph-structures.decoratorstructureclassifc.md)
 
 ## Constructors
@@ -25,6 +23,9 @@ export default class DecoratorImpl extends DecoratorStructureBase implements Dec
 |  --- | --- | --- | --- |
 |  [arguments](./ts-morph-structures.decoratorimpl.arguments.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [kind](./ts-morph-structures.decoratorimpl.kind.md) | <code>readonly</code> | StructureKind.Decorator |  |
+|  [leadingTrivia](./ts-morph-structures.decoratorimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.decoratorimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.decoratorimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [typeArguments](./ts-morph-structures.decoratorimpl.typearguments.md) | <code>readonly</code> | string\[\] |  |
 
 ## Methods

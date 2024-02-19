@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class TypeAliasDeclarationImpl extends TypeAliasDeclarationStructureBase implements TypeAliasDeclarationStructureClassIfc 
+export default class TypeAliasDeclarationImpl implements TypeAliasDeclarationStructureClassIfc 
 ```
-**Extends:** TypeAliasDeclarationStructureBase
-
 **Implements:** [TypeAliasDeclarationStructureClassIfc](./ts-morph-structures.typealiasdeclarationstructureclassifc.md)
 
 ## Constructors
@@ -23,8 +21,17 @@ export default class TypeAliasDeclarationImpl extends TypeAliasDeclarationStruct
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [docs](./ts-morph-structures.typealiasdeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [hasDeclareKeyword](./ts-morph-structures.typealiasdeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
+|  [isDefaultExport](./ts-morph-structures.typealiasdeclarationimpl.isdefaultexport.md) |  | boolean |  |
+|  [isExported](./ts-morph-structures.typealiasdeclarationimpl.isexported.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.typealiasdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.TypeAlias |  |
-|  [type](./ts-morph-structures.typealiasdeclarationimpl.type.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) |  |
+|  [leadingTrivia](./ts-morph-structures.typealiasdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.typealiasdeclarationimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.typealiasdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [type?](./ts-morph-structures.typealiasdeclarationimpl.type.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
+|  [typeParameters](./ts-morph-structures.typealiasdeclarationimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
+|  [typeStructure](./ts-morph-structures.typealiasdeclarationimpl.typestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 
 ## Methods
 

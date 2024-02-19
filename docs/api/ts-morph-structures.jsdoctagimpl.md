@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class JSDocTagImpl extends JSDocTagStructureBase implements JSDocTagStructureClassIfc 
+export default class JSDocTagImpl implements JSDocTagStructureClassIfc 
 ```
-**Extends:** JSDocTagStructureBase
-
 **Implements:** [JSDocTagStructureClassIfc](./ts-morph-structures.jsdoctagstructureclassifc.md)
 
 ## Constructors
@@ -24,8 +22,10 @@ export default class JSDocTagImpl extends JSDocTagStructureBase implements JSDoc
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [kind](./ts-morph-structures.jsdoctagimpl.kind.md) | <code>readonly</code> | StructureKind.JSDocTag |  |
+|  [leadingTrivia](./ts-morph-structures.jsdoctagimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [tagName](./ts-morph-structures.jsdoctagimpl.tagname.md) |  | string |  |
 |  [text?](./ts-morph-structures.jsdoctagimpl.text.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
+|  [trailingTrivia](./ts-morph-structures.jsdoctagimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class JsxElementImpl extends JsxElementStructureBase implements JsxElementStructureClassIfc 
+export default class JsxElementImpl implements JsxElementStructureClassIfc 
 ```
-**Extends:** JsxElementStructureBase
-
 **Implements:** [JsxElementStructureClassIfc](./ts-morph-structures.jsxelementstructureclassifc.md)
 
 ## Constructors
@@ -27,6 +25,9 @@ export default class JsxElementImpl extends JsxElementStructureBase implements J
 |  [bodyText?](./ts-morph-structures.jsxelementimpl.bodytext.md) |  | string | _(Optional)_ |
 |  [children](./ts-morph-structures.jsxelementimpl.children.md) | <code>readonly</code> | ([JsxElementImpl](./ts-morph-structures.jsxelementimpl.md) \| [JsxSelfClosingElementImpl](./ts-morph-structures.jsxselfclosingelementimpl.md)<!-- -->)\[\] |  |
 |  [kind](./ts-morph-structures.jsxelementimpl.kind.md) | <code>readonly</code> | StructureKind.JsxElement |  |
+|  [leadingTrivia](./ts-morph-structures.jsxelementimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.jsxelementimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.jsxelementimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

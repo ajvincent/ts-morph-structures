@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class ImportAttributeImpl extends ImportAttributeStructureBase implements ImportAttributeStructureClassIfc 
+export default class ImportAttributeImpl implements ImportAttributeStructureClassIfc 
 ```
-**Extends:** ImportAttributeStructureBase
-
 **Implements:** [ImportAttributeStructureClassIfc](./ts-morph-structures.importattributestructureclassifc.md)
 
 ## Constructors
@@ -24,7 +22,9 @@ export default class ImportAttributeImpl extends ImportAttributeStructureBase im
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [kind](./ts-morph-structures.importattributeimpl.kind.md) | <code>readonly</code> | StructureKind.ImportAttribute |  |
+|  [leadingTrivia](./ts-morph-structures.importattributeimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [name](./ts-morph-structures.importattributeimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.importattributeimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [value](./ts-morph-structures.importattributeimpl.value.md) |  | string |  |
 
 ## Methods

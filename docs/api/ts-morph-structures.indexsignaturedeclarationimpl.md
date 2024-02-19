@@ -7,20 +7,24 @@
 **Signature:**
 
 ```typescript
-export default class IndexSignatureDeclarationImpl extends IndexSignatureDeclarationStructureBase implements IndexSignatureDeclarationStructureClassIfc 
+export default class IndexSignatureDeclarationImpl implements IndexSignatureDeclarationStructureClassIfc 
 ```
-**Extends:** IndexSignatureDeclarationStructureBase
-
 **Implements:** [IndexSignatureDeclarationStructureClassIfc](./ts-morph-structures.indexsignaturedeclarationstructureclassifc.md)
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [docs](./ts-morph-structures.indexsignaturedeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [isReadonly](./ts-morph-structures.indexsignaturedeclarationimpl.isreadonly.md) |  | boolean |  |
 |  [keyName?](./ts-morph-structures.indexsignaturedeclarationimpl.keyname.md) |  | string | _(Optional)_ |
 |  [keyType](./ts-morph-structures.indexsignaturedeclarationimpl.keytype.md) |  | string \| undefined |  |
 |  [keyTypeStructure](./ts-morph-structures.indexsignaturedeclarationimpl.keytypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 |  [kind](./ts-morph-structures.indexsignaturedeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.IndexSignature |  |
+|  [leadingTrivia](./ts-morph-structures.indexsignaturedeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [returnType?](./ts-morph-structures.indexsignaturedeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [returnTypeStructure](./ts-morph-structures.indexsignaturedeclarationimpl.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
+|  [trailingTrivia](./ts-morph-structures.indexsignaturedeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

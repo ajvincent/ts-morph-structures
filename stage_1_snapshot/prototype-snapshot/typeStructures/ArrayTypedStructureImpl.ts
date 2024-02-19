@@ -39,7 +39,7 @@ implements ArrayTypedStructure
   ): ArrayTypedStructureImpl
   {
     return new ArrayTypedStructureImpl(
-      TypeStructureClassesMap.clone(other),
+      TypeStructureClassesMap.clone(other.objectType),
     );
   }
 

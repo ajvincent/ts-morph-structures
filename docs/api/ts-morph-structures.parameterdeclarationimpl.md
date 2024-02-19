@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class ParameterDeclarationImpl extends ParameterDeclarationStructureBase implements ParameterDeclarationStructureClassIfc 
+export default class ParameterDeclarationImpl implements ParameterDeclarationStructureClassIfc 
 ```
-**Extends:** ParameterDeclarationStructureBase
-
 **Implements:** [ParameterDeclarationStructureClassIfc](./ts-morph-structures.parameterdeclarationstructureclassifc.md)
 
 ## Constructors
@@ -23,9 +21,19 @@ export default class ParameterDeclarationImpl extends ParameterDeclarationStruct
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [decorators](./ts-morph-structures.parameterdeclarationimpl.decorators.md) | <code>readonly</code> | [DecoratorImpl](./ts-morph-structures.decoratorimpl.md)<!-- -->\[\] |  |
+|  [hasOverrideKeyword](./ts-morph-structures.parameterdeclarationimpl.hasoverridekeyword.md) |  | boolean |  |
+|  [hasQuestionToken](./ts-morph-structures.parameterdeclarationimpl.hasquestiontoken.md) |  | boolean |  |
+|  [initializer?](./ts-morph-structures.parameterdeclarationimpl.initializer.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [isReadonly](./ts-morph-structures.parameterdeclarationimpl.isreadonly.md) |  | boolean |  |
 |  [isRestParameter](./ts-morph-structures.parameterdeclarationimpl.isrestparameter.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.parameterdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Parameter |  |
+|  [leadingTrivia](./ts-morph-structures.parameterdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.parameterdeclarationimpl.name.md) |  | string |  |
 |  [scope?](./ts-morph-structures.parameterdeclarationimpl.scope.md) |  | Scope | _(Optional)_ |
+|  [trailingTrivia](./ts-morph-structures.parameterdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [type?](./ts-morph-structures.parameterdeclarationimpl.type.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [typeStructure](./ts-morph-structures.parameterdeclarationimpl.typestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 
 ## Methods
 

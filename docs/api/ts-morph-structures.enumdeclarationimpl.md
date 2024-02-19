@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class EnumDeclarationImpl extends EnumDeclarationStructureBase implements EnumDeclarationStructureClassIfc 
+export default class EnumDeclarationImpl implements EnumDeclarationStructureClassIfc 
 ```
-**Extends:** EnumDeclarationStructureBase
-
 **Implements:** [EnumDeclarationStructureClassIfc](./ts-morph-structures.enumdeclarationstructureclassifc.md)
 
 ## Constructors
@@ -23,9 +21,16 @@ export default class EnumDeclarationImpl extends EnumDeclarationStructureBase im
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [docs](./ts-morph-structures.enumdeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [hasDeclareKeyword](./ts-morph-structures.enumdeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
 |  [isConst](./ts-morph-structures.enumdeclarationimpl.isconst.md) |  | boolean |  |
+|  [isDefaultExport](./ts-morph-structures.enumdeclarationimpl.isdefaultexport.md) |  | boolean |  |
+|  [isExported](./ts-morph-structures.enumdeclarationimpl.isexported.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.enumdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Enum |  |
+|  [leadingTrivia](./ts-morph-structures.enumdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [members](./ts-morph-structures.enumdeclarationimpl.members.md) | <code>readonly</code> | [EnumMemberImpl](./ts-morph-structures.enummemberimpl.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.enumdeclarationimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.enumdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

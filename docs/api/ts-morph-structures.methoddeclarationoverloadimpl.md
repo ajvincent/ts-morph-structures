@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class MethodDeclarationOverloadImpl extends MethodDeclarationOverloadStructureBase implements MethodDeclarationOverloadStructureClassIfc 
+export default class MethodDeclarationOverloadImpl implements MethodDeclarationOverloadStructureClassIfc 
 ```
-**Extends:** MethodDeclarationOverloadStructureBase
-
 **Implements:** [MethodDeclarationOverloadStructureClassIfc](./ts-morph-structures.methoddeclarationoverloadstructureclassifc.md)
 
 ## Constructors
@@ -23,8 +21,21 @@ export default class MethodDeclarationOverloadImpl extends MethodDeclarationOver
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [docs](./ts-morph-structures.methoddeclarationoverloadimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [hasOverrideKeyword](./ts-morph-structures.methoddeclarationoverloadimpl.hasoverridekeyword.md) |  | boolean |  |
+|  [hasQuestionToken](./ts-morph-structures.methoddeclarationoverloadimpl.hasquestiontoken.md) |  | boolean |  |
+|  [isAbstract](./ts-morph-structures.methoddeclarationoverloadimpl.isabstract.md) |  | boolean |  |
+|  [isAsync](./ts-morph-structures.methoddeclarationoverloadimpl.isasync.md) |  | boolean |  |
+|  [isGenerator](./ts-morph-structures.methoddeclarationoverloadimpl.isgenerator.md) |  | boolean |  |
 |  [isStatic](./ts-morph-structures.methoddeclarationoverloadimpl.isstatic.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.methoddeclarationoverloadimpl.kind.md) | <code>readonly</code> | StructureKind.MethodOverload |  |
+|  [leadingTrivia](./ts-morph-structures.methoddeclarationoverloadimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [parameters](./ts-morph-structures.methoddeclarationoverloadimpl.parameters.md) | <code>readonly</code> | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] |  |
+|  [returnType?](./ts-morph-structures.methoddeclarationoverloadimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [returnTypeStructure](./ts-morph-structures.methoddeclarationoverloadimpl.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
+|  [scope?](./ts-morph-structures.methoddeclarationoverloadimpl.scope.md) |  | import("ts-morph").Scope&lt;&gt; \| undefined | _(Optional)_ |
+|  [trailingTrivia](./ts-morph-structures.methoddeclarationoverloadimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [typeParameters](./ts-morph-structures.methoddeclarationoverloadimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
 
 ## Methods
 

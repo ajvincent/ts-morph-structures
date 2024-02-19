@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class SourceFileImpl extends SourceFileStructureBase implements SourceFileStructureClassIfc 
+export default class SourceFileImpl implements SourceFileStructureClassIfc 
 ```
-**Extends:** SourceFileStructureBase
-
 **Implements:** [SourceFileStructureClassIfc](./ts-morph-structures.sourcefilestructureclassifc.md)
 
 ## Properties
@@ -18,6 +16,9 @@ export default class SourceFileImpl extends SourceFileStructureBase implements S
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [kind](./ts-morph-structures.sourcefileimpl.kind.md) | <code>readonly</code> | StructureKind.SourceFile |  |
+|  [leadingTrivia](./ts-morph-structures.sourcefileimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [statements](./ts-morph-structures.sourcefileimpl.statements.md) | <code>readonly</code> | (import("ts-morph").StatementStructures&lt;&gt; \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
+|  [trailingTrivia](./ts-morph-structures.sourcefileimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

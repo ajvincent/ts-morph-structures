@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class SpreadAssignmentImpl extends SpreadAssignmentStructureBase implements SpreadAssignmentStructureClassIfc 
+export default class SpreadAssignmentImpl implements SpreadAssignmentStructureClassIfc 
 ```
-**Extends:** SpreadAssignmentStructureBase
-
 **Implements:** [SpreadAssignmentStructureClassIfc](./ts-morph-structures.spreadassignmentstructureclassifc.md)
 
 ## Constructors
@@ -25,6 +23,8 @@ export default class SpreadAssignmentImpl extends SpreadAssignmentStructureBase 
 |  --- | --- | --- | --- |
 |  [expression](./ts-morph-structures.spreadassignmentimpl.expression.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) |  |
 |  [kind](./ts-morph-structures.spreadassignmentimpl.kind.md) | <code>readonly</code> | StructureKind.SpreadAssignment |  |
+|  [leadingTrivia](./ts-morph-structures.spreadassignmentimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [trailingTrivia](./ts-morph-structures.spreadassignmentimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

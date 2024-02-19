@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class TypeParameterDeclarationImpl extends TypeParameterDeclarationStructureBase implements TypeParameterDeclarationStructureClassIfc 
+export default class TypeParameterDeclarationImpl implements TypeParameterDeclarationStructureClassIfc 
 ```
-**Extends:** TypeParameterDeclarationStructureBase
-
 **Implements:** [TypeParameterDeclarationStructureClassIfc](./ts-morph-structures.typeparameterdeclarationstructureclassifc.md)
 
 ## Constructors
@@ -29,6 +27,9 @@ export default class TypeParameterDeclarationImpl extends TypeParameterDeclarati
 |  [defaultStructure](./ts-morph-structures.typeparameterdeclarationimpl.defaultstructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 |  [isConst](./ts-morph-structures.typeparameterdeclarationimpl.isconst.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.typeparameterdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.TypeParameter |  |
+|  [leadingTrivia](./ts-morph-structures.typeparameterdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.typeparameterdeclarationimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.typeparameterdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [variance?](./ts-morph-structures.typeparameterdeclarationimpl.variance.md) |  | TypeParameterVariance | _(Optional)_ |
 
 ## Methods

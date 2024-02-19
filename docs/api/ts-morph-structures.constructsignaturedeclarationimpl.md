@@ -7,17 +7,22 @@
 **Signature:**
 
 ```typescript
-export default class ConstructSignatureDeclarationImpl extends ConstructSignatureDeclarationStructureBase implements ConstructSignatureDeclarationStructureClassIfc 
+export default class ConstructSignatureDeclarationImpl implements ConstructSignatureDeclarationStructureClassIfc 
 ```
-**Extends:** ConstructSignatureDeclarationStructureBase
-
 **Implements:** [ConstructSignatureDeclarationStructureClassIfc](./ts-morph-structures.constructsignaturedeclarationstructureclassifc.md)
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [docs](./ts-morph-structures.constructsignaturedeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
 |  [kind](./ts-morph-structures.constructsignaturedeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.ConstructSignature |  |
+|  [leadingTrivia](./ts-morph-structures.constructsignaturedeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [parameters](./ts-morph-structures.constructsignaturedeclarationimpl.parameters.md) | <code>readonly</code> | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] |  |
+|  [returnType?](./ts-morph-structures.constructsignaturedeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [returnTypeStructure](./ts-morph-structures.constructsignaturedeclarationimpl.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
+|  [trailingTrivia](./ts-morph-structures.constructsignaturedeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [typeParameters](./ts-morph-structures.constructsignaturedeclarationimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
 
 ## Methods
 

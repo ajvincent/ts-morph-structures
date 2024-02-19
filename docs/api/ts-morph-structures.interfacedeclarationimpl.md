@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase implements InterfaceDeclarationStructureClassIfc 
+export default class InterfaceDeclarationImpl implements InterfaceDeclarationStructureClassIfc 
 ```
-**Extends:** InterfaceDeclarationStructureBase
-
 **Implements:** [InterfaceDeclarationStructureClassIfc](./ts-morph-structures.interfacedeclarationstructureclassifc.md)
 
 ## Constructors
@@ -25,14 +23,22 @@ export default class InterfaceDeclarationImpl extends InterfaceDeclarationStruct
 |  --- | --- | --- | --- |
 |  [callSignatures](./ts-morph-structures.interfacedeclarationimpl.callsignatures.md) | <code>readonly</code> | [CallSignatureDeclarationImpl](./ts-morph-structures.callsignaturedeclarationimpl.md)<!-- -->\[\] |  |
 |  [constructSignatures](./ts-morph-structures.interfacedeclarationimpl.constructsignatures.md) | <code>readonly</code> | [ConstructSignatureDeclarationImpl](./ts-morph-structures.constructsignaturedeclarationimpl.md)<!-- -->\[\] |  |
+|  [docs](./ts-morph-structures.interfacedeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
 |  [extends](./ts-morph-structures.interfacedeclarationimpl.extends.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [extendsSet](./ts-morph-structures.interfacedeclarationimpl.extendsset.md) | <code>readonly</code> | TypeStructureSet |  |
 |  [getAccessors](./ts-morph-structures.interfacedeclarationimpl.getaccessors.md) | <code>readonly</code> | [GetAccessorDeclarationImpl](./ts-morph-structures.getaccessordeclarationimpl.md)<!-- -->\[\] |  |
+|  [hasDeclareKeyword](./ts-morph-structures.interfacedeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
 |  [indexSignatures](./ts-morph-structures.interfacedeclarationimpl.indexsignatures.md) | <code>readonly</code> | [IndexSignatureDeclarationImpl](./ts-morph-structures.indexsignaturedeclarationimpl.md)<!-- -->\[\] |  |
+|  [isDefaultExport](./ts-morph-structures.interfacedeclarationimpl.isdefaultexport.md) |  | boolean |  |
+|  [isExported](./ts-morph-structures.interfacedeclarationimpl.isexported.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.interfacedeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Interface |  |
+|  [leadingTrivia](./ts-morph-structures.interfacedeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [methods](./ts-morph-structures.interfacedeclarationimpl.methods.md) | <code>readonly</code> | [MethodSignatureImpl](./ts-morph-structures.methodsignatureimpl.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.interfacedeclarationimpl.name.md) |  | string |  |
 |  [properties](./ts-morph-structures.interfacedeclarationimpl.properties.md) | <code>readonly</code> | [PropertySignatureImpl](./ts-morph-structures.propertysignatureimpl.md)<!-- -->\[\] |  |
 |  [setAccessors](./ts-morph-structures.interfacedeclarationimpl.setaccessors.md) | <code>readonly</code> | [SetAccessorDeclarationImpl](./ts-morph-structures.setaccessordeclarationimpl.md)<!-- -->\[\] |  |
+|  [trailingTrivia](./ts-morph-structures.interfacedeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [typeParameters](./ts-morph-structures.interfacedeclarationimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
 
 ## Methods
 

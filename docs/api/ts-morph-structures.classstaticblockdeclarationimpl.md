@@ -7,17 +7,19 @@
 **Signature:**
 
 ```typescript
-export default class ClassStaticBlockDeclarationImpl extends ClassStaticBlockDeclarationStructureBase implements ClassStaticBlockDeclarationStructureClassIfc 
+export default class ClassStaticBlockDeclarationImpl implements ClassStaticBlockDeclarationStructureClassIfc 
 ```
-**Extends:** ClassStaticBlockDeclarationStructureBase
-
 **Implements:** [ClassStaticBlockDeclarationStructureClassIfc](./ts-morph-structures.classstaticblockdeclarationstructureclassifc.md)
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [docs](./ts-morph-structures.classstaticblockdeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
 |  [kind](./ts-morph-structures.classstaticblockdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.ClassStaticBlock |  |
+|  [leadingTrivia](./ts-morph-structures.classstaticblockdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [statements](./ts-morph-structures.classstaticblockdeclarationimpl.statements.md) | <code>readonly</code> | (import("ts-morph").StatementStructures&lt;&gt; \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
+|  [trailingTrivia](./ts-morph-structures.classstaticblockdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

@@ -7,10 +7,8 @@
 **Signature:**
 
 ```typescript
-export default class ImportDeclarationImpl extends ImportDeclarationStructureBase implements ImportDeclarationStructureClassIfc 
+export default class ImportDeclarationImpl implements ImportDeclarationStructureClassIfc 
 ```
-**Extends:** ImportDeclarationStructureBase
-
 **Implements:** [ImportDeclarationStructureClassIfc](./ts-morph-structures.importdeclarationstructureclassifc.md)
 
 ## Constructors
@@ -27,9 +25,11 @@ export default class ImportDeclarationImpl extends ImportDeclarationStructureBas
 |  [defaultImport?](./ts-morph-structures.importdeclarationimpl.defaultimport.md) |  | string | _(Optional)_ |
 |  [isTypeOnly](./ts-morph-structures.importdeclarationimpl.istypeonly.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.importdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.ImportDeclaration |  |
+|  [leadingTrivia](./ts-morph-structures.importdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [moduleSpecifier](./ts-morph-structures.importdeclarationimpl.modulespecifier.md) |  | string |  |
 |  [namedImports](./ts-morph-structures.importdeclarationimpl.namedimports.md) | <code>readonly</code> | ([stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| [ImportSpecifierImpl](./ts-morph-structures.importspecifierimpl.md)<!-- -->)\[\] |  |
 |  [namespaceImport?](./ts-morph-structures.importdeclarationimpl.namespaceimport.md) |  | string | _(Optional)_ |
+|  [trailingTrivia](./ts-morph-structures.importdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 

@@ -7,18 +7,25 @@
 **Signature:**
 
 ```typescript
-export default class ConstructorDeclarationImpl extends ConstructorDeclarationStructureBase implements ConstructorDeclarationStructureClassIfc 
+export default class ConstructorDeclarationImpl implements ConstructorDeclarationStructureClassIfc 
 ```
-**Extends:** ConstructorDeclarationStructureBase
-
 **Implements:** [ConstructorDeclarationStructureClassIfc](./ts-morph-structures.constructordeclarationstructureclassifc.md)
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [docs](./ts-morph-structures.constructordeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
 |  [kind](./ts-morph-structures.constructordeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Constructor |  |
+|  [leadingTrivia](./ts-morph-structures.constructordeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [overloads](./ts-morph-structures.constructordeclarationimpl.overloads.md) | <code>readonly</code> | [ConstructorDeclarationOverloadImpl](./ts-morph-structures.constructordeclarationoverloadimpl.md)<!-- -->\[\] |  |
+|  [parameters](./ts-morph-structures.constructordeclarationimpl.parameters.md) | <code>readonly</code> | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] |  |
+|  [returnType?](./ts-morph-structures.constructordeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [returnTypeStructure](./ts-morph-structures.constructordeclarationimpl.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
+|  [scope?](./ts-morph-structures.constructordeclarationimpl.scope.md) |  | import("ts-morph").Scope&lt;&gt; \| undefined | _(Optional)_ |
+|  [statements](./ts-morph-structures.constructordeclarationimpl.statements.md) | <code>readonly</code> | (import("ts-morph").StatementStructures&lt;&gt; \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
+|  [trailingTrivia](./ts-morph-structures.constructordeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [typeParameters](./ts-morph-structures.constructordeclarationimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
 
 ## Methods
 

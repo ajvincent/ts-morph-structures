@@ -24,7 +24,6 @@ import {
 export default
 async function compileTypeDefinitions(): Promise<void>
 {
-
   await fs.rm(typingsSnapshotDir, { force: true, recursive: true });
   await fs.mkdir(typingsSnapshotDir);
 
