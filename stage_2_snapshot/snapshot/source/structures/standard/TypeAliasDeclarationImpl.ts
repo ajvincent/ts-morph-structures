@@ -1,4 +1,5 @@
 //#region preamble
+import type { TypeStructures } from "../../exports.js";
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
@@ -62,10 +63,14 @@ export default class TypeAliasDeclarationImpl
 {
   readonly kind: StructureKind.TypeAlias = StructureKind.TypeAlias;
 
-  constructor(name: string, type: stringOrWriterFunction) {
+  constructor(name: string, type: stringOrWriterFunction | TypeStructures) {
     super();
     this.name = name;
-    this.type = type;
+    if (typeof type === "object") {
+      this.typeStructure = type;
+    } else {
+      this.type = type;
+    }
   }
 
   get type(): stringOrWriterFunction {

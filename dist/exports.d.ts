@@ -1639,7 +1639,7 @@ declare const TypeAliasDeclarationStructureBase: mixin_decorators.MixinClass<obj
 }, typeof StructureBase>;
 declare class TypeAliasDeclarationImpl extends TypeAliasDeclarationStructureBase implements TypeAliasDeclarationStructureClassIfc {
     readonly kind: StructureKind.TypeAlias;
-    constructor(name: string, type: stringOrWriterFunction);
+    constructor(name: string, type: stringOrWriterFunction | TypeStructures);
     get type(): stringOrWriterFunction;
     set type(value: stringOrWriterFunction);
     /** @internal */

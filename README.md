@@ -109,9 +109,9 @@ import {
 } from "ts-morph-structures";
 
 function addPushableArrayType(sourceFile: SourceFile): void {
-  // TODO: allow type structures in the second argument
-  const alias = new TypeAliasDeclarationImpl("PushableArray", "T[]");
-  alias.typeStructure = parseLiteralType(`readonly T[] & Pick<T[], "push">`);
+  const alias = new TypeAliasDeclarationImpl(
+    "PushableArray", `readonly T[] & Pick<T[], "push">`
+  );
   alias.typeParameters.push(new TypeParameterDeclarationImpl("T"));
 
   sourceFile.addTypeAlias(alias);

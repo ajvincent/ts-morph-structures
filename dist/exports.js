@@ -3589,7 +3589,6 @@ class SpreadAssignmentImpl extends SpreadAssignmentStructureBase {
 }
 StructureClassesMap.set(StructureKind.SpreadAssignment, SpreadAssignmentImpl);
 
-//#region preamble
 //#endregion preamble
 const TypeAliasDeclarationStructureBase = MultiMixinBuilder([
     TypedNodeStructureMixin,
@@ -3605,7 +3604,12 @@ class TypeAliasDeclarationImpl extends TypeAliasDeclarationStructureBase {
     constructor(name, type) {
         super();
         this.name = name;
-        this.type = type;
+        if (typeof type === "object") {
+            this.typeStructure = type;
+        }
+        else {
+            this.type = type;
+        }
     }
     get type() {
         return super.type ?? "";

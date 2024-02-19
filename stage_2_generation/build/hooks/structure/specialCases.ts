@@ -18,6 +18,7 @@ import {
   LiteralTypedStructureImpl,
   ParameterDeclarationImpl,
   SetAccessorDeclarationImpl,
+  UnionTypedStructureImpl,
   VariableDeclarationImpl,
   VariableStatementImpl,
 } from "#stage_one/prototype-snapshot/exports.js";
@@ -59,6 +60,7 @@ export default function structureSpecialCases(
       break;
 
     case "TypeAliasDeclarationImpl":
+      allowTypeStructureInConstructor(parts, dictionaries);
       convertTypePropertyToAccessors(parts, dictionaries);
       break;
   }
@@ -195,6 +197,48 @@ function addParameterToSetAccessorCtor(
       // copy-fields included copying the existing parameter, so we have to drop our artificial one
       target.parameters.shift();
     }`
+  ]);
+}
+
+function allowTypeStructureInConstructor(
+  parts: StructureParts,
+  dictionaries: StructureDictionaries
+): void
+{
+  const ctor = parts.classMembersMap.getAsKind<StructureKind.Constructor>("constructor", StructureKind.Constructor);
+  const typeParam = ctor?.parameters.find(param => param.name === "type");
+  if (!typeParam)
+    throw new Error("no parameter named type?");
+
+  parts.importsManager.addImports({
+    pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+    isPackageImport: false,
+    isDefaultImport: false,
+    importNames: ["TypeStructures"],
+    isTypeOnly: true,
+  });
+
+  typeParam.typeStructure = new UnionTypedStructureImpl([
+    typeParam.typeStructure!,
+    ConstantTypeStructures.TypeStructures
+  ]);
+
+  const statements = parts.classFieldsStatements.get("type", "constructor")!;
+  parts.classFieldsStatements.set("type", "constructor", [
+    (writer: CodeBlockWriter): void => {
+      writer.write(`if (typeof type === "object")`);
+      writer.block(() => {
+        writer.write("this.typeStructure = type;");
+      });
+      writer.write("else");
+      writer.block(() => {
+        statements.forEach((statement, index) => {
+          if (typeof statement !== "string")
+            throw new Error(`unexpected statement at index ${index}: ${JSON.stringify(statement)}`);
+          writer.writeLine(statement);
+        });
+      });
+    }
   ]);
 }
 

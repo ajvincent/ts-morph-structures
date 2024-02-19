@@ -9,7 +9,7 @@ Constructs a new instance of the `TypeAliasDeclarationImpl` class
 **Signature:**
 
 ```typescript
-constructor(name: string, type: stringOrWriterFunction);
+constructor(name: string, type: stringOrWriterFunction | TypeStructures);
 ```
 
 ## Parameters
@@ -17,5 +17,5 @@ constructor(name: string, type: stringOrWriterFunction);
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  name | string |  |
-|  type | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) |  |
+|  type | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| [TypeStructures](./ts-morph-structures.typestructures.md) |  |
 
