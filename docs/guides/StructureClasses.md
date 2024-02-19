@@ -12,6 +12,22 @@ In ts-morph, [structures](https://ts-morph.com/manipulation/structures) represen
 - `.toJSON()` methods for easy serialization (think workers or child processes)
 - [Types are editable as objects](./TypeStructures.md) through an extension to the type field name
 
+## Converting from existing structures
+
+If you have an existing ts-morph structure, and you want to create a structure class instance, each structure class has a static `.clone()` method.  Just pass in your structure as the first argument, and it will return a new structure class object.
+
+Often you won't need the `kind` field.
+
+Example:
+
+```typescript
+const doc = JSDocImpl.clone({
+  description: "Hello World";
+});
+
+doc.tags.push(new JSDocTagImpl("internal"));
+```
+
 ## Creating from existing nodes
 
 Many ts-morph nodes have a `getStructure()` method on them - which return raw ts-morph structure _objects_.  This project uses `getStructure()` as a starting point to bootstrap to the full structure class instances.
@@ -111,10 +127,6 @@ So if I import `ClassDeclarationImpl` and call `new ClassDeclarationImpl`, all t
 
 Some of the structure classes have constructors to initialize required fields.
 
-## Cloning a structure
-
-If you have an existing structure and know its equivalent structure class, you can call the static `clone()` method of the class to get an instance of the class.  This is true even if the structure is _not_ an existing structure class instance.
-
 ## Accessing type structures from existing structures
 
 Generally speaking, where you have a single type field:
@@ -122,7 +134,7 @@ Generally speaking, where you have a single type field:
 - The type is a string or writer function, per ts-morph.
 - There is a matching type structure field, with the name matching and a suffix "Structure".
 
-Example:
+### Example
 
 ```typescript
 const method = new MethodSignatureDeclarationImpl("foo");
