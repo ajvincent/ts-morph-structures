@@ -1,3 +1,5 @@
+import { env } from "process";
+
 import { BuildPromiseSet } from "#utilities/source/BuildPromise.js";
 import { runModule } from "#utilities/source/runModule.js";
 import runJasmine from "#utilities/source/runJasmine.js";
@@ -135,10 +137,16 @@ const BPSet = new BuildPromiseSet;
 
 BPSet.markReady();
 {
-  BPSet.main.addSubtarget("build");
-  BPSet.main.addSubtarget("stage_0_references");
-  BPSet.main.addSubtarget("stage_1_snapshot");
-  BPSet.main.addSubtarget("stage 2");
-  BPSet.main.addSubtarget("stage 3");
+  if ((env.TSMS_STAGE === undefined) || (env.TSMS_STAGE === "one")) {
+    BPSet.main.addSubtarget("build");
+    BPSet.main.addSubtarget("stage_0_references");
+    BPSet.main.addSubtarget("stage_1_snapshot");
+  }
+  if ((env.TSMS_STAGE === undefined) || (env.TSMS_STAGE === "two")) {
+    BPSet.main.addSubtarget("stage 2");
+  }
+  if ((env.TSMS_STAGE === undefined) || (env.TSMS_STAGE === "three")) {
+    BPSet.main.addSubtarget("stage 3");
+  }
 }
 await BPSet.main.run();

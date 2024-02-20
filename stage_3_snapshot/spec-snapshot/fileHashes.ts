@@ -27,7 +27,7 @@ const stage_three_snapshot = path.join(projectDir, "stage_3_snapshot/snapshot");
  * 3. Do the files hash to exactly the same value?
  *
  * The second one is a strong dogfood test: it uses `getTypeAugmentedStructure` to build the structure,
- * then serializes it for comparison
+ * then serializes it for comparison.
  */
 
 describe("File hashes match for the", () => {
