@@ -178,8 +178,16 @@ class StructureAndNodeData {
     const kind: SyntaxKind = node.getKind();
 
     // Build the node hash, and register the node.
-    if (knownSyntaxKinds.has(kind)) {
-      hash += "/" + this.#hashNodeLocal(node);
+    if (knownSyntaxKinds.has(kind) && this.#nodeToHash.has(node) === false) {
+      const localHash = this.#hashNodeLocal(node);
+      assert(localHash, "this.#hashNodeLocal() must return a non-empty string");
+
+      hash += "/" + localHash;
+      assert.doesNotMatch(
+        localHash,
+        /^\//,
+        "local hash part must not start with a slash: " + localHash,
+      );
       this.#nodeToHash.set(node, hash);
 
       if (!this.#nodeSetsByHash.has(hash)) {
@@ -189,7 +197,6 @@ class StructureAndNodeData {
 
       nodeSet.add(node);
       this.#unusedNodes.add(node);
-      this.#nodeToHash.set(node, hash);
     }
 
     // Visit child nodes, recursively, with the resolved hash.
@@ -345,6 +352,10 @@ class StructureAndNodeData {
   #mapStructureToNode(structure: Structures): void {
     const structureHash = this.#hashStructureLocal(structure);
     const nodeHash = this.#createNodeHashFromStructure(structure);
+    assert(
+      nodeHash.includes("//") === false,
+      "node hash must not contain two consecutive slashes: " + nodeHash,
+    );
 
     let parentStructure: Structures | null = null;
 
@@ -353,16 +364,13 @@ class StructureAndNodeData {
     let parentNodeHash = "";
     if (structure !== this.#rootStructure) {
       parentStructure = this.#structureToParent.get(structure)!;
-      if (!parentStructure) {
-        throw new Error("assert failure, no parent structure");
-      }
+      assert(parentStructure, "must have a parent structure");
 
       parentNode = this.structureToNodeMap.get(parentStructure) ?? null;
-      if (!parentNode) throw new Error("assert failure, parent node not found");
+      assert(parentNode, "must find a parent node");
 
       parentNodeHash = this.#nodeToHash.get(parentNode)!;
-      if (!parentNodeHash)
-        throw new Error("assert failure, parent node hash not found");
+      assert(parentNodeHash, "must find a hash for a parent node");
     }
 
     void parentNode;
@@ -384,7 +392,8 @@ class StructureAndNodeData {
           sourceFile.getLineAndColumnAtPos(parentNode.getPos()),
         )}`;
       }
-      throw new Error(
+      assert(
+        false,
         `Expected candidate node to exist, structureHash = "${structureHash}", nodeHash = "${nodeHash}"${parentMsg}`,
       );
     }
@@ -412,15 +421,13 @@ class StructureAndNodeData {
       const parentStructure = this.#structureToParent.get(structure)!;
       const parentNode = this.structureToNodeMap.get(parentStructure)!;
       const parentHashTemp = this.#nodeToHash.get(parentNode);
-      if (parentHashTemp === undefined) {
-        throw new Error("assert failure, no parent hash");
-      }
+      assert(parentHashTemp !== undefined, "must have a parent hash");
       parentHash = parentHashTemp;
     }
 
     let localKind =
       SyntaxKind[StructureKindToSyntaxKindMap.get(structure.kind)!];
-    // Sometimes TypeScript assigned the same syntax kind number to multiple strings ihe SyntaxKind enum...
+    // Sometimes TypeScript assigned the same syntax kind number to multiple strings in the SyntaxKind enum...
     if (localKind === "JSDocComment") localKind = "JSDoc";
     if (localKind === "FirstStatement") localKind = "VariableStatement";
 

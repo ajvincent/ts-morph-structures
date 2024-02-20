@@ -71,8 +71,7 @@ async function compareSnapshots(
   if (diffFileNames.length > 0)
     return;
 
-  // eslint-disable-next-line no-constant-condition
-  if (false) {
+  {
     const structureComparisons = compareFileStructures(
       {
         isAbsolutePath: true,

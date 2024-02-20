@@ -1180,8 +1180,11 @@ class StructureAndNodeData {
     #collectDescendantNodes = (node, hash) => {
         const kind = node.getKind();
         // Build the node hash, and register the node.
-        if (knownSyntaxKinds.has(kind)) {
-            hash += "/" + this.#hashNodeLocal(node);
+        if (knownSyntaxKinds.has(kind) && this.#nodeToHash.has(node) === false) {
+            const localHash = this.#hashNodeLocal(node);
+            assert(localHash, "this.#hashNodeLocal() must return a non-empty string");
+            hash += "/" + localHash;
+            assert.doesNotMatch(localHash, /^\//, "local hash part must not start with a slash: " + localHash);
             this.#nodeToHash.set(node, hash);
             if (!this.#nodeSetsByHash.has(hash)) {
                 this.#nodeSetsByHash.set(hash, new Set());
@@ -1189,7 +1192,6 @@ class StructureAndNodeData {
             const nodeSet = this.#nodeSetsByHash.get(hash);
             nodeSet.add(node);
             this.#unusedNodes.add(node);
-            this.#nodeToHash.set(node, hash);
         }
         // Visit child nodes, recursively, with the resolved hash.
         if (Node.isJSDocable(node)) {
@@ -1322,21 +1324,18 @@ class StructureAndNodeData {
     #mapStructureToNode(structure) {
         const structureHash = this.#hashStructureLocal(structure);
         const nodeHash = this.#createNodeHashFromStructure(structure);
+        assert(nodeHash.includes("//") === false, "node hash must not contain two consecutive slashes: " + nodeHash);
         let parentStructure = null;
         // these are outside the statement block for debugging purposes.
         let parentNode = null;
         let parentNodeHash = "";
         if (structure !== this.#rootStructure) {
             parentStructure = this.#structureToParent.get(structure);
-            if (!parentStructure) {
-                throw new Error("assert failure, no parent structure");
-            }
+            assert(parentStructure, "must have a parent structure");
             parentNode = this.structureToNodeMap.get(parentStructure) ?? null;
-            if (!parentNode)
-                throw new Error("assert failure, parent node not found");
+            assert(parentNode, "must find a parent node");
             parentNodeHash = this.#nodeToHash.get(parentNode);
-            if (!parentNodeHash)
-                throw new Error("assert failure, parent node hash not found");
+            assert(parentNodeHash, "must find a hash for a parent node");
         }
         const candidateNodes = this.#nodeSetsByHash.get(nodeHash);
         if (!candidateNodes || candidateNodes.size === 0) {
@@ -1350,7 +1349,7 @@ class StructureAndNodeData {
                 const sourceFile = this.#rootNode.getSourceFile();
                 parentMsg = `, parent at ${JSON.stringify(sourceFile.getLineAndColumnAtPos(parentNode.getPos()))}`;
             }
-            throw new Error(`Expected candidate node to exist, structureHash = "${structureHash}", nodeHash = "${nodeHash}"${parentMsg}`);
+            assert(false, `Expected candidate node to exist, structureHash = "${structureHash}", nodeHash = "${nodeHash}"${parentMsg}`);
         }
         // First-in, first-out set, so map the first node and exit.
         for (const node of candidateNodes) {
@@ -1374,13 +1373,11 @@ class StructureAndNodeData {
             const parentStructure = this.#structureToParent.get(structure);
             const parentNode = this.structureToNodeMap.get(parentStructure);
             const parentHashTemp = this.#nodeToHash.get(parentNode);
-            if (parentHashTemp === undefined) {
-                throw new Error("assert failure, no parent hash");
-            }
+            assert(parentHashTemp !== undefined, "must have a parent hash");
             parentHash = parentHashTemp;
         }
         let localKind = SyntaxKind[StructureKindToSyntaxKindMap.get(structure.kind)];
-        // Sometimes TypeScript assigned the same syntax kind number to multiple strings ihe SyntaxKind enum...
+        // Sometimes TypeScript assigned the same syntax kind number to multiple strings in the SyntaxKind enum...
         if (localKind === "JSDocComment")
             localKind = "JSDoc";
         if (localKind === "FirstStatement")
