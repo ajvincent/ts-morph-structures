@@ -38,6 +38,7 @@ Many ts-morph nodes have a `getStructure()` method on them - which return raw ts
  * @param rootNode - The node to start from.
  * @param userConsole - a callback for conversion failures.
  * @param assertNoFailures - if true, assert there are no conversion failures.
+ *
  * @returns the root structure, the root node, and any failures during recursion.
  */
 declare function getTypeAugmentedStructure(
@@ -45,6 +46,21 @@ declare function getTypeAugmentedStructure(
   userConsole: TypeNodeToTypeStructureConsole,
   assertNoFailures: boolean
 ): RootStructureWithConvertFailures;
+
+/**
+ * Get a structure for a node, with type structures installed throughout its descendants.
+ * @param rootNode - The node to start from.
+ * @param userConsole - a callback for conversion failures.
+ * @param assertNoFailures - if true, assert there are no conversion failures.
+ * @param kind - the expected structure kind to retrieve.
+ * @returns the root structure, the root node, and any failures during recursion.
+ */
+declare function getTypeAugmentedStructure<TKind extends StructureKind>(
+  rootNode: NodeWithStructures,
+  userConsole: TypeNodeToTypeStructureConsole,
+  assertNoFailures: boolean,
+  kind: TKind
+): RootStructureWithConvertFailures<TKind>;
 
 interface NodeWithStructures extends Node {
   getStructure(): Structures;
@@ -64,9 +80,11 @@ declare function VoidTypeNodeToTypeStructureConsole(
   failingTypeNode: TypeNode
 ): void;
 
-interface RootStructureWithConvertFailures {
-  rootStructure: StructureImpls;
-  rootNode: NodeWithStructures;
+interface RootStructureWithConvertFailures<
+  TKind extends StructureKind = StructureKind,
+>
+{
+  rootStructure: Extract<StructureImpls, KindedStructure<TKind>>;
   failures: readonly BuildTypesForStructureFailures[];
 }
 
@@ -80,6 +98,7 @@ All of these are exports from `"ts-morph-structures"`:
 
 - The `userConsole` is a callback function for when ts-morph-structures might fail to convert a value.  (If it does, please file a bug.)
 - `assertNoFailures` will cause te conversion to throw an exception if any conversion fails, recursively.
+- Passing in a `kind` argument will force a check against the node you pass in for a matching _syntax_ kind, and assert the returned structure is of the kind you pass in.
 - Usually, you just want the `rootStructure` of the `getTypeAugmentedStructure()` output.
 
 ## Creating from scratch

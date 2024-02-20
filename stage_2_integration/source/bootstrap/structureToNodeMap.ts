@@ -24,8 +24,6 @@ import type {
 } from "./types/conversions.js";
 // #endregion preamble
 
-const knownSyntaxKinds = new Set<SyntaxKind>(StructureKindToSyntaxKindMap.values());
-
 /**
  * Get structures for a node and its descendants.
  * @param nodeWithStructures - The node.
@@ -82,6 +80,8 @@ export function structureToNodeMap(
  */
 class StructureAndNodeData
 {
+  static #knownSyntaxKinds?: ReadonlySet<SyntaxKind>;
+
   readonly structureToNodeMap = new Map<Structures, Node>;
 
   // #region private fields, and life-cycle.
@@ -176,9 +176,12 @@ class StructureAndNodeData
   ): void =>
   {
     const kind: SyntaxKind = node.getKind();
+    if (!StructureAndNodeData.#knownSyntaxKinds) {
+      StructureAndNodeData.#knownSyntaxKinds = new Set<SyntaxKind>(StructureKindToSyntaxKindMap.values());
+    }
 
     // Build the node hash, and register the node.
-    if (knownSyntaxKinds.has(kind) && (this.#nodeToHash.has(node) === false)) {
+    if (StructureAndNodeData.#knownSyntaxKinds.has(kind) && (this.#nodeToHash.has(node) === false)) {
       const localHash = this.#hashNodeLocal(node);
       assert(localHash, "this.#hashNodeLocal() must return a non-empty string");
 

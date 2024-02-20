@@ -91,6 +91,7 @@
 |  --- | --- |
 |  [forEachAugmentedStructureChild(structureOrArray, callback)](./ts-morph-structures.foreachaugmentedstructurechild.md) | Iterates over the children of a structure (or type structure), or the elements of an array of structures and type structures. |
 |  [getTypeAugmentedStructure(rootNode, userConsole, assertNoFailures)](./ts-morph-structures.gettypeaugmentedstructure.md) | Get a structure for a node, with type structures installed throughout its descendants. |
+|  [getTypeAugmentedStructure(rootNode, userConsole, assertNoFailures, kind)](./ts-morph-structures.gettypeaugmentedstructure_1.md) | Get a structure for a node, with type structures installed throughout its descendants. |
 |  [parseLiteralType(source)](./ts-morph-structures.parseliteraltype.md) |  |
 |  [VoidTypeNodeToTypeStructureConsole(message, failingTypeNode)](./ts-morph-structures.voidtypenodetotypestructureconsole.md) |  |
 

@@ -1,5 +1,5 @@
 import * as ts_morph from 'ts-morph';
-import { OptionalKind, Structures, WriterFunction, TypeNode, Node, CodeBlockWriter, StructureKind, JsxNamespacedNameStructure, ModuleDeclarationKind, Scope, StatementStructures, TypeParameterVariance, VariableDeclarationKind, JSDocStructure, TypeParameterDeclarationStructure, DecoratorStructure, ParameterDeclarationStructure, CallSignatureDeclarationStructure, ClassDeclarationStructure, ClassStaticBlockDeclarationStructure, ConstructorDeclarationStructure, ConstructorDeclarationOverloadStructure, ConstructSignatureDeclarationStructure, EnumDeclarationStructure, EnumMemberStructure, ExportAssignmentStructure, ExportDeclarationStructure, ExportSpecifierStructure, FunctionDeclarationStructure, FunctionDeclarationOverloadStructure, GetAccessorDeclarationStructure, ImportAttributeStructure, ImportDeclarationStructure, ImportSpecifierStructure, IndexSignatureDeclarationStructure, InterfaceDeclarationStructure, JSDocTagStructure, JsxAttributeStructure, JsxElementStructure, JsxSelfClosingElementStructure, JsxSpreadAttributeStructure, MethodDeclarationStructure, MethodDeclarationOverloadStructure, MethodSignatureStructure, ModuleDeclarationStructure, PropertyAssignmentStructure, PropertyDeclarationStructure, PropertySignatureStructure, SetAccessorDeclarationStructure, ShorthandPropertyAssignmentStructure, SourceFileStructure, SpreadAssignmentStructure, TypeAliasDeclarationStructure, VariableDeclarationStructure, VariableStatementStructure, KindedStructure } from 'ts-morph';
+import { OptionalKind, Structures, WriterFunction, TypeNode, Node, StructureKind, KindedStructure, CodeBlockWriter, JsxNamespacedNameStructure, ModuleDeclarationKind, Scope, StatementStructures, TypeParameterVariance, VariableDeclarationKind, JSDocStructure, TypeParameterDeclarationStructure, DecoratorStructure, ParameterDeclarationStructure, CallSignatureDeclarationStructure, ClassDeclarationStructure, ClassStaticBlockDeclarationStructure, ConstructorDeclarationStructure, ConstructorDeclarationOverloadStructure, ConstructSignatureDeclarationStructure, EnumDeclarationStructure, EnumMemberStructure, ExportAssignmentStructure, ExportDeclarationStructure, ExportSpecifierStructure, FunctionDeclarationStructure, FunctionDeclarationOverloadStructure, GetAccessorDeclarationStructure, ImportAttributeStructure, ImportDeclarationStructure, ImportSpecifierStructure, IndexSignatureDeclarationStructure, InterfaceDeclarationStructure, JSDocTagStructure, JsxAttributeStructure, JsxElementStructure, JsxSelfClosingElementStructure, JsxSpreadAttributeStructure, MethodDeclarationStructure, MethodDeclarationOverloadStructure, MethodSignatureStructure, ModuleDeclarationStructure, PropertyAssignmentStructure, PropertyDeclarationStructure, PropertySignatureStructure, SetAccessorDeclarationStructure, ShorthandPropertyAssignmentStructure, SourceFileStructure, SpreadAssignmentStructure, TypeAliasDeclarationStructure, VariableDeclarationStructure, VariableStatementStructure } from 'ts-morph';
 import * as mixin_decorators from 'mixin-decorators';
 import { Writable, ReadonlyDeep } from 'type-fest';
 
@@ -62,9 +62,10 @@ type TypeNodeToTypeStructureConsole = (
   failingTypeNode: TypeNode,
 ) => void;
 
-interface RootStructureWithConvertFailures {
-  rootStructure: StructureImpls;
-  rootNode: NodeWithStructures;
+interface RootStructureWithConvertFailures<
+  TKind extends StructureKind = StructureKind,
+> {
+  rootStructure: Extract<StructureImpls, KindedStructure<TKind>>;
   failures: readonly BuildTypesForStructureFailures[];
 }
 
@@ -177,6 +178,15 @@ interface KindedTypeStructure<TKind extends TypeStructureKind> extends TypedNode
  * @returns the root structure, the root node, and any failures during recursion.
  */
 declare function getTypeAugmentedStructure(rootNode: NodeWithStructures, userConsole: TypeNodeToTypeStructureConsole, assertNoFailures: boolean): RootStructureWithConvertFailures;
+/**
+ * Get a structure for a node, with type structures installed throughout its descendants.
+ * @param rootNode - The node to start from.
+ * @param userConsole - a callback for conversion failures.
+ * @param assertNoFailures - if true, assert there are no conversion failures.
+ * @param kind - the expected structure kind to retrieve.
+ * @returns the root structure, the root node, and any failures during recursion.
+ */
+declare function getTypeAugmentedStructure<TKind extends StructureKind>(rootNode: NodeWithStructures, userConsole: TypeNodeToTypeStructureConsole, assertNoFailures: boolean, kind: TKind): RootStructureWithConvertFailures<TKind>;
 
 declare function parseLiteralType(source: string): TypeStructures;
 

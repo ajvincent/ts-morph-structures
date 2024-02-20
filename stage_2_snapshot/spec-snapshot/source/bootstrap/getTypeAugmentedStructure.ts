@@ -1,5 +1,5 @@
 import {
-  TypeNode,
+  StructureKind,
 } from "ts-morph";
 
 import type {
@@ -15,8 +15,8 @@ import {
   LiteralTypeStructureImpl,
   MethodDeclarationImpl,
   TypeArgumentedTypeStructureImpl,
-  TypeNodeToTypeStructureConsole,
   TypeParameterDeclarationImpl,
+  VoidTypeNodeToTypeStructureConsole,
 } from "#stage_two/snapshot/source/exports.js";
 
 it("getTypeAugmentedStructure gets structures having type structures for types", () => {
@@ -28,21 +28,10 @@ it("getTypeAugmentedStructure gets structures having type structures for types",
   const sourceFile = getTS_SourceFile(stageDir, "fixtures/stage_utilities/DefaultMap.ts");
   const DefaultWeakMapClass = sourceFile.getClassOrThrow("DefaultWeakMap");
 
-  function typeStructureConsole(
-    message: string,
-    failingTypeNode: TypeNode
-  ): void {
-    void(message);
-    void(failingTypeNode);
-  }
-  typeStructureConsole satisfies TypeNodeToTypeStructureConsole;
-
   const {
-    rootNode,
     rootStructure,
     failures
-  } = getTypeAugmentedStructure(DefaultWeakMapClass, typeStructureConsole, false);
-  expect(rootNode).toBe(DefaultWeakMapClass);
+  } = getTypeAugmentedStructure(DefaultWeakMapClass, VoidTypeNodeToTypeStructureConsole, false);
 
   expect(rootStructure).toBeInstanceOf(ClassDeclarationImpl);
   if (!(rootStructure instanceof ClassDeclarationImpl))
@@ -95,4 +84,25 @@ it("getTypeAugmentedStructure gets structures having type structures for types",
   }
 
   expect(failures.length).withContext("failure count").toBe(0);
+});
+
+it("getTypeAugmentedStructure can specify the structure kind", () => {
+  const stageDir: ModuleSourceDirectory = {
+    isAbsolutePath: true,
+    pathToDirectory: "#stage_two",
+  };
+
+  const sourceFile = getTS_SourceFile(stageDir, "fixtures/stage_utilities/DefaultMap.ts");
+  const DefaultWeakMapClass = sourceFile.getClassOrThrow("DefaultWeakMap");
+
+  expect(() => getTypeAugmentedStructure(
+    DefaultWeakMapClass, VoidTypeNodeToTypeStructureConsole, true, StructureKind.Method
+  )).toThrowError();
+
+  const {
+    rootStructure,
+  } = getTypeAugmentedStructure(
+    DefaultWeakMapClass, VoidTypeNodeToTypeStructureConsole, true, StructureKind.Class
+  );
+  expect(rootStructure.kind).toBe(StructureKind.Class);
 });

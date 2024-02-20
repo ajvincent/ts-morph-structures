@@ -1,6 +1,8 @@
 import {
+  type KindedStructure,
   Node,
   Structures,
+  type StructureKind,
   TypeNode,
 } from "ts-morph";
 
@@ -44,8 +46,7 @@ export type TypeNodeToTypeStructure = (
   subStructureResolver: SubstructureResolver,
 ) => TypeStructuresOrNull
 
-export interface RootStructureWithConvertFailures {
-  rootStructure: StructureImpls;
-  rootNode: NodeWithStructures;
+export interface RootStructureWithConvertFailures<TKind extends StructureKind = StructureKind> {
+  rootStructure: Extract<StructureImpls, KindedStructure<TKind>>;
   failures: readonly BuildTypesForStructureFailures[];
 }
