@@ -97,11 +97,48 @@ const BPSet = new BuildPromiseSet;
 }
 // #endregion stage 2
 
+// #region stage 3
+{
+  const target = BPSet.get("stage 3");
+  target.addSubtarget("stage_3_generation");
+  target.addSubtarget("stage_3_integration");
+  target.addSubtarget("stage_3_snapshot");
+}
+
+{
+  const target = BPSet.get("stage_3_generation");
+  target.addTask(async () => {
+    console.log("starting stage_3_generation");
+    await recursiveBuild("stage_3_generation", "buildStage.ts");
+    console.log("completed stage_3_generation");
+  });
+}
+
+{
+  const target = BPSet.get("stage_3_integration");
+  target.addTask(async (): Promise<void> => {
+    console.log("starting stage_3_integration");
+    await recursiveBuild("stage_3_integration", "buildStage.ts");
+    console.log("completed stage_3_integration");
+  });
+}
+
+{
+  const target = BPSet.get("stage_3_snapshot");
+  target.addTask(async (): Promise<void> => {
+    console.log("starting stage_3_snapshot");
+    await recursiveBuild("stage_3_snapshot", "buildStage.ts");
+    console.log("completed stage_3_snapshot");
+  });
+}
+// #endregion stage 3
+
 BPSet.markReady();
 {
   BPSet.main.addSubtarget("build");
   BPSet.main.addSubtarget("stage_0_references");
   BPSet.main.addSubtarget("stage_1_snapshot");
   BPSet.main.addSubtarget("stage 2");
+  BPSet.main.addSubtarget("stage 3");
 }
 await BPSet.main.run();

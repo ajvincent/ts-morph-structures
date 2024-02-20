@@ -18,6 +18,9 @@
     "debug-stage-two-generation": "TSMS_DEBUG='stage_2_generation' node --import ./register-hooks.js ./build.ts",
     "debug-stage-two-integration": "TSMS_DEBUG='stage_2_integration' node --import ./register-hooks.js ./build.ts",
     "debug-stage-two-test": "TSMS_DEBUG='stage_two_test' node --import ./register-hooks.js ./build.ts",
+    "debug-stage-three-generation": "TSMS_DEBUG='stage_3_generation' node --import ./register-hooks.js ./build.ts",
+    "debug-stage-three-integration": "TSMS_DEBUG='stage_3_integration' node --import ./register-hooks.js ./build.ts",
+    "debug-stage-three-test": "TSMS_DEBUG='stage_three_test' node --import ./register-hooks.js ./build.ts",
     "tsc-tasks": "tsc --project ./utilities/source/tasks/tsconfig.json",
     "postinstall": "patch-package"
   },

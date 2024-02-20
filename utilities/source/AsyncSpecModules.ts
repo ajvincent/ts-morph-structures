@@ -22,11 +22,11 @@ interface PathToDirectory {
   pathToDirectory: string;
 }
 
-interface PathWithImportMeta extends PathToDirectory {
+export interface PathWithImportMeta extends PathToDirectory {
   importMeta: ImportMeta;
 }
 
-interface PathToAbsoluteDirectory extends PathToDirectory {
+export interface PathToAbsoluteDirectory extends PathToDirectory {
   isAbsolutePath: true;
 }
 

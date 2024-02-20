@@ -9,6 +9,4 @@ stage_2_snapshot/snapshot/coverage
 stage_3_generation/dist
 stage_3_integration/snapshot
 stage_3_integration/typings-snapshot
-stage_3_snapshot/snapshot/dist
-stage_3_snapshot/snapshot/docs
-stage_3_snapshot/snapshot/coverage
+stage_3_snapshot/snapshot
