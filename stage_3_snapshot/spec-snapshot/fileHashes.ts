@@ -3,7 +3,7 @@ import path from "path";
 import {
   VoidTypeNodeToTypeStructureConsole,
   getTypeAugmentedStructure,
-} from "#stage_two/snapshot/dist/exports.js";
+} from "#stage_two/snapshot/source/exports.js";
 
 import getTS_SourceFile from "#utilities/source/getTS_SourceFile.js";
 

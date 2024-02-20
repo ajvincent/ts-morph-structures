@@ -4,7 +4,7 @@ import {
 
 import {
   ClassMembersMap
-} from "#stage_two/snapshot/dist/exports.js";
+} from "#stage_two/snapshot/source/exports.js";
 
 import {
   type ModuleSourceDirectory,
