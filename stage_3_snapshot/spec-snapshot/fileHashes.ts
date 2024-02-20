@@ -39,8 +39,7 @@ describe("File hashes match for the", () => {
     await compareSnapshots("source/base");
   });
 
-  // disabled for the structureToSyntax.ts file, which is generated
-  xit("bootstrap files", async () => {
+  it("bootstrap files", async () => {
     await compareSnapshots("source/bootstrap");
   });
 

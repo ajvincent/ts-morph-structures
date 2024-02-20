@@ -7,8 +7,8 @@ import {
 } from "#utilities/source/runModule.js";
 
 import copySnapshot from "./build/copySnapshot.js";
-/*
 import structureToSyntax from "./build/structureToSyntax.js";
+/*
 import compileTypeDefinitions from "./build/typedefs.js";
 import doBundles from "./build/bundle.js";
 import runAPIExtractor from "./build/runAPIExtractor.js";
@@ -45,7 +45,6 @@ const BPSet = new BuildPromiseSet;
   });
 }
 
-/*
 { // structureToSyntax
   const target = BPSet.get("structureToSyntax");
   target.addTask(async () => {
@@ -54,6 +53,7 @@ const BPSet = new BuildPromiseSet;
   });
 }
 
+/*
 { // bundle
   const target = BPSet.get("bundle");
   target.addTask(async () => {
@@ -79,8 +79,8 @@ BPSet.markReady();
 {
   BPSet.main.addSubtarget("eslint");
   BPSet.main.addSubtarget("copySnapshot");
-  /*
   BPSet.main.addSubtarget("structureToSyntax");
+  /*
   BPSet.main.addSubtarget("bundle");
   BPSet.main.addSubtarget("docs");
   */
