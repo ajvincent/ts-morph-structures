@@ -1,4 +1,5 @@
 //#region preamble
+import type { ParameterDeclarationStructureClassIfc } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
@@ -11,7 +12,6 @@ import {
   NamedNodeStructureMixin,
   type OverrideableNodeStructureFields,
   OverrideableNodeStructureMixin,
-  type ParameterDeclarationStructureClassIfc,
   type QuestionTokenableNodeStructureFields,
   QuestionTokenableNodeStructureMixin,
   type ReadonlyableNodeStructureFields,

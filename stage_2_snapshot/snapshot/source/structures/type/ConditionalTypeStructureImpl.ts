@@ -1,8 +1,9 @@
 import type { CodeBlockWriter, WriterFunction } from "ts-morph";
 
 import {
-  TypeStructureKind,
+  LiteralTypeStructureImpl,
   type StructureImpls,
+  TypeStructureKind,
   type TypeStructures,
 } from "../../exports.js";
 
@@ -11,7 +12,6 @@ import {
   STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructuresBase,
   TypeStructureClassesMap,
-  LiteralTypeStructureImpl,
 } from "../../internal-exports.js";
 
 export interface ConditionalTypeStructureParts {

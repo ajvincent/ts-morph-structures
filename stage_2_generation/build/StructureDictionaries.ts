@@ -99,13 +99,6 @@ const PublicExports = new ExportManagerCommit(
   pathToModule(stageDir, "dist/source/exports.ts")
 );
 
-InternalExports.addExports({
-  absolutePathToModule: pathToModule(stageDir, "dist/source/exports.ts"),
-  exportNames: [],
-  isDefaultExport: false,
-  isType: false,
-});
-
 export default
 class StructureDictionaries extends StructureMetaDictionaries
 {

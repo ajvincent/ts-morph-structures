@@ -99,7 +99,6 @@ export {
   default as TypeParameteredNodeStructureMixin,
   type TypeParameteredNodeStructureFields,
 } from "./decorators/standard/TypeParameteredNodeStructureMixin.js";
-export * from "./exports.js";
 export { default as TypeStructuresBase } from "./structures/type/TypeStructuresBase.js";
 export { default as TypeStructuresWithChildren } from "./structures/type/TypeStructuresWithChildren.js";
 export { default as TypeStructuresWithTypeParameters } from "./structures/type/TypeStructuresWithTypeParameters.js";

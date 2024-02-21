@@ -1,11 +1,11 @@
 //#region preamble
+import type { MethodSignatureStructureClassIfc } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
-  type MethodSignatureStructureClassIfc,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   type ParameteredNodeStructureFields,

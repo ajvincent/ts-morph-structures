@@ -1,5 +1,8 @@
 //#region preamble
-import { FunctionDeclarationOverloadImpl } from "../../exports.js";
+import {
+  FunctionDeclarationOverloadImpl,
+  type FunctionDeclarationStructureClassIfc,
+} from "../../exports.js";
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
@@ -10,7 +13,6 @@ import {
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type ExtractStructure,
-  type FunctionDeclarationStructureClassIfc,
   type GeneratorableNodeStructureFields,
   GeneratorableNodeStructureMixin,
   type JSDocableNodeStructureFields,

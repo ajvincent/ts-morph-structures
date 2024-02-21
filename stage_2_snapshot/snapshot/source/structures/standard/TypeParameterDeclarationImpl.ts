@@ -1,5 +1,9 @@
 //#region preamble
-import type { StructureImpls, TypeStructures } from "../../exports.js";
+import type {
+  StructureImpls,
+  TypeParameterDeclarationStructureClassIfc,
+  TypeStructures,
+} from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
@@ -14,7 +18,6 @@ import {
   type StructureFields,
   StructureMixin,
   TypeAccessors,
-  type TypeParameterDeclarationStructureClassIfc,
   TypeStructureClassesMap,
 } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";

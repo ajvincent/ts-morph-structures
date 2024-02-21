@@ -1,4 +1,5 @@
 //#region preamble
+import type { MethodDeclarationOverloadStructureClassIfc } from "../../exports.js";
 import {
   type AbstractableNodeStructureFields,
   AbstractableNodeStructureMixin,
@@ -11,7 +12,6 @@ import {
   GeneratorableNodeStructureMixin,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
-  type MethodDeclarationOverloadStructureClassIfc,
   type OverrideableNodeStructureFields,
   OverrideableNodeStructureMixin,
   type ParameteredNodeStructureFields,

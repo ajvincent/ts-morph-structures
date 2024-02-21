@@ -1,11 +1,11 @@
 //#region preamble
+import type { PropertyAssignmentStructureClassIfc } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PropertyAssignmentStructureClassIfc,
   REPLACE_WRITER_WITH_STRING,
   StructureBase,
   StructureClassesMap,

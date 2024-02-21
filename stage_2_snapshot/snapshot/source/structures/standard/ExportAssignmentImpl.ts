@@ -1,8 +1,8 @@
 //#region preamble
+import type { ExportAssignmentStructureClassIfc } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
-  type ExportAssignmentStructureClassIfc,
   type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,

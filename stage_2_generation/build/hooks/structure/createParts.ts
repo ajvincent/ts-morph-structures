@@ -95,6 +95,15 @@ export default function createStructureParts(
     isTypeOnly: true,
     importNames: [
       "ExtractStructure",
+    ]
+  });
+
+  parts.importsManager.addImports({
+    pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+    isPackageImport: false,
+    isDefaultImport: false,
+    isTypeOnly: true,
+    importNames: [
       parts.classImplementsIfc.name,
     ]
   });

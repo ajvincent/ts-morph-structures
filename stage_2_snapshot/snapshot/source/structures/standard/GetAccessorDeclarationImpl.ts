@@ -1,5 +1,8 @@
 //#region preamble
-import { TypeStructures } from "../../exports.js";
+import {
+  type GetAccessorDeclarationStructureClassIfc,
+  TypeStructures,
+} from "../../exports.js";
 import {
   type AbstractableNodeStructureFields,
   AbstractableNodeStructureMixin,
@@ -8,7 +11,6 @@ import {
   type DecoratableNodeStructureFields,
   DecoratableNodeStructureMixin,
   type ExtractStructure,
-  type GetAccessorDeclarationStructureClassIfc,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,

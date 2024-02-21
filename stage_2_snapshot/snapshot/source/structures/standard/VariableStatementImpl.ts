@@ -1,5 +1,8 @@
 //#region preamble
-import { VariableDeclarationImpl } from "../../exports.js";
+import {
+  VariableDeclarationImpl,
+  type VariableStatementStructureClassIfc,
+} from "../../exports.js";
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
@@ -15,7 +18,6 @@ import {
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  type VariableStatementStructureClassIfc,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {

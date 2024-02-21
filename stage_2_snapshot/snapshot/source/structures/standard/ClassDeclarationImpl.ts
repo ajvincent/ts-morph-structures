@@ -1,5 +1,6 @@
 //#region preamble
 import {
+  type ClassDeclarationStructureClassIfc,
   ConstructorDeclarationImpl,
   GetAccessorDeclarationImpl,
   MethodDeclarationImpl,
@@ -13,7 +14,6 @@ import {
   AbstractableNodeStructureMixin,
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
-  type ClassDeclarationStructureClassIfc,
   type CloneableStructure,
   COPY_FIELDS,
   type DecoratableNodeStructureFields,

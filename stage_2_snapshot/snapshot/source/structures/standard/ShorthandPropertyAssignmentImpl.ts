@@ -1,11 +1,11 @@
 //#region preamble
+import type { ShorthandPropertyAssignmentStructureClassIfc } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type ShorthandPropertyAssignmentStructureClassIfc,
   StructureBase,
   StructureClassesMap,
   type StructureClassToJSON,

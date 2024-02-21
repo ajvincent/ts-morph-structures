@@ -1,10 +1,9 @@
 //#region preamble
-import { JSDocTagImpl } from "../../exports.js";
+import { type JSDocStructureClassIfc, JSDocTagImpl } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
-  type JSDocStructureClassIfc,
   REPLACE_WRITER_WITH_STRING,
   StructureBase,
   StructureClassesMap,

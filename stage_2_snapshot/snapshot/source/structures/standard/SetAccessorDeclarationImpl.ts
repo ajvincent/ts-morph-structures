@@ -1,5 +1,8 @@
 //#region preamble
-import { ParameterDeclarationImpl } from "../../exports.js";
+import {
+  ParameterDeclarationImpl,
+  type SetAccessorDeclarationStructureClassIfc,
+} from "../../exports.js";
 import {
   type AbstractableNodeStructureFields,
   AbstractableNodeStructureMixin,
@@ -18,7 +21,6 @@ import {
   ReturnTypedNodeStructureMixin,
   type ScopedNodeStructureFields,
   ScopedNodeStructureMixin,
-  type SetAccessorDeclarationStructureClassIfc,
   type StatementedNodeStructureFields,
   StatementedNodeStructureMixin,
   StructureBase,

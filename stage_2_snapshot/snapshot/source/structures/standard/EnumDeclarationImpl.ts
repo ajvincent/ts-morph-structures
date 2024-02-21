@@ -1,11 +1,13 @@
 //#region preamble
-import { EnumMemberImpl } from "../../exports.js";
+import {
+  type EnumDeclarationStructureClassIfc,
+  EnumMemberImpl,
+} from "../../exports.js";
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
   type CloneableStructure,
   COPY_FIELDS,
-  type EnumDeclarationStructureClassIfc,
   type ExportableNodeStructureFields,
   ExportableNodeStructureMixin,
   type ExtractStructure,

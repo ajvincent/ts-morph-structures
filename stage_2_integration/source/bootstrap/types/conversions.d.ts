@@ -44,7 +44,7 @@ export type TypeNodeToTypeStructure = (
   typeNode: TypeNode,
   _console: TypeNodeToTypeStructureConsole,
   subStructureResolver: SubstructureResolver,
-) => TypeStructuresOrNull
+) => TypeStructuresOrNull;
 
 export interface RootStructureWithConvertFailures<TKind extends StructureKind = StructureKind> {
   rootStructure: Extract<StructureImpls, KindedStructure<TKind>>;

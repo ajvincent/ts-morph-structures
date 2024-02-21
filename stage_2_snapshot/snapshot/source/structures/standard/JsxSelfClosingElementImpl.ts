@@ -1,10 +1,13 @@
 //#region preamble
-import { JsxAttributeImpl, JsxSpreadAttributeImpl } from "../../exports.js";
+import {
+  JsxAttributeImpl,
+  type JsxSelfClosingElementStructureClassIfc,
+  JsxSpreadAttributeImpl,
+} from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
-  type JsxSelfClosingElementStructureClassIfc,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   StructureBase,

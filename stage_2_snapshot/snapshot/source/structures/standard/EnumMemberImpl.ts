@@ -1,8 +1,8 @@
 //#region preamble
+import type { EnumMemberStructureClassIfc } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
-  type EnumMemberStructureClassIfc,
   type ExtractStructure,
   type InitializerExpressionableNodeStructureFields,
   InitializerExpressionableNodeStructureMixin,

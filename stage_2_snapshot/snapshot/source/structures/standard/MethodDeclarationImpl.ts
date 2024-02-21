@@ -2,6 +2,7 @@
 import {
   type JSDocImpl,
   MethodDeclarationOverloadImpl,
+  type MethodDeclarationStructureClassIfc,
   type MethodSignatureImpl,
   type ParameterDeclarationImpl,
   type TypeParameterDeclarationImpl,
@@ -20,7 +21,6 @@ import {
   GeneratorableNodeStructureMixin,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
-  type MethodDeclarationStructureClassIfc,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   type OverrideableNodeStructureFields,

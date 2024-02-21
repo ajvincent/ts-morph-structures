@@ -13,8 +13,9 @@ import {
   FunctionDeclarationOverloadStructure,
 } from "ts-morph";
 
+import { type StructureImpls } from "../exports.js";
+
 import {
-  type StructureImpls,
   StructureKindToSyntaxKindMap,
   StructureClassesMap,
 } from "../internal-exports.js";

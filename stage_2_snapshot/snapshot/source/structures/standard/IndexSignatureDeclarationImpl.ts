@@ -1,10 +1,13 @@
 //#region preamble
-import type { StructureImpls, TypeStructures } from "../../exports.js";
+import type {
+  IndexSignatureDeclarationStructureClassIfc,
+  StructureImpls,
+  TypeStructures,
+} from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
-  type IndexSignatureDeclarationStructureClassIfc,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
   type ReadonlyableNodeStructureFields,

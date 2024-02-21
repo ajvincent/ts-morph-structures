@@ -1,4 +1,5 @@
 //#region preamble
+import type { VariableDeclarationStructureClassIfc } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
@@ -16,7 +17,6 @@ import {
   StructureMixin,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
-  type VariableDeclarationStructureClassIfc,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {

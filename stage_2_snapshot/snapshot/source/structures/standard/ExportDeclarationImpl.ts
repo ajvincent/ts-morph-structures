@@ -1,9 +1,12 @@
 //#region preamble
-import { ExportSpecifierImpl, ImportAttributeImpl } from "../../exports.js";
+import {
+  type ExportDeclarationStructureClassIfc,
+  ExportSpecifierImpl,
+  ImportAttributeImpl,
+} from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
-  type ExportDeclarationStructureClassIfc,
   type ExtractStructure,
   REPLACE_WRITER_WITH_STRING,
   StructureBase,

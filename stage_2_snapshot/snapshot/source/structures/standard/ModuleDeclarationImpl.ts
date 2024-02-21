@@ -1,4 +1,5 @@
 //#region preamble
+import type { ModuleDeclarationStructureClassIfc } from "../../exports.js";
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
@@ -9,7 +10,6 @@ import {
   type ExtractStructure,
   type JSDocableNodeStructureFields,
   JSDocableNodeStructureMixin,
-  type ModuleDeclarationStructureClassIfc,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
   type StatementedNodeStructureFields,

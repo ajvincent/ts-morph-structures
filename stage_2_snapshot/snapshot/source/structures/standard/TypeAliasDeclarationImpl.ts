@@ -1,5 +1,8 @@
 //#region preamble
-import type { TypeStructures } from "../../exports.js";
+import type {
+  TypeAliasDeclarationStructureClassIfc,
+  TypeStructures,
+} from "../../exports.js";
 import {
   type AmbientableNodeStructureFields,
   AmbientableNodeStructureMixin,
@@ -18,7 +21,6 @@ import {
   type StructureClassToJSON,
   type StructureFields,
   StructureMixin,
-  type TypeAliasDeclarationStructureClassIfc,
   type TypedNodeStructureFields,
   TypedNodeStructureMixin,
   type TypeParameteredNodeStructureFields,

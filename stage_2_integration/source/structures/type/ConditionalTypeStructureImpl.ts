@@ -4,8 +4,9 @@ import type {
 } from "ts-morph";
 
 import {
-  TypeStructureKind,
+  LiteralTypeStructureImpl,
   type StructureImpls,
+  TypeStructureKind,
   type TypeStructures,
 } from "../../../snapshot/source/exports.js";
 
@@ -14,7 +15,6 @@ import {
   STRUCTURE_AND_TYPES_CHILDREN,
   TypeStructuresBase,
   TypeStructureClassesMap,
-  LiteralTypeStructureImpl,
 } from "../../../snapshot/source/internal-exports.js";
 
 export interface ConditionalTypeStructureParts

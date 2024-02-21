@@ -1,6 +1,7 @@
 //#region preamble
 import {
   ConstructorDeclarationOverloadImpl,
+  type ConstructorDeclarationStructureClassIfc,
   type ConstructSignatureDeclarationImpl,
   type JSDocImpl,
   type ParameterDeclarationImpl,
@@ -8,7 +9,6 @@ import {
 } from "../../exports.js";
 import {
   type CloneableStructure,
-  type ConstructorDeclarationStructureClassIfc,
   COPY_FIELDS,
   type ExtractStructure,
   type JSDocableNodeStructureFields,

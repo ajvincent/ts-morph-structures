@@ -1,10 +1,10 @@
 //#region preamble
+import type { SpreadAssignmentStructureClassIfc } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
   REPLACE_WRITER_WITH_STRING,
-  type SpreadAssignmentStructureClassIfc,
   StructureBase,
   StructureClassesMap,
   type StructureClassToJSON,

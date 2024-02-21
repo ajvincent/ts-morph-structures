@@ -1994,7 +1994,6 @@ function defineProject() {
 function VoidTypeNodeToTypeStructureConsole(message, failingTypeNode) {
 }
 
-//#region preamble
 //#endregion preamble
 const CallSignatureDeclarationStructureBase = MultiMixinBuilder([
     ParameteredNodeStructureMixin,
@@ -2131,7 +2130,6 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
 _a$4 = ClassDeclarationImpl;
 StructureClassesMap.set(StructureKind.Class, ClassDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const ClassStaticBlockDeclarationStructureBase = MultiMixinBuilder([StatementedNodeStructureMixin, JSDocableNodeStructureMixin, StructureMixin], StructureBase);
 class ClassStaticBlockDeclarationImpl extends ClassStaticBlockDeclarationStructureBase {
@@ -2195,7 +2193,6 @@ class ConstructorDeclarationImpl extends ConstructorDeclarationStructureBase {
 }
 StructureClassesMap.set(StructureKind.Constructor, ConstructorDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const ConstructorDeclarationOverloadStructureBase = MultiMixinBuilder([
     ScopedNodeStructureMixin,
@@ -2220,7 +2217,6 @@ class ConstructorDeclarationOverloadImpl extends ConstructorDeclarationOverloadS
 }
 StructureClassesMap.set(StructureKind.ConstructorOverload, ConstructorDeclarationOverloadImpl);
 
-//#region preamble
 //#endregion preamble
 const ConstructSignatureDeclarationStructureBase = MultiMixinBuilder([
     ParameteredNodeStructureMixin,
@@ -2244,7 +2240,6 @@ class ConstructSignatureDeclarationImpl extends ConstructSignatureDeclarationStr
 }
 StructureClassesMap.set(StructureKind.ConstructSignature, ConstructSignatureDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const DecoratorStructureBase = MultiMixinBuilder([NamedNodeStructureMixin, StructureMixin], StructureBase);
 class DecoratorImpl extends DecoratorStructureBase {
@@ -2327,7 +2322,6 @@ class EnumDeclarationImpl extends EnumDeclarationStructureBase {
 }
 StructureClassesMap.set(StructureKind.Enum, EnumDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const EnumMemberStructureBase = MultiMixinBuilder([
     InitializerExpressionableNodeStructureMixin,
@@ -2368,7 +2362,6 @@ class EnumMemberImpl extends EnumMemberStructureBase {
 }
 StructureClassesMap.set(StructureKind.EnumMember, EnumMemberImpl);
 
-//#region preamble
 //#endregion preamble
 const ExportAssignmentStructureBase = MultiMixinBuilder([JSDocableNodeStructureMixin, StructureMixin], StructureBase);
 class ExportAssignmentImpl extends ExportAssignmentStructureBase {
@@ -2462,7 +2455,6 @@ class ExportDeclarationImpl extends ExportDeclarationStructureBase {
 }
 StructureClassesMap.set(StructureKind.ExportDeclaration, ExportDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const ExportSpecifierStructureBase = MultiMixinBuilder([NamedNodeStructureMixin, StructureMixin], StructureBase);
 class ExportSpecifierImpl extends ExportSpecifierStructureBase {
@@ -2539,7 +2531,6 @@ class FunctionDeclarationImpl extends FunctionDeclarationStructureBase {
 }
 StructureClassesMap.set(StructureKind.Function, FunctionDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const FunctionDeclarationOverloadStructureBase = MultiMixinBuilder([
     AsyncableNodeStructureMixin,
@@ -2605,7 +2596,6 @@ class GetAccessorDeclarationImpl extends GetAccessorDeclarationStructureBase {
 }
 StructureClassesMap.set(StructureKind.GetAccessor, GetAccessorDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const ImportAttributeStructureBase = MultiMixinBuilder([StructureMixin], StructureBase);
 class ImportAttributeImpl extends ImportAttributeStructureBase {
@@ -2711,7 +2701,6 @@ class ImportDeclarationImpl extends ImportDeclarationStructureBase {
 }
 StructureClassesMap.set(StructureKind.ImportDeclaration, ImportDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const ImportSpecifierStructureBase = MultiMixinBuilder([NamedNodeStructureMixin, StructureMixin], StructureBase);
 class ImportSpecifierImpl extends ImportSpecifierStructureBase {
@@ -2952,7 +2941,6 @@ class JSDocImpl extends JSDocStructureBase {
 }
 StructureClassesMap.set(StructureKind.JSDoc, JSDocImpl);
 
-//#region preamble
 //#endregion preamble
 const JSDocTagStructureBase = MultiMixinBuilder([StructureMixin], StructureBase);
 class JSDocTagImpl extends JSDocTagStructureBase {
@@ -2993,7 +2981,6 @@ class JSDocTagImpl extends JSDocTagStructureBase {
 }
 StructureClassesMap.set(StructureKind.JSDocTag, JSDocTagImpl);
 
-//#region preamble
 //#endregion preamble
 const JsxAttributeStructureBase = MultiMixinBuilder([StructureMixin], StructureBase);
 class JsxAttributeImpl extends JsxAttributeStructureBase {
@@ -3109,7 +3096,6 @@ class JsxSelfClosingElementImpl extends JsxSelfClosingElementStructureBase {
 }
 StructureClassesMap.set(StructureKind.JsxSelfClosingElement, JsxSelfClosingElementImpl);
 
-//#region preamble
 //#endregion preamble
 const JsxSpreadAttributeStructureBase = MultiMixinBuilder([StructureMixin], StructureBase);
 class JsxSpreadAttributeImpl extends JsxSpreadAttributeStructureBase {
@@ -3201,7 +3187,6 @@ class MethodDeclarationImpl extends MethodDeclarationStructureBase {
 }
 StructureClassesMap.set(StructureKind.Method, MethodDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const MethodDeclarationOverloadStructureBase = MultiMixinBuilder([
     AsyncableNodeStructureMixin,
@@ -3237,7 +3222,6 @@ class MethodDeclarationOverloadImpl extends MethodDeclarationOverloadStructureBa
 }
 StructureClassesMap.set(StructureKind.MethodOverload, MethodDeclarationOverloadImpl);
 
-//#region preamble
 //#endregion preamble
 const MethodSignatureStructureBase = MultiMixinBuilder([
     QuestionTokenableNodeStructureMixin,
@@ -3267,7 +3251,6 @@ class MethodSignatureImpl extends MethodSignatureStructureBase {
 }
 StructureClassesMap.set(StructureKind.MethodSignature, MethodSignatureImpl);
 
-//#region preamble
 //#endregion preamble
 const ModuleDeclarationStructureBase = MultiMixinBuilder([
     ExportableNodeStructureMixin,
@@ -3310,7 +3293,6 @@ class ModuleDeclarationImpl extends ModuleDeclarationStructureBase {
 }
 StructureClassesMap.set(StructureKind.Module, ModuleDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const ParameterDeclarationStructureBase = MultiMixinBuilder([
     ReadonlyableNodeStructureMixin,
@@ -3358,7 +3340,6 @@ class ParameterDeclarationImpl extends ParameterDeclarationStructureBase {
 }
 StructureClassesMap.set(StructureKind.Parameter, ParameterDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const PropertyAssignmentStructureBase = MultiMixinBuilder([NamedNodeStructureMixin, StructureMixin], StructureBase);
 class PropertyAssignmentImpl extends PropertyAssignmentStructureBase {
@@ -3447,7 +3428,6 @@ class PropertyDeclarationImpl extends PropertyDeclarationStructureBase {
 }
 StructureClassesMap.set(StructureKind.Property, PropertyDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const PropertySignatureStructureBase = MultiMixinBuilder([
     ReadonlyableNodeStructureMixin,
@@ -3520,7 +3500,6 @@ class SetAccessorDeclarationImpl extends SetAccessorDeclarationStructureBase {
 }
 StructureClassesMap.set(StructureKind.SetAccessor, SetAccessorDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const ShorthandPropertyAssignmentStructureBase = MultiMixinBuilder([NamedNodeStructureMixin, StructureMixin], StructureBase);
 class ShorthandPropertyAssignmentImpl extends ShorthandPropertyAssignmentStructureBase {
@@ -3542,7 +3521,6 @@ class ShorthandPropertyAssignmentImpl extends ShorthandPropertyAssignmentStructu
 }
 StructureClassesMap.set(StructureKind.ShorthandPropertyAssignment, ShorthandPropertyAssignmentImpl);
 
-//#region preamble
 //#endregion preamble
 const SourceFileStructureBase = MultiMixinBuilder([StatementedNodeStructureMixin, StructureMixin], StructureBase);
 class SourceFileImpl extends SourceFileStructureBase {
@@ -3560,7 +3538,6 @@ class SourceFileImpl extends SourceFileStructureBase {
 }
 StructureClassesMap.set(StructureKind.SourceFile, SourceFileImpl);
 
-//#region preamble
 //#endregion preamble
 const SpreadAssignmentStructureBase = MultiMixinBuilder([StructureMixin], StructureBase);
 class SpreadAssignmentImpl extends SpreadAssignmentStructureBase {
@@ -3739,7 +3716,6 @@ class TypeParameterDeclarationImpl extends TypeParameterDeclarationStructureBase
 }
 StructureClassesMap.set(StructureKind.TypeParameter, TypeParameterDeclarationImpl);
 
-//#region preamble
 //#endregion preamble
 const VariableDeclarationStructureBase = MultiMixinBuilder([
     ExclamationTokenableNodeStructureMixin,

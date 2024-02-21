@@ -1,5 +1,9 @@
 //#region preamble
-import type { JSDocImpl, PropertySignatureImpl } from "../../exports.js";
+import type {
+  JSDocImpl,
+  PropertyDeclarationStructureClassIfc,
+  PropertySignatureImpl,
+} from "../../exports.js";
 import {
   type AbstractableNodeStructureFields,
   AbstractableNodeStructureMixin,
@@ -20,7 +24,6 @@ import {
   NamedNodeStructureMixin,
   type OverrideableNodeStructureFields,
   OverrideableNodeStructureMixin,
-  type PropertyDeclarationStructureClassIfc,
   type QuestionTokenableNodeStructureFields,
   QuestionTokenableNodeStructureMixin,
   type ReadonlyableNodeStructureFields,

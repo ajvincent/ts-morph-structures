@@ -1,6 +1,6 @@
 //#region preamble
+import type { CallSignatureDeclarationStructureClassIfc } from "../../exports.js";
 import {
-  type CallSignatureDeclarationStructureClassIfc,
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,

@@ -39,7 +39,7 @@ Many ts-morph nodes have a `getStructure()` method on them - which return raw ts
  * @param userConsole - a callback for conversion failures.
  * @param assertNoFailures - if true, assert there are no conversion failures.
  *
- * @returns the root structure, the root node, and any failures during recursion.
+ * @returns the root structure, and any failures during recursion.
  */
 declare function getTypeAugmentedStructure(
   rootNode: NodeWithStructures,
@@ -53,7 +53,7 @@ declare function getTypeAugmentedStructure(
  * @param userConsole - a callback for conversion failures.
  * @param assertNoFailures - if true, assert there are no conversion failures.
  * @param kind - the expected structure kind to retrieve.
- * @returns the root structure, the root node, and any failures during recursion.
+ * @returns the root structure, and any failures during recursion.
  */
 declare function getTypeAugmentedStructure<TKind extends StructureKind>(
   rootNode: NodeWithStructures,

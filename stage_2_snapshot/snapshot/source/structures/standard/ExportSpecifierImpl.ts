@@ -1,8 +1,8 @@
 //#region preamble
+import type { ExportSpecifierStructureClassIfc } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
-  type ExportSpecifierStructureClassIfc,
   type ExtractStructure,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,

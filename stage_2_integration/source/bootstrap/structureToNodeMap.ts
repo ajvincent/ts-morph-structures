@@ -15,6 +15,9 @@ import {
 
 import {
   type StructureImpls,
+} from "../../snapshot/source/exports.js";
+
+import {
   StructureKindToSyntaxKindMap,
   StructureClassesMap
 } from "../../snapshot/source/internal-exports.js";

@@ -1,7 +1,7 @@
 //#region preamble
+import type { ConstructorDeclarationOverloadStructureClassIfc } from "../../exports.js";
 import {
   type CloneableStructure,
-  type ConstructorDeclarationOverloadStructureClassIfc,
   COPY_FIELDS,
   type ExtractStructure,
   type JSDocableNodeStructureFields,

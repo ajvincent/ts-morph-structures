@@ -1,9 +1,9 @@
 //#region preamble
+import type { JsxSpreadAttributeStructureClassIfc } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
-  type JsxSpreadAttributeStructureClassIfc,
   StructureBase,
   StructureClassesMap,
   type StructureClassToJSON,

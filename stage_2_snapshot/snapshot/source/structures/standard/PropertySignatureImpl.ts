@@ -1,4 +1,5 @@
 //#region preamble
+import type { PropertySignatureStructureClassIfc } from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
@@ -9,7 +10,6 @@ import {
   JSDocableNodeStructureMixin,
   type NamedNodeStructureFields,
   NamedNodeStructureMixin,
-  type PropertySignatureStructureClassIfc,
   type QuestionTokenableNodeStructureFields,
   QuestionTokenableNodeStructureMixin,
   type ReadonlyableNodeStructureFields,

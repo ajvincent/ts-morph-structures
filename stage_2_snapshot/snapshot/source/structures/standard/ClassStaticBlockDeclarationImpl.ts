@@ -1,6 +1,6 @@
 //#region preamble
+import type { ClassStaticBlockDeclarationStructureClassIfc } from "../../exports.js";
 import {
-  type ClassStaticBlockDeclarationStructureClassIfc,
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
