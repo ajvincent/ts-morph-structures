@@ -16,6 +16,7 @@ const BPSet = new BuildPromiseSet;
 
   args.push("buildStage.ts");
   args.push("build/**/*.ts");
+  args.push("moduleClasses/**/*.ts");
 
   target.addTask(() => {
     console.log("starting stage_3_generation:eslint");
