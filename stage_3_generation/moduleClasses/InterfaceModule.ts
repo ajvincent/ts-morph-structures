@@ -7,13 +7,13 @@ import BaseModule from "./BaseModule.js";
 
 export default
 class InterfaceModule extends BaseModule {
-  static readonly map = new Map<string, InterfaceModule>;
+  static readonly decoratorsMap = new Map<string, InterfaceModule>;
+  static readonly structuresMap = new Map<string, InterfaceModule>;
 
   readonly typeMembers = new TypeMembersMap;
 
   constructor(interfaceName: string) {
     super("source/interfaces/standard", interfaceName, true);
-    InterfaceModule.map.set(interfaceName, this);
   }
 
   protected getSourceFileImpl(): SourceFileImpl {
