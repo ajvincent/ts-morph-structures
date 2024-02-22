@@ -1,4 +1,5 @@
 import {
+  SourceFileImpl,
   TypeMembersMap,
 } from "#stage_two/snapshot/source/exports.js"
 
@@ -11,12 +12,11 @@ class InterfaceModule extends BaseModule {
   readonly typeMembers = new TypeMembersMap;
 
   constructor(interfaceName: string) {
-    super("source/interfaces/standard", interfaceName);
+    super("source/interfaces/standard", interfaceName, true);
     InterfaceModule.map.set(interfaceName, this);
   }
 
-  public async saveFile(): Promise<void>
-  {
-    await Promise.reject("not yet implemented");
+  protected getSourceFileImpl(): SourceFileImpl {
+    throw new Error("Method not implemented.");
   }
 }

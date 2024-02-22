@@ -83,7 +83,11 @@ function addStructureUnion(
   );
 
   UnionModule.addImports("public", [], structures.map(getStructureImplName));
+  UnionModule.addStarExport(true, true);
 
   unions.forEach(unionChild => structures.push(...addStructureUnion(unionChild).structures));
-  return { structures, unions };
+  return {
+    structures,
+    unions
+  };
 }

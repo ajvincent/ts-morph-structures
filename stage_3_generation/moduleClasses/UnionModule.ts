@@ -3,8 +3,6 @@ import {
   TypeAliasDeclarationImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
-import getTS_SourceFile from "#utilities/source/getTS_SourceFile.js";
-
 import {
   distDir,
 } from "../build/constants.js";
@@ -15,12 +13,11 @@ import { pathToModule } from "#utilities/source/AsyncSpecModules.js";
 class UnionsModuleBase extends BaseModule
 {
   constructor() {
-    super(pathToModule(distDir, "source/types"), "StructureImplUnions.d.ts");
+    super(pathToModule(distDir, "source/types"), "StructureImplUnions", true);
   }
   readonly aliases = new Map<string, TypeAliasDeclarationImpl>;
 
-  public async saveFile(): Promise<void> {
-    const file = getTS_SourceFile(distDir, "source/types/StructureImplUnions.d.ts");
+  protected getSourceFileImpl(): SourceFileImpl {
     const structure = new SourceFileImpl;
 
     const unions = Array.from(this.aliases.values());
@@ -31,8 +28,7 @@ class UnionsModuleBase extends BaseModule
       ...unions
     );
 
-    file.set(structure);
-    await file.save();
+    return structure;
   }
 }
 

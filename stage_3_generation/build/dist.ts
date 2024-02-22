@@ -5,11 +5,9 @@ import {
   pathToModule,
 } from "#utilities/source/AsyncSpecModules.js";
 
+import BaseModule from "../moduleClasses/BaseModule.js";
 import fillStructureUnions from "./structureUnions.js";
 
-/*
-import runPrettify from "#utilities/source/runPrettify.js";
-*/
 
 import {
   stageDir,
@@ -39,4 +37,6 @@ export default async function buildDist(): Promise<void>
   await fs.mkdir(distDir);
 
   await fillStructureUnions();
+
+  await BaseModule.saveExports();
 }
