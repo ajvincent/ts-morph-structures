@@ -77,13 +77,14 @@ const BPSet = new BuildPromiseSet;
 
 BPSet.markReady();
 {
-  BPSet.main.addSubtarget("eslint");
   BPSet.main.addSubtarget("copySnapshot");
   BPSet.main.addSubtarget("structureToSyntax");
   /*
   BPSet.main.addSubtarget("bundle");
   BPSet.main.addSubtarget("docs");
   */
+  // at the end to allow for debugging before this
+  BPSet.main.addSubtarget("eslint");
 }
 await BPSet.main.run();
 export default Promise.resolve();

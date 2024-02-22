@@ -8,7 +8,6 @@ import {
 
 import {
   type ModuleSourceDirectory,
-  pathToModule,
 } from "#utilities/source/AsyncSpecModules.js";
 
 const stageDir: ModuleSourceDirectory = {
@@ -16,7 +15,10 @@ const stageDir: ModuleSourceDirectory = {
   pathToDirectory: "../.."
 };
 
-const distDir = pathToModule(stageDir, "dist");
+const distDir: ModuleSourceDirectory = {
+  importMeta: import.meta,
+  pathToDirectory: "../../dist"
+};
 
 const COPY_FIELDS_NAME = ClassMembersMap.keyFromName(
   StructureKind.Method, true, "[COPY_FIELDS]"

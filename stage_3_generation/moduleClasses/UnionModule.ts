@@ -1,25 +1,38 @@
 import {
-  LiteralTypeStructureImpl,
-  //TypeAliasDeclarationImpl,
-  UnionTypeStructureImpl,
+  SourceFileImpl,
+  TypeAliasDeclarationImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
-class UnionsModuleBase
+import getTS_SourceFile from "#utilities/source/getTS_SourceFile.js";
+
+import {
+  distDir,
+} from "../build/constants.js";
+
+import BaseModule from "./BaseModule.js";
+import { pathToModule } from "#utilities/source/AsyncSpecModules.js";
+
+class UnionsModuleBase extends BaseModule
 {
-  #unionsSet = new Map<string, UnionTypeStructureImpl>;
-
-  public addUnion(
-    parentName: string,
-    childNames: readonly string[]
-  ): void
-  {
-    this.#unionsSet.set(parentName, new UnionTypeStructureImpl(
-      childNames.map(name => LiteralTypeStructureImpl.get(name))
-    ));
+  constructor() {
+    super(pathToModule(distDir, "source/types"), "StructureImplUnions.d.ts");
   }
+  readonly aliases = new Map<string, TypeAliasDeclarationImpl>;
 
-  public saveFile(): Promise<void> {
-    throw new Error("Method not implemented.");
+  public async saveFile(): Promise<void> {
+    const file = getTS_SourceFile(distDir, "source/types/StructureImplUnions.d.ts");
+    const structure = new SourceFileImpl;
+
+    const unions = Array.from(this.aliases.values());
+    unions.sort((a, b): number => a.name.localeCompare(b.name));
+
+    structure.statements.push(
+      ...this.importsManager.getDeclarations(),
+      ...unions
+    );
+
+    file.set(structure);
+    await file.save();
   }
 }
 

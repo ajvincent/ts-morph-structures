@@ -1,10 +1,11 @@
 // #region preamble
 import fs from "fs/promises";
-import path from "path";
 
 import {
   pathToModule,
 } from "#utilities/source/AsyncSpecModules.js";
+
+import fillStructureUnions from "./structureUnions.js";
 
 /*
 import runPrettify from "#utilities/source/runPrettify.js";
@@ -37,9 +38,5 @@ export default async function buildDist(): Promise<void>
   await cleanDist();
   await fs.mkdir(distDir);
 
-  await fs.writeFile(
-    path.join(distDir, "helloWorld.ts"),
-    `export const helloWorld = "hello world";\n`,
-    { encoding: "utf-8" }
-  );
+  await fillStructureUnions();
 }

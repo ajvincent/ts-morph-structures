@@ -7,8 +7,8 @@ import {
 } from "#utilities/source/AsyncSpecModules.js";
 
 import {
-  stageDir
+  distDir
 } from "../build/constants.js";
 
-export const internalExports = new ExportManager(pathToModule(stageDir, "source/internal-exports.ts"));
-export const publicExports = new ExportManager(pathToModule(stageDir, "source/exports.ts"));
+export const internalExports = new ExportManager(pathToModule(distDir, "source/internal-exports.ts"));
+export const publicExports = new ExportManager(pathToModule(distDir, "source/exports.ts"));

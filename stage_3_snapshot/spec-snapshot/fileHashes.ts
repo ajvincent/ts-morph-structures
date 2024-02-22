@@ -47,6 +47,10 @@ describe("File hashes match for the", () => {
     await compareSnapshots("source/structures/type");
   });
 
+  it("type structures", async () => {
+    await compareSnapshots("source/types");
+  });
+
   it("toolbox", async () => {
     await compareSnapshots("source/toolbox");
   });

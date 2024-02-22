@@ -63,6 +63,7 @@ BPSet.markReady();
 {
   BPSet.main.addSubtarget("copySnapshot");
   BPSet.main.addSubtarget("test");
+  // at the end to allow for debugging before this
   BPSet.main.addSubtarget("eslint");
 }
 await BPSet.main.run();

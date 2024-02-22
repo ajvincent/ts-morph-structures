@@ -33,6 +33,8 @@ export default async function buildImplUnions(
   const importManager = new ImportManager(sourcePath);
   const typesToImport = new Set<string>;
 
+  const aliases: TypeAliasDeclarationImpl[] = [];
+
   dictionary.unions.forEach((unionStructure: StructureUnionMeta, nameOfUnion: string) => {
     const typeAlias = new TypeAliasDeclarationImpl(getUnionOfStructuresName(nameOfUnion));
     typeAlias.isExported = true;
@@ -47,11 +49,15 @@ export default async function buildImplUnions(
       new LiteralTypedStructureImpl(getUnionOfStructuresName(name))
     ));
 
-    unionElements.sort();
+    unionElements.sort((a, b) => a.stringValue.localeCompare(b.stringValue));
     typeAlias.typeStructure = new UnionTypedStructureImpl(unionElements.filter(Boolean));
 
-    sourceFile.statements.push(typeAlias);
+    aliases.push(typeAlias);
   });
+  aliases.sort(
+    (a, b) => a.name.localeCompare(b.name)
+  );
+  sourceFile.statements.push(...aliases);
 
   dictionary.publicExports.addExports({
     absolutePathToModule: sourcePath,

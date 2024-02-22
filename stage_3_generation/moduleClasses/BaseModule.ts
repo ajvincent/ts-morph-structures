@@ -9,7 +9,7 @@ import {
   pathToModule
 } from "#utilities/source/AsyncSpecModules.js";
 
-import { stageDir } from "../build/constants.js";
+import { distDir } from "../build/constants.js";
 
 import {
   publicExports,
@@ -36,7 +36,7 @@ abstract class BaseModule
 
     this.importsManager = new ImportManager(
       path.join(
-        pathToModule(stageDir, pathToParentDirectory), defaultExportName + ".ts"
+        pathToModule(distDir, pathToParentDirectory), defaultExportName + ".ts"
       )
     );
   }

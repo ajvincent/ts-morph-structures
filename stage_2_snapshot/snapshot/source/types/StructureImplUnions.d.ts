@@ -49,12 +49,6 @@ export type ClassMemberStructureImpls =
   | MethodDeclarationImpl
   | PropertyDeclarationImpl
   | SetAccessorDeclarationImpl;
-export type TypeElementMemberStructureImpls =
-  | CallSignatureDeclarationImpl
-  | ConstructSignatureDeclarationImpl
-  | IndexSignatureDeclarationImpl
-  | MethodSignatureImpl
-  | PropertySignatureImpl;
 export type InterfaceMemberStructureImpls = TypeElementMemberStructureImpls;
 export type JsxStructureImpls =
   | JsxAttributeImpl
@@ -80,6 +74,7 @@ export type StatementStructureImpls =
   | TypeAliasDeclarationImpl
   | VariableStatementImpl;
 export type StructureImpls =
+  | ClassMemberStructureImpls
   | ConstructorDeclarationOverloadImpl
   | DecoratorImpl
   | EnumMemberImpl
@@ -87,15 +82,20 @@ export type StructureImpls =
   | FunctionDeclarationOverloadImpl
   | ImportAttributeImpl
   | ImportSpecifierImpl
+  | InterfaceMemberStructureImpls
   | JSDocImpl
   | JSDocTagImpl
+  | JsxStructureImpls
   | MethodDeclarationOverloadImpl
+  | ObjectLiteralExpressionPropertyStructureImpls
   | ParameterDeclarationImpl
   | SourceFileImpl
+  | StatementStructureImpls
   | TypeParameterDeclarationImpl
-  | VariableDeclarationImpl
-  | ClassMemberStructureImpls
-  | InterfaceMemberStructureImpls
-  | JsxStructureImpls
-  | ObjectLiteralExpressionPropertyStructureImpls
-  | StatementStructureImpls;
+  | VariableDeclarationImpl;
+export type TypeElementMemberStructureImpls =
+  | CallSignatureDeclarationImpl
+  | ConstructSignatureDeclarationImpl
+  | IndexSignatureDeclarationImpl
+  | MethodSignatureImpl
+  | PropertySignatureImpl;
