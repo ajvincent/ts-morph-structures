@@ -6,8 +6,8 @@ import {
 } from "#utilities/source/AsyncSpecModules.js";
 
 import BaseModule from "../moduleClasses/BaseModule.js";
+import defineExistingExports from "./publicAndInternalExports.js";
 import fillStructureUnions from "./structureUnions.js";
-
 
 import {
   stageDir,
@@ -36,7 +36,10 @@ export default async function buildDist(): Promise<void>
   await cleanDist();
   await fs.mkdir(distDir);
 
-  await fillStructureUnions();
+  await Promise.all([
+    defineExistingExports(),
+    fillStructureUnions(),
+  ]);
 
   await BaseModule.saveExports();
 }
