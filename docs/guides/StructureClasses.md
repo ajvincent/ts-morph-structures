@@ -173,7 +173,7 @@ Where you have an _array_ of type structures (specifically, `ClassDeclarationImp
 
 So how _do_ you modify the array of types?
 
-These classes also provide type structure sets, in `ClassDeclarationImpl::implementsSet` and `InterfaceDeclarationImpl::extendsSet`, respectively.  Each of these is a `Set<TypeStructures>` object, with a couple extra methods:
+These classes also provide type structure sets, in `ClassDeclarationImpl::implementsSet` and `InterfaceDeclarationImpl::extendsSet`, respectively.  Each of these is a [TypeStructuresSet](../api/ts-morph-structures.typestructureset.md) object: a `Set<TypeStructures>` with a couple extra methods:
 
 - `cloneFromTypeStructureSet(other: TypeStructureSet): void;`
 - `replaceFromTypeArray(array: (string | WriterFunction)[]): void;`
