@@ -15,6 +15,8 @@ class DecoratorModule extends BaseClassModule
     DecoratorModule.map.set(decoratorName, this);
   }
 
+  useCount = 0;
+
   /*
   #buildClassDeclaration(): ClassDeclarationImpl {
     throw new Error("Method not implemented.");

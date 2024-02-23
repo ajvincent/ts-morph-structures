@@ -10,10 +10,9 @@ import BaseModule from "../moduleClasses/BaseModule.js";
 import {
   stageDir,
 } from "./constants.js";
-import createStructureInterfaces from "./createStructureInterfaces.js";
+import createInterfaces from "./createInterfaces.js";
 import defineExistingExports from "./publicAndInternalExports.js";
 import fillStructureUnions from "./structureUnions.js";
-
 
 const distDir = pathToModule(stageDir, "dist");
 
@@ -39,7 +38,7 @@ export default async function buildDist(): Promise<void>
   await fs.mkdir(distDir);
 
   const structureNames = await fillStructureUnions();
-  createStructureInterfaces(structureNames);
+  await createInterfaces(structureNames);
 
   await Promise.all([
     defineExistingExports(),

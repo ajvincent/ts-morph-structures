@@ -10,10 +10,11 @@ class InterfaceModule extends BaseModule {
   static readonly decoratorsMap = new Map<string, InterfaceModule>;
   static readonly structuresMap = new Map<string, InterfaceModule>;
 
-  readonly typeMembers = new TypeMembersMap;
+  readonly typeMembers: TypeMembersMap;
 
-  constructor(interfaceName: string) {
+  constructor(interfaceName: string, typeMembers: TypeMembersMap) {
     super("source/interfaces/standard", interfaceName, true);
+    this.typeMembers = typeMembers;
   }
 
   protected getSourceFileImpl(): SourceFileImpl {
