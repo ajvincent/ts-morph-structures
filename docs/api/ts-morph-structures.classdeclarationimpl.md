@@ -23,7 +23,7 @@ export default class ClassDeclarationImpl implements ClassDeclarationStructureCl
 |  [getAccessors](./ts-morph-structures.classdeclarationimpl.getaccessors.md) | <code>readonly</code> | [GetAccessorDeclarationImpl](./ts-morph-structures.getaccessordeclarationimpl.md)<!-- -->\[\] |  |
 |  [hasDeclareKeyword](./ts-morph-structures.classdeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
 |  [implements](./ts-morph-structures.classdeclarationimpl.implements.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [implementsSet](./ts-morph-structures.classdeclarationimpl.implementsset.md) | <code>readonly</code> | TypeStructureSet |  |
+|  [implementsSet](./ts-morph-structures.classdeclarationimpl.implementsset.md) | <code>readonly</code> | TypeStructureSetInternal |  |
 |  [isAbstract](./ts-morph-structures.classdeclarationimpl.isabstract.md) |  | boolean |  |
 |  [isDefaultExport](./ts-morph-structures.classdeclarationimpl.isdefaultexport.md) |  | boolean |  |
 |  [isExported](./ts-morph-structures.classdeclarationimpl.isexported.md) |  | boolean |  |

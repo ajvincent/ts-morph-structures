@@ -79,7 +79,7 @@ function addTypeStructureSet(
     isPackageImport: false,
     importNames: [
       "ReadonlyArrayProxyHandler",
-      "TypeStructureSet"
+      "TypeStructureSetInternal"
     ],
     isDefaultImport: false,
     isTypeOnly: false
@@ -146,7 +146,7 @@ function addTypeStructureSet(
     ClassMembersMap.keyFromMember(typeStructureSetProp),
     ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
     [
-      `new TypeStructureSet(this.${shadowArrayProp.name})`
+      `new TypeStructureSetInternal(this.${shadowArrayProp.name})`
     ]
   );
 
@@ -156,7 +156,7 @@ function addTypeStructureSet(
     [
       (writer: CodeBlockWriter): void => {
         writer.write(`const { ${typeStructureSetProp.name} } = (source as unknown as ${parts.classDecl.name!});`)
-        writer.write(`if (${typeStructureSetProp.name} instanceof TypeStructureSet)`);
+        writer.write(`if (${typeStructureSetProp.name} instanceof TypeStructureSetInternal)`);
         writer.block(() => {
           writer.write(`target.${typeStructureSetProp.name}.cloneFromTypeStructureSet(${typeStructureSetProp.name});`)
         });
@@ -200,7 +200,7 @@ function addTypeStructureSet(
   typeDocs.description = `Treat this as a read-only array.  Use \`.${typeStructureSetProp.name}\` to modify this.`;
 
   parts.implementsImports.addImports({
-    pathToImportedModule: dictionaries.internalExports.absolutePathToExportFile,
+    pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
     isPackageImport: false,
     isDefaultImport: false,
     isTypeOnly: true,

@@ -39,6 +39,13 @@ function definePublicExports(
   });
 
   dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/base/TypeStructureSet.ts"),
+    exportNames: ["TypeStructureSet"],
+    isDefaultExport: false,
+    isType: true,
+  });
+
+  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/bootstrap/getTypeAugmentedStructure.ts"),
     exportNames: [
       "getTypeAugmentedStructure",
@@ -242,7 +249,7 @@ function defineInternalExports(
 
   dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/base/TypeStructureSet.ts"),
-    exportNames: ["TypeStructureSet"],
+    exportNames: ["TypeStructureSetInternal"],
     isDefaultExport: true,
     isType: false,
   });

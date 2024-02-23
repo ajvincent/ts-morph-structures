@@ -278,8 +278,10 @@ var TypeStructureClassesMap$1 = TypeStructureClassesMap;
  * This supports setting "implements" and "extends" types for arrays behind read-only array
  * proxies.  The goal is to manage type structures and writer functions in one place,
  * where direct array access is troublesome (particularly, "write access").
+ *
+ * @internal
  */
-class TypeStructureSet extends Set {
+class TypeStructureSetInternal extends Set {
     static #getBackingValue(value) {
         return value.kind === TypeStructureKind.Literal
             ? value.stringValue
@@ -304,7 +306,7 @@ class TypeStructureSet extends Set {
     }
     add(value) {
         if (!super.has(value)) {
-            this.#backingArray.push(TypeStructureSet.#getBackingValue(value));
+            this.#backingArray.push(TypeStructureSetInternal.#getBackingValue(value));
         }
         return super.add(value);
     }
@@ -313,7 +315,7 @@ class TypeStructureSet extends Set {
         return super.clear();
     }
     delete(value) {
-        const backingValue = TypeStructureSet.#getBackingValue(value);
+        const backingValue = TypeStructureSetInternal.#getBackingValue(value);
         const index = this.#backingArray.indexOf(backingValue);
         if (index === -1) {
             return false;
@@ -2037,7 +2039,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
     #implementsProxyArray = new Proxy(this.#implements_ShadowArray, _a$4.#implementsArrayReadonlyHandler);
     ctors = [];
     getAccessors = [];
-    implementsSet = new TypeStructureSet(this.#implements_ShadowArray);
+    implementsSet = new TypeStructureSetInternal(this.#implements_ShadowArray);
     methods = [];
     properties = [];
     setAccessors = [];
@@ -2073,7 +2075,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
             target.getAccessors.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.GetAccessor, StructureClassesMap.forceArray(source.getAccessors)));
         }
         const { implementsSet } = source;
-        if (implementsSet instanceof TypeStructureSet) {
+        if (implementsSet instanceof TypeStructureSetInternal) {
             target.implementsSet.cloneFromTypeStructureSet(implementsSet);
         }
         else if (Array.isArray(source.implements)) {
@@ -2825,7 +2827,7 @@ class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase {
     #extendsProxyArray = new Proxy(this.#extends_ShadowArray, _a$3.#extendsArrayReadonlyHandler);
     callSignatures = [];
     constructSignatures = [];
-    extendsSet = new TypeStructureSet(this.#extends_ShadowArray);
+    extendsSet = new TypeStructureSetInternal(this.#extends_ShadowArray);
     getAccessors = [];
     indexSignatures = [];
     methods = [];
@@ -2848,7 +2850,7 @@ class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase {
             target.constructSignatures.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.ConstructSignature, StructureClassesMap.forceArray(source.constructSignatures)));
         }
         const { extendsSet } = source;
-        if (extendsSet instanceof TypeStructureSet) {
+        if (extendsSet instanceof TypeStructureSetInternal) {
             target.extendsSet.cloneFromTypeStructureSet(extendsSet);
         }
         else if (Array.isArray(source.extends)) {

@@ -9,7 +9,7 @@ export {
 } from "./base/symbolKeys.js";
 export { default as TypeAccessors } from "./base/TypeAccessors.js";
 export { default as TypeStructureClassesMap } from "./base/TypeStructureClassesMap.js";
-export { default as TypeStructureSet } from "./base/TypeStructureSet.js";
+export { default as TypeStructureSetInternal } from "./base/TypeStructureSet.js";
 export {
   structureImplToNodeMap,
   structureToNodeMap,

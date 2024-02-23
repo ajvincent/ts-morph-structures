@@ -174,6 +174,7 @@
 |  [TypeParameterDeclarationStructureClassIfc](./ts-morph-structures.typeparameterdeclarationstructureclassifc.md) |  |
 |  [TypeParameteredNodeStructureClassIfc](./ts-morph-structures.typeparameterednodestructureclassifc.md) |  |
 |  [TypeParameterWithTypeStructures](./ts-morph-structures.typeparameterwithtypestructures.md) |  |
+|  [TypeStructureSet](./ts-morph-structures.typestructureset.md) |  |
 |  [VariableDeclarationStructureClassIfc](./ts-morph-structures.variabledeclarationstructureclassifc.md) |  |
 |  [VariableStatementStructureClassIfc](./ts-morph-structures.variablestatementstructureclassifc.md) |  |
 

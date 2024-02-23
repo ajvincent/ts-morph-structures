@@ -3,6 +3,7 @@ export {
   type KindedTypeStructure,
   TypeStructureKind,
 } from "./base/TypeStructureKind.js";
+export type { TypeStructureSet } from "./base/TypeStructureSet.js";
 export {
   default as getTypeAugmentedStructure,
   type TypeNodeToTypeStructureConsole,

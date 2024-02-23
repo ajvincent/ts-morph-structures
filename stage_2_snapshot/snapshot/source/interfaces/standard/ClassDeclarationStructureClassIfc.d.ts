@@ -5,8 +5,8 @@ import type {
   PropertyDeclarationImpl,
   SetAccessorDeclarationImpl,
   TypeStructures,
+  TypeStructureSet,
 } from "../../exports.js";
-import type { TypeStructureSet } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import type { StructureKind } from "ts-morph";
 

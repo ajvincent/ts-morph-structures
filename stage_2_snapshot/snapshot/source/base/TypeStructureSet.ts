@@ -13,12 +13,32 @@ import {
   TypeStructureClassesMap,
 } from "../internal-exports.js";
 
+/** @public */
+export interface TypeStructureSet extends Set<TypeStructures> {
+  /**
+   * Replace all the types this set manages with those from another array.
+   * @param array - the types to add.
+   */
+  replaceFromTypeArray(array: (string | WriterFunction)[]): void;
+
+  /**
+   * Replace all the type structures this set managers with those from another set.
+   * @param other - the type structure set to copy
+   */
+  cloneFromTypeStructureSet(other: TypeStructureSet): void;
+}
+
 /**
  * This supports setting "implements" and "extends" types for arrays behind read-only array
  * proxies.  The goal is to manage type structures and writer functions in one place,
  * where direct array access is troublesome (particularly, "write access").
+ *
+ * @internal
  */
-export default class TypeStructureSet extends Set<TypeStructures> {
+export default class TypeStructureSetInternal
+  extends Set<TypeStructures>
+  implements TypeStructureSet
+{
   static #getBackingValue(value: TypeStructures): stringOrWriterFunction {
     return value.kind === TypeStructureKind.Literal
       ? value.stringValue
@@ -52,7 +72,7 @@ export default class TypeStructureSet extends Set<TypeStructures> {
 
   add(value: TypeStructures): this {
     if (!super.has(value)) {
-      this.#backingArray.push(TypeStructureSet.#getBackingValue(value));
+      this.#backingArray.push(TypeStructureSetInternal.#getBackingValue(value));
     }
 
     return super.add(value);
@@ -64,7 +84,7 @@ export default class TypeStructureSet extends Set<TypeStructures> {
   }
 
   delete(value: TypeStructures): boolean {
-    const backingValue = TypeStructureSet.#getBackingValue(value);
+    const backingValue = TypeStructureSetInternal.#getBackingValue(value);
     const index = this.#backingArray.indexOf(backingValue);
     if (index === -1) {
       return false;

@@ -21,13 +21,11 @@ import {
 
 import type {
   StructureImpls,
+  TypeStructureSet,
   TypeStructures,
   TypeStructuresOrNull
 } from "../../snapshot/source/exports.js";
 
-import {
-  TypeStructureSet
-} from "../../snapshot/source/internal-exports.js";
 // #endregion preamble
 
 type TypeStructureKey<Key extends string> = {

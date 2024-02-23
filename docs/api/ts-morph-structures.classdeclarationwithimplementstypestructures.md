@@ -15,5 +15,5 @@ export interface ClassDeclarationWithImplementsTypeStructures
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [implements](./ts-morph-structures.classdeclarationwithimplementstypestructures.implements.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [implementsSet](./ts-morph-structures.classdeclarationwithimplementstypestructures.implementsset.md) |  | TypeStructureSet |  |
+|  [implementsSet](./ts-morph-structures.classdeclarationwithimplementstypestructures.implementsset.md) |  | [TypeStructureSet](./ts-morph-structures.typestructureset.md) |  |
 

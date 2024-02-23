@@ -1,7 +1,8 @@
 import {
   SourceFileImpl,
   TypeMembersMap,
-} from "#stage_two/snapshot/source/exports.js"
+  type TypeStructures
+} from "#stage_two/snapshot/source/exports.js";
 
 import BaseModule from "./BaseModule.js";
 
@@ -11,10 +12,17 @@ class InterfaceModule extends BaseModule {
   static readonly structuresMap = new Map<string, InterfaceModule>;
 
   readonly typeMembers: TypeMembersMap;
+  readonly extendsSet: Set<TypeStructures>;
 
-  constructor(interfaceName: string, typeMembers: TypeMembersMap) {
+  constructor(
+    interfaceName: string,
+    typeMembers: TypeMembersMap,
+    extendsSet: Set<TypeStructures>,
+  )
+  {
     super("source/interfaces/standard", interfaceName, true);
     this.typeMembers = typeMembers;
+    this.extendsSet = extendsSet;
   }
 
   protected getSourceFileImpl(): SourceFileImpl {

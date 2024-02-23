@@ -25,7 +25,7 @@ export default class InterfaceDeclarationImpl implements InterfaceDeclarationStr
 |  [constructSignatures](./ts-morph-structures.interfacedeclarationimpl.constructsignatures.md) | <code>readonly</code> | [ConstructSignatureDeclarationImpl](./ts-morph-structures.constructsignaturedeclarationimpl.md)<!-- -->\[\] |  |
 |  [docs](./ts-morph-structures.interfacedeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
 |  [extends](./ts-morph-structures.interfacedeclarationimpl.extends.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [extendsSet](./ts-morph-structures.interfacedeclarationimpl.extendsset.md) | <code>readonly</code> | TypeStructureSet |  |
+|  [extendsSet](./ts-morph-structures.interfacedeclarationimpl.extendsset.md) | <code>readonly</code> | TypeStructureSetInternal |  |
 |  [getAccessors](./ts-morph-structures.interfacedeclarationimpl.getaccessors.md) | <code>readonly</code> | [GetAccessorDeclarationImpl](./ts-morph-structures.getaccessordeclarationimpl.md)<!-- -->\[\] |  |
 |  [hasDeclareKeyword](./ts-morph-structures.interfacedeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
 |  [indexSignatures](./ts-morph-structures.interfacedeclarationimpl.indexsignatures.md) | <code>readonly</code> | [IndexSignatureDeclarationImpl](./ts-morph-structures.indexsignaturedeclarationimpl.md)<!-- -->\[\] |  |

@@ -57,7 +57,8 @@ function createStructureInterface(
 
   const interfaceModule = new InterfaceModule(
     getClassInterfaceName(name),
-    TypeMembersMap.fromMemberedObject(structureInterface)
+    TypeMembersMap.fromMemberedObject(structureInterface),
+    structureInterface.extendsSet
   );
   InterfaceModule.structuresMap.set(
     interfaceModule.defaultExportName, interfaceModule

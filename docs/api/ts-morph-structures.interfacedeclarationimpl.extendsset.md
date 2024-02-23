@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-readonly extendsSet: TypeStructureSet;
+readonly extendsSet: TypeStructureSetInternal;
 ```

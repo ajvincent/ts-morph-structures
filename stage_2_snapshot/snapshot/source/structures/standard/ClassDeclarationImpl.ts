@@ -37,7 +37,7 @@ import {
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
   TypeStructureClassesMap,
-  TypeStructureSet,
+  TypeStructureSetInternal,
 } from "../../internal-exports.js";
 import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
@@ -96,7 +96,9 @@ export default class ClassDeclarationImpl
   );
   readonly ctors: ConstructorDeclarationImpl[] = [];
   readonly getAccessors: GetAccessorDeclarationImpl[] = [];
-  readonly implementsSet = new TypeStructureSet(this.#implements_ShadowArray);
+  readonly implementsSet = new TypeStructureSetInternal(
+    this.#implements_ShadowArray,
+  );
   readonly methods: MethodDeclarationImpl[] = [];
   readonly properties: PropertyDeclarationImpl[] = [];
   readonly setAccessors: SetAccessorDeclarationImpl[] = [];
@@ -161,7 +163,7 @@ export default class ClassDeclarationImpl
     }
 
     const { implementsSet } = source as unknown as ClassDeclarationImpl;
-    if (implementsSet instanceof TypeStructureSet) {
+    if (implementsSet instanceof TypeStructureSetInternal) {
       target.implementsSet.cloneFromTypeStructureSet(implementsSet);
     } else if (Array.isArray(source.implements)) {
       target.implementsSet.replaceFromTypeArray(source.implements);

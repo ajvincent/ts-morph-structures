@@ -19,7 +19,7 @@ export interface ClassDeclarationStructureClassIfc
 |  [extendsStructure](./ts-morph-structures.classdeclarationstructureclassifc.extendsstructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 |  [getAccessors](./ts-morph-structures.classdeclarationstructureclassifc.getaccessors.md) | <code>readonly</code> | [GetAccessorDeclarationImpl](./ts-morph-structures.getaccessordeclarationimpl.md)<!-- -->\[\] |  |
 |  [implements](./ts-morph-structures.classdeclarationstructureclassifc.implements.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] | Treat this as a read-only array. Use <code>.implementsSet</code> to modify this. |
-|  [implementsSet](./ts-morph-structures.classdeclarationstructureclassifc.implementsset.md) | <code>readonly</code> | TypeStructureSet |  |
+|  [implementsSet](./ts-morph-structures.classdeclarationstructureclassifc.implementsset.md) | <code>readonly</code> | [TypeStructureSet](./ts-morph-structures.typestructureset.md) |  |
 |  [kind](./ts-morph-structures.classdeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.Class |  |
 |  [methods](./ts-morph-structures.classdeclarationstructureclassifc.methods.md) | <code>readonly</code> | [MethodDeclarationImpl](./ts-morph-structures.methoddeclarationimpl.md)<!-- -->\[\] |  |
 |  [properties](./ts-morph-structures.classdeclarationstructureclassifc.properties.md) | <code>readonly</code> | [PropertyDeclarationImpl](./ts-morph-structures.propertydeclarationimpl.md)<!-- -->\[\] |  |

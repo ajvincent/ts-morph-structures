@@ -15,5 +15,5 @@ export interface InterfaceDeclarationWithExtendsTypeStructures
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [extends](./ts-morph-structures.interfacedeclarationwithextendstypestructures.extends.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [extendsSet](./ts-morph-structures.interfacedeclarationwithextendstypestructures.extendsset.md) |  | TypeStructureSet |  |
+|  [extendsSet](./ts-morph-structures.interfacedeclarationwithextendstypestructures.extendsset.md) |  | [TypeStructureSet](./ts-morph-structures.typestructureset.md) |  |
 

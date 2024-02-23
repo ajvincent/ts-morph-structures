@@ -39,6 +39,13 @@ function definePublicExports(): void
   });
 
   publicExports.addExports({
+    pathToExportedModule: pathToModule(distDir, "source/base/TypeStructureSet.ts"),
+    exportNames: ["TypeStructureSet"],
+    isDefaultExport: true,
+    isType: true,
+  });
+
+  publicExports.addExports({
     pathToExportedModule: pathToModule(distDir, "source/bootstrap/getTypeAugmentedStructure.ts"),
     exportNames: [
       "getTypeAugmentedStructure",
@@ -232,13 +239,6 @@ function defineInternalExports(): void
   internalExports.addExports({
     pathToExportedModule: pathToModule(distDir, "source/base/TypeAccessors.ts"),
     exportNames: ["TypeAccessors"],
-    isDefaultExport: true,
-    isType: false,
-  });
-
-  internalExports.addExports({
-    pathToExportedModule: pathToModule(distDir, "source/base/TypeStructureSet.ts"),
-    exportNames: ["TypeStructureSet"],
     isDefaultExport: true,
     isType: false,
   });

@@ -1,9 +1,8 @@
-import {
-  type TypeStructures,
-  type stringOrWriterFunction,
+import type {
+  TypeStructureSet,
+  TypeStructures,
+  stringOrWriterFunction,
 } from "../exports.js";
-
-import { TypeStructureSet } from "../internal-exports.js";
 
 export interface TypedNodeTypeStructure {
   typeStructure: TypeStructures | undefined;

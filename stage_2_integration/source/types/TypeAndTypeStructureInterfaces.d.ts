@@ -1,11 +1,8 @@
-import {
-  type TypeStructures,
-  type stringOrWriterFunction,
+import type {
+  TypeStructureSet,
+  TypeStructures,
+  stringOrWriterFunction,
 } from "../../snapshot/source/exports.js";
-
-import {
-  TypeStructureSet
-} from "../../snapshot/source/internal-exports.js";
 
 export interface TypedNodeTypeStructure
 {

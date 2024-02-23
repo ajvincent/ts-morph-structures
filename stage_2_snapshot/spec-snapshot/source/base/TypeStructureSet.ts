@@ -5,12 +5,13 @@ import {
 import {
   LiteralTypeStructureImpl,
   StringTypeStructureImpl,
+  type TypeStructureSet,
   WriterTypeStructureImpl,
   type stringOrWriterFunction,
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
-  TypeStructureSet,
+  TypeStructureSetInternal,
 } from "#stage_two/snapshot/source/internal-exports.js";
 
 describe("TypeStructureSet", () => {
@@ -18,7 +19,7 @@ describe("TypeStructureSet", () => {
   let writerSet: TypeStructureSet;
   beforeEach(() => {
     backingArray = [];
-    writerSet = new TypeStructureSet(backingArray);
+    writerSet = new TypeStructureSetInternal(backingArray);
   });
 
   it("starts out empty", () => {
@@ -79,7 +80,7 @@ describe("TypeStructureSet", () => {
     const stringFoo = new StringTypeStructureImpl("foo");
     backingArray.push("boolean", writerOne, stringFoo.writerFunction);
 
-    writerSet = new TypeStructureSet(backingArray);
+    writerSet = new TypeStructureSetInternal(backingArray);
     expect(writerSet.size).toBe(3);
     const writerArray = Array.from(writerSet);
     expect(writerArray[1]).toBeInstanceOf(WriterTypeStructureImpl);
@@ -105,7 +106,7 @@ describe("TypeStructureSet", () => {
     const stringFoo = new StringTypeStructureImpl("foo");
     backingArray.push("boolean", writerOne, stringFoo.writerFunction);
 
-    writerSet = new TypeStructureSet(backingArray);
+    writerSet = new TypeStructureSetInternal(backingArray);
 
     writerSet.clear();
     expect(backingArray).toEqual([]);
