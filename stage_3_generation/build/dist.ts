@@ -10,7 +10,7 @@ import BaseModule from "../moduleClasses/BaseModule.js";
 import {
   stageDir,
 } from "./constants.js";
-import createInterfaces from "./createInterfaces.js";
+import createInterfaces from "./interfaces/createInterfaces.js";
 import defineExistingExports from "./publicAndInternalExports.js";
 import fillStructureUnions from "./structureUnions.js";
 

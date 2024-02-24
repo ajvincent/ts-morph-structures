@@ -5,11 +5,14 @@ import {
 } from "ts-morph";
 
 import {
-  getTypeAugmentedStructure,
-  type PropertySignatureImpl,
   TypeStructureKind,
   VoidTypeNodeToTypeStructureConsole,
+  getTypeAugmentedStructure,
 } from "#stage_two/snapshot/source/exports.js";
+
+import {
+  PromiseAllParallel,
+} from "#utilities/source/PromiseTypes.js";
 
 import {
   getClassInterfaceName,
@@ -17,8 +20,12 @@ import {
 
 import TS_MORPH_D from "#utilities/source/ts-morph-d-file.js";
 
-import InterfaceModule from "../moduleClasses/InterfaceModule.js";
-import { PromiseAllParallel } from "#utilities/source/PromiseTypes.js";
+import InterfaceModule from "../../moduleClasses/InterfaceModule.js";
+
+import consolidateNameDecorators from "./consolidateNameDecorators.js";
+import setHasQuestionToken from "./setHasQuestionToken.js";
+import tightenPropertyType from "./tightenPropertyType.js";
+import addImportsForProperty from "./addImportsForProperty.js";
 
 export default async function createInterfaces(
   structureNames: readonly string[]
@@ -35,10 +42,10 @@ export default async function createInterfaces(
   const decoratorNamesUnordered: string[] = [];
   for (const name of structureNames) {
     createStructureInterface(name);
-    const interfaceModule = InterfaceModule.structuresMap.get(
+    const module = InterfaceModule.structuresMap.get(
       getClassInterfaceName(name)
     )!
-    decoratorNamesUnordered.push(...interfaceModule.extendsSet);
+    decoratorNamesUnordered.push(...module.extendsSet);
   }
 
   const decoratorNames = new Set<string>(decoratorNamesUnordered);
@@ -46,32 +53,34 @@ export default async function createInterfaces(
     createDecoratorInterface(name, decoratorNames);
   }
 
-  const interfaceModules = [
+  consolidateNameDecorators();
+
+  const modules = [
     ...InterfaceModule.structuresMap.values(),
     ...InterfaceModule.decoratorsMap.values()
   ];
-  await PromiseAllParallel(interfaceModules, module => module.saveFile());
+  await PromiseAllParallel(modules, module => module.saveFile());
 }
 
 function createStructureInterface(
   name: string,
 ): void
 {
-  const interfaceModule = new InterfaceModule(
+  const module = new InterfaceModule(
     getClassInterfaceName(name),
   );
 
-  addInterface(name, interfaceModule);
+  addInterface(name, module);
   if (name === "SourceFileStructure")
-    interfaceModule.structureKindName = "SourceFile";
+    module.structureKindName = "SourceFile";
   else
-    assert(interfaceModule.structureKindName, "structure kind name not found for " + name);
+    assert(module.structureKindName, "structure kind name not found for " + name);
 
   InterfaceModule.structuresMap.set(
-    interfaceModule.defaultExportName, interfaceModule
+    module.defaultExportName, module
   );
 
-  tightenTypeMembers(interfaceModule);
+  tightenTypeMembers(module);
 }
 
 function createDecoratorInterface(
@@ -79,25 +88,25 @@ function createDecoratorInterface(
   decoratorNames: Set<string>,
 ): void
 {
-  const interfaceModule = new InterfaceModule(
+  const module = new InterfaceModule(
     getClassInterfaceName(name),
   );
 
-  addInterface(name, interfaceModule);
-  interfaceModule.extendsSet.forEach(
+  addInterface(name, module);
+  module.extendsSet.forEach(
     extendName => decoratorNames.add(extendName)
   );
 
   InterfaceModule.decoratorsMap.set(
-    interfaceModule.defaultExportName, interfaceModule
+    module.defaultExportName, module
   );
 
-  tightenTypeMembers(interfaceModule);
+  tightenTypeMembers(module);
 }
 
 function addInterface(
   name: string,
-  interfaceModule: InterfaceModule,
+  module: InterfaceModule,
 ): void
 {
   const structureInterface = getTypeAugmentedStructure(
@@ -113,9 +122,9 @@ function addInterface(
     if (kind === TypeStructureKind.Literal) {
       const id = extendsValue.stringValue;
       if (id.endsWith("SpecificStructure") || id.endsWith("BaseStructure")) {
-        addInterface(id, interfaceModule);
+        addInterface(id, module);
       } else {
-        interfaceModule.extendsSet.add(extendsValue.stringValue);
+        module.extendsSet.add(extendsValue.stringValue);
       }
     }
     else {
@@ -127,27 +136,23 @@ function addInterface(
       assert.equal(kindedName.childTypes[0], "StructureKind");
       assert.equal(kindedName.childTypes.length, 2);
 
-      interfaceModule.structureKindName = kindedName.childTypes[1];
+      module.structureKindName = kindedName.childTypes[1];
     }
   }
 
-  interfaceModule.typeMembers.addMembers(structureInterface.properties);
+  module.typeMembers.addMembers(structureInterface.properties);
 }
 
 function tightenTypeMembers(
-  interfaceModule: InterfaceModule
+  module: InterfaceModule
 ): void
 {
-  interfaceModule.typeMembers.arrayOfKind(StructureKind.PropertySignature).forEach(
-    property => tightenProperty(interfaceModule, property)
+  module.typeMembers.arrayOfKind(StructureKind.PropertySignature).forEach(
+    property => {
+      property.typeStructure = tightenPropertyType(property.typeStructure!);
+      setHasQuestionToken(module, property);
+      addImportsForProperty(module, property.typeStructure);
+    }
   );
 }
 
-function tightenProperty(
-  interfaceModule: InterfaceModule,
-  property: PropertySignatureImpl,
-): void
-{
-  void(interfaceModule); // allows setting imports
-  void(property);
-}

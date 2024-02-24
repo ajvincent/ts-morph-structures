@@ -1,5 +1,9 @@
+import assert from "node:assert/strict";
+
 import {
   InterfaceDeclarationImpl,
+  PropertySignatureImpl,
+  QualifiedNameTypeStructureImpl,
   SourceFileImpl,
   type TypeMemberImpl,
   TypeMembersMap,
@@ -29,7 +33,19 @@ class InterfaceModule extends BaseModule {
   readonly typeMembers: TypeMembersMap;
   readonly extendsSet: Set<string>;
 
-  structureKindName?: string;
+  #structureKindName?: string;
+  get structureKindName(): string | undefined {
+    return this.#structureKindName;
+  }
+  set structureKindName(value: string) {
+    assert(this.#structureKindName === undefined, "we should only set the structure kind once for " + this.defaultExportName);
+    this.#structureKindName = value;
+
+    const kindProperty = new PropertySignatureImpl("kind");
+    kindProperty.typeStructure = new QualifiedNameTypeStructureImpl(["StructureKind", value]);
+    this.typeMembers.addMembers([kindProperty]);
+    this.addImports("ts-morph", [], ["StructureKind"]);
+  }
 
   constructor(
     interfaceName: string,
@@ -48,9 +64,19 @@ class InterfaceModule extends BaseModule {
     this.typeMembers.sortEntries(InterfaceModule.#entryComparator);
     this.typeMembers.moveMembersToType(interfaceDecl);
     sourceFile.statements.push(
+      ...this.importsManager.getDeclarations(),
       interfaceDecl
     );
 
     return sourceFile;
+  }
+
+  public toJSON(): object {
+    return {
+      ...super.toJSON(),
+      structureKindName: this.#structureKindName,
+      extendsSet: Array.from(this.extendsSet),
+      typeMembers: this.typeMembers,
+    }
   }
 }
