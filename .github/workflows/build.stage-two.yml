@@ -4,6 +4,7 @@ on:
     paths:
       - '*'
       - '.github/workflows/**'
+      - 'stage_1_snapshot/prototype-snapshot/**'
       - 'stage_2_**'
 jobs:
   build-stage-two:
