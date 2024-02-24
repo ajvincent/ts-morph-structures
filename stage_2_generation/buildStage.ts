@@ -11,7 +11,7 @@ const BPSet = new BuildPromiseSet;
 
   target.addTask(async (): Promise<void> => {
     console.log("starting stage_2_generation:build:test");
-    await runJasmine("./build/spec/support/jasmine.json", "stage_one_build");
+    await runJasmine("./build/spec/support/jasmine.json", "stage_two_generation_test");
   });
 
   target.addTask(async (): Promise<void> => {

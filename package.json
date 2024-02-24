@@ -19,9 +19,11 @@
     "build-stage-two": "TSMS_STAGE='two' node --import ./register-hooks.js ./build.ts",
     "build-stage-three": "TSMS_STAGE='three' node --import ./register-hooks.js ./build.ts",
     "debug-stage-two-generation": "TSMS_STAGE='two' TSMS_DEBUG='stage_2_generation' node --import ./register-hooks.js ./build.ts",
+    "debug-stage-two-generation-test": "TSMS_STAGE='two' TSMS_DEBUG='stage_two_generation_test' node --import ./register-hooks.js ./build.ts",
     "debug-stage-two-integration": "TSMS_STAGE='two' TSMS_DEBUG='stage_2_integration' node --import ./register-hooks.js ./build.ts",
     "debug-stage-two-test": "TSMS_STAGE='two' TSMS_DEBUG='stage_two_test' node --import ./register-hooks.js ./build.ts",
     "debug-stage-three-generation": "TSMS_STAGE='three' TSMS_DEBUG='stage_3_generation' node --import ./register-hooks.js ./build.ts",
+    "debug-stage-three-generation-test": "TSMS_STAGE='three' TSMS_DEBUG='stage_three_generation_test' node --import ./register-hooks.js ./build.ts",
     "debug-stage-three-integration": "TSMS_STAGE='three' TSMS_DEBUG='stage_3_integration' node --import ./register-hooks.js ./build.ts",
     "debug-stage-three-test": "TSMS_STAGE='three' TSMS_DEBUG='stage_three_test' node --import ./register-hooks.js ./build.ts",
     "tsc-tasks": "tsc --project ./utilities/source/tasks/tsconfig.json",
@@ -81,6 +83,7 @@
     "#stage_two/fixtures/*": "./stage_2_snapshot/fixtures/*",
     "#stage_two/generation/*": "./stage_2_generation/*",
     "#stage_two/snapshot/*": "./stage_2_snapshot/snapshot/*",
+    "#stage_three/generation/*": "./stage_3_generation/*",
     "#utilities/*": "./utilities/*"
   }
 }

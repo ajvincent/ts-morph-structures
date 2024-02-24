@@ -11,6 +11,7 @@
       "#stage_two/fixtures/*": ["./stage_2_snapshot/fixtures/*"],
       "#stage_two/generation/*": ["./stage_2_generation/*"],
       "#stage_two/snapshot/*": ["./stage_2_snapshot/snapshot/*"],
+      "#stage_three/generation/*": ["./stage_3_generation/*"],
       "#utilities/*": ["./utilities/*"],
     }
   },
