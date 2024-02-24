@@ -33,4 +33,5 @@ const map = new ClassMembersMap; const foo = new PropertyDeclarationImpl(false, 
 |  [keyFromName(kind, isStatic, name)](./ts-morph-structures.classmembersmap.keyfromname.md) | <code>static</code> |  |
 |  [moveMembersToClass(classDecl)](./ts-morph-structures.classmembersmap.movememberstoclass.md) |  | Move class members from this map to a class declaration, and clear this map. |
 |  [moveStatementsToMembers(statementsMaps)](./ts-morph-structures.classmembersmap.movestatementstomembers.md) |  | Move statements from a sequence of statement maps to the class members. |
+|  [toJSON()](./ts-morph-structures.classmembersmap.tojson.md) |  |  |
 

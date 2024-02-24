@@ -32,4 +32,5 @@ const map = new TypeMembersMap; const foo = new PropertySignatureImpl(false, "fo
 |  [keyFromName(kind, name)](./ts-morph-structures.typemembersmap.keyfromname.md) | <code>static</code> |  |
 |  [moveMembersToType(owner)](./ts-morph-structures.typemembersmap.movememberstotype.md) |  | Move type members from this map to an interface or type literal, and clear this map. |
 |  [resolveIndexSignature(signature, names)](./ts-morph-structures.typemembersmap.resolveindexsignature.md) |  | <p>Replace an index signature with other methods/properties matching the signature's return type.</p><p>It is up to you to ensure the names match the key type of the index signature.</p> |
+|  [toJSON()](./ts-morph-structures.typemembersmap.tojson.md) |  |  |
 

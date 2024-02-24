@@ -608,4 +608,8 @@ export default class ClassMembersMap extends OrderedMap<
       member.statements.push(...statements.flat());
     }
   }
+
+  toJSON(): readonly ClassMemberImpl[] {
+    return Array.from(this.values());
+  }
 }

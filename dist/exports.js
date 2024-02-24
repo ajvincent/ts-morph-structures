@@ -5190,6 +5190,9 @@ class ClassMembersMap extends OrderedMap {
             member.statements.push(...statements.flat());
         }
     }
+    toJSON() {
+        return Array.from(this.values());
+    }
 }
 _a$1 = ClassMembersMap;
 
@@ -6096,6 +6099,9 @@ class TypeMembersMap extends OrderedMap {
         this.addMembers(addedMembers);
         this.delete(indexKey);
         return addedMembers;
+    }
+    toJSON() {
+        return Array.from(this.values());
     }
 }
 _a = TypeMembersMap;

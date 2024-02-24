@@ -1926,6 +1926,7 @@ declare class ClassMembersMap extends OrderedMap<string, ClassMemberImpl> {
      * @param statementsMaps - the statements to apply to each member, ordered by purpose.
      */
     moveStatementsToMembers(statementsMaps: ClassFieldStatementsMap[]): void;
+    toJSON(): readonly ClassMemberImpl[];
 }
 
 /**
@@ -2146,6 +2147,7 @@ declare class TypeMembersMap extends OrderedMap<string, TypeMemberImpl> {
      * @param names - the names to replace the signature's key with.
      */
     resolveIndexSignature(signature: IndexSignatureDeclarationImpl, names: string[]): MethodSignatureImpl[] | PropertySignatureImpl[];
+    toJSON(): readonly TypeMemberImpl[];
 }
 
 /** A description of the exports to add. */

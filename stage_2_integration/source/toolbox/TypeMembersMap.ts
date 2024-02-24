@@ -434,4 +434,8 @@ extends OrderedMap<string, TypeMemberImpl>
 
     return addedMembers;
   }
+
+  toJSON(): readonly TypeMemberImpl[] {
+    return Array.from(this.values());
+  }
 }

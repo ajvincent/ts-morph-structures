@@ -564,4 +564,8 @@ extends OrderedMap<string, ClassMemberImpl>
       member.statements.push(...statements.flat());
     }
   }
+
+  toJSON(): readonly ClassMemberImpl[] {
+    return Array.from(this.values());
+  }
 }
