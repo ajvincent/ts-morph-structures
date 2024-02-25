@@ -30,6 +30,8 @@ import tightenPropertyType from "./tightenPropertyType.js";
 import addImportsForProperty from "./addImportsForProperty.js";
 import addTypeStructures from "./addTypeStructures.js";
 
+import { publicExports } from "../../moduleClasses/ExportsModule.js";
+
 export default async function createInterfaces(
   structureNames: readonly string[]
 ): Promise<void>
@@ -66,6 +68,7 @@ export default async function createInterfaces(
   ];
   modules.forEach(addTypeStructures);
   modules.forEach(defineImportsForModule);
+  modules.forEach(definePublicExport);
   await PromiseAllParallel(modules, module => module.saveFile());
 }
 
@@ -172,4 +175,16 @@ function defineImportsForModule(
   module.typeMembers.arrayOfKind(StructureKind.PropertySignature).forEach(
     property => addImportsForProperty(module, property.typeStructure!)
   );
+}
+
+function definePublicExport(
+  module: InterfaceModule
+): void
+{
+  publicExports.addExports({
+    pathToExportedModule: module.importsManager.absolutePathToModule,
+    isDefaultExport: false,
+    isType: true,
+    exportNames: [module.defaultExportName]
+  });
 }
