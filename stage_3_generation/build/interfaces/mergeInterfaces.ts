@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 
 import {
-  getClassInterfaceName,
   getStructureNameFromModified
 } from "#utilities/source/StructureNameTransforms.js";
 
 import InterfaceModule from "../../moduleClasses/InterfaceModule.js";
+import removeStaticableDecorator from "./removeStaticableDecorator.js";
 
 export default function mergeInterfaces(): void {
   {
@@ -74,26 +74,6 @@ function getExtendsReferences(
   }
 
   return new Map(entries);
-}
-
-function removeStaticableDecorator(): void {
-  const name = "StaticableNodeStructure";
-  const staticable = InterfaceModule.decoratorsMap.get(
-    getClassInterfaceName(name)
-  )!;
-
-  const members = Array.from(staticable.typeMembers.values())
-
-  InterfaceModule.structuresMap.forEach(structureModule => {
-    if (structureModule.extendsSet.has(name) === false)
-      return;
-    structureModule.typeMembers.addMembers(members);
-    structureModule.extendsSet.delete(name);
-  });
-
-  InterfaceModule.decoratorsMap.delete(
-    getClassInterfaceName(name)
-  );
 }
 
 function removeUnnecessaryDecorators(): void {

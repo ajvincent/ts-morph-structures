@@ -221,8 +221,6 @@ function getTypeStructureForValue(
   return new UnionTypedStructureImpl(structures);
 }
 
-const stringOrWriterModule = path.join(distDir, "source/types/stringOrWriterFunction.d.ts");
-
 function getTypeStructureArrayForValue(
   value: PropertyValue,
   parts: DecoratorParts | StructureParts,
@@ -237,7 +235,7 @@ function getTypeStructureArrayForValue(
     );
 
     parts.importsManager.addImports({
-      pathToImportedModule: stringOrWriterModule,
+      pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
       isPackageImport: false,
       importNames: ["stringOrWriterFunction"],
       isDefaultImport: false,
@@ -245,7 +243,7 @@ function getTypeStructureArrayForValue(
     });
 
     dictionaries.publicExports.addExports({
-      absolutePathToModule: path.join(distDir, "source/types/stringOrWriterFunction.ts"),
+      absolutePathToModule: path.join(distDir, "source/types/stringOrWriterFunction.d.ts"),
       exportNames: ["stringOrWriterFunction"],
       isDefaultExport: false,
       isType: true,

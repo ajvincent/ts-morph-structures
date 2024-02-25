@@ -223,8 +223,6 @@ interface CallSignatureDeclarationStructureClassIfc {
   readonly kind: StructureKind.CallSignature;
 }
 
-type stringOrWriterFunction = string | WriterFunction;
-
 interface ClassDeclarationStructureClassIfc {
   readonly kind: StructureKind.Class;
   readonly ctors: ConstructorDeclarationImpl[];
@@ -327,7 +325,6 @@ interface GetAccessorDeclarationStructureClassIfc {
 
 interface ImportAttributeStructureClassIfc {
   readonly kind: StructureKind.ImportAttribute;
-  name: string;
   value: string;
 }
 
@@ -1260,12 +1257,12 @@ declare class GetAccessorDeclarationImpl extends GetAccessorDeclarationStructure
 declare const ImportAttributeStructureBase: mixin_decorators.MixinClass<object, {
     readonly leadingTrivia: stringOrWriterFunction[];
     readonly trailingTrivia: stringOrWriterFunction[];
+    name: string;
 }, typeof StructureBase>;
 declare class ImportAttributeImpl extends ImportAttributeStructureBase implements ImportAttributeStructureClassIfc {
     readonly kind: StructureKind.ImportAttribute;
-    name: string;
     value: string;
-    constructor(value: string, name: string);
+    constructor(name: string, value: string);
     /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ImportAttributeStructure>, target: ImportAttributeImpl): void;
     static clone(source: OptionalKind<ImportAttributeStructure>): ImportAttributeImpl;
@@ -2273,6 +2270,8 @@ type TypeMemberImpl =
 type stringWriterOrStatementImpl =
   | stringOrWriterFunction
   | StatementStructureImpls;
+
+type stringOrWriterFunction = string | WriterFunction;
 
 type ClassMemberStructureImpls =
   | ClassStaticBlockDeclarationImpl

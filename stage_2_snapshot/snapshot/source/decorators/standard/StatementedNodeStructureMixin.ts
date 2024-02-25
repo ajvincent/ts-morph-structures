@@ -2,6 +2,7 @@
 import type {
   StatementedNodeStructureClassIfc,
   StatementStructureImpls,
+  stringOrWriterFunction,
 } from "../../exports.js";
 import {
   COPY_FIELDS,
@@ -11,7 +12,6 @@ import {
   StructureClassesMap,
   type StructureClassToJSON,
 } from "../../internal-exports.js";
-import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import type {
   MixinClass,
   StaticAndInstance,

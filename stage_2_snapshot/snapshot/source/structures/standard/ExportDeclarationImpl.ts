@@ -3,6 +3,7 @@ import {
   type ExportDeclarationStructureClassIfc,
   ExportSpecifierImpl,
   ImportAttributeImpl,
+  type stringOrWriterFunction,
 } from "../../exports.js";
 import {
   type CloneableStructure,
@@ -15,7 +16,6 @@ import {
   type StructureFields,
   StructureMixin,
 } from "../../internal-exports.js";
-import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type ExportDeclarationStructure,

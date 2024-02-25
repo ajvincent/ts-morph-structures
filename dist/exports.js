@@ -2599,12 +2599,11 @@ class GetAccessorDeclarationImpl extends GetAccessorDeclarationStructureBase {
 StructureClassesMap.set(StructureKind.GetAccessor, GetAccessorDeclarationImpl);
 
 //#endregion preamble
-const ImportAttributeStructureBase = MultiMixinBuilder([StructureMixin], StructureBase);
+const ImportAttributeStructureBase = MultiMixinBuilder([NamedNodeStructureMixin, StructureMixin], StructureBase);
 class ImportAttributeImpl extends ImportAttributeStructureBase {
     kind = StructureKind.ImportAttribute;
-    name;
     value;
-    constructor(value, name) {
+    constructor(name, value) {
         super();
         this.name = name;
         this.value = value;
@@ -2612,22 +2611,18 @@ class ImportAttributeImpl extends ImportAttributeStructureBase {
     /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
-        if (source.name) {
-            target.name = source.name;
-        }
         if (source.value) {
             target.value = source.value;
         }
     }
     static clone(source) {
-        const target = new ImportAttributeImpl(source.value, source.name);
+        const target = new ImportAttributeImpl(source.name, source.value);
         this[COPY_FIELDS](source, target);
         return target;
     }
     toJSON() {
         const rv = super.toJSON();
         rv.kind = this.kind;
-        rv.name = this.name;
         rv.value = this.value;
         return rv;
     }

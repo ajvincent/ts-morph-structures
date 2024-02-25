@@ -1,5 +1,6 @@
 //#region preamble
 import type {
+  stringOrWriterFunction,
   TypeAliasDeclarationStructureClassIfc,
   TypeStructures,
 } from "../../exports.js";
@@ -26,7 +27,6 @@ import {
   type TypeParameteredNodeStructureFields,
   TypeParameteredNodeStructureMixin,
 } from "../../internal-exports.js";
-import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   OptionalKind,

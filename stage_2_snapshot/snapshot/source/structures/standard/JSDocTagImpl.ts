@@ -1,5 +1,8 @@
 //#region preamble
-import type { JSDocTagStructureClassIfc } from "../../exports.js";
+import type {
+  JSDocTagStructureClassIfc,
+  stringOrWriterFunction,
+} from "../../exports.js";
 import {
   type CloneableStructure,
   COPY_FIELDS,
@@ -11,7 +14,6 @@ import {
   type StructureFields,
   StructureMixin,
 } from "../../internal-exports.js";
-import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import { type JSDocTagStructure, OptionalKind, StructureKind } from "ts-morph";
 import type { Class } from "type-fest";

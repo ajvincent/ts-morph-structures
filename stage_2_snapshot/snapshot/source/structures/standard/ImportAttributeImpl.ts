@@ -4,6 +4,8 @@ import {
   type CloneableStructure,
   COPY_FIELDS,
   type ExtractStructure,
+  type NamedNodeStructureFields,
+  NamedNodeStructureMixin,
   StructureBase,
   StructureClassesMap,
   type StructureClassToJSON,
@@ -19,19 +21,18 @@ import {
 import type { Class } from "type-fest";
 //#endregion preamble
 const ImportAttributeStructureBase = MultiMixinBuilder<
-  [StructureFields],
+  [NamedNodeStructureFields, StructureFields],
   typeof StructureBase
->([StructureMixin], StructureBase);
+>([NamedNodeStructureMixin, StructureMixin], StructureBase);
 
 export default class ImportAttributeImpl
   extends ImportAttributeStructureBase
   implements ImportAttributeStructureClassIfc
 {
   readonly kind: StructureKind.ImportAttribute = StructureKind.ImportAttribute;
-  name: string;
   value: string;
 
-  constructor(value: string, name: string) {
+  constructor(name: string, value: string) {
     super();
     this.name = name;
     this.value = value;
@@ -43,10 +44,6 @@ export default class ImportAttributeImpl
     target: ImportAttributeImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (source.name) {
-      target.name = source.name;
-    }
-
     if (source.value) {
       target.value = source.value;
     }
@@ -55,7 +52,7 @@ export default class ImportAttributeImpl
   public static clone(
     source: OptionalKind<ImportAttributeStructure>,
   ): ImportAttributeImpl {
-    const target = new ImportAttributeImpl(source.value, source.name);
+    const target = new ImportAttributeImpl(source.name, source.value);
     this[COPY_FIELDS](source, target);
     return target;
   }
@@ -63,7 +60,6 @@ export default class ImportAttributeImpl
   public toJSON(): StructureClassToJSON<ImportAttributeImpl> {
     const rv = super.toJSON() as StructureClassToJSON<ImportAttributeImpl>;
     rv.kind = this.kind;
-    rv.name = this.name;
     rv.value = this.value;
     return rv;
   }

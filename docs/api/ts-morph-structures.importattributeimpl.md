@@ -15,7 +15,7 @@ export default class ImportAttributeImpl implements ImportAttributeStructureClas
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)(value, name)](./ts-morph-structures.importattributeimpl._constructor_.md) |  | Constructs a new instance of the <code>ImportAttributeImpl</code> class |
+|  [(constructor)(name, value)](./ts-morph-structures.importattributeimpl._constructor_.md) |  | Constructs a new instance of the <code>ImportAttributeImpl</code> class |
 
 ## Properties
 

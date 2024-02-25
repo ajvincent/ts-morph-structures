@@ -4,10 +4,10 @@ import type {
   MethodDeclarationImpl,
   PropertyDeclarationImpl,
   SetAccessorDeclarationImpl,
+  stringOrWriterFunction,
   TypeStructures,
   TypeStructureSet,
 } from "../../exports.js";
-import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import type { StructureKind } from "ts-morph";
 
 export interface ClassDeclarationStructureClassIfc {

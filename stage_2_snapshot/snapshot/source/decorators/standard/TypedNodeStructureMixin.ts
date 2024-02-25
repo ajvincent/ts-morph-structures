@@ -1,5 +1,6 @@
 //#region preamble
 import type {
+  stringOrWriterFunction,
   StructureImpls,
   TypedNodeStructureClassIfc,
   TypeStructures,
@@ -14,7 +15,6 @@ import {
   TypeAccessors,
   TypeStructureClassesMap,
 } from "../../internal-exports.js";
-import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import type {
   MixinClass,
   StaticAndInstance,

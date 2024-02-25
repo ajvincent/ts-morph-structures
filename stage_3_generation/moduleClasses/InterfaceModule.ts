@@ -44,6 +44,7 @@ class InterfaceModule extends BaseModule {
     this.#structureKindName = value;
 
     const kindProperty = new PropertySignatureImpl("kind");
+    kindProperty.isReadonly = true;
     kindProperty.typeStructure = new QualifiedNameTypeStructureImpl(["StructureKind", value]);
     this.typeMembers.addMembers([kindProperty]);
     this.addImports("ts-morph", [], ["StructureKind"]);

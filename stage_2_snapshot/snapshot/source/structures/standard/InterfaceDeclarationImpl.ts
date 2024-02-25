@@ -8,6 +8,7 @@ import {
   MethodSignatureImpl,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
+  type stringOrWriterFunction,
   type StructureImpls,
   type TypeStructures,
 } from "../../exports.js";
@@ -35,7 +36,6 @@ import {
   TypeParameteredNodeStructureMixin,
   TypeStructureSetInternal,
 } from "../../internal-exports.js";
-import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type CallSignatureDeclarationStructure,

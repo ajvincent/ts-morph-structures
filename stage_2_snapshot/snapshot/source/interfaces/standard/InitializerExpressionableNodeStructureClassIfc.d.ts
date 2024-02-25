@@ -1,4 +1,4 @@
-import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
+import type { stringOrWriterFunction } from "../../exports.js";
 
 export interface InitializerExpressionableNodeStructureClassIfc {
   initializer?: stringOrWriterFunction;

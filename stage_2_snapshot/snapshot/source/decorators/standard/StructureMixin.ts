@@ -1,5 +1,8 @@
 //#region preamble
-import type { StructureClassIfc } from "../../exports.js";
+import type {
+  stringOrWriterFunction,
+  StructureClassIfc,
+} from "../../exports.js";
 import {
   COPY_FIELDS,
   REPLACE_WRITER_WITH_STRING,
@@ -7,7 +10,6 @@ import {
   StructureBase,
   type StructureClassToJSON,
 } from "../../internal-exports.js";
-import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import type {
   MixinClass,
   StaticAndInstance,

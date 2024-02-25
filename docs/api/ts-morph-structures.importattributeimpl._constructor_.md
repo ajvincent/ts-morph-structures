@@ -9,13 +9,13 @@ Constructs a new instance of the `ImportAttributeImpl` class
 **Signature:**
 
 ```typescript
-constructor(value: string, name: string);
+constructor(name: string, value: string);
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | string |  |
 |  name | string |  |
+|  value | string |  |
 

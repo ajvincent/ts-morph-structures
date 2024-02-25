@@ -1,5 +1,4 @@
-import type { TypeStructures } from "../../exports.js";
-import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
+import type { stringOrWriterFunction, TypeStructures } from "../../exports.js";
 import type { StructureKind, TypeParameterVariance } from "ts-morph";
 
 export interface TypeParameterDeclarationStructureClassIfc {

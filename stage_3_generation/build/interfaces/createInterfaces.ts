@@ -155,6 +155,8 @@ function tightenTypeMembers(
   module.typeMembers.arrayOfKind(StructureKind.PropertySignature).forEach(
     property => {
       property.typeStructure = tightenPropertyType(property.typeStructure!);
+      if (property.typeStructure.kind === TypeStructureKind.Array)
+        property.isReadonly = true;
       setHasQuestionToken(module, property);
     }
   );

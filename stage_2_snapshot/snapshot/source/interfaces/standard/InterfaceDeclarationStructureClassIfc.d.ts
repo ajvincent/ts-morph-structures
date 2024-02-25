@@ -6,9 +6,9 @@ import type {
   MethodSignatureImpl,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
+  stringOrWriterFunction,
   TypeStructureSet,
 } from "../../exports.js";
-import type { stringOrWriterFunction } from "../../types/stringOrWriterFunction.js";
 import type { StructureKind } from "ts-morph";
 
 export interface InterfaceDeclarationStructureClassIfc {

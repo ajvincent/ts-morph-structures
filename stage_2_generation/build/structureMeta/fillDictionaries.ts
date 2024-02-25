@@ -318,6 +318,7 @@ function consolidateNameDecorators(
   for (const oldDecorator of [
     "AssertionKeyNamedNodeStructure",
     "BindingNamedNodeStructure",
+    "ImportAttributeNamedNodeStructure",
     "JsxTagNamedNodeStructure",
     "ModuleNamedNodeStructure",
     "PropertyNamedNodeStructure",
