@@ -13,11 +13,11 @@ export default function defineKindProperty(
   name: string,
   meta: StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   const parts = dictionaries.structureParts.get(meta);
   if (!parts)
-    return Promise.resolve();
+    return;
 
   const {
     classFieldsStatements,
@@ -27,7 +27,7 @@ export default function defineKindProperty(
     importsManager
   } = parts;
   if (classMembersMap.has("kind"))
-    return Promise.resolve();
+    return;
 
   const kindSignature = new PropertySignatureImpl("kind");
   kindSignature.isReadonly = true;
@@ -64,6 +64,4 @@ export default function defineKindProperty(
     isTypeOnly: false,
     importNames: ["StructureKind"]
   });
-
-  return Promise.resolve();
 }

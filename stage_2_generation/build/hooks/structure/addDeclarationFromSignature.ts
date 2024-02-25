@@ -24,7 +24,7 @@ export default function addDeclarationFromSignature(
   name: string,
   meta: StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   const parts = dictionaries.structureParts.get(meta)!;
   switch (parts.classDecl.name) {
@@ -38,7 +38,6 @@ export default function addDeclarationFromSignature(
       convertProperty(parts, dictionaries);
       break;
   }
-  return Promise.resolve();
 }
 
 function convertConstructor(

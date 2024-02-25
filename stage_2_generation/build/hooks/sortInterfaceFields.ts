@@ -16,7 +16,7 @@ export default function sortInterfaceFields(
   name: string,
   meta: DecoratorImplMeta | StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
 
   let parts: DecoratorParts | StructureParts;
@@ -27,7 +27,6 @@ export default function sortInterfaceFields(
   }
 
   parts.classImplementsMap.sortEntries(entryComparator);
-  return Promise.resolve();
 }
 
 function entryComparator(

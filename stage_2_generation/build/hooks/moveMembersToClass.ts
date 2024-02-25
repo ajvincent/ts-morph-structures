@@ -12,7 +12,7 @@ export default function moveMembersToClass(
   name: string,
   meta: DecoratorImplMeta | StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   let parts: DecoratorParts | StructureParts;
   if (meta instanceof DecoratorImplMeta) {
@@ -22,5 +22,4 @@ export default function moveMembersToClass(
   }
 
   parts.classMembersMap.moveMembersToClass(parts.classDecl, [parts.classFieldsStatements]);
-  return Promise.resolve();
 }

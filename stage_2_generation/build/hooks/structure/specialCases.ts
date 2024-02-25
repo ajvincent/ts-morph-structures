@@ -35,7 +35,7 @@ export default function structureSpecialCases(
   name: string,
   meta: StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   const parts = dictionaries.structureParts.get(meta)!;
   switch (parts.classDecl.name) {
@@ -64,7 +64,6 @@ export default function structureSpecialCases(
       convertTypePropertyToAccessors(parts, dictionaries);
       break;
   }
-  return Promise.resolve();
 }
 
 function convertKeyTypePropertyToAccessors(

@@ -12,7 +12,7 @@ export default function removeUselessCopyFields(
   name: string,
   meta: StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   const parts = dictionaries.structureParts.get(meta)!;
   const copyFields = parts.classFieldsStatements.groupStatementsMap(COPY_FIELDS_NAME);
@@ -20,6 +20,4 @@ export default function removeUselessCopyFields(
   if (copyFields!.size === 1) {
     parts.classMembersMap.delete(COPY_FIELDS_NAME);
   }
-
-  return Promise.resolve();
 }

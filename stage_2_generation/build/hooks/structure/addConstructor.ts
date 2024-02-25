@@ -25,7 +25,7 @@ export default function addConstructor(
   name: string,
   meta: StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   const parts = dictionaries.structureParts.get(meta)!;
 
@@ -110,6 +110,4 @@ export default function addConstructor(
       ["super()"]
     );
   }
-
-  return Promise.resolve();
 }

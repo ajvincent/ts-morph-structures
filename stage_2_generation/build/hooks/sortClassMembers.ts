@@ -22,7 +22,7 @@ export default function sortClassMembers(
   name: string,
   meta: DecoratorImplMeta | StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   let parts: DecoratorParts | StructureParts;
   if (meta instanceof DecoratorImplMeta) {
@@ -36,8 +36,6 @@ export default function sortClassMembers(
   classDecl.methods.sort(sortMembers);
   classDecl.getAccessors.sort(sortMembers);
   classDecl.setAccessors.sort(sortMembers);
-
-  return Promise.resolve();
 }
 
 function sortMembers(

@@ -38,7 +38,7 @@ export default function createStructureParts(
   name: string,
   meta: StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   const parts: Partial<StructureParts> = {
     partsType: MetaPartsType.STRUCTURE,
@@ -131,5 +131,4 @@ export default function createStructureParts(
   parts.moduleInterfaces = [];
 
   dictionaries.structureParts.set(meta, parts as StructureParts);
-  return Promise.resolve();
 }

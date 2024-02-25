@@ -11,22 +11,32 @@ import addTSDoc from "./hooks/addTSDoc.js";
 import addTypeStructures from "./hooks/addTypeStructures.js";
 import moveMembersToClass from "./hooks/moveMembersToClass.js";
 import sortClassMembers from "./hooks/sortClassMembers.js";
-import saveDecoratorFile from "./hooks/decorator/save.js";
 import createStructureParts from "./hooks/structure/createParts.js";
 import defineKindProperty from "./hooks/structure/defineKind.js";
 import addConstructor from "./hooks/structure/addConstructor.js";
 import addStaticClone from "./hooks/structure/addStaticClone.js";
 import addDeclarationFromSignature from "./hooks/structure/addDeclarationFromSignature.js";
-import saveStructureFile from "./hooks/structure/save.js";
 import removeUselessCopyFields from "./hooks/structure/removeUselessCopyFields.js";
 import structureSpecialCases from "./hooks/structure/specialCases.js";
-import buildImplUnions from "./utilities/buildImplUnions.js";
 
 import defineExistingExports from "./publicAndInternalExports.js";
 
-import logIfNameStart from "./hooks/logIfNameStart.js";
+import saveDecoratorFile from "./hooks/decorator/save.js";
+import saveStructureFile from "./hooks/structure/save.js";
+import buildImplUnions from "./utilities/buildImplUnions.js";
+
+import {
+  debugDecoratorIfNameStart,
+  debugStructureIfNameStart,
+  logDecoratorIfNameStart,
+  logStructureIfNameStart,
+} from "./hooks/debugging.js";
+void(debugDecoratorIfNameStart);
+void(debugStructureIfNameStart);
+void(logDecoratorIfNameStart);
+void(logStructureIfNameStart);
+
 import sortInterfaceFields from "./hooks/sortInterfaceFields.js";
-void(logIfNameStart);
 
 // #endregion hooks
 
@@ -47,7 +57,8 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addDecoratorHook("move members to class", moveMembersToClass);
   dictionary.addDecoratorHook("sort interface members", sortInterfaceFields);
   dictionary.addDecoratorHook("sort class members", sortClassMembers);
-  dictionary.addDecoratorHook("save decorator file", saveDecoratorFile);
+
+  dictionary.saveDecoratorHook = saveDecoratorFile;
 
   dictionary.addStructureHook("create structure parts", createStructureParts);
   dictionary.addStructureHook("add interface fields", addInterfaceFields);
@@ -64,7 +75,8 @@ async function BuildClassesDriver(distDir: string): Promise<void>
   dictionary.addStructureHook("move members to class", moveMembersToClass);
   dictionary.addStructureHook("sort interface members", sortInterfaceFields);
   dictionary.addStructureHook("sort class members", sortClassMembers);
-  dictionary.addStructureHook("save structure file", saveStructureFile);
+
+  dictionary.saveStructureHook = saveStructureFile;
 
   await dictionary.build();
   await buildImplUnions(dictionary, distDir);

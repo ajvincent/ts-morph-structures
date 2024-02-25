@@ -43,7 +43,7 @@ export default function addTypeStructures(
   name: string,
   meta: DecoratorImplMeta | StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   let parts: DecoratorParts | StructureParts;
   if (meta instanceof DecoratorImplMeta) {
@@ -63,8 +63,6 @@ export default function addTypeStructures(
       addTypeAccessor(dictionaries, parts, propertyValue, propertyKey)
     }
   });
-
-  return Promise.resolve();
 }
 
 function addTypeStructureSet(

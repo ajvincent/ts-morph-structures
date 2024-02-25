@@ -25,11 +25,11 @@ export default function addStaticClone(
   name: string,
   meta: StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   const parts = dictionaries.structureParts.get(meta);
   if (!parts)
-    return Promise.resolve();
+    return;
 
   const {
     classDecl,
@@ -110,5 +110,4 @@ export default function addStaticClone(
   );
 
   classMembersMap.addMembers([cloneMethod]);
-  return Promise.resolve();
 }

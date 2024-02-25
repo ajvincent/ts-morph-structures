@@ -1,11 +1,12 @@
 //#region preamble
+import assert from "node:assert/strict";
+
 import {
   WriterFunction,
 } from "ts-morph";
 
 import {
   PromiseAllParallel,
-  PromiseAllSequence,
 } from "#utilities/source/PromiseTypes.js";
 
 import {
@@ -42,9 +43,21 @@ export type DecoratorHook = (
   name: string,
   meta: DecoratorImplMeta,
   dictionaries: StructureDictionaries
-) => Promise<void>;
+) => void;
 
 export type StructureHook = (
+  name: string,
+  meta: StructureImplMeta,
+  dictionaries: StructureDictionaries
+) => void;
+
+export type DecoratorSaveHook = (
+  name: string,
+  meta: DecoratorImplMeta,
+  dictionaries: StructureDictionaries
+) => Promise<void>;
+
+export type StructureSaveHook = (
   name: string,
   meta: StructureImplMeta,
   dictionaries: StructureDictionaries
@@ -111,6 +124,9 @@ class StructureDictionaries extends StructureMetaDictionaries
   readonly #decoratorHooks = new Map<string, DecoratorHook>;
   readonly #structureHooks = new Map<string, StructureHook>;
 
+  saveDecoratorHook?: DecoratorSaveHook;
+  saveStructureHook?: StructureSaveHook;
+
   addDecoratorHook(
     name: string,
     hook: DecoratorHook
@@ -143,20 +159,32 @@ class StructureDictionaries extends StructureMetaDictionaries
     name: string
   ): Promise<void>
   {
-    const entries = Array.from(this.#decoratorHooks.entries());
+    assert(this.saveDecoratorHook, "save decorator hook is missing?");
+
+    const entries: [string, DecoratorHook][] = Array.from(this.#decoratorHooks.entries());
     const decorator: DecoratorImplMeta = this.decorators.get(name)!
 
     const errors: unknown[] = [];
-    await PromiseAllSequence(entries, async ([hookName, hook]): Promise<void> => {
+
+    entries.forEach(([hookName, hook]) => {
       try {
-        await hook(name, decorator, this);
+        hook(name, decorator, this);
       }
       catch (ex) {
         console.error(`Failed on decorator ${name} with hook ${hookName}`);
         errors.push(ex);
       }
-    });
+    }, this);
 
+    if (errors.length === 0) {
+      try {
+        await this.saveDecoratorHook(name, decorator, this);
+      }
+      catch (ex) {
+        console.error(`Failed on decorator ${name} with save hook`);
+        errors.push(ex);
+      }
+    }
     if (errors.length) {
       throw new AggregateError(errors);
     }
@@ -167,20 +195,32 @@ class StructureDictionaries extends StructureMetaDictionaries
     name: string
   ): Promise<void>
   {
-    const entries = Array.from(this.#structureHooks.entries());
+    assert(this.saveStructureHook, "save structure hook is missing?");
+
+    const entries: [string, StructureHook][] = Array.from(this.#structureHooks.entries());
     const structure: StructureImplMeta = this.structures.get(name)!;
 
     const errors: unknown[] = [];
 
-    await PromiseAllSequence(entries, async ([hookName, hook]): Promise<void> => {
+    entries.forEach(([hookName, hook]) => {
       try {
-        await hook(name, structure, this);
+        hook(name, structure, this);
       }
       catch (ex) {
         console.error(`Failed on structure ${name} with hook ${hookName}`);
         errors.push(ex);
       }
-    });
+    }, this);
+
+    if (errors.length === 0) {
+      try {
+        await this.saveStructureHook(name, structure, this);
+      }
+      catch (ex) {
+        console.error(`Failed on structure ${name} with save hook`);
+        errors.push(ex);
+      }
+    }
 
     if (errors.length) {
       throw new AggregateError(errors);

@@ -37,7 +37,7 @@ export default function createDecoratorParts(
   name: string,
   meta: DecoratorImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   const parts: Partial<DecoratorParts> = {
     partsType: MetaPartsType.DECORATOR,
@@ -93,5 +93,4 @@ export default function createDecoratorParts(
   });
 
   dictionaries.decoratorParts.set(meta, parts as DecoratorParts);
-  return Promise.resolve();
 }

@@ -44,7 +44,7 @@ export default function addInterfaceFields(
   name: string,
   meta: DecoratorImplMeta | StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   void(name);
 
@@ -71,8 +71,6 @@ export default function addInterfaceFields(
     propertyValue: PropertyValue,
     propertyKey: PropertyName
   ): void => addStructureField(meta, dictionaries, parts, propertyValue, propertyKey));
-
-  return Promise.resolve();
 }
 
 function addStructureFieldArray(

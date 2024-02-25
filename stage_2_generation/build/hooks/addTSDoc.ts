@@ -28,7 +28,7 @@ export default function addTSDoc(
   name: string,
   meta: DecoratorImplMeta | StructureImplMeta,
   dictionaries: StructureDictionaries
-): Promise<void>
+): void
 {
   let parts: DecoratorParts | StructureParts;
   if (meta instanceof DecoratorImplMeta) {
@@ -37,7 +37,7 @@ export default function addTSDoc(
     parts = dictionaries.structureParts.get(meta)!;
   }
   if (!parts)
-    return Promise.resolve();
+    return;
 
   const { classDecl, classMembersMap } = parts;
   const members = getMembers(classMembersMap);
@@ -62,8 +62,6 @@ export default function addTSDoc(
     if (doc)
       member.docs.push(doc);
   });
-
-  return Promise.resolve();
 }
 
 function getMembers(
