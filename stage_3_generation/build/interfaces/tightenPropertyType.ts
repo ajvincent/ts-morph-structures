@@ -58,6 +58,10 @@ function tightenLiteral(
   typeStructure: LiteralTypeStructureImpl
 ): LiteralTypeStructureImpl
 {
+  // special case: this isn't actually a member of the `Structures` union yet.
+  if (typeStructure.stringValue === "JsxNamespacedNameStructure")
+    return typeStructure;
+
   return LiteralTypeStructureImpl.get(
     getUnionOfStructuresName(
       getStructureImplName(
@@ -117,7 +121,6 @@ function tightenUnion(
     (childTypes as LiteralTypeStructureImpl[]).sort(compareLiterals);
   return new UnionTypeStructureImpl(childTypes);
 }
-
 
 function compareLiterals(
   a: LiteralTypeStructureImpl,

@@ -18,6 +18,7 @@ export default function addImportsForProperty(
   if (typeStructure.kind === TypeStructureKind.Literal) {
     const rawName = getStructureNameFromModified(typeStructure.stringValue);
     switch (rawName) {
+      case "JsxNamespacedNameStructure":
       case "Scope":
       case "StructureKind":
       case "TypeParameterVariance":
