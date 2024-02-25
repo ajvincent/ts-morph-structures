@@ -94,8 +94,11 @@ function tightenUnion(
   // Often we find `string | WriterFunction` in sequence.
   let { childTypes } = typeStructure;
   const writerIndex = childTypes.indexOf(writerType);
-  if ((writerIndex > 0) && (childTypes[writerIndex - 1] === stringType)) {
-    childTypes.splice(writerIndex - 1, 2, stringorWriterType);
+
+  if ((writerIndex >= 0) && childTypes.includes(stringType)) {
+    childTypes.splice(writerIndex, 1);
+    childTypes.splice(childTypes.indexOf(stringType), 1);
+    childTypes.push(stringorWriterType);
   }
 
   // prefer arrays over individuals
@@ -109,5 +112,31 @@ function tightenUnion(
 
   if (childTypes.length === 1)
     return childTypes[0];
+
+  if (childTypes.every(type => type.kind === TypeStructureKind.Literal))
+    (childTypes as LiteralTypeStructureImpl[]).sort(compareLiterals);
   return new UnionTypeStructureImpl(childTypes);
 }
+
+
+function compareLiterals(
+  a: LiteralTypeStructureImpl,
+  b: LiteralTypeStructureImpl,
+): number
+{
+  for (const tail of tailStrings) {
+    if (a.stringValue === tail)
+      return +1;
+    if (b.stringValue === tail)
+      return -1;
+  }
+
+  return a.stringValue.localeCompare(b.stringValue);
+}
+
+const tailStrings: readonly string[] = [
+  "undefined",
+  "stringOrWriterFunction",
+  "WriterFunction",
+  "string",
+];

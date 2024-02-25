@@ -14,5 +14,5 @@ export interface StatementedNodeStructureClassIfc
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [statements](./ts-morph-structures.statementednodestructureclassifc.statements.md) | <code>readonly</code> | ([stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| StatementStructures)\[\] |  |
+|  [statements](./ts-morph-structures.statementednodestructureclassifc.statements.md) | <code>readonly</code> | (StatementStructures \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
 

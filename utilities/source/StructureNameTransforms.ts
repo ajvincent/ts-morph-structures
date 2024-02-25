@@ -19,5 +19,7 @@ export function getUnionOfStructuresName(name: string): string {
 }
 
 export function getStructureNameFromModified(name: string): string {
-  return name.replace(/((ClassIfc)|(Base)|(Mixin))$/, "").replace(/Impl$/, "Structure");
+  return name.replace(/((ClassIfc)|(Base)|(Mixin))$/, "")
+             .replace(/Impl$/, "Structure")
+             .replace(/StructureImpls$/, "Structures");
 }

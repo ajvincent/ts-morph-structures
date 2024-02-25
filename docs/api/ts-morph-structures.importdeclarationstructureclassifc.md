@@ -19,6 +19,6 @@ export interface ImportDeclarationStructureClassIfc
 |  [isTypeOnly](./ts-morph-structures.importdeclarationstructureclassifc.istypeonly.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.importdeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.ImportDeclaration |  |
 |  [moduleSpecifier](./ts-morph-structures.importdeclarationstructureclassifc.modulespecifier.md) |  | string |  |
-|  [namedImports](./ts-morph-structures.importdeclarationstructureclassifc.namedimports.md) | <code>readonly</code> | ([stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| [ImportSpecifierImpl](./ts-morph-structures.importspecifierimpl.md)<!-- -->)\[\] |  |
+|  [namedImports](./ts-morph-structures.importdeclarationstructureclassifc.namedimports.md) | <code>readonly</code> | ([ImportSpecifierImpl](./ts-morph-structures.importspecifierimpl.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
 |  [namespaceImport?](./ts-morph-structures.importdeclarationstructureclassifc.namespaceimport.md) |  | string | _(Optional)_ |
 

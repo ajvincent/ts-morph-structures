@@ -16,5 +16,5 @@ export interface JsxAttributeStructureClassIfc
 |  --- | --- | --- | --- |
 |  [initializer?](./ts-morph-structures.jsxattributestructureclassifc.initializer.md) |  | string | _(Optional)_ |
 |  [kind](./ts-morph-structures.jsxattributestructureclassifc.kind.md) | <code>readonly</code> | StructureKind.JsxAttribute |  |
-|  [name](./ts-morph-structures.jsxattributestructureclassifc.name.md) |  | string \| JsxNamespacedNameStructure |  |
+|  [name](./ts-morph-structures.jsxattributestructureclassifc.name.md) |  | JsxNamespacedNameStructure \| string |  |
 

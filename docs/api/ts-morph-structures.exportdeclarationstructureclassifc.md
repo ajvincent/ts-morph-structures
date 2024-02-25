@@ -18,6 +18,6 @@ export interface ExportDeclarationStructureClassIfc
 |  [isTypeOnly](./ts-morph-structures.exportdeclarationstructureclassifc.istypeonly.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.exportdeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.ExportDeclaration |  |
 |  [moduleSpecifier?](./ts-morph-structures.exportdeclarationstructureclassifc.modulespecifier.md) |  | string | _(Optional)_ |
-|  [namedExports](./ts-morph-structures.exportdeclarationstructureclassifc.namedexports.md) | <code>readonly</code> | ([stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| [ExportSpecifierImpl](./ts-morph-structures.exportspecifierimpl.md)<!-- -->)\[\] |  |
+|  [namedExports](./ts-morph-structures.exportdeclarationstructureclassifc.namedexports.md) | <code>readonly</code> | ([ExportSpecifierImpl](./ts-morph-structures.exportspecifierimpl.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
 |  [namespaceExport?](./ts-morph-structures.exportdeclarationstructureclassifc.namespaceexport.md) |  | string | _(Optional)_ |
 

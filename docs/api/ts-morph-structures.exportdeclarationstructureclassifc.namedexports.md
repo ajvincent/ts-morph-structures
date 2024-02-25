@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-readonly namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[];
+readonly namedExports: (ExportSpecifierImpl | stringOrWriterFunction)[];
 ```

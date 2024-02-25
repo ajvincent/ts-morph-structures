@@ -28,6 +28,7 @@ import mergeInterfaces from "./mergeInterfaces.js";
 import setHasQuestionToken from "./setHasQuestionToken.js";
 import tightenPropertyType from "./tightenPropertyType.js";
 import addImportsForProperty from "./addImportsForProperty.js";
+import addTypeStructures from "./addTypeStructures.js";
 
 export default async function createInterfaces(
   structureNames: readonly string[]
@@ -63,6 +64,7 @@ export default async function createInterfaces(
     ...InterfaceModule.structuresMap.values(),
     ...InterfaceModule.decoratorsMap.values()
   ];
+  modules.forEach(addTypeStructures);
   modules.forEach(defineImportsForModule);
   await PromiseAllParallel(modules, module => module.saveFile());
 }
@@ -155,9 +157,10 @@ function tightenTypeMembers(
   module.typeMembers.arrayOfKind(StructureKind.PropertySignature).forEach(
     property => {
       property.typeStructure = tightenPropertyType(property.typeStructure!);
-      if (property.typeStructure.kind === TypeStructureKind.Array)
-        property.isReadonly = true;
       setHasQuestionToken(module, property);
+
+      if ((property.typeStructure.kind === TypeStructureKind.Array) && !property.hasQuestionToken)
+        property.isReadonly = true;
     }
   );
 }

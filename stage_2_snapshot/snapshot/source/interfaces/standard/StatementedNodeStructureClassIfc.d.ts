@@ -2,5 +2,5 @@ import type { stringOrWriterFunction } from "../../exports.js";
 import type { StatementStructures } from "ts-morph";
 
 export interface StatementedNodeStructureClassIfc {
-  readonly statements: (stringOrWriterFunction | StatementStructures)[];
+  readonly statements: (StatementStructures | stringOrWriterFunction)[];
 }

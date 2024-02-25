@@ -61,7 +61,7 @@ describe("tightenPropertyType", () => {
   it("preserves an union of literals we don't modify (EnumMemberStructure.value)", () => {
     runComplexTest(
       "string | number",
-      "string | number"
+      "number | string" // sort test
     );
   });
 
@@ -102,7 +102,7 @@ describe("tightenPropertyType", () => {
     it("(StatementedNodeStructure.statements)", () => {
       runComplexTest(
         `(string | WriterFunction | StatementStructures)[] | string | WriterFunction`,
-        `(stringOrWriterFunction | StatementStructureImpls)[]`
+        `(StatementStructureImpls | stringOrWriterFunction)[]`
       );
     });
   });

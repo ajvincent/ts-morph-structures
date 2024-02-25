@@ -10,6 +10,6 @@ export interface ExportDeclarationStructureClassIfc {
   attributes?: ImportAttributeImpl[];
   isTypeOnly: boolean;
   moduleSpecifier?: string;
-  readonly namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[];
+  readonly namedExports: (ExportSpecifierImpl | stringOrWriterFunction)[];
   namespaceExport?: string;
 }

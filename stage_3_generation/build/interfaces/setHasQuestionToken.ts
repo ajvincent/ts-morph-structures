@@ -38,6 +38,7 @@ const OptionalHashes: ReadonlySet<string> = new Set([
   "TypeParameterDeclarationStructure:default",
   "TypeParameterDeclarationStructure:variance",
   "VariableDeclarationStructure:declarationKind",
+  "VariableStatementStructure:declarationKind",
 ]);
 
 export default function setHasQuestionToken(

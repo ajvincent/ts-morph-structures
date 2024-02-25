@@ -29,7 +29,10 @@ import {
 } from "#stage_two/generation/build/structureMeta/DataClasses.js";
 
 import {
-  getStructureImplName
+  getStructureImplName,
+  /*
+  getUnionOfStructuresName,
+  */
 } from "#utilities/source/StructureNameTransforms.js";
 
 export default function addInterfaceFields(
@@ -76,7 +79,7 @@ function addStructureFieldArray(
   const prop = new PropertySignatureImpl(propertyKey);
   //prop.hasQuestionToken = propertyValue.hasQuestionToken;
 
-  let typeStructure = getTypeStructureForValue(propertyValue, parts, dictionaries);
+  let typeStructure: TypeStructures = getTypeStructureForValue(propertyValue, parts, dictionaries);
   if (typeStructure.kind === TypeStructureKind.Union)
     typeStructure = new ParenthesesTypedStructureImpl(typeStructure);
 
@@ -93,7 +96,7 @@ function addStructureField(
 {
   const prop = new PropertySignatureImpl(propertyKey);
 
-  let typeStructure = getTypeStructureForValue(propertyValue, parts, dictionaries);
+  let typeStructure: TypeStructures = getTypeStructureForValue(propertyValue, parts, dictionaries);
   if (typeStructure.kind === TypeStructureKind.Union)
     typeStructure = new ParenthesesTypedStructureImpl(typeStructure);
 
@@ -111,12 +114,15 @@ function getTypeStructureForValue(
   value: PropertyValue,
   parts: DecoratorParts | StructureParts,
   dictionaries: StructureDictionaries,
-): TypeStructures
+): LiteralTypedStructureImpl | UnionTypedStructureImpl
 {
-  const structures = getTypeStructureArrayForValue(value, parts, dictionaries);
+  const structures: LiteralTypedStructureImpl[] = getTypeStructureArrayForValue(
+    value, parts, dictionaries
+  );
   if (structures.length === 1) {
     return structures[0];
   }
+
   return new UnionTypedStructureImpl(structures);
 }
 
@@ -124,13 +130,13 @@ function getTypeStructureArrayForValue(
   value: PropertyValue,
   parts: DecoratorParts | StructureParts,
   dictionaries: StructureDictionaries
-): TypeStructures[]
+): LiteralTypedStructureImpl[]
 {
-  const typeStructures: TypeStructures[] = [];
+  const typeStructures: LiteralTypedStructureImpl[] = [];
 
   if (value.mayBeString && value.mayBeWriter) {
     typeStructures.push(
-      ConstantTypeStructures.stringOrWriterFunction
+      ConstantTypeStructures.stringOrWriterFunction as LiteralTypedStructureImpl
     );
 
     parts.implementsImports.addImports({
@@ -149,10 +155,10 @@ function getTypeStructureArrayForValue(
     });
   }
   else if (value.mayBeString) {
-    typeStructures.push(ConstantTypeStructures.string);
+    typeStructures.push(ConstantTypeStructures.string as LiteralTypedStructureImpl);
   }
   else if (value.mayBeWriter) {
-    typeStructures.push(ConstantTypeStructures.WriterFunction);
+    typeStructures.push(ConstantTypeStructures.WriterFunction as LiteralTypedStructureImpl);
     parts.implementsImports.addImports({
       pathToImportedModule: "ts-morph",
       isPackageImport: true,
@@ -163,7 +169,7 @@ function getTypeStructureArrayForValue(
   }
 
   if (value.mayBeUndefined) {
-    typeStructures.push(ConstantTypeStructures.undefined);
+    typeStructures.push(ConstantTypeStructures.undefined as LiteralTypedStructureImpl);
   }
 
   value.otherTypes.forEach(valueInUnion => {
@@ -182,11 +188,23 @@ function getTypeStructureArrayForValue(
       return;
     }
 
-    typeStructures.push(new LiteralTypedStructureImpl(
-      valueInUnion.structureName ??
-      valueInUnion.unionName ??
-      valueInUnion.tsmorph_Type!
-    ));
+    let rewrittenName: string;
+    if (valueInUnion.structureName) {
+      //CODEREVIEW: this might be wrong
+      rewrittenName = valueInUnion.structureName;
+    }
+    else if (valueInUnion.unionName) {
+      //CODEREVIEW  backed out temporarily
+      /*
+      rewrittenName = getUnionOfStructuresName(valueInUnion.unionName);
+      */
+      rewrittenName = valueInUnion.unionName;
+    }
+    else {
+      rewrittenName = valueInUnion.tsmorph_Type!;
+    }
+
+    typeStructures.push(new LiteralTypedStructureImpl(rewrittenName));
 
     if (valueInUnion.structureName) {
       parts.implementsImports.addImports({
@@ -199,10 +217,19 @@ function getTypeStructureArrayForValue(
     }
 
     if (valueInUnion.unionName) {
+      /*
+      parts.implementsImports.addImports({
+        pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+        isPackageImport: true,
+        importNames: [rewrittenName],
+        isDefaultImport: false,
+        isTypeOnly: true
+      });
+      */
       parts.implementsImports.addImports({
         pathToImportedModule: "ts-morph",
         isPackageImport: true,
-        importNames: [valueInUnion.unionName],
+        importNames: [rewrittenName],
         isDefaultImport: false,
         isTypeOnly: true
       });
@@ -221,5 +248,29 @@ function getTypeStructureArrayForValue(
     }
   });
 
+  typeStructures.sort(compareLiterals);
+
   return typeStructures;
 }
+
+function compareLiterals(
+  a: LiteralTypedStructureImpl,
+  b: LiteralTypedStructureImpl
+): number
+{
+  for (const tail of tailStrings) {
+    if (a.stringValue === tail)
+      return +1;
+    if (b.stringValue === tail)
+      return -1;
+  }
+
+  return a.stringValue.localeCompare(b.stringValue);
+}
+
+const tailStrings: readonly string[] = [
+  "undefined",
+  "stringOrWriterFunction",
+  "WriterFunction",
+  "string",
+];

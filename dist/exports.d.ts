@@ -272,7 +272,7 @@ interface EnumDeclarationStructureClassIfc {
 
 interface EnumMemberStructureClassIfc {
   readonly kind: StructureKind.EnumMember;
-  value?: string | number;
+  value?: number | string;
 }
 
 interface ExclamationTokenableNodeStructureClassIfc {
@@ -295,7 +295,7 @@ interface ExportDeclarationStructureClassIfc {
   attributes?: ImportAttributeImpl[];
   isTypeOnly: boolean;
   moduleSpecifier?: string;
-  readonly namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[];
+  readonly namedExports: (ExportSpecifierImpl | stringOrWriterFunction)[];
   namespaceExport?: string;
 }
 
@@ -334,7 +334,7 @@ interface ImportDeclarationStructureClassIfc {
   defaultImport?: string;
   isTypeOnly: boolean;
   moduleSpecifier: string;
-  readonly namedImports: (stringOrWriterFunction | ImportSpecifierImpl)[];
+  readonly namedImports: (ImportSpecifierImpl | stringOrWriterFunction)[];
   namespaceImport?: string;
 }
 
@@ -370,7 +370,7 @@ interface InterfaceDeclarationStructureClassIfc {
 }
 
 interface JSDocableNodeStructureClassIfc {
-  readonly docs: (string | JSDocImpl)[];
+  readonly docs: (JSDocImpl | string)[];
 }
 
 interface JSDocStructureClassIfc {
@@ -388,7 +388,7 @@ interface JSDocTagStructureClassIfc {
 interface JsxAttributeStructureClassIfc {
   readonly kind: StructureKind.JsxAttribute;
   initializer?: string;
-  name: string | JsxNamespacedNameStructure;
+  name: JsxNamespacedNameStructure | string;
 }
 
 interface JsxElementStructureClassIfc {
@@ -501,7 +501,7 @@ interface SpreadAssignmentStructureClassIfc {
 }
 
 interface StatementedNodeStructureClassIfc {
-  readonly statements: (stringOrWriterFunction | StatementStructures)[];
+  readonly statements: (StatementStructures | stringOrWriterFunction)[];
 }
 
 interface StructureClassIfc {
@@ -530,7 +530,7 @@ interface TypeParameterDeclarationStructureClassIfc {
 }
 
 interface TypeParameteredNodeStructureClassIfc {
-  readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+  readonly typeParameters: (TypeParameterDeclarationImpl | string)[];
 }
 
 interface VariableDeclarationStructureClassIfc {

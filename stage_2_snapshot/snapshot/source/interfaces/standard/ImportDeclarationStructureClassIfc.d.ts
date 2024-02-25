@@ -11,6 +11,6 @@ export interface ImportDeclarationStructureClassIfc {
   defaultImport?: string;
   isTypeOnly: boolean;
   moduleSpecifier: string;
-  readonly namedImports: (stringOrWriterFunction | ImportSpecifierImpl)[];
+  readonly namedImports: (ImportSpecifierImpl | stringOrWriterFunction)[];
   namespaceImport?: string;
 }

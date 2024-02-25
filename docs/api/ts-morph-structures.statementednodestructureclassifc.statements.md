@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-readonly statements: (stringOrWriterFunction | StatementStructures)[];
+readonly statements: (StatementStructures | stringOrWriterFunction)[];
 ```
