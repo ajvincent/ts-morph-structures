@@ -6,6 +6,7 @@ on:
       - '.github/workflows/**'
       - 'stage_2_snapshot/snapshot/**'
       - 'stage_3_**'
+      - 'utilities/**'
 jobs:
   build-stage-three:
     runs-on: ubuntu-latest

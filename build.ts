@@ -1,44 +1,18 @@
 import { env } from "process";
 
 import { BuildPromiseSet } from "#utilities/source/BuildPromise.js";
-import { runModule } from "#utilities/source/runModule.js";
-import runJasmine from "#utilities/source/runJasmine.js";
 import recursiveBuild from "#utilities/source/recursiveBuild.js";
 
 const BPSet = new BuildPromiseSet;
 
-// #region build
-{ // build
-  const target = BPSet.get("build");
-  target.addSubtarget("build:jasmine");
-  target.addSubtarget("build:eslint");
-}
-
-{ // build:jasmine
-  const target = BPSet.get("build:jasmine");
-
+// #region utilities
+{ // utilities
+  const target = BPSet.get("utilities");
   target.addTask(async () => {
-    console.log("starting build:jasmine");
-    await runJasmine("./spec/support/jasmine.json", "build");
+    await recursiveBuild("utilities", "checkUtilities.ts");
   });
 }
 
-{ // build:eslint
-  const target = BPSet.get("build:eslint");
-
-  const args = [
-    "-c", "./.eslintrc.json",
-    "--max-warnings=0",
-  ];
-
-  args.push("utilities/**/*.ts");
-  args.push("build.ts");
-
-  target.addTask(async () => {
-    console.log("starting build:eslint");
-    await runModule("./node_modules/eslint/bin/eslint.js", args);
-  });
-}
 // #endregion build
 
 { // stage 0 references
@@ -138,7 +112,7 @@ const BPSet = new BuildPromiseSet;
 BPSet.markReady();
 {
   if ((env.TSMS_STAGE === undefined) || (env.TSMS_STAGE === "one")) {
-    BPSet.main.addSubtarget("build");
+    BPSet.main.addSubtarget("utilities");
     BPSet.main.addSubtarget("stage_0_references");
     BPSet.main.addSubtarget("stage_1_snapshot");
   }
