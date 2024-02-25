@@ -260,6 +260,10 @@ interface DecoratableNodeStructureClassIfc {
 
 interface DecoratorStructureClassIfc {
   readonly kind: StructureKind.Decorator;
+  /**
+   * Arguments for a decorator factory.
+   * @remarks Provide an empty array to make the structure a decorator factory.
+   */
   readonly arguments: stringOrWriterFunction[];
   readonly typeArguments: string[];
 }
@@ -272,6 +276,7 @@ interface EnumDeclarationStructureClassIfc {
 
 interface EnumMemberStructureClassIfc {
   readonly kind: StructureKind.EnumMember;
+  /** Convenience property for setting the initializer. */
   value?: number | string;
 }
 
@@ -325,6 +330,7 @@ interface GetAccessorDeclarationStructureClassIfc {
 
 interface ImportAttributeStructureClassIfc {
   readonly kind: StructureKind.ImportAttribute;
+  /** Expression value. Quote this when providing a string. */
   value: string;
 }
 
@@ -375,13 +381,20 @@ interface JSDocableNodeStructureClassIfc {
 
 interface JSDocStructureClassIfc {
   readonly kind: StructureKind.JSDoc;
+  /**
+   * The description of the JS doc.
+   * @remarks To force this to be multi-line, add a newline to the front of the string.
+   */
   description?: stringOrWriterFunction;
+  /** JS doc tags (ex. `&#64;param value - Some description.`). */
   readonly tags: JSDocTagImpl[];
 }
 
 interface JSDocTagStructureClassIfc {
   readonly kind: StructureKind.JSDocTag;
+  /** The name for the JS doc tag that comes after the "at" symbol. */
   tagName: string;
+  /** The text that follows the tag name. */
   text?: stringOrWriterFunction;
 }
 
@@ -425,6 +438,11 @@ interface MethodSignatureStructureClassIfc {
 
 interface ModuleDeclarationStructureClassIfc {
   readonly kind: StructureKind.Module;
+  /**
+   * The module declaration kind.
+   *
+   * @remarks Defaults to "namespace".
+   */
   declarationKind?: ModuleDeclarationKind;
 }
 
@@ -443,7 +461,6 @@ interface OverrideableNodeStructureClassIfc {
 interface ParameterDeclarationStructureClassIfc {
   readonly kind: StructureKind.Parameter;
   isRestParameter: boolean;
-  scope?: Scope;
 }
 
 interface ParameteredNodeStructureClassIfc {
@@ -505,7 +522,9 @@ interface StatementedNodeStructureClassIfc {
 }
 
 interface StructureClassIfc {
+  /** Leading comments or whitespace. */
   readonly leadingTrivia: stringOrWriterFunction[];
+  /** Trailing comments or whitespace. */
   readonly trailingTrivia: stringOrWriterFunction[];
 }
 
@@ -954,6 +973,7 @@ declare class DecoratorImpl extends DecoratorStructureBase implements DecoratorS
 declare const ParameterDeclarationStructureBase: mixin_decorators.MixinClass<object, {
     readonly leadingTrivia: stringOrWriterFunction[];
     readonly trailingTrivia: stringOrWriterFunction[];
+    scope?: ts_morph.Scope | undefined;
     readonly decorators: DecoratorImpl[];
     name: string;
     hasOverrideKeyword: boolean;
@@ -966,7 +986,6 @@ declare const ParameterDeclarationStructureBase: mixin_decorators.MixinClass<obj
 declare class ParameterDeclarationImpl extends ParameterDeclarationStructureBase implements ParameterDeclarationStructureClassIfc {
     readonly kind: StructureKind.Parameter;
     isRestParameter: boolean;
-    scope?: Scope;
     constructor(name: string);
     /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ParameterDeclarationStructure>, target: ParameterDeclarationImpl): void;

@@ -4,6 +4,8 @@
 
 ## JSDocTagStructureClassIfc.tagName property
 
+The name for the JS doc tag that comes after the "at" symbol.
+
 **Signature:**
 
 ```typescript

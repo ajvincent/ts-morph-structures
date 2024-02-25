@@ -4,6 +4,8 @@
 
 ## EnumMemberStructureClassIfc.value property
 
+Convenience property for setting the initializer.
+
 **Signature:**
 
 ```typescript

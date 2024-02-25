@@ -3298,13 +3298,13 @@ const ParameterDeclarationStructureBase = MultiMixinBuilder([
     InitializerExpressionableNodeStructureMixin,
     DecoratableNodeStructureMixin,
     QuestionTokenableNodeStructureMixin,
+    ScopedNodeStructureMixin,
     NamedNodeStructureMixin,
     StructureMixin,
 ], StructureBase);
 class ParameterDeclarationImpl extends ParameterDeclarationStructureBase {
     kind = StructureKind.Parameter;
     isRestParameter = false;
-    scope = undefined;
     constructor(name) {
         super();
         this.name = name;
@@ -3313,9 +3313,6 @@ class ParameterDeclarationImpl extends ParameterDeclarationStructureBase {
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
         target.isRestParameter = source.isRestParameter ?? false;
-        if (source.scope) {
-            target.scope = source.scope;
-        }
     }
     static clone(source) {
         const target = new ParameterDeclarationImpl(source.name);
@@ -3326,12 +3323,6 @@ class ParameterDeclarationImpl extends ParameterDeclarationStructureBase {
         const rv = super.toJSON();
         rv.isRestParameter = this.isRestParameter;
         rv.kind = this.kind;
-        if (this.scope) {
-            rv.scope = this.scope;
-        }
-        else {
-            rv.scope = undefined;
-        }
         return rv;
     }
 }

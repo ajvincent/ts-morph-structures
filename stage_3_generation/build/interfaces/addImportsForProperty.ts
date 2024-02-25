@@ -21,6 +21,7 @@ export default function addImportsForProperty(
       case "Scope":
       case "StructureKind":
       case "TypeParameterVariance":
+      case "ModuleDeclarationKind":
       case "VariableDeclarationKind":
       case "WriterFunction":
         module.addImports("ts-morph", [], [rawName]);

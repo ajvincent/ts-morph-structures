@@ -1,4 +1,14 @@
-import { DefaultMap } from "#utilities/source/DefaultMap.js";
+/* This is a deliberate code-style violation.  Nowhere else do we use ts-morph structures in the
+structureMeta code.  As for why:  we need to copy TSDoc comments from ts-morph.d.ts into the
+structure and decorator properties.
+*/
+import type {
+  JSDocStructure
+} from "ts-morph";
+
+import {
+  DefaultMap
+} from "#utilities/source/DefaultMap.js";
 
 export type StructureName = string;
 export type PropertyName = string;
@@ -49,6 +59,7 @@ class BaseMetadata
   readonly structureFields = new Map<PropertyName, PropertyValue>;
   readonly structureFieldArrays = new Map<PropertyName, PropertyValue>;
   readonly decoratorKeys = new Set<StructureName>;
+  readonly jsDocStructuresMap = new Map<PropertyName, readonly JSDocStructure[]>;
 
   addField(
     propertyName: PropertyName,

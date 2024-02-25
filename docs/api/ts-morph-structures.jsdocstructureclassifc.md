@@ -14,7 +14,7 @@ export interface JSDocStructureClassIfc
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [description?](./ts-morph-structures.jsdocstructureclassifc.description.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
+|  [description?](./ts-morph-structures.jsdocstructureclassifc.description.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ The description of the JS doc. |
 |  [kind](./ts-morph-structures.jsdocstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.JSDoc |  |
-|  [tags](./ts-morph-structures.jsdocstructureclassifc.tags.md) | <code>readonly</code> | [JSDocTagImpl](./ts-morph-structures.jsdoctagimpl.md)<!-- -->\[\] |  |
+|  [tags](./ts-morph-structures.jsdocstructureclassifc.tags.md) | <code>readonly</code> | [JSDocTagImpl](./ts-morph-structures.jsdoctagimpl.md)<!-- -->\[\] | JS doc tags (ex. <code>&amp;#64;param value - Some description.</code>). |
 

@@ -14,6 +14,6 @@ export interface StructureClassIfc
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [leadingTrivia](./ts-morph-structures.structureclassifc.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [trailingTrivia](./ts-morph-structures.structureclassifc.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [leadingTrivia](./ts-morph-structures.structureclassifc.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] | Leading comments or whitespace. |
+|  [trailingTrivia](./ts-morph-structures.structureclassifc.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] | Trailing comments or whitespace. |
 

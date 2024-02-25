@@ -4,6 +4,8 @@
 
 ## ImportAttributeStructureClassIfc.value property
 
+Expression value. Quote this when providing a string.
+
 **Signature:**
 
 ```typescript

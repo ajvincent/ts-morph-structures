@@ -4,6 +4,8 @@
 
 ## StructureClassIfc.trailingTrivia property
 
+Trailing comments or whitespace.
+
 **Signature:**
 
 ```typescript

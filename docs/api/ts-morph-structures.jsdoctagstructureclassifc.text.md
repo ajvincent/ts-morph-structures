@@ -4,6 +4,8 @@
 
 ## JSDocTagStructureClassIfc.text property
 
+The text that follows the tag name.
+
 **Signature:**
 
 ```typescript

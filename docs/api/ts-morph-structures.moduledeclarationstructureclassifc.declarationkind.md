@@ -4,8 +4,15 @@
 
 ## ModuleDeclarationStructureClassIfc.declarationKind property
 
+The module declaration kind.
+
 **Signature:**
 
 ```typescript
 declarationKind?: ModuleDeclarationKind;
 ```
+
+## Remarks
+
+Defaults to "namespace".
+

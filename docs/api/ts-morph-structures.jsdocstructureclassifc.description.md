@@ -4,8 +4,15 @@
 
 ## JSDocStructureClassIfc.description property
 
+The description of the JS doc.
+
 **Signature:**
 
 ```typescript
 description?: stringOrWriterFunction;
 ```
+
+## Remarks
+
+To force this to be multi-line, add a newline to the front of the string.
+

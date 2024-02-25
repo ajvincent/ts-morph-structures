@@ -16,5 +16,4 @@ export interface ParameterDeclarationStructureClassIfc
 |  --- | --- | --- | --- |
 |  [isRestParameter](./ts-morph-structures.parameterdeclarationstructureclassifc.isrestparameter.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.parameterdeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.Parameter |  |
-|  [scope?](./ts-morph-structures.parameterdeclarationstructureclassifc.scope.md) |  | Scope | _(Optional)_ |
 

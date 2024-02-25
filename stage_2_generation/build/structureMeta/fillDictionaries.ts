@@ -2,6 +2,8 @@ import {
   ArrayTypeNode,
   ExpressionWithTypeArguments,
   InterfaceDeclaration,
+  type JSDoc,
+  type JSDocStructure,
   Node,
   SyntaxKind,
   TypeAliasDeclaration,
@@ -39,6 +41,7 @@ function fillDictionaries(
   decoratorNames.forEach(name => addDecorator(dictionary, name));
 
   consolidateNameDecorators(dictionary);
+  consolidateScopeDecorators(dictionary);
   resolveDecoratorKeys(dictionary);
   countDecoratorUsage(dictionary);
   consolidateSingleUseDecorators(dictionary);
@@ -191,6 +194,11 @@ function addMembersToMeta(
   for (member of memberedNode.getMembers()) {
     const prop = member.asKindOrThrow(SyntaxKind.PropertySignature);
     const propertyName: PropertyName = prop.getName();
+
+    const docNodes: readonly JSDoc[] = prop.getJsDocs();
+    const docStructures: readonly JSDocStructure[] = docNodes.map(node => node.getStructure());
+    structureMeta.jsDocStructuresMap.set(propertyName, docStructures);
+
     const isBoolean = Node.isBooleanKeyword(prop.getTypeNodeOrThrow());
     if (isBoolean) {
       structureMeta.booleanKeys.add(propertyName);
@@ -360,6 +368,30 @@ function consolidateNameDecorators(
   }
 }
 
+function consolidateScopeDecorators(
+  dictionary: StructureMetaDictionaries
+): void
+{
+  const oldDecorator = "ScopeableNodeStructure";
+  {
+    for (const str of dictionary.structures.values()) {
+      if (str.decoratorKeys.has(oldDecorator)) {
+        str.decoratorKeys.add("ScopedNodeStructure");
+        str.decoratorKeys.delete(oldDecorator);
+      }
+    }
+
+    for (const dec of dictionary.decorators.values()) {
+      if (dec.decoratorKeys.has(oldDecorator)) {
+        dec.decoratorKeys.add("ScopedNodeStructure");
+        dec.decoratorKeys.delete(oldDecorator);
+      }
+    }
+
+    dictionary.decorators.delete(oldDecorator);
+  }
+}
+
 function resolveDecoratorKeys(
   dictionary: StructureMetaDictionaries
 ): void
@@ -446,5 +478,9 @@ function moveDecoratorIntoStructure(
   for (const [subname, value] of decorator.structureFields) {
     structure.structureFields.set(subname, value);
   }
+  for (const [key, docStructures] of decorator.jsDocStructuresMap) {
+    structure.jsDocStructuresMap.set(key, docStructures);
+  }
+
   structure.decoratorKeys.delete(decorator.structureName);
 }

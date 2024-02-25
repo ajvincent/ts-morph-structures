@@ -16,6 +16,8 @@ import {
   QuestionTokenableNodeStructureMixin,
   type ReadonlyableNodeStructureFields,
   ReadonlyableNodeStructureMixin,
+  type ScopedNodeStructureFields,
+  ScopedNodeStructureMixin,
   StructureBase,
   StructureClassesMap,
   type StructureClassToJSON,
@@ -28,7 +30,6 @@ import MultiMixinBuilder from "mixin-decorators";
 import {
   OptionalKind,
   type ParameterDeclarationStructure,
-  Scope,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";
@@ -41,6 +42,7 @@ const ParameterDeclarationStructureBase = MultiMixinBuilder<
     InitializerExpressionableNodeStructureFields,
     DecoratableNodeStructureFields,
     QuestionTokenableNodeStructureFields,
+    ScopedNodeStructureFields,
     NamedNodeStructureFields,
     StructureFields,
   ],
@@ -53,6 +55,7 @@ const ParameterDeclarationStructureBase = MultiMixinBuilder<
     InitializerExpressionableNodeStructureMixin,
     DecoratableNodeStructureMixin,
     QuestionTokenableNodeStructureMixin,
+    ScopedNodeStructureMixin,
     NamedNodeStructureMixin,
     StructureMixin,
   ],
@@ -65,7 +68,6 @@ export default class ParameterDeclarationImpl
 {
   readonly kind: StructureKind.Parameter = StructureKind.Parameter;
   isRestParameter = false;
-  scope?: Scope = undefined;
 
   constructor(name: string) {
     super();
@@ -79,9 +81,6 @@ export default class ParameterDeclarationImpl
   ): void {
     super[COPY_FIELDS](source, target);
     target.isRestParameter = source.isRestParameter ?? false;
-    if (source.scope) {
-      target.scope = source.scope;
-    }
   }
 
   public static clone(
@@ -96,12 +95,6 @@ export default class ParameterDeclarationImpl
     const rv = super.toJSON() as StructureClassToJSON<ParameterDeclarationImpl>;
     rv.isRestParameter = this.isRestParameter;
     rv.kind = this.kind;
-    if (this.scope) {
-      rv.scope = this.scope;
-    } else {
-      rv.scope = undefined;
-    }
-
     return rv;
   }
 }

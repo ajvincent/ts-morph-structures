@@ -1,6 +1,10 @@
 // #region preamble
 import path from "path";
 
+import type {
+  JSDocStructure
+} from "ts-morph";
+
 import {
   distDir
 } from "#stage_two/generation/build/constants.js";
@@ -8,6 +12,7 @@ import {
 import ConstantTypeStructures from "#stage_two/generation/build/utilities/ConstantTypeStructures.js";
 import {
   ArrayTypedStructureImpl,
+  JSDocImpl,
   LiteralTypedStructureImpl,
   ParenthesesTypedStructureImpl,
   PropertySignatureImpl,
@@ -54,22 +59,24 @@ export default function addInterfaceFields(
     const prop = new PropertySignatureImpl(key);
     prop.typeStructure = ConstantTypeStructures.boolean;
     parts.classImplementsMap.addMembers([prop]);
+    addJSDocsToProperty(prop, meta);
   });
 
   meta.structureFieldArrays.forEach((
     propertyValue: PropertyValue,
     propertyKey: PropertyName
-  ): void => addStructureFieldArray(dictionaries, parts, propertyValue, propertyKey));
+  ): void => addStructureFieldArray(meta, dictionaries, parts, propertyValue, propertyKey));
 
   meta.structureFields.forEach((
     propertyValue: PropertyValue,
     propertyKey: PropertyName
-  ): void => addStructureField(dictionaries, parts, propertyValue, propertyKey));
+  ): void => addStructureField(meta, dictionaries, parts, propertyValue, propertyKey));
 
   return Promise.resolve();
 }
 
 function addStructureFieldArray(
+  meta: DecoratorImplMeta | StructureImplMeta,
   dictionaries: StructureDictionaries,
   parts: DecoratorParts | StructureParts,
   propertyValue: PropertyValue,
@@ -84,10 +91,12 @@ function addStructureFieldArray(
     typeStructure = new ParenthesesTypedStructureImpl(typeStructure);
 
   prop.typeStructure = new ArrayTypedStructureImpl(typeStructure);
+  addJSDocsToProperty(prop, meta);
   parts.classImplementsMap.addMembers([prop]);
 }
 
 function addStructureField(
+  meta: DecoratorImplMeta | StructureImplMeta,
   dictionaries: StructureDictionaries,
   parts: DecoratorParts | StructureParts,
   propertyValue: PropertyValue,
@@ -106,6 +115,8 @@ function addStructureField(
     prop.isReadonly = true;
     prop.type = propertyValue.otherTypes[0].tsmorph_Type!;
   }
+
+  addJSDocsToProperty(prop, meta);
 
   parts.classImplementsMap.addMembers([prop]);
 }
@@ -251,6 +262,18 @@ function getTypeStructureArrayForValue(
   typeStructures.sort(compareLiterals);
 
   return typeStructures;
+}
+
+function addJSDocsToProperty(
+  property: PropertySignatureImpl,
+  meta: StructureImplMeta | DecoratorImplMeta
+): void
+{
+  const originalDocs: readonly JSDocStructure[] | undefined = meta.jsDocStructuresMap.get(property.name);
+  if (!originalDocs)
+    throw new Error("no docs found for property " + property.name);
+  const jsDocs = originalDocs.map(doc => JSDocImpl.clone(doc));
+  property.docs.push(...jsDocs);
 }
 
 function compareLiterals(

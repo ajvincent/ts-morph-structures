@@ -15,5 +15,5 @@ export interface ImportAttributeStructureClassIfc
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [kind](./ts-morph-structures.importattributestructureclassifc.kind.md) | <code>readonly</code> | StructureKind.ImportAttribute |  |
-|  [value](./ts-morph-structures.importattributestructureclassifc.value.md) |  | string |  |
+|  [value](./ts-morph-structures.importattributestructureclassifc.value.md) |  | string | Expression value. Quote this when providing a string. |
 

@@ -4,6 +4,8 @@
 
 ## StructureClassIfc.leadingTrivia property
 
+Leading comments or whitespace.
+
 **Signature:**
 
 ```typescript

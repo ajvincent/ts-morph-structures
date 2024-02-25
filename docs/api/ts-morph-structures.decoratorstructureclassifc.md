@@ -14,7 +14,7 @@ export interface DecoratorStructureClassIfc
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [arguments](./ts-morph-structures.decoratorstructureclassifc.arguments.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [arguments](./ts-morph-structures.decoratorstructureclassifc.arguments.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] | Arguments for a decorator factory. |
 |  [kind](./ts-morph-structures.decoratorstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.Decorator |  |
 |  [typeArguments](./ts-morph-structures.decoratorstructureclassifc.typearguments.md) | <code>readonly</code> | string\[\] |  |
 
