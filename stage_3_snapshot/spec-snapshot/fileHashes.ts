@@ -44,7 +44,7 @@ describe("File hashes match for the", () => {
     await compareSnapshots("source/bootstrap");
   });
 
-  xit("interfaces", async () => {
+  it("interfaces", async () => {
     await compareSnapshots("source/interfaces");
   });
 
@@ -52,7 +52,7 @@ describe("File hashes match for the", () => {
     await compareSnapshots("source/structures/type");
   });
 
-  it("type structures", async () => {
+  it("shared types", async () => {
     await compareSnapshots("source/types");
   });
 

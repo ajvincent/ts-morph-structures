@@ -35,9 +35,7 @@ import {
 
 import {
   getStructureImplName,
-  /*
   getUnionOfStructuresName,
-  */
 } from "#utilities/source/StructureNameTransforms.js";
 
 export default function addInterfaceFields(
@@ -197,23 +195,23 @@ function getTypeStructureArrayForValue(
       return;
     }
 
-    let rewrittenName: string;
-    if (valueInUnion.structureName) {
-      //CODEREVIEW: this might be wrong
-      rewrittenName = valueInUnion.structureName;
-    }
-    else if (valueInUnion.unionName) {
-      //CODEREVIEW  backed out temporarily
-      /*
-      rewrittenName = getUnionOfStructuresName(valueInUnion.unionName);
-      */
-      rewrittenName = valueInUnion.unionName;
-    }
-    else {
-      rewrittenName = valueInUnion.tsmorph_Type!;
+    if (valueInUnion.unionName && dictionaries.unions.has(valueInUnion.unionName)) {
+      const unionName = getUnionOfStructuresName(valueInUnion.unionName);
+      typeStructures.push(new LiteralTypedStructureImpl(unionName));
+
+      parts.implementsImports.addImports({
+        pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+        isPackageImport: false,
+        importNames: [unionName],
+        isDefaultImport: false,
+        isTypeOnly: true,
+      });
+
+      return;
     }
 
-    typeStructures.push(new LiteralTypedStructureImpl(rewrittenName));
+    const name: string = valueInUnion.structureName ?? valueInUnion.unionName ?? valueInUnion.tsmorph_Type!;
+    typeStructures.push(new LiteralTypedStructureImpl(name));
 
     if (valueInUnion.structureName) {
       parts.implementsImports.addImports({
@@ -226,19 +224,10 @@ function getTypeStructureArrayForValue(
     }
 
     if (valueInUnion.unionName) {
-      /*
-      parts.implementsImports.addImports({
-        pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
-        isPackageImport: true,
-        importNames: [rewrittenName],
-        isDefaultImport: false,
-        isTypeOnly: true
-      });
-      */
       parts.implementsImports.addImports({
         pathToImportedModule: "ts-morph",
         isPackageImport: true,
-        importNames: [rewrittenName],
+        importNames: [name],
         isDefaultImport: false,
         isTypeOnly: true
       });

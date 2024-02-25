@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-readonly statements: (import("ts-morph").StatementStructures<> | stringOrWriterFunction)[];
+readonly statements: (StatementStructureImpls | stringOrWriterFunction)[];
 ```

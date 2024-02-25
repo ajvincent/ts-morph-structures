@@ -29,7 +29,7 @@ export default class ModuleDeclarationImpl implements ModuleDeclarationStructure
 |  [kind](./ts-morph-structures.moduledeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Module |  |
 |  [leadingTrivia](./ts-morph-structures.moduledeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [name](./ts-morph-structures.moduledeclarationimpl.name.md) |  | string |  |
-|  [statements](./ts-morph-structures.moduledeclarationimpl.statements.md) | <code>readonly</code> | (import("ts-morph").StatementStructures&lt;&gt; \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
+|  [statements](./ts-morph-structures.moduledeclarationimpl.statements.md) | <code>readonly</code> | ([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
 |  [trailingTrivia](./ts-morph-structures.moduledeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods

@@ -17,7 +17,7 @@ export default class SourceFileImpl implements SourceFileStructureClassIfc
 |  --- | --- | --- | --- |
 |  [kind](./ts-morph-structures.sourcefileimpl.kind.md) | <code>readonly</code> | StructureKind.SourceFile |  |
 |  [leadingTrivia](./ts-morph-structures.sourcefileimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [statements](./ts-morph-structures.sourcefileimpl.statements.md) | <code>readonly</code> | (import("ts-morph").StatementStructures&lt;&gt; \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
+|  [statements](./ts-morph-structures.sourcefileimpl.statements.md) | <code>readonly</code> | ([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
 |  [trailingTrivia](./ts-morph-structures.sourcefileimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods

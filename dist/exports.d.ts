@@ -1,5 +1,5 @@
 import * as ts_morph from 'ts-morph';
-import { OptionalKind, Structures, WriterFunction, TypeNode, Node, StructureKind, KindedStructure, CodeBlockWriter, JsxNamespacedNameStructure, ModuleDeclarationKind, Scope, StatementStructures, TypeParameterVariance, VariableDeclarationKind, TypeParameterDeclarationStructure, DecoratorStructure, ParameterDeclarationStructure, JSDocStructure, CallSignatureDeclarationStructure, ClassDeclarationStructure, ClassStaticBlockDeclarationStructure, ConstructorDeclarationStructure, ConstructorDeclarationOverloadStructure, ConstructSignatureDeclarationStructure, EnumDeclarationStructure, EnumMemberStructure, ExportAssignmentStructure, ExportDeclarationStructure, ExportSpecifierStructure, FunctionDeclarationStructure, FunctionDeclarationOverloadStructure, GetAccessorDeclarationStructure, ImportAttributeStructure, ImportDeclarationStructure, ImportSpecifierStructure, IndexSignatureDeclarationStructure, InterfaceDeclarationStructure, JSDocTagStructure, JsxAttributeStructure, JsxElementStructure, JsxSelfClosingElementStructure, JsxSpreadAttributeStructure, MethodDeclarationStructure, MethodDeclarationOverloadStructure, MethodSignatureStructure, ModuleDeclarationStructure, PropertyAssignmentStructure, PropertyDeclarationStructure, PropertySignatureStructure, SetAccessorDeclarationStructure, ShorthandPropertyAssignmentStructure, SourceFileStructure, SpreadAssignmentStructure, TypeAliasDeclarationStructure, VariableDeclarationStructure, VariableStatementStructure } from 'ts-morph';
+import { OptionalKind, Structures, WriterFunction, TypeNode, Node, StructureKind, KindedStructure, CodeBlockWriter, JsxNamespacedNameStructure, ModuleDeclarationKind, Scope, TypeParameterVariance, VariableDeclarationKind, TypeParameterDeclarationStructure, DecoratorStructure, ParameterDeclarationStructure, JSDocStructure, CallSignatureDeclarationStructure, ClassDeclarationStructure, ClassStaticBlockDeclarationStructure, ConstructorDeclarationStructure, ConstructorDeclarationOverloadStructure, ConstructSignatureDeclarationStructure, EnumDeclarationStructure, EnumMemberStructure, ExportAssignmentStructure, ExportDeclarationStructure, ExportSpecifierStructure, FunctionDeclarationStructure, FunctionDeclarationOverloadStructure, GetAccessorDeclarationStructure, ImportAttributeStructure, ImportDeclarationStructure, ImportSpecifierStructure, IndexSignatureDeclarationStructure, InterfaceDeclarationStructure, JSDocTagStructure, JsxAttributeStructure, JsxElementStructure, JsxSelfClosingElementStructure, JsxSpreadAttributeStructure, MethodDeclarationStructure, MethodDeclarationOverloadStructure, MethodSignatureStructure, ModuleDeclarationStructure, PropertyAssignmentStructure, PropertyDeclarationStructure, PropertySignatureStructure, SetAccessorDeclarationStructure, ShorthandPropertyAssignmentStructure, SourceFileStructure, SpreadAssignmentStructure, TypeAliasDeclarationStructure, VariableDeclarationStructure, VariableStatementStructure } from 'ts-morph';
 import * as mixin_decorators from 'mixin-decorators';
 import { Writable, ReadonlyDeep } from 'type-fest';
 
@@ -518,7 +518,7 @@ interface SpreadAssignmentStructureClassIfc {
 }
 
 interface StatementedNodeStructureClassIfc {
-  readonly statements: (StatementStructures | stringOrWriterFunction)[];
+  readonly statements: (StatementStructureImpls | stringOrWriterFunction)[];
 }
 
 interface StructureClassIfc {
@@ -1057,7 +1057,7 @@ declare class ClassDeclarationImpl extends ClassDeclarationStructureBase impleme
 }
 
 declare const ClassStaticBlockDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly statements: (StatementStructureImpls | stringOrWriterFunction)[];
     readonly docs: (string | JSDocImpl)[];
     readonly leadingTrivia: stringOrWriterFunction[];
     readonly trailingTrivia: stringOrWriterFunction[];
@@ -1069,7 +1069,7 @@ declare class ClassStaticBlockDeclarationImpl extends ClassStaticBlockDeclaratio
 }
 
 declare const ConstructorDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly statements: (StatementStructureImpls | stringOrWriterFunction)[];
     readonly docs: (string | JSDocImpl)[];
     readonly leadingTrivia: stringOrWriterFunction[];
     readonly trailingTrivia: stringOrWriterFunction[];
@@ -1207,7 +1207,7 @@ declare class ExportSpecifierImpl extends ExportSpecifierStructureBase implement
 }
 
 declare const FunctionDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly statements: (StatementStructureImpls | stringOrWriterFunction)[];
     readonly docs: (string | JSDocImpl)[];
     readonly leadingTrivia: stringOrWriterFunction[];
     readonly trailingTrivia: stringOrWriterFunction[];
@@ -1252,7 +1252,7 @@ declare class FunctionDeclarationOverloadImpl extends FunctionDeclarationOverloa
 }
 
 declare const GetAccessorDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly statements: (StatementStructureImpls | stringOrWriterFunction)[];
     readonly docs: (string | JSDocImpl)[];
     readonly leadingTrivia: stringOrWriterFunction[];
     readonly trailingTrivia: stringOrWriterFunction[];
@@ -1455,7 +1455,7 @@ declare class JsxSpreadAttributeImpl extends JsxSpreadAttributeStructureBase imp
 }
 
 declare const MethodDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly statements: (StatementStructureImpls | stringOrWriterFunction)[];
     readonly docs: (string | JSDocImpl)[];
     readonly leadingTrivia: stringOrWriterFunction[];
     readonly trailingTrivia: stringOrWriterFunction[];
@@ -1526,7 +1526,7 @@ declare class MethodSignatureImpl extends MethodSignatureStructureBase implement
 }
 
 declare const ModuleDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly statements: (StatementStructureImpls | stringOrWriterFunction)[];
     readonly docs: (string | JSDocImpl)[];
     readonly leadingTrivia: stringOrWriterFunction[];
     readonly trailingTrivia: stringOrWriterFunction[];
@@ -1608,7 +1608,7 @@ declare class PropertySignatureImpl extends PropertySignatureStructureBase imple
 }
 
 declare const SetAccessorDeclarationStructureBase: mixin_decorators.MixinClass<object, {
-    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly statements: (StatementStructureImpls | stringOrWriterFunction)[];
     readonly docs: (string | JSDocImpl)[];
     readonly leadingTrivia: stringOrWriterFunction[];
     readonly trailingTrivia: stringOrWriterFunction[];
@@ -1642,7 +1642,7 @@ declare class ShorthandPropertyAssignmentImpl extends ShorthandPropertyAssignmen
 }
 
 declare const SourceFileStructureBase: mixin_decorators.MixinClass<object, {
-    readonly statements: (ts_morph.StatementStructures | stringOrWriterFunction)[];
+    readonly statements: (StatementStructureImpls | stringOrWriterFunction)[];
     readonly leadingTrivia: stringOrWriterFunction[];
     readonly trailingTrivia: stringOrWriterFunction[];
 }, typeof StructureBase>;
