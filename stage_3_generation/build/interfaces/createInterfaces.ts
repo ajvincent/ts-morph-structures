@@ -23,6 +23,8 @@ import TS_MORPH_D from "#utilities/source/ts-morph-d-file.js";
 import InterfaceModule from "../../moduleClasses/InterfaceModule.js";
 
 import consolidateNameDecorators from "./consolidateNameDecorators.js";
+import consolidateScopeDecorators from "./consolidateScopeDecorators.js";
+import mergeInterfaces from "./mergeInterfaces.js";
 import setHasQuestionToken from "./setHasQuestionToken.js";
 import tightenPropertyType from "./tightenPropertyType.js";
 import addImportsForProperty from "./addImportsForProperty.js";
@@ -54,11 +56,14 @@ export default async function createInterfaces(
   }
 
   consolidateNameDecorators();
+  consolidateScopeDecorators();
+  mergeInterfaces();
 
   const modules = [
     ...InterfaceModule.structuresMap.values(),
     ...InterfaceModule.decoratorsMap.values()
   ];
+  modules.forEach(defineImportsForModule);
   await PromiseAllParallel(modules, module => module.saveFile());
 }
 
@@ -151,8 +156,15 @@ function tightenTypeMembers(
     property => {
       property.typeStructure = tightenPropertyType(property.typeStructure!);
       setHasQuestionToken(module, property);
-      addImportsForProperty(module, property.typeStructure);
     }
   );
 }
 
+function defineImportsForModule(
+  module: InterfaceModule
+): void
+{
+  module.typeMembers.arrayOfKind(StructureKind.PropertySignature).forEach(
+    property => addImportsForProperty(module, property.typeStructure!)
+  );
+}

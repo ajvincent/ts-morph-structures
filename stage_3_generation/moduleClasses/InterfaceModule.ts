@@ -10,11 +10,13 @@ import {
 } from "#stage_two/snapshot/source/exports.js";
 
 import BaseModule from "./BaseModule.js";
+import OrderedSet from "./OrderedSet.js";
+import SuffixMap from "./SuffixMap.js";
 
 export default
 class InterfaceModule extends BaseModule {
-  static readonly decoratorsMap = new Map<string, InterfaceModule>;
-  static readonly structuresMap = new Map<string, InterfaceModule>;
+  static readonly decoratorsMap = new SuffixMap<InterfaceModule>("ClassIfc");
+  static readonly structuresMap = new SuffixMap<InterfaceModule>("ClassIfc");
 
   static #entryComparator(
     this: void,
@@ -31,7 +33,7 @@ class InterfaceModule extends BaseModule {
   }
 
   readonly typeMembers: TypeMembersMap;
-  readonly extendsSet: Set<string>;
+  readonly extendsSet: OrderedSet<string>;
 
   #structureKindName?: string;
   get structureKindName(): string | undefined {
@@ -53,7 +55,7 @@ class InterfaceModule extends BaseModule {
   {
     super("source/interfaces/standard", interfaceName, true);
     this.typeMembers = new TypeMembersMap;
-    this.extendsSet = new Set<string>;
+    this.extendsSet = new OrderedSet<string>;
   }
 
   protected getSourceFileImpl(): SourceFileImpl {

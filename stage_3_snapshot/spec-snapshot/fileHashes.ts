@@ -1,4 +1,5 @@
 import path from "path";
+import chalk from "chalk";
 
 import {
   VoidTypeNodeToTypeStructureConsole,
@@ -43,6 +44,10 @@ describe("File hashes match for the", () => {
     await compareSnapshots("source/bootstrap");
   });
 
+  xit("interfaces", async () => {
+    await compareSnapshots("source/interfaces");
+  });
+
   it("type structures", async () => {
     await compareSnapshots("source/structures/type");
   });
@@ -69,7 +74,12 @@ async function compareSnapshots(
   const diffFileNames = diffFileLists(
     stage_two_dir, stage_three_dir, stage_two_files, stage_three_files
   );
-  expect(diffFileNames).withContext("file differences").toEqual([]);
+  if (diffFileNames.length > 0) {
+    console.error("\n" + diffFileNames.map(
+      line => line.startsWith("-") ? chalk.red.bold(line) : chalk.green.bold(line)
+    ).join("\n") + "\n");
+  }
+  expect(diffFileNames.length).withContext("file differences").toBe(0);
 
   if (diffFileNames.length > 0)
     return;

@@ -1,4 +1,7 @@
-import { getClassInterfaceName } from "#utilities/source/StructureNameTransforms.js";
+import {
+  getClassInterfaceName
+} from "#utilities/source/StructureNameTransforms.js";
+
 import InterfaceModule from "../../moduleClasses/InterfaceModule.js";
 
 export default function consolidateNameDecorators(): void
@@ -6,6 +9,7 @@ export default function consolidateNameDecorators(): void
   for (const oldDecorator of [
     "AssertionKeyNamedNodeStructure",
     "BindingNamedNodeStructure",
+    "ImportAttributeNamedNodeStructure",
     "JsxTagNamedNodeStructure",
     "ModuleNamedNodeStructure",
     "PropertyNamedNodeStructure",
@@ -24,7 +28,7 @@ export default function consolidateNameDecorators(): void
       }
     }
 
-    InterfaceModule.decoratorsMap.delete(oldDecorator);
+    InterfaceModule.decoratorsMap.delete(getClassInterfaceName(oldDecorator));
 
     {
       const str = InterfaceModule.structuresMap.get(getClassInterfaceName("ClassDeclarationStructure"))!;
