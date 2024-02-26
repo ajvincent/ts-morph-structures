@@ -46,6 +46,7 @@ abstract class BaseModule
 {
   static readonly #importsEnum = {
     "ts-morph": "ts-morph",
+    "mixin-decorators": "mixin-decorators",
     "public": publicExports.absolutePathToExportFile,
     "internal": internalExports.absolutePathToExportFile,
   };
@@ -91,13 +92,13 @@ abstract class BaseModule
   protected abstract getSourceFileImpl(): SourceFileImpl;
 
   public addImports(
-    fromModule: "ts-morph" | "public" | "internal",
+    fromModule: "ts-morph" | "mixin-decorators" | "public" | "internal",
     values: string[],
     types: string[]
   ): void
   {
     const pathToImportedModule: string = BaseModule.#importsEnum[fromModule];
-    const isPackageImport = fromModule === "ts-morph";
+    const isPackageImport = (fromModule !== "public") && (fromModule !== "internal");
 
     if (values.length > 0) {
       this.importsManager.addImports({

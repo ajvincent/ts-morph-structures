@@ -1,6 +1,28 @@
 import {
-  SourceFileImpl
+  VariableDeclarationKind,
+} from "ts-morph";
+
+import {
+  ClassDeclarationImpl,
+  FunctionDeclarationImpl,
+  IndexedAccessTypeStructureImpl,
+  LiteralTypeStructureImpl,
+  MemberedObjectTypeStructureImpl,
+  ParameterDeclarationImpl,
+  PrefixOperatorsTypeStructureImpl,
+  PropertySignatureImpl,
+  SourceFileImpl,
+  TypeAliasDeclarationImpl,
+  TypeArgumentedTypeStructureImpl,
+  VariableDeclarationImpl,
+  VariableStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
+
+import {
+  getClassInterfaceName
+} from "#utilities/source/StructureNameTransforms.js";
+
+import SatisfiesStatement from "../pseudoStatements/SatisfiesStatement.js";
 
 import BaseClassModule from "./BaseClassModule.js";
 
@@ -8,23 +30,169 @@ export default
 class DecoratorModule extends BaseClassModule
 {
   static readonly map = new Map<string, DecoratorModule>;
+  static readonly #staticFields = new PropertySignatureImpl("staticFields");
+  static {
+    this.#staticFields.typeStructure = LiteralTypeStructureImpl.get("object");
+  }
 
-  constructor(decoratorName: string)
+  static readonly #typeofStructureBase = new PrefixOperatorsTypeStructureImpl(
+    ["typeof"], LiteralTypeStructureImpl.get("StructureBase")
+  );
+
+  static readonly #baseClassParam: ParameterDeclarationImpl = new ParameterDeclarationImpl("baseClass");
+  static {
+    this.#baseClassParam.typeStructure = this.#typeofStructureBase;
+  }
+
+  static readonly #contextParam: ParameterDeclarationImpl = new ParameterDeclarationImpl("context");
+  static {
+    this.#contextParam.typeStructure = LiteralTypeStructureImpl.get("ClassDecoratorContext");
+  }
+
+  readonly #baseName: string;
+  readonly #fieldsType: LiteralTypeStructureImpl;
+  constructor(decoratorName: string, baseName: string)
   {
     super("source/decorators/standard", decoratorName, false);
     DecoratorModule.map.set(decoratorName, this);
-  }
 
-  useCount = 0;
+    this.#baseName = baseName;
+    this.#fieldsType = LiteralTypeStructureImpl.get(this.#baseName + "Fields");
 
-  /*
-  #buildClassDeclaration(): ClassDeclarationImpl {
-    throw new Error("Method not implemented.");
+    this.addImports("ts-morph", [], [baseName]);
+    this.addImports("mixin-decorators", [], [
+      "MixinClass", "StaticAndInstance", "SubclassDecorator"
+    ]);
+    this.addImports("public", [], [getClassInterfaceName(baseName)]);
+    this.addImports("internal", ["StructureBase"], ["RightExtendsLeft"]);
   }
-  */
 
   protected getSourceFileImpl(): SourceFileImpl
   {
-    throw new Error("Method not implemented.");
+    const sourceFile = new SourceFileImpl;
+
+    sourceFile.statements.push(
+      "//#region preamble",
+      ...this.importsManager.getDeclarations(),
+      "//#endregion preamble",
+
+      this.#getKeySymbolStatement(),
+      this.#getFieldsAlias(),
+      this.#getMixinFunction(),
+      this.#getSatisfiesStatement().writerFunction,
+    );
+
+    return sourceFile;
+  }
+
+  #getKeySymbolStatement(): VariableStatementImpl
+  {
+    const statement = new VariableStatementImpl;
+    statement.hasDeclareKeyword = true;
+    statement.declarationKind = VariableDeclarationKind.Const;
+
+    const decl = new VariableDeclarationImpl(this.#baseName + "Key");
+    decl.typeStructure = new PrefixOperatorsTypeStructureImpl(
+      ["unique"], LiteralTypeStructureImpl.get("symbol")
+    );
+    statement.declarations.push(decl);
+
+    return statement;
+  }
+
+  #getFieldsAlias(): TypeAliasDeclarationImpl
+  {
+    const members = new MemberedObjectTypeStructureImpl;
+
+    const instanceFields = new PropertySignatureImpl(
+      "instanceFields"
+    );
+    instanceFields.typeStructure = LiteralTypeStructureImpl.get(
+      getClassInterfaceName(this.#baseName)
+    );
+
+    const symbolKey = new PropertySignatureImpl("symbolKey");
+    symbolKey.typeStructure = new PrefixOperatorsTypeStructureImpl(
+      ["typeof"], LiteralTypeStructureImpl.get(this.#baseName + "Key")
+    );
+
+    members.properties.push(DecoratorModule.#staticFields, instanceFields, symbolKey);
+
+    const staticAndInstance = new TypeArgumentedTypeStructureImpl(
+      LiteralTypeStructureImpl.get("StaticAndInstance"), [
+        symbolKey.typeStructure
+      ]
+    );
+
+    const extendsType = new TypeArgumentedTypeStructureImpl(
+      LiteralTypeStructureImpl.get("RightExtendsLeft"), [
+        staticAndInstance, members
+      ]
+    );
+
+    const alias = new TypeAliasDeclarationImpl(this.#baseName + "Fields", extendsType);
+    alias.isExported = true;
+
+    return alias;
+  }
+
+  #getMixinFunction(): FunctionDeclarationImpl {
+    const fn = new FunctionDeclarationImpl;
+    fn.isDefaultExport = true;
+    fn.name = this.#baseName + "Mixin";
+    fn.parameters.push(DecoratorModule.#baseClassParam, DecoratorModule.#contextParam);
+    fn.returnTypeStructure = this.#getMixinClassType();
+
+    const classDecl = this.#buildClass();
+
+    fn.statements.push(
+      "void context;",
+      classDecl,
+      "return " + classDecl.name + ";"
+    );
+
+    return fn;
+  }
+
+  #getMixinClassType(): TypeArgumentedTypeStructureImpl
+  {
+    return new TypeArgumentedTypeStructureImpl(
+      LiteralTypeStructureImpl.get("MixinClass"), [
+        new IndexedAccessTypeStructureImpl(
+          this.#fieldsType,
+          LiteralTypeStructureImpl.get("staticFields"),
+        ),
+        new IndexedAccessTypeStructureImpl(
+          this.#fieldsType,
+          LiteralTypeStructureImpl.get("instanceFields"),
+        ),
+        DecoratorModule.#typeofStructureBase
+      ]
+    );
+  }
+
+  #buildClass(): ClassDeclarationImpl
+  {
+    const classDecl = new ClassDeclarationImpl;
+    classDecl.name = this.#baseName + "Mixin";
+    classDecl.extends = "baseClass";
+    this.classMembersMap.moveMembersToClass(classDecl);
+    return classDecl;
+  }
+
+  #getSatisfiesStatement(): SatisfiesStatement
+  {
+    const subclassType = new TypeArgumentedTypeStructureImpl(
+      LiteralTypeStructureImpl.get("SubclassDecorator"),
+      [
+        this.#fieldsType,
+        DecoratorModule.#typeofStructureBase,
+        LiteralTypeStructureImpl.get("false")
+      ]
+    );
+
+    return new SatisfiesStatement(
+      this.#baseName + "Mixin", subclassType
+    );
   }
 }
