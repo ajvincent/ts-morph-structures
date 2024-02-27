@@ -20,7 +20,7 @@ import {
 import DecoratorModule from "../../moduleClasses/DecoratorModule.js";
 import InterfaceModule from "../../moduleClasses/InterfaceModule.js";
 
-import modifyTypeMembersForTypeStructures from "../typeMembersForClass/modifyTypeMembersForTypeStructures.js";
+import modifyTypeMembersForTypeStructures from "../classTools/modifyTypeMembersForTypeStructures.js";
 
 export default
 async function createDecorators(): Promise<void>

@@ -15,7 +15,7 @@ import {
 } from "#utilities/source/StructureNameTransforms.js";
 
 import InterfaceModule from "../../moduleClasses/InterfaceModule.js";
-import PropertyHashesWithTypes from "../typeMembersForClass/PropertyHashesWithTypes.js";
+import PropertyHashesWithTypes from "../classTools/PropertyHashesWithTypes.js";
 
 export default function addTypeStructures(
   module: InterfaceModule,
