@@ -12,6 +12,7 @@ import {
   PrefixOperatorsTypeStructureImpl,
   PropertySignatureImpl,
   SourceFileImpl,
+  StringTypeStructureImpl,
   TypeAliasDeclarationImpl,
   TypeArgumentedTypeStructureImpl,
   VariableDeclarationImpl,
@@ -19,7 +20,8 @@ import {
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
-  getClassInterfaceName
+  getClassInterfaceName,
+  getStructureMixinName,
 } from "#utilities/source/StructureNameTransforms.js";
 
 import SatisfiesStatement from "../pseudoStatements/SatisfiesStatement.js";
@@ -51,15 +53,22 @@ class DecoratorModule extends BaseClassModule
 
   readonly #baseName: string;
   readonly #fieldsType: LiteralTypeStructureImpl;
-  constructor(decoratorName: string, baseName: string)
+  readonly decoratorName: string
+
+  constructor(
+    baseName: string,
+  )
   {
+    const decoratorName = getStructureMixinName(baseName);
     super("source/decorators/standard", decoratorName, false);
-    DecoratorModule.map.set(decoratorName, this);
+
+    DecoratorModule.map.set(baseName, this);
 
     this.#baseName = baseName;
     this.#fieldsType = LiteralTypeStructureImpl.get(this.#baseName + "Fields");
+    this.decoratorName = decoratorName;
 
-    this.addImports("ts-morph", [], [baseName]);
+    this.addImports("ts-morph", [], [baseName, "Structures"]);
     this.addImports("mixin-decorators", [], [
       "MixinClass", "StaticAndInstance", "SubclassDecorator"
     ]);
@@ -160,11 +169,11 @@ class DecoratorModule extends BaseClassModule
       LiteralTypeStructureImpl.get("MixinClass"), [
         new IndexedAccessTypeStructureImpl(
           this.#fieldsType,
-          LiteralTypeStructureImpl.get("staticFields"),
+          StringTypeStructureImpl.get("staticFields"),
         ),
         new IndexedAccessTypeStructureImpl(
           this.#fieldsType,
-          LiteralTypeStructureImpl.get("instanceFields"),
+          StringTypeStructureImpl.get("instanceFields"),
         ),
         DecoratorModule.#typeofStructureBase
       ]
@@ -176,7 +185,7 @@ class DecoratorModule extends BaseClassModule
     const classDecl = new ClassDeclarationImpl;
     classDecl.name = this.#baseName + "Mixin";
     classDecl.extends = "baseClass";
-    this.classMembersMap.moveMembersToClass(classDecl);
+    this.classMembersMap!.moveMembersToClass(classDecl);
     return classDecl;
   }
 

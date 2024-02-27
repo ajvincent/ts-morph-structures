@@ -65,7 +65,7 @@ class InterfaceModule extends BaseModule {
     const interfaceDecl = new InterfaceDeclarationImpl(this.defaultExportName);
     interfaceDecl.isExported = true;
     this.typeMembers.sortEntries(InterfaceModule.#entryComparator);
-    this.typeMembers.moveMembersToType(interfaceDecl);
+    this.typeMembers.clone().moveMembersToType(interfaceDecl);
     sourceFile.statements.push(
       ...this.importsManager.getDeclarations(),
       interfaceDecl
