@@ -8,6 +8,7 @@ import {
   InterfaceDeclarationImpl,
   IndexSignatureDeclarationImpl,
   FunctionTypeStructureImpl,
+  LiteralTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
   MethodSignatureImpl,
   type NamedTypeMemberImpl,
@@ -17,6 +18,8 @@ import {
   SetAccessorDeclarationImpl,
   type TypeMemberImpl,
   TypeStructureKind,
+  TypeStructures,
+  UnionTypeStructureImpl,
 } from "../exports.js";
 
 import {
@@ -250,6 +253,12 @@ export default class TypeMembersMap extends OrderedMap<string, TypeMemberImpl> {
       getter.leadingTrivia.push(...prop.leadingTrivia);
       getter.trailingTrivia.push(...prop.trailingTrivia);
 
+      if (prop.hasQuestionToken && getter.returnTypeStructure) {
+        getter.returnTypeStructure = TypeMembersMap.#getUnionWithUndefined(
+          getter.returnTypeStructure,
+        );
+      }
+
       this.addMembers([getter]);
     }
 
@@ -272,10 +281,30 @@ export default class TypeMembersMap extends OrderedMap<string, TypeMemberImpl> {
       setter.leadingTrivia.push(...prop.leadingTrivia);
       setter.trailingTrivia.push(...prop.trailingTrivia);
 
+      if (prop.hasQuestionToken && param.typeStructure) {
+        param.typeStructure = TypeMembersMap.#getUnionWithUndefined(
+          param.typeStructure,
+        );
+      }
+
       this.addMembers([setter]);
     }
 
     this.delete(TypeMembersMap.keyFromMember(prop));
+  }
+
+  static #getUnionWithUndefined(
+    typeStructure: TypeStructures,
+  ): UnionTypeStructureImpl {
+    if (typeStructure.kind !== TypeStructureKind.Union) {
+      typeStructure = new UnionTypeStructureImpl([typeStructure]);
+    }
+
+    const undefType = LiteralTypeStructureImpl.get("undefined");
+    if (typeStructure.childTypes.includes(undefType) === false)
+      typeStructure.childTypes.push(undefType);
+
+    return typeStructure;
   }
 
   /**

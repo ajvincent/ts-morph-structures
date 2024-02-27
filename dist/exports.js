@@ -5957,6 +5957,9 @@ class TypeMembersMap extends OrderedMap {
             }
             getter.leadingTrivia.push(...prop.leadingTrivia);
             getter.trailingTrivia.push(...prop.trailingTrivia);
+            if (prop.hasQuestionToken && getter.returnTypeStructure) {
+                getter.returnTypeStructure = _a.#getUnionWithUndefined(getter.returnTypeStructure);
+            }
             this.addMembers([getter]);
         }
         if (toSetter) {
@@ -5969,9 +5972,21 @@ class TypeMembersMap extends OrderedMap {
             }
             setter.leadingTrivia.push(...prop.leadingTrivia);
             setter.trailingTrivia.push(...prop.trailingTrivia);
+            if (prop.hasQuestionToken && param.typeStructure) {
+                param.typeStructure = _a.#getUnionWithUndefined(param.typeStructure);
+            }
             this.addMembers([setter]);
         }
         this.delete(_a.keyFromMember(prop));
+    }
+    static #getUnionWithUndefined(typeStructure) {
+        if (typeStructure.kind !== TypeStructureKind.Union) {
+            typeStructure = new UnionTypeStructureImpl([typeStructure]);
+        }
+        const undefType = LiteralTypeStructureImpl.get("undefined");
+        if (typeStructure.childTypes.includes(undefType) === false)
+            typeStructure.childTypes.push(undefType);
+        return typeStructure;
     }
     /**
      * A typed call to `this.get()` for a given kind.

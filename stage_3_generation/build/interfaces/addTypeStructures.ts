@@ -15,17 +15,7 @@ import {
 } from "#utilities/source/StructureNameTransforms.js";
 
 import InterfaceModule from "../../moduleClasses/InterfaceModule.js";
-
-const PropertyHashesWithTypes: ReadonlySet<string> = new Set<string>([
-  "ClassDeclarationStructure:extends",
-  "ClassDeclarationStructure:implements",
-  "IndexSignatureDeclarationStructure:keyType",
-  "InterfaceDeclarationStructure:extends",
-  "ReturnTypedNodeStructure:returnType",
-  "TypedNodeStructure:type",
-  "TypeParameterDeclarationStructure:constraint",
-  "TypeParameterDeclarationStructure:default",
-]);
+import PropertyHashesWithTypes from "../typeMembersForClass/PropertyHashesWithTypes.js";
 
 export default function addTypeStructures(
   module: InterfaceModule,

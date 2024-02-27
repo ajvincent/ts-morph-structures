@@ -28,9 +28,6 @@ const OptionalHashes: ReadonlySet<string> = new Set([
   "JsxElementStructure:bodyText",
   "ModuleDeclarationStructure:declarationKind",
   "NameableNodeStructure:name",
-  /* this showed up in stage two but shouldn't have
-  "ParameterDeclarationStructure:scope",
-  */
   "ReturnTypedNodeStructure:returnType",
   "ScopedNodeStructure:scope",
   "TypedNodeStructure:type",

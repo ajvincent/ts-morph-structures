@@ -20,6 +20,8 @@ import {
 import DecoratorModule from "../../moduleClasses/DecoratorModule.js";
 import InterfaceModule from "../../moduleClasses/InterfaceModule.js";
 
+import modifyTypeMembersForTypeStructures from "../typeMembersForClass/modifyTypeMembersForTypeStructures.js";
+
 export default
 async function createDecorators(): Promise<void>
 {
@@ -37,8 +39,10 @@ async function buildDecorator(
   const module = new DecoratorModule(name);
   const interfaceMembers: TypeMembersMap = InterfaceModule.decoratorsMap.get(
     getClassInterfaceName(name)
-  )!.typeMembers;
+  )!.typeMembers.clone();
   assert(interfaceMembers.size > 0, "Empty interface?  Or was it just consumed?  " + name);
+
+  modifyTypeMembersForTypeStructures(name, interfaceMembers);
 
   const typeToClass = new MemberedTypeToClass(
     [],
