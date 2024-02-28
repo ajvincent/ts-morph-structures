@@ -71,7 +71,7 @@ abstract class BaseModule
   }
 
   readonly defaultExportName: string;
-  readonly importsManager: ImportManager;
+  readonly importManager: ImportManager;
 
   constructor(
     pathToParentDirectory: string,
@@ -81,7 +81,7 @@ abstract class BaseModule
   {
     this.defaultExportName = defaultExportName;
 
-    this.importsManager = new ImportManager(
+    this.importManager = new ImportManager(
       path.join(
         pathToModule(distDir, pathToParentDirectory),
         `${defaultExportName}${isTypeFile ? ".d" : ""}.ts`
@@ -101,7 +101,7 @@ abstract class BaseModule
     const isPackageImport = (fromModule !== "public") && (fromModule !== "internal");
 
     if (values.length > 0) {
-      this.importsManager.addImports({
+      this.importManager.addImports({
         pathToImportedModule,
         isPackageImport,
         isDefaultImport: false,
@@ -111,7 +111,7 @@ abstract class BaseModule
     }
 
     if (types.length > 0) {
-      this.importsManager.addImports({
+      this.importManager.addImports({
         pathToImportedModule,
         isPackageImport,
         isDefaultImport: false,
@@ -131,7 +131,7 @@ abstract class BaseModule
     const exportManager = isPublic ? publicExports : internalExports;
     if (defaultExportName) {
       exportManager.addExports({
-        pathToExportedModule: this.importsManager.absolutePathToModule,
+        pathToExportedModule: this.importManager.absolutePathToModule,
         isDefaultExport: true,
         exportNames: [defaultExportName],
         isType: false
@@ -140,7 +140,7 @@ abstract class BaseModule
 
     if (values.length) {
       exportManager.addExports({
-        pathToExportedModule: this.importsManager.absolutePathToModule,
+        pathToExportedModule: this.importManager.absolutePathToModule,
         isDefaultExport: false,
         exportNames: values,
         isType: false
@@ -149,7 +149,7 @@ abstract class BaseModule
 
     if (types.length) {
       exportManager.addExports({
-        pathToExportedModule: this.importsManager.absolutePathToModule,
+        pathToExportedModule: this.importManager.absolutePathToModule,
         isDefaultExport: false,
         exportNames: types,
         isType: true
@@ -164,7 +164,7 @@ abstract class BaseModule
   {
     const exportManager = isPublic ? publicExports : internalExports;
     exportManager.addExports({
-      pathToExportedModule: this.importsManager.absolutePathToModule,
+      pathToExportedModule: this.importManager.absolutePathToModule,
       isDefaultExport: false,
       exportNames: [],
       isType
@@ -174,14 +174,14 @@ abstract class BaseModule
   public async saveFile(): Promise<void>
   {
     const sourceStructure: SourceFileImpl = this.getSourceFileImpl();
-    const file = project.createSourceFile(this.importsManager.absolutePathToModule, sourceStructure);
+    const file = project.createSourceFile(this.importManager.absolutePathToModule, sourceStructure);
     await file.save()
   }
 
   public toJSON(): object {
     return {
       defaultExportName: this.defaultExportName,
-      imports: this.importsManager.getDeclarations(),
+      imports: this.importManager.getDeclarations(),
     }
   }
 }

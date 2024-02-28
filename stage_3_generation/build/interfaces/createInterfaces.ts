@@ -20,17 +20,18 @@ import {
 
 import TS_MORPH_D from "#utilities/source/ts-morph-d-file.js";
 
-import InterfaceModule from "../../moduleClasses/InterfaceModule.js";
+import {
+  addImportsToModule,
+  InterfaceModule,
+  publicExports,
+} from "../../moduleClasses/exports.js";
 
 import consolidateNameDecorators from "./consolidateNameDecorators.js";
 import consolidateScopeDecorators from "./consolidateScopeDecorators.js";
 import mergeInterfaces from "./mergeInterfaces.js";
 import setHasQuestionToken from "./setHasQuestionToken.js";
 import tightenPropertyType from "./tightenPropertyType.js";
-import addImportsForProperty from "./addImportsForProperty.js";
 import addTypeStructures from "./addTypeStructures.js";
-
-import { publicExports } from "../../moduleClasses/ExportsModule.js";
 
 export default async function createInterfaces(
   structureNames: readonly string[]
@@ -173,7 +174,7 @@ function defineImportsForModule(
 ): void
 {
   module.typeMembers.arrayOfKind(StructureKind.PropertySignature).forEach(
-    property => addImportsForProperty(module, property.typeStructure!)
+    property => addImportsToModule(module, property.typeStructure!)
   );
 }
 
@@ -182,7 +183,7 @@ function definePublicExport(
 ): void
 {
   publicExports.addExports({
-    pathToExportedModule: module.importsManager.absolutePathToModule,
+    pathToExportedModule: module.importManager.absolutePathToModule,
     isDefaultExport: false,
     isType: true,
     exportNames: [module.defaultExportName]

@@ -1,6 +1,7 @@
 import {
   type TypeStructures,
   forEachAugmentedStructureChild,
+  StructureImpls,
   TypeStructureKind
 } from "#stage_two/snapshot/source/exports.js";
 
@@ -8,15 +9,15 @@ import {
   getStructureNameFromModified
 } from "#utilities/source/StructureNameTransforms.js";
 
-import InterfaceModule from "../../moduleClasses/InterfaceModule.js";
+import BaseModule from "./BaseModule.js";
 
-export default function addImportsForProperty(
-  module: InterfaceModule,
-  typeStructure: TypeStructures,
+export default function addImportsToModule(
+  module: BaseModule,
+  structure: StructureImpls | TypeStructures,
 ): void
 {
-  if (typeStructure.kind === TypeStructureKind.Literal) {
-    const rawName = getStructureNameFromModified(typeStructure.stringValue);
+  if (structure.kind === TypeStructureKind.Literal) {
+    const rawName = getStructureNameFromModified(structure.stringValue);
     switch (rawName) {
       case "JsxNamespacedNameStructure":
       case "Scope":
@@ -29,17 +30,17 @@ export default function addImportsForProperty(
         return;
 
       case "stringOrWriterFunction":
-        module.addImports("public", [], [typeStructure.stringValue]);
+        module.addImports("public", [], [structure.stringValue]);
         return;
     }
 
-    if (rawName !== typeStructure.stringValue)
-      module.addImports("public", [], [typeStructure.stringValue]);
+    if (rawName !== structure.stringValue)
+      module.addImports("public", [], [structure.stringValue]);
     return;
   }
 
   forEachAugmentedStructureChild(
-    typeStructure,
-    childType => addImportsForProperty(module, childType as TypeStructures)
+    structure,
+    childType => addImportsToModule(module, childType)
   );
 }

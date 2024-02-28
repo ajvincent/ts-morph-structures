@@ -67,7 +67,7 @@ class InterfaceModule extends BaseModule {
     this.typeMembers.sortEntries(InterfaceModule.#entryComparator);
     this.typeMembers.clone().moveMembersToType(interfaceDecl);
     sourceFile.statements.push(
-      ...this.importsManager.getDeclarations(),
+      ...this.importManager.getDeclarations(),
       interfaceDecl
     );
 

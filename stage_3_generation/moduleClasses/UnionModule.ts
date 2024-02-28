@@ -24,7 +24,7 @@ class UnionsModuleBase extends BaseModule
     unions.sort((a, b): number => a.name.localeCompare(b.name));
 
     structure.statements.push(
-      ...this.importsManager.getDeclarations(),
+      ...this.importManager.getDeclarations(),
       ...unions
     );
 

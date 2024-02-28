@@ -15,9 +15,9 @@ export default function modifyTypeMembersForTypeStructures(
   map: TypeMembersMap
 ): void
 {
-  map.arrayOfKind(StructureKind.PropertySignature).forEach(prop => convertTypeToAccessors(
-    baseName, prop, map
-  ));
+  map.arrayOfKind(StructureKind.PropertySignature).forEach(
+    prop => convertTypeToAccessors(baseName, prop, map)
+  );
 }
 
 function convertTypeToAccessors(

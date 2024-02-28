@@ -76,13 +76,17 @@ class DecoratorModule extends BaseClassModule
     this.addImports("internal", ["StructureBase"], ["RightExtendsLeft"]);
   }
 
+  get fieldsName(): string {
+    return this.#baseName + "Fields"
+  }
+
   protected getSourceFileImpl(): SourceFileImpl
   {
     const sourceFile = new SourceFileImpl;
 
     sourceFile.statements.push(
       "//#region preamble",
-      ...this.importsManager.getDeclarations(),
+      ...this.importManager.getDeclarations(),
       "//#endregion preamble",
 
       this.#getKeySymbolStatement(),
@@ -139,7 +143,7 @@ class DecoratorModule extends BaseClassModule
       ]
     );
 
-    const alias = new TypeAliasDeclarationImpl(this.#baseName + "Fields", extendsType);
+    const alias = new TypeAliasDeclarationImpl(this.fieldsName, extendsType);
     alias.isExported = true;
 
     return alias;
