@@ -25,7 +25,7 @@ export default abstract class TypeStructuresBase<Kind extends TypeStructureKind>
       return;
     TypeStructuresBase.#callbackToTypeStructureImpl.set(
       this.writerFunction,
-      this as TypeStructures,
+      this as unknown as TypeStructures,
     );
   }
 

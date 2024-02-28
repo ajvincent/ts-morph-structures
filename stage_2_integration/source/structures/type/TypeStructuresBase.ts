@@ -27,7 +27,7 @@ implements KindedTypeStructure<Kind>
   protected registerCallbackForTypeStructure(): void {
     if (TypeStructuresBase.#callbackToTypeStructureImpl.has(this.writerFunction))
       return;
-    TypeStructuresBase.#callbackToTypeStructureImpl.set(this.writerFunction, this as TypeStructures);
+    TypeStructuresBase.#callbackToTypeStructureImpl.set(this.writerFunction, this as unknown as TypeStructures);
   }
 
   public static getTypeStructureForCallback(
