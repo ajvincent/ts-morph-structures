@@ -2270,7 +2270,9 @@ type ClassScopeMemberQuestion = ClassMemberQuestion<
 >;
 
 interface ClassStatementsGetter {
-  getStatements(key: MemberedStatementsKey): stringWriterOrStatementImpl[];
+  getStatements(
+    key: MemberedStatementsKey,
+  ): readonly stringWriterOrStatementImpl[];
 }
 
 type NamedClassMemberImpl = Extract<ClassMemberImpl, { name: string }>;

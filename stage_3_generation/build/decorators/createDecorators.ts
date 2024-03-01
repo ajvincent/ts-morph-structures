@@ -52,7 +52,7 @@ async function buildDecorator(
 
   modifyTypeMembersForTypeStructures(name, interfaceMembers);
 
-  const router = new StatementsRouter(module.importManager);
+  const router = new StatementsRouter(module);
 
   // mixins can't have constructors, so they can't have arguments for constructors either.
   const typeToClass = new MemberedTypeToClass([], router);

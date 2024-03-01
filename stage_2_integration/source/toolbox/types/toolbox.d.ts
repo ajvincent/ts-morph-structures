@@ -118,7 +118,7 @@ export type ClassScopeMemberQuestion = ClassMemberQuestion<
 >;
 
 export interface ClassStatementsGetter {
-  getStatements(key: MemberedStatementsKey): stringWriterOrStatementImpl[]
+  getStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[]
 }
 
 export type NamedClassMemberImpl = Extract<ClassMemberImpl, { name: string }>;

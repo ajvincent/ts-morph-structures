@@ -650,7 +650,7 @@ export default class MemberedTypeToClass {
   }
 
   #callStatementGetter(keyClass: MemberedStatementsKeyClass): void {
-    const statementsArray: stringWriterOrStatementImpl[] =
+    const statementsArray: readonly stringWriterOrStatementImpl[] =
       this.#statementsGetter.getStatements(keyClass);
     if (statementsArray.length === 0) return;
 

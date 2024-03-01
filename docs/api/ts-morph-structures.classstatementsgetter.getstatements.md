@@ -7,7 +7,9 @@
 **Signature:**
 
 ```typescript
-getStatements(key: MemberedStatementsKey): stringWriterOrStatementImpl[];
+getStatements(
+    key: MemberedStatementsKey,
+  ): readonly stringWriterOrStatementImpl[];
 ```
 
 ## Parameters
@@ -18,5 +20,5 @@ getStatements(key: MemberedStatementsKey): stringWriterOrStatementImpl[];
 
 **Returns:**
 
-[stringWriterOrStatementImpl](./ts-morph-structures.stringwriterorstatementimpl.md)<!-- -->\[\]
+readonly [stringWriterOrStatementImpl](./ts-morph-structures.stringwriterorstatementimpl.md)<!-- -->\[\]
 
