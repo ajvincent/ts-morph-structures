@@ -58,6 +58,8 @@ async function buildDecorator(
   const typeToClass = new MemberedTypeToClass([], router);
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
+  typeToClass.addTypeMember(true, module.createCopyFieldsMethod())
+
   typeToClass.defineStatementsByPurpose("body", false);
   module.classMembersMap = typeToClass.buildClassMembersMap();
 

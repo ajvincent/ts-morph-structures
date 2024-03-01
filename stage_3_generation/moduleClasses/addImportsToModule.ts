@@ -10,6 +10,7 @@ import {
 } from "#utilities/source/StructureNameTransforms.js";
 
 import BaseModule from "./BaseModule.js";
+import DecoratorModule from "./DecoratorModule.js";
 
 export default function addImportsToModule(
   module: BaseModule,
@@ -17,6 +18,10 @@ export default function addImportsToModule(
 ): void
 {
   if (structure.kind === TypeStructureKind.Literal) {
+
+    if ((module instanceof DecoratorModule) && (module.decoratorName === structure.stringValue))
+      return;
+
     const rawName = getStructureNameFromModified(structure.stringValue);
     switch (rawName) {
       case "JsxNamespacedNameStructure":

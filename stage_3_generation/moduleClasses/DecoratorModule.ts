@@ -6,8 +6,10 @@ import {
   ClassDeclarationImpl,
   FunctionDeclarationImpl,
   IndexedAccessTypeStructureImpl,
+  IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
+  MethodSignatureImpl,
   ParameterDeclarationImpl,
   PrefixOperatorsTypeStructureImpl,
   PropertySignatureImpl,
@@ -23,6 +25,8 @@ import {
   getClassInterfaceName,
   getStructureMixinName,
 } from "#utilities/source/StructureNameTransforms.js";
+
+import InternalJSDocTag from "../build/classTools/InternalJSDocTag.js";
 
 import SatisfiesStatement from "../pseudoStatements/SatisfiesStatement.js";
 
@@ -78,6 +82,35 @@ class DecoratorModule extends BaseClassModule
 
   get fieldsName(): string {
     return this.baseName + "Fields"
+  }
+
+  createCopyFieldsMethod(): MethodSignatureImpl
+  {
+    const methodSignature = new MethodSignatureImpl("[COPY_FIELDS]");
+
+    const sourceParam = new ParameterDeclarationImpl("source");
+    sourceParam.typeStructure = new IntersectionTypeStructureImpl([
+      LiteralTypeStructureImpl.get(this.baseName),
+      LiteralTypeStructureImpl.get("Structures")
+    ]);
+
+    const targetParam = new ParameterDeclarationImpl("target");
+    targetParam.typeStructure = new IntersectionTypeStructureImpl([
+      LiteralTypeStructureImpl.get(this.decoratorName),
+      LiteralTypeStructureImpl.get("Structures")
+    ]);
+
+    methodSignature.docs.push(InternalJSDocTag);
+    methodSignature.parameters.push(sourceParam, targetParam);
+    methodSignature.returnTypeStructure = LiteralTypeStructureImpl.get("void");
+  
+    this.addImports("internal", ["COPY_FIELDS"], []);
+    this.addImports("ts-morph", [], [
+      this.baseName,
+      "Structures"
+    ]);
+
+    return methodSignature;
   }
 
   protected getSourceFileImpl(): SourceFileImpl

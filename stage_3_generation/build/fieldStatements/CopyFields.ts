@@ -12,12 +12,8 @@ import type {
 
 import {
   ClassFieldStatementsMap,
-  IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
   MemberedStatementsKey,
-  type MemberedTypeToClass,
-  MethodSignatureImpl,
-  ParameterDeclarationImpl,
   type PropertySignatureImpl,
   TypeStructureKind,
   type TypeStructures,
@@ -27,69 +23,30 @@ import {
   type stringOrWriterFunction,
 } from "#stage_two/snapshot/source/exports.js";
 
-/*
 import {
   getStructureNameFromModified,
 } from "#utilities/source/StructureNameTransforms.js";
-*/
 
 import TS_MORPH_D from "#utilities/source/ts-morph-d-file.js";
 
-import InternalJSDocTag from "../classTools/InternalJSDocTag.js";
 import PropertyHashesWithTypes from "../classTools/PropertyHashesWithTypes.js";
 
 import GetterFilter from "../fieldStatements/GetterFilter.js";
 
-import {
-  DecoratorModule,
-} from "../../moduleClasses/exports.js";
-
 import BlockStatement from "../../pseudoStatements/BlockStatement.js";
 //#endregion preamble
-
-export function addCopyFieldsMethod(
-  module: DecoratorModule,
-  typeToClass: MemberedTypeToClass
-): void
-{
-  const methodSignature = new MethodSignatureImpl("[COPY_FIELDS]");
-
-  const sourceParam = new ParameterDeclarationImpl("source");
-  sourceParam.typeStructure = new IntersectionTypeStructureImpl([
-    LiteralTypeStructureImpl.get(module.baseName),
-    LiteralTypeStructureImpl.get("Structures")
-  ]);
-
-  const targetParam = new ParameterDeclarationImpl("target");
-  targetParam.typeStructure = new IntersectionTypeStructureImpl([
-    LiteralTypeStructureImpl.get(module.decoratorName),
-    LiteralTypeStructureImpl.get("Structures")
-  ]);
-
-  methodSignature.docs.push(InternalJSDocTag);
-  methodSignature.parameters.push(sourceParam, targetParam);
-  methodSignature.returnTypeStructure = LiteralTypeStructureImpl.get("void");
-
-  typeToClass.addTypeMember(true, methodSignature);
-
-  module.addImports("internal", ["COPY_FIELDS"], []);
-  module.addImports("ts-morph", [], [
-    module.baseName,
-    "Structures"
-  ]);
-}
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
 const stringType = LiteralTypeStructureImpl.get("string");
 const stringOrWriterFunction = LiteralTypeStructureImpl.get("stringOrWriterFunction");
 
-export class CopyFieldsStatements extends GetterFilter
+export default class CopyFieldsStatements extends GetterFilter
 {
   accept(
     key: MemberedStatementsKey
   ): boolean
   {
-    if (key.isFieldStatic === false)
+    if (key.isFieldStatic === true)
       return false;
     if (key.fieldKey === ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN)
       return false;
@@ -108,6 +65,10 @@ export class CopyFieldsStatements extends GetterFilter
       ];
     }
 
+    if (/^#.*Manager$/.test(key.fieldKey)) {
+      return this.#getStatementsForTypeAccessor(key);
+    }
+
     assert(key.fieldType?.kind === StructureKind.PropertySignature, "not a property?");
     assert(key.fieldType.typeStructure, "no type structure?");
 
@@ -121,6 +82,31 @@ export class CopyFieldsStatements extends GetterFilter
     throw new Error("unexpected field type structure: " + key.fieldType.name);
   }
 
+  #getStatementsForTypeAccessor(
+    key: MemberedStatementsKey
+  ): readonly stringWriterOrStatementImpl[]
+  {
+    this.module.addImports("internal", ["TypeStructureClassesMap"], []);
+
+    const propName = /^#(.*)Manager$/.exec(key.fieldKey)![1];
+    const structureName = propName + "Structure";
+
+    return [
+      `const { ${structureName }} = source as unknown as ${this.module.decoratorName};`,
+
+      new BlockStatement(
+        [`target.${structureName} = TypeStructureClassesMap.clone(${structureName});`],
+        `if (${structureName})`
+      ).writerFunction,
+
+      new BlockStatement(
+        [`target.${propName} = source.${propName};`],
+        `else if (source.${propName})`
+      ).writerFunction,
+    ];
+  }
+
+  //#region literal type
   #getStatementsForLiteralType(
     fieldType: ReadonlyDeep<PropertySignatureImpl>,
     typeStructure: ReadonlyDeep<LiteralTypeStructureImpl>
@@ -146,17 +132,19 @@ export class CopyFieldsStatements extends GetterFilter
       return this.#getCopyTypeStatements(fieldType.name);
     }
 
+    const originalField = this.#getOriginalField(fieldType.name);
+
     switch (typeStructure) {
       case booleanType:
         statement = this.#getAssignmentStatement(fieldType.name);
-        if (fieldType.hasQuestionToken) {
+        if (originalField.hasQuestionToken) {
           statement += " ?? false";
         }
         return [statement];
 
       case stringType:
         statement = `target.${fieldType.name} = source.${fieldType.name}`;
-        if (fieldType.hasQuestionToken) {
+        if (originalField.hasQuestionToken) {
           statement += ` ?? ""`;
         }
         return [statement];
@@ -177,7 +165,7 @@ export class CopyFieldsStatements extends GetterFilter
     body: string,
   ): WriterFunction
   {
-    return new BlockStatement([body], `if (${name})`).writerFunction;
+    return new BlockStatement([body], `if (source.${name})`).writerFunction;
   }
 
   #getCopyTypeStatements(
@@ -188,29 +176,29 @@ export class CopyFieldsStatements extends GetterFilter
     this.module.addImports("internal", ["TypeStructureClassesMap"], []);
     return [
       `const { ${name_Structure} } = source as unknown as ${this.baseName}Mixin;`,
+
       new BlockStatement(
         [`target.${name_Structure} = TypeStructureClassesMap.clone(${name_Structure});`],
         `if (${name_Structure})`
       ).writerFunction,
+
       new BlockStatement(
         [`target.${name} = source.${name}`],
         `else if (source.${name})`
       ).writerFunction,
     ];
   }
+  //#endregion literal type
 
   #getStatementsForArrayType(
     fieldType: ReadonlyDeep<PropertySignatureImpl>,
     objectType: ReadonlyDeep<TypeStructures>
   ): readonly stringOrWriterFunction[]
   {
-    void(fieldType);
-    void(objectType);
-    return [];
-    /*
     const { name } = fieldType;
 
-    const originalType = this.#getOriginalType(name);
+    const originalField = this.#getOriginalField(name);
+    void(originalField);
 
     if (objectType.kind === TypeStructureKind.Parentheses)
       objectType = objectType.childTypes[0];
@@ -238,6 +226,8 @@ export class CopyFieldsStatements extends GetterFilter
         useStructureClassesMap = true;
       }
     }
+
+    void(includesString);
     // DecoratableNodeStructureMixin
     // JSDocableNodeStructureMixin
     // ParameteredNodeStructureMixin
@@ -246,24 +236,23 @@ export class CopyFieldsStatements extends GetterFilter
     // TypeParameteredNodeStructureMixin
 
     if (useStructureClassesMap) {
-
-    } else {
-      return [
-        `target.${name} = source.${name}?.slice() ?? [];`
-      ]
+      return [];
     }
-    */
+
+    return [
+      `target.${name} = source.${name}?.slice() ?? [];`
+    ];
   }
 
-  #getOriginalType(
+  #getOriginalField(
     propertyName: string
-  ): TypeStructures
+  ): PropertySignatureImpl
   {
     return getTypeAugmentedStructure(
       TS_MORPH_D.getInterfaceOrThrow(this.baseName).getPropertyOrThrow(propertyName),
       VoidTypeNodeToTypeStructureConsole,
       true,
       StructureKind.PropertySignature
-    ).rootStructure.typeStructure!
+    ).rootStructure;
   }
 }

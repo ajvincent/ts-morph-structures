@@ -204,6 +204,13 @@ function definePublicExports(): void
     isDefaultExport: false,
     isType: true
   });
+
+  publicExports.addExports({
+    pathToExportedModule: pathToModule(distDir, "source/types/stringOrWriterFunction.d.ts"),
+    exportNames: ["stringOrWriterFunction"],
+    isDefaultExport: false,
+    isType: true
+  });
 }
 
 function defineInternalExports(): void

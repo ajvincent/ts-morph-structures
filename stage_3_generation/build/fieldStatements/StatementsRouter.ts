@@ -3,12 +3,15 @@ import {
   stringWriterOrStatementImpl
 } from "#stage_two/snapshot/source/exports.js";
 
-import DecoratorModule from "../../moduleClasses/DecoratorModule.js";
+import {
+  DecoratorModule,
+} from "../../moduleClasses/exports.js";
 
 import StatementGetterBase from "./GetterBase.js";
 import GetterFilter from "./GetterFilter.js";
 
 import ArrayBooleanAndString from "./ArrayBooleanAndString.js";
+import CopyFieldsStatements from "./CopyFields.js";
 
 export default
 class StatementsRouter extends StatementGetterBase
@@ -22,6 +25,7 @@ class StatementsRouter extends StatementGetterBase
     super(module);
     this.filters = [
       new ArrayBooleanAndString(module),
+      new CopyFieldsStatements(module),
     ];
   }
 
