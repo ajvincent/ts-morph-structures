@@ -5,20 +5,26 @@ import type {
   stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
+import DecoratorModule from "../../moduleClasses/DecoratorModule.js";
+
 export default
 abstract class StatementGetterBase
 implements ClassStatementsGetter
 {
   protected readonly importManager: ImportManager;
+  protected readonly baseName: string;
+  protected readonly module: DecoratorModule;
 
   constructor(
-    importManager: ImportManager
+    module: DecoratorModule
   )
   {
-    this.importManager = importManager;
+    this.importManager = module.importManager;
+    this.baseName = module.baseName;
+    this.module = module;
   }
 
   abstract getStatements(
     key: MemberedStatementsKey
-  ): stringWriterOrStatementImpl[];
+  ): readonly stringWriterOrStatementImpl[];
 }

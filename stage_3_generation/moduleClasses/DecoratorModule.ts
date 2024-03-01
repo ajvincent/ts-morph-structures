@@ -51,7 +51,7 @@ class DecoratorModule extends BaseClassModule
     this.#contextParam.typeStructure = LiteralTypeStructureImpl.get("ClassDecoratorContext");
   }
 
-  readonly #baseName: string;
+  readonly baseName: string;
   readonly #fieldsType: LiteralTypeStructureImpl;
   readonly decoratorName: string
 
@@ -64,8 +64,8 @@ class DecoratorModule extends BaseClassModule
 
     DecoratorModule.map.set(baseName, this);
 
-    this.#baseName = baseName;
-    this.#fieldsType = LiteralTypeStructureImpl.get(this.#baseName + "Fields");
+    this.baseName = baseName;
+    this.#fieldsType = LiteralTypeStructureImpl.get(this.baseName + "Fields");
     this.decoratorName = decoratorName;
 
     this.addImports("ts-morph", [], [baseName, "Structures"]);
@@ -77,7 +77,7 @@ class DecoratorModule extends BaseClassModule
   }
 
   get fieldsName(): string {
-    return this.#baseName + "Fields"
+    return this.baseName + "Fields"
   }
 
   protected getSourceFileImpl(): SourceFileImpl
@@ -104,7 +104,7 @@ class DecoratorModule extends BaseClassModule
     statement.hasDeclareKeyword = true;
     statement.declarationKind = VariableDeclarationKind.Const;
 
-    const decl = new VariableDeclarationImpl(this.#baseName + "Key");
+    const decl = new VariableDeclarationImpl(this.baseName + "Key");
     decl.typeStructure = new PrefixOperatorsTypeStructureImpl(
       ["unique"], LiteralTypeStructureImpl.get("symbol")
     );
@@ -121,12 +121,12 @@ class DecoratorModule extends BaseClassModule
       "instanceFields"
     );
     instanceFields.typeStructure = LiteralTypeStructureImpl.get(
-      getClassInterfaceName(this.#baseName)
+      getClassInterfaceName(this.baseName)
     );
 
     const symbolKey = new PropertySignatureImpl("symbolKey");
     symbolKey.typeStructure = new PrefixOperatorsTypeStructureImpl(
-      ["typeof"], LiteralTypeStructureImpl.get(this.#baseName + "Key")
+      ["typeof"], LiteralTypeStructureImpl.get(this.baseName + "Key")
     );
 
     members.properties.push(DecoratorModule.#staticFields, instanceFields, symbolKey);
@@ -152,7 +152,7 @@ class DecoratorModule extends BaseClassModule
   #getMixinFunction(): FunctionDeclarationImpl {
     const fn = new FunctionDeclarationImpl;
     fn.isDefaultExport = true;
-    fn.name = this.#baseName + "Mixin";
+    fn.name = this.baseName + "Mixin";
     fn.parameters.push(DecoratorModule.#baseClassParam, DecoratorModule.#contextParam);
     fn.returnTypeStructure = this.#getMixinClassType();
 
@@ -187,7 +187,7 @@ class DecoratorModule extends BaseClassModule
   #buildClass(): ClassDeclarationImpl
   {
     const classDecl = new ClassDeclarationImpl;
-    classDecl.name = this.#baseName + "Mixin";
+    classDecl.name = this.baseName + "Mixin";
     classDecl.extends = "baseClass";
     this.classMembersMap!.moveMembersToClass(classDecl);
     return classDecl;
@@ -205,7 +205,7 @@ class DecoratorModule extends BaseClassModule
     );
 
     return new SatisfiesStatement(
-      this.#baseName + "Mixin", subclassType
+      this.baseName + "Mixin", subclassType
     );
   }
 }

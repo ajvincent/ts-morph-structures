@@ -1,8 +1,10 @@
 import {
-  ImportManager,
   MemberedStatementsKey,
   stringWriterOrStatementImpl
 } from "#stage_two/snapshot/source/exports.js";
+
+import DecoratorModule from "../../moduleClasses/DecoratorModule.js";
+
 import StatementGetterBase from "./GetterBase.js";
 import GetterFilter from "./GetterFilter.js";
 
@@ -14,18 +16,18 @@ class StatementsRouter extends StatementGetterBase
   readonly filters: GetterFilter[];
 
   constructor(
-    importManager: ImportManager
+    module: DecoratorModule
   )
   {
-    super(importManager);
+    super(module);
     this.filters = [
-      new ArrayBooleanAndString(importManager),
+      new ArrayBooleanAndString(module),
     ];
   }
 
   getStatements(
     key: MemberedStatementsKey
-  ): stringWriterOrStatementImpl[]
+  ): readonly stringWriterOrStatementImpl[]
   {
     for (const filter of this.filters) {
       if (filter.accept(key)) {
