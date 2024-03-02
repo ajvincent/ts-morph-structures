@@ -113,6 +113,20 @@ class DecoratorModule extends BaseClassModule
     return methodSignature;
   }
 
+  createToJSONMethod(): MethodSignatureImpl
+  {
+    this.addImports("internal", [], ["StructureClassToJSON"]);
+
+    const methodSignature = new MethodSignatureImpl("toJSON");
+    methodSignature.returnTypeStructure = new TypeArgumentedTypeStructureImpl(
+      LiteralTypeStructureImpl.get("StructureClassToJSON"),
+      [
+        LiteralTypeStructureImpl.get(this.decoratorName)
+      ]
+    );
+    return methodSignature;
+  }
+
   protected getSourceFileImpl(): SourceFileImpl
   {
     const sourceFile = new SourceFileImpl;

@@ -59,14 +59,14 @@ async function buildDecorator(
   const typeToClass = new MemberedTypeToClass([], router);
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
-  typeToClass.addTypeMember(true, module.createCopyFieldsMethod())
+  typeToClass.addTypeMember(true, module.createCopyFieldsMethod());
+  typeToClass.addTypeMember(false, module.createToJSONMethod());
 
   if (name.startsWith("StatementedNode")) {
     const cloneStatementFilter = new CloneStatement_Statements(module);
     router.filters.unshift(cloneStatementFilter);
     typeToClass.addTypeMember(true, cloneStatementFilter.getMethodSignature());
   }
-
 
   typeToClass.defineStatementsByPurpose("body", false);
   module.classMembersMap = typeToClass.buildClassMembersMap();

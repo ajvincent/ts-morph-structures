@@ -48,7 +48,6 @@ import InterfaceModule from "#stage_three/generation/moduleClasses/InterfaceModu
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
 const stringType = LiteralTypeStructureImpl.get("string");
-const stringOrWriterFunction = LiteralTypeStructureImpl.get("stringOrWriterFunction");
 
 export default class CopyFieldsStatements extends GetterFilter
 {
