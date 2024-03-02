@@ -44,6 +44,10 @@ describe("File hashes match for the", () => {
     await compareSnapshots("source/bootstrap");
   });
 
+  xit("decorators", async () => {
+    await compareSnapshots("source/decorators/standard");
+  });
+
   it("interfaces", async () => {
     await compareSnapshots("source/interfaces");
   });

@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
 
 import {
-  StructureKind
+  Scope,
+  StructureKind,
 } from "ts-morph";
 
 import {
+  type ClassMemberImpl,
   LiteralTypeStructureImpl,
   MemberedTypeToClass,
   type TypeMembersMap,
@@ -81,6 +83,24 @@ async function buildDecorator(
   }
 
   typeToClass.defineStatementsByPurpose("body", false);
+
+  typeToClass.scopeCallback = {
+    getScope: function(
+      isStatic: boolean,
+      kind: ClassMemberImpl["kind"],
+      memberName: string
+    ): Scope | undefined
+    {
+      void(isStatic);
+      void(kind);
+      if (memberName === "[COPY_FIELDS]")
+        return Scope.Public;
+      if (memberName === "toJSON")
+        return Scope.Public;
+      return undefined;
+    }
+  };
+
   module.classMembersMap = typeToClass.buildClassMembersMap();
 
   // eslint complains when we say isAsync: boolean = false;
