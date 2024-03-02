@@ -17,6 +17,7 @@ import {
   StringTypeStructureImpl,
   TypeAliasDeclarationImpl,
   TypeArgumentedTypeStructureImpl,
+  UnionTypeStructureImpl,
   VariableDeclarationImpl,
   VariableStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
@@ -57,7 +58,7 @@ class DecoratorModule extends BaseClassModule
 
   readonly baseName: string;
   readonly #fieldsType: LiteralTypeStructureImpl;
-  readonly decoratorName: string
+  readonly decoratorName: string;
 
   constructor(
     baseName: string,
@@ -122,6 +123,26 @@ class DecoratorModule extends BaseClassModule
       LiteralTypeStructureImpl.get("StructureClassToJSON"),
       [
         LiteralTypeStructureImpl.get(this.decoratorName)
+      ]
+    );
+    return methodSignature;
+  }
+
+  createStructureIteratorMethod(): MethodSignatureImpl
+  {
+    this.addImports("public", [], ["StructureImpls", "TypeStructures"]);
+    this.addImports("internal", ["STRUCTURE_AND_TYPES_CHILDREN"], []);
+
+    const methodSignature = new MethodSignatureImpl("[STRUCTURE_AND_TYPES_CHILDREN]");
+    methodSignature.docs.push(InternalJSDocTag);
+
+    methodSignature.returnTypeStructure = new TypeArgumentedTypeStructureImpl(
+      LiteralTypeStructureImpl.get("IterableIterator"),
+      [
+        new UnionTypeStructureImpl([
+          LiteralTypeStructureImpl.get("StructureImpls"),
+          LiteralTypeStructureImpl.get("TypeStructures")
+        ])
       ]
     );
     return methodSignature;

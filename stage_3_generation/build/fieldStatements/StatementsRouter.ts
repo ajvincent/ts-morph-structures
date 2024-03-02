@@ -12,6 +12,7 @@ import GetterFilter from "./GetterFilter.js";
 
 import ArrayBooleanAndString from "./ArrayBooleanAndString.js";
 import CopyFieldsStatements from "./CopyFields.js";
+import StructureIteratorStatements from "./StructureIterator.js";
 import ToJSONStatements from "./ToJSON.js";
 
 import TypeManagerStatements from "./TypeStructures/Manager.js";
@@ -32,6 +33,7 @@ class StatementsRouter extends StatementGetterBase
       new ArrayBooleanAndString(module),
       new CopyFieldsStatements(module),
       new ToJSONStatements(module),
+      new StructureIteratorStatements(module),
       new TypeManagerStatements(module),
       new TypeGetterStatements(module),
       new TypeStructureGetterStatements(module),

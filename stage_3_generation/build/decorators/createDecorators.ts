@@ -62,6 +62,18 @@ async function buildDecorator(
   typeToClass.addTypeMember(true, module.createCopyFieldsMethod());
   typeToClass.addTypeMember(false, module.createToJSONMethod());
 
+  {
+    const properties = interfaceMembers.arrayOfKind(StructureKind.PropertySignature);
+    if (properties.some(prop => /^#.*Manager$/.test(prop.name))) {
+      typeToClass.addTypeMember(false, module.createStructureIteratorMethod());
+      typeToClass.isGeneratorCallback = {
+        isGenerator: function(isStatic: boolean, kind: StructureKind.Method, memberName: string): boolean {
+          return isStatic === false && memberName === "[STRUCTURE_AND_TYPES_CHILDREN]";
+        }
+      };
+    }
+  }
+
   if (name.startsWith("StatementedNode")) {
     const cloneStatementFilter = new CloneStatement_Statements(module);
     router.filters.unshift(cloneStatementFilter);
