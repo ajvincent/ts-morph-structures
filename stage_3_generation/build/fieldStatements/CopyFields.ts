@@ -17,6 +17,7 @@ import {
   LiteralTypeStructureImpl,
   MemberedStatementsKey,
   ParenthesesTypeStructureImpl,
+  QualifiedNameTypeStructureImpl,
   type PropertySignatureImpl,
   TypeStructureKind,
   type TypeStructures,
@@ -30,6 +31,7 @@ import {
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
+  getClassInterfaceName,
   getStructureNameFromModified,
 } from "#utilities/source/StructureNameTransforms.js";
 
@@ -41,6 +43,7 @@ import GetterFilter from "../fieldStatements/GetterFilter.js";
 
 import BlockStatementImpl from "../../pseudoStatements/BlockStatement.js";
 import CallExpressionStatementImpl from "#stage_three/generation/pseudoStatements/CallExpression.js";
+import InterfaceModule from "#stage_three/generation/moduleClasses/InterfaceModule.js";
 //#endregion preamble
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
@@ -202,12 +205,21 @@ export default class CopyFieldsStatements extends GetterFilter
   {
     const { name } = fieldType;
 
-    if (name === "statements") {
+    if ((this.module.baseName === "StatementedNodeStructure") && (name === "statements")) {
       return this.#getStatementsForCloneStatements();
     }
 
-    const originalField = this.#getOriginalField(name);
-    void(originalField);
+    if ((this.module.baseName === "Structure") && (
+      (name === "leadingTrivia") || (name === "trailingTrivia")
+    ))
+    {
+      return this.#getStatementsForTrivia(name);
+    }
+
+    // DecoratableNodeStructureMixin
+    // JSDocableNodeStructureMixin
+    // ParameteredNodeStructureMixin
+    // TypeParameteredNodeStructureMixin
 
     if (objectType.kind === TypeStructureKind.Parentheses)
       objectType = objectType.childTypes[0];
@@ -217,50 +229,73 @@ export default class CopyFieldsStatements extends GetterFilter
 
     const childTypes = types as readonly ReadonlyDeep<LiteralTypeStructureImpl>[];
 
-    let useStructureClassesMap = false;
-    let includesString = false;
+    let generatedClassName = "";
+
     for (const childType of childTypes) {
-      if (childType === stringType) {
-        includesString = true;
-      }
-      else if (childType === LiteralTypeStructureImpl.get("stringOrWriterFunction")) {
+      if (childType === LiteralTypeStructureImpl.get("stringOrWriterFunction")) {
         this.module.addImports("public", [], ["stringOrWriterFunction"]);
       }
       else if (getStructureNameFromModified(childType.stringValue) !== childType.stringValue) {
-        this.module.addImports(
-          "public",
-          ["StructureClassesMap"],
-          [childType.stringValue]
-        );
-        useStructureClassesMap = true;
+        assert(generatedClassName === "");
+
+        this.module.addImports("public", [], [childType.stringValue]);
+        this.module.addImports("internal", ["StructureClassesMap"], []);
+
+        generatedClassName = childType.stringValue;
       }
     }
+    assert(generatedClassName, `we should be ready to clone structures now, ${this.module.decoratorName}:${name}`);
 
-    void(includesString);
-    // DecoratableNodeStructureMixin
-    // JSDocableNodeStructureMixin
-    // ParameteredNodeStructureMixin
-    // TypeParameteredNodeStructureMixin
+    const generatedStructureName = getStructureNameFromModified(generatedClassName);
+    const generatedInterfaceName = getClassInterfaceName(generatedStructureName);
+    const generatedStructureKind = InterfaceModule.structuresMap.get(generatedInterfaceName)!.structureKindName!;
 
-    if (useStructureClassesMap) {
-      /*
-      if (source.decorators) {
-        target.decorators.push(
-          ...StructureClassesMap.cloneArrayWithKind<
-            DecoratorStructure,
-            StructureKind.Decorator,
-            DecoratorImpl
-          >(
-            StructureKind.Decorator,
-            StructureClassesMap.forceArray(source.decorators),
-          ),
-        );
-      }
-      */
-      return [];
-    }
+    this.module.addImports(
+      "ts-morph", [], ["StructureKind", generatedStructureName]
+    );
 
-    assert(name === "leadingTrivia" || name === "trailingTrivia");
+    const callClone = new CallExpressionStatementImpl({
+      name: "...StructureClassesMap.cloneArrayWithKind",
+      typeParameters: [
+        LiteralTypeStructureImpl.get(generatedStructureName),
+        new QualifiedNameTypeStructureImpl([
+          "StructureKind",
+          generatedStructureKind
+        ]),
+        objectType as TypeStructures
+      ],
+      parameters: [
+        `StructureKind.${generatedStructureKind}`,
+        new CallExpressionStatementImpl({
+          name: `StructureClassesMap.forceArray`,
+          parameters: [
+            `source.${name}`
+          ]
+        })
+      ]
+    });
+
+    return [
+      new BlockStatementImpl(
+      `if (source.${name})`,
+      [
+        new CallExpressionStatementImpl({
+          name: `target.${name}.push`,
+          parameters: [
+            callClone
+          ]
+        }).writerFunction
+      ]
+      ).writerFunction
+    ];
+
+    return [];
+  }
+
+  #getStatementsForTrivia(
+    name: string
+  ): readonly stringWriterOrStatementImpl[]
+  {
     return [
       new BlockStatementImpl(
         `if (Array.isArray(source.${name}))`,
@@ -334,7 +369,7 @@ export default class CopyFieldsStatements extends GetterFilter
   }
 
   #getOriginalField(
-    propertyName: string
+    propertyName: string,
   ): PropertySignatureImpl
   {
     return getTypeAugmentedStructure(

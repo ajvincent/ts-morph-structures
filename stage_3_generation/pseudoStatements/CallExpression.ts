@@ -3,14 +3,15 @@ import type {
 } from "ts-morph";
 
 import type {
+  TypeStructures,
   stringOrWriterFunction
 } from "#stage_two/snapshot/source/exports.js";
 import StatementBase from "./StatementBase.js";
 
 export interface CallExpressionStatementContext {
   name: string;
-  readonly typeParameters: string[];
-  readonly parameters: stringOrWriterFunction[];
+  readonly typeParameters: TypeStructures[];
+  readonly parameters: (stringOrWriterFunction | CallExpressionStatementImpl)[];
 }
 
 export default
@@ -18,8 +19,8 @@ class CallExpressionStatementImpl extends StatementBase
 implements CallExpressionStatementContext
 {
   name: string;
-  readonly typeParameters: string[] = [];
-  readonly parameters: stringOrWriterFunction[] = [];
+  readonly typeParameters: TypeStructures[] = [];
+  readonly parameters: (stringOrWriterFunction | CallExpressionStatementImpl)[] = [];
 
   constructor(
     context: Pick<CallExpressionStatementContext, "name"> & Partial<CallExpressionStatementContext>
@@ -38,7 +39,7 @@ implements CallExpressionStatementContext
     writer.write(this.name);
     if (this.typeParameters.length) {
       this.pairedWrite(writer, "<", ">", () => {
-        this.writeArray(writer, this.typeParameters);
+        this.writeArray(writer, this.typeParameters.map(typeParam => typeParam.writerFunction));
       })
     }
 

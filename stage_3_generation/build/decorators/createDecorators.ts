@@ -22,6 +22,7 @@ import {
 import modifyTypeMembersForTypeStructures from "../classTools/modifyTypeMembersForTypeStructures.js";
 
 import StatementsRouter from "../fieldStatements/StatementsRouter.js";
+import CloneStatement_Statements from "./CloneStatement.js";
 
 import {
   addImportsToModule,
@@ -59,6 +60,13 @@ async function buildDecorator(
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
   typeToClass.addTypeMember(true, module.createCopyFieldsMethod())
+
+  if (name.startsWith("StatementedNode")) {
+    const cloneStatementFilter = new CloneStatement_Statements(module);
+    router.filters.unshift(cloneStatementFilter);
+    typeToClass.addTypeMember(true, cloneStatementFilter.getMethodSignature());
+  }
+
 
   typeToClass.defineStatementsByPurpose("body", false);
   module.classMembersMap = typeToClass.buildClassMembersMap();
