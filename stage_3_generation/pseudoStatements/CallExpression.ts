@@ -2,23 +2,30 @@ import type {
   CodeBlockWriter,
 } from "ts-morph";
 
+import type {
+  stringOrWriterFunction
+} from "#stage_two/snapshot/source/exports.js";
+import StatementBase from "./StatementBase.js";
+
 export interface CallExpressionStatementContext {
   name: string;
   readonly typeParameters: string[];
-  readonly parameters: string[];
+  readonly parameters: stringOrWriterFunction[];
 }
 
 export default
-class CallExpressionStatement implements CallExpressionStatementContext
+class CallExpressionStatementImpl extends StatementBase
+implements CallExpressionStatementContext
 {
   name: string;
   readonly typeParameters: string[] = [];
-  readonly parameters: string[] = [];
+  readonly parameters: stringOrWriterFunction[] = [];
 
   constructor(
     context: Pick<CallExpressionStatementContext, "name"> & Partial<CallExpressionStatementContext>
   )
   {
+    super();
     this.name = context.name;
     this.typeParameters = context.typeParameters ?? [];
     this.parameters = context.parameters ?? [];
@@ -30,20 +37,14 @@ class CallExpressionStatement implements CallExpressionStatementContext
   {
     writer.write(this.name);
     if (this.typeParameters.length) {
-      writer.write("<");
-      this.typeParameters.forEach((typeParam, index): void => {
-        writer.write(typeParam);
-        writer.conditionalWrite(index < this.typeParameters.length - 1, ", ");
-      });
-      writer.write(">");
+      this.pairedWrite(writer, "<", ">", () => {
+        this.writeArray(writer, this.typeParameters);
+      })
     }
 
-    writer.write("(");
-    this.parameters.forEach((param, index) => {
-      writer.write(param);
-      writer.conditionalWrite(index < this.parameters.length - 1, ", ");
+    this.pairedWrite(writer, "(", ")", () => {
+      this.writeArray(writer, this.parameters);
     });
-    writer.write(");");
   }
 
   readonly writerFunction = this.#writerFunction.bind(this);

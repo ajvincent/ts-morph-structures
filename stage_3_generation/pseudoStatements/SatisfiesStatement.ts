@@ -6,7 +6,11 @@ import {
   type TypeStructures
 } from "#stage_two/snapshot/source/exports.js";
 
-export default class SatisfiesStatement {
+import StatementBase from "./StatementBase.js";
+
+export default class SatisfiesStatementImpl
+extends StatementBase
+{
   identifier: string;
   satisfiesType: TypeStructures;
 
@@ -15,6 +19,7 @@ export default class SatisfiesStatement {
     satisfiesType: TypeStructures
   )
   {
+    super();
     this.identifier = identifier;
     this.satisfiesType = satisfiesType;
   }

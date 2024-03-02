@@ -28,7 +28,7 @@ import {
 
 import InternalJSDocTag from "../build/classTools/InternalJSDocTag.js";
 
-import SatisfiesStatement from "../pseudoStatements/SatisfiesStatement.js";
+import SatisfiesStatementImpl from "../pseudoStatements/SatisfiesStatement.js";
 
 import BaseClassModule from "./BaseClassModule.js";
 
@@ -226,7 +226,7 @@ class DecoratorModule extends BaseClassModule
     return classDecl;
   }
 
-  #getSatisfiesStatement(): SatisfiesStatement
+  #getSatisfiesStatement(): SatisfiesStatementImpl
   {
     const subclassType = new TypeArgumentedTypeStructureImpl(
       LiteralTypeStructureImpl.get("SubclassDecorator"),
@@ -237,7 +237,7 @@ class DecoratorModule extends BaseClassModule
       ]
     );
 
-    return new SatisfiesStatement(
+    return new SatisfiesStatementImpl(
       this.baseName + "Mixin", subclassType
     );
   }

@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 
 import {
   StructureKind,
+  VariableDeclarationKind,
   WriterFunction,
 } from "ts-morph";
 
@@ -11,12 +12,17 @@ import type {
 } from "type-fest";
 
 import {
+  ArrayTypeStructureImpl,
   ClassFieldStatementsMap,
   LiteralTypeStructureImpl,
   MemberedStatementsKey,
+  ParenthesesTypeStructureImpl,
   type PropertySignatureImpl,
   TypeStructureKind,
   type TypeStructures,
+  UnionTypeStructureImpl,
+  VariableDeclarationImpl,
+  VariableStatementImpl,
   VoidTypeNodeToTypeStructureConsole,
   getTypeAugmentedStructure,
   type stringWriterOrStatementImpl,
@@ -33,7 +39,8 @@ import PropertyHashesWithTypes from "../classTools/PropertyHashesWithTypes.js";
 
 import GetterFilter from "../fieldStatements/GetterFilter.js";
 
-import BlockStatement from "../../pseudoStatements/BlockStatement.js";
+import BlockStatementImpl from "../../pseudoStatements/BlockStatement.js";
+import CallExpressionStatementImpl from "#stage_three/generation/pseudoStatements/CallExpression.js";
 //#endregion preamble
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
@@ -94,15 +101,12 @@ export default class CopyFieldsStatements extends GetterFilter
     return [
       `const { ${structureName }} = source as unknown as ${this.module.decoratorName};`,
 
-      new BlockStatement(
+      new BlockStatementImpl(
+        `if (${structureName})`,
         [`target.${structureName} = TypeStructureClassesMap.clone(${structureName});`],
-        `if (${structureName})`
       ).writerFunction,
 
-      new BlockStatement(
-        [`target.${propName} = source.${propName};`],
-        `else if (source.${propName})`
-      ).writerFunction,
+      this.#getIfSourceStatement(true, propName, `target.${propName} = source.${propName};`),
     ];
   }
 
@@ -123,7 +127,7 @@ export default class CopyFieldsStatements extends GetterFilter
       case "scope":
         statement = this.#getAssignmentStatement(fieldType.name);
         if (fieldType.hasQuestionToken)
-          statement = this.#getIfSourceStatement(fieldType.name, statement);
+          statement = this.#getIfSourceStatement(false, fieldType.name, statement);
         return [statement];
     }
 
@@ -161,11 +165,15 @@ export default class CopyFieldsStatements extends GetterFilter
   }
 
   #getIfSourceStatement(
+    isElse: boolean,
     name: string,
     body: string,
   ): WriterFunction
   {
-    return new BlockStatement([body], `if (source.${name})`).writerFunction;
+    return new BlockStatementImpl(
+      `${isElse ? "else " : ""}if (source.${name})`,
+      [body],
+    ).writerFunction;
   }
 
   #getCopyTypeStatements(
@@ -177,15 +185,12 @@ export default class CopyFieldsStatements extends GetterFilter
     return [
       `const { ${name_Structure} } = source as unknown as ${this.baseName}Mixin;`,
 
-      new BlockStatement(
+      new BlockStatementImpl(
+        `if (${name_Structure})`,
         [`target.${name_Structure} = TypeStructureClassesMap.clone(${name_Structure});`],
-        `if (${name_Structure})`
       ).writerFunction,
 
-      new BlockStatement(
-        [`target.${name} = source.${name}`],
-        `else if (source.${name})`
-      ).writerFunction,
+      this.#getIfSourceStatement(true, name, `target.${name} = source.${name}`),
     ];
   }
   //#endregion literal type
@@ -193,9 +198,13 @@ export default class CopyFieldsStatements extends GetterFilter
   #getStatementsForArrayType(
     fieldType: ReadonlyDeep<PropertySignatureImpl>,
     objectType: ReadonlyDeep<TypeStructures>
-  ): readonly stringOrWriterFunction[]
+  ): readonly stringWriterOrStatementImpl[]
   {
     const { name } = fieldType;
+
+    if (name === "statements") {
+      return this.#getStatementsForCloneStatements();
+    }
 
     const originalField = this.#getOriginalField(name);
     void(originalField);
@@ -231,16 +240,96 @@ export default class CopyFieldsStatements extends GetterFilter
     // DecoratableNodeStructureMixin
     // JSDocableNodeStructureMixin
     // ParameteredNodeStructureMixin
-    // StatementedNodeStructureMixin
-    // StructureMixin
     // TypeParameteredNodeStructureMixin
 
     if (useStructureClassesMap) {
+      /*
+      if (source.decorators) {
+        target.decorators.push(
+          ...StructureClassesMap.cloneArrayWithKind<
+            DecoratorStructure,
+            StructureKind.Decorator,
+            DecoratorImpl
+          >(
+            StructureKind.Decorator,
+            StructureClassesMap.forceArray(source.decorators),
+          ),
+        );
+      }
+      */
       return [];
     }
 
+    assert(name === "leadingTrivia" || name === "trailingTrivia");
     return [
-      `target.${name} = source.${name}?.slice() ?? [];`
+      new BlockStatementImpl(
+        `if (Array.isArray(source.${name}))`,
+        [`target.${name}.push(...source.${name});`],
+      ).writerFunction,
+
+      new BlockStatementImpl(
+        `else if (source.${name} !== undefined)`,
+        [`target.${name}.push(source.${name});`],
+      ).writerFunction
+    ];
+  }
+
+  #getStatementsForCloneStatements(): readonly stringWriterOrStatementImpl[]
+  {
+    const letStatement = new VariableStatementImpl;
+    letStatement.declarationKind = VariableDeclarationKind.Let;
+
+    const statementsArrayDecl = new VariableDeclarationImpl("statementsArray");
+    statementsArrayDecl.typeStructure = new ArrayTypeStructureImpl(
+      new ParenthesesTypeStructureImpl(
+        new UnionTypeStructureImpl([
+          LiteralTypeStructureImpl.get("stringOrWriterFunction"),
+          LiteralTypeStructureImpl.get("StatementStructureImpls"),
+        ])
+      )
+    );
+    statementsArrayDecl.initializer = `[]`;
+    letStatement.declarations.push(statementsArrayDecl);
+
+    const isArrayStatement = new BlockStatementImpl(
+      `if (Array.isArray(source.statements))`,
+      [
+        "statementsArray = source.statements as (stringOrWriterFunction | StatementStructureImpls)[];"
+      ],
+    );
+
+    const isDefined = new BlockStatementImpl(
+      `else if (source.statements !== undefined)`,
+      [
+        `statementsArray = [source.statements];`
+      ],
+    )
+
+    const pushCall = new CallExpressionStatementImpl({
+      name: `target.statements.push`,
+      parameters: [
+        new CallExpressionStatementImpl({
+          name: "...statementsArray.map",
+          parameters: [
+            '(statement) => StatementedNodeStructureMixin.#cloneStatement(statement)'
+          ]
+        }).writerFunction
+      ]
+    })
+
+    this.module.addImports(
+      "public",
+      [], [
+        "StatementStructureImpls",
+        "stringOrWriterFunction",
+      ]
+    );
+
+    return [
+      letStatement,
+      isArrayStatement.writerFunction,
+      isDefined.writerFunction,
+      pushCall.writerFunction
     ];
   }
 
