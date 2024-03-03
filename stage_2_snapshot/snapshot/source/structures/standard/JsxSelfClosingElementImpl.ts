@@ -1,7 +1,7 @@
 //#region preamble
-import {
+import type {
   JsxAttributeImpl,
-  type JsxSelfClosingElementStructureClassIfc,
+  JsxSelfClosingElementStructureClassIfc,
   JsxSpreadAttributeImpl,
 } from "../../exports.js";
 import {

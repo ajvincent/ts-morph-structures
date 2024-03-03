@@ -1,6 +1,6 @@
 //#region preamble
-import {
-  type DecoratableNodeStructureClassIfc,
+import type {
+  DecoratableNodeStructureClassIfc,
   DecoratorImpl,
 } from "../../exports.js";
 import {

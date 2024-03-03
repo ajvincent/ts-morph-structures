@@ -1,7 +1,7 @@
 //#region preamble
-import {
+import type {
   ParameterDeclarationImpl,
-  type ParameteredNodeStructureClassIfc,
+  ParameteredNodeStructureClassIfc,
 } from "../../exports.js";
 import {
   COPY_FIELDS,

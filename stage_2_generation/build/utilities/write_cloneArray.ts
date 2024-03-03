@@ -216,6 +216,7 @@ export function write_cloneRequiredAndOptionalArray(
 
   return statement;
 }
+
 /* FIXME: this should be using the classFieldStatementsMap, and should be a special case for the `StatementedNodeStructureMixin` */
 export function write_cloneStatementsArray(
   structureName: string,

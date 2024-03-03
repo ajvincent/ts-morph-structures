@@ -1,14 +1,14 @@
 //#region preamble
-import {
-  type ClassDeclarationStructureClassIfc,
+import type {
+  ClassDeclarationStructureClassIfc,
   ConstructorDeclarationImpl,
   GetAccessorDeclarationImpl,
   MethodDeclarationImpl,
   PropertyDeclarationImpl,
   SetAccessorDeclarationImpl,
-  type stringOrWriterFunction,
-  type StructureImpls,
-  type TypeStructures,
+  stringOrWriterFunction,
+  StructureImpls,
+  TypeStructures,
 } from "../../exports.js";
 import {
   type AbstractableNodeStructureFields,

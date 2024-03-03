@@ -1,7 +1,7 @@
 //#region preamble
-import {
+import type {
   FunctionDeclarationOverloadImpl,
-  type FunctionDeclarationStructureClassIfc,
+  FunctionDeclarationStructureClassIfc,
 } from "../../exports.js";
 import {
   type AmbientableNodeStructureFields,

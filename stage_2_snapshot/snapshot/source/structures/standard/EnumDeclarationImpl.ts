@@ -1,6 +1,6 @@
 //#region preamble
-import {
-  type EnumDeclarationStructureClassIfc,
+import type {
+  EnumDeclarationStructureClassIfc,
   EnumMemberImpl,
 } from "../../exports.js";
 import {

@@ -1,7 +1,7 @@
 //#region preamble
-import {
+import type {
   VariableDeclarationImpl,
-  type VariableStatementStructureClassIfc,
+  VariableStatementStructureClassIfc,
 } from "../../exports.js";
 import {
   type AmbientableNodeStructureFields,

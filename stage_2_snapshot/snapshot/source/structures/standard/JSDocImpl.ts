@@ -1,8 +1,8 @@
 //#region preamble
-import {
-  type JSDocStructureClassIfc,
+import type {
+  JSDocStructureClassIfc,
   JSDocTagImpl,
-  type stringOrWriterFunction,
+  stringOrWriterFunction,
 } from "../../exports.js";
 import {
   type CloneableStructure,

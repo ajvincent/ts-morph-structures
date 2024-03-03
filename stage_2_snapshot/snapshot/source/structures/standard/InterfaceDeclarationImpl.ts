@@ -1,16 +1,16 @@
 //#region preamble
-import {
+import type {
   CallSignatureDeclarationImpl,
   ConstructSignatureDeclarationImpl,
   GetAccessorDeclarationImpl,
   IndexSignatureDeclarationImpl,
-  type InterfaceDeclarationStructureClassIfc,
+  InterfaceDeclarationStructureClassIfc,
   MethodSignatureImpl,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
-  type stringOrWriterFunction,
-  type StructureImpls,
-  type TypeStructures,
+  stringOrWriterFunction,
+  StructureImpls,
+  TypeStructures,
 } from "../../exports.js";
 import {
   type AmbientableNodeStructureFields,

@@ -1,9 +1,9 @@
 //#region preamble
-import {
-  type ExportDeclarationStructureClassIfc,
+import type {
+  ExportDeclarationStructureClassIfc,
   ExportSpecifierImpl,
   ImportAttributeImpl,
-  type stringOrWriterFunction,
+  stringOrWriterFunction,
 } from "../../exports.js";
 import {
   type CloneableStructure,

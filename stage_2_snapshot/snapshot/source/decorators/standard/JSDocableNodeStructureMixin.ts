@@ -1,6 +1,6 @@
 //#region preamble
-import {
-  type JSDocableNodeStructureClassIfc,
+import type {
+  JSDocableNodeStructureClassIfc,
   JSDocImpl,
 } from "../../exports.js";
 import {

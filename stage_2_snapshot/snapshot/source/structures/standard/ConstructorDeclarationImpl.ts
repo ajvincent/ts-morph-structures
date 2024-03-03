@@ -1,11 +1,11 @@
 //#region preamble
-import {
+import type {
   ConstructorDeclarationOverloadImpl,
-  type ConstructorDeclarationStructureClassIfc,
-  type ConstructSignatureDeclarationImpl,
-  type JSDocImpl,
-  type ParameterDeclarationImpl,
-  type TypeParameterDeclarationImpl,
+  ConstructorDeclarationStructureClassIfc,
+  ConstructSignatureDeclarationImpl,
+  JSDocImpl,
+  ParameterDeclarationImpl,
+  TypeParameterDeclarationImpl,
 } from "../../exports.js";
 import {
   type CloneableStructure,

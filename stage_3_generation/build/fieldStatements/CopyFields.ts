@@ -250,7 +250,7 @@ export default class CopyFieldsStatements extends GetterFilter
     const generatedStructureKind = InterfaceModule.structuresMap.get(generatedInterfaceName)!.structureKindName!;
 
     this.module.addImports(
-      "ts-morph", [], ["StructureKind", generatedStructureName]
+      "ts-morph", ["StructureKind"], [generatedStructureName]
     );
 
     const callClone = new CallExpressionStatementImpl({

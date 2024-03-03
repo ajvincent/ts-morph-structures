@@ -279,7 +279,7 @@ function getTypeStructureArrayForValue(
           isPackageImport: false,
           importNames: [implName],
           isDefaultImport: false,
-          isTypeOnly: false,
+          isTypeOnly: true,
         });
       }
 

@@ -1,11 +1,11 @@
 //#region preamble
-import {
-  type JSDocImpl,
+import type {
+  JSDocImpl,
   MethodDeclarationOverloadImpl,
-  type MethodDeclarationStructureClassIfc,
-  type MethodSignatureImpl,
-  type ParameterDeclarationImpl,
-  type TypeParameterDeclarationImpl,
+  MethodDeclarationStructureClassIfc,
+  MethodSignatureImpl,
+  ParameterDeclarationImpl,
+  TypeParameterDeclarationImpl,
 } from "../../exports.js";
 import {
   type AbstractableNodeStructureFields,
