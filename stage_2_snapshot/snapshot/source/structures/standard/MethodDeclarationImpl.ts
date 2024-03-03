@@ -48,7 +48,7 @@ import MultiMixinBuilder from "mixin-decorators";
 import {
   type MethodDeclarationOverloadStructure,
   type MethodDeclarationStructure,
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";

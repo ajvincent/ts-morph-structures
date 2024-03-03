@@ -46,7 +46,7 @@ export default class ImportManager
   readonly absolutePathToModule: string;
 
   readonly #declarationsMap = new Map<string, ImportDeclarationImpl>;
-  readonly #knownSpecifiers = new Set<string>;
+  readonly #knownSpecifiersMap = new Map<string, ImportSpecifierImpl>;
 
   /**
    * @param absolutePathToModule - Where the file will live on the file system.
@@ -72,7 +72,7 @@ export default class ImportManager
     context: AddImportContext
   ): void
   {
-    const { isPackageImport, isDefaultImport, isTypeOnly } = context;
+    const { isPackageImport, isDefaultImport, isTypeOnly, importNames } = context;
     let { pathToImportedModule } = context;
 
     if (!isPackageImport) {
@@ -96,10 +96,6 @@ export default class ImportManager
         pathToImportedModule = "./" + pathToImportedModule;
     }
 
-    const importNames = context.importNames.filter(nameToImport => !this.#knownSpecifiers.has(nameToImport));
-    if (importNames.length === 0)
-      return;
-
     let importDecl = this.#declarationsMap.get(pathToImportedModule);
     if (!importDecl) {
       importDecl = new ImportDeclarationImpl(pathToImportedModule);
@@ -122,11 +118,18 @@ export default class ImportManager
         this.#moveTypeOnlyToSpecifiers(importDecl);
       }
       importNames.forEach(nameToImport => {
-        const specifier = new ImportSpecifierImpl(nameToImport);
+        let specifier: ImportSpecifierImpl | undefined = this.#knownSpecifiersMap.get(nameToImport);
+        if (specifier) {
+          if (!isTypeOnly)
+            specifier.isTypeOnly = false;
+          return;
+        }
+
+        specifier = new ImportSpecifierImpl(nameToImport);
         if (isTypeOnly && !(importDecl!.isTypeOnly))
           specifier.isTypeOnly = isTypeOnly;
         importDecl!.namedImports.push(specifier);
-        this.#knownSpecifiers.add(nameToImport);
+        this.#knownSpecifiersMap.set(nameToImport, specifier);
       });
     }
   }

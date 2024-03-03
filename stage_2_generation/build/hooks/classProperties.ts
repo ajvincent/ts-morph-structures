@@ -199,9 +199,14 @@ function addStructureField(
     if (hasAStructure) {
       assert(false, "structure found and needs entry in copyFields");
     }
-    else {
+    else if (propertyValue.hasQuestionToken) {
       parts.classFieldsStatements.set(propertyKey, COPY_FIELDS_NAME, [
         `if (source.${propertyKey}) {\n  target.${propertyKey} = source.${propertyKey};\n}\n`,
+      ]);
+    }
+    else {
+      parts.classFieldsStatements.set(propertyKey, COPY_FIELDS_NAME, [
+        `target.${propertyKey} = source.${propertyKey};`,
       ]);
     }
   }
@@ -319,7 +324,7 @@ function getTypeStructureArrayForValue(
           isPackageImport: true,
           importNames: [valueInUnion.tsmorph_Type.replace(/\..*/g, "")],
           isDefaultImport: false,
-          isTypeOnly: false
+          isTypeOnly: true
         });
       }
     }

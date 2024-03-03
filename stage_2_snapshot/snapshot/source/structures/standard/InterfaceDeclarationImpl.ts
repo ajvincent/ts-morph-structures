@@ -44,7 +44,7 @@ import {
   type IndexSignatureDeclarationStructure,
   type InterfaceDeclarationStructure,
   type MethodSignatureStructure,
-  OptionalKind,
+  type OptionalKind,
   type PropertySignatureStructure,
   type SetAccessorDeclarationStructure,
   StructureKind,

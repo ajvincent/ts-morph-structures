@@ -44,6 +44,14 @@ async function saveStructureFile(
   parts: StructureParts,
 ): Promise<void>
 {
+  parts.importsManager.addImports({
+    pathToImportedModule: "ts-morph",
+    isPackageImport: true,
+    isDefaultImport: false,
+    isTypeOnly: false,
+    importNames: ["StructureKind"]
+  });
+
   parts.sourceFile.statements = [
     "//#region preamble",
     ...parts.importsManager.getDeclarations(),

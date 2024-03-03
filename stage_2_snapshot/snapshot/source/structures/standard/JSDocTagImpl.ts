@@ -15,7 +15,11 @@ import {
   StructureMixin,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import { type JSDocTagStructure, OptionalKind, StructureKind } from "ts-morph";
+import {
+  type JSDocTagStructure,
+  type OptionalKind,
+  StructureKind,
+} from "ts-morph";
 import type { Class } from "type-fest";
 //#endregion preamble
 const JSDocTagStructureBase = MultiMixinBuilder<
@@ -42,10 +46,7 @@ export default class JSDocTagImpl
     target: JSDocTagImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (source.tagName) {
-      target.tagName = source.tagName;
-    }
-
+    target.tagName = source.tagName;
     if (source.text) {
       target.text = source.text;
     }

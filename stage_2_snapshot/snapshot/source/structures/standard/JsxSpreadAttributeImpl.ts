@@ -13,7 +13,7 @@ import {
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type JsxSpreadAttributeStructure,
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";
@@ -42,9 +42,7 @@ export default class JsxSpreadAttributeImpl
     target: JsxSpreadAttributeImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (source.expression) {
-      target.expression = source.expression;
-    }
+    target.expression = source.expression;
   }
 
   public static clone(

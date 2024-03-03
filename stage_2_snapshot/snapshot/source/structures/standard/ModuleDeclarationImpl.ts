@@ -22,9 +22,9 @@ import {
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  ModuleDeclarationKind,
+  type ModuleDeclarationKind,
   type ModuleDeclarationStructure,
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";

@@ -18,7 +18,7 @@ import {
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  OptionalKind,
+  type OptionalKind,
   type PropertyAssignmentStructure,
   StructureKind,
 } from "ts-morph";
@@ -49,9 +49,7 @@ export default class PropertyAssignmentImpl
     target: PropertyAssignmentImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (source.initializer) {
-      target.initializer = source.initializer;
-    }
+    target.initializer = source.initializer;
   }
 
   public static clone(

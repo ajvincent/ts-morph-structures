@@ -21,7 +21,7 @@ import {
   type ImportAttributeStructure,
   type ImportDeclarationStructure,
   type ImportSpecifierStructure,
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";
@@ -74,10 +74,7 @@ export default class ImportDeclarationImpl
     }
 
     target.isTypeOnly = source.isTypeOnly ?? false;
-    if (source.moduleSpecifier) {
-      target.moduleSpecifier = source.moduleSpecifier;
-    }
-
+    target.moduleSpecifier = source.moduleSpecifier;
     if (source.namedImports) {
       target.namedImports.push(
         ...StructureClassesMap.cloneArrayWithKind<

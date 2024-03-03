@@ -33,7 +33,7 @@ import {
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  OptionalKind,
+  type OptionalKind,
   type SetAccessorDeclarationStructure,
   StructureKind,
 } from "ts-morph";

@@ -14,7 +14,7 @@ import MultiMixinBuilder from "mixin-decorators";
 import {
   type JsxAttributeStructure,
   type JsxNamespacedNameStructure,
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";
@@ -47,9 +47,7 @@ export default class JsxAttributeImpl
       target.initializer = source.initializer;
     }
 
-    if (source.name) {
-      target.name = source.name;
-    }
+    target.name = source.name;
   }
 
   public static clone(

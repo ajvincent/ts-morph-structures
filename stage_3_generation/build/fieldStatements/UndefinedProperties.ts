@@ -23,6 +23,7 @@ class UndefinedProperties extends GetterFilter
       return false;
     return key.fieldType.hasQuestionToken;
   }
+
   getStatements(
     key: MemberedStatementsKey
   ): readonly stringWriterOrStatementImpl[] {

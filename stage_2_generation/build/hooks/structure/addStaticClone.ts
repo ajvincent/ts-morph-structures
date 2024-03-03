@@ -42,7 +42,7 @@ export default function addStaticClone(
     pathToImportedModule: "ts-morph",
     isPackageImport: true,
     isDefaultImport: false,
-    isTypeOnly: false,
+    isTypeOnly: true,
     importNames: ["OptionalKind"]
   });
 

@@ -19,7 +19,7 @@ import {
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type ExportAssignmentStructure,
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";
@@ -49,10 +49,7 @@ export default class ExportAssignmentImpl
     target: ExportAssignmentImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (source.expression) {
-      target.expression = source.expression;
-    }
-
+    target.expression = source.expression;
     target.isExportEquals = source.isExportEquals ?? false;
   }
 

@@ -42,9 +42,7 @@ export default function NamedNodeStructureMixin(
       target: NamedNodeStructureMixin & Structures,
     ): void {
       super[COPY_FIELDS](source, target);
-      if (source.name) {
-        target.name = source.name;
-      }
+      target.name = source.name;
     }
 
     public toJSON(): StructureClassToJSON<NamedNodeStructureMixin> {

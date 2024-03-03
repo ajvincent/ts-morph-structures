@@ -46,7 +46,7 @@ import {
   type ConstructorDeclarationStructure,
   type GetAccessorDeclarationStructure,
   type MethodDeclarationStructure,
-  OptionalKind,
+  type OptionalKind,
   type PropertyDeclarationStructure,
   type SetAccessorDeclarationStructure,
   StructureKind,

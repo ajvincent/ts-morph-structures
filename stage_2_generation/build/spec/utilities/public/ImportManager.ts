@@ -33,11 +33,13 @@ it("ImportManager can import values from submodules", () => {
     isDefaultImport: false,
     importNames: [
       "CallSignatureDeclarationStructure",
-      "OptionalKind"
+      "OptionalKind",
+      "StructureKind"
     ],
     isTypeOnly: true
   });
 
+  // testing what happens when we later declare something isn't a type
   manager.addImports({
     pathToImportedModule: "ts-morph",
     isPackageImport: true,

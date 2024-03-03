@@ -11,7 +11,7 @@ import type {
   StaticAndInstance,
   SubclassDecorator,
 } from "mixin-decorators";
-import { Scope, type ScopedNodeStructure, type Structures } from "ts-morph";
+import type { Scope, ScopedNodeStructure, Structures } from "ts-morph";
 //#endregion preamble
 declare const ScopedNodeStructureKey: unique symbol;
 export type ScopedNodeStructureFields = RightExtendsLeft<

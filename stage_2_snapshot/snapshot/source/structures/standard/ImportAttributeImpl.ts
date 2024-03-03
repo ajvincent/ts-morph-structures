@@ -15,7 +15,7 @@ import {
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type ImportAttributeStructure,
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";
@@ -44,9 +44,7 @@ export default class ImportAttributeImpl
     target: ImportAttributeImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (source.value) {
-      target.value = source.value;
-    }
+    target.value = source.value;
   }
 
   public static clone(

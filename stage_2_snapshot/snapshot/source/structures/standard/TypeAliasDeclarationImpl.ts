@@ -29,7 +29,7 @@ import {
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
   type TypeAliasDeclarationStructure,
 } from "ts-morph";
@@ -89,9 +89,7 @@ export default class TypeAliasDeclarationImpl
     target: TypeAliasDeclarationImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (source.type) {
-      target.type = source.type;
-    }
+    target.type = source.type;
   }
 
   public static clone(

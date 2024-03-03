@@ -927,9 +927,7 @@ function NamedNodeStructureMixin(baseClass, context) {
         /** @internal */
         static [COPY_FIELDS](source, target) {
             super[COPY_FIELDS](source, target);
-            if (source.name) {
-                target.name = source.name;
-            }
+            target.name = source.name;
         }
         toJSON() {
             const rv = super.toJSON();
@@ -2377,9 +2375,7 @@ class ExportAssignmentImpl extends ExportAssignmentStructureBase {
     /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
-        if (source.expression) {
-            target.expression = source.expression;
-        }
+        target.expression = source.expression;
         target.isExportEquals = source.isExportEquals ?? false;
     }
     static clone(source) {
@@ -2611,9 +2607,7 @@ class ImportAttributeImpl extends ImportAttributeStructureBase {
     /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
-        if (source.value) {
-            target.value = source.value;
-        }
+        target.value = source.value;
     }
     static clone(source) {
         const target = new ImportAttributeImpl(source.name, source.value);
@@ -2654,9 +2648,7 @@ class ImportDeclarationImpl extends ImportDeclarationStructureBase {
             target.defaultImport = source.defaultImport;
         }
         target.isTypeOnly = source.isTypeOnly ?? false;
-        if (source.moduleSpecifier) {
-            target.moduleSpecifier = source.moduleSpecifier;
-        }
+        target.moduleSpecifier = source.moduleSpecifier;
         if (source.namedImports) {
             target.namedImports.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.ImportSpecifier, StructureClassesMap.forceArray(source.namedImports)));
         }
@@ -2951,9 +2943,7 @@ class JSDocTagImpl extends JSDocTagStructureBase {
     /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
-        if (source.tagName) {
-            target.tagName = source.tagName;
-        }
+        target.tagName = source.tagName;
         if (source.text) {
             target.text = source.text;
         }
@@ -2994,9 +2984,7 @@ class JsxAttributeImpl extends JsxAttributeStructureBase {
         if (source.initializer) {
             target.initializer = source.initializer;
         }
-        if (source.name) {
-            target.name = source.name;
-        }
+        target.name = source.name;
     }
     static clone(source) {
         const target = new JsxAttributeImpl(source.name);
@@ -3105,9 +3093,7 @@ class JsxSpreadAttributeImpl extends JsxSpreadAttributeStructureBase {
     /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
-        if (source.expression) {
-            target.expression = source.expression;
-        }
+        target.expression = source.expression;
     }
     static clone(source) {
         const target = new JsxSpreadAttributeImpl(source.expression);
@@ -3341,9 +3327,7 @@ class PropertyAssignmentImpl extends PropertyAssignmentStructureBase {
     /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
-        if (source.initializer) {
-            target.initializer = source.initializer;
-        }
+        target.initializer = source.initializer;
     }
     static clone(source) {
         const target = new PropertyAssignmentImpl(source.name, source.initializer);
@@ -3538,9 +3522,7 @@ class SpreadAssignmentImpl extends SpreadAssignmentStructureBase {
     /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
-        if (source.expression) {
-            target.expression = source.expression;
-        }
+        target.expression = source.expression;
     }
     static clone(source) {
         const target = new SpreadAssignmentImpl(source.expression);
@@ -3587,9 +3569,7 @@ class TypeAliasDeclarationImpl extends TypeAliasDeclarationStructureBase {
     /** @internal */
     static [COPY_FIELDS](source, target) {
         super[COPY_FIELDS](source, target);
-        if (source.type) {
-            target.type = source.type;
-        }
+        target.type = source.type;
     }
     static clone(source) {
         const target = new TypeAliasDeclarationImpl(source.name, source.type);
@@ -5340,7 +5320,7 @@ class ImportManager {
     /** Where the file will live on the file system. */
     absolutePathToModule;
     #declarationsMap = new Map();
-    #knownSpecifiers = new Set();
+    #knownSpecifiersMap = new Map();
     /**
      * @param absolutePathToModule - Where the file will live on the file system.
      */
@@ -5356,7 +5336,7 @@ class ImportManager {
      * @param context - a description of the imports to add.
      */
     addImports(context) {
-        const { isPackageImport, isDefaultImport, isTypeOnly } = context;
+        const { isPackageImport, isDefaultImport, isTypeOnly, importNames } = context;
         let { pathToImportedModule } = context;
         if (!isPackageImport) {
             if (!pathToImportedModule.endsWith(".ts")) {
@@ -5372,9 +5352,6 @@ class ImportManager {
             if (!pathToImportedModule.startsWith("../"))
                 pathToImportedModule = "./" + pathToImportedModule;
         }
-        const importNames = context.importNames.filter((nameToImport) => !this.#knownSpecifiers.has(nameToImport));
-        if (importNames.length === 0)
-            return;
         let importDecl = this.#declarationsMap.get(pathToImportedModule);
         if (!importDecl) {
             importDecl = new ImportDeclarationImpl(pathToImportedModule);
@@ -5396,11 +5373,17 @@ class ImportManager {
                 this.#moveTypeOnlyToSpecifiers(importDecl);
             }
             importNames.forEach((nameToImport) => {
-                const specifier = new ImportSpecifierImpl(nameToImport);
+                let specifier = this.#knownSpecifiersMap.get(nameToImport);
+                if (specifier) {
+                    if (!isTypeOnly)
+                        specifier.isTypeOnly = false;
+                    return;
+                }
+                specifier = new ImportSpecifierImpl(nameToImport);
                 if (isTypeOnly && !importDecl.isTypeOnly)
                     specifier.isTypeOnly = isTypeOnly;
                 importDecl.namedImports.push(specifier);
-                this.#knownSpecifiers.add(nameToImport);
+                this.#knownSpecifiersMap.set(nameToImport, specifier);
             });
         }
     }

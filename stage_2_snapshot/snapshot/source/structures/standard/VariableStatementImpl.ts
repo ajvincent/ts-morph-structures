@@ -21,9 +21,9 @@ import {
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
-  VariableDeclarationKind,
+  type VariableDeclarationKind,
   type VariableDeclarationStructure,
   type VariableStatementStructure,
 } from "ts-morph";

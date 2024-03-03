@@ -16,7 +16,7 @@ import {
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  OptionalKind,
+  type OptionalKind,
   type SpreadAssignmentStructure,
   StructureKind,
 } from "ts-morph";
@@ -46,9 +46,7 @@ export default class SpreadAssignmentImpl
     target: SpreadAssignmentImpl,
   ): void {
     super[COPY_FIELDS](source, target);
-    if (source.expression) {
-      target.expression = source.expression;
-    }
+    target.expression = source.expression;
   }
 
   public static clone(

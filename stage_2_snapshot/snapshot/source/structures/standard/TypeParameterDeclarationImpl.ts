@@ -23,10 +23,10 @@ import {
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
 import {
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
   type TypeParameterDeclarationStructure,
-  TypeParameterVariance,
+  type TypeParameterVariance,
 } from "ts-morph";
 import type { Class } from "type-fest";
 //#endregion preamble

@@ -21,7 +21,7 @@ import {
   type ExportDeclarationStructure,
   type ExportSpecifierStructure,
   type ImportAttributeStructure,
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";

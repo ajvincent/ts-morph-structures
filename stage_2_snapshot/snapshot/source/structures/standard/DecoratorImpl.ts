@@ -17,7 +17,11 @@ import {
   StructureMixin,
 } from "../../internal-exports.js";
 import MultiMixinBuilder from "mixin-decorators";
-import { type DecoratorStructure, OptionalKind, StructureKind } from "ts-morph";
+import {
+  type DecoratorStructure,
+  type OptionalKind,
+  StructureKind,
+} from "ts-morph";
 import type { Class } from "type-fest";
 //#endregion preamble
 const DecoratorStructureBase = MultiMixinBuilder<

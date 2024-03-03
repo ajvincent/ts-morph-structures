@@ -27,7 +27,7 @@ import {
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type IndexSignatureDeclarationStructure,
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";

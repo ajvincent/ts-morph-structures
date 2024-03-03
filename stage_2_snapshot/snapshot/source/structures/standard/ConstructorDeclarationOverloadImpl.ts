@@ -23,7 +23,7 @@ import {
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type ConstructorDeclarationOverloadStructure,
-  OptionalKind,
+  type OptionalKind,
   StructureKind,
 } from "ts-morph";
 import type { Class } from "type-fest";
