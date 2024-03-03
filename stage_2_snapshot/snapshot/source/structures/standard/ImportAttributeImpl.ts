@@ -30,6 +30,7 @@ export default class ImportAttributeImpl
   implements ImportAttributeStructureClassIfc
 {
   readonly kind: StructureKind.ImportAttribute = StructureKind.ImportAttribute;
+  /** Expression value. Quote this when providing a string. */
   value: string;
 
   constructor(name: string, value: string) {

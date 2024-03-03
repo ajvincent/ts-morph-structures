@@ -38,7 +38,9 @@ export default function StructureMixin(
   void context;
 
   class StructureMixin extends baseClass {
+    /** Leading comments or whitespace. */
     readonly leadingTrivia: stringOrWriterFunction[] = [];
+    /** Trailing comments or whitespace. */
     readonly trailingTrivia: stringOrWriterFunction[] = [];
 
     /** @internal */

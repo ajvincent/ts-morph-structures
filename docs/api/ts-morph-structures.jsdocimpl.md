@@ -15,10 +15,10 @@ export default class JSDocImpl implements JSDocStructureClassIfc
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [description?](./ts-morph-structures.jsdocimpl.description.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
+|  [description?](./ts-morph-structures.jsdocimpl.description.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ The description of the JS doc. |
 |  [kind](./ts-morph-structures.jsdocimpl.kind.md) | <code>readonly</code> | StructureKind.JSDoc |  |
 |  [leadingTrivia](./ts-morph-structures.jsdocimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [tags](./ts-morph-structures.jsdocimpl.tags.md) | <code>readonly</code> | [JSDocTagImpl](./ts-morph-structures.jsdoctagimpl.md)<!-- -->\[\] |  |
+|  [tags](./ts-morph-structures.jsdocimpl.tags.md) | <code>readonly</code> | [JSDocTagImpl](./ts-morph-structures.jsdoctagimpl.md)<!-- -->\[\] | JS doc tags (ex. <code>&amp;#64;param value - Some description.</code>). |
 |  [trailingTrivia](./ts-morph-structures.jsdocimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods

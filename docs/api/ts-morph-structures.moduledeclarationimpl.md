@@ -21,7 +21,7 @@ export default class ModuleDeclarationImpl implements ModuleDeclarationStructure
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [declarationKind?](./ts-morph-structures.moduledeclarationimpl.declarationkind.md) |  | ModuleDeclarationKind | _(Optional)_ |
+|  [declarationKind?](./ts-morph-structures.moduledeclarationimpl.declarationkind.md) |  | ModuleDeclarationKind | _(Optional)_ The module declaration kind. |
 |  [docs](./ts-morph-structures.moduledeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
 |  [hasDeclareKeyword](./ts-morph-structures.moduledeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
 |  [isDefaultExport](./ts-morph-structures.moduledeclarationimpl.isdefaultexport.md) |  | boolean |  |

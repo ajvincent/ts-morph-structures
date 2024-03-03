@@ -27,7 +27,7 @@ export default class EnumMemberImpl implements EnumMemberStructureClassIfc
 |  [leadingTrivia](./ts-morph-structures.enummemberimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [name](./ts-morph-structures.enummemberimpl.name.md) |  | string |  |
 |  [trailingTrivia](./ts-morph-structures.enummemberimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [value?](./ts-morph-structures.enummemberimpl.value.md) |  | number \| string | _(Optional)_ |
+|  [value?](./ts-morph-structures.enummemberimpl.value.md) |  | number \| string | _(Optional)_ Convenience property for setting the initializer. |
 
 ## Methods
 

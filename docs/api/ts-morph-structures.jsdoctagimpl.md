@@ -23,8 +23,8 @@ export default class JSDocTagImpl implements JSDocTagStructureClassIfc
 |  --- | --- | --- | --- |
 |  [kind](./ts-morph-structures.jsdoctagimpl.kind.md) | <code>readonly</code> | StructureKind.JSDocTag |  |
 |  [leadingTrivia](./ts-morph-structures.jsdoctagimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [tagName](./ts-morph-structures.jsdoctagimpl.tagname.md) |  | string |  |
-|  [text?](./ts-morph-structures.jsdoctagimpl.text.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
+|  [tagName](./ts-morph-structures.jsdoctagimpl.tagname.md) |  | string | The name for the JS doc tag that comes after the "at" symbol. |
+|  [text?](./ts-morph-structures.jsdoctagimpl.text.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ The text that follows the tag name. |
 |  [trailingTrivia](./ts-morph-structures.jsdoctagimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods

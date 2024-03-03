@@ -47,6 +47,7 @@ export default class EnumMemberImpl
   implements EnumMemberStructureClassIfc
 {
   readonly kind: StructureKind.EnumMember = StructureKind.EnumMember;
+  /** Convenience property for setting the initializer. */
   value?: number | string = undefined;
 
   constructor(name: string) {

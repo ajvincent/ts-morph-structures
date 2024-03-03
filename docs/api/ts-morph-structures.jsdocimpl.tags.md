@@ -4,6 +4,8 @@
 
 ## JSDocImpl.tags property
 
+JS doc tags (ex. `&#64;param value - Some description.`<!-- -->).
+
 **Signature:**
 
 ```typescript

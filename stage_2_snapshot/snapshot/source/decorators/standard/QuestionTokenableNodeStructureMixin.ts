@@ -34,7 +34,6 @@ export default function QuestionTokenableNodeStructureMixin(
   void context;
 
   class QuestionTokenableNodeStructureMixin extends baseClass {
-    /** When true, inserts a question mark (?) after the field name. */
     hasQuestionToken = false;
 
     /** @internal */

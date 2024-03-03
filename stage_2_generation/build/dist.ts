@@ -1,6 +1,5 @@
 // #region preamble
 import fs from "fs/promises";
-import path from "path";
 
 import {
   pathToModule,
@@ -13,8 +12,6 @@ import {
 } from "./constants.js";
 
 import BuildClassesDriver from "./BuildClassesDriver.js";
-import TSDocMap from "./structureMeta/TSDocMap.js";
-import reportTSDocsCoverage from "../coverage/tsdocs.js";
 
 const distDir = pathToModule(stageDir, "dist");
 
@@ -39,12 +36,5 @@ export default async function buildDist(): Promise<void>
   await cleanDist();
 
   await BuildClassesDriver(distDir);
-  {
-    const results = TSDocMap.toJSON();
-    await fs.mkdir(path.join(distDir, "coverage"));
-    await fs.writeFile(path.join(distDir, "coverage/tsdocs.json"), JSON.stringify(results, null, 2), { encoding: "utf-8" });
-    reportTSDocsCoverage(true, results);
-  }
-
   await runPrettify(distDir);
 }

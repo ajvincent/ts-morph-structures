@@ -4,8 +4,15 @@
 
 ## DecoratorImpl.arguments property
 
+Arguments for a decorator factory.
+
 **Signature:**
 
 ```typescript
 readonly arguments: stringOrWriterFunction[];
 ```
+
+## Remarks
+
+Provide an empty array to make the structure a decorator factory.
+

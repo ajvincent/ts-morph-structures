@@ -21,7 +21,7 @@ export default class DecoratorImpl implements DecoratorStructureClassIfc
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [arguments](./ts-morph-structures.decoratorimpl.arguments.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [arguments](./ts-morph-structures.decoratorimpl.arguments.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] | Arguments for a decorator factory. |
 |  [kind](./ts-morph-structures.decoratorimpl.kind.md) | <code>readonly</code> | StructureKind.Decorator |  |
 |  [leadingTrivia](./ts-morph-structures.decoratorimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [name](./ts-morph-structures.decoratorimpl.name.md) |  | string |  |

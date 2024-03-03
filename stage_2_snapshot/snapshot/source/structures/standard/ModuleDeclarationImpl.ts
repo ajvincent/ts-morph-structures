@@ -56,6 +56,11 @@ export default class ModuleDeclarationImpl
   implements ModuleDeclarationStructureClassIfc
 {
   readonly kind: StructureKind.Module = StructureKind.Module;
+  /**
+   * The module declaration kind.
+   *
+   * @remarks Defaults to "namespace".
+   */
   declarationKind?: ModuleDeclarationKind = undefined;
 
   constructor(name: string) {

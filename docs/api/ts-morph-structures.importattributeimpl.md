@@ -25,7 +25,7 @@ export default class ImportAttributeImpl implements ImportAttributeStructureClas
 |  [leadingTrivia](./ts-morph-structures.importattributeimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [name](./ts-morph-structures.importattributeimpl.name.md) |  | string |  |
 |  [trailingTrivia](./ts-morph-structures.importattributeimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [value](./ts-morph-structures.importattributeimpl.value.md) |  | string |  |
+|  [value](./ts-morph-structures.importattributeimpl.value.md) |  | string | Expression value. Quote this when providing a string. |
 
 ## Methods
 

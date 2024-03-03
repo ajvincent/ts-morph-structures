@@ -32,7 +32,9 @@ export default class JSDocTagImpl
   implements JSDocTagStructureClassIfc
 {
   readonly kind: StructureKind.JSDocTag = StructureKind.JSDocTag;
+  /** The name for the JS doc tag that comes after the "at" symbol. */
   tagName: string;
+  /** The text that follows the tag name. */
   text?: stringOrWriterFunction = undefined;
 
   constructor(tagName: string) {

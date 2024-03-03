@@ -34,6 +34,10 @@ export default class DecoratorImpl
   implements DecoratorStructureClassIfc
 {
   readonly kind: StructureKind.Decorator = StructureKind.Decorator;
+  /**
+   * Arguments for a decorator factory.
+   * @remarks Provide an empty array to make the structure a decorator factory.
+   */
   readonly arguments: stringOrWriterFunction[] = [];
   readonly typeArguments: string[] = [];
 

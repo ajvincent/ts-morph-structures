@@ -961,6 +961,10 @@ declare const DecoratorStructureBase: mixin_decorators.MixinClass<object, {
 }, typeof StructureBase>;
 declare class DecoratorImpl extends DecoratorStructureBase implements DecoratorStructureClassIfc {
     readonly kind: StructureKind.Decorator;
+    /**
+     * Arguments for a decorator factory.
+     * @remarks Provide an empty array to make the structure a decorator factory.
+     */
     readonly arguments: stringOrWriterFunction[];
     readonly typeArguments: string[];
     constructor(name: string);
@@ -999,7 +1003,12 @@ declare const JSDocStructureBase: mixin_decorators.MixinClass<object, {
 }, typeof StructureBase>;
 declare class JSDocImpl extends JSDocStructureBase implements JSDocStructureClassIfc {
     readonly kind: StructureKind.JSDoc;
+    /**
+     * The description of the JS doc.
+     * @remarks To force this to be multi-line, add a newline to the front of the string.
+     */
     description?: stringOrWriterFunction;
+    /** JS doc tags (ex. `&#64;param value - Some description.`). */
     readonly tags: JSDocTagImpl[];
     /** @internal */
     static [COPY_FIELDS](source: OptionalKind<JSDocStructure>, target: JSDocImpl): void;
@@ -1149,6 +1158,7 @@ declare const EnumMemberStructureBase: mixin_decorators.MixinClass<object, {
 }, typeof StructureBase>;
 declare class EnumMemberImpl extends EnumMemberStructureBase implements EnumMemberStructureClassIfc {
     readonly kind: StructureKind.EnumMember;
+    /** Convenience property for setting the initializer. */
     value?: number | string;
     constructor(name: string);
     /** @internal */
@@ -1280,6 +1290,7 @@ declare const ImportAttributeStructureBase: mixin_decorators.MixinClass<object, 
 }, typeof StructureBase>;
 declare class ImportAttributeImpl extends ImportAttributeStructureBase implements ImportAttributeStructureClassIfc {
     readonly kind: StructureKind.ImportAttribute;
+    /** Expression value. Quote this when providing a string. */
     value: string;
     constructor(name: string, value: string);
     /** @internal */
@@ -1384,7 +1395,9 @@ declare const JSDocTagStructureBase: mixin_decorators.MixinClass<object, {
 }, typeof StructureBase>;
 declare class JSDocTagImpl extends JSDocTagStructureBase implements JSDocTagStructureClassIfc {
     readonly kind: StructureKind.JSDocTag;
+    /** The name for the JS doc tag that comes after the "at" symbol. */
     tagName: string;
+    /** The text that follows the tag name. */
     text?: stringOrWriterFunction;
     constructor(tagName: string);
     /** @internal */
@@ -1537,6 +1550,11 @@ declare const ModuleDeclarationStructureBase: mixin_decorators.MixinClass<object
 }, typeof StructureBase>;
 declare class ModuleDeclarationImpl extends ModuleDeclarationStructureBase implements ModuleDeclarationStructureClassIfc {
     readonly kind: StructureKind.Module;
+    /**
+     * The module declaration kind.
+     *
+     * @remarks Defaults to "namespace".
+     */
     declarationKind?: ModuleDeclarationKind;
     constructor(name: string);
     /** @internal */

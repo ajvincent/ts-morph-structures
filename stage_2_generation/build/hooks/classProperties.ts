@@ -5,6 +5,7 @@ import path from "path";
 
 import {
   CodeBlockWriter,
+  JSDocStructure,
   StructureKind,
   WriterFunction
 } from "ts-morph";
@@ -18,6 +19,7 @@ import ConstantTypeStructures from "#stage_two/generation/build/utilities/Consta
 import {
   ArrayTypedStructureImpl,
   LiteralTypedStructureImpl,
+  JSDocImpl,
   ParenthesesTypedStructureImpl,
   PropertyDeclarationImpl,
   TypeStructureKind,
@@ -73,6 +75,7 @@ export default function addClassProperties(
       key, ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, ["false"]
     );
     parts.classMembersMap.addMembers([prop]);
+    addJSDocsToProperty(prop, meta);
 
     if (key !== "isStatic") {
       parts.classFieldsStatements.set(key, COPY_FIELDS_NAME, [
@@ -84,17 +87,18 @@ export default function addClassProperties(
   meta.structureFieldArrays.forEach((
     propertyValue: PropertyValue,
     propertyKey: PropertyName
-  ): void => addStructureFieldArray(name, dictionaries, parts, propertyValue, propertyKey));
+  ): void => addStructureFieldArray(name, meta, dictionaries, parts, propertyValue, propertyKey));
 
   meta.structureFields.forEach((
     propertyValue: PropertyValue,
     propertyKey: PropertyName
-  ): void => addStructureField(dictionaries, parts, propertyValue, propertyKey));
+  ): void => addStructureField(meta, dictionaries, parts, propertyValue, propertyKey));
   parts.classMembersMap.addMembers(properties);
 }
 
 function addStructureFieldArray(
   structureName: string,
+  meta: DecoratorImplMeta | StructureImplMeta,
   dictionaries: StructureDictionaries,
   parts: DecoratorParts | StructureParts,
   propertyValue: PropertyValue,
@@ -114,6 +118,7 @@ function addStructureFieldArray(
     typeStructure = new ParenthesesTypedStructureImpl(typeStructure);
 
   prop.typeStructure = new ArrayTypedStructureImpl(typeStructure);
+  addJSDocsToProperty(prop, meta);
 
   // this has to come early because write_cloneStatementsArray depends on it.
   parts.classMembersMap.addMembers([prop]);
@@ -160,6 +165,7 @@ function addStructureFieldArray(
 }
 
 function addStructureField(
+  meta: DecoratorImplMeta | StructureImplMeta,
   dictionaries: StructureDictionaries,
   parts: DecoratorParts | StructureParts,
   propertyValue: PropertyValue,
@@ -210,6 +216,8 @@ function addStructureField(
       ]);
     }
   }
+
+  addJSDocsToProperty(prop, meta);
 
   parts.classMembersMap.addMembers([prop]);
 }
@@ -357,6 +365,18 @@ function getInitializerForValue(
   void(parts);
   void(dictionaries);
   return undefined;
+}
+
+function addJSDocsToProperty(
+  property: PropertyDeclarationImpl,
+  meta: StructureImplMeta | DecoratorImplMeta
+): void
+{
+  const originalDocs: readonly JSDocStructure[] | undefined = meta.jsDocStructuresMap.get(property.name);
+  if (!originalDocs)
+    throw new Error("no docs found for property " + property.name);
+  const jsDocs = originalDocs.map(doc => JSDocImpl.clone(doc));
+  property.docs.push(...jsDocs);
 }
 
 function compareLiterals(

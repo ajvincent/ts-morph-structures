@@ -976,7 +976,6 @@ function ParameteredNodeStructureMixin(baseClass, context) {
 
 function QuestionTokenableNodeStructureMixin(baseClass, context) {
     class QuestionTokenableNodeStructureMixin extends baseClass {
-        /** When true, inserts a question mark (?) after the field name. */
         hasQuestionToken = false;
         /** @internal */
         static [COPY_FIELDS](source, target) {
@@ -1117,7 +1116,9 @@ function StatementedNodeStructureMixin(baseClass, context) {
 
 function StructureMixin(baseClass, context) {
     class StructureMixin extends baseClass {
+        /** Leading comments or whitespace. */
         leadingTrivia = [];
+        /** Trailing comments or whitespace. */
         trailingTrivia = [];
         /** @internal */
         static [COPY_FIELDS](source, target) {
@@ -2244,6 +2245,10 @@ StructureClassesMap.set(StructureKind.ConstructSignature, ConstructSignatureDecl
 const DecoratorStructureBase = MultiMixinBuilder([NamedNodeStructureMixin, StructureMixin], StructureBase);
 class DecoratorImpl extends DecoratorStructureBase {
     kind = StructureKind.Decorator;
+    /**
+     * Arguments for a decorator factory.
+     * @remarks Provide an empty array to make the structure a decorator factory.
+     */
     arguments = [];
     typeArguments = [];
     constructor(name) {
@@ -2331,6 +2336,7 @@ const EnumMemberStructureBase = MultiMixinBuilder([
 ], StructureBase);
 class EnumMemberImpl extends EnumMemberStructureBase {
     kind = StructureKind.EnumMember;
+    /** Convenience property for setting the initializer. */
     value = undefined;
     constructor(name) {
         super();
@@ -2598,6 +2604,7 @@ StructureClassesMap.set(StructureKind.GetAccessor, GetAccessorDeclarationImpl);
 const ImportAttributeStructureBase = MultiMixinBuilder([NamedNodeStructureMixin, StructureMixin], StructureBase);
 class ImportAttributeImpl extends ImportAttributeStructureBase {
     kind = StructureKind.ImportAttribute;
+    /** Expression value. Quote this when providing a string. */
     value;
     constructor(name, value) {
         super();
@@ -2898,7 +2905,12 @@ StructureClassesMap.set(StructureKind.Interface, InterfaceDeclarationImpl);
 const JSDocStructureBase = MultiMixinBuilder([StructureMixin], StructureBase);
 class JSDocImpl extends JSDocStructureBase {
     kind = StructureKind.JSDoc;
+    /**
+     * The description of the JS doc.
+     * @remarks To force this to be multi-line, add a newline to the front of the string.
+     */
     description = undefined;
+    /** JS doc tags (ex. `&#64;param value - Some description.`). */
     tags = [];
     /** @internal */
     static [COPY_FIELDS](source, target) {
@@ -2934,7 +2946,9 @@ StructureClassesMap.set(StructureKind.JSDoc, JSDocImpl);
 const JSDocTagStructureBase = MultiMixinBuilder([StructureMixin], StructureBase);
 class JSDocTagImpl extends JSDocTagStructureBase {
     kind = StructureKind.JSDocTag;
+    /** The name for the JS doc tag that comes after the "at" symbol. */
     tagName;
+    /** The text that follows the tag name. */
     text = undefined;
     constructor(tagName) {
         super();
@@ -3245,6 +3259,11 @@ const ModuleDeclarationStructureBase = MultiMixinBuilder([
 ], StructureBase);
 class ModuleDeclarationImpl extends ModuleDeclarationStructureBase {
     kind = StructureKind.Module;
+    /**
+     * The module declaration kind.
+     *
+     * @remarks Defaults to "namespace".
+     */
     declarationKind = undefined;
     constructor(name) {
         super();
