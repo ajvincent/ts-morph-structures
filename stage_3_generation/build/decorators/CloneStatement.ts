@@ -29,14 +29,14 @@ export default class CloneStatement_Statements extends GetterFilter
 
     const param = new ParameterDeclarationImpl("source");
     param.typeStructure = new UnionTypeStructureImpl([
+      LiteralTypeStructureImpl.get("StatementStructures"),
       LiteralTypeStructureImpl.get("stringOrWriterFunction"),
-      LiteralTypeStructureImpl.get("StatementStructures")
     ]);
     method.parameters.push(param);
 
     method.returnTypeStructure = new UnionTypeStructureImpl([
+      LiteralTypeStructureImpl.get("StatementStructureImpls"),
       LiteralTypeStructureImpl.get("stringOrWriterFunction"),
-      LiteralTypeStructureImpl.get("StatementStructureImpls")
     ]);
 
     return method;

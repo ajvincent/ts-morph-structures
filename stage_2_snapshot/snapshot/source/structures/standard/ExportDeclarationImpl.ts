@@ -40,7 +40,7 @@ export default class ExportDeclarationImpl
   attributes?: ImportAttributeImpl[];
   isTypeOnly = false;
   moduleSpecifier?: string = undefined;
-  readonly namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[] = [];
+  readonly namedExports: (ExportSpecifierImpl | stringOrWriterFunction)[] = [];
   namespaceExport?: string = undefined;
 
   /** @internal */
@@ -73,7 +73,7 @@ export default class ExportDeclarationImpl
         ...StructureClassesMap.cloneArrayWithKind<
           ExportSpecifierStructure,
           StructureKind.ExportSpecifier,
-          stringOrWriterFunction | ExportSpecifierImpl
+          ExportSpecifierImpl | stringOrWriterFunction
         >(
           StructureKind.ExportSpecifier,
           StructureClassesMap.forceArray(source.namedExports),

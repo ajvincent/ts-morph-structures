@@ -228,11 +228,11 @@ function getTypeStructureArrayForValue(
   dictionaries: StructureDictionaries
 ): TypeStructures[]
 {
-  const typeStructures: TypeStructures[] = [];
+  const typeStructures: LiteralTypedStructureImpl[] = [];
 
   if (value.mayBeString && value.mayBeWriter) {
     typeStructures.push(
-      ConstantTypeStructures.stringOrWriterFunction
+      ConstantTypeStructures.stringOrWriterFunction as LiteralTypedStructureImpl
     );
 
     parts.importsManager.addImports({
@@ -251,10 +251,10 @@ function getTypeStructureArrayForValue(
     });
   }
   else if (value.mayBeString) {
-    typeStructures.push(ConstantTypeStructures.string);
+    typeStructures.push(ConstantTypeStructures.string as LiteralTypedStructureImpl);
   }
   else if (value.mayBeWriter) {
-    typeStructures.push(ConstantTypeStructures.WriterFunction);
+    typeStructures.push(ConstantTypeStructures.WriterFunction as LiteralTypedStructureImpl);
     parts.importsManager.addImports({
       pathToImportedModule: "ts-morph",
       isPackageImport: true,
@@ -265,7 +265,7 @@ function getTypeStructureArrayForValue(
   }
 
   if (value.mayBeUndefined) {
-    typeStructures.push(ConstantTypeStructures.undefined);
+    typeStructures.push(ConstantTypeStructures.undefined as LiteralTypedStructureImpl);
   }
 
   value.otherTypes.forEach(valueInUnion => {
@@ -325,6 +325,8 @@ function getTypeStructureArrayForValue(
     }
   });
 
+  typeStructures.sort(compareLiterals);
+
   return typeStructures;
 }
 
@@ -352,4 +354,24 @@ function getInitializerForValue(
   return undefined;
 }
 
+function compareLiterals(
+  a: LiteralTypedStructureImpl,
+  b: LiteralTypedStructureImpl
+): number
+{
+  for (const tail of tailStrings) {
+    if (a.stringValue === tail)
+      return +1;
+    if (b.stringValue === tail)
+      return -1;
+  }
 
+  return a.stringValue.localeCompare(b.stringValue);
+}
+
+const tailStrings: readonly string[] = [
+  "undefined",
+  "stringOrWriterFunction",
+  "WriterFunction",
+  "string",
+];

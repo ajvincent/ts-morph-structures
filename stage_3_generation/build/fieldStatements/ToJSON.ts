@@ -96,7 +96,7 @@ export default class ToJSONStatements extends GetterFilter
       );
     }
 
-    let statement: WriterFunction = function(
+    const statement: WriterFunction = function(
       writer: CodeBlockWriter
     ): void
     {
@@ -106,9 +106,16 @@ export default class ToJSONStatements extends GetterFilter
     }
 
     if (mayBeUndefined) {
-      statement = new BlockStatementImpl(
-        `if (this.${fieldName})`, [statement]
-      ).writerFunction;
+      return [
+        new BlockStatementImpl(
+          `if (this.${fieldName})`, [statement]
+        ).writerFunction,
+        new BlockStatementImpl(
+          `else `, [
+            `rv.${fieldName} = undefined;`
+          ]
+        ).writerFunction
+      ]
     }
 
     return [statement];

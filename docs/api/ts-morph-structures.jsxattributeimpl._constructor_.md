@@ -9,12 +9,12 @@ Constructs a new instance of the `JsxAttributeImpl` class
 **Signature:**
 
 ```typescript
-constructor(name: string | JsxNamespacedNameStructure);
+constructor(name: JsxNamespacedNameStructure | string);
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  name | string \| JsxNamespacedNameStructure |  |
+|  name | JsxNamespacedNameStructure \| string |  |
 

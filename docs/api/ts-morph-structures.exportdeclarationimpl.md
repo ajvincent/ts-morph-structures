@@ -20,7 +20,7 @@ export default class ExportDeclarationImpl implements ExportDeclarationStructure
 |  [kind](./ts-morph-structures.exportdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.ExportDeclaration |  |
 |  [leadingTrivia](./ts-morph-structures.exportdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [moduleSpecifier?](./ts-morph-structures.exportdeclarationimpl.modulespecifier.md) |  | string | _(Optional)_ |
-|  [namedExports](./ts-morph-structures.exportdeclarationimpl.namedexports.md) | <code>readonly</code> | ([stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| [ExportSpecifierImpl](./ts-morph-structures.exportspecifierimpl.md)<!-- -->)\[\] |  |
+|  [namedExports](./ts-morph-structures.exportdeclarationimpl.namedexports.md) | <code>readonly</code> | ([ExportSpecifierImpl](./ts-morph-structures.exportspecifierimpl.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
 |  [namespaceExport?](./ts-morph-structures.exportdeclarationimpl.namespaceexport.md) |  | string | _(Optional)_ |
 |  [trailingTrivia](./ts-morph-structures.exportdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 

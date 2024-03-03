@@ -30,9 +30,9 @@ export default class JsxAttributeImpl
 {
   readonly kind: StructureKind.JsxAttribute = StructureKind.JsxAttribute;
   initializer?: string = undefined;
-  name: string | JsxNamespacedNameStructure = "";
+  name: JsxNamespacedNameStructure | string = "";
 
-  constructor(name: string | JsxNamespacedNameStructure) {
+  constructor(name: JsxNamespacedNameStructure | string) {
     super();
     this.name = name;
   }

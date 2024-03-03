@@ -1149,7 +1149,7 @@ declare const EnumMemberStructureBase: mixin_decorators.MixinClass<object, {
 }, typeof StructureBase>;
 declare class EnumMemberImpl extends EnumMemberStructureBase implements EnumMemberStructureClassIfc {
     readonly kind: StructureKind.EnumMember;
-    value?: string | number;
+    value?: number | string;
     constructor(name: string);
     /** @internal */
     static [COPY_FIELDS](source: OptionalKind<EnumMemberStructure>, target: EnumMemberImpl): void;
@@ -1182,7 +1182,7 @@ declare class ExportDeclarationImpl extends ExportDeclarationStructureBase imple
     attributes?: ImportAttributeImpl[];
     isTypeOnly: boolean;
     moduleSpecifier?: string;
-    readonly namedExports: (stringOrWriterFunction | ExportSpecifierImpl)[];
+    readonly namedExports: (ExportSpecifierImpl | stringOrWriterFunction)[];
     namespaceExport?: string;
     /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ExportDeclarationStructure>, target: ExportDeclarationImpl): void;
@@ -1298,7 +1298,7 @@ declare class ImportDeclarationImpl extends ImportDeclarationStructureBase imple
     defaultImport?: string;
     isTypeOnly: boolean;
     moduleSpecifier: string;
-    readonly namedImports: (stringOrWriterFunction | ImportSpecifierImpl)[];
+    readonly namedImports: (ImportSpecifierImpl | stringOrWriterFunction)[];
     namespaceImport?: string;
     constructor(moduleSpecifier: string);
     /** @internal */
@@ -1400,8 +1400,8 @@ declare const JsxAttributeStructureBase: mixin_decorators.MixinClass<object, {
 declare class JsxAttributeImpl extends JsxAttributeStructureBase implements JsxAttributeStructureClassIfc {
     readonly kind: StructureKind.JsxAttribute;
     initializer?: string;
-    name: string | JsxNamespacedNameStructure;
-    constructor(name: string | JsxNamespacedNameStructure);
+    name: JsxNamespacedNameStructure | string;
+    constructor(name: JsxNamespacedNameStructure | string);
     /** @internal */
     static [COPY_FIELDS](source: OptionalKind<JsxAttributeStructure>, target: JsxAttributeImpl): void;
     static clone(source: OptionalKind<JsxAttributeStructure>): JsxAttributeImpl;

@@ -41,7 +41,7 @@ export default class ImportDeclarationImpl
   defaultImport?: string = undefined;
   isTypeOnly = false;
   moduleSpecifier: string;
-  readonly namedImports: (stringOrWriterFunction | ImportSpecifierImpl)[] = [];
+  readonly namedImports: (ImportSpecifierImpl | stringOrWriterFunction)[] = [];
   namespaceImport?: string = undefined;
 
   constructor(moduleSpecifier: string) {
@@ -83,7 +83,7 @@ export default class ImportDeclarationImpl
         ...StructureClassesMap.cloneArrayWithKind<
           ImportSpecifierStructure,
           StructureKind.ImportSpecifier,
-          stringOrWriterFunction | ImportSpecifierImpl
+          ImportSpecifierImpl | stringOrWriterFunction
         >(
           StructureKind.ImportSpecifier,
           StructureClassesMap.forceArray(source.namedImports),

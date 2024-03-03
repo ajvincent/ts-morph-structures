@@ -317,8 +317,8 @@ export default class CopyFieldsStatements extends GetterFilter
     statementsArrayDecl.typeStructure = new ArrayTypeStructureImpl(
       new ParenthesesTypeStructureImpl(
         new UnionTypeStructureImpl([
-          LiteralTypeStructureImpl.get("stringOrWriterFunction"),
           LiteralTypeStructureImpl.get("StatementStructureImpls"),
+          LiteralTypeStructureImpl.get("stringOrWriterFunction"),
         ])
       )
     );
@@ -328,7 +328,7 @@ export default class CopyFieldsStatements extends GetterFilter
     const isArrayStatement = new BlockStatementImpl(
       `if (Array.isArray(source.statements))`,
       [
-        "statementsArray = source.statements as (stringOrWriterFunction | StatementStructureImpls)[];"
+        "statementsArray = source.statements as (StatementStructureImpls | stringOrWriterFunction)[];"
       ],
     );
 

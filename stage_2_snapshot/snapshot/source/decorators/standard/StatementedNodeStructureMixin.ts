@@ -44,7 +44,7 @@ export default function StatementedNodeStructureMixin(
   void context;
 
   class StatementedNodeStructureMixin extends baseClass {
-    readonly statements: (stringOrWriterFunction | StatementStructureImpls)[] =
+    readonly statements: (StatementStructureImpls | stringOrWriterFunction)[] =
       [];
 
     /** @internal */
@@ -55,13 +55,13 @@ export default function StatementedNodeStructureMixin(
       super[COPY_FIELDS](source, target);
 
       let statementsArray: (
-        | stringOrWriterFunction
         | StatementStructureImpls
+        | stringOrWriterFunction
       )[] = [];
       if (Array.isArray(source.statements)) {
         statementsArray = source.statements as (
-          | stringOrWriterFunction
           | StatementStructureImpls
+          | stringOrWriterFunction
         )[];
       } else if (source.statements !== undefined) {
         statementsArray = [source.statements];
@@ -74,8 +74,8 @@ export default function StatementedNodeStructureMixin(
     }
 
     static #cloneStatement(
-      source: stringOrWriterFunction | StatementStructures,
-    ): stringOrWriterFunction | StatementStructureImpls {
+      source: StatementStructures | stringOrWriterFunction,
+    ): StatementStructureImpls | stringOrWriterFunction {
       if (typeof source !== "object") {
         return source;
       }

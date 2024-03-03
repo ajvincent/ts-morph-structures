@@ -61,20 +61,15 @@ async function buildDecorator(
   const typeToClass = new MemberedTypeToClass([], router);
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
+  // stage two sorts the type members... we don't.
   typeToClass.addTypeMember(true, module.createCopyFieldsMethod());
-  typeToClass.addTypeMember(false, module.createToJSONMethod());
-
   {
     const properties = interfaceMembers.arrayOfKind(StructureKind.PropertySignature);
     if (properties.some(prop => /^#.*Manager$/.test(prop.name))) {
       typeToClass.addTypeMember(false, module.createStructureIteratorMethod());
-      typeToClass.isGeneratorCallback = {
-        isGenerator: function(isStatic: boolean, kind: StructureKind.Method, memberName: string): boolean {
-          return isStatic === false && memberName === "[STRUCTURE_AND_TYPES_CHILDREN]";
-        }
-      };
     }
   }
+  typeToClass.addTypeMember(false, module.createToJSONMethod());
 
   if (name.startsWith("StatementedNode")) {
     const cloneStatementFilter = new CloneStatement_Statements(module);
@@ -84,6 +79,11 @@ async function buildDecorator(
 
   typeToClass.defineStatementsByPurpose("body", false);
 
+  typeToClass.isGeneratorCallback = {
+    isGenerator: function(isStatic: boolean, kind: StructureKind.Method, memberName: string): boolean {
+      return isStatic === false && memberName === "[STRUCTURE_AND_TYPES_CHILDREN]";
+    }
+  };
   typeToClass.scopeCallback = {
     getScope: function(
       isStatic: boolean,
@@ -93,10 +93,12 @@ async function buildDecorator(
     {
       void(isStatic);
       void(kind);
-      if (memberName === "[COPY_FIELDS]")
+      switch (memberName) {
+        case "[COPY_FIELDS]":
+        case "toJSON":
+        case "[STRUCTURE_AND_TYPES_CHILDREN]":
         return Scope.Public;
-      if (memberName === "toJSON")
-        return Scope.Public;
+      }
       return undefined;
     }
   };
@@ -109,7 +111,7 @@ async function buildDecorator(
       if ((prop.typeStructure === booleanType) && prop.initializer) {
         prop.typeStructure = undefined;
       }
-      if ((prop.typeStructure === stringType) && prop.initializer) {
+      if ((prop.typeStructure === stringType) && prop.initializer && !prop.hasQuestionToken) {
         prop.typeStructure = undefined;
       }
     }

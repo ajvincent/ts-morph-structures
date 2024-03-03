@@ -27,7 +27,7 @@ export default class ImportDeclarationImpl implements ImportDeclarationStructure
 |  [kind](./ts-morph-structures.importdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.ImportDeclaration |  |
 |  [leadingTrivia](./ts-morph-structures.importdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [moduleSpecifier](./ts-morph-structures.importdeclarationimpl.modulespecifier.md) |  | string |  |
-|  [namedImports](./ts-morph-structures.importdeclarationimpl.namedimports.md) | <code>readonly</code> | ([stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| [ImportSpecifierImpl](./ts-morph-structures.importspecifierimpl.md)<!-- -->)\[\] |  |
+|  [namedImports](./ts-morph-structures.importdeclarationimpl.namedimports.md) | <code>readonly</code> | ([ImportSpecifierImpl](./ts-morph-structures.importspecifierimpl.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
 |  [namespaceImport?](./ts-morph-structures.importdeclarationimpl.namespaceimport.md) |  | string | _(Optional)_ |
 |  [trailingTrivia](./ts-morph-structures.importdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 

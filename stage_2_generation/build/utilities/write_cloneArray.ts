@@ -176,10 +176,10 @@ export function write_cloneRequiredAndOptionalArray(
 
   let targetImpl: string = getStructureImplName(sourceStructureName);
   if (propertyValue.mayBeString && propertyValue.mayBeWriter) {
-    targetImpl = `stringOrWriterFunction | ${targetImpl}`;
+    targetImpl = `${targetImpl} | stringOrWriterFunction`;
   }
   else if (propertyValue.mayBeString) {
-    targetImpl = `string | ${targetImpl}`;
+    targetImpl = `${targetImpl} | string`;
   }
   else {
     assert(
@@ -267,14 +267,14 @@ export function write_cloneStatementsArray(
     assert(parensType.kind === TypeStructureKind.Parentheses, `expected Parentheses type structure`);
     const unionType = (parensType as ParenthesesTypedStructureImpl).childTypes[0];
     assert(unionType.kind === TypeStructureKind.Union, `expected Union type structure`);
-    const literalType = (unionType as UnionTypedStructureImpl).childTypes[1];
+    const literalType = (unionType as UnionTypedStructureImpl).childTypes[0];
     assert((literalType.kind === TypeStructureKind.Literal) && (literalType.stringValue === "StatementStructures"),
       `expected "StatementStructures" literal type`);
 
     sourceParamType = TypeStructureClassesMap.clone(unionType) as UnionTypedStructureImpl;
 
     (unionType as UnionTypedStructureImpl).childTypes.splice(
-      1, 1, new LiteralTypedStructureImpl("StatementStructureImpls")
+      0, 1, new LiteralTypedStructureImpl("StatementStructureImpls")
     );
 
     returnType = TypeStructureClassesMap.clone(unionType) as UnionTypedStructureImpl;
@@ -298,9 +298,9 @@ export function write_cloneStatementsArray(
   return (writer: CodeBlockWriter) => {
     // this is one time where it's just faster and clearer to write the code than to spell out the contents in structures
     writer.write(`
-let statementsArray: (stringOrWriterFunction | StatementStructureImpls)[] = [];
+let statementsArray: (StatementStructureImpls | stringOrWriterFunction)[] = [];
 if (Array.isArray(source.statements)) {
-  statementsArray = source.statements as (stringOrWriterFunction | StatementStructureImpls)[];
+  statementsArray = source.statements as (StatementStructureImpls | stringOrWriterFunction)[];
 }
 else if (source.statements !== undefined) {
   statementsArray = [source.statements];
@@ -311,4 +311,3 @@ target.statements.push(
     `);
   };
 }
-

@@ -43,7 +43,7 @@ export default function JSDocableNodeStructureMixin(
   void context;
 
   class JSDocableNodeStructureMixin extends baseClass {
-    readonly docs: (string | JSDocImpl)[] = [];
+    readonly docs: (JSDocImpl | string)[] = [];
 
     /** @internal */
     public static [COPY_FIELDS](
@@ -56,7 +56,7 @@ export default function JSDocableNodeStructureMixin(
           ...StructureClassesMap.cloneArrayWithKind<
             JSDocStructure,
             StructureKind.JSDoc,
-            string | JSDocImpl
+            JSDocImpl | string
           >(StructureKind.JSDoc, StructureClassesMap.forceArray(source.docs)),
         );
       }
