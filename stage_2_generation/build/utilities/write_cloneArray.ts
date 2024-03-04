@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   CodeBlockWriter,
   StructureKind,
+  VariableDeclarationKind,
   WriterFunction,
 } from 'ts-morph';
 
@@ -12,9 +13,13 @@ import {
   MethodDeclarationImpl,
   ParameterDeclarationImpl,
   ParenthesesTypedStructureImpl,
+  type StatementStructureImpls,
   TypeStructureClassesMap,
   TypeStructureKind,
   UnionTypedStructureImpl,
+  VariableDeclarationImpl,
+  VariableStatementImpl,
+  type stringOrWriterFunction,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import StructureDictionaries, {
@@ -32,6 +37,7 @@ import type {
 } from '../structureMeta/DataClasses.js';
 
 import pairedWrite from "./pairedWrite.js";
+import ConstantTypeStructures from "./ConstantTypeStructures.js";
 
 export function write_cloneRequiredAndOptionalArray(
   structureName: string,
@@ -224,7 +230,7 @@ export function write_cloneStatementsArray(
   parts: DecoratorParts | StructureParts,
   propertyValue: PropertyValue,
   propertyKey: PropertyName
-): WriterFunction {
+): (StatementStructureImpls | stringOrWriterFunction)[] {
   void (propertyKey);
   void (propertyValue);
 
@@ -280,6 +286,7 @@ export function write_cloneStatementsArray(
     returnType = TypeStructureClassesMap.clone(unionType) as UnionTypedStructureImpl;
   }
 
+  // this is a hack, since we should be defining the method and its statements elsewhere!
   const cloneStatementMethod = new MethodDeclarationImpl("#cloneStatement");
   cloneStatementMethod.isStatic = true;
   const sourceParam = new ParameterDeclarationImpl("source");
@@ -290,24 +297,49 @@ export function write_cloneStatementsArray(
   cloneStatementMethod.statements.push(writer => {
     writer.write(`if (typeof source !== "object") `);
     writer.block(() => writer.write("return source;"));
+  });
+  cloneStatementMethod.statements.push(writer => {
     writer.writeLine(`return StructureClassesMap.clone<StatementStructures, StatementStructureImpls>(source);`);
   });
 
   parts.classMembersMap.addMembers([cloneStatementMethod]);
 
-  return (writer: CodeBlockWriter) => {
-    // this is one time where it's just faster and clearer to write the code than to spell out the contents in structures
-    writer.write(`
-let statementsArray: (StatementStructureImpls | stringOrWriterFunction)[] = [];
-if (Array.isArray(source.statements)) {
-  statementsArray = source.statements as (StatementStructureImpls | stringOrWriterFunction)[];
-}
-else if (source.statements !== undefined) {
-  statementsArray = [source.statements];
-}
-target.statements.push(
-  ...statementsArray.map(statement => StatementedNodeStructureMixin.#cloneStatement(statement))
-);
-    `);
-  };
+  const statements: (StatementStructureImpls | stringOrWriterFunction)[] = [];
+
+  const statementsArrayLet = new VariableStatementImpl;
+  statements.push(statementsArrayLet);
+  statementsArrayLet.declarationKind = VariableDeclarationKind.Let;
+
+  const statementsArrayDecl = new VariableDeclarationImpl("statementsArray");
+  statementsArrayDecl.typeStructure = new ArrayTypedStructureImpl(
+    new ParenthesesTypedStructureImpl(
+      new UnionTypedStructureImpl([
+        new LiteralTypedStructureImpl("StatementStructureImpls"),
+        ConstantTypeStructures.stringOrWriterFunction
+      ])
+    )
+  );
+  statementsArrayDecl.initializer = "[]";
+  statementsArrayLet.declarations.push(statementsArrayDecl);
+
+  // trying to make this consistent with later work... this actually makes whitespace consistent
+  statements.push(
+    (writer: CodeBlockWriter) => {
+      writer.write(`if (Array.isArray(source.statements)) {
+        statementsArray = source.statements as (StatementStructureImpls | stringOrWriterFunction)[];
+      }`);
+    },
+    (writer: CodeBlockWriter): void => {
+      writer.write(`else if (source.statements !== undefined) {
+        statementsArray = [source.statements];
+      }`);
+    },
+    (writer: CodeBlockWriter): void => {
+      writer.write(`target.statements.push(
+        ...statementsArray.map(statement => StatementedNodeStructureMixin.#cloneStatement(statement))
+      );`);
+    }
+  )
+
+  return statements;
 }

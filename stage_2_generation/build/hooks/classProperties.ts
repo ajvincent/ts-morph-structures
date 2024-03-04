@@ -7,7 +7,6 @@ import {
   CodeBlockWriter,
   JSDocStructure,
   StructureKind,
-  WriterFunction
 } from "ts-morph";
 
 import {
@@ -25,6 +24,8 @@ import {
   TypeStructureKind,
   TypeStructures,
   UnionTypedStructureImpl,
+  stringOrWriterFunction,
+  StatementStructureImpls,
 } from "#stage_one/prototype-snapshot/exports.js";
 
 import StructureDictionaries, {
@@ -127,26 +128,27 @@ function addStructureFieldArray(
     valueInUnion => valueInUnion.structureName && dictionaries.structures.has(valueInUnion.structureName)
   );
 
-  let statement: WriterFunction;
+  let statements: (stringOrWriterFunction | StatementStructureImpls)[] = [];
+
   if (hasAStructure) {
     if (propertyValue.otherTypes.length === 2) {
-      statement = write_cloneRequiredAndOptionalArray(
+      statements.push(write_cloneRequiredAndOptionalArray(
         structureName, dictionaries, parts, propertyValue, propertyKey
-      );
+      ));
     }
     else {
-      statement = write_cloneStructureArray(
+      statements.push(write_cloneStructureArray(
         structureName, dictionaries, parts, propertyValue, propertyKey
-      );
+      ));
     }
   }
   else if (propertyKey === "statements") {
-    statement = write_cloneStatementsArray(
+    statements = write_cloneStatementsArray(
       structureName, dictionaries, parts, propertyValue, propertyKey
     );
   }
   else {
-    statement = (writer: CodeBlockWriter): void => {
+    statements.push((writer: CodeBlockWriter): void => {
       writer.write(`if (Array.isArray(source.${propertyKey})) `);
       writer.block(() => {
         writer.write(`target.${propertyKey}.push(...source.${propertyKey});`);
@@ -155,10 +157,10 @@ function addStructureFieldArray(
       writer.block(() => {
         writer.write(`target.${propertyKey}.push(source.${propertyKey});`)
       });
-    };
+    });
   }
 
-  parts.classFieldsStatements.set(propertyKey, COPY_FIELDS_NAME, [statement]);
+  parts.classFieldsStatements.set(propertyKey, COPY_FIELDS_NAME, statements);
   parts.classFieldsStatements.set(
     propertyKey, ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, ["[]"]
   );

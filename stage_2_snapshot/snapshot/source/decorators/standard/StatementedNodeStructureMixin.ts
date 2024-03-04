@@ -53,7 +53,6 @@ export default function StatementedNodeStructureMixin(
       target: StatementedNodeStructureMixin & Structures,
     ): void {
       super[COPY_FIELDS](source, target);
-
       let statementsArray: (
         | StatementStructureImpls
         | stringOrWriterFunction
@@ -66,6 +65,7 @@ export default function StatementedNodeStructureMixin(
       } else if (source.statements !== undefined) {
         statementsArray = [source.statements];
       }
+
       target.statements.push(
         ...statementsArray.map((statement) =>
           StatementedNodeStructureMixin.#cloneStatement(statement),
@@ -79,6 +79,7 @@ export default function StatementedNodeStructureMixin(
       if (typeof source !== "object") {
         return source;
       }
+
       return StructureClassesMap.clone<
         StatementStructures,
         StatementStructureImpls
