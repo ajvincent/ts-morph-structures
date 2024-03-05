@@ -29,6 +29,8 @@ import {
 import modifyTypeMembersForTypeStructures from "../classTools/modifyTypeMembersForTypeStructures.js";
 
 import StatementsRouter from "../fieldStatements/StatementsRouter.js";
+import KindPropertyInitializer from "./KindProperty.js";
+import CloneStructureStatements from "./CloneStructureStatements.js";
 
 export default
 async function createStructures(): Promise<void>
@@ -54,12 +56,15 @@ async function buildStructure(
   modifyTypeMembersForTypeStructures(name, interfaceMembers);
 
   const router = new StatementsRouter(module);
+  router.filters.push(new KindPropertyInitializer(module));
+  router.filters.push(new CloneStructureStatements(module));
 
   const typeToClass = new MemberedTypeToClass([], router);
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
   // stage two sorts the type members... we don't.
   typeToClass.addTypeMember(true, module.createCopyFieldsMethod());
+  typeToClass.addTypeMember(true, module.createStaticCloneMethod());
   {
     const properties = interfaceMembers.arrayOfKind(StructureKind.PropertySignature);
     if (properties.some(prop => /^#.*Manager$/.test(prop.name))) {
@@ -86,6 +91,7 @@ async function buildStructure(
       void(kind);
       switch (memberName) {
         case "[COPY_FIELDS]":
+        case "clone":
         case "toJSON":
         case "[STRUCTURE_AND_TYPES_CHILDREN]":
         return Scope.Public;

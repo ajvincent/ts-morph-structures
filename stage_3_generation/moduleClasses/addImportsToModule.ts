@@ -9,8 +9,8 @@ import {
   getStructureNameFromModified
 } from "#utilities/source/StructureNameTransforms.js";
 
+import BaseClassModule from "./BaseClassModule.js";
 import BaseModule from "./BaseModule.js";
-import DecoratorModule from "./DecoratorModule.js";
 
 export default function addImportsToModule(
   module: BaseModule,
@@ -19,7 +19,7 @@ export default function addImportsToModule(
 {
   if (structure.kind === TypeStructureKind.Literal) {
 
-    if ((module instanceof DecoratorModule) && (module.exportName === structure.stringValue))
+    if ((module instanceof BaseClassModule) && (module.exportName === structure.stringValue))
       return;
 
     const rawName = getStructureNameFromModified(structure.stringValue);

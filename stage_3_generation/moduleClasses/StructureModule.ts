@@ -8,6 +8,8 @@ import {
   IndexedAccessTypeStructureImpl,
   IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
+  MethodSignatureImpl,
+  ParameterDeclarationImpl,
   PrefixOperatorsTypeStructureImpl,
   StringTypeStructureImpl,
   SourceFileImpl,
@@ -54,6 +56,18 @@ export default class StructureModule extends BaseClassModule
     this.baseName = baseName;
     this.exportName = structureName;
     this.#interfaceModule = interfaceModule;
+  }
+
+  createStaticCloneMethod(): MethodSignatureImpl
+  {
+    const method = new MethodSignatureImpl("clone");
+
+    const sourceParam = new ParameterDeclarationImpl("source");
+    sourceParam.typeStructure = LiteralTypeStructureImpl.get(this.baseName);
+    method.parameters.push(sourceParam);
+
+    method.returnTypeStructure = LiteralTypeStructureImpl.get(this.exportName);
+    return method;
   }
 
   protected getSourceFileImpl(): SourceFileImpl {

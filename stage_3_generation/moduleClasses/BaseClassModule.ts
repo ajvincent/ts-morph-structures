@@ -49,7 +49,6 @@ abstract class BaseClassModule extends BaseModule
     return methodSignature;
   }
 
-
   createToJSONMethod(): MethodSignatureImpl
   {
     this.addImports("internal", [], ["StructureClassToJSON"]);
@@ -63,7 +62,6 @@ abstract class BaseClassModule extends BaseModule
     );
     return methodSignature;
   }
-
 
   createStructureIteratorMethod(): MethodSignatureImpl
   {
