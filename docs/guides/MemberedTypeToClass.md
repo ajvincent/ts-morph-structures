@@ -386,6 +386,9 @@ declare class MemberedTypeToClass {
     constructorArguments: ParameterDeclarationImpl[],
     statementsGetter: ClassStatementsGetter,
   );
+
+  /** The class constructor's current parameters list. */
+  get constructorParameters(): ParameterDeclarationImpl[];
 }
 
 export interface ClassStatementsGetter {
@@ -405,7 +408,7 @@ export interface MemberedStatementsKey {
 }
 ```
 
-The `constructorArguments` are the parameters to define on the class constructor, if one is necessary.  (If the constructor has no statements, not even a `super()` call, the class members map will omit the constructor.)
+The `constructorArguments` are the parameters to define on the class constructor, if one is necessary.  (If the constructor has no statements, not even a `super()` call, the class members map will omit the constructor.)  You can also edit the constructor arguments later, via the `constructorParameters` getter.
 
 The `statementsGetter` interface is a simple callback hook.  It provides the field key, the statement group key, and the purpose for the statement array in question.  You return the array matching those conditions.
 

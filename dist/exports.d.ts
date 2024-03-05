@@ -2045,6 +2045,8 @@ declare class MemberedTypeToClass {
      * @param statementsGetter - a callback to get statements for each individual statement purpose, field name and statement group name.
      */
     constructor(constructorArguments: ParameterDeclarationImpl[], statementsGetter: ClassStatementsGetter);
+    /** The class constructor's current parameters list. */
+    get constructorParameters(): ParameterDeclarationImpl[];
     /**
      * An interface to get names which match an index signature's key name.
      */

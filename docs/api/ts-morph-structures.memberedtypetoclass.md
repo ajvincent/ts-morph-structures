@@ -22,6 +22,7 @@ export default class MemberedTypeToClass
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [constructorParameters](./ts-morph-structures.memberedtypetoclass.constructorparameters.md) | <code>readonly</code> | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] | The class constructor's current parameters list. |
 |  [indexSignatureResolver](./ts-morph-structures.memberedtypetoclass.indexsignatureresolver.md) |  | [IndexSignatureResolver](./ts-morph-structures.indexsignatureresolver.md) \| undefined | An interface to get names which match an index signature's key name. |
 |  [isAbstractCallback](./ts-morph-structures.memberedtypetoclass.isabstractcallback.md) |  | [ClassAbstractMemberQuestion](./ts-morph-structures.classabstractmemberquestion.md) \| undefined |  |
 |  [isAsyncCallback](./ts-morph-structures.memberedtypetoclass.isasynccallback.md) |  | [ClassAsyncMethodQuestion](./ts-morph-structures.classasyncmethodquestion.md) \| undefined |  |

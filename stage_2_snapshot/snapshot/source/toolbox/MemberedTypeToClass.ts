@@ -79,6 +79,11 @@ export default class MemberedTypeToClass {
       throw new Error("You have already called buildClassDeclaration()");
   }
 
+  /** The class constructor's current parameters list. */
+  get constructorParameters(): ParameterDeclarationImpl[] {
+    return this.#classConstructor.parameters;
+  }
+
   /**
    * An interface to get names which match an index signature's key name.
    */
