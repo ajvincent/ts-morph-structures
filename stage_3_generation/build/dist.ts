@@ -13,6 +13,7 @@ import {
 
 import createDecorators from "./decorators/createDecorators.js";
 import createInterfaces from "./interfaces/createInterfaces.js";
+import createStructures from "./structures/createStructures.js";
 import defineExistingExports from "./publicAndInternalExports.js";
 import fillStructureUnions from "./structureUnions.js";
 
@@ -41,11 +42,12 @@ export default async function buildDist(): Promise<void>
 
   const structureNames = await fillStructureUnions();
   await createInterfaces(structureNames);
-  await createDecorators();
-
   await Promise.all([
-    defineExistingExports(),
-  ]);
+    createDecorators(),
+    createStructures(),
+  ])
+
+  await defineExistingExports();
 
   await BaseModule.saveExports();
 }
