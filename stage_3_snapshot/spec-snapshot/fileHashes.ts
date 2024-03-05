@@ -52,6 +52,10 @@ describe("File hashes match for the", () => {
     await compareSnapshots("source/interfaces");
   });
 
+  xit("standard structures", async () => {
+    await compareSnapshots("source/structures/standard");
+  });
+
   it("type structures", async () => {
     await compareSnapshots("source/structures/type");
   });

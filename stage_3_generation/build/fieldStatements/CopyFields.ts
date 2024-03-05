@@ -2,6 +2,8 @@
 import assert from "node:assert/strict";
 
 import {
+  InterfaceDeclaration,
+  PropertySignature,
   StructureKind,
   VariableDeclarationKind,
   WriterFunction,
@@ -59,6 +61,10 @@ export default class CopyFieldsStatements extends GetterFilter
       return false;
     if (key.fieldKey === ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN)
       return false;
+    if (key.fieldKey === "kind")
+      return false;
+    if (key.fieldKey.endsWith("Set"))
+      return false;
     if (key.statementGroupKey !== "static [COPY_FIELDS]")
       return false;
     return true;
@@ -86,9 +92,11 @@ export default class CopyFieldsStatements extends GetterFilter
         return this.#getStatementsForLiteralType(key.fieldType, key.fieldType.typeStructure);
       case TypeStructureKind.Array:
         return this.#getStatementsForArrayType(key.fieldType, key.fieldType.typeStructure.objectType);
+      case TypeStructureKind.Union:
+        return this.#getStatementsForUnionType(key.fieldType, key.fieldType.typeStructure.childTypes);
     }
 
-    throw new Error("unexpected field type structure: " + key.fieldType.name);
+    throw new Error(`unexpected field type structure: ${this.baseName}:${key.fieldType.name}, ${TypeStructureKind[key.fieldType.typeStructure.kind]}`);
   }
 
   #getStatementsForTypeAccessor(
@@ -215,16 +223,16 @@ export default class CopyFieldsStatements extends GetterFilter
       return this.#getStatementsForTrivia(name);
     }
 
-    // DecoratableNodeStructureMixin
-    // JSDocableNodeStructureMixin
-    // ParameteredNodeStructureMixin
-    // TypeParameteredNodeStructureMixin
+    if (this.baseName.startsWith("Jsx")) {
+      console.warn(`to fix later: ${this.module.baseName}:${fieldType.name}`);
+      return [];
+    }
 
     if (objectType.kind === TypeStructureKind.Parentheses)
       objectType = objectType.childTypes[0];
 
     const types = objectType.kind === TypeStructureKind.Union ? objectType.childTypes : [objectType];
-    assert(types.every(t => t.kind === TypeStructureKind.Literal));
+    assert(types.every(t => t.kind === TypeStructureKind.Literal), `unexpected type for ${this.module.baseName}:${fieldType.name}`);
 
     const childTypes = types as readonly ReadonlyDeep<LiteralTypeStructureImpl>[];
 
@@ -235,7 +243,7 @@ export default class CopyFieldsStatements extends GetterFilter
         this.module.addImports("public", [], ["stringOrWriterFunction"]);
       }
       else if (getStructureNameFromModified(childType.stringValue) !== childType.stringValue) {
-        assert(generatedClassName === "");
+        assert(generatedClassName === "", "generatedClassName: " + generatedClassName + ", string value: " + childType.stringValue);
 
         this.module.addImports("public", [], [childType.stringValue]);
         this.module.addImports("internal", ["StructureClassesMap"], []);
@@ -243,6 +251,24 @@ export default class CopyFieldsStatements extends GetterFilter
         generatedClassName = childType.stringValue;
       }
     }
+
+    if (generatedClassName === "") {
+      let statement = new CallExpressionStatementImpl({
+        name: `target.${name}.push`,
+        parameters: [
+          `...source.${name}`
+        ]
+      }).writerFunction;
+
+      if (fieldType.hasQuestionToken) {
+        statement = new BlockStatementImpl(
+          `if (source.${name})`, [statement]
+        ).writerFunction;
+      }
+
+      return [statement];
+    }
+
     assert(generatedClassName, `we should be ready to clone structures now, ${this.module.exportName}:${name}`);
 
     const generatedStructureName = getStructureNameFromModified(generatedClassName);
@@ -288,6 +314,16 @@ export default class CopyFieldsStatements extends GetterFilter
       ).writerFunction
     ];
 
+    return [];
+  }
+
+  #getStatementsForUnionType(
+    fieldType: ReadonlyDeep<PropertySignatureImpl>,
+    childTypes: ReadonlyDeep<TypeStructures[]>
+  ): readonly stringWriterOrStatementImpl[]
+  {
+    void(fieldType);
+    void(childTypes);
     return [];
   }
 
@@ -371,8 +407,22 @@ export default class CopyFieldsStatements extends GetterFilter
     propertyName: string,
   ): PropertySignatureImpl
   {
+    const baseInterface: InterfaceDeclaration = TS_MORPH_D.getInterfaceOrThrow(this.baseName);
+    let prop: PropertySignature | undefined = baseInterface.getProperty(propertyName);
+    if (!prop) {
+      for (const extendsExpr of baseInterface.getExtends()){
+        const extendsName = extendsExpr.getFullText().trim();
+        const extendsInterface: InterfaceDeclaration = TS_MORPH_D.getInterfaceOrThrow(extendsName);
+        prop = extendsInterface.getProperty(propertyName);
+        if (prop)
+          break;
+      }
+    }
+
+    assert(prop, "No property yet for name " + this.module.baseName + ":" + propertyName);
+
     return getTypeAugmentedStructure(
-      TS_MORPH_D.getInterfaceOrThrow(this.baseName).getPropertyOrThrow(propertyName),
+      prop,
       VoidTypeNodeToTypeStructureConsole,
       true,
       StructureKind.PropertySignature
