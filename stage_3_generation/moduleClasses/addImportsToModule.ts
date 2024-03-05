@@ -19,7 +19,7 @@ export default function addImportsToModule(
 {
   if (structure.kind === TypeStructureKind.Literal) {
 
-    if ((module instanceof DecoratorModule) && (module.decoratorName === structure.stringValue))
+    if ((module instanceof DecoratorModule) && (module.exportName === structure.stringValue))
       return;
 
     const rawName = getStructureNameFromModified(structure.stringValue);

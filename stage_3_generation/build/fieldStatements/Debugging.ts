@@ -3,7 +3,7 @@ import {
   stringWriterOrStatementImpl
 } from "#stage_two/snapshot/source/exports.js";
 
-import DecoratorModule from "../../moduleClasses/DecoratorModule.js";
+import { BaseClassModule } from "../../moduleClasses/exports.js";
 import GetterFilter from "./GetterFilter.js";
 
 export default
@@ -14,7 +14,7 @@ class DebuggingFilter extends GetterFilter
   #statementGroupKey: string;
 
   constructor(
-    module: DecoratorModule,
+    module: BaseClassModule,
     fieldKey: string,
     statementGroupKey: string,
     baseName?: string

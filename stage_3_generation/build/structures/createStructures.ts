@@ -65,7 +65,7 @@ async function buildStructure(
     pathToExportedModule: module.importManager.absolutePathToModule,
     isDefaultExport: true,
     isType: false,
-    exportNames: [module.structureName]
+    exportNames: [module.exportName]
   });
 
   await module.saveFile();

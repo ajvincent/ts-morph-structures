@@ -5,7 +5,7 @@ import type {
   stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
-import DecoratorModule from "../../moduleClasses/DecoratorModule.js";
+import BaseClassModule from "../../moduleClasses/BaseClassModule.js";
 
 export default
 abstract class StatementGetterBase
@@ -13,10 +13,10 @@ implements ClassStatementsGetter
 {
   protected readonly importManager: ImportManager;
   protected readonly baseName: string;
-  protected readonly module: DecoratorModule;
+  protected readonly module: BaseClassModule;
 
   constructor(
-    module: DecoratorModule
+    module: BaseClassModule
   )
   {
     this.importManager = module.importManager;

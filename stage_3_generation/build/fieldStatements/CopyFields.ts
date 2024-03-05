@@ -101,7 +101,7 @@ export default class CopyFieldsStatements extends GetterFilter
     const structureName = propName + "Structure";
 
     return [
-      `const { ${structureName }} = source as unknown as ${this.module.decoratorName};`,
+      `const { ${structureName }} = source as unknown as ${this.module.exportName};`,
 
       new BlockStatementImpl(
         `if (${structureName})`,
@@ -243,7 +243,7 @@ export default class CopyFieldsStatements extends GetterFilter
         generatedClassName = childType.stringValue;
       }
     }
-    assert(generatedClassName, `we should be ready to clone structures now, ${this.module.decoratorName}:${name}`);
+    assert(generatedClassName, `we should be ready to clone structures now, ${this.module.exportName}:${name}`);
 
     const generatedStructureName = getStructureNameFromModified(generatedClassName);
     const generatedInterfaceName = getClassInterfaceName(generatedStructureName);

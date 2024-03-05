@@ -39,7 +39,7 @@ export default class StructureModule extends BaseClassModule
   }
 
   readonly baseName: string;
-  readonly structureName: string;
+  readonly exportName: string;
   readonly #interfaceModule: InterfaceModule;
 
   constructor(
@@ -52,7 +52,7 @@ export default class StructureModule extends BaseClassModule
     StructureModule.map.set(structureName, this);
 
     this.baseName = baseName;
-    this.structureName = structureName;
+    this.exportName = structureName;
     this.#interfaceModule = interfaceModule;
   }
 
@@ -134,7 +134,7 @@ export default class StructureModule extends BaseClassModule
 
     const interfaceName = getClassInterfaceName(this.baseName);
     this.addImports("public", [], [interfaceName]);
-    classDecl.name = this.structureName;
+    classDecl.name = this.exportName;
     classDecl.isDefaultExport = true;
     classDecl.extendsStructure = LiteralTypeStructureImpl.get(getStructureClassBaseName(this.baseName))
     classDecl.implementsSet.add(LiteralTypeStructureImpl.get(interfaceName));
@@ -164,13 +164,13 @@ export default class StructureModule extends BaseClassModule
     )
 
     return new SatisfiesStatementImpl(
-      this.structureName,
+      this.exportName,
       new IntersectionTypeStructureImpl([
         new TypeArgumentedTypeStructureImpl(
           LiteralTypeStructureImpl.get("CloneableStructure"),
           [
             LiteralTypeStructureImpl.get(this.baseName),
-            LiteralTypeStructureImpl.get(this.structureName)
+            LiteralTypeStructureImpl.get(this.exportName)
           ]
         ),
 
@@ -200,7 +200,7 @@ export default class StructureModule extends BaseClassModule
       name: "StructureClassesMap.set",
       parameters: [
         `StructureKind.${this.#interfaceModule.structureKindName!}`,
-        this.structureName
+        this.exportName
       ]
     }).writerFunction;
   }

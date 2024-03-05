@@ -5,7 +5,7 @@ import {
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
-  DecoratorModule,
+  BaseClassModule,
 } from "../../moduleClasses/exports.js";
 
 import StatementGetterBase from "./GetterBase.js";
@@ -31,7 +31,7 @@ class StatementsRouter extends StatementGetterBase
   readonly filters: GetterFilter[];
 
   constructor(
-    module: DecoratorModule
+    module: BaseClassModule
   )
   {
     super(module);

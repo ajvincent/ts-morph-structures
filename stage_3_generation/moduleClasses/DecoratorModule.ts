@@ -6,10 +6,8 @@ import {
   ClassDeclarationImpl,
   FunctionDeclarationImpl,
   IndexedAccessTypeStructureImpl,
-  IntersectionTypeStructureImpl,
   LiteralTypeStructureImpl,
   MemberedObjectTypeStructureImpl,
-  MethodSignatureImpl,
   ParameterDeclarationImpl,
   PrefixOperatorsTypeStructureImpl,
   PropertySignatureImpl,
@@ -17,7 +15,6 @@ import {
   StringTypeStructureImpl,
   TypeAliasDeclarationImpl,
   TypeArgumentedTypeStructureImpl,
-  UnionTypeStructureImpl,
   VariableDeclarationImpl,
   VariableStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
@@ -26,8 +23,6 @@ import {
   getClassInterfaceName,
   getStructureMixinName,
 } from "#utilities/source/StructureNameTransforms.js";
-
-import InternalJSDocTag from "../build/classTools/InternalJSDocTag.js";
 
 import SatisfiesStatementImpl from "../pseudoStatements/SatisfiesStatement.js";
 
@@ -58,7 +53,7 @@ class DecoratorModule extends BaseClassModule
 
   readonly baseName: string;
   readonly #fieldsType: LiteralTypeStructureImpl;
-  readonly decoratorName: string;
+  readonly exportName: string;
 
   constructor(
     baseName: string,
@@ -71,7 +66,7 @@ class DecoratorModule extends BaseClassModule
 
     this.baseName = baseName;
     this.#fieldsType = LiteralTypeStructureImpl.get(this.baseName + "Fields");
-    this.decoratorName = decoratorName;
+    this.exportName = decoratorName;
 
     this.addImports("ts-morph", [], [baseName, "Structures"]);
     this.addImports("mixin-decorators", [], [
@@ -83,69 +78,6 @@ class DecoratorModule extends BaseClassModule
 
   get fieldsName(): string {
     return this.baseName + "Fields"
-  }
-
-  createCopyFieldsMethod(): MethodSignatureImpl
-  {
-    const methodSignature = new MethodSignatureImpl("[COPY_FIELDS]");
-
-    const sourceParam = new ParameterDeclarationImpl("source");
-    sourceParam.typeStructure = new IntersectionTypeStructureImpl([
-      LiteralTypeStructureImpl.get(this.baseName),
-      LiteralTypeStructureImpl.get("Structures")
-    ]);
-
-    const targetParam = new ParameterDeclarationImpl("target");
-    targetParam.typeStructure = new IntersectionTypeStructureImpl([
-      LiteralTypeStructureImpl.get(this.decoratorName),
-      LiteralTypeStructureImpl.get("Structures")
-    ]);
-
-    methodSignature.docs.push(InternalJSDocTag);
-    methodSignature.parameters.push(sourceParam, targetParam);
-    methodSignature.returnTypeStructure = LiteralTypeStructureImpl.get("void");
-  
-    this.addImports("internal", ["COPY_FIELDS"], []);
-    this.addImports("ts-morph", [], [
-      this.baseName,
-      "Structures"
-    ]);
-
-    return methodSignature;
-  }
-
-  createToJSONMethod(): MethodSignatureImpl
-  {
-    this.addImports("internal", [], ["StructureClassToJSON"]);
-
-    const methodSignature = new MethodSignatureImpl("toJSON");
-    methodSignature.returnTypeStructure = new TypeArgumentedTypeStructureImpl(
-      LiteralTypeStructureImpl.get("StructureClassToJSON"),
-      [
-        LiteralTypeStructureImpl.get(this.decoratorName)
-      ]
-    );
-    return methodSignature;
-  }
-
-  createStructureIteratorMethod(): MethodSignatureImpl
-  {
-    this.addImports("public", [], ["StructureImpls", "TypeStructures"]);
-    this.addImports("internal", ["STRUCTURE_AND_TYPES_CHILDREN"], []);
-
-    const methodSignature = new MethodSignatureImpl("[STRUCTURE_AND_TYPES_CHILDREN]");
-    methodSignature.docs.push(InternalJSDocTag);
-
-    methodSignature.returnTypeStructure = new TypeArgumentedTypeStructureImpl(
-      LiteralTypeStructureImpl.get("IterableIterator"),
-      [
-        new UnionTypeStructureImpl([
-          LiteralTypeStructureImpl.get("StructureImpls"),
-          LiteralTypeStructureImpl.get("TypeStructures")
-        ])
-      ]
-    );
-    return methodSignature;
   }
 
   protected getSourceFileImpl(): SourceFileImpl
@@ -220,7 +152,7 @@ class DecoratorModule extends BaseClassModule
   #getMixinFunction(): FunctionDeclarationImpl {
     const fn = new FunctionDeclarationImpl;
     fn.isDefaultExport = true;
-    fn.name = this.baseName + "Mixin";
+    fn.name = getStructureMixinName(this.baseName);
     fn.parameters.push(DecoratorModule.#baseClassParam, DecoratorModule.#contextParam);
     fn.returnTypeStructure = this.#getMixinClassType();
 
