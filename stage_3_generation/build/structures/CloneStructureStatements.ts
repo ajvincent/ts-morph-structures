@@ -5,6 +5,7 @@ import {
 import {
   ClassFieldStatementsMap,
   MemberedStatementsKey,
+  type ParameterDeclarationImpl,
   VariableDeclarationImpl,
   VariableStatementImpl,
   type stringWriterOrStatementImpl
@@ -12,11 +13,28 @@ import {
 
 import GetterFilter from "../fieldStatements/GetterFilter.js";
 
+import {
+  StructureModule
+} from "../../moduleClasses/exports.js";
+
 import CallExpressionStatementImpl from "../../pseudoStatements/CallExpression.js";
 
 export default
 class CloneStructureStatements extends GetterFilter
 {
+  protected readonly module: StructureModule;
+  readonly #constructorParameters: ParameterDeclarationImpl[];
+
+  constructor(
+    module: StructureModule,
+    constructorParameters: ParameterDeclarationImpl[]
+  )
+  {
+    super(module);
+    this.module = module;
+    this.#constructorParameters = constructorParameters;
+  }
+
   accept(
     key: MemberedStatementsKey
   ): boolean

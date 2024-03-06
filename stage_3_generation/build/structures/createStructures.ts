@@ -7,6 +7,7 @@ import {
   type ClassMemberImpl,
   LiteralTypeStructureImpl,
   MemberedTypeToClass,
+  ParameterDeclarationImpl,
   type TypeMembersMap,
 } from "#stage_two/snapshot/source/exports.js";
 
@@ -31,6 +32,7 @@ import modifyTypeMembersForTypeStructures from "../classTools/modifyTypeMembersF
 import StatementsRouter from "../fieldStatements/StatementsRouter.js";
 import KindPropertyInitializer from "./KindProperty.js";
 import CloneStructureStatements from "./CloneStructureStatements.js";
+import ConstructorStatements from "./ConstructorStatements.js";
 
 export default
 async function createStructures(): Promise<void>
@@ -56,10 +58,12 @@ async function buildStructure(
   modifyTypeMembersForTypeStructures(name, interfaceMembers);
 
   const router = new StatementsRouter(module);
-  router.filters.push(new KindPropertyInitializer(module));
-  router.filters.push(new CloneStructureStatements(module));
+  const typeToClass = new MemberedTypeToClass(getConstructorParameters(interfaceMembers), router);
 
-  const typeToClass = new MemberedTypeToClass([], router);
+  router.filters.push(new KindPropertyInitializer(module));
+  router.filters.push(new CloneStructureStatements(module, typeToClass.constructorParameters));
+  router.filters.push(new ConstructorStatements(module, typeToClass.constructorParameters));
+
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
   // stage two sorts the type members... we don't.
@@ -134,6 +138,13 @@ async function buildStructure(
   await module.saveFile();
 }
 
+function getConstructorParameters(
+  interfaceMembers: TypeMembersMap
+): ParameterDeclarationImpl[]
+{
+  void(interfaceMembers);
+  return [];
+}
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
 const stringType = LiteralTypeStructureImpl.get("string");
