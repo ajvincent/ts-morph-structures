@@ -38,4 +38,5 @@ export default class MemberedTypeToClass
 |  [defineStatementsByPurpose(purposeKey, isBlockStatement, regionName)](./ts-morph-structures.memberedtypetoclass.definestatementsbypurpose.md) |  |  |
 |  [importFromMemberedType(isStatic, membered)](./ts-morph-structures.memberedtypetoclass.importfrommemberedtype.md) |  | Define class members for a membered object type or interface. |
 |  [importFromTypeMembersMap(isStatic, membersMap)](./ts-morph-structures.memberedtypetoclass.importfromtypemembersmap.md) |  | Define class members for a map of given type members (constructor, property, method, getter, setter). |
+|  [insertMemberKey(isFieldStatic, fieldType, isGroupStatic, groupType)](./ts-morph-structures.memberedtypetoclass.insertmemberkey.md) |  | Add member keys for a field and a group. |
 

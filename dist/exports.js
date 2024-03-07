@@ -5440,6 +5440,7 @@ class MemberedTypeToClass {
     #isAsyncCallback;
     #isGeneratorCallback;
     #scopeCallback;
+    #insertedMemberKeys = [];
     /**
      * @param constructorArguments - parameters to define on the constructor.
      * @param statementsGetter - a callback to get statements for each individual statement purpose, field name and statement group name.
@@ -5697,7 +5698,23 @@ class MemberedTypeToClass {
             this.#addAccessorInitializerKey(setter, keyClassMap, purposeKeys);
             this.#addStatementKeysForAccessor(setter, keyClassMap, purposeKeys, propertyNames);
         });
+        this.#insertedMemberKeys.forEach((addedKey) => this.#applyInsertedKeys(addedKey, keyClassMap, purposeKeys));
         return Array.from(keyClassMap.values());
+    }
+    /**
+     * Add member keys for a field and a group.
+     * @param isFieldStatic - true if the field is static.
+     * @param fieldType - the field signature.
+     * @param isGroupStatic - true if the group is static (false for constructors)
+     * @param groupType - the group signature, or "constructor" for the constructor I generate.
+     */
+    insertMemberKey(isFieldStatic, fieldType, isGroupStatic, groupType) {
+        this.#insertedMemberKeys.push({
+            isFieldStatic,
+            fieldType,
+            isGroupStatic,
+            groupType,
+        });
     }
     #sortMembersByKind(members) {
         const rv = {
@@ -5771,6 +5788,22 @@ class MemberedTypeToClass {
             for (const propertyName of propertyNames) {
                 this.#addKeyClass(propertyName, accessorName, purposeKey, keyClassMap);
             }
+        }
+    }
+    #applyInsertedKeys(addedKey, keyClassMap, purposeKeys) {
+        let fieldName = TypeMembersMap$1.keyFromName(addedKey.fieldType.kind, addedKey.fieldType.name);
+        if (addedKey.isFieldStatic)
+            fieldName = "static " + fieldName;
+        let groupName = "constructor";
+        if (addedKey.groupType !== "constructor") {
+            groupName = TypeMembersMap$1.keyFromName(addedKey.groupType.kind, addedKey.groupType.name);
+            if (addedKey.isGroupStatic) {
+                groupName = "static " + groupName;
+            }
+        }
+        const [formattedFieldName, formattedGroupName] = ClassFieldStatementsMap.normalizeKeys(fieldName, groupName);
+        for (const purposeKey of purposeKeys) {
+            this.#addKeyClass(formattedFieldName, formattedGroupName, purposeKey, keyClassMap);
         }
     }
     #addKeyClass(fieldName, groupName, purposeKey, keyClassMap) {

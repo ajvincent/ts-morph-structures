@@ -16,10 +16,12 @@ import {
   IndexSignatureResolver,
   type InterfaceDeclarationImpl,
   type MethodDeclarationImpl,
+  type MethodSignatureImpl,
   type MemberedObjectTypeStructureImpl,
   NamedTypeMemberImpl,
   ParameterDeclarationImpl,
   type PropertyDeclarationImpl,
+  type PropertySignatureImpl,
   type SetAccessorDeclarationImpl,
   type TypeMemberImpl,
   TypeMembersMap,
@@ -35,6 +37,17 @@ interface ClassMembersByKind {
   readonly methods: MethodDeclarationImpl[];
   readonly properties: PropertyDeclarationImpl[];
   readonly setAccessors: SetAccessorDeclarationImpl[];
+}
+
+interface InsertedMemberKey {
+  readonly isFieldStatic: boolean;
+  readonly fieldType: PropertySignatureImpl;
+  readonly isGroupStatic: boolean;
+  readonly groupType:
+    | GetAccessorDeclarationImpl
+    | SetAccessorDeclarationImpl
+    | MethodSignatureImpl
+    | "constructor";
 }
 
 /** Convert type members to a class members map, including statements. */
@@ -61,6 +74,7 @@ export default class MemberedTypeToClass {
   #isAsyncCallback?: ClassAsyncMethodQuestion;
   #isGeneratorCallback?: ClassGeneratorMethodQuestion;
   #scopeCallback?: ClassScopeMemberQuestion;
+  readonly #insertedMemberKeys: InsertedMemberKey[] = [];
 
   /**
    * @param constructorArguments - parameters to define on the constructor.
@@ -478,7 +492,36 @@ export default class MemberedTypeToClass {
       );
     });
 
+    this.#insertedMemberKeys.forEach((addedKey) =>
+      this.#applyInsertedKeys(addedKey, keyClassMap, purposeKeys),
+    );
+
     return Array.from(keyClassMap.values());
+  }
+
+  /**
+   * Add member keys for a field and a group.
+   * @param isFieldStatic - true if the field is static.
+   * @param fieldType - the field signature.
+   * @param isGroupStatic - true if the group is static (false for constructors)
+   * @param groupType - the group signature, or "constructor" for the constructor I generate.
+   */
+  insertMemberKey(
+    isFieldStatic: boolean,
+    fieldType: PropertySignatureImpl,
+    isGroupStatic: boolean,
+    groupType:
+      | GetAccessorDeclarationImpl
+      | SetAccessorDeclarationImpl
+      | MethodSignatureImpl
+      | "constructor",
+  ): void {
+    this.#insertedMemberKeys.push({
+      isFieldStatic,
+      fieldType,
+      isGroupStatic,
+      groupType,
+    });
   }
 
   #sortMembersByKind(members: ClassMemberImpl[]): ClassMembersByKind {
@@ -612,6 +655,41 @@ export default class MemberedTypeToClass {
       for (const propertyName of propertyNames) {
         this.#addKeyClass(propertyName, accessorName, purposeKey, keyClassMap);
       }
+    }
+  }
+
+  #applyInsertedKeys(
+    addedKey: InsertedMemberKey,
+    keyClassMap: Map<string, MemberedStatementsKeyClass>,
+    purposeKeys: readonly string[],
+  ): void {
+    let fieldName = TypeMembersMap.keyFromName(
+      addedKey.fieldType.kind,
+      addedKey.fieldType.name,
+    );
+    if (addedKey.isFieldStatic) fieldName = "static " + fieldName;
+
+    let groupName = "constructor";
+    if (addedKey.groupType !== "constructor") {
+      groupName = TypeMembersMap.keyFromName(
+        addedKey.groupType.kind,
+        addedKey.groupType.name,
+      );
+      if (addedKey.isGroupStatic) {
+        groupName = "static " + groupName;
+      }
+    }
+
+    const [formattedFieldName, formattedGroupName] =
+      ClassFieldStatementsMap.normalizeKeys(fieldName, groupName);
+
+    for (const purposeKey of purposeKeys) {
+      this.#addKeyClass(
+        formattedFieldName,
+        formattedGroupName,
+        purposeKey,
+        keyClassMap,
+      );
     }
   }
 

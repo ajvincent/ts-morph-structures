@@ -791,4 +791,95 @@ describe("MemberedTypeToClass", () => {
     );
     expect(method2_Decl?.isGenerator).toBeFalse();
   });
+
+  it("supports insertMemberKey for the constructor", () => {
+    typeToClass.defineStatementsByPurpose("first", false);
+    typeToClass.defineStatementsByPurpose("second", false);
+
+    const first_hello_ctor = statementsGetter.createWriter(`void("first hello");`);
+    const second_hello_ctor = statementsGetter.createWriter(`void("second hello");`);
+
+    statementsGetter.setStatements(
+      "hello", "constructor", "first", [
+        first_hello_ctor
+      ]
+    );
+    statementsGetter.setStatements(
+      "hello", "constructor", "second", [
+        second_hello_ctor
+      ]
+    );
+
+    typeToClass.insertMemberKey(false, new PropertySignatureImpl("hello"), false, "constructor");
+    const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
+
+    const ctor_Decl = classMembers.getAsKind<StructureKind.Constructor>(StructureKind.Constructor, false, "constructor");
+    expect(ctor_Decl).not.toBeUndefined();
+    if (ctor_Decl) {
+      expect(ctor_Decl.typeParameters.length).toBe(0);
+      expect(ctor_Decl.statements).toEqual([
+        first_hello_ctor,
+        second_hello_ctor,
+      ]);
+    }
+  });
+
+  it("supports insertMemberKey for existing methods", () => {
+    typeToClass.defineStatementsByPurpose("first", false);
+    typeToClass.defineStatementsByPurpose("second", false);
+
+    const membersMap: TypeMembersMap = new TypeMembersMap;
+
+    const prop1 = new PropertySignatureImpl("one");
+    prop1.typeStructure = LiteralTypeStructureImpl.get("string");
+
+    const method3 = new MethodSignatureImpl("three");
+    method3.returnTypeStructure = LiteralTypeStructureImpl.get("string");
+
+    membersMap.addMembers([
+      prop1, method3
+    ]);
+
+    const first_hello_three = statementsGetter.createWriter(`void("first hello");`);
+    const second_hello_three = statementsGetter.createWriter(`void("second hello");`);
+
+    statementsGetter.setStatements(
+      "one", "three", "first", [
+        `"value one"`
+      ]
+    );
+
+    statementsGetter.setStatements(
+      "one", "three", "second", [
+        `if (one) { this.one = one; }`
+      ]
+    );
+
+    statementsGetter.setStatements(
+      "hello", "three", "first", [
+        first_hello_three
+      ]
+    );
+    statementsGetter.setStatements(
+      "hello", "three", "second", [
+        second_hello_three
+      ]
+    );
+
+    typeToClass.importFromTypeMembersMap(false, membersMap);
+
+    typeToClass.insertMemberKey(false, new PropertySignatureImpl("hello"), false, method3);
+    const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
+
+    const three = classMembers.getAsKind(StructureKind.Method, false, "three");
+    expect(three).not.toBeUndefined();
+    if (three) {
+      expect(three?.statements).toEqual([
+        first_hello_three,
+        `"value one"`,
+        second_hello_three,
+        `if (one) { this.one = one; }`
+      ]);
+    }
+  });
 });

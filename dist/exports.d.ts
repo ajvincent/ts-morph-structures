@@ -2097,6 +2097,14 @@ declare class MemberedTypeToClass {
      * Convert cached type members to a ClassMembersMap, complete with statements.
      */
     buildClassMembersMap(): ClassMembersMap;
+    /**
+     * Add member keys for a field and a group.
+     * @param isFieldStatic - true if the field is static.
+     * @param fieldType - the field signature.
+     * @param isGroupStatic - true if the group is static (false for constructors)
+     * @param groupType - the group signature, or "constructor" for the constructor I generate.
+     */
+    insertMemberKey(isFieldStatic: boolean, fieldType: PropertySignatureImpl, isGroupStatic: boolean, groupType: GetAccessorDeclarationImpl | SetAccessorDeclarationImpl | MethodSignatureImpl | "constructor"): void;
 }
 
 /**
