@@ -41,7 +41,7 @@ function definePublicExports(): void
   publicExports.addExports({
     pathToExportedModule: pathToModule(distDir, "source/base/TypeStructureSet.ts"),
     exportNames: ["TypeStructureSet"],
-    isDefaultExport: true,
+    isDefaultExport: false,
     isType: true,
   });
 
@@ -246,6 +246,13 @@ function defineInternalExports(): void
   internalExports.addExports({
     pathToExportedModule: pathToModule(distDir, "source/base/TypeAccessors.ts"),
     exportNames: ["TypeAccessors"],
+    isDefaultExport: true,
+    isType: false,
+  });
+
+  internalExports.addExports({
+    pathToExportedModule: pathToModule(distDir, "source/base/TypeStructureSet.ts"),
+    exportNames: ["TypeStructureSetInternal"],
     isDefaultExport: true,
     isType: false,
   });

@@ -4,6 +4,7 @@ import {
 } from "ts-morph";
 
 import {
+  ClassFieldStatementsMap,
   type ClassMemberImpl,
   LiteralTypeStructureImpl,
   MemberedTypeToClass,
@@ -29,10 +30,22 @@ import {
 
 import modifyTypeMembersForTypeStructures from "../classTools/modifyTypeMembersForTypeStructures.js";
 
+import addReadonlyArrayHandlers from "./addReadonlyArrayHandler.js";
+
 import StatementsRouter from "../fieldStatements/StatementsRouter.js";
+import ArrayReadonlyHandler from "../fieldStatements/TypeStructures/ArrayReadonlyHandler.js";
 import KindPropertyInitializer from "./KindProperty.js";
 import CloneStructureStatements from "./CloneStructureStatements.js";
 import ConstructorStatements from "./ConstructorStatements.js";
+import ProxyArrayStatements from "../fieldStatements/TypeStructures/ProxyArray.js";
+import ShadowArrayStatements from "../fieldStatements/TypeStructures/ShadowArray.js";
+import TypeStructureSetStatements from "../fieldStatements/TypeStructures/TypeStructureSet.js";
+import TypeArrayStatements from "../fieldStatements/TypeStructures/ArrayGetter.js";
+
+import DebuggingFilter from "../fieldStatements/Debugging.js";
+
+void(ClassFieldStatementsMap);
+void(DebuggingFilter);
 
 export default
 async function createStructures(): Promise<void>
@@ -59,14 +72,21 @@ async function buildStructure(
 
   const router = new StatementsRouter(module);
   const typeToClass = new MemberedTypeToClass(getConstructorParameters(interfaceMembers), router);
+  addReadonlyArrayHandlers(module, interfaceModule.typeMembers, typeToClass);
 
-  router.filters.push(new KindPropertyInitializer(module));
-  router.filters.push(new CloneStructureStatements(module, typeToClass.constructorParameters));
-  router.filters.push(new ConstructorStatements(module, typeToClass.constructorParameters));
+  router.filters.unshift(
+    new ArrayReadonlyHandler(module),
+    new KindPropertyInitializer(module),
+    new CloneStructureStatements(module, typeToClass.constructorParameters),
+    new ConstructorStatements(module, typeToClass.constructorParameters),
+    new ShadowArrayStatements(module),
+    new ProxyArrayStatements(module),
+    new TypeStructureSetStatements(module),
+    new TypeArrayStatements(module),
+  );
 
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
-  // stage two sorts the type members... we don't.
   typeToClass.addTypeMember(true, module.createCopyFieldsMethod());
   typeToClass.addTypeMember(true, module.createStaticCloneMethod());
   {
@@ -118,9 +138,12 @@ async function buildStructure(
       if ((prop.typeStructure === booleanType) && prop.initializer) {
         prop.typeStructure = undefined;
       }
-      if ((prop.typeStructure === stringType) && prop.initializer && !prop.hasQuestionToken) {
+      else if ((prop.typeStructure === stringType) && prop.initializer && !prop.hasQuestionToken) {
         prop.typeStructure = undefined;
       }
+
+      else if (prop.typeStructure === TypeStructureSetLiteral)
+        prop.typeStructure = undefined;
     }
   );
 
@@ -148,3 +171,4 @@ function getConstructorParameters(
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
 const stringType = LiteralTypeStructureImpl.get("string");
+const TypeStructureSetLiteral = LiteralTypeStructureImpl.get("TypeStructureSet");

@@ -31,6 +31,7 @@ import SatisfiesStatementImpl from "../pseudoStatements/SatisfiesStatement.js";
 
 import BaseClassModule from "./BaseClassModule.js";
 import InterfaceModule from "./InterfaceModule.js";
+import sortClassMembers from "./sortClassMembers.js";
 
 export default class StructureModule extends BaseClassModule
 {
@@ -153,6 +154,9 @@ export default class StructureModule extends BaseClassModule
     classDecl.extendsStructure = LiteralTypeStructureImpl.get(getStructureClassBaseName(this.baseName))
     classDecl.implementsSet.add(LiteralTypeStructureImpl.get(interfaceName));
     this.classMembersMap!.moveMembersToClass(classDecl);
+
+    sortClassMembers(classDecl);
+
     return classDecl;
   }
 

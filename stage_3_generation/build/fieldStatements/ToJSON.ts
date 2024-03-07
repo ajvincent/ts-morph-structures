@@ -31,7 +31,8 @@ export default class ToJSONStatements extends GetterFilter
   {
     return (
       (key.statementGroupKey === "toJSON") &&
-      (key.isFieldStatic === false)
+      (key.isFieldStatic === false) &&
+      (key.fieldKey.endsWith("Set") === false)
     );
   }
 
@@ -63,6 +64,9 @@ export default class ToJSONStatements extends GetterFilter
       hasWriter = true;
       mayBeUndefined = true;
       isArray = false;
+    }
+    else if (fieldName.startsWith("#")) {
+      return [];
     }
     else {
       assert(key.fieldType.typeStructure, "missing type structure: " + this.baseName + ":" + key.fieldKey);

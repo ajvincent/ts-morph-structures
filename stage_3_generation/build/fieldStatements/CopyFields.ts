@@ -53,6 +53,8 @@ const stringType = LiteralTypeStructureImpl.get("string");
 
 export default class CopyFieldsStatements extends GetterFilter
 {
+  static #managerRE = /^#.*Manager$/;
+
   accept(
     key: MemberedStatementsKey
   ): boolean
@@ -80,12 +82,15 @@ export default class CopyFieldsStatements extends GetterFilter
       ];
     }
 
-    if (/^#.*Manager$/.test(key.fieldKey)) {
+    if (CopyFieldsStatements.#managerRE.test(key.fieldKey)) {
       return this.#getStatementsForTypeAccessor(key);
     }
 
     assert(key.fieldType?.kind === StructureKind.PropertySignature, "not a property?");
     assert(key.fieldType.typeStructure, "no type structure?");
+
+    if (key.fieldType.name.startsWith("#"))
+      return [];
 
     switch (key.fieldType.typeStructure.kind) {
       case TypeStructureKind.Literal:

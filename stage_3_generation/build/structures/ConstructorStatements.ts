@@ -43,7 +43,7 @@ class ConstructorStatements extends GetterFilter
 
     if ((key.fieldType === undefined) || (key.isFieldStatic === true))
       return false;
-    if (key.fieldKey.startsWith("#") || key.fieldKey === "kind")
+    if (key.fieldKey.startsWith("#") || key.fieldKey === "kind" || key.fieldKey.endsWith("Set"))
       return false;
     if (key.fieldType.kind !== StructureKind.PropertySignature)
       return false;
