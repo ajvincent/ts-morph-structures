@@ -1,13 +1,16 @@
 import {
-  VariableDeclarationKind
+  CodeBlockWriter,
+  VariableDeclarationKind,
 } from "ts-morph";
 
 import {
   ClassFieldStatementsMap,
+  LiteralTypeStructureImpl,
   MemberedStatementsKey,
   type ParameterDeclarationImpl,
   VariableDeclarationImpl,
   VariableStatementImpl,
+  type stringOrWriterFunction,
   type stringWriterOrStatementImpl
 } from "#stage_two/snapshot/source/exports.js";
 
@@ -56,10 +59,16 @@ class CloneStructureStatements extends GetterFilter
     targetDeclStatement.declarationKind = VariableDeclarationKind.Const;
 
     const targetDecl = new VariableDeclarationImpl("target");
-    targetDecl.initializer = new CallExpressionStatementImpl({
-      name: "new " + this.module.exportName,
-      parameters: []
-    }).writerFunction;
+    targetDecl.initializer = (writer: CodeBlockWriter): void => {
+      const statement = new CallExpressionStatementImpl({
+        name: "new " + this.module.exportName,
+        parameters: this.#constructorParameters.map(
+          param => this.#getInitializerValue(param)
+        )
+      });
+      statement.writerFunction(writer);
+    };
+
     targetDeclStatement.declarations.push(targetDecl);
 
     return [
@@ -70,5 +79,17 @@ class CloneStructureStatements extends GetterFilter
       }).writerFunction,
       `return target;`
     ];
+  }
+
+  #getInitializerValue(
+    parameter: ParameterDeclarationImpl
+  ): stringOrWriterFunction | CallExpressionStatementImpl
+  {
+    let value = `source.${parameter.name}`;
+    if (parameter.hasQuestionToken) {
+      if (parameter.typeStructure === LiteralTypeStructureImpl.get("boolean"))
+        value += " ?? false";
+    }
+    return value;
   }
 }
