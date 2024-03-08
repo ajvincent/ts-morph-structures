@@ -5,9 +5,8 @@ import {
 } from "ts-morph";
 
 import {
+  InterfaceDeclarationImpl,
   TypeStructureKind,
-  VoidTypeNodeToTypeStructureConsole,
-  getTypeAugmentedStructure,
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
@@ -18,13 +17,13 @@ import {
   getClassInterfaceName,
 } from "#utilities/source/StructureNameTransforms.js";
 
-import TS_MORPH_D from "#utilities/source/ts-morph-d-file.js";
-
 import {
   addImportsToModule,
   InterfaceModule,
   publicExports,
 } from "../../moduleClasses/exports.js";
+
+import InterfaceMap from "../../vanilla/InterfaceMap.js";
 
 import consolidateNameDecorators from "./consolidateNameDecorators.js";
 import consolidateScopeDecorators from "./consolidateScopeDecorators.js";
@@ -120,12 +119,9 @@ function addInterface(
   module: InterfaceModule,
 ): void
 {
-  const structureInterface = getTypeAugmentedStructure(
-    TS_MORPH_D.getInterfaceOrThrow(name),
-    VoidTypeNodeToTypeStructureConsole,
-    true,
-    StructureKind.Interface
-  ).rootStructure;
+  const structureInterface = InterfaceDeclarationImpl.clone(
+    InterfaceMap.get(name) as InterfaceDeclarationImpl
+  );
 
   for (const extendsValue of structureInterface.extendsSet) {
     const { kind } = extendsValue;
