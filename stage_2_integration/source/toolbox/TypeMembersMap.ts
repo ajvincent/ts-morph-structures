@@ -5,6 +5,10 @@ import {
   StructureKind
 } from "ts-morph";
 
+import type {
+  Simplify
+} from "type-fest";
+
 import {
   GetAccessorDeclarationImpl,
   JSDocImpl,
@@ -464,3 +468,8 @@ extends OrderedMap<string, TypeMemberImpl>
     return Array.from(this.values());
   }
 }
+
+export type ReadonlyTypeMembersMap = Simplify<
+  ReadonlyMap<string, TypeMemberImpl> &
+  Pick<TypeMembersMap, "arrayOfKind" | "clone" | "getAsKind">
+>;

@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 
 import { type KindedStructure, StructureKind } from "ts-morph";
 
+import type { Simplify } from "type-fest";
+
 import {
   GetAccessorDeclarationImpl,
   JSDocImpl,
@@ -467,3 +469,8 @@ export default class TypeMembersMap extends OrderedMap<string, TypeMemberImpl> {
     return Array.from(this.values());
   }
 }
+
+export type ReadonlyTypeMembersMap = Simplify<
+  ReadonlyMap<string, TypeMemberImpl> &
+    Pick<TypeMembersMap, "arrayOfKind" | "clone" | "getAsKind">
+>;

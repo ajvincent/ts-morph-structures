@@ -163,6 +163,13 @@ function definePublicExports(
   });
 
   dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/TypeMembersMap.ts"),
+    exportNames: ["ReadonlyTypeMembersMap"],
+    isDefaultExport: false,
+    isType: true,
+  });
+
+  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/toolbox/forEachAugmentedStructureChild.ts"),
     exportNames: ["forEachAugmentedStructureChild"],
     isDefaultExport: true,

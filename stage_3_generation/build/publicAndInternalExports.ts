@@ -162,6 +162,13 @@ function definePublicExports(): void
   });
 
   publicExports.addExports({
+    pathToExportedModule: pathToModule(distDir, "source/toolbox/TypeMembersMap.ts"),
+    exportNames: ["ReadonlyTypeMembersMap"],
+    isDefaultExport: false,
+    isType: true,
+  });
+
+  publicExports.addExports({
     pathToExportedModule: pathToModule(distDir, "source/toolbox/forEachAugmentedStructureChild.ts"),
     exportNames: ["forEachAugmentedStructureChild"],
     isDefaultExport: true,

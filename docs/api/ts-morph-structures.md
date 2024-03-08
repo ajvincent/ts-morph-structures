@@ -194,6 +194,7 @@
 |  [NamedTypeMemberImpl](./ts-morph-structures.namedtypememberimpl.md) |  |
 |  [ObjectLiteralExpressionPropertyStructureImpls](./ts-morph-structures.objectliteralexpressionpropertystructureimpls.md) |  |
 |  [PrefixUnaryOperator](./ts-morph-structures.prefixunaryoperator.md) |  |
+|  [ReadonlyTypeMembersMap](./ts-morph-structures.readonlytypemembersmap.md) |  |
 |  [StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) |  |
 |  [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) |  |
 |  [stringWriterOrStatementImpl](./ts-morph-structures.stringwriterorstatementimpl.md) |  |

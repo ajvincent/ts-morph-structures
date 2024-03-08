@@ -156,7 +156,10 @@ export { default as ExportManager } from "./toolbox/ExportManager.js";
 export { default as forEachAugmentedStructureChild } from "./toolbox/forEachAugmentedStructureChild.js";
 export { default as ImportManager } from "./toolbox/ImportManager.js";
 export { default as MemberedTypeToClass } from "./toolbox/MemberedTypeToClass.js";
-export { default as TypeMembersMap } from "./toolbox/TypeMembersMap.js";
+export {
+  default as TypeMembersMap,
+  type ReadonlyTypeMembersMap,
+} from "./toolbox/TypeMembersMap.js";
 export type {
   AddExportContext,
   AddImportContext,
