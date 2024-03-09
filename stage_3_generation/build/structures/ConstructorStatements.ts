@@ -52,8 +52,9 @@ class ConstructorStatements extends GetterFilter
       return key.fieldType.hasQuestionToken === false;
     }
 
-    if (key.fieldKey !== ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN)
-      console.warn("missing fieldType for constructor: " + this.module.baseName + ":" + key.fieldKey);
+    if (key.fieldKey !== ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN) {
+      return true;
+    }
     return false;
   }
 
@@ -64,11 +65,19 @@ class ConstructorStatements extends GetterFilter
     if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL)
       return [`super();`];
 
-    assert(key.fieldType?.kind === StructureKind.PropertySignature);
-    const param = new ParameterDeclarationImpl(key.fieldType.name);
-    param.typeStructure = key.fieldType.typeStructure;
+    let { fieldType } = key;
+    if (!fieldType) {
+      fieldType = this.module.getFlatTypeMembers().getAsKind(
+        StructureKind.PropertySignature,
+        key.fieldKey
+      );
+    }
+
+    assert.equal(fieldType?.kind, StructureKind.PropertySignature);
+    const param = new ParameterDeclarationImpl(fieldType.name);
+    param.typeStructure = fieldType.typeStructure;
     this.#constructorParameters.push(param);
 
-    return [`this.${key.fieldType.name} = ${key.fieldType.name};`];
+    return [`this.${fieldType.name} = ${fieldType.name};`];
   }
 }

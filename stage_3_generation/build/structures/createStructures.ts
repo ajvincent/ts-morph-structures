@@ -1,5 +1,4 @@
-import assert from "node:assert/strict";
-
+//#region preamble
 import {
   Scope,
   StructureKind
@@ -10,8 +9,9 @@ import {
   type ClassMemberImpl,
   LiteralTypeStructureImpl,
   MemberedTypeToClass,
-  ParameterDeclarationImpl,
   type TypeMembersMap,
+  TypeStructureKind,
+  ClassMembersMap,
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
@@ -32,7 +32,6 @@ import {
   publicExports,
 } from "../../moduleClasses/exports.js";
 
-import FlatInterfaceMap from "../../vanilla/FlatInterfaceMap.js";
 import initializeTypes from "../../vanilla/initializer.js";
 
 import addReadonlyArrayHandlers from "./addReadonlyArrayHandler.js";
@@ -51,6 +50,7 @@ import DebuggingFilter from "../fieldStatements/Debugging.js";
 
 void(ClassFieldStatementsMap);
 void(DebuggingFilter);
+// #endregion preamble
 
 export default
 async function createStructures(): Promise<void>
@@ -72,12 +72,48 @@ async function buildStructure(
   )!;
 
   const module = new StructureModule(name, interfaceModule);
-  const interfaceMembers: TypeMembersMap = interfaceModule.typeMembers.clone();
 
+  const interfaceMembers: TypeMembersMap = interfaceModule.typeMembers.clone();
   modifyTypeMembersForTypeStructures(name, interfaceMembers);
 
+  const typeToClass = buildTypeToClass(module, interfaceModule);
+  typeToClass.importFromTypeMembersMap(false, interfaceMembers);
+
+  defineImplMethods(module, interfaceMembers, typeToClass);
+  typeToClass.defineStatementsByPurpose("body", false);
+  defineClassCallbacks(typeToClass);
+  insertConstructorKeys(module, typeToClass);
+
+  try {
+    module.classMembersMap = typeToClass.buildClassMembersMap();
+  }
+  catch (ex) {
+    console.error("failed on module " + module.exportName);
+    throw ex;
+  }
+
+  removeUnnecessaryTypeStructures(module.classMembersMap);
+  module.classMembersMap.forEach(
+    classMember => addImportsToModule(module, classMember)
+  );
+
+  publicExports.addExports({
+    pathToExportedModule: module.importManager.absolutePathToModule,
+    isDefaultExport: true,
+    isType: false,
+    exportNames: [module.exportName]
+  });
+
+  await module.saveFile();
+}
+
+function buildTypeToClass(
+  module: StructureModule,
+  interfaceModule: InterfaceModule
+): MemberedTypeToClass
+{
   const router = new StatementsRouter(module);
-  const typeToClass = new MemberedTypeToClass(getConstructorParameters(interfaceMembers), router);
+  const typeToClass = new MemberedTypeToClass([], router);
   addReadonlyArrayHandlers(module, interfaceModule.typeMembers, typeToClass);
 
   router.filters.unshift(
@@ -91,7 +127,15 @@ async function buildStructure(
     new TypeArrayStatements(module),
   );
 
-  typeToClass.importFromTypeMembersMap(false, interfaceMembers);
+  return typeToClass;
+}
+
+function defineImplMethods(
+  module: StructureModule,
+  interfaceMembers: TypeMembersMap,
+  typeToClass: MemberedTypeToClass
+): void
+{
 
   const copyFieldsSignature = module.createCopyFieldsMethod();
   typeToClass.addTypeMember(true, copyFieldsSignature);
@@ -103,9 +147,12 @@ async function buildStructure(
     }
   }
   typeToClass.addTypeMember(false, module.createToJSONMethod());
+}
 
-  typeToClass.defineStatementsByPurpose("body", false);
-
+function defineClassCallbacks(
+  typeToClass: MemberedTypeToClass
+): void
+{
   typeToClass.isGeneratorCallback = {
     isGenerator: function(isStatic: boolean, kind: StructureKind.Method, memberName: string): boolean {
       return isStatic === false && memberName === "[STRUCTURE_AND_TYPES_CHILDREN]";
@@ -130,24 +177,39 @@ async function buildStructure(
       return undefined;
     }
   };
+}
 
-  const flattened = FlatInterfaceMap.get(name);
-  assert(flattened);
-  for (const property of flattened.properties) {
-    if (property.hasQuestionToken === false)
-      typeToClass.insertMemberKey(false, property, false, "constructor");
-  }
+function insertConstructorKeys(
+  module: StructureModule,
+  typeToClass: MemberedTypeToClass
+): void
+{
+  const properties = module.getFlatTypeMembers().arrayOfKind(StructureKind.PropertySignature);
+  for (const property of properties) {
+    if (property.hasQuestionToken)
+      continue;
+    if (property.name.startsWith("#"))
+      continue;
+    if (property.typeStructure?.kind === TypeStructureKind.Array)
+      continue;
+    if (property.typeStructure === booleanType)
+      continue;
+    if ((property.typeStructure?.kind === TypeStructureKind.Union) && property.typeStructure.childTypes.includes(TypeStructuresLiteral))
+      continue;
 
-  try {
-    module.classMembersMap = typeToClass.buildClassMembersMap();
-  }
-  catch (ex) {
-    console.error("failed on module " + module.exportName);
-    throw ex;
-  }
+    if (typeToClass.constructorParameters.find(param => param.name === property.name))
+      continue;
 
-  // eslint complains when we say isAsync: boolean = false;
-  module.classMembersMap.arrayOfKind(StructureKind.Property).forEach(
+    typeToClass.insertMemberKey(false, property, false, "constructor");
+  }
+}
+
+// eslint complains when we say isAsync: boolean = false;
+function removeUnnecessaryTypeStructures(
+  classMembersMap: ClassMembersMap
+): void
+{
+  classMembersMap.arrayOfKind(StructureKind.Property).forEach(
     prop => {
       if ((prop.typeStructure === booleanType) && prop.initializer) {
         prop.typeStructure = undefined;
@@ -155,34 +217,14 @@ async function buildStructure(
       else if ((prop.typeStructure === stringType) && prop.initializer && !prop.hasQuestionToken) {
         prop.typeStructure = undefined;
       }
-
-      else if (prop.typeStructure === TypeStructureSetLiteral)
+      else if (prop.typeStructure === TypeStructureSetLiteral) {
         prop.typeStructure = undefined;
+      }
     }
   );
-
-  module.classMembersMap.forEach(
-    classMember => addImportsToModule(module, classMember)
-  );
-
-  publicExports.addExports({
-    pathToExportedModule: module.importManager.absolutePathToModule,
-    isDefaultExport: true,
-    isType: false,
-    exportNames: [module.exportName]
-  });
-
-  await module.saveFile();
-}
-
-function getConstructorParameters(
-  interfaceMembers: TypeMembersMap
-): ParameterDeclarationImpl[]
-{
-  void(interfaceMembers);
-  return [];
 }
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
 const stringType = LiteralTypeStructureImpl.get("string");
+const TypeStructuresLiteral = LiteralTypeStructureImpl.get("TypeStructures");
 const TypeStructureSetLiteral = LiteralTypeStructureImpl.get("TypeStructureSet");

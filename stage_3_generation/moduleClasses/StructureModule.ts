@@ -15,6 +15,7 @@ import {
   SourceFileImpl,
   TupleTypeStructureImpl,
   TypeArgumentedTypeStructureImpl,
+  TypeMembersMap,
   VariableDeclarationImpl,
   VariableStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
@@ -44,6 +45,7 @@ export default class StructureModule extends BaseClassModule
   readonly baseName: string;
   readonly exportName: string;
   readonly #interfaceModule: InterfaceModule;
+  #flatTypeMembers?: TypeMembersMap
 
   constructor(
     baseName: string,
@@ -69,6 +71,22 @@ export default class StructureModule extends BaseClassModule
 
     method.returnTypeStructure = LiteralTypeStructureImpl.get(this.exportName);
     return method;
+  }
+
+  getFlatTypeMembers(): TypeMembersMap
+  {
+    if (this.#flatTypeMembers)
+      return this.#flatTypeMembers;
+
+    const map = new TypeMembersMap;
+    map.addMembers(Array.from(this.#interfaceModule.typeMembers.values()));
+    this.#interfaceModule.extendsSet.forEach(extendsName => {
+      const childInterface = InterfaceModule.decoratorsMap.get(getClassInterfaceName(extendsName))!;
+      map.addMembers(Array.from(childInterface.typeMembers.values()));
+    });
+
+    this.#flatTypeMembers = map;
+    return map;
   }
 
   protected getSourceFileImpl(): SourceFileImpl {
