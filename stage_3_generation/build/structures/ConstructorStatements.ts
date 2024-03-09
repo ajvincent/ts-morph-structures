@@ -40,15 +40,21 @@ class ConstructorStatements extends GetterFilter
     if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL)
       return true;
 
-    if ((key.fieldType === undefined) || (key.isFieldStatic === true))
+    if (key.isFieldStatic === true)
       return false;
     if (key.fieldKey.startsWith("#") || key.fieldKey === "kind" || key.fieldKey.endsWith("Set"))
       return false;
-    if (key.fieldType.kind !== StructureKind.PropertySignature)
-      return false;
-    if (key.fieldType.typeStructure?.kind === TypeStructureKind.Array)
-      return false;
-    return key.fieldType.hasQuestionToken === false;
+    if (key.fieldType) {
+      if (key.fieldType.kind !== StructureKind.PropertySignature)
+        return false;
+      if (key.fieldType.typeStructure?.kind === TypeStructureKind.Array)
+        return false;
+      return key.fieldType.hasQuestionToken === false;
+    }
+
+    if (key.fieldKey !== ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN)
+      console.warn("missing fieldType for constructor: " + this.module.baseName + ":" + key.fieldKey);
+    return false;
   }
 
   getStatements(

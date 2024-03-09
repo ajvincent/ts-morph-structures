@@ -12,6 +12,10 @@ import {
   getTypeAugmentedStructure,
 } from "#stage_two/snapshot/source/exports.js";
 
+import {
+  addAndFlattenInterface
+} from "./FlatInterfaceMap.js";
+
 import TS_MORPH_D from "#utilities/source/ts-morph-d-file.js";
 
 const InterfaceMapInternal = new Map<string, InterfaceDeclarationImpl>;
@@ -53,6 +57,8 @@ export function requireInterface(
         throw ex;
       }
     });
+
+    addAndFlattenInterface(structure);
   }
   return InterfaceMap.get(name)!;
 }

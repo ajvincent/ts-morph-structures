@@ -1,3 +1,5 @@
+import assert from "node:assert/strict";
+
 import {
   Scope,
   StructureKind
@@ -21,6 +23,8 @@ import {
   getStructureNameFromModified,
 } from "#utilities/source/StructureNameTransforms.js";
 
+import modifyTypeMembersForTypeStructures from "../classTools/modifyTypeMembersForTypeStructures.js";
+
 import {
   addImportsToModule,
   InterfaceModule,
@@ -28,7 +32,8 @@ import {
   publicExports,
 } from "../../moduleClasses/exports.js";
 
-import modifyTypeMembersForTypeStructures from "../classTools/modifyTypeMembersForTypeStructures.js";
+import FlatInterfaceMap from "../../vanilla/FlatInterfaceMap.js";
+import initializeTypes from "../../vanilla/initializer.js";
 
 import addReadonlyArrayHandlers from "./addReadonlyArrayHandler.js";
 
@@ -50,6 +55,7 @@ void(DebuggingFilter);
 export default
 async function createStructures(): Promise<void>
 {
+  initializeTypes();
   const names: readonly string[] = Array.from(
     InterfaceModule.structuresMap.keys()
   ).map(getStructureNameFromModified);
@@ -87,7 +93,8 @@ async function buildStructure(
 
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
-  typeToClass.addTypeMember(true, module.createCopyFieldsMethod());
+  const copyFieldsSignature = module.createCopyFieldsMethod();
+  typeToClass.addTypeMember(true, copyFieldsSignature);
   typeToClass.addTypeMember(true, module.createStaticCloneMethod());
   {
     const properties = interfaceMembers.arrayOfKind(StructureKind.PropertySignature);
@@ -123,6 +130,13 @@ async function buildStructure(
       return undefined;
     }
   };
+
+  const flattened = FlatInterfaceMap.get(name);
+  assert(flattened);
+  for (const property of flattened.properties) {
+    if (property.hasQuestionToken === false)
+      typeToClass.insertMemberKey(false, property, false, "constructor");
+  }
 
   try {
     module.classMembersMap = typeToClass.buildClassMembersMap();
