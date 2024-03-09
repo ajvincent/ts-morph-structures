@@ -15,8 +15,8 @@ export interface MemberedStatementsKey
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [fieldKey](./ts-morph-structures.memberedstatementskey.fieldkey.md) | <code>readonly</code> | string |  |
-|  [fieldType](./ts-morph-structures.memberedstatementskey.fieldtype.md) | <code>readonly</code> | ReadonlyDeep&lt;[TypeMemberImpl](./ts-morph-structures.typememberimpl.md)<!-- -->&gt; \| undefined |  |
-|  [groupType](./ts-morph-structures.memberedstatementskey.grouptype.md) | <code>readonly</code> | ReadonlyDeep&lt;[TypeMemberImpl](./ts-morph-structures.typememberimpl.md)<!-- -->&gt; \| undefined |  |
+|  [fieldType](./ts-morph-structures.memberedstatementskey.fieldtype.md) | <code>readonly</code> | [TypeMemberImpl](./ts-morph-structures.typememberimpl.md) \| undefined |  |
+|  [groupType](./ts-morph-structures.memberedstatementskey.grouptype.md) | <code>readonly</code> | [TypeMemberImpl](./ts-morph-structures.typememberimpl.md) \| undefined |  |
 |  [isFieldStatic](./ts-morph-structures.memberedstatementskey.isfieldstatic.md) | <code>readonly</code> | boolean |  |
 |  [isGroupStatic](./ts-morph-structures.memberedstatementskey.isgroupstatic.md) | <code>readonly</code> | boolean |  |
 |  [purpose](./ts-morph-structures.memberedstatementskey.purpose.md) | <code>readonly</code> | string |  |

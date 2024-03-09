@@ -1,5 +1,3 @@
-import type { ReadonlyDeep } from "type-fest";
-
 import type { MemberedStatementsKey, TypeMemberImpl } from "../exports.js";
 
 /** @internal */
@@ -10,16 +8,16 @@ export default class MemberedStatementsKeyClass
   readonly statementGroupKey: string;
   readonly purpose: string;
   readonly isFieldStatic: boolean;
-  readonly fieldType: ReadonlyDeep<TypeMemberImpl> | undefined;
+  readonly fieldType: TypeMemberImpl | undefined;
   readonly isGroupStatic: boolean;
-  readonly groupType: ReadonlyDeep<TypeMemberImpl> | undefined;
+  readonly groupType: TypeMemberImpl | undefined;
 
   constructor(
     fieldKey: string,
     statementGroupKey: string,
     purpose: string,
-    fieldTypeContext?: [boolean, ReadonlyDeep<TypeMemberImpl>],
-    groupTypeContext?: [boolean, ReadonlyDeep<TypeMemberImpl>],
+    fieldTypeContext?: [boolean, TypeMemberImpl],
+    groupTypeContext?: [boolean, TypeMemberImpl],
   ) {
     this.fieldKey = fieldKey;
     this.statementGroupKey = statementGroupKey;

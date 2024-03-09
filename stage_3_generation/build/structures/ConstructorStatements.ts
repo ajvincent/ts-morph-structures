@@ -5,7 +5,6 @@ import {
   MemberedStatementsKey,
   ParameterDeclarationImpl,
   TypeStructureKind,
-  type TypeStructures,
   type stringWriterOrStatementImpl
 } from "#stage_two/snapshot/source/exports.js";
 
@@ -61,7 +60,7 @@ class ConstructorStatements extends GetterFilter
 
     assert(key.fieldType?.kind === StructureKind.PropertySignature);
     const param = new ParameterDeclarationImpl(key.fieldType.name);
-    param.typeStructure = key.fieldType.typeStructure as TypeStructures;
+    param.typeStructure = key.fieldType.typeStructure;
     this.#constructorParameters.push(param);
 
     return [`this.${key.fieldType.name} = ${key.fieldType.name};`];

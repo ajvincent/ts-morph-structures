@@ -4,10 +4,6 @@ import {
   StructureKind
 } from "ts-morph";
 
-import type {
-  ReadonlyDeep
-} from "type-fest";
-
 import {
   InterfaceDeclarationImpl,
   LiteralTypeStructureImpl,
@@ -20,12 +16,12 @@ import TS_MORPH_D from "#utilities/source/ts-morph-d-file.js";
 
 const InterfaceMapInternal = new Map<string, InterfaceDeclarationImpl>;
 
-const InterfaceMap: ReadonlyDeep<Map<string, InterfaceDeclarationImpl>> = InterfaceMapInternal;
+const InterfaceMap: Map<string, InterfaceDeclarationImpl> = InterfaceMapInternal;
 export default InterfaceMap;
 
 export function requireInterface(
   name: string
-): ReadonlyDeep<InterfaceDeclarationImpl>
+): InterfaceDeclarationImpl
 {
   if (!InterfaceMapInternal.has(name)) {
     const node = TS_MORPH_D.getInterfaceOrThrow(name);

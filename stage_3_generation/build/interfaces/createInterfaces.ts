@@ -120,7 +120,7 @@ function addInterface(
 ): void
 {
   const structureInterface = InterfaceDeclarationImpl.clone(
-    InterfaceMap.get(name) as InterfaceDeclarationImpl
+    InterfaceMap.get(name)!
   );
 
   for (const extendsValue of structureInterface.extendsSet) {

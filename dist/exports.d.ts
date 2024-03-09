@@ -1,7 +1,7 @@
 import * as ts_morph from 'ts-morph';
 import { OptionalKind, Structures, WriterFunction, TypeNode, Node, StructureKind, KindedStructure, CodeBlockWriter, JsxNamespacedNameStructure, ModuleDeclarationKind, Scope, TypeParameterVariance, VariableDeclarationKind, TypeParameterDeclarationStructure, DecoratorStructure, ParameterDeclarationStructure, JSDocStructure, CallSignatureDeclarationStructure, ClassDeclarationStructure, ClassStaticBlockDeclarationStructure, ConstructorDeclarationStructure, ConstructorDeclarationOverloadStructure, ConstructSignatureDeclarationStructure, EnumDeclarationStructure, EnumMemberStructure, ExportAssignmentStructure, ExportDeclarationStructure, ExportSpecifierStructure, FunctionDeclarationStructure, FunctionDeclarationOverloadStructure, GetAccessorDeclarationStructure, ImportAttributeStructure, ImportDeclarationStructure, ImportSpecifierStructure, IndexSignatureDeclarationStructure, InterfaceDeclarationStructure, JSDocTagStructure, JsxAttributeStructure, JsxElementStructure, JsxSelfClosingElementStructure, JsxSpreadAttributeStructure, MethodDeclarationStructure, MethodDeclarationOverloadStructure, MethodSignatureStructure, ModuleDeclarationStructure, PropertyAssignmentStructure, PropertyDeclarationStructure, PropertySignatureStructure, SetAccessorDeclarationStructure, ShorthandPropertyAssignmentStructure, SourceFileStructure, SpreadAssignmentStructure, TypeAliasDeclarationStructure, VariableDeclarationStructure, VariableStatementStructure } from 'ts-morph';
 import * as mixin_decorators from 'mixin-decorators';
-import { Writable, Simplify, ReadonlyDeep } from 'type-fest';
+import { Writable, Simplify } from 'type-fest';
 
 declare const COPY_FIELDS: unique symbol;
 declare const REPLACE_WRITER_WITH_STRING: unique symbol;
@@ -2254,10 +2254,10 @@ interface MemberedStatementsKey {
   readonly purpose: string;
 
   readonly isFieldStatic: boolean;
-  readonly fieldType: ReadonlyDeep<TypeMemberImpl> | undefined;
+  readonly fieldType: TypeMemberImpl | undefined;
 
   readonly isGroupStatic: boolean;
-  readonly groupType: ReadonlyDeep<TypeMemberImpl> | undefined;
+  readonly groupType: TypeMemberImpl | undefined;
 }
 
 type ClassMemberQuestion<

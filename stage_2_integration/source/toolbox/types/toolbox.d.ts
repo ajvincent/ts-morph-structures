@@ -4,10 +4,6 @@ import type {
 } from "ts-morph";
 
 import type {
-  ReadonlyDeep
-} from "type-fest";
-
-import type {
   CallSignatureDeclarationImpl,
   ConstructorDeclarationImpl,
   ConstructSignatureDeclarationImpl,
@@ -79,10 +75,10 @@ export interface MemberedStatementsKey {
   readonly purpose: string;
 
   readonly isFieldStatic: boolean;
-  readonly fieldType: ReadonlyDeep<TypeMemberImpl> | undefined;
+  readonly fieldType: TypeMemberImpl | undefined;
 
   readonly isGroupStatic: boolean;
-  readonly groupType: ReadonlyDeep<TypeMemberImpl> | undefined;
+  readonly groupType: TypeMemberImpl | undefined;
 }
 
 type ClassMemberQuestion<

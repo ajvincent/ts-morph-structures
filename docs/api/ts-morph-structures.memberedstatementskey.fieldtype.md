@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-readonly fieldType: ReadonlyDeep<TypeMemberImpl> | undefined;
+readonly fieldType: TypeMemberImpl | undefined;
 ```

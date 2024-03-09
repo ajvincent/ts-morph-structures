@@ -6,10 +6,6 @@ import {
   WriterFunction
 } from "ts-morph";
 
-import type {
-  ReadonlyDeep,
-} from "type-fest";
-
 import {
   ClassFieldStatementsMap,
   MemberedStatementsKey,
@@ -126,7 +122,7 @@ export default class ToJSONStatements extends GetterFilter
   }
 
   static #hasWriter(
-    typeStructure: ReadonlyDeep<TypeStructures>
+    typeStructure: TypeStructures
   ): boolean
   {
     switch (typeStructure.kind) {

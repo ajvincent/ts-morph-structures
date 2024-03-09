@@ -9,10 +9,6 @@ import {
   WriterFunction,
 } from "ts-morph";
 
-import type {
-  ReadonlyDeep,
-} from "type-fest";
-
 import {
   ArrayTypeStructureImpl,
   ClassFieldStatementsMap,
@@ -127,8 +123,8 @@ export default class CopyFieldsStatements extends GetterFilter
 
   //#region literal type
   #getStatementsForLiteralType(
-    fieldType: ReadonlyDeep<PropertySignatureImpl>,
-    typeStructure: ReadonlyDeep<LiteralTypeStructureImpl>
+    fieldType: PropertySignatureImpl,
+    typeStructure: LiteralTypeStructureImpl
   ): readonly stringOrWriterFunction[]
   {
     let statement: stringOrWriterFunction;
@@ -211,8 +207,8 @@ export default class CopyFieldsStatements extends GetterFilter
   //#endregion literal type
 
   #getStatementsForArrayType(
-    fieldType: ReadonlyDeep<PropertySignatureImpl>,
-    objectType: ReadonlyDeep<TypeStructures>
+    fieldType: PropertySignatureImpl,
+    objectType: TypeStructures
   ): readonly stringWriterOrStatementImpl[]
   {
     const { name } = fieldType;
@@ -239,7 +235,7 @@ export default class CopyFieldsStatements extends GetterFilter
     const types = objectType.kind === TypeStructureKind.Union ? objectType.childTypes : [objectType];
     assert(types.every(t => t.kind === TypeStructureKind.Literal), `unexpected type for ${this.module.baseName}:${fieldType.name}`);
 
-    const childTypes = types as readonly ReadonlyDeep<LiteralTypeStructureImpl>[];
+    const childTypes = types as readonly LiteralTypeStructureImpl[];
 
     let generatedClassName = "";
 
@@ -292,7 +288,7 @@ export default class CopyFieldsStatements extends GetterFilter
           "StructureKind",
           generatedStructureKind
         ]),
-        objectType as TypeStructures
+        objectType
       ],
       parameters: [
         `StructureKind.${generatedStructureKind}`,
@@ -323,8 +319,8 @@ export default class CopyFieldsStatements extends GetterFilter
   }
 
   #getStatementsForUnionType(
-    fieldType: ReadonlyDeep<PropertySignatureImpl>,
-    childTypes: ReadonlyDeep<TypeStructures[]>
+    fieldType: PropertySignatureImpl,
+    childTypes: TypeStructures[]
   ): readonly stringWriterOrStatementImpl[]
   {
     void(fieldType);

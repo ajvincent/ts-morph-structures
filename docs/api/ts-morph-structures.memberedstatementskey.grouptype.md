@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-readonly groupType: ReadonlyDeep<TypeMemberImpl> | undefined;
+readonly groupType: TypeMemberImpl | undefined;
 ```
