@@ -47,6 +47,7 @@ import TypeStructureSetStatements from "../fieldStatements/TypeStructures/TypeSt
 import TypeArrayStatements from "../fieldStatements/TypeStructures/ArrayGetter.js";
 
 import DebuggingFilter from "../fieldStatements/Debugging.js";
+import { COPY_FIELDS_NAME } from "../constants.js";
 
 void(ClassFieldStatementsMap);
 void(DebuggingFilter);
@@ -84,6 +85,8 @@ async function buildStructure(
   defineClassCallbacks(typeToClass);
   insertConstructorKeys(module, typeToClass);
 
+  typeToClass.constructorParameters.sort((a, b) => a.name.localeCompare(b.name));
+
   try {
     module.classMembersMap = typeToClass.buildClassMembersMap();
   }
@@ -93,6 +96,7 @@ async function buildStructure(
   }
 
   removeUnnecessaryTypeStructures(module.classMembersMap);
+  removeUnnecessaryMethods(module.classMembersMap);
   module.classMembersMap.forEach(
     classMember => addImportsToModule(module, classMember)
   );
@@ -137,7 +141,7 @@ function defineImplMethods(
 ): void
 {
 
-  const copyFieldsSignature = module.createCopyFieldsMethod();
+  const copyFieldsSignature = module.createCopyFieldsMethod(true);
   typeToClass.addTypeMember(true, copyFieldsSignature);
   typeToClass.addTypeMember(true, module.createStaticCloneMethod());
   {
@@ -217,14 +221,25 @@ function removeUnnecessaryTypeStructures(
       else if ((prop.typeStructure === stringType) && prop.initializer && !prop.hasQuestionToken) {
         prop.typeStructure = undefined;
       }
-      else if (prop.typeStructure === TypeStructureSetLiteral) {
-        prop.typeStructure = undefined;
-      }
     }
   );
+}
+
+function removeUnnecessaryMethods(
+  classMembersMap: ClassMembersMap
+): void
+{
+  const ctor = classMembersMap.getAsKind(StructureKind.Constructor, false, "constructor");
+  if ((ctor?.statements.length === 1) && (ctor.statements[0] === "super();") && (ctor.parameters.length === 0)) {
+    classMembersMap.delete("constructor");
+  }
+
+  const copyFieldsMethod = classMembersMap.getAsKind(StructureKind.Method, true, "[COPY_FIELDS]");
+  if (copyFieldsMethod?.statements.length === 1) {
+    classMembersMap.delete(COPY_FIELDS_NAME);
+  }
 }
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
 const stringType = LiteralTypeStructureImpl.get("string");
 const TypeStructuresLiteral = LiteralTypeStructureImpl.get("TypeStructures");
-const TypeStructureSetLiteral = LiteralTypeStructureImpl.get("TypeStructureSet");

@@ -61,7 +61,7 @@ async function buildDecorator(
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
   // stage two sorts the type members... we don't.
-  typeToClass.addTypeMember(true, module.createCopyFieldsMethod());
+  typeToClass.addTypeMember(true, module.createCopyFieldsMethod(false));
   {
     const properties = interfaceMembers.arrayOfKind(StructureKind.PropertySignature);
     if (properties.some(prop => /^#.*Manager$/.test(prop.name))) {

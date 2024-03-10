@@ -5,6 +5,7 @@ import {
 import {
   MemberedTypeToClass,
   PropertySignatureImpl,
+  TypeStructureKind,
   type TypeMembersMap,
 } from "#stage_two/snapshot/source/exports.js";
 
@@ -23,6 +24,8 @@ export default function addReadonlyArrayHandlers(
   const properties = interfaceMembers.arrayOfKind(StructureKind.PropertySignature);
   const { baseName } = module;
   properties.forEach(property => {
+    if (property.typeStructure?.kind !== TypeStructureKind.Array)
+      return;
     const hash = baseName + ":" + property.name;
     if (PropertyHashesWithTypes.has(hash)) {
       const handler = new PropertySignatureImpl(`#${property.name}ArrayReadonlyHandler`);

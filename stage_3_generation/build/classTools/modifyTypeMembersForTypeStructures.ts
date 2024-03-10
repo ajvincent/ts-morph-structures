@@ -38,6 +38,7 @@ function convertTypeToAccessors(
     const proxyArray = PropertySignatureImpl.clone(property);
     proxyArray.name = `#${property.name}ProxyArray`;
     proxyArray.docs.splice(0);
+    proxyArray.typeStructure = undefined;
 
     map.convertPropertyToAccessors(property.name, true, false);
 

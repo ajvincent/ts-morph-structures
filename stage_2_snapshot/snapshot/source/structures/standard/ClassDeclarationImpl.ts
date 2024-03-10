@@ -10,6 +10,7 @@ import type {
   stringOrWriterFunction,
   StructureImpls,
   TypeStructures,
+  TypeStructureSet,
 } from "../../exports.js";
 import {
   type AbstractableNodeStructureFields,
@@ -98,7 +99,7 @@ export default class ClassDeclarationImpl
   );
   readonly ctors: ConstructorDeclarationImpl[] = [];
   readonly getAccessors: GetAccessorDeclarationImpl[] = [];
-  readonly implementsSet = new TypeStructureSetInternal(
+  readonly implementsSet: TypeStructureSet = new TypeStructureSetInternal(
     this.#implements_ShadowArray,
   );
   readonly methods: MethodDeclarationImpl[] = [];

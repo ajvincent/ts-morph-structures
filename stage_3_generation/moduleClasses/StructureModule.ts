@@ -63,10 +63,15 @@ export default class StructureModule extends BaseClassModule
 
   createStaticCloneMethod(): MethodSignatureImpl
   {
+    this.addImports("ts-morph", [], ["OptionalKind"]);
     const method = new MethodSignatureImpl("clone");
 
     const sourceParam = new ParameterDeclarationImpl("source");
-    sourceParam.typeStructure = LiteralTypeStructureImpl.get(this.baseName);
+    sourceParam.typeStructure = new TypeArgumentedTypeStructureImpl(
+      LiteralTypeStructureImpl.get("OptionalKind"),
+      [LiteralTypeStructureImpl.get(this.baseName)]
+    );
+
     method.parameters.push(sourceParam);
 
     method.returnTypeStructure = LiteralTypeStructureImpl.get(this.exportName);

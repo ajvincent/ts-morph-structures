@@ -140,6 +140,7 @@ function addTypeStructureSet(
 
   const typeStructureSetProp = new PropertyDeclarationImpl(`${propertyKey}Set`);
   typeStructureSetProp.isReadonly = true;
+  typeStructureSetProp.typeStructure = ConstantTypeStructures.TypeStructureSet;
   parts.classFieldsStatements.set(
     ClassMembersMap.keyFromMember(typeStructureSetProp),
     ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
@@ -182,7 +183,7 @@ function addTypeStructureSet(
 
   // add the necessary interface to the class
   const typeProperty = new PropertySignatureImpl(typeStructureSetProp.name);
-  typeProperty.typeStructure = new LiteralTypedStructureImpl("TypeStructureSet");
+  typeProperty.typeStructure = ConstantTypeStructures.TypeStructureSet;
   typeProperty.isReadonly = true;
   parts.classImplementsMap.addMembers([typeProperty]);
 
@@ -198,6 +199,14 @@ function addTypeStructureSet(
   typeDocs.description = `Treat this as a read-only array.  Use \`.${typeStructureSetProp.name}\` to modify this.`;
 
   parts.implementsImports.addImports({
+    pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
+    isPackageImport: false,
+    isDefaultImport: false,
+    isTypeOnly: true,
+    importNames: ["TypeStructureSet"]
+  });
+
+  parts.importsManager.addImports({
     pathToImportedModule: dictionaries.publicExports.absolutePathToExportFile,
     isPackageImport: false,
     isDefaultImport: false,

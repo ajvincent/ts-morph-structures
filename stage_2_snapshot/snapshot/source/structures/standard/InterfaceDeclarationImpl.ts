@@ -11,6 +11,7 @@ import type {
   stringOrWriterFunction,
   StructureImpls,
   TypeStructures,
+  TypeStructureSet,
 } from "../../exports.js";
 import {
   type AmbientableNodeStructureFields,
@@ -88,7 +89,9 @@ export default class InterfaceDeclarationImpl
   );
   readonly callSignatures: CallSignatureDeclarationImpl[] = [];
   readonly constructSignatures: ConstructSignatureDeclarationImpl[] = [];
-  readonly extendsSet = new TypeStructureSetInternal(this.#extends_ShadowArray);
+  readonly extendsSet: TypeStructureSet = new TypeStructureSetInternal(
+    this.#extends_ShadowArray,
+  );
   readonly getAccessors: GetAccessorDeclarationImpl[] = [];
   readonly indexSignatures: IndexSignatureDeclarationImpl[] = [];
   readonly methods: MethodSignatureImpl[] = [];

@@ -30,33 +30,6 @@ interface TypeStructureSet extends Set<TypeStructures> {
      */
     cloneFromTypeStructureSet(other: TypeStructureSet): void;
 }
-/**
- * This supports setting "implements" and "extends" types for arrays behind read-only array
- * proxies.  The goal is to manage type structures and writer functions in one place,
- * where direct array access is troublesome (particularly, "write access").
- *
- * @internal
- */
-declare class TypeStructureSetInternal extends Set<TypeStructures> implements TypeStructureSet {
-    #private;
-    /**
-     * @param backingArray - The (non-proxied) array to update when changes happen.
-     */
-    constructor(backingArray: stringOrWriterFunction[]);
-    add(value: TypeStructures): this;
-    clear(): void;
-    delete(value: TypeStructures): boolean;
-    /**
-     * Replace all the types this set managers with those from another array.
-     * @param array - the types to add.
-     */
-    replaceFromTypeArray(array: (string | WriterFunction)[]): void;
-    /**
-     * Replace all the type structures this set managers with those from another set.
-     * @param other - the type structure set to copy
-     */
-    cloneFromTypeStructureSet(other: TypeStructureSet): void;
-}
 
 interface NodeWithStructures extends Node {
   getStructure(): Structures;
@@ -1049,7 +1022,7 @@ declare class ClassDeclarationImpl extends ClassDeclarationStructureBase impleme
     readonly kind: StructureKind.Class;
     readonly ctors: ConstructorDeclarationImpl[];
     readonly getAccessors: GetAccessorDeclarationImpl[];
-    readonly implementsSet: TypeStructureSetInternal;
+    readonly implementsSet: TypeStructureSet;
     readonly methods: MethodDeclarationImpl[];
     readonly properties: PropertyDeclarationImpl[];
     readonly setAccessors: SetAccessorDeclarationImpl[];
@@ -1375,7 +1348,7 @@ declare class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase
     readonly kind: StructureKind.Interface;
     readonly callSignatures: CallSignatureDeclarationImpl[];
     readonly constructSignatures: ConstructSignatureDeclarationImpl[];
-    readonly extendsSet: TypeStructureSetInternal;
+    readonly extendsSet: TypeStructureSet;
     readonly getAccessors: GetAccessorDeclarationImpl[];
     readonly indexSignatures: IndexSignatureDeclarationImpl[];
     readonly methods: MethodSignatureImpl[];

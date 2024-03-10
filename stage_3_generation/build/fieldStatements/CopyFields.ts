@@ -83,10 +83,11 @@ export default class CopyFieldsStatements extends GetterFilter
     }
 
     assert(key.fieldType?.kind === StructureKind.PropertySignature, "not a property?");
-    assert(key.fieldType.typeStructure, "no type structure?");
 
     if (key.fieldType.name.startsWith("#"))
       return [];
+
+    assert(key.fieldType.typeStructure, "no type structure?");
 
     switch (key.fieldType.typeStructure.kind) {
       case TypeStructureKind.Literal:

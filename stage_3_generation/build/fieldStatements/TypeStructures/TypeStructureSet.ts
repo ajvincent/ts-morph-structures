@@ -42,6 +42,7 @@ class TypeStructureSetStatements extends GetterFilter
     assert(key.fieldType?.kind === StructureKind.PropertySignature);
     const propBase: string = key.fieldType.name.replace(/Set$/, "");
 
+    this.module.addImports("public", [], ["TypeStructureSet"]);
     this.module.addImports("internal", ["TypeStructureSetInternal"], []);
     return [
       new CallExpressionStatementImpl({
