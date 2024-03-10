@@ -693,7 +693,7 @@ const A: string;
     expect(structure.qualifier!.kind).toBe(TypeStructureKind.Literal);
     expect((structure.qualifier as LiteralTypedStructureImpl).stringValue).toBe("NumberStringType");
     expect(structure.childTypes.length).toBe(1);
-    const typeArg = structure.childTypes[0]!;
+    const typeArg = structure.childTypes[0];
     expect(typeArg.kind).toBe(TypeStructureKind.Literal);
     if (typeArg.kind === TypeStructureKind.Literal) {
       expect(typeArg.stringValue).toBe("foo");

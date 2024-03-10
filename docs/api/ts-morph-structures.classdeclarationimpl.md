@@ -33,6 +33,7 @@ export default class ClassDeclarationImpl implements ClassDeclarationStructureCl
 |  [name?](./ts-morph-structures.classdeclarationimpl.name.md) |  | string \| undefined | _(Optional)_ |
 |  [properties](./ts-morph-structures.classdeclarationimpl.properties.md) | <code>readonly</code> | [PropertyDeclarationImpl](./ts-morph-structures.propertydeclarationimpl.md)<!-- -->\[\] |  |
 |  [setAccessors](./ts-morph-structures.classdeclarationimpl.setaccessors.md) | <code>readonly</code> | [SetAccessorDeclarationImpl](./ts-morph-structures.setaccessordeclarationimpl.md)<!-- -->\[\] |  |
+|  [staticBlocks](./ts-morph-structures.classdeclarationimpl.staticblocks.md) | <code>readonly</code> | [ClassStaticBlockDeclarationImpl](./ts-morph-structures.classstaticblockdeclarationimpl.md)<!-- -->\[\] |  |
 |  [trailingTrivia](./ts-morph-structures.classdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [typeParameters](./ts-morph-structures.classdeclarationimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
 

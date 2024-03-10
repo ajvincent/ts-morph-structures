@@ -187,6 +187,7 @@
 - name?: string; The class name.
 - properties?: OptionalKind<[PropertyDeclarationStructure](#propertydeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - setAccessors?: OptionalKind<[SetAccessorDeclarationStructure](#setaccessordeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
+- staticBlocks?: OptionalKind<[ClassStaticBlockDeclarationStructure](#classstaticblockdeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - trailingTrivia?: string \| WriterFunction \| (string \| WriterFunction)[]; Trailing comments or whitespace.  From [Structure](#structure).
 - typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
@@ -198,6 +199,7 @@
 - methods?: OptionalKind<[MethodDeclarationStructure](#methoddeclarationstructure)>[];
 - properties?: OptionalKind<[PropertyDeclarationStructure](#propertydeclarationstructure)>[];
 - setAccessors?: OptionalKind<[SetAccessorDeclarationStructure](#setaccessordeclarationstructure)>[];
+- staticBlocks?: OptionalKind<[ClassStaticBlockDeclarationStructure](#classstaticblockdeclarationstructure)>[];
 
 ### ClassLikeDeclarationBaseStructure
 
@@ -212,6 +214,7 @@
 - name?: string;   From [NameableNodeStructure](#nameablenodestructure).
 - properties?: OptionalKind<[PropertyDeclarationStructure](#propertydeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - setAccessors?: OptionalKind<[SetAccessorDeclarationStructure](#setaccessordeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
+- staticBlocks?: OptionalKind<[ClassStaticBlockDeclarationStructure](#classstaticblockdeclarationstructure)>[];   From [ClassLikeDeclarationBaseSpecificStructure](#classlikedeclarationbasespecificstructure).
 - typeParameters?: (OptionalKind<[TypeParameterDeclarationStructure](#typeparameterdeclarationstructure)> \| string)[];   From [TypeParameteredNodeStructure](#typeparameterednodestructure).
 
 ### ClassMemberStructures

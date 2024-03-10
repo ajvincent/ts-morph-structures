@@ -24,4 +24,5 @@ export interface ClassDeclarationStructureClassIfc
 |  [methods](./ts-morph-structures.classdeclarationstructureclassifc.methods.md) | <code>readonly</code> | [MethodDeclarationImpl](./ts-morph-structures.methoddeclarationimpl.md)<!-- -->\[\] |  |
 |  [properties](./ts-morph-structures.classdeclarationstructureclassifc.properties.md) | <code>readonly</code> | [PropertyDeclarationImpl](./ts-morph-structures.propertydeclarationimpl.md)<!-- -->\[\] |  |
 |  [setAccessors](./ts-morph-structures.classdeclarationstructureclassifc.setaccessors.md) | <code>readonly</code> | [SetAccessorDeclarationImpl](./ts-morph-structures.setaccessordeclarationimpl.md)<!-- -->\[\] |  |
+|  [staticBlocks](./ts-morph-structures.classdeclarationstructureclassifc.staticblocks.md) | <code>readonly</code> | [ClassStaticBlockDeclarationImpl](./ts-morph-structures.classstaticblockdeclarationimpl.md)<!-- -->\[\] |  |
 

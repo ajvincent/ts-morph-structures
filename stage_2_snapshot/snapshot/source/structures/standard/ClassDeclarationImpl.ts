@@ -1,6 +1,7 @@
 //#region preamble
 import type {
   ClassDeclarationStructureClassIfc,
+  ClassStaticBlockDeclarationImpl,
   ConstructorDeclarationImpl,
   GetAccessorDeclarationImpl,
   MethodDeclarationImpl,
@@ -43,6 +44,7 @@ import {
 import MultiMixinBuilder from "mixin-decorators";
 import {
   type ClassDeclarationStructure,
+  type ClassStaticBlockDeclarationStructure,
   type ConstructorDeclarationStructure,
   type GetAccessorDeclarationStructure,
   type MethodDeclarationStructure,
@@ -102,6 +104,7 @@ export default class ClassDeclarationImpl
   readonly methods: MethodDeclarationImpl[] = [];
   readonly properties: PropertyDeclarationImpl[] = [];
   readonly setAccessors: SetAccessorDeclarationImpl[] = [];
+  readonly staticBlocks: ClassStaticBlockDeclarationImpl[] = [];
 
   get extends(): stringOrWriterFunction | undefined {
     return this.#extendsManager.type;
@@ -206,6 +209,19 @@ export default class ClassDeclarationImpl
         ),
       );
     }
+
+    if (source.staticBlocks) {
+      target.staticBlocks.push(
+        ...StructureClassesMap.cloneArrayWithKind<
+          ClassStaticBlockDeclarationStructure,
+          StructureKind.ClassStaticBlock,
+          ClassStaticBlockDeclarationImpl
+        >(
+          StructureKind.ClassStaticBlock,
+          StructureClassesMap.forceArray(source.staticBlocks),
+        ),
+      );
+    }
   }
 
   public static clone(
@@ -244,6 +260,7 @@ export default class ClassDeclarationImpl
     rv.methods = this.methods;
     rv.properties = this.properties;
     rv.setAccessors = this.setAccessors;
+    rv.staticBlocks = this.staticBlocks;
     return rv;
   }
 }

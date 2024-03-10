@@ -159,7 +159,7 @@ export class StructureImplMeta extends BaseMetadata implements MetaImplementatio
     try {
       super.addField(propertyName, isArray, propertyValue);
       if ((propertyName === "kind") && !this.structureKindName) {
-        this.structureKindName = propertyValue.otherTypes[0]!.tsmorph_Type!.replace("StructureKind.", "");
+        this.structureKindName = propertyValue.otherTypes[0].tsmorph_Type!.replace("StructureKind.", "");
       }
     }
     catch (ex) {

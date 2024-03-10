@@ -235,6 +235,7 @@ interface ClassDeclarationStructureClassIfc {
   readonly methods: MethodDeclarationImpl[];
   readonly properties: PropertyDeclarationImpl[];
   readonly setAccessors: SetAccessorDeclarationImpl[];
+  readonly staticBlocks: ClassStaticBlockDeclarationImpl[];
 }
 
 interface ClassStaticBlockDeclarationStructureClassIfc {
@@ -1052,6 +1053,7 @@ declare class ClassDeclarationImpl extends ClassDeclarationStructureBase impleme
     readonly methods: MethodDeclarationImpl[];
     readonly properties: PropertyDeclarationImpl[];
     readonly setAccessors: SetAccessorDeclarationImpl[];
+    readonly staticBlocks: ClassStaticBlockDeclarationImpl[];
     get extends(): stringOrWriterFunction | undefined;
     set extends(value: stringOrWriterFunction | undefined);
     get extendsStructure(): TypeStructures | undefined;

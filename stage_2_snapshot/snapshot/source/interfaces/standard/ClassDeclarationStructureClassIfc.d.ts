@@ -1,4 +1,5 @@
 import type {
+  ClassStaticBlockDeclarationImpl,
   ConstructorDeclarationImpl,
   GetAccessorDeclarationImpl,
   MethodDeclarationImpl,
@@ -22,4 +23,5 @@ export interface ClassDeclarationStructureClassIfc {
   readonly methods: MethodDeclarationImpl[];
   readonly properties: PropertyDeclarationImpl[];
   readonly setAccessors: SetAccessorDeclarationImpl[];
+  readonly staticBlocks: ClassStaticBlockDeclarationImpl[];
 }

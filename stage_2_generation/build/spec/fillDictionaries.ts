@@ -55,7 +55,7 @@ it("fillDictionaries works", () => {
     }
 
     expect(Array.from(structureDef.structureFieldArrays.keys()).sort()).toEqual([
-      "ctors", "getAccessors", "implements", "methods", "properties", "setAccessors"
+      "ctors", "getAccessors", "implements", "methods", "properties", "setAccessors", "staticBlocks"
     ]);
 
     const ctors = structureDef.structureFieldArrays.get("ctors");

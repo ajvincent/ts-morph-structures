@@ -2042,6 +2042,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
     methods = [];
     properties = [];
     setAccessors = [];
+    staticBlocks = [];
     get extends() {
         return this.#extendsManager.type;
     }
@@ -2092,6 +2093,9 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
         if (source.setAccessors) {
             target.setAccessors.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.SetAccessor, StructureClassesMap.forceArray(source.setAccessors)));
         }
+        if (source.staticBlocks) {
+            target.staticBlocks.push(...StructureClassesMap.cloneArrayWithKind(StructureKind.ClassStaticBlock, StructureClassesMap.forceArray(source.staticBlocks)));
+        }
     }
     static clone(source) {
         const target = new _a$4();
@@ -2125,6 +2129,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
         rv.methods = this.methods;
         rv.properties = this.properties;
         rv.setAccessors = this.setAccessors;
+        rv.staticBlocks = this.staticBlocks;
         return rv;
     }
 }
@@ -5391,19 +5396,19 @@ class ImportManager {
             if (!isTypeOnly) {
                 this.#moveTypeOnlyToSpecifiers(importDecl);
             }
-            importNames.forEach((nameToImport) => {
+            for (const nameToImport of importNames) {
                 let specifier = this.#knownSpecifiersMap.get(nameToImport);
                 if (specifier) {
                     if (!isTypeOnly)
                         specifier.isTypeOnly = false;
-                    return;
+                    continue;
                 }
                 specifier = new ImportSpecifierImpl(nameToImport);
                 if (isTypeOnly && !importDecl.isTypeOnly)
                     specifier.isTypeOnly = isTypeOnly;
                 importDecl.namedImports.push(specifier);
                 this.#knownSpecifiersMap.set(nameToImport, specifier);
-            });
+            }
         }
     }
     #moveTypeOnlyToSpecifiers(importDecl) {

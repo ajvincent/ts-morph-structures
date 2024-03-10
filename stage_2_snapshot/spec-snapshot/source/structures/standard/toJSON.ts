@@ -82,6 +82,7 @@ it("toJSON() generally works", () => {
     getAccessors: [],
     setAccessors: [],
     methods: classDecl.methods,
+    staticBlocks: [],
     leadingTrivia: [],
     trailingTrivia: [],
   });

@@ -120,11 +120,8 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   checkMap("stage_utilities/WeakRefSet.ts");
   checkMap("grab-bag.ts");
 
-  // Unreachable structure kinds via sourceFile.getStructure(), as of ts-morph 21.0.1
+  // Unreachable structure kinds via sourceFile.getStructure(), as of ts-morph 22.0.0
   {
-    expect(remainingKeys.has(StructureKind.ClassStaticBlock)).toBe(true);
-    remainingKeys.delete(StructureKind.ClassStaticBlock);
-
     expect(remainingKeys.has(StructureKind.PropertyAssignment)).toBe(true);
     remainingKeys.delete(StructureKind.PropertyAssignment);
 
@@ -139,7 +136,7 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
      and is still experimental, per https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
      For that reason, I'm not going to support it right now (2024-01-12).
   */
-  expect(remainingKeys.has(StructureKind.ImportAttribute)).toBe(true);
+  expect(remainingKeys.has(StructureKind.ImportAttribute)).withContext("ImportAttibute").toBe(true);
   remainingKeys.delete(StructureKind.ImportAttribute);
 
   let remainingKinds = Array.from(remainingKeys.keys()).map(

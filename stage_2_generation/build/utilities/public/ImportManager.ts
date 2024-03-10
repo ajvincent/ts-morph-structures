@@ -133,20 +133,20 @@ export default class ImportManager
       if (!isTypeOnly) {
         this.#moveTypeOnlyToSpecifiers(importDecl);
       }
-      importNames.forEach(nameToImport => {
+      for (const nameToImport of importNames) {
         let specifier: ImportSpecifierImpl | undefined = this.#knownSpecifiersMap.get(nameToImport);
         if (specifier) {
           if (!isTypeOnly)
             specifier.isTypeOnly = false;
-          return;
+          continue;
         }
 
         specifier = new ImportSpecifierImpl(nameToImport);
-        if (isTypeOnly && !(importDecl!.isTypeOnly))
+        if (isTypeOnly && !(importDecl.isTypeOnly))
           specifier.isTypeOnly = isTypeOnly;
-        importDecl!.namedImports.push(specifier);
+        importDecl.namedImports.push(specifier);
         this.#knownSpecifiersMap.set(nameToImport, specifier);
-      });
+      }
     }
   }
 
