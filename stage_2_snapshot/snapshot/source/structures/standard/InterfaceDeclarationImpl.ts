@@ -103,6 +103,7 @@ export default class InterfaceDeclarationImpl
     this.name = name;
   }
 
+  /** Treat this as a read-only array.  Use `.extendsSet` to modify this. */
   get extends(): stringOrWriterFunction[] {
     return this.#extendsProxyArray;
   }

@@ -4,6 +4,8 @@
 
 ## InterfaceDeclarationImpl.extends property
 
+Treat this as a read-only array. Use `.extendsSet` to modify this.
+
 **Signature:**
 
 ```typescript

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 
 import {
   ClassFieldStatementsMap,
+  LiteralTypeStructureImpl,
   MemberedStatementsKey,
   ParameterDeclarationImpl,
   TypeStructureKind,
@@ -48,6 +49,8 @@ class ConstructorStatements extends GetterFilter
       if (key.fieldType.kind !== StructureKind.PropertySignature)
         return false;
       if (key.fieldType.typeStructure?.kind === TypeStructureKind.Array)
+        return false;
+      if (key.fieldType.typeStructure === LiteralTypeStructureImpl.get("boolean"))
         return false;
       return key.fieldType.hasQuestionToken === false;
     }

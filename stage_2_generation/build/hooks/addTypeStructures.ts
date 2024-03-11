@@ -193,9 +193,8 @@ function addTypeStructureSet(
   originalTypeArraySignature.isReadonly = true;
 
   const typeDocs = new JSDocImpl();
-  originalTypeArraySignature.docs.push(
-    typeDocs
-  );
+  originalTypeArraySignature.docs.push(typeDocs);
+  typeGetter.docs.push(typeDocs);
   typeDocs.description = `Treat this as a read-only array.  Use \`.${typeStructureSetProp.name}\` to modify this.`;
 
   parts.implementsImports.addImports({

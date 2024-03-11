@@ -6,6 +6,7 @@ import {
 } from "ts-morph";
 
 import {
+  ClassFieldStatementsMap,
   type ClassMemberImpl,
   LiteralTypeStructureImpl,
   MemberedTypeToClass,
@@ -33,6 +34,11 @@ import {
   internalExports,
 } from "../../moduleClasses/exports.js";
 
+import DebuggingFilter from "../fieldStatements/Debugging.js";
+
+void(ClassFieldStatementsMap);
+void(DebuggingFilter);
+
 export default
 async function createDecorators(): Promise<void>
 {
@@ -53,7 +59,7 @@ async function buildDecorator(
   )!.typeMembers.clone();
   assert(interfaceMembers.size > 0, "Empty interface?  Or was it just consumed?  " + name);
 
-  modifyTypeMembersForTypeStructures(name, interfaceMembers);
+  const replacedProperties = modifyTypeMembersForTypeStructures(name, interfaceMembers);
 
   const router = new StatementsRouter(module);
 
@@ -61,7 +67,11 @@ async function buildDecorator(
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
   // stage two sorts the type members... we don't.
-  typeToClass.addTypeMember(true, module.createCopyFieldsMethod(false));
+  const copyFieldsMethod = module.createCopyFieldsMethod(false);
+  typeToClass.addTypeMember(true, copyFieldsMethod);
+  replacedProperties.forEach(prop => {
+    typeToClass.insertMemberKey(false, prop, true, copyFieldsMethod);
+  });
   {
     const properties = interfaceMembers.arrayOfKind(StructureKind.PropertySignature);
     if (properties.some(prop => /^#.*Manager$/.test(prop.name))) {

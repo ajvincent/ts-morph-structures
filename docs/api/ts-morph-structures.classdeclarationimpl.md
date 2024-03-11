@@ -22,7 +22,7 @@ export default class ClassDeclarationImpl implements ClassDeclarationStructureCl
 |  [extendsStructure](./ts-morph-structures.classdeclarationimpl.extendsstructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 |  [getAccessors](./ts-morph-structures.classdeclarationimpl.getaccessors.md) | <code>readonly</code> | [GetAccessorDeclarationImpl](./ts-morph-structures.getaccessordeclarationimpl.md)<!-- -->\[\] |  |
 |  [hasDeclareKeyword](./ts-morph-structures.classdeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
-|  [implements](./ts-morph-structures.classdeclarationimpl.implements.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [implements](./ts-morph-structures.classdeclarationimpl.implements.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] | Treat this as a read-only array. Use <code>.implementsSet</code> to modify this. |
 |  [implementsSet](./ts-morph-structures.classdeclarationimpl.implementsset.md) | <code>readonly</code> | [TypeStructureSet](./ts-morph-structures.typestructureset.md) |  |
 |  [isAbstract](./ts-morph-structures.classdeclarationimpl.isabstract.md) |  | boolean |  |
 |  [isDefaultExport](./ts-morph-structures.classdeclarationimpl.isdefaultexport.md) |  | boolean |  |

@@ -123,6 +123,7 @@ export default class ClassDeclarationImpl
     this.#extendsManager.typeStructure = value;
   }
 
+  /** Treat this as a read-only array.  Use `.implementsSet` to modify this. */
   get implements(): stringOrWriterFunction[] {
     return this.#implementsProxyArray;
   }

@@ -55,6 +55,8 @@ export default class CopyFieldsStatements extends GetterFilter
     key: MemberedStatementsKey
   ): boolean
   {
+    if (key.statementGroupKey !== "static [COPY_FIELDS]")
+      return false;
     if (key.isFieldStatic === true)
       return false;
     if (key.fieldKey === ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN)
@@ -63,8 +65,7 @@ export default class CopyFieldsStatements extends GetterFilter
       return false;
     if (key.fieldKey.endsWith("Set"))
       return false;
-    if (key.statementGroupKey !== "static [COPY_FIELDS]")
-      return false;
+
     return true;
   }
 
@@ -78,11 +79,14 @@ export default class CopyFieldsStatements extends GetterFilter
       ];
     }
 
-    if (CopyFieldsStatements.#managerRE.test(key.fieldKey)) {
-      return this.#getStatementsForTypeAccessor(key);
+    if (key.fieldType?.kind === StructureKind.GetAccessor) {
+      return this.#getCopyTypeStatements(key.fieldKey);
     }
 
-    assert(key.fieldType?.kind === StructureKind.PropertySignature, "not a property?");
+    assert.equal(
+      key.fieldType?.kind,
+      StructureKind.PropertySignature,
+      "not a property?  " + (key.fieldType ? StructureKind[key.fieldType.kind] : "(undefined)"));
 
     if (key.fieldType.name.startsWith("#"))
       return [];
@@ -101,27 +105,6 @@ export default class CopyFieldsStatements extends GetterFilter
     throw new Error(`unexpected field type structure: ${this.baseName}:${key.fieldType.name}, ${TypeStructureKind[key.fieldType.typeStructure.kind]}`);
   }
 
-  #getStatementsForTypeAccessor(
-    key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
-  {
-    this.module.addImports("internal", ["TypeStructureClassesMap"], []);
-
-    const propName = /^#(.*)Manager$/.exec(key.fieldKey)![1];
-    const structureName = propName + "Structure";
-
-    return [
-      `const { ${structureName }} = source as unknown as ${this.module.exportName};`,
-
-      new BlockStatementImpl(
-        `if (${structureName})`,
-        [`target.${structureName} = TypeStructureClassesMap.clone(${structureName});`],
-      ).writerFunction,
-
-      this.#getIfSourceStatement(true, propName, `target.${propName} = source.${propName};`),
-    ];
-  }
-
   //#region literal type
   #getStatementsForLiteralType(
     fieldType: PropertySignatureImpl,
@@ -137,6 +120,7 @@ export default class CopyFieldsStatements extends GetterFilter
       case "initializer":
       case "name":
       case "scope":
+      case "variance":
         statement = this.#getAssignmentStatement(fieldType.name);
         if (fieldType.hasQuestionToken)
           statement = this.#getIfSourceStatement(false, fieldType.name, statement);
@@ -195,7 +179,7 @@ export default class CopyFieldsStatements extends GetterFilter
     const name_Structure = name + "Structure";
     this.module.addImports("internal", ["TypeStructureClassesMap"], []);
     return [
-      `const { ${name_Structure} } = source as unknown as ${this.baseName}Mixin;`,
+      `const { ${name_Structure} } = source as unknown as ${this.module.exportName};`,
 
       new BlockStatementImpl(
         `if (${name_Structure})`,

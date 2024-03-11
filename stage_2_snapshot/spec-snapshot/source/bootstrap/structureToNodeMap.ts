@@ -56,9 +56,6 @@ const remainingKeysBase = await getSupportedKindSet();
 // no syntax kind for this, so unsupported
 remainingKeysBase.delete(StructureKind.JSDocTag);
 
-// `export = 5;`, unsupported with ECMAScript modules
-remainingKeysBase.delete(StructureKind.ExportAssignment);
-
 const TSC_CONFIG: ProjectOptions = {
   "compilerOptions": {
     "lib": ["es2022"],
@@ -118,6 +115,7 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   checkMap("stage_utilities/PromiseTypes.ts");
   checkMap("stage_utilities/PropertyKeySorter.ts");
   checkMap("stage_utilities/WeakRefSet.ts");
+  checkMap("exportPromise.ts");
   checkMap("grab-bag.ts");
 
   // Unreachable structure kinds via sourceFile.getStructure(), as of ts-morph 22.0.0

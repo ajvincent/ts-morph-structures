@@ -4,6 +4,8 @@
 
 ## ClassDeclarationImpl.implements property
 
+Treat this as a read-only array. Use `.implementsSet` to modify this.
+
 **Signature:**
 
 ```typescript

@@ -2055,6 +2055,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
     set extendsStructure(value) {
         this.#extendsManager.typeStructure = value;
     }
+    /** Treat this as a read-only array.  Use `.implementsSet` to modify this. */
     get implements() {
         return this.#implementsProxyArray;
     }
@@ -2836,6 +2837,7 @@ class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase {
         super();
         this.name = name;
     }
+    /** Treat this as a read-only array.  Use `.extendsSet` to modify this. */
     get extends() {
         return this.#extendsProxyArray;
     }

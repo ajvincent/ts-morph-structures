@@ -9,6 +9,7 @@ import {
   type ClassMemberImpl,
   LiteralTypeStructureImpl,
   MemberedTypeToClass,
+  PropertySignatureImpl,
   type TypeMembersMap,
   TypeStructureKind,
   ClassMembersMap,
@@ -24,6 +25,10 @@ import {
 } from "#utilities/source/StructureNameTransforms.js";
 
 import modifyTypeMembersForTypeStructures from "../classTools/modifyTypeMembersForTypeStructures.js";
+
+import {
+  COPY_FIELDS_NAME
+} from "../constants.js";
 
 import {
   addImportsToModule,
@@ -47,7 +52,6 @@ import TypeStructureSetStatements from "../fieldStatements/TypeStructures/TypeSt
 import TypeArrayStatements from "../fieldStatements/TypeStructures/ArrayGetter.js";
 
 import DebuggingFilter from "../fieldStatements/Debugging.js";
-import { COPY_FIELDS_NAME } from "../constants.js";
 
 void(ClassFieldStatementsMap);
 void(DebuggingFilter);
@@ -75,12 +79,12 @@ async function buildStructure(
   const module = new StructureModule(name, interfaceModule);
 
   const interfaceMembers: TypeMembersMap = interfaceModule.typeMembers.clone();
-  modifyTypeMembersForTypeStructures(name, interfaceMembers);
+  const replacedProperties = modifyTypeMembersForTypeStructures(name, interfaceMembers);
 
   const typeToClass = buildTypeToClass(module, interfaceModule);
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
-  defineImplMethods(module, interfaceMembers, typeToClass);
+  defineImplMethods(module, interfaceMembers, typeToClass, replacedProperties);
   typeToClass.defineStatementsByPurpose("body", false);
   defineClassCallbacks(typeToClass);
   insertConstructorKeys(module, typeToClass);
@@ -137,12 +141,16 @@ function buildTypeToClass(
 function defineImplMethods(
   module: StructureModule,
   interfaceMembers: TypeMembersMap,
-  typeToClass: MemberedTypeToClass
+  typeToClass: MemberedTypeToClass,
+  replacedProperties: PropertySignatureImpl[]
 ): void
 {
 
-  const copyFieldsSignature = module.createCopyFieldsMethod(true);
-  typeToClass.addTypeMember(true, copyFieldsSignature);
+  const copyFieldsMethod = module.createCopyFieldsMethod(true);
+  typeToClass.addTypeMember(true, copyFieldsMethod);
+  replacedProperties.forEach(prop => {
+    typeToClass.insertMemberKey(false, prop, true, copyFieldsMethod);
+  });
   typeToClass.addTypeMember(true, module.createStaticCloneMethod());
   {
     const properties = interfaceMembers.arrayOfKind(StructureKind.PropertySignature);

@@ -1031,6 +1031,7 @@ declare class ClassDeclarationImpl extends ClassDeclarationStructureBase impleme
     set extends(value: stringOrWriterFunction | undefined);
     get extendsStructure(): TypeStructures | undefined;
     set extendsStructure(value: TypeStructures | undefined);
+    /** Treat this as a read-only array.  Use `.implementsSet` to modify this. */
     get implements(): stringOrWriterFunction[];
     /** @internal */
     static [COPY_FIELDS](source: OptionalKind<ClassDeclarationStructure>, target: ClassDeclarationImpl): void;
@@ -1355,6 +1356,7 @@ declare class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase
     readonly properties: PropertySignatureImpl[];
     readonly setAccessors: SetAccessorDeclarationImpl[];
     constructor(name: string);
+    /** Treat this as a read-only array.  Use `.extendsSet` to modify this. */
     get extends(): stringOrWriterFunction[];
     /** @internal */
     static [COPY_FIELDS](source: OptionalKind<InterfaceDeclarationStructure>, target: InterfaceDeclarationImpl): void;

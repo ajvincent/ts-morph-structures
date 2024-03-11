@@ -13,22 +13,25 @@ import PropertyHashesWithTypes from "./PropertyHashesWithTypes.js";
 export default function modifyTypeMembersForTypeStructures(
   baseName: string,
   map: TypeMembersMap
-): void
+): PropertySignatureImpl[]
 {
-  map.arrayOfKind(StructureKind.PropertySignature).forEach(
-    prop => convertTypeToAccessors(baseName, prop, map)
-  );
+  const properties: PropertySignatureImpl[] = [];
+  map.arrayOfKind(StructureKind.PropertySignature).forEach(prop => {
+    if (convertTypeToAccessors(baseName, prop, map))
+      properties.push(prop);
+  });
+  return properties;
 }
 
 function convertTypeToAccessors(
   baseName: string,
   property: PropertySignatureImpl,
   map: TypeMembersMap
-): void
+): boolean
 {
   const hash = baseName + ":" + property.name;
   if (!PropertyHashesWithTypes.has(hash))
-    return;
+    return false;
 
   if (property.typeStructure!.kind === TypeStructureKind.Array) {
     const shadowArray = PropertySignatureImpl.clone(property);
@@ -55,4 +58,6 @@ function convertTypeToAccessors(
     manager.isReadonly = true;
     map.addMembers([manager]);
   }
+
+  return true;
 }
