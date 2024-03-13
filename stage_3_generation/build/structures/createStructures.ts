@@ -53,6 +53,11 @@ import TypeArrayStatements from "../fieldStatements/TypeStructures/ArrayGetter.j
 
 import DebuggingFilter from "../fieldStatements/Debugging.js";
 
+import {
+  FromSignatureStatements,
+  getFromSignatureMethod,
+} from "./specialCases/fromSignature.js";
+
 void(ClassFieldStatementsMap);
 void(DebuggingFilter);
 // #endregion preamble
@@ -81,10 +86,10 @@ async function buildStructure(
   const interfaceMembers: TypeMembersMap = interfaceModule.typeMembers.clone();
   const replacedProperties = modifyTypeMembersForTypeStructures(name, interfaceMembers);
 
-  const typeToClass = buildTypeToClass(module, interfaceModule);
+  const [typeToClass, router] = buildTypeToClass(module, interfaceModule);
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
-  defineImplMethods(module, interfaceMembers, typeToClass, replacedProperties);
+  defineImplMethods(module, interfaceMembers, typeToClass, replacedProperties, router);
   typeToClass.defineStatementsByPurpose("body", false);
   defineClassCallbacks(typeToClass);
   insertConstructorKeys(module, typeToClass);
@@ -118,7 +123,7 @@ async function buildStructure(
 function buildTypeToClass(
   module: StructureModule,
   interfaceModule: InterfaceModule
-): MemberedTypeToClass
+): [MemberedTypeToClass, StatementsRouter]
 {
   const router = new StatementsRouter(module);
   const typeToClass = new MemberedTypeToClass([], router);
@@ -135,14 +140,15 @@ function buildTypeToClass(
     new TypeArrayStatements(module),
   );
 
-  return typeToClass;
+  return [typeToClass, router];
 }
 
 function defineImplMethods(
   module: StructureModule,
   interfaceMembers: TypeMembersMap,
   typeToClass: MemberedTypeToClass,
-  replacedProperties: PropertySignatureImpl[]
+  replacedProperties: PropertySignatureImpl[],
+  router: StatementsRouter,
 ): void
 {
 
@@ -152,6 +158,13 @@ function defineImplMethods(
     typeToClass.insertMemberKey(false, prop, true, copyFieldsMethod);
   });
   typeToClass.addTypeMember(true, module.createStaticCloneMethod());
+
+  const fromSignature = getFromSignatureMethod(module);
+  if (fromSignature) {
+    typeToClass.addTypeMember(true, fromSignature);
+    router.filters.push(new FromSignatureStatements(module, typeToClass.constructorParameters));
+  }
+
   {
     const properties = interfaceMembers.arrayOfKind(StructureKind.PropertySignature);
     if (properties.some(prop => /^#.*Manager$/.test(prop.name))) {
@@ -182,6 +195,7 @@ function defineClassCallbacks(
       switch (memberName) {
         case "[COPY_FIELDS]":
         case "clone":
+        case "fromSignature":
         case "toJSON":
         case "[STRUCTURE_AND_TYPES_CHILDREN]":
         return Scope.Public;
