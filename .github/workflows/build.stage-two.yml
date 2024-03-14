@@ -7,6 +7,7 @@ on:
       - 'stage_1_snapshot/prototype-snapshot/**'
       - 'stage_2_**'
       - 'utilities/**'
+      - 'dist/**'
 jobs:
   build-stage-two:
     runs-on: ubuntu-latest
