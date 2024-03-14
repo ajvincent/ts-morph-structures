@@ -5802,7 +5802,9 @@ class MemberedTypeToClass {
         if (addedKey.isFieldStatic)
             fieldName = "static " + fieldName;
         let groupName = "constructor";
-        if (addedKey.groupType !== "constructor") {
+        if (addedKey.groupType !== "constructor" &&
+            addedKey.groupType !==
+                ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY) {
             groupName = TypeMembersMap$1.keyFromName(addedKey.groupType.kind, addedKey.groupType.name);
             if (addedKey.isGroupStatic) {
                 groupName = "static " + groupName;

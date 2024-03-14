@@ -9,7 +9,7 @@ Add member keys for a field and a group.
 **Signature:**
 
 ```typescript
-insertMemberKey(isFieldStatic: boolean, fieldType: PropertySignatureImpl, isGroupStatic: boolean, groupType: GetAccessorDeclarationImpl | SetAccessorDeclarationImpl | MethodSignatureImpl | "constructor"): void;
+insertMemberKey(isFieldStatic: boolean, fieldType: PropertySignatureImpl, isGroupStatic: boolean, groupType: InsertedMemberKey["groupType"]): void;
 ```
 
 ## Parameters
@@ -19,7 +19,7 @@ insertMemberKey(isFieldStatic: boolean, fieldType: PropertySignatureImpl, isGrou
 |  isFieldStatic | boolean | true if the field is static. |
 |  fieldType | [PropertySignatureImpl](./ts-morph-structures.propertysignatureimpl.md) | the field signature. |
 |  isGroupStatic | boolean | true if the group is static (false for constructors) |
-|  groupType | [GetAccessorDeclarationImpl](./ts-morph-structures.getaccessordeclarationimpl.md) \| [SetAccessorDeclarationImpl](./ts-morph-structures.setaccessordeclarationimpl.md) \| [MethodSignatureImpl](./ts-morph-structures.methodsignatureimpl.md) \| "constructor" | the group signature, or "constructor" for the constructor I generate. |
+|  groupType | InsertedMemberKey\["groupType"\] | the group signature, or "constructor" for the constructor I generate. |
 
 **Returns:**
 

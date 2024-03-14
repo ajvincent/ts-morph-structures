@@ -47,7 +47,13 @@ interface InsertedMemberKey {
   readonly isFieldStatic: boolean;
   readonly fieldType: PropertySignatureImpl;
   readonly isGroupStatic: boolean;
-  readonly groupType: GetAccessorDeclarationImpl | SetAccessorDeclarationImpl | MethodSignatureImpl | "constructor";
+  readonly groupType: (
+    GetAccessorDeclarationImpl |
+    SetAccessorDeclarationImpl |
+    MethodSignatureImpl |
+    "constructor" |
+    "(initializer or property reference)" /* ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY */
+  )
 }
 
 /** Convert type members to a class members map, including statements. */
@@ -457,7 +463,7 @@ export default class MemberedTypeToClass {
     isFieldStatic: boolean,
     fieldType: PropertySignatureImpl,
     isGroupStatic: boolean,
-    groupType: GetAccessorDeclarationImpl | SetAccessorDeclarationImpl | MethodSignatureImpl | "constructor",
+    groupType: InsertedMemberKey["groupType"]
   ): void
   {
     this.#insertedMemberKeys.push({
@@ -612,7 +618,7 @@ export default class MemberedTypeToClass {
       fieldName = "static " + fieldName;
 
     let groupName = "constructor";
-    if (addedKey.groupType !== "constructor") {
+    if ((addedKey.groupType !== "constructor") && (addedKey.groupType !== ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY)) {
       groupName = TypeMembersMap.keyFromName(addedKey.groupType.kind, addedKey.groupType.name);
       if (addedKey.isGroupStatic) {
         groupName = "static " + groupName;
