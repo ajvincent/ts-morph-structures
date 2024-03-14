@@ -8,6 +8,7 @@ import {
 
 import {
   ClassFieldStatementsMap,
+  LiteralTypeStructureImpl,
   MemberedStatementsKey,
   type TypeStructures,
   stringWriterOrStatementImpl,
@@ -17,7 +18,7 @@ import {
 import GetterFilter from "../fieldStatements/GetterFilter.js";
 
 import BlockStatementImpl from "../../pseudoStatements/BlockStatement.js";
-import CallExpressionStatementImpl from "#stage_three/generation/pseudoStatements/CallExpression.js";
+import CallExpressionStatementImpl from "../../pseudoStatements/CallExpression.js";
 
 export default class ToJSONStatements extends GetterFilter
 {
@@ -28,6 +29,7 @@ export default class ToJSONStatements extends GetterFilter
     return (
       (key.statementGroupKey === "toJSON") &&
       (key.isFieldStatic === false) &&
+      (key.fieldKey.startsWith("#") === false) &&
       (key.fieldKey.endsWith("Set") === false)
     );
   }
@@ -49,25 +51,25 @@ export default class ToJSONStatements extends GetterFilter
       return [`return rv;`];
     }
 
-    assert(key.fieldType?.kind === StructureKind.PropertySignature);
+    assert(key.fieldType?.kind === StructureKind.PropertySignature || key.fieldType?.kind === StructureKind.GetAccessor);
     let hasWriter: boolean;
 
-    let fieldName = key.fieldKey;
-    let mayBeUndefined = key.fieldType.hasQuestionToken;
+    const fieldName = key.fieldKey;
+    let mayBeUndefined: boolean;
     let isArray: boolean;
-    if (/^#.*Manager$/.test(fieldName)) {
-      fieldName = fieldName.substring(1).replace("Manager", "");
-      hasWriter = true;
-      mayBeUndefined = true;
-      isArray = false;
-    }
-    else if (fieldName.startsWith("#")) {
-      return [];
-    }
-    else {
+
+    if (key.fieldType?.kind === StructureKind.PropertySignature) {
       assert(key.fieldType.typeStructure, "missing type structure: " + this.baseName + ":" + key.fieldKey);
       hasWriter = ToJSONStatements.#hasWriter(key.fieldType.typeStructure);
       isArray = key.fieldType.typeStructure.kind === TypeStructureKind.Array;
+      mayBeUndefined = key.fieldType.hasQuestionToken;
+    }
+    else {
+      assert(key.fieldType.returnTypeStructure, "missing type structure: " + this.baseName + ":" + key.fieldKey);
+      hasWriter = ToJSONStatements.#hasWriter(key.fieldType.returnTypeStructure);
+      isArray = key.fieldType.returnTypeStructure.kind === TypeStructureKind.Array;
+      mayBeUndefined = key.fieldType.returnTypeStructure.kind === TypeStructureKind.Union &&
+        key.fieldType.returnTypeStructure.childTypes.includes(LiteralTypeStructureImpl.get("undefined"));
     }
 
     let value: WriterFunction = (writer: CodeBlockWriter): void => {
@@ -115,7 +117,7 @@ export default class ToJSONStatements extends GetterFilter
             `rv.${fieldName} = undefined;`
           ]
         ).writerFunction
-      ]
+      ];
     }
 
     return [statement];

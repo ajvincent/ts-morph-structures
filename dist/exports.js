@@ -2439,7 +2439,12 @@ class ExportDeclarationImpl extends ExportDeclarationStructureBase {
     }
     toJSON() {
         const rv = super.toJSON();
-        rv.attributes = this.attributes;
+        if (this.attributes) {
+            rv.attributes = this.attributes;
+        }
+        else {
+            rv.attributes = undefined;
+        }
         rv.isTypeOnly = this.isTypeOnly;
         rv.kind = this.kind;
         if (this.moduleSpecifier) {
@@ -2676,7 +2681,12 @@ class ImportDeclarationImpl extends ImportDeclarationStructureBase {
     }
     toJSON() {
         const rv = super.toJSON();
-        rv.attributes = this.attributes;
+        if (this.attributes) {
+            rv.attributes = this.attributes;
+        }
+        else {
+            rv.attributes = undefined;
+        }
         if (this.defaultImport) {
             rv.defaultImport = this.defaultImport;
         }

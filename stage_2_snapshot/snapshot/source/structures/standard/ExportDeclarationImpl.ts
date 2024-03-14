@@ -96,7 +96,12 @@ export default class ExportDeclarationImpl
 
   public toJSON(): StructureClassToJSON<ExportDeclarationImpl> {
     const rv = super.toJSON() as StructureClassToJSON<ExportDeclarationImpl>;
-    rv.attributes = this.attributes;
+    if (this.attributes) {
+      rv.attributes = this.attributes;
+    } else {
+      rv.attributes = undefined;
+    }
+
     rv.isTypeOnly = this.isTypeOnly;
     rv.kind = this.kind;
     if (this.moduleSpecifier) {

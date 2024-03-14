@@ -103,7 +103,12 @@ export default class ImportDeclarationImpl
 
   public toJSON(): StructureClassToJSON<ImportDeclarationImpl> {
     const rv = super.toJSON() as StructureClassToJSON<ImportDeclarationImpl>;
-    rv.attributes = this.attributes;
+    if (this.attributes) {
+      rv.attributes = this.attributes;
+    } else {
+      rv.attributes = undefined;
+    }
+
     if (this.defaultImport) {
       rv.defaultImport = this.defaultImport;
     } else {

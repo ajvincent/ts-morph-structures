@@ -320,15 +320,25 @@ function makeAttributesPropertyOptional(
     "attributes", StructureKind.PropertySignature
   )!.hasQuestionToken = true;
 
-  // if (source.attributes) { target.attributes =
-  const originalStatement = parts.classFieldsStatements.get("attributes", COPY_FIELDS_NAME)![0] as WriterFunction;
-  const writer = new CodeBlockWriter({
-    indentNumberOfSpaces: 2
-  });
-  originalStatement(writer);
-  let statement = writer.toString();
-  statement = statement.replace("if (source.attributes) {", "if (source.attributes) {\ntarget.attributes = [];");
-  parts.classFieldsStatements.set("attributes", COPY_FIELDS_NAME, [statement]);
+  {
+    // if (source.attributes) { target.attributes =
+    const originalStatement = parts.classFieldsStatements.get("attributes", COPY_FIELDS_NAME)![0] as WriterFunction;
+    const writer = new CodeBlockWriter({
+      indentNumberOfSpaces: 2
+    });
+    originalStatement(writer);
+    let statement = writer.toString();
+    statement = statement.replace("if (source.attributes) {", "if (source.attributes) {\ntarget.attributes = [];");
+    parts.classFieldsStatements.set("attributes", COPY_FIELDS_NAME, [statement]);
+  }
+
+  {
+    // toJSON, same fix
+    // if (this.attributes) { rv.attributes =
+    const originalStatement = parts.classFieldsStatements.get("attributes", "toJSON")![0] as string;
+    const statement = `if (this.attributes) { ${originalStatement} } else { rv.attributes = undefined; }`;
+    parts.classFieldsStatements.set("attributes", "toJSON", [statement]);
+  }
 
   void(dictionaries);
 }

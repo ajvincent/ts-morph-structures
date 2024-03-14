@@ -80,7 +80,8 @@ async function buildDecorator(
       typeToClass.addTypeMember(false, structureIterator);
     }
   }
-  typeToClass.addTypeMember(false, module.createToJSONMethod());
+  const toJSONMethod = module.createToJSONMethod();
+  typeToClass.addTypeMember(false, toJSONMethod);
 
   if (name.startsWith("StatementedNode")) {
     const cloneStatementFilter = new CloneStatement_Statements(module);
@@ -92,6 +93,7 @@ async function buildDecorator(
     typeToClass.insertMemberKey(false, prop, true, copyFieldsMethod);
     if (structureIterator)
       typeToClass.insertMemberKey(false, prop, false, structureIterator);
+    typeToClass.insertMemberKey(false, prop, false, toJSONMethod);
   });
 
   typeToClass.defineStatementsByPurpose("body", false);

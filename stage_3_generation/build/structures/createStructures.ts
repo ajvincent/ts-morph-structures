@@ -173,12 +173,14 @@ function defineImplMethods(
       typeToClass.addTypeMember(false, iteratorMethod);
     }
   }
-  typeToClass.addTypeMember(false, module.createToJSONMethod());
+  const toJSONMethod = module.createToJSONMethod();
+  typeToClass.addTypeMember(false, toJSONMethod);
 
   replacedProperties.forEach(prop => {
     typeToClass.insertMemberKey(false, prop, true, copyFieldsMethod);
     if (iteratorMethod)
       typeToClass.insertMemberKey(false, prop, false, iteratorMethod);
+    typeToClass.insertMemberKey(false, prop, false, toJSONMethod);
   });
 }
 
