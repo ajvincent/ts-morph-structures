@@ -948,8 +948,6 @@ declare class DecoratorImpl extends DecoratorStructureBase implements DecoratorS
     toJSON(): StructureClassToJSON<DecoratorImpl>;
 }
 
-type stringOrWriterFunction = string | WriterFunction;
-
 declare const ParameterDeclarationStructureBase: mixin_decorators.MixinClass<object, {
     readonly leadingTrivia: stringOrWriterFunction[];
     readonly trailingTrivia: stringOrWriterFunction[];
@@ -1042,64 +1040,6 @@ declare class ClassDeclarationImpl extends ClassDeclarationStructureBase impleme
     [STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<StructureImpls | TypeStructures>;
     toJSON(): StructureClassToJSON<ClassDeclarationImpl>;
 }
-
-type ClassMemberStructureImpls =
-  | ClassStaticBlockDeclarationImpl
-  | ConstructorDeclarationImpl
-  | GetAccessorDeclarationImpl
-  | MethodDeclarationImpl
-  | PropertyDeclarationImpl
-  | SetAccessorDeclarationImpl;
-type InterfaceMemberStructureImpls = TypeElementMemberStructureImpls;
-type JsxStructureImpls =
-  | JsxAttributeImpl
-  | JsxElementImpl
-  | JsxSelfClosingElementImpl
-  | JsxSpreadAttributeImpl;
-type ObjectLiteralExpressionPropertyStructureImpls =
-  | GetAccessorDeclarationImpl
-  | MethodDeclarationImpl
-  | PropertyAssignmentImpl
-  | SetAccessorDeclarationImpl
-  | ShorthandPropertyAssignmentImpl
-  | SpreadAssignmentImpl;
-type StatementStructureImpls =
-  | ClassDeclarationImpl
-  | EnumDeclarationImpl
-  | ExportAssignmentImpl
-  | ExportDeclarationImpl
-  | FunctionDeclarationImpl
-  | ImportDeclarationImpl
-  | InterfaceDeclarationImpl
-  | ModuleDeclarationImpl
-  | TypeAliasDeclarationImpl
-  | VariableStatementImpl;
-type StructureImpls =
-  | ClassMemberStructureImpls
-  | ConstructorDeclarationOverloadImpl
-  | DecoratorImpl
-  | EnumMemberImpl
-  | ExportSpecifierImpl
-  | FunctionDeclarationOverloadImpl
-  | ImportAttributeImpl
-  | ImportSpecifierImpl
-  | InterfaceMemberStructureImpls
-  | JSDocImpl
-  | JSDocTagImpl
-  | JsxStructureImpls
-  | MethodDeclarationOverloadImpl
-  | ObjectLiteralExpressionPropertyStructureImpls
-  | ParameterDeclarationImpl
-  | SourceFileImpl
-  | StatementStructureImpls
-  | TypeParameterDeclarationImpl
-  | VariableDeclarationImpl;
-type TypeElementMemberStructureImpls =
-  | CallSignatureDeclarationImpl
-  | ConstructSignatureDeclarationImpl
-  | IndexSignatureDeclarationImpl
-  | MethodSignatureImpl
-  | PropertySignatureImpl;
 
 declare const ClassStaticBlockDeclarationStructureBase: mixin_decorators.MixinClass<object, {
     readonly statements: (StatementStructureImpls | stringOrWriterFunction)[];
@@ -2363,6 +2303,66 @@ type TypeMemberImpl =
 type stringWriterOrStatementImpl =
   | stringOrWriterFunction
   | StatementStructureImpls;
+
+type stringOrWriterFunction = string | WriterFunction;
+
+type ClassMemberStructureImpls =
+  | ClassStaticBlockDeclarationImpl
+  | ConstructorDeclarationImpl
+  | GetAccessorDeclarationImpl
+  | MethodDeclarationImpl
+  | PropertyDeclarationImpl
+  | SetAccessorDeclarationImpl;
+type InterfaceMemberStructureImpls = TypeElementMemberStructureImpls;
+type JsxStructureImpls =
+  | JsxAttributeImpl
+  | JsxElementImpl
+  | JsxSelfClosingElementImpl
+  | JsxSpreadAttributeImpl;
+type ObjectLiteralExpressionPropertyStructureImpls =
+  | GetAccessorDeclarationImpl
+  | MethodDeclarationImpl
+  | PropertyAssignmentImpl
+  | SetAccessorDeclarationImpl
+  | ShorthandPropertyAssignmentImpl
+  | SpreadAssignmentImpl;
+type StatementStructureImpls =
+  | ClassDeclarationImpl
+  | EnumDeclarationImpl
+  | ExportAssignmentImpl
+  | ExportDeclarationImpl
+  | FunctionDeclarationImpl
+  | ImportDeclarationImpl
+  | InterfaceDeclarationImpl
+  | ModuleDeclarationImpl
+  | TypeAliasDeclarationImpl
+  | VariableStatementImpl;
+type StructureImpls =
+  | ClassMemberStructureImpls
+  | ConstructorDeclarationOverloadImpl
+  | DecoratorImpl
+  | EnumMemberImpl
+  | ExportSpecifierImpl
+  | FunctionDeclarationOverloadImpl
+  | ImportAttributeImpl
+  | ImportSpecifierImpl
+  | InterfaceMemberStructureImpls
+  | JSDocImpl
+  | JSDocTagImpl
+  | JsxStructureImpls
+  | MethodDeclarationOverloadImpl
+  | ObjectLiteralExpressionPropertyStructureImpls
+  | ParameterDeclarationImpl
+  | SourceFileImpl
+  | StatementStructureImpls
+  | TypeParameterDeclarationImpl
+  | VariableDeclarationImpl;
+type TypeElementMemberStructureImpls =
+  | CallSignatureDeclarationImpl
+  | ConstructSignatureDeclarationImpl
+  | IndexSignatureDeclarationImpl
+  | MethodSignatureImpl
+  | PropertySignatureImpl;
 
 interface TypedNodeTypeStructure {
   typeStructure: TypeStructures | undefined;
