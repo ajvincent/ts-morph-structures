@@ -29,8 +29,7 @@ function convertTypeToAccessors(
   map: TypeMembersMap
 ): boolean
 {
-  const hash = baseName + ":" + property.name;
-  if (!PropertyHashesWithTypes.has(hash))
+  if (!PropertyHashesWithTypes.has(baseName, property.name))
     return false;
 
   if (property.typeStructure!.kind === TypeStructureKind.Array) {

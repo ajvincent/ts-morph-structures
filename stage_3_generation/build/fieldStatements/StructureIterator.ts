@@ -1,9 +1,21 @@
+import assert from "node:assert/strict";
+
+import {
+  StructureKind
+} from "ts-morph";
+
 import {
   ClassFieldStatementsMap,
   MemberedStatementsKey,
+  TypeStructureKind,
   type stringWriterOrStatementImpl
 } from "#stage_two/snapshot/source/exports.js";
+
+import BlockStatementImpl from "../../pseudoStatements/BlockStatement.js";
+import PropertyHashesWithTypes from "../classTools/PropertyHashesWithTypes.js";
+
 import GetterFilter from "./GetterFilter.js";
+
 
 export default class StructureIteratorStatements extends GetterFilter
 {
@@ -11,20 +23,13 @@ export default class StructureIteratorStatements extends GetterFilter
     key: MemberedStatementsKey
   ): boolean
   {
-    return (key.statementGroupKey === "[STRUCTURE_AND_TYPES_CHILDREN]") && (
-      /^#.*Manager$/.test(key.fieldKey) || (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL)
-    );
-  }
+    if (key.statementGroupKey !== "[STRUCTURE_AND_TYPES_CHILDREN]")
+      return false;
+    if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL)
+      return true;
 
-  /*
-  public *[STRUCTURE_AND_TYPES_CHILDREN](): IterableIterator<
-    StructureImpls | TypeStructures
-  > {
-    yield* super[STRUCTURE_AND_TYPES_CHILDREN]();
-    if (typeof this.returnTypeStructure === "object")
-      yield this.returnTypeStructure;
+    return PropertyHashesWithTypes.has(this.module.baseName, key.fieldKey);
   }
-  */
 
   getStatements(
     key: MemberedStatementsKey
@@ -34,7 +39,19 @@ export default class StructureIteratorStatements extends GetterFilter
       return [`yield* super[STRUCTURE_AND_TYPES_CHILDREN]();`];
     }
 
-    const propertyName = key.fieldKey.substring(1).replace("Manager", "Structure");
+    assert.equal(key.fieldType?.kind, StructureKind.GetAccessor);
+    if (key.fieldType.returnTypeStructure?.kind === TypeStructureKind.Array) {
+      return [
+        new BlockStatementImpl(
+          `for (const typeStructure of this.${key.fieldKey}Set)`,
+          [
+            `if (typeof typeStructure === "object") yield typeStructure;`
+          ]
+        ).writerFunction,
+      ];
+    }
+
+    const propertyName = key.fieldKey + "Structure";
     return [
       `if (typeof this.${propertyName} === "object") yield this.${propertyName};`
     ]

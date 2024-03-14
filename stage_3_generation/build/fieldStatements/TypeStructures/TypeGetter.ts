@@ -22,8 +22,7 @@ class TypeGetterStatements extends GetterFilter
       return false;
     if (key.fieldType?.kind !== StructureKind.GetAccessor)
       return false;
-    const hash = this.module.baseName + ":" + key.fieldKey;
-    return PropertyHashesWithTypes.has(hash);
+    return PropertyHashesWithTypes.has(this.module.baseName, key.fieldKey);
   }
   getStatements(
     key: MemberedStatementsKey

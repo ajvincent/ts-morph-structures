@@ -28,8 +28,7 @@ class TypeArrayStatements extends GetterFilter
       return false;
     if (key.fieldType.returnTypeStructure?.kind !== TypeStructureKind.Array)
       return false;
-    const hash = this.module.baseName + ":" + key.fieldType.name;
-    return PropertyHashesWithTypes.has(hash);
+    return PropertyHashesWithTypes.has(this.module.baseName, key.fieldType.name);
   }
 
   getStatements(

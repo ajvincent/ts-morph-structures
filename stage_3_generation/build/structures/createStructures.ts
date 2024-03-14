@@ -9,6 +9,7 @@ import {
   type ClassMemberImpl,
   LiteralTypeStructureImpl,
   MemberedTypeToClass,
+  MethodSignatureImpl,
   PropertySignatureImpl,
   type TypeMembersMap,
   TypeStructureKind,
@@ -38,6 +39,8 @@ import {
 } from "../../moduleClasses/exports.js";
 
 import initializeTypes from "../../vanilla/initializer.js";
+
+import PropertyHashesWithTypes from "../classTools/PropertyHashesWithTypes.js";
 
 import addReadonlyArrayHandlers from "./addReadonlyArrayHandler.js";
 
@@ -154,9 +157,6 @@ function defineImplMethods(
 
   const copyFieldsMethod = module.createCopyFieldsMethod(true);
   typeToClass.addTypeMember(true, copyFieldsMethod);
-  replacedProperties.forEach(prop => {
-    typeToClass.insertMemberKey(false, prop, true, copyFieldsMethod);
-  });
   typeToClass.addTypeMember(true, module.createStaticCloneMethod());
 
   const fromSignature = getFromSignatureMethod(module);
@@ -165,13 +165,21 @@ function defineImplMethods(
     router.filters.push(new FromSignatureStatements(module, typeToClass.constructorParameters));
   }
 
+  let iteratorMethod: MethodSignatureImpl | undefined;
   {
-    const properties = interfaceMembers.arrayOfKind(StructureKind.PropertySignature);
-    if (properties.some(prop => /^#.*Manager$/.test(prop.name))) {
-      typeToClass.addTypeMember(false, module.createStructureIteratorMethod());
+    const properties = interfaceMembers.arrayOfKind(StructureKind.GetAccessor);
+    if (properties.some(prop => PropertyHashesWithTypes.has(module.baseName, prop.name))) {
+      iteratorMethod = module.createStructureIteratorMethod();
+      typeToClass.addTypeMember(false, iteratorMethod);
     }
   }
   typeToClass.addTypeMember(false, module.createToJSONMethod());
+
+  replacedProperties.forEach(prop => {
+    typeToClass.insertMemberKey(false, prop, true, copyFieldsMethod);
+    if (iteratorMethod)
+      typeToClass.insertMemberKey(false, prop, false, iteratorMethod);
+  });
 }
 
 function defineClassCallbacks(

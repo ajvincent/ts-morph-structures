@@ -25,7 +25,7 @@ export default function addTypeStructures(
 
   const properties = module.typeMembers.arrayOfKind(StructureKind.PropertySignature);
   for (const property of properties) {
-    if (PropertyHashesWithTypes.has(moduleName + ":" + property.name) === false)
+    if (PropertyHashesWithTypes.has(moduleName, property.name) === false)
       continue;
     if (property.typeStructure!.kind === TypeStructureKind.Array) {
       const newProp = new PropertySignatureImpl(property.name + "Set");

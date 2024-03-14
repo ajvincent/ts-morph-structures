@@ -2,6 +2,7 @@
 import assert from "node:assert/strict";
 
 import {
+  CodeBlockWriter,
   InterfaceDeclaration,
   PropertySignature,
   StructureKind,
@@ -12,6 +13,7 @@ import {
 import {
   ArrayTypeStructureImpl,
   ClassFieldStatementsMap,
+  GetAccessorDeclarationImpl,
   LiteralTypeStructureImpl,
   MemberedStatementsKey,
   ParenthesesTypeStructureImpl,
@@ -34,8 +36,6 @@ import {
 } from "#utilities/source/StructureNameTransforms.js";
 
 import TS_MORPH_D from "#utilities/source/ts-morph-d-file.js";
-
-import PropertyHashesWithTypes from "../classTools/PropertyHashesWithTypes.js";
 
 import GetterFilter from "../fieldStatements/GetterFilter.js";
 
@@ -80,7 +80,7 @@ export default class CopyFieldsStatements extends GetterFilter
     }
 
     if (key.fieldType?.kind === StructureKind.GetAccessor) {
-      return this.#getCopyTypeStatements(key.fieldKey);
+      return this.#getCopyTypeStatements(key.fieldType);
     }
 
     assert.equal(
@@ -127,11 +127,6 @@ export default class CopyFieldsStatements extends GetterFilter
         return [statement];
     }
 
-    const hash = this.baseName + ":" + fieldType.name;
-    if (PropertyHashesWithTypes.has(hash)) {
-      return this.#getCopyTypeStatements(fieldType.name);
-    }
-
     const originalField = this.#getOriginalField(fieldType.name);
 
     switch (typeStructure) {
@@ -173,11 +168,39 @@ export default class CopyFieldsStatements extends GetterFilter
   }
 
   #getCopyTypeStatements(
-    name: string
-  ): readonly stringOrWriterFunction[]
+    member: GetAccessorDeclarationImpl
+  ): readonly stringWriterOrStatementImpl[]
   {
-    const name_Structure = name + "Structure";
+    const { name, returnTypeStructure } = member;
     this.module.addImports("internal", ["TypeStructureClassesMap"], []);
+
+    if (returnTypeStructure?.kind === TypeStructureKind.Array) {
+      const setName = name + "Set";
+
+      const setStatement = (writer: CodeBlockWriter): void => {
+        writer.write(`const { ${setName} } = source as unknown as ${this.module.exportName};`);
+      }
+
+      return [
+        setStatement,
+        new BlockStatementImpl(
+          `if (${setName} instanceof TypeStructureSetInternal)`,
+          [`target.${setName}.cloneFromTypeStructureSet(${setName});`]
+        ).writerFunction,
+
+        new BlockStatementImpl(
+          `else if (Array.isArray(source.${name}))`,
+          [`target.${setName}.replaceFromTypeArray(source.${name});`]
+        ).writerFunction,
+
+        new BlockStatementImpl(
+          `else if (typeof source.${name} === "function")`,
+          [`target.${setName}.replaceFromTypeArray([source.${name}]);`]
+        ).writerFunction,
+      ];
+    }
+
+    const name_Structure = name + "Structure";
     return [
       `const { ${name_Structure} } = source as unknown as ${this.module.exportName};`,
 

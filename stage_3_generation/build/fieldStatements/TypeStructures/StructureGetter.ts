@@ -24,8 +24,7 @@ class TypeStructureGetterStatements extends GetterFilter
       return false;
     if (key.fieldKey.endsWith("Structure") === false)
       return false;
-    const hash = this.module.baseName + ":" + key.fieldKey.replace("Structure", "");
-    return PropertyHashesWithTypes.has(hash);
+    return PropertyHashesWithTypes.has(this.module.baseName, key.fieldKey.replace("Structure", ""));
   }
   getStatements(
     key: MemberedStatementsKey

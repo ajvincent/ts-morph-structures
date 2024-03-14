@@ -11,6 +11,7 @@ import {
   LiteralTypeStructureImpl,
   MemberedTypeToClass,
   type TypeMembersMap,
+  MethodSignatureImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
@@ -67,15 +68,16 @@ async function buildDecorator(
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
   // stage two sorts the type members... we don't.
+
+  let structureIterator: MethodSignatureImpl | undefined;
+
   const copyFieldsMethod = module.createCopyFieldsMethod(false);
   typeToClass.addTypeMember(true, copyFieldsMethod);
-  replacedProperties.forEach(prop => {
-    typeToClass.insertMemberKey(false, prop, true, copyFieldsMethod);
-  });
   {
     const properties = interfaceMembers.arrayOfKind(StructureKind.PropertySignature);
     if (properties.some(prop => /^#.*Manager$/.test(prop.name))) {
-      typeToClass.addTypeMember(false, module.createStructureIteratorMethod());
+      structureIterator = module.createStructureIteratorMethod();
+      typeToClass.addTypeMember(false, structureIterator);
     }
   }
   typeToClass.addTypeMember(false, module.createToJSONMethod());
@@ -85,6 +87,12 @@ async function buildDecorator(
     router.filters.unshift(cloneStatementFilter);
     typeToClass.addTypeMember(true, cloneStatementFilter.getMethodSignature());
   }
+
+  replacedProperties.forEach(prop => {
+    typeToClass.insertMemberKey(false, prop, true, copyFieldsMethod);
+    if (structureIterator)
+      typeToClass.insertMemberKey(false, prop, false, structureIterator);
+  });
 
   typeToClass.defineStatementsByPurpose("body", false);
 

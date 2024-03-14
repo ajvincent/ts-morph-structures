@@ -32,7 +32,7 @@ class TypeStructureSetStatements extends GetterFilter
       return false;
     }
     const propName = key.fieldType.name.replace(/Set$/, "");
-    return PropertyHashesWithTypes.has(this.module.baseName + ":" + propName);
+    return PropertyHashesWithTypes.has(this.module.baseName, propName);
   }
 
   getStatements(

@@ -1,4 +1,4 @@
-const PropertyHashesWithTypes: ReadonlySet<string> = new Set<string>([
+const PropertyHashesWithTypesInternal: ReadonlySet<string> = new Set<string>([
   "ClassDeclarationStructure:extends",
   "ClassDeclarationStructure:implements",
   "IndexSignatureDeclarationStructure:keyType",
@@ -8,5 +8,11 @@ const PropertyHashesWithTypes: ReadonlySet<string> = new Set<string>([
   "TypeParameterDeclarationStructure:constraint",
   "TypeParameterDeclarationStructure:default",
 ]);
+
+const PropertyHashesWithTypes = {
+  has(moduleName: string, fieldName: string): boolean {
+    return PropertyHashesWithTypesInternal.has(moduleName + ":" + fieldName);
+  }
+}
 
 export default PropertyHashesWithTypes;

@@ -26,8 +26,7 @@ export default function addReadonlyArrayHandlers(
   properties.forEach(property => {
     if (property.typeStructure?.kind !== TypeStructureKind.Array)
       return;
-    const hash = baseName + ":" + property.name;
-    if (PropertyHashesWithTypes.has(hash)) {
+    if (PropertyHashesWithTypes.has(baseName, property.name)) {
       const handler = new PropertySignatureImpl(`#${property.name}ArrayReadonlyHandler`);
       handler.isReadonly = true;
       typeToClass.addTypeMember(true, handler);
