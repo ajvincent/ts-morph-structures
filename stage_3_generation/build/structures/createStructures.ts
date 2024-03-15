@@ -49,6 +49,7 @@ import ArrayReadonlyHandler from "../fieldStatements/TypeStructures/ArrayReadonl
 import KindPropertyInitializer from "./KindProperty.js";
 import CloneStructureStatements from "./CloneStructureStatements.js";
 import ConstructorStatements from "./ConstructorStatements.js";
+import IsStatic_Constructor from "./specialCases/isStatic_Fields.js";
 import ProxyArrayStatements from "../fieldStatements/TypeStructures/ProxyArray.js";
 import ShadowArrayStatements from "../fieldStatements/TypeStructures/ShadowArray.js";
 import TypeStructureSetStatements from "../fieldStatements/TypeStructures/TypeStructureSet.js";
@@ -142,6 +143,15 @@ function buildTypeToClass(
     new TypeStructureSetStatements(module),
     new TypeArrayStatements(module),
   );
+
+  const flatTypes = InterfaceModule.flatTypesMap.get(
+    getClassInterfaceName(module.baseName)
+  )!;
+  const isStaticProp = flatTypes.getAsKind(StructureKind.PropertySignature, "isStatic");
+  if (isStaticProp) {
+    router.filters.unshift(new IsStatic_Constructor(module, typeToClass.constructorParameters));
+    typeToClass.insertMemberKey(false, isStaticProp, false, "constructor");
+  }
 
   return [typeToClass, router];
 }

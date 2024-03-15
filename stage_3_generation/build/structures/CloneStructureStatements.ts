@@ -86,7 +86,10 @@ class CloneStructureStatements extends GetterFilter
   ): stringOrWriterFunction | CallExpressionStatementImpl
   {
     let value = `source.${parameter.name}`;
-    if (parameter.hasQuestionToken) {
+    if (parameter.name === "isStatic") {
+      value += " ?? false";
+    }
+    else if (parameter.hasQuestionToken) {
       if (parameter.typeStructure === LiteralTypeStructureImpl.get("boolean"))
         value += " ?? false";
     }
