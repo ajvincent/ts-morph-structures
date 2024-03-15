@@ -354,7 +354,7 @@ class TypeStructureSetInternal extends Set {
     }
 }
 
-var _a$5;
+var _a$6;
 // #endregion preamble
 /**
  * Get structures for a node and its descendants.
@@ -465,11 +465,11 @@ class StructureAndNodeData {
      */
     #collectDescendantNodes = (node, hash) => {
         const kind = node.getKind();
-        if (!_a$5.#knownSyntaxKinds) {
-            _a$5.#knownSyntaxKinds = new Set(StructureKindToSyntaxKindMap$1.values());
+        if (!_a$6.#knownSyntaxKinds) {
+            _a$6.#knownSyntaxKinds = new Set(StructureKindToSyntaxKindMap$1.values());
         }
         // Build the node hash, and register the node.
-        if (_a$5.#knownSyntaxKinds.has(kind) &&
+        if (_a$6.#knownSyntaxKinds.has(kind) &&
             this.#nodeToHash.has(node) === false) {
             const localHash = this.#hashNodeLocal(node);
             assert(localHash, "this.#hashNodeLocal() must return a non-empty string");
@@ -681,7 +681,7 @@ class StructureAndNodeData {
         return hash;
     }
 }
-_a$5 = StructureAndNodeData;
+_a$6 = StructureAndNodeData;
 
 // This file is generated.  Do not edit.  See ../../build/structureToSyntax.ts instead.
 const StructureKindToSyntaxKindMap = new Map([
@@ -2018,7 +2018,7 @@ class CallSignatureDeclarationImpl extends CallSignatureDeclarationStructureBase
 }
 StructureClassesMap.set(StructureKind.CallSignature, CallSignatureDeclarationImpl);
 
-var _a$4;
+var _a$5;
 //#endregion preamble
 const ClassDeclarationStructureBase = MultiMixinBuilder([
     NameableNodeStructureMixin,
@@ -2035,7 +2035,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
     kind = StructureKind.Class;
     #extendsManager = new TypeAccessors();
     #implements_ShadowArray = [];
-    #implementsProxyArray = new Proxy(this.#implements_ShadowArray, _a$4.#implementsArrayReadonlyHandler);
+    #implementsProxyArray = new Proxy(this.#implements_ShadowArray, _a$5.#implementsArrayReadonlyHandler);
     ctors = [];
     getAccessors = [];
     implementsSet = new TypeStructureSetInternal(this.#implements_ShadowArray);
@@ -2099,7 +2099,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
         }
     }
     static clone(source) {
-        const target = new _a$4();
+        const target = new _a$5();
         this[COPY_FIELDS](source, target);
         return target;
     }
@@ -2134,7 +2134,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
         return rv;
     }
 }
-_a$4 = ClassDeclarationImpl;
+_a$5 = ClassDeclarationImpl;
 StructureClassesMap.set(StructureKind.Class, ClassDeclarationImpl);
 
 //#endregion preamble
@@ -2820,7 +2820,7 @@ class IndexSignatureDeclarationImpl extends IndexSignatureDeclarationStructureBa
 }
 StructureClassesMap.set(StructureKind.IndexSignature, IndexSignatureDeclarationImpl);
 
-var _a$3;
+var _a$4;
 //#endregion preamble
 const InterfaceDeclarationStructureBase = MultiMixinBuilder([
     ExportableNodeStructureMixin,
@@ -2834,7 +2834,7 @@ class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase {
     static #extendsArrayReadonlyHandler = new ReadonlyArrayProxyHandler("The extends array is read-only.  Please use this.extendsSet to set strings and type structures.");
     kind = StructureKind.Interface;
     #extends_ShadowArray = [];
-    #extendsProxyArray = new Proxy(this.#extends_ShadowArray, _a$3.#extendsArrayReadonlyHandler);
+    #extendsProxyArray = new Proxy(this.#extends_ShadowArray, _a$4.#extendsArrayReadonlyHandler);
     callSignatures = [];
     constructSignatures = [];
     extendsSet = new TypeStructureSetInternal(this.#extends_ShadowArray);
@@ -2887,7 +2887,7 @@ class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase {
         }
     }
     static clone(source) {
-        const target = new _a$3(source.name);
+        const target = new _a$4(source.name);
         this[COPY_FIELDS](source, target);
         return target;
     }
@@ -2915,7 +2915,7 @@ class InterfaceDeclarationImpl extends InterfaceDeclarationStructureBase {
         return rv;
     }
 }
-_a$3 = InterfaceDeclarationImpl;
+_a$4 = InterfaceDeclarationImpl;
 StructureClassesMap.set(StructureKind.Interface, InterfaceDeclarationImpl);
 
 //#endregion preamble
@@ -3870,7 +3870,7 @@ class ConditionalTypeStructureImpl extends TypeStructuresBase {
 }
 TypeStructureClassesMap$1.set(TypeStructureKind.Conditional, ConditionalTypeStructureImpl);
 
-var _a$2;
+var _a$3;
 // #endregion preamble
 var FunctionWriterStyle;
 (function (FunctionWriterStyle) {
@@ -3882,7 +3882,7 @@ var FunctionWriterStyle;
 /** ("new" | "get" | "set" | "") name<typeParameters>(parameters, ...restParameter) ("=\>" | ":" ) returnType */
 class FunctionTypeStructureImpl extends TypeStructuresWithTypeParameters {
     static clone(other) {
-        return new _a$2({
+        return new _a$3({
             name: other.name,
             isConstructor: other.isConstructor,
             typeParameters: other.typeParameters.map((typeParam) => TypeParameterDeclarationImpl.clone(typeParam)),
@@ -3933,7 +3933,7 @@ class FunctionTypeStructureImpl extends TypeStructuresWithTypeParameters {
         else if (this.isConstructor)
             writer.write("new ");
         if (this.typeParameters.length) {
-            _a$2.pairedWrite(writer, "<", ">", false, false, () => {
+            _a$3.pairedWrite(writer, "<", ">", false, false, () => {
                 const lastChild = this.typeParameters[this.typeParameters.length - 1];
                 for (const typeParam of this.typeParameters) {
                     TypeStructuresWithTypeParameters.writeTypeParameter(typeParam, writer, "extends");
@@ -3943,7 +3943,7 @@ class FunctionTypeStructureImpl extends TypeStructuresWithTypeParameters {
                 }
             });
         }
-        _a$2.pairedWrite(writer, "(", ")", false, false, () => {
+        _a$3.pairedWrite(writer, "(", ")", false, false, () => {
             let lastType;
             if (this.restParameter)
                 lastType = new PrefixOperatorsTypeStructureImpl(["..."], this.restParameter);
@@ -3984,7 +3984,7 @@ class FunctionTypeStructureImpl extends TypeStructuresWithTypeParameters {
             yield this.returnType;
     }
 }
-_a$2 = FunctionTypeStructureImpl;
+_a$3 = FunctionTypeStructureImpl;
 TypeStructureClassesMap$1.set(TypeStructureKind.Function, FunctionTypeStructureImpl);
 
 // #endregion preamble
@@ -4819,7 +4819,7 @@ class OrderedMap extends Map {
     }
 }
 
-var _a$1;
+var _a$2;
 /**
  * A map for class methods, properties, accessors and a constructor.  This doesn't
  * replace `ClassDeclarationImpl`, rather, it _feeds_ `ClassDeclarationImpl`.
@@ -4870,7 +4870,7 @@ class ClassMembersMap extends OrderedMap {
      * @returns the class members map.
      */
     static fromClassDeclaration(classDecl) {
-        const map = new _a$1();
+        const map = new _a$2();
         const members = [
             ...classDecl.ctors,
             ...classDecl.getAccessors,
@@ -4888,7 +4888,7 @@ class ClassMembersMap extends OrderedMap {
      * @param map - for defining which type member a class member comes from.
      */
     static convertTypeMembers(isStatic, typeMembers, map) {
-        return typeMembers.map((typeMember) => _a$1.#convertTypeMemberToClassMember(isStatic, typeMember, map));
+        return typeMembers.map((typeMember) => _a$2.#convertTypeMemberToClassMember(isStatic, typeMember, map));
     }
     static #convertTypeMemberToClassMember(isStatic, typeMember, map) {
         let classMember;
@@ -4921,7 +4921,7 @@ class ClassMembersMap extends OrderedMap {
      */
     addMembers(members) {
         members.forEach((member) => {
-            this.set(_a$1.keyFromMember(member), member);
+            this.set(_a$2.keyFromMember(member), member);
         });
     }
     /**
@@ -4938,7 +4938,7 @@ class ClassMembersMap extends OrderedMap {
     /** Get a clone of this map. */
     clone() {
         const members = StructureClassesMap.cloneArray(Array.from(this.values()));
-        const newMap = new _a$1();
+        const newMap = new _a$2();
         newMap.addMembers(members);
         return newMap;
     }
@@ -4976,10 +4976,10 @@ class ClassMembersMap extends OrderedMap {
         }
         this.addMembers([prop]);
         if (getter) {
-            this.delete(_a$1.keyFromMember(getter));
+            this.delete(_a$2.keyFromMember(getter));
         }
         if (setter) {
-            this.delete(_a$1.keyFromMember(setter));
+            this.delete(_a$2.keyFromMember(setter));
         }
     }
     /**
@@ -5028,7 +5028,7 @@ class ClassMembersMap extends OrderedMap {
             setter.trailingTrivia.push(...prop.trailingTrivia);
             this.addMembers([setter]);
         }
-        this.delete(_a$1.keyFromMember(prop));
+        this.delete(_a$2.keyFromMember(prop));
     }
     /**
      * A typed call to `this.get()` for a given kind.
@@ -5040,7 +5040,7 @@ class ClassMembersMap extends OrderedMap {
      * @see `ClassMembersMap::keyFromName`
      */
     getAsKind(kind, isStatic, name) {
-        const key = _a$1.keyFromName(kind, isStatic, name);
+        const key = _a$2.keyFromName(kind, isStatic, name);
         const rv = this.get(key);
         if (rv?.kind === kind)
             return rv;
@@ -5123,7 +5123,7 @@ class ClassMembersMap extends OrderedMap {
         }
     }
     #addStatementsToConstructor(member, statementsMap) {
-        const statementsDictionary = statementsMap.groupStatementsMap(_a$1.keyFromMember(member));
+        const statementsDictionary = statementsMap.groupStatementsMap(_a$2.keyFromMember(member));
         if (statementsDictionary) {
             const statements = Array.from(statementsDictionary.values());
             member.statements.push(...statements.flat());
@@ -5136,7 +5136,7 @@ class ClassMembersMap extends OrderedMap {
         if (!statementsDictionary) {
             return;
         }
-        const initializer = statementsDictionary.get(_a$1.keyFromMember(member));
+        const initializer = statementsDictionary.get(_a$2.keyFromMember(member));
         if (!initializer)
             return;
         if (initializer.length === 1 && typeof initializer[0] !== "object") {
@@ -5149,7 +5149,7 @@ class ClassMembersMap extends OrderedMap {
     #addStatementsToGetter(member, statementsMap) {
         if (member.isAbstract)
             return;
-        const groupName = _a$1.keyFromMember(member);
+        const groupName = _a$2.keyFromMember(member);
         let statementsDictionary = statementsMap.groupStatementsMap(ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY);
         if (statementsDictionary) {
             const initializer = statementsDictionary.get(groupName.replace("get ", ""));
@@ -5167,7 +5167,7 @@ class ClassMembersMap extends OrderedMap {
     #addStatementsToSetter(member, statementsMap) {
         if (member.isAbstract)
             return;
-        const groupName = _a$1.keyFromMember(member);
+        const groupName = _a$2.keyFromMember(member);
         let statementsDictionary = statementsMap.groupStatementsMap(ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY);
         if (statementsDictionary) {
             const initializer = statementsDictionary.get(groupName.replace("set ", ""));
@@ -5185,7 +5185,7 @@ class ClassMembersMap extends OrderedMap {
     #addStatementsToMethod(member, statementsMap) {
         if (member.isAbstract)
             return;
-        const groupName = _a$1.keyFromMember(member);
+        const groupName = _a$2.keyFromMember(member);
         const statementsDictionary = statementsMap.groupStatementsMap(groupName);
         if (statementsDictionary) {
             const statements = Array.from(statementsDictionary.values());
@@ -5196,7 +5196,7 @@ class ClassMembersMap extends OrderedMap {
         return Array.from(this.values());
     }
 }
-_a$1 = ClassMembersMap;
+_a$2 = ClassMembersMap;
 
 // #region preamble
 // #endregion preamble
@@ -5442,8 +5442,24 @@ class ImportManager {
     }
 }
 
+var _a$1;
 /** Convert type members to a class members map, including statements. */
 class MemberedTypeToClass {
+    static #compareKeys(a, b) {
+        if (a.isGroupStatic && !b.isGroupStatic)
+            return -1;
+        if (b.isGroupStatic && !a.isGroupStatic)
+            return +1;
+        let result = a.statementGroupKey.localeCompare(b.statementGroupKey);
+        if (result)
+            return result;
+        if (a.isFieldStatic && !b.isFieldStatic)
+            return -1;
+        if (b.isFieldStatic && !a.isFieldStatic)
+            return +1;
+        result = ClassFieldStatementsMap.fieldComparator(a.fieldKey, b.fieldKey);
+        return result;
+    }
     #aggregateStaticTypesMap = new TypeMembersMap$1();
     #aggregateTypeMembersMap = new TypeMembersMap$1();
     #classMemberToTypeMemberMap = new WeakMap();
@@ -5716,7 +5732,7 @@ class MemberedTypeToClass {
             this.#addStatementKeysForAccessor(setter, keyClassMap, purposeKeys, propertyNames);
         });
         this.#insertedMemberKeys.forEach((addedKey) => this.#applyInsertedKeys(addedKey, keyClassMap, purposeKeys));
-        return Array.from(keyClassMap.values());
+        return Array.from(keyClassMap.values()).toSorted(_a$1.#compareKeys);
     }
     /**
      * Add member keys for a field and a group.
@@ -5853,6 +5869,7 @@ class MemberedTypeToClass {
         statementsMap.set(keyClass.fieldKey, keyClass.statementGroupKey, statementsArray.slice());
     }
 }
+_a$1 = MemberedTypeToClass;
 
 var _a;
 /**

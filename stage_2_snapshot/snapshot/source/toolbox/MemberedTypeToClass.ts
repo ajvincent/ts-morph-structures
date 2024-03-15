@@ -17,6 +17,7 @@ import {
   type InterfaceDeclarationImpl,
   type MethodDeclarationImpl,
   type MethodSignatureImpl,
+  MemberedStatementsKey,
   type MemberedObjectTypeStructureImpl,
   NamedTypeMemberImpl,
   ParameterDeclarationImpl,
@@ -53,6 +54,24 @@ interface InsertedMemberKey {
 
 /** Convert type members to a class members map, including statements. */
 export default class MemberedTypeToClass {
+  static #compareKeys(
+    this: void,
+    a: MemberedStatementsKey,
+    b: MemberedStatementsKey,
+  ): number {
+    if (a.isGroupStatic && !b.isGroupStatic) return -1;
+    if (b.isGroupStatic && !a.isGroupStatic) return +1;
+
+    let result = a.statementGroupKey.localeCompare(b.statementGroupKey);
+    if (result) return result;
+
+    if (a.isFieldStatic && !b.isFieldStatic) return -1;
+    if (b.isFieldStatic && !a.isFieldStatic) return +1;
+
+    result = ClassFieldStatementsMap.fieldComparator(a.fieldKey, b.fieldKey);
+    return result;
+  }
+
   readonly #aggregateStaticTypesMap = new TypeMembersMap();
   readonly #aggregateTypeMembersMap = new TypeMembersMap();
   readonly #classMemberToTypeMemberMap = new WeakMap<
@@ -497,7 +516,9 @@ export default class MemberedTypeToClass {
       this.#applyInsertedKeys(addedKey, keyClassMap, purposeKeys),
     );
 
-    return Array.from(keyClassMap.values());
+    return Array.from(keyClassMap.values()).toSorted(
+      MemberedTypeToClass.#compareKeys,
+    );
   }
 
   /**
