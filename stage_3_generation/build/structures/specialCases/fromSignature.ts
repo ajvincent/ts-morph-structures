@@ -1,43 +1,57 @@
+// #region preamble
+import assert from "node:assert/strict";
+
 import {
+  CodeBlockWriter,
+  StructureKind,
   VariableDeclarationKind,
+  WriterFunction,
 } from "ts-morph";
 
 import {
   ClassFieldStatementsMap,
+  type GetAccessorDeclarationImpl,
   LiteralTypeStructureImpl,
-  MemberedStatementsKey,
+  type MemberedStatementsKey,
   MethodSignatureImpl,
   ParameterDeclarationImpl,
-  /*
-  TypeMembersMap,
-  */
+  type PropertySignatureImpl,
+  TypeStructureKind,
+  type TypeStructures,
   VariableDeclarationImpl,
   VariableStatementImpl,
-  stringOrWriterFunction,
-  stringWriterOrStatementImpl
+  type stringOrWriterFunction,
+  type stringWriterOrStatementImpl,
+  ReadonlyTypeMembersMap
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
-  getClassInterfaceName
+  getClassInterfaceName,
+  getStructureNameFromModified,
 } from "#utilities/source/StructureNameTransforms.js";
 
 import GetterFilter from "../../fieldStatements/GetterFilter.js";
-/*
 import FlatInterfaceMap from "../../../vanilla/FlatInterfaceMap.js";
-*/
+
 import {
   BaseClassModule,
   InterfaceModule,
   StructureModule,
-} from "../../..//moduleClasses/exports.js";
+} from "../../../moduleClasses/exports.js";
 
+import BlockStatementImpl from "../../../pseudoStatements/BlockStatement.js";
 import CallExpressionStatementImpl from "../../../pseudoStatements/CallExpression.js";
+// #endregion preamble
 
 const DeclarationToSignature: ReadonlyMap<string, string> = new Map<string, string>([
   ["ConstructorDeclarationImpl", "ConstructSignatureDeclarationImpl"],
   ["MethodDeclarationImpl", "MethodSignatureImpl"],
   ["PropertyDeclarationImpl", "PropertySignatureImpl"]
 ]);
+
+const booleanType = LiteralTypeStructureImpl.get("boolean");
+const stringType = LiteralTypeStructureImpl.get("string");
+
 
 export function getFromSignatureMethod(
   module: StructureModule
@@ -72,8 +86,10 @@ export function getFromSignatureMethod(
 
 export class FromSignatureStatements extends GetterFilter
 {
-  readonly #interfaceModule: Readonly<InterfaceModule>;
   readonly #ctorParameters: readonly ParameterDeclarationImpl[];
+
+  readonly declarationFlatTypeMembers: ReadonlyTypeMembersMap;
+  readonly sharedKeys: ReadonlySet<string>;
 
   constructor(
     module: BaseClassModule,
@@ -81,17 +97,47 @@ export class FromSignatureStatements extends GetterFilter
   )
   {
     super(module);
-    this.#interfaceModule = InterfaceModule.structuresMap.get(
+    this.#ctorParameters = ctorParameters;
+
+    const signatureName = DeclarationToSignature.get(module.defaultExportName)!;
+    const declarationTypeMembers = InterfaceModule.flatTypesMap.get(
       getClassInterfaceName(module.baseName)
     )!;
-    this.#ctorParameters = ctorParameters;
+    const signatureTypeMembers = InterfaceModule.flatTypesMap.get(
+      getClassInterfaceName(getStructureNameFromModified(signatureName))
+    )!;
+
+    const sharedKeys = new Set<string>;
+    for (const name of declarationTypeMembers.keys()) {
+      if (signatureTypeMembers.has(name)) {
+        sharedKeys.add(name);
+      }
+    }
+    this.sharedKeys = sharedKeys;
+    this.declarationFlatTypeMembers = declarationTypeMembers;
   }
 
   accept(
     key: MemberedStatementsKey
   ): boolean
   {
-    return key.statementGroupKey === "static fromSignature";
+    if (key.statementGroupKey !== "static fromSignature")
+      return false;
+    
+    if (
+      (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) ||
+      (key.fieldKey === ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN)
+    )
+      return true;
+
+    if (key.fieldKey === "kind")
+      return false;
+
+    if (!this.sharedKeys.has(key.fieldKey))
+      return false;
+
+    const flatMap = FlatInterfaceMap.get(this.module.baseName)!;
+    return flatMap.properties.some(prop => prop.name === key.fieldKey);
   }
 
   getStatements(
@@ -99,30 +145,170 @@ export class FromSignatureStatements extends GetterFilter
   ): readonly stringWriterOrStatementImpl[]
   {
     if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) {
-      const declStatement = new VariableStatementImpl;
-      declStatement.declarationKind = VariableDeclarationKind.Const;
-
-      const declaration = new VariableDeclarationImpl("declaration");
-      declStatement.declarations.push(declaration);
-
-      const parameters: stringOrWriterFunction[] = this.#ctorParameters.map(param => {
-        return `${param.name === "isStatic" ? "" : "signature."}${param.name}`;
-      })
-
-      declaration.initializer = new CallExpressionStatementImpl({
-        name: "new " + this.module.defaultExportName,
-        parameters,
-      }).writerFunction;
-
-      return [
-        declStatement,
-      ];
+      return this.#headStatements();
     }
 
     if (key.fieldKey === ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN) {
       return [`return declaration;`];
     }
 
+    // The rest of this function borrows heavily from fieldStatements/CopyFields.ts
+
+    if (key.fieldType?.kind === StructureKind.GetAccessor) {
+      return this.#getCopyTypeStatements(key.fieldType);
+    }
+
+    const fieldType = this.declarationFlatTypeMembers.get(key.fieldKey);
+
+    assert.equal(
+      fieldType?.kind,
+      StructureKind.PropertySignature,
+      "not a property?  " + (key.fieldType ? StructureKind[key.fieldType.kind] : "(undefined)"));
+
+    assert(fieldType.typeStructure, "no type structure?");
+
+    switch (fieldType.typeStructure.kind) {
+      case TypeStructureKind.Literal:
+        return this.#getStatementsForLiteralType(fieldType, fieldType.typeStructure);
+      case TypeStructureKind.Array:
+        return this.#getStatementsForArrayType(fieldType, fieldType.typeStructure.objectType);
+    }
+
+    throw new Error(`unexpected field type structure: ${this.baseName}:${fieldType.name}, ${TypeStructureKind[fieldType.typeStructure.kind]}`);
+  }
+
+  #headStatements(): readonly stringWriterOrStatementImpl[]
+  {
+    const declStatement = new VariableStatementImpl;
+    declStatement.declarationKind = VariableDeclarationKind.Const;
+
+    const declaration = new VariableDeclarationImpl("declaration");
+    declStatement.declarations.push(declaration);
+
+    /*
+    const parameters: stringOrWriterFunction[] = this.#ctorParameters.map(param => {
+      return `${param.name === "isStatic" ? "" : "signature."}${param.name}`;
+    });
+    */
+    const paramWriter = (writer: CodeBlockWriter): void => {
+      const lastIndex = this.#ctorParameters.length - 1;
+      this.#ctorParameters.forEach((param, index) => {
+        writer.conditionalWrite(param.name !== "isStatic", "signature.");
+        writer.write(param.name);
+        writer.conditionalWrite(index < lastIndex, ",");
+      });
+    };
+
+    declaration.initializer = new CallExpressionStatementImpl({
+      name: "new " + this.module.defaultExportName,
+      parameters: [paramWriter],
+    }).writerFunction;
+
+    return [
+      declStatement,
+    ];
+  }
+
+  #getStatementsForLiteralType(
+    fieldType: PropertySignatureImpl,
+    typeStructure: LiteralTypeStructureImpl
+  ): readonly stringOrWriterFunction[]
+  {
+    if (fieldType.name === "name")
+      return []; // handled in headStatements above
+
+    if ((fieldType.name === "returnType") || (fieldType.name === "type")) {
+      return [
+        this.#getIfSourceStatement(
+          false,
+          `${fieldType.name}Structure`,
+          `declaration.${fieldType.name}Structure = TypeStructureClassesMap.clone(
+            signature.${fieldType.name}Structure,
+          );`
+        )
+      ];
+    }
+
+    let statement: stringOrWriterFunction;
+    const originalField = this.declarationFlatTypeMembers.getAsKind(StructureKind.PropertySignature, fieldType.name)!;
+    switch (typeStructure) {
+      case booleanType:
+        statement = this.#getAssignmentStatement(fieldType.name);
+        if (originalField.hasQuestionToken) {
+          statement += " ?? false";
+        }
+        return [statement];
+
+      case stringType:
+        statement = `target.${fieldType.name} = source.${fieldType.name}`;
+        if (originalField.hasQuestionToken) {
+          statement += ` ?? ""`;
+        }
+        return [statement];
+    }
+
+    return [];
+  }
+
+
+  #getAssignmentStatement(
+    name: string
+  ): string
+  {
+    return `declaration.${name} = signature.${name}`;
+  }
+
+  #getIfSourceStatement(
+    isElse: boolean,
+    name: string,
+    body: string,
+  ): WriterFunction
+  {
+    return new BlockStatementImpl(
+      `${isElse ? "else " : ""}if (signature.${name})`,
+      [body],
+    ).writerFunction;
+  }
+
+  #getStatementsForArrayType(
+    fieldType: PropertySignatureImpl,
+    objectType: TypeStructures
+  ): readonly stringWriterOrStatementImpl[]
+  {
+    const { name } = fieldType;
+    void(objectType);
+
+    if ((name === "leadingTrivia") || (name === "trailingTrivia"))
+      return this.#getStatementsForTrivia(name);
+
+    return [
+      (new CallExpressionStatementImpl({
+        name: `declaration.${name}.push`,
+        parameters: [
+          new CallExpressionStatementImpl({
+            name: "...StructureClassesMap.cloneArray",
+            typeParameters: [objectType, objectType],
+            parameters: [`signature.${name}`]
+          })
+        ]
+      })).writerFunction
+    ];
+  }
+
+  #getStatementsForTrivia(
+    name: string
+  ): readonly stringWriterOrStatementImpl[]
+  {
+    return [
+      `declaration.${name}.push(...signature.${name});`
+    ];
+  }
+
+  #getCopyTypeStatements(
+    member: GetAccessorDeclarationImpl
+  ): readonly stringWriterOrStatementImpl[]
+  {
+    void(member);
     return [];
   }
 }

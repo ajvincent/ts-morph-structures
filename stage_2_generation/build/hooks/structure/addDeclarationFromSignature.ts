@@ -59,8 +59,8 @@ function convertConstructor(
   parts.classFieldsStatements.set("typeParameters", groupName, [
     `declaration.typeParameters.push(
       ...StructureClassesMap.cloneArray<
-        string | TypeParameterDeclarationImpl,
-        string | TypeParameterDeclarationImpl
+        TypeParameterDeclarationImpl | string,
+        TypeParameterDeclarationImpl | string
       >(signature.typeParameters),
     );`
   ]);
@@ -102,8 +102,8 @@ function convertMethod(
   parts.classFieldsStatements.set("typeParameters", groupName, [
     `declaration.typeParameters.push(
       ...StructureClassesMap.cloneArray<
-        string | TypeParameterDeclarationImpl,
-        string | TypeParameterDeclarationImpl
+        TypeParameterDeclarationImpl | string,
+        TypeParameterDeclarationImpl | string
       >(signature.typeParameters),
     );`
   ]);
@@ -222,8 +222,8 @@ function copyDocs(
 {
   parts.classFieldsStatements.set("docs", groupName, [
     `declaration.docs.push(...StructureClassesMap.cloneArray<
-      string | JSDocImpl,
-      string | JSDocImpl
+      JSDocImpl | string,
+      JSDocImpl | string
     >(signature.docs));`,
   ]);
 }

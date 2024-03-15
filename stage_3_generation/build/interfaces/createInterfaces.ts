@@ -70,6 +70,17 @@ export default async function createInterfaces(
   modules.forEach(defineImportsForModule);
   modules.forEach(definePublicExport);
   await PromiseAllParallel(modules, module => module.saveFile());
+
+  InterfaceModule.structuresMap.forEach((baseModule: InterfaceModule, key: string): void => {
+    const typeMembers = baseModule.typeMembers.clone();
+    InterfaceModule.flatTypesMap.set(key, typeMembers);
+
+    baseModule.extendsSet.forEach(extendsName => {
+      typeMembers.addMembers(Array.from(
+        InterfaceModule.decoratorsMap.get(getClassInterfaceName(extendsName))!.typeMembers.values()
+      ));
+    });
+  });
 }
 
 function createStructureInterface(

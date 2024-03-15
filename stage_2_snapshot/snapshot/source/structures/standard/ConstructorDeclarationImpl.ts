@@ -103,7 +103,7 @@ export default class ConstructorDeclarationImpl
   ): ConstructorDeclarationImpl {
     const declaration = new ConstructorDeclarationImpl();
     declaration.docs.push(
-      ...StructureClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(
+      ...StructureClassesMap.cloneArray<JSDocImpl | string, JSDocImpl | string>(
         signature.docs,
       ),
     );
@@ -123,8 +123,8 @@ export default class ConstructorDeclarationImpl
     declaration.trailingTrivia.push(...signature.trailingTrivia);
     declaration.typeParameters.push(
       ...StructureClassesMap.cloneArray<
-        string | TypeParameterDeclarationImpl,
-        string | TypeParameterDeclarationImpl
+        TypeParameterDeclarationImpl | string,
+        TypeParameterDeclarationImpl | string
       >(signature.typeParameters),
     );
     return declaration;

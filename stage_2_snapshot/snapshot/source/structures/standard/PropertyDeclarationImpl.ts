@@ -123,7 +123,7 @@ export default class PropertyDeclarationImpl
   ): PropertyDeclarationImpl {
     const declaration = new PropertyDeclarationImpl(isStatic, signature.name);
     declaration.docs.push(
-      ...StructureClassesMap.cloneArray<string | JSDocImpl, string | JSDocImpl>(
+      ...StructureClassesMap.cloneArray<JSDocImpl | string, JSDocImpl | string>(
         signature.docs,
       ),
     );

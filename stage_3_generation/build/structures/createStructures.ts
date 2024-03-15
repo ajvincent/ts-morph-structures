@@ -154,7 +154,6 @@ function defineImplMethods(
   router: StatementsRouter,
 ): void
 {
-
   const copyFieldsMethod = module.createCopyFieldsMethod(true);
   typeToClass.addTypeMember(true, copyFieldsMethod);
   typeToClass.addTypeMember(true, module.createStaticCloneMethod());
@@ -162,7 +161,17 @@ function defineImplMethods(
   const fromSignature = getFromSignatureMethod(module);
   if (fromSignature) {
     typeToClass.addTypeMember(true, fromSignature);
-    router.filters.push(new FromSignatureStatements(module, typeToClass.constructorParameters));
+    const fromSignatureGetters = new FromSignatureStatements(module, typeToClass.constructorParameters);
+    router.filters.push(fromSignatureGetters);
+
+    fromSignatureGetters.sharedKeys.forEach(sharedKey => {
+      typeToClass.insertMemberKey(
+        false,
+        fromSignatureGetters.declarationFlatTypeMembers.get(sharedKey) as PropertySignatureImpl,
+        true,
+        fromSignature
+      );
+    });
   }
 
   let iteratorMethod: MethodSignatureImpl | undefined;

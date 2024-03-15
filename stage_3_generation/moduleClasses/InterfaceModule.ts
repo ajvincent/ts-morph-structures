@@ -17,6 +17,7 @@ export default
 class InterfaceModule extends BaseModule {
   static readonly decoratorsMap = new SuffixMap<InterfaceModule>("ClassIfc");
   static readonly structuresMap = new SuffixMap<InterfaceModule>("ClassIfc");
+  static readonly flatTypesMap = new SuffixMap<TypeMembersMap>("ClassIfc");
 
   static #entryComparator(
     this: void,

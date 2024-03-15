@@ -40,8 +40,10 @@ import TS_MORPH_D from "#utilities/source/ts-morph-d-file.js";
 import GetterFilter from "../fieldStatements/GetterFilter.js";
 
 import BlockStatementImpl from "../../pseudoStatements/BlockStatement.js";
-import CallExpressionStatementImpl from "#stage_three/generation/pseudoStatements/CallExpression.js";
-import InterfaceModule from "#stage_three/generation/moduleClasses/InterfaceModule.js";
+import CallExpressionStatementImpl from "../../pseudoStatements/CallExpression.js";
+import {
+  InterfaceModule,
+} from "../../moduleClasses/exports.js";
 //#endregion preamble
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
