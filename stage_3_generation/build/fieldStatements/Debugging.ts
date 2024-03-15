@@ -10,19 +10,19 @@ export default
 class DebuggingFilter extends GetterFilter
 {
   #baseNamePrefix?: string;
-  #fieldKey: string;
-  #statementGroupKey: string;
+  #fieldKeyPrefix: string;
+  #groupKeyNeedle: string;
 
   constructor(
     module: BaseClassModule,
-    fieldKey: string,
-    statementGroupKey: string,
+    fieldKeyPrefix: string,
+    groupKeyNeedle: string,
     baseName?: string
   )
   {
     super(module);
-    this.#fieldKey = fieldKey;
-    this.#statementGroupKey = statementGroupKey;
+    this.#fieldKeyPrefix = fieldKeyPrefix;
+    this.#groupKeyNeedle = groupKeyNeedle;
     this.#baseNamePrefix = baseName;
   }
 
@@ -30,7 +30,7 @@ class DebuggingFilter extends GetterFilter
     key: MemberedStatementsKey
   ): boolean
   {
-    if ((key.fieldKey === this.#fieldKey) && (key.statementGroupKey === this.#statementGroupKey)) {
+    if (key.fieldKey.startsWith(this.#fieldKeyPrefix) && key.statementGroupKey.includes(this.#groupKeyNeedle)) {
       if (!this.#baseNamePrefix || this.module.baseName.startsWith(this.#baseNamePrefix)) {
         // eslint-disable-next-line no-debugger
         debugger;
