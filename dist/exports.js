@@ -5732,7 +5732,9 @@ class MemberedTypeToClass {
             this.#addStatementKeysForAccessor(setter, keyClassMap, purposeKeys, propertyNames);
         });
         this.#insertedMemberKeys.forEach((addedKey) => this.#applyInsertedKeys(addedKey, keyClassMap, purposeKeys));
-        return Array.from(keyClassMap.values()).toSorted(_a$1.#compareKeys);
+        const result = Array.from(keyClassMap.values());
+        result.sort(_a$1.#compareKeys);
+        return result;
     }
     /**
      * Add member keys for a field and a group.

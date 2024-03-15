@@ -516,9 +516,9 @@ export default class MemberedTypeToClass {
       this.#applyInsertedKeys(addedKey, keyClassMap, purposeKeys),
     );
 
-    return Array.from(keyClassMap.values()).toSorted(
-      MemberedTypeToClass.#compareKeys,
-    );
+    const result = Array.from(keyClassMap.values());
+    result.sort(MemberedTypeToClass.#compareKeys);
+    return result;
   }
 
   /**
