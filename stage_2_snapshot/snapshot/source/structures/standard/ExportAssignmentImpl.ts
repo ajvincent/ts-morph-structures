@@ -35,7 +35,7 @@ export default class ExportAssignmentImpl
 {
   readonly kind: StructureKind.ExportAssignment =
     StructureKind.ExportAssignment;
-  expression: stringOrWriterFunction = "";
+  expression: stringOrWriterFunction;
   isExportEquals = false;
 
   constructor(expression: stringOrWriterFunction) {

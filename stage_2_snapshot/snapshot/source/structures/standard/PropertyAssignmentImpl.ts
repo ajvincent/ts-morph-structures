@@ -35,7 +35,7 @@ export default class PropertyAssignmentImpl
 {
   readonly kind: StructureKind.PropertyAssignment =
     StructureKind.PropertyAssignment;
-  initializer: stringOrWriterFunction = "";
+  initializer: stringOrWriterFunction;
 
   constructor(name: string, initializer: stringOrWriterFunction) {
     super();

@@ -3,8 +3,6 @@ import assert from "node:assert/strict";
 
 import {
   CodeBlockWriter,
-  InterfaceDeclaration,
-  PropertySignature,
   StructureKind,
   VariableDeclarationKind,
   WriterFunction,
@@ -19,23 +17,21 @@ import {
   ParenthesesTypeStructureImpl,
   QualifiedNameTypeStructureImpl,
   type PropertySignatureImpl,
+  TypeArgumentedTypeStructureImpl,
   TypeStructureKind,
   type TypeStructures,
   UnionTypeStructureImpl,
   VariableDeclarationImpl,
   VariableStatementImpl,
-  VoidTypeNodeToTypeStructureConsole,
-  getTypeAugmentedStructure,
   type stringWriterOrStatementImpl,
   type stringOrWriterFunction,
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
   getClassInterfaceName,
+  getStructureImplName,
   getStructureNameFromModified,
 } from "#utilities/source/StructureNameTransforms.js";
-
-import TS_MORPH_D from "#utilities/source/ts-morph-d-file.js";
 
 import GetterFilter from "../fieldStatements/GetterFilter.js";
 
@@ -44,14 +40,31 @@ import CallExpressionStatementImpl from "../../pseudoStatements/CallExpression.j
 import {
   InterfaceModule,
 } from "../../moduleClasses/exports.js";
+import FlatInterfaceMap from "#stage_three/generation/vanilla/FlatInterfaceMap.js";
 //#endregion preamble
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
 const stringType = LiteralTypeStructureImpl.get("string");
+const stringOrWriterFunctionType = LiteralTypeStructureImpl.get("stringOrWriterFunction");
 
 export default class CopyFieldsStatements extends GetterFilter
 {
   static #managerRE = /^#.*Manager$/;
+
+  static #getStructureKind(
+    structureName: string
+  ): string
+  {
+    const vanillaInterface = FlatInterfaceMap.get(structureName)!;
+    const kindProperty = vanillaInterface.properties.find(prop => prop.name === "kind")!;
+    assert.equal(kindProperty.typeStructure?.kind,
+      TypeStructureKind.QualifiedName,
+      "expected qualified name for structure name's kind: " + structureName
+    );
+
+    assert.equal(kindProperty.typeStructure.childTypes[0], "StructureKind");
+    return kindProperty.typeStructure.childTypes[1];
+  }
 
   accept(
     key: MemberedStatementsKey
@@ -119,6 +132,7 @@ export default class CopyFieldsStatements extends GetterFilter
       this.module.addImports("ts-morph", [], ["Scope"]);
 
     switch (fieldType.name) {
+      case "declarationKind":
       case "initializer":
       case "name":
       case "scope":
@@ -140,8 +154,12 @@ export default class CopyFieldsStatements extends GetterFilter
         return [statement];
 
       case stringType:
+      case stringOrWriterFunctionType:
         statement = `target.${fieldType.name} = source.${fieldType.name}`;
-        if (originalField.hasQuestionToken) {
+        if (fieldType.hasQuestionToken) {
+          statement = this.#getIfSourceStatement(false, fieldType.name, statement);
+        }
+        else if (originalField.hasQuestionToken) {
           statement += ` ?? ""`;
         }
         return [statement];
@@ -235,8 +253,7 @@ export default class CopyFieldsStatements extends GetterFilter
     }
 
     if (this.baseName.startsWith("Jsx")) {
-      console.warn(`to fix later: ${this.module.baseName}:${fieldType.name}`);
-      return [];
+      return this.#getStatementsForJSXArray(fieldType);
     }
 
     if (objectType.kind === TypeStructureKind.Parentheses)
@@ -263,25 +280,147 @@ export default class CopyFieldsStatements extends GetterFilter
       }
     }
 
+    const originalField = this.#getOriginalField(fieldType.name);
+
     if (generatedClassName === "") {
-      let statement = new CallExpressionStatementImpl({
-        name: `target.${name}.push`,
-        parameters: [
-          `...source.${name}`
-        ]
-      }).writerFunction;
-
-      if (fieldType.hasQuestionToken) {
-        statement = new BlockStatementImpl(
-          `if (source.${name})`, [statement]
-        ).writerFunction;
-      }
-
-      return [statement];
+      return this.#getStatementsForTSMorphArray(name, fieldType, originalField);
     }
 
-    assert(generatedClassName, `we should be ready to clone structures now, ${this.module.exportName}:${name}`);
+    return this.#getStatementsForGeneratedClassArray(
+      name, objectType, generatedClassName, originalField
+    );
+  }
 
+  #getStatementsForJSXArray(
+    fieldType: PropertySignatureImpl
+  ): stringOrWriterFunction[]
+  {
+    const originalField = this.#getOriginalField(fieldType.name);
+    assert(originalField.hasQuestionToken, "hasQuestionToken is false: " + this.baseName + ":" + fieldType.name);
+    let { typeStructure } = originalField;
+    assert.equal(
+      typeStructure?.kind,
+      TypeStructureKind.Array,
+      "expected array, got " + TypeStructureKind[typeStructure!.kind] + " " + this.baseName + ":" + fieldType.name
+    );
+    typeStructure = typeStructure.objectType;
+    assert.equal(
+      typeStructure.kind,
+      TypeStructureKind.Parentheses,
+      "expected parentheses, got " + TypeStructureKind[typeStructure.kind] + " " + this.baseName + ":" + fieldType.name
+    );
+    typeStructure = typeStructure.childTypes[0];
+    assert.equal(
+      typeStructure.kind,
+      TypeStructureKind.Union,
+      "expected union, got " + TypeStructureKind[typeStructure.kind] + " " + this.baseName + ":" + fieldType.name
+    );
+    assert.equal(
+      typeStructure.childTypes.length,
+      2,
+      "expected union of two types, found " + typeStructure.childTypes.length
+    );
+
+    // eslint-disable-next-line prefer-const
+    let [optionalType, requiredType] = typeStructure.childTypes;
+    assert.equal(optionalType.kind, TypeStructureKind.TypeArgumented);
+    assert.equal(optionalType.objectType, LiteralTypeStructureImpl.get("OptionalKind"));
+    assert.equal(optionalType.childTypes.length, 1, "Expected one optional child:" + this.baseName + ":" + fieldType.name);
+    optionalType = optionalType.childTypes[0];
+    assert.equal(
+      optionalType.kind,
+      TypeStructureKind.Literal,
+      "Expected one literal child for the optional: " + this.baseName + ":" + fieldType.name
+    );
+
+    assert.equal(
+      requiredType.kind,
+      TypeStructureKind.Literal,
+      "Expected one literal child for the required: " + this.baseName + ":" + fieldType.name
+    );
+
+    this.module.addImports(
+      "ts-morph",
+      ["StructureKind"],
+      ["OptionalKind", optionalType.stringValue, requiredType.stringValue]
+    );
+
+    const optionalKind = CopyFieldsStatements.#getStructureKind(optionalType.stringValue);
+    const requiredKind = CopyFieldsStatements.#getStructureKind(requiredType.stringValue);
+
+    let callStatement = new CallExpressionStatementImpl({
+      name: "...StructureClassesMap.cloneRequiredAndOptionalArray",
+      typeParameters: [
+        requiredType,
+        new QualifiedNameTypeStructureImpl(["StructureKind", requiredKind]),
+        new TypeArgumentedTypeStructureImpl(
+          LiteralTypeStructureImpl.get("OptionalKind"),
+          [optionalType]
+        ),
+        new QualifiedNameTypeStructureImpl(["StructureKind", optionalKind]),
+        LiteralTypeStructureImpl.get(getStructureImplName(requiredType.stringValue)),
+        LiteralTypeStructureImpl.get(getStructureImplName(optionalType.stringValue))
+      ],
+      parameters: [
+        `source.${fieldType.name}`,
+        `StructureKind.${requiredKind}`,
+        `StructureKind.${optionalKind}`
+      ]
+    });
+
+    callStatement = new CallExpressionStatementImpl({
+      name: `target.${fieldType.name}.push`,
+      parameters: [callStatement]
+    });
+
+    return [
+      new BlockStatementImpl(
+        `if (source.${fieldType.name})`,
+        [callStatement.writerFunction]
+      ).writerFunction
+    ];
+  }
+
+
+  #getStatementsForTSMorphArray(
+    name: string,
+    fieldType: PropertySignatureImpl,
+    originalField: PropertySignatureImpl
+  ): stringOrWriterFunction[]
+  {
+    let statement = new CallExpressionStatementImpl({
+      name: `target.${name}.push`,
+      parameters: [
+        `...source.${name}`
+      ]
+    }).writerFunction;
+
+    if (fieldType.hasQuestionToken) {
+      statement = new BlockStatementImpl(
+        `if (source.${name})`, [statement]
+      ).writerFunction;
+    }
+    else if (originalField.hasQuestionToken) {
+      statement = new BlockStatementImpl(
+        `if (Array.isArray(source.${name}))`,
+        [statement]
+      ).writerFunction;
+      return [
+        statement,
+        `else if (source.${name} !== undefined) { target.${name}.push(source.${name}); }`
+      ]
+    }
+
+    return [statement];
+  }
+
+  #getStatementsForGeneratedClassArray(
+    name: string,
+    objectType: TypeStructures,
+    generatedClassName: string,
+    originalField: PropertySignatureImpl
+  ): WriterFunction[]
+  {
     const generatedStructureName = getStructureNameFromModified(generatedClassName);
     const generatedInterfaceName = getClassInterfaceName(generatedStructureName);
     const generatedStructureKind = InterfaceModule.structuresMap.get(generatedInterfaceName)!.structureKindName!;
@@ -311,21 +450,21 @@ export default class CopyFieldsStatements extends GetterFilter
       ]
     });
 
-    return [
-      new BlockStatementImpl(
-      `if (source.${name})`,
-      [
-        new CallExpressionStatementImpl({
-          name: `target.${name}.push`,
-          parameters: [
-            callClone
-          ]
-        }).writerFunction
+    let statement: WriterFunction = new CallExpressionStatementImpl({
+      name: `target.${name}.push`,
+      parameters: [
+        callClone
       ]
-      ).writerFunction
-    ];
+    }).writerFunction;
 
-    return [];
+    if (originalField.hasQuestionToken) {
+      statement = new BlockStatementImpl(
+        `if (source.${name})`,
+        [statement]
+      ).writerFunction;
+    }
+
+    return [statement];
   }
 
   #getStatementsForUnionType(
@@ -333,9 +472,12 @@ export default class CopyFieldsStatements extends GetterFilter
     childTypes: TypeStructures[]
   ): readonly stringWriterOrStatementImpl[]
   {
-    void(fieldType);
     void(childTypes);
-    return [];
+    let statement: stringWriterOrStatementImpl = `target.${fieldType.name} = source.${fieldType.name};`
+    if (fieldType.hasQuestionToken) {
+      statement = this.#getIfSourceStatement(false, fieldType.name, statement);
+    }
+    return [statement];
   }
 
   #getStatementsForTrivia(
@@ -418,25 +560,6 @@ export default class CopyFieldsStatements extends GetterFilter
     propertyName: string,
   ): PropertySignatureImpl
   {
-    const baseInterface: InterfaceDeclaration = TS_MORPH_D.getInterfaceOrThrow(this.baseName);
-    let prop: PropertySignature | undefined = baseInterface.getProperty(propertyName);
-    if (!prop) {
-      for (const extendsExpr of baseInterface.getExtends()){
-        const extendsName = extendsExpr.getFullText().trim();
-        const extendsInterface: InterfaceDeclaration = TS_MORPH_D.getInterfaceOrThrow(extendsName);
-        prop = extendsInterface.getProperty(propertyName);
-        if (prop)
-          break;
-      }
-    }
-
-    assert(prop, "No property yet for name " + this.module.baseName + ":" + propertyName);
-
-    return getTypeAugmentedStructure(
-      prop,
-      VoidTypeNodeToTypeStructureConsole,
-      true,
-      StructureKind.PropertySignature
-    ).rootStructure;
+    return FlatInterfaceMap.get(this.baseName)!.properties.find(prop => prop.name === propertyName)!;
   }
 }

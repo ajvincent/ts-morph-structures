@@ -2378,7 +2378,7 @@ StructureClassesMap.set(StructureKind.EnumMember, EnumMemberImpl);
 const ExportAssignmentStructureBase = MultiMixinBuilder([JSDocableNodeStructureMixin, StructureMixin], StructureBase);
 class ExportAssignmentImpl extends ExportAssignmentStructureBase {
     kind = StructureKind.ExportAssignment;
-    expression = "";
+    expression;
     isExportEquals = false;
     constructor(expression) {
         super();
@@ -3004,7 +3004,7 @@ const JsxAttributeStructureBase = MultiMixinBuilder([StructureMixin], StructureB
 class JsxAttributeImpl extends JsxAttributeStructureBase {
     kind = StructureKind.JsxAttribute;
     initializer = undefined;
-    name = "";
+    name;
     constructor(name) {
         super();
         this.name = name;
@@ -3354,7 +3354,7 @@ StructureClassesMap.set(StructureKind.Parameter, ParameterDeclarationImpl);
 const PropertyAssignmentStructureBase = MultiMixinBuilder([NamedNodeStructureMixin, StructureMixin], StructureBase);
 class PropertyAssignmentImpl extends PropertyAssignmentStructureBase {
     kind = StructureKind.PropertyAssignment;
-    initializer = "";
+    initializer;
     constructor(name, initializer) {
         super();
         this.initializer = initializer;
@@ -3550,7 +3550,7 @@ StructureClassesMap.set(StructureKind.SourceFile, SourceFileImpl);
 const SpreadAssignmentStructureBase = MultiMixinBuilder([StructureMixin], StructureBase);
 class SpreadAssignmentImpl extends SpreadAssignmentStructureBase {
     kind = StructureKind.SpreadAssignment;
-    expression = "";
+    expression;
     constructor(expression) {
         super();
         this.expression = expression;

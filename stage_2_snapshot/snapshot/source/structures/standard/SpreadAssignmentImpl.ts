@@ -33,7 +33,7 @@ export default class SpreadAssignmentImpl
 {
   readonly kind: StructureKind.SpreadAssignment =
     StructureKind.SpreadAssignment;
-  expression: stringOrWriterFunction = "";
+  expression: stringOrWriterFunction;
 
   constructor(expression: stringOrWriterFunction) {
     super();

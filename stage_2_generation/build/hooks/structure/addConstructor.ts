@@ -78,13 +78,18 @@ export default function addConstructor(
     const param = new ParameterDeclarationImpl(key);
     const existingProp = parts.classMembersMap.getAsKind<StructureKind.Property>(key, StructureKind.Property)!
 
-    const fieldName = ClassMembersMap.keyFromName(StructureKind.Property, false, key)
+    const fieldName = ClassMembersMap.keyFromName(StructureKind.Property, false, key);
     const initializerStatements = parts.classFieldsStatements.get(
       fieldName,
       ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
     );
-    if (existingProp.typeStructure)
+    if (existingProp.typeStructure) {
       param.typeStructure = existingProp.typeStructure;
+      parts.classFieldsStatements.delete(
+        fieldName,
+        ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY
+      );
+    }
     else if ((initializerStatements?.length === 1) && (initializerStatements[0] === `""`)) {
       param.typeStructure = ConstantTypeStructures.string;
       existingProp.typeStructure = ConstantTypeStructures.string;
