@@ -6,6 +6,7 @@ import {
 
 import {
   BaseClassModule,
+  StructureModule
 } from "../../moduleClasses/exports.js";
 
 import StatementGetterBase from "./GetterBase.js";
@@ -36,7 +37,7 @@ class StatementsRouter extends StatementGetterBase
   {
     super(module);
     this.filters = [
-      new ArrayBooleanAndString(module),
+      new ArrayBooleanAndString(module, module instanceof StructureModule),
       new CopyFieldsStatements(module),
       new ToJSONStatements(module),
       new StructureIteratorStatements(module),

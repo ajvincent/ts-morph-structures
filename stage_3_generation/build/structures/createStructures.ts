@@ -10,6 +10,7 @@ import {
   LiteralTypeStructureImpl,
   MemberedTypeToClass,
   MethodSignatureImpl,
+  ParameterDeclarationImpl,
   PropertySignatureImpl,
   type TypeMembersMap,
   TypeStructureKind,
@@ -98,7 +99,7 @@ async function buildStructure(
   defineClassCallbacks(typeToClass);
   insertConstructorKeys(module, typeToClass);
 
-  typeToClass.constructorParameters.sort((a, b) => a.name.localeCompare(b.name));
+  typeToClass.constructorParameters.sort(compareConstructorParameters);
 
   try {
     module.classMembersMap = typeToClass.buildClassMembersMap();
@@ -107,6 +108,10 @@ async function buildStructure(
     console.error("failed on module " + module.exportName);
     throw ex;
   }
+
+  module.classMembersMap.getAsKind(
+    StructureKind.Constructor, false, "constructor"
+  )!.parameters.sort(compareConstructorParameters);
 
   removeUnnecessaryTypeStructures(module.classMembersMap);
   removeUnnecessaryMethods(module.classMembersMap);
@@ -289,6 +294,24 @@ function removeUnnecessaryMethods(
   if (copyFieldsMethod?.statements.length === 1) {
     classMembersMap.delete(COPY_FIELDS_NAME);
   }
+}
+
+function compareConstructorParameters(
+  a: ParameterDeclarationImpl,
+  b: ParameterDeclarationImpl,
+): number
+{
+  if (a.name === "isStatic")
+    return -1;
+  if (b.name === "isStatic")
+    return +1;
+
+  if (a.name === "name")
+    return -1;
+  if (b.name === "name")
+    return +1;
+
+  return a.name.localeCompare(b.name);
 }
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");

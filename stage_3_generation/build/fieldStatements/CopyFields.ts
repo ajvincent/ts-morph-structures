@@ -192,8 +192,6 @@ export default class CopyFieldsStatements extends GetterFilter
   ): readonly stringWriterOrStatementImpl[]
   {
     const { name, returnTypeStructure } = member;
-    this.module.addImports("internal", ["TypeStructureClassesMap"], []);
-
     if (returnTypeStructure?.kind === TypeStructureKind.Array) {
       const setName = name + "Set";
 
@@ -201,6 +199,7 @@ export default class CopyFieldsStatements extends GetterFilter
         writer.write(`const { ${setName} } = source as unknown as ${this.module.exportName};`);
       }
 
+      this.module.addImports("internal", ["TypeStructureSetInternal"], []);
       return [
         setStatement,
         new BlockStatementImpl(
@@ -219,6 +218,8 @@ export default class CopyFieldsStatements extends GetterFilter
         ).writerFunction,
       ];
     }
+
+    this.module.addImports("internal", ["TypeStructureClassesMap"], []);
 
     const name_Structure = name + "Structure";
     return [
