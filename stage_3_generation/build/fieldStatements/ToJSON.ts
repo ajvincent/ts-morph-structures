@@ -55,21 +55,33 @@ export default class ToJSONStatements extends GetterFilter
     let hasWriter: boolean;
 
     const fieldName = key.fieldKey;
-    let mayBeUndefined: boolean;
-    let isArray: boolean;
+    let mayBeUndefined = false;
+    let isArray = false;
+
+    let mayBeStructure = false;
 
     if (key.fieldType?.kind === StructureKind.PropertySignature) {
       assert(key.fieldType.typeStructure, "missing type structure: " + this.baseName + ":" + key.fieldKey);
-      hasWriter = ToJSONStatements.#hasWriter(key.fieldType.typeStructure);
-      isArray = key.fieldType.typeStructure.kind === TypeStructureKind.Array;
+      const { typeStructure } = key.fieldType;
+      hasWriter = ToJSONStatements.#hasWriter(typeStructure);
       mayBeUndefined = key.fieldType.hasQuestionToken;
+
+      if (typeStructure.kind === TypeStructureKind.Array) {
+        isArray = true;
+        mayBeStructure = ToJSONStatements.#hasStructure(typeStructure.objectType);
+      }
     }
     else {
       assert(key.fieldType.returnTypeStructure, "missing type structure: " + this.baseName + ":" + key.fieldKey);
-      hasWriter = ToJSONStatements.#hasWriter(key.fieldType.returnTypeStructure);
-      isArray = key.fieldType.returnTypeStructure.kind === TypeStructureKind.Array;
-      mayBeUndefined = key.fieldType.returnTypeStructure.kind === TypeStructureKind.Union &&
-        key.fieldType.returnTypeStructure.childTypes.includes(LiteralTypeStructureImpl.get("undefined"));
+      const { returnTypeStructure } = key.fieldType;
+      hasWriter = ToJSONStatements.#hasWriter(returnTypeStructure);
+      if (returnTypeStructure.kind === TypeStructureKind.Union) {
+        mayBeUndefined = returnTypeStructure.childTypes.includes(LiteralTypeStructureImpl.get("undefined"));
+      }
+      if (returnTypeStructure.kind === TypeStructureKind.Array) {
+        isArray = true;
+        mayBeStructure = ToJSONStatements.#hasStructure(returnTypeStructure.objectType);
+      }
     }
 
     let value: WriterFunction = (writer: CodeBlockWriter): void => {
@@ -77,7 +89,7 @@ export default class ToJSONStatements extends GetterFilter
       if (hasWriter && isArray) {
         writer.write(`.map((value) =>`);
         writer.block(() => {
-          if (fieldName === "statements")
+          if (mayBeStructure)
             writer.write(`if (typeof value === "object") { return value; }`);
           writer.write(`return StructureBase[REPLACE_WRITER_WITH_STRING](value);`);
         });
@@ -121,6 +133,21 @@ export default class ToJSONStatements extends GetterFilter
     }
 
     return [statement];
+  }
+
+  static #hasStructure(
+    typeStructure: TypeStructures
+  ): boolean
+  {
+    if (typeStructure.kind !== TypeStructureKind.Parentheses)
+      return false;
+    typeStructure = typeStructure.childTypes[0];
+
+    if (typeStructure.kind !== TypeStructureKind.Union)
+      return false;
+
+    const { childTypes } = typeStructure;
+    return childTypes.some(child => child !== LiteralTypeStructureImpl.get("stringOrWriterFunction"));
   }
 
   static #hasWriter(

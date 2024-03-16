@@ -5,6 +5,7 @@ import {
 import {
   ClassFieldStatementsMap,
   MemberedStatementsKey,
+  TypeStructureKind,
   type stringWriterOrStatementImpl
 } from "#stage_two/snapshot/source/exports.js";
 
@@ -20,6 +21,8 @@ class UndefinedProperties extends GetterFilter
     if (key.statementGroupKey !== ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY)
       return false;
     if (key.fieldType?.kind !== StructureKind.PropertySignature)
+      return false;
+    if (key.fieldType.typeStructure?.kind === TypeStructureKind.Array)
       return false;
     return key.fieldType.hasQuestionToken;
   }

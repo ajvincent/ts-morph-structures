@@ -288,7 +288,7 @@ export default class CopyFieldsStatements extends GetterFilter
     }
 
     return this.#getStatementsForGeneratedClassArray(
-      name, objectType, generatedClassName, originalField
+      name, fieldType, objectType, generatedClassName, originalField
     );
   }
 
@@ -382,7 +382,6 @@ export default class CopyFieldsStatements extends GetterFilter
     ];
   }
 
-
   #getStatementsForTSMorphArray(
     name: string,
     fieldType: PropertySignatureImpl,
@@ -417,6 +416,7 @@ export default class CopyFieldsStatements extends GetterFilter
 
   #getStatementsForGeneratedClassArray(
     name: string,
+    fieldType: PropertySignatureImpl,
     objectType: TypeStructures,
     generatedClassName: string,
     originalField: PropertySignatureImpl
@@ -459,9 +459,14 @@ export default class CopyFieldsStatements extends GetterFilter
     }).writerFunction;
 
     if (originalField.hasQuestionToken) {
+      const statementArray: stringOrWriterFunction[] = [statement];
+      if (fieldType.hasQuestionToken) {
+        statementArray.unshift(`target.${name} = [];`);
+      }
+
       statement = new BlockStatementImpl(
         `if (source.${name})`,
-        [statement]
+        statementArray
       ).writerFunction;
     }
 

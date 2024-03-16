@@ -99,8 +99,6 @@ async function buildStructure(
   defineClassCallbacks(typeToClass);
   insertConstructorKeys(module, typeToClass);
 
-  typeToClass.constructorParameters.sort(compareConstructorParameters);
-
   try {
     module.classMembersMap = typeToClass.buildClassMembersMap();
   }
