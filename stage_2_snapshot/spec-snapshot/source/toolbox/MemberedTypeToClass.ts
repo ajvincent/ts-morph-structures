@@ -317,6 +317,14 @@ describe("MemberedTypeToClass", () => {
 
     const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
 
+    //#region visited keys
+    expect(statementsGetter.matchesVisited(
+      [ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN],
+      ["get four", "set four"],
+      ["first"],
+    )).toBe(true);
+    //#endregion visited keys
+
     //#region inspecting the class members map
 
     const ctor_Decl = classMembers.getAsKind<StructureKind.Constructor>(StructureKind.Constructor, false, "constructor");

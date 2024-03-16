@@ -5816,7 +5816,7 @@ class MemberedTypeToClass {
     #addStatementKeysForAccessor(accessor, keyClassMap, purposeKeys, propertyNames) {
         if (accessor.isAbstract)
             return;
-        const accessorName = ClassMembersMap.keyFromMember(accessor).replace(/\b[gs]et /, "");
+        const accessorName = ClassMembersMap.keyFromMember(accessor);
         if (!this.#memberKeyToClassMember.has(accessorName))
             this.#memberKeyToClassMember.set(accessorName, accessor);
         for (const purposeKey of purposeKeys) {

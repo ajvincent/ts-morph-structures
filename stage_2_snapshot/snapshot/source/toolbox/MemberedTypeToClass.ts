@@ -662,10 +662,8 @@ export default class MemberedTypeToClass {
   ): void {
     if (accessor.isAbstract) return;
 
-    const accessorName = ClassMembersMap.keyFromMember(accessor).replace(
-      /\b[gs]et /,
-      "",
-    );
+    const accessorName = ClassMembersMap.keyFromMember(accessor);
+
     if (!this.#memberKeyToClassMember.has(accessorName))
       this.#memberKeyToClassMember.set(accessorName, accessor);
 

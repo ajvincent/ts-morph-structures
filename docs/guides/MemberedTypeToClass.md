@@ -415,12 +415,18 @@ The `statementsGetter` interface is a simple callback hook.  It provides the fie
 It may not be convenient to have _all_ of these in one callback object.  More likely, you'll want to forward the request to other `ClassStatementsGetter` objects based on the field key, the statement group key, and/or the purpose.  Rather than decide for you how to do such routing, I simply provide the interface for you to make the decisions.
 
 | Field key                                         | Statement Group Key                                           | Meaning                              |
-|---------------------------------------------------|---------------------------------------------------------------|--------------------------------------|
-| _property name_                                   | `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY`       | Initial value for a property         |
-| `(static)?` _getter or setter name_               | `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY`       | A property to mirror                 |
-| `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL`   | `(static)?` _getter, setter, or method name_ or `constructor` | Statements leading a statement group |
-| _property name_                                   | `(static)?` _getter, setter, or method name_ or `constructor` | Statements for the property          |
-| `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN` | `(static)?` _getter, setter, or method name_ or `constructor` | Statements closing a statement group |
+|---------------------------------------------------|---------------------------------------------------------|--------------------------------------|
+| _property name_                                   | `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY` | Initial value for a property         |
+| `(static)?` _getter or setter name_               | `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY` | A property to mirror                 |
+| `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL`   | `(static)?` _method name_ or `constructor`              | Statements leading a statement group |
+| _property name_                                   | `(static)?` _method name_ or `constructor`              | Statements for the property          |
+| `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN` | `(static)?` _method name_ or `constructor`              | Statements closing a statement group |
+| `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL`   | `(static)? get` _getter name_                           | Statements leading a statement group |
+| _property name_                                   | `(static)? get` _getter name_                           | Statements for the property          |
+| `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN` | `(static)? get` _getter name_                           | Statements closing a statement group |
+| `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL`   | `(static)? set` _setter name_                           | Statements leading a statement group |
+| _property name_                                   | `(static)? set` _setter name_                           | Statements for the property          |
+| `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN` | `(static)? set` _setter name_                           | Statements closing a statement group |
 
 ### Callback hooks
 
