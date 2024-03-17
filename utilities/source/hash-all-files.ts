@@ -45,15 +45,9 @@ export async function hashAllFiles(
 ): Promise<string>
 {
   const allFiles = await getHashFileList(root);
-
-  const fileHashes = await PromiseAllParallel(allFiles, async file => {
-    const contents = await fs.readFile(file, "utf-8");
-    const hash = crypto.createHash('sha512');
-    hash.update(contents);
-
-    return hash.digest('hex') + " " + file.replace(root, "");
-  });
-
+  const fileHashes = await PromiseAllParallel(
+    allFiles, async file => hashOneFile(root, file)
+  );
   const contents = fileHashes.join("\n");
 
   if (verbose) {
@@ -63,4 +57,16 @@ export async function hashAllFiles(
   const hash = crypto.createHash('sha512');
   hash.update(contents);
   return hash.digest('hex');
+}
+
+export async function hashOneFile(
+  root: string,
+  file: string,
+): Promise<string>
+{
+  const contents = await fs.readFile(file, "utf-8");
+  const hash = crypto.createHash('sha512');
+  hash.update(contents);
+
+  return hash.digest('hex') + " " + file.replace(root, "");
 }

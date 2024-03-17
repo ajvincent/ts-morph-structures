@@ -9,7 +9,8 @@ import {
 import getTS_SourceFile from "#utilities/source/getTS_SourceFile.js";
 
 import {
-  hashAllFiles
+  hashAllFiles,
+  hashOneFile
 } from "#utilities/source/hash-all-files.js";
 
 import {
@@ -67,6 +68,14 @@ describe("File hashes match for the", () => {
   it("toolbox", async () => {
     await compareSnapshots("source/toolbox");
   });
+
+  it("public exports", async () => {
+    await compareOneSnapshot("source/exports.ts");
+  });
+
+  it("internal exports", async () => {
+    await compareOneSnapshot("source/internal-exports.ts");
+  });
 });
 
 async function compareSnapshots(
@@ -79,6 +88,40 @@ async function compareSnapshots(
   const { files: stage_two_files }   = await readDirsDeep(stage_two_dir);
   const { files: stage_three_files } = await readDirsDeep(stage_three_dir);
 
+  if (compareFileLists(stage_two_dir, stage_three_dir, stage_two_files, stage_three_files) === false)
+    return;
+
+  const [
+    stage_two_hashes,
+    stage_three_hashes
+  ] = await hashDirectories(stage_two_dir, stage_three_dir);
+  const diffFileHashes = getArrayDiff(stage_two_hashes, stage_three_hashes);
+  expect(diffFileHashes).withContext("file hashes").toEqual([]);
+}
+
+async function compareOneSnapshot(
+  localPath: string
+): Promise<void>
+{
+
+  const stage_two_file = path.join(stage_two_snapshot, localPath);
+  const stage_three_file = path.join(stage_three_snapshot, localPath)
+
+  if (compareFileLists(stage_two_snapshot, stage_three_snapshot, [ stage_two_file ], [ stage_three_file ]) === false)
+    return;
+
+  const stage_two_hash = await hashOneFile(stage_two_snapshot, stage_two_file);
+  const stage_three_hash = await hashOneFile(stage_three_snapshot, stage_three_file);
+  expect(stage_three_hash).withContext("file hashes").toEqual(stage_two_hash);
+}
+
+function compareFileLists(
+  stage_two_dir: string,
+  stage_three_dir: string,
+  stage_two_files: readonly string[],
+  stage_three_files: readonly string[]
+): boolean
+{
   const diffFileNames = diffFileLists(
     stage_two_dir, stage_three_dir, stage_two_files, stage_three_files
   );
@@ -90,39 +133,29 @@ async function compareSnapshots(
   expect(diffFileNames.length).withContext("file differences").toBe(0);
 
   if (diffFileNames.length > 0)
-    return;
+    return false;
 
-  {
-    const structureComparisons = compareFileStructures(
-      {
-        isAbsolutePath: true,
-        pathToDirectory: stage_two_dir
-      },
-      {
-        isAbsolutePath: true,
-        pathToDirectory: stage_three_dir
-      },
-      stage_two_files,
-      stage_three_files
-    );
+  const structureComparisons = compareFileStructures(
+    {
+      isAbsolutePath: true,
+      pathToDirectory: stage_two_dir
+    },
+    {
+      isAbsolutePath: true,
+      pathToDirectory: stage_three_dir
+    },
+    stage_two_files,
+    stage_three_files
+  );
 
-    let exactMatch = true;
-    structureComparisons.forEach(([fileName, stage_two_structure, stage_three_structure]) => {
-      expect(stage_three_structure).withContext(fileName + " structure").toEqual(stage_two_structure);
-      if (JSON.stringify(stage_three_structure) !== JSON.stringify(stage_two_structure))
-        exactMatch = false;
-    });
+  let exactMatch = true;
+  structureComparisons.forEach(([fileName, stage_two_structure, stage_three_structure]) => {
+    expect(stage_three_structure).withContext(fileName + " structure").toEqual(stage_two_structure);
+    if (JSON.stringify(stage_three_structure) !== JSON.stringify(stage_two_structure))
+      exactMatch = false;
+  });
 
-    if (exactMatch as boolean === false)
-      return;
-  }
-
-  const [
-    stage_two_hashes,
-    stage_three_hashes
-  ] = await hashDirectories(stage_two_dir, stage_three_dir);
-  const diffFileHashes = getArrayDiff(stage_two_hashes, stage_three_hashes);
-  expect(diffFileHashes).withContext("file hashes").toEqual([]);
+  return exactMatch;
 }
 
 function diffFileLists(

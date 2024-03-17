@@ -55,14 +55,20 @@ abstract class BaseModule
   static async saveExports(): Promise<void>
   {
     const publicSource = new SourceFileImpl;
-    publicSource.statements.push(...publicExports.getDeclarations());
+    publicSource.statements.push(
+      "// This file is generated.  Do not edit.",
+      ...publicExports.getDeclarations()
+    );
     const publicFile = project.createSourceFile(
       publicExports.absolutePathToExportFile,
       publicSource
     );
 
     const internalSource = new SourceFileImpl;
-    internalSource.statements.push(...internalExports.getDeclarations());
+    internalSource.statements.push(
+      "// This file is generated.  Do not edit.",
+      ...internalExports.getDeclarations()
+    );
     const internalFile = project.createSourceFile(
       internalExports.absolutePathToExportFile,
       internalSource
