@@ -34,9 +34,9 @@ import GetterFilter from "../../fieldStatements/GetterFilter.js";
 import FlatInterfaceMap from "../../../vanilla/FlatInterfaceMap.js";
 
 import {
-  BaseClassModule,
+  type BaseClassModule,
   InterfaceModule,
-  StructureModule,
+  type StructureModule,
 } from "../../../moduleClasses/exports.js";
 
 import BlockStatementImpl from "../../../pseudoStatements/BlockStatement.js";
@@ -51,7 +51,6 @@ const DeclarationToSignature: ReadonlyMap<string, string> = new Map<string, stri
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
 const stringType = LiteralTypeStructureImpl.get("string");
-
 
 export function getFromSignatureMethod(
   module: StructureModule

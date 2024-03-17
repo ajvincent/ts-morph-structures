@@ -126,7 +126,7 @@ function addReturnTypeToGetAccessorCtor(
     isPackageImport: false,
     importNames: ["TypeStructures"],
     isDefaultImport: false,
-    isTypeOnly: false
+    isTypeOnly: true
   });
 
   const returnTypeParam = new ParameterDeclarationImpl("returnType");

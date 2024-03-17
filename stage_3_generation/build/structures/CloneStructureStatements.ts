@@ -44,7 +44,8 @@ class CloneStructureStatements extends GetterFilter
   {
     if (key.statementGroupKey !== "static clone")
       return false;
-    if (key.fieldKey !== ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN)
+    if ((key.fieldKey !== ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) &&
+        (key.fieldKey !== ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN))
       return false;
     return true;
   }
@@ -53,26 +54,26 @@ class CloneStructureStatements extends GetterFilter
     key: MemberedStatementsKey
   ): readonly stringWriterOrStatementImpl[]
   {
-    void(key);
+    if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) {
+      const targetDeclStatement = new VariableStatementImpl;
+      targetDeclStatement.declarationKind = VariableDeclarationKind.Const;
 
-    const targetDeclStatement = new VariableStatementImpl;
-    targetDeclStatement.declarationKind = VariableDeclarationKind.Const;
+      const targetDecl = new VariableDeclarationImpl("target");
+      targetDecl.initializer = (writer: CodeBlockWriter): void => {
+        const statement = new CallExpressionStatementImpl({
+          name: "new " + this.module.exportName,
+          parameters: this.#constructorParameters.map(
+            param => this.#getInitializerValue(param)
+          )
+        });
+        statement.writerFunction(writer);
+      };
 
-    const targetDecl = new VariableDeclarationImpl("target");
-    targetDecl.initializer = (writer: CodeBlockWriter): void => {
-      const statement = new CallExpressionStatementImpl({
-        name: "new " + this.module.exportName,
-        parameters: this.#constructorParameters.map(
-          param => this.#getInitializerValue(param)
-        )
-      });
-      statement.writerFunction(writer);
-    };
-
-    targetDeclStatement.declarations.push(targetDecl);
+      targetDeclStatement.declarations.push(targetDecl);
+      return [targetDeclStatement];
+    }
 
     return [
-      targetDeclStatement,
       new CallExpressionStatementImpl({
         name: `this[COPY_FIELDS]`,
         parameters: ["source", "target"]

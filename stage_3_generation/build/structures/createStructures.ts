@@ -64,6 +64,13 @@ import {
   getFromSignatureMethod,
 } from "./specialCases/fromSignature.js";
 
+import postProcessClassMembers from "./specialCases/postProcessClassMembers.js";
+
+import {
+  AccessorExtraParameters,
+  getInsertedAccessorProperty,
+} from "./specialCases/accessorConstructors.js";
+
 void(ClassFieldStatementsMap);
 void(DebuggingFilter);
 // #endregion preamble
@@ -112,6 +119,8 @@ async function buildStructure(
     StructureKind.Constructor, false, "constructor"
   )!.parameters.sort(compareConstructorParameters);
 
+  postProcessClassMembers(module);
+
   removeUnnecessaryTypeStructures(module.classMembersMap);
   removeUnnecessaryMethods(module.classMembersMap);
   module.classMembersMap.forEach(
@@ -139,6 +148,7 @@ function buildTypeToClass(
 
   router.filters.unshift(
     new FixKeyType_Filter(module),
+    new AccessorExtraParameters(module, typeToClass.constructorParameters),
     new ArrayReadonlyHandler(module),
     new KindPropertyInitializer(module),
     new CloneStructureStatements(module, typeToClass.constructorParameters),
@@ -156,6 +166,11 @@ function buildTypeToClass(
   if (isStaticProp) {
     router.filters.unshift(new IsStatic_Constructor(module, typeToClass.constructorParameters));
     typeToClass.insertMemberKey(false, isStaticProp, false, "constructor");
+  }
+
+  const accessorProp = getInsertedAccessorProperty(module.baseName);
+  if (accessorProp) {
+    typeToClass.insertMemberKey(false, accessorProp, false, "constructor");
   }
 
   return [typeToClass, router];

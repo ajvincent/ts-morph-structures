@@ -9,7 +9,7 @@ import {
 
 import GetterFilter from "../../fieldStatements/GetterFilter.js";
 
-import {
+import type {
   BaseClassModule,
 } from "../../../moduleClasses/exports.js";
 // #endregion preamble

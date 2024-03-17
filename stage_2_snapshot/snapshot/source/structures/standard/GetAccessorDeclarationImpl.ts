@@ -1,6 +1,6 @@
 //#region preamble
-import {
-  type GetAccessorDeclarationStructureClassIfc,
+import type {
+  GetAccessorDeclarationStructureClassIfc,
   TypeStructures,
 } from "../../exports.js";
 import {
