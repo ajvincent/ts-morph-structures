@@ -32,7 +32,7 @@ const stage_three_snapshot = path.join(projectDir, "stage_3_snapshot/snapshot");
  * then serializes it for comparison.
  */
 
-describe("File hashes match for the", () => {
+describe("File hashes match for", () => {
   it("array utilities", async () => {
     await compareSnapshots("source/array-utilities");
   });
@@ -75,6 +75,20 @@ describe("File hashes match for the", () => {
 
   it("internal exports", async () => {
     await compareOneSnapshot("source/internal-exports.ts");
+  });
+
+  it("distributed files", async () => {
+    await compareSnapshots("dist");
+  });
+
+  it("all files", async () => {
+    const [
+      stage_two_hashes,
+      stage_three_hashes
+    ] = await hashDirectories(stage_two_snapshot, stage_three_snapshot);
+
+    const diffFileHashes = getArrayDiff(stage_two_hashes, stage_three_hashes);
+    expect(diffFileHashes).withContext("file hashes").toEqual([]);
   });
 });
 

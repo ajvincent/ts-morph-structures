@@ -8,13 +8,7 @@ import {
 
 import copySnapshot from "./build/copySnapshot.js";
 import structureToSyntax from "./build/structureToSyntax.js";
-/*
-import compileTypeDefinitions from "./build/typedefs.js";
 import doBundles from "./build/bundle.js";
-import runAPIExtractor from "./build/runAPIExtractor.js";
-import applyDecoratorsForDocModel from "./build/decoratorsInDocModel.js";
-import runAPIDocumenter from "./build/runAPIDocumenter.js";
-*/
 
 const BPSet = new BuildPromiseSet;
 
@@ -53,7 +47,6 @@ const BPSet = new BuildPromiseSet;
   });
 }
 
-/*
 { // bundle
   const target = BPSet.get("bundle");
   target.addTask(async () => {
@@ -62,27 +55,12 @@ const BPSet = new BuildPromiseSet;
   });
 }
 
-{ // docs
-  const target = BPSet.get("docs");
-  target.addTask(async () => {
-    console.log("starting stage_3_integration:docs");
-    await compileTypeDefinitions();
-    await applyDecoratorsForDocModel();
-    console.log("Running API Extractor...");
-    await runAPIExtractor();
-    await runAPIDocumenter();
-  });
-}
-*/
 
 BPSet.markReady();
 {
   BPSet.main.addSubtarget("copySnapshot");
   BPSet.main.addSubtarget("structureToSyntax");
-  /*
   BPSet.main.addSubtarget("bundle");
-  BPSet.main.addSubtarget("docs");
-  */
   // at the end to allow for debugging before this
   BPSet.main.addSubtarget("eslint");
 }
