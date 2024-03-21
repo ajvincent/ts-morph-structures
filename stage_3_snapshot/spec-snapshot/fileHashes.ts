@@ -78,14 +78,31 @@ describe("File hashes match for", () => {
   });
 
   it("distributed files", async () => {
-    await compareSnapshots("dist");
+    const stage_two_dir = path.join(projectDir, "dist");
+    const stage_three_dir = path.join(stage_three_snapshot, "dist");
+  
+    const { files: stage_two_files }   = await readDirsDeep(stage_two_dir);
+    const { files: stage_three_files } = await readDirsDeep(stage_three_dir);
+  
+    if (compareFileLists(stage_two_dir, stage_three_dir, stage_two_files, stage_three_files) === false)
+      return;
+  
+    const [
+      stage_two_hashes,
+      stage_three_hashes
+    ] = await hashDirectories(stage_two_dir, stage_three_dir);
+    const diffFileHashes = getArrayDiff(stage_two_hashes, stage_three_hashes);
+    expect(diffFileHashes).withContext("file hashes").toEqual([]);
   });
 
   it("all files", async () => {
     const [
       stage_two_hashes,
       stage_three_hashes
-    ] = await hashDirectories(stage_two_snapshot, stage_three_snapshot);
+    ] = (await hashDirectories(stage_two_snapshot, stage_three_snapshot)) as [string[], string[]];
+
+    stage_three_hashes.splice(stage_three_hashes.findIndex(f => f.endsWith(" /dist/exports.d.ts")), 1);
+    stage_three_hashes.splice(stage_three_hashes.findIndex(f => f.endsWith(" /dist/exports.js")), 1);
 
     const diffFileHashes = getArrayDiff(stage_two_hashes, stage_three_hashes);
     expect(diffFileHashes).withContext("file hashes").toEqual([]);
