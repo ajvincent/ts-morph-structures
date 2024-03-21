@@ -1,5 +1,5 @@
 import * as ts_morph from 'ts-morph';
-import { OptionalKind, Structures, WriterFunction, TypeNode, Node, StructureKind, KindedStructure, CodeBlockWriter, JsxNamespacedNameStructure, ModuleDeclarationKind, Scope, TypeParameterVariance, VariableDeclarationKind, TypeParameterDeclarationStructure, DecoratorStructure, ParameterDeclarationStructure, JSDocStructure, CallSignatureDeclarationStructure, ClassDeclarationStructure, ClassStaticBlockDeclarationStructure, ConstructorDeclarationStructure, ConstructorDeclarationOverloadStructure, ConstructSignatureDeclarationStructure, EnumDeclarationStructure, EnumMemberStructure, ExportAssignmentStructure, ExportDeclarationStructure, ExportSpecifierStructure, FunctionDeclarationStructure, FunctionDeclarationOverloadStructure, GetAccessorDeclarationStructure, ImportAttributeStructure, ImportDeclarationStructure, ImportSpecifierStructure, IndexSignatureDeclarationStructure, InterfaceDeclarationStructure, JSDocTagStructure, JsxAttributeStructure, JsxElementStructure, JsxSelfClosingElementStructure, JsxSpreadAttributeStructure, MethodDeclarationStructure, MethodDeclarationOverloadStructure, MethodSignatureStructure, ModuleDeclarationStructure, PropertyAssignmentStructure, PropertyDeclarationStructure, PropertySignatureStructure, SetAccessorDeclarationStructure, ShorthandPropertyAssignmentStructure, SourceFileStructure, SpreadAssignmentStructure, TypeAliasDeclarationStructure, VariableDeclarationStructure, VariableStatementStructure } from 'ts-morph';
+import { OptionalKind, Structures, WriterFunction, CodeBlockWriter, TypeNode, Node, StructureKind, KindedStructure, JsxNamespacedNameStructure, ModuleDeclarationKind, Scope, TypeParameterVariance, VariableDeclarationKind, TypeParameterDeclarationStructure, DecoratorStructure, ParameterDeclarationStructure, JSDocStructure, CallSignatureDeclarationStructure, ClassDeclarationStructure, ClassStaticBlockDeclarationStructure, ConstructorDeclarationStructure, ConstructorDeclarationOverloadStructure, ConstructSignatureDeclarationStructure, EnumDeclarationStructure, EnumMemberStructure, ExportAssignmentStructure, ExportDeclarationStructure, ExportSpecifierStructure, FunctionDeclarationStructure, FunctionDeclarationOverloadStructure, GetAccessorDeclarationStructure, ImportAttributeStructure, ImportDeclarationStructure, ImportSpecifierStructure, IndexSignatureDeclarationStructure, InterfaceDeclarationStructure, JSDocTagStructure, JsxAttributeStructure, JsxElementStructure, JsxSelfClosingElementStructure, JsxSpreadAttributeStructure, MethodDeclarationStructure, MethodDeclarationOverloadStructure, MethodSignatureStructure, ModuleDeclarationStructure, PropertyAssignmentStructure, PropertyDeclarationStructure, PropertySignatureStructure, SetAccessorDeclarationStructure, ShorthandPropertyAssignmentStructure, SourceFileStructure, SpreadAssignmentStructure, TypeAliasDeclarationStructure, VariableDeclarationStructure, VariableStatementStructure } from 'ts-morph';
 import * as mixin_decorators from 'mixin-decorators';
 import { Writable, Simplify } from 'type-fest';
 
@@ -29,32 +29,6 @@ interface TypeStructureSet extends Set<TypeStructures> {
      * @param other - the type structure set to copy
      */
     cloneFromTypeStructureSet(other: TypeStructureSet): void;
-}
-
-interface NodeWithStructures extends Node {
-  getStructure(): Structures;
-}
-
-/** A string message and a type node. */
-interface BuildTypesForStructureFailures {
-  message: string;
-  failingTypeNode: TypeNode;
-}
-
-/**
- * @param message - The failure message.
- * @param failingTypeNode - the type node we failed to resolve.
- */
-type TypeNodeToTypeStructureConsole = (
-  message: string,
-  failingTypeNode: TypeNode,
-) => void;
-
-interface RootStructureWithConvertFailures<
-  TKind extends StructureKind = StructureKind,
-> {
-  rootStructure: Extract<StructureImpls, KindedStructure<TKind>>;
-  failures: readonly BuildTypesForStructureFailures[];
 }
 
 declare abstract class TypeStructuresBase<Kind extends TypeStructureKind> implements KindedTypeStructure<Kind> {
@@ -156,6 +130,32 @@ declare enum TypeStructureKind {
 }
 interface KindedTypeStructure<TKind extends TypeStructureKind> extends TypedNodeWriter {
     readonly kind: TKind;
+}
+
+interface NodeWithStructures extends Node {
+  getStructure(): Structures;
+}
+
+/** A string message and a type node. */
+interface BuildTypesForStructureFailures {
+  message: string;
+  failingTypeNode: TypeNode;
+}
+
+/**
+ * @param message - The failure message.
+ * @param failingTypeNode - the type node we failed to resolve.
+ */
+type TypeNodeToTypeStructureConsole = (
+  message: string,
+  failingTypeNode: TypeNode,
+) => void;
+
+interface RootStructureWithConvertFailures<
+  TKind extends StructureKind = StructureKind,
+> {
+  rootStructure: Extract<StructureImpls, KindedStructure<TKind>>;
+  failures: readonly BuildTypesForStructureFailures[];
 }
 
 /**
