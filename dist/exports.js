@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { CodeBlockWriter, StructureKind, SyntaxKind, Node, forEachStructureChild, ConstructorTypeNode, ModuleKind, ScriptTarget, ModuleResolutionKind, Project, Writers } from 'ts-morph';
+import { CodeBlockWriter, StructureKind, SyntaxKind, Structure, forEachStructureChild, Node, ConstructorTypeNode, ModuleKind, ScriptTarget, ModuleResolutionKind, Project, Writers } from 'ts-morph';
 import path from 'path';
 import MultiMixinBuilder from 'mixin-decorators';
 
@@ -1069,6 +1069,25 @@ class MemberedStatementsKeyClass {
     }
 }
 
+/**
+ * Remove function overloads preceding a function.
+ * @param structure - The structure direct from ts-morph to clean up.
+ * @internal
+ */
+function fixFunctionOverloads(structure) {
+    if (Structure.isStatemented(structure) &&
+        Array.isArray(structure.statements)) {
+        structure.statements = structure.statements.filter((statement) => {
+            if (typeof statement !== "object")
+                return true;
+            if (statement.kind !== StructureKind.FunctionOverload)
+                return true;
+            return false;
+        });
+    }
+    forEachStructureChild(structure, fixFunctionOverloads);
+}
+
 var _a$6;
 // #endregion preamble
 /**
@@ -1142,6 +1161,7 @@ class StructureAndNodeData {
             });
         }
         this.#rootStructure = this.#rootNode.getStructure();
+        fixFunctionOverloads(this.#rootStructure);
         if (useTypeAwareStructures)
             this.#rootStructure = StructureClassesMap.get(this.#rootStructure.kind).clone(this.#rootStructure);
         this.#collectDescendantStructures(this.#rootStructure, "");

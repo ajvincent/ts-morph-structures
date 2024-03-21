@@ -25,6 +25,8 @@ import {
 import type {
   NodeWithStructures
 } from "./types/conversions.js";
+
+import fixFunctionOverloads from "./fixFunctionOverloads.js";
 // #endregion preamble
 
 /**
@@ -130,6 +132,8 @@ class StructureAndNodeData
     }
 
     this.#rootStructure = this.#rootNode.getStructure();
+    fixFunctionOverloads(this.#rootStructure);
+
     if (useTypeAwareStructures)
       this.#rootStructure = StructureClassesMap.get(this.#rootStructure.kind)!.clone(this.#rootStructure);
 

@@ -28,6 +28,7 @@ import {
 } from "#stage_two/snapshot/source/bootstrap/structureToNodeMap.js";
 
 import StructureKindToSyntaxKindMap from "#stage_two/snapshot/source/bootstrap/structureToSyntax.js";
+import fixFunctionOverloads from "#stage_two/snapshot/source/bootstrap/fixFunctionOverloads.js";
 
 async function getSupportedKindSet(): Promise<Set<StructureKind>> {
   const stageDir: ModuleSourceDirectory = {
@@ -99,9 +100,12 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
     map.forEach((node, structure) => {
       expect(Node.hasStructure(node)).withContext(relativePathToModuleFile).toBe(true);
       if (Node.hasStructure(node)) {
-        expect<Structures>(node.getStructure()).withContext(
+        const expectedStructure = node.getStructure();
+        fixFunctionOverloads(expectedStructure);
+
+        expect<Structures>(structure).withContext(
           `at ${pathToModuleFile}#${sourceFile.getLineAndColumnAtPos(node.getPos()).line}`
-        ).toEqual(structure);
+        ).toEqual(expectedStructure);
       }
       remainingKeys.delete(structure.kind);
     });
