@@ -2,15 +2,18 @@
 import assert from "node:assert/strict";
 
 import {
-  Structures,
+  type ClassDeclaration,
+  type ClassExpression,
+  type FunctionDeclarationOverloadStructure,
+  type JSDocableNode,
+  type JSDoc,
+  type Structures,
   Node,
-  forEachStructureChild,
-  SyntaxKind,
+  type ObjectLiteralExpression,
+  type OverloadableNode,
   StructureKind,
-  ClassDeclaration,
-  JSDocableNode,
-  JSDoc,
-  FunctionDeclarationOverloadStructure,
+  SyntaxKind,
+  forEachStructureChild,
 } from "ts-morph";
 
 import {
@@ -18,12 +21,12 @@ import {
 } from "../../snapshot/source/exports.js";
 
 import {
+  StructureClassesMap,
   StructureKindToSyntaxKindMap,
-  StructureClassesMap
 } from "../../snapshot/source/internal-exports.js";
 
 import type {
-  NodeWithStructures
+  NodeWithStructures,
 } from "./types/conversions.js";
 
 import fixFunctionOverloads from "./fixFunctionOverloads.js";
@@ -86,6 +89,26 @@ export function structureToNodeMap(
 class StructureAndNodeData
 {
   static #knownSyntaxKinds?: ReadonlySet<SyntaxKind>;
+
+  static #isOverload(
+    node: OverloadableNode & Node
+  ): boolean
+  {
+    if (Node.isAmbientable(node) && node.hasDeclareKeyword())
+      return false;
+
+    if (Node.isMethodDeclaration(node) || Node.isConstructorDeclaration(node)) {
+      const parent: ClassDeclaration | ClassExpression | ObjectLiteralExpression = node.getParentOrThrow();
+      if (Node.isAmbientable(parent) && parent.hasDeclareKeyword())
+        return false;
+    }
+
+    const nodes: OverloadableNode[] = node.getOverloads();
+    const implNode = node.getImplementation();
+    if (implNode)
+      nodes.push(implNode);
+    return nodes[nodes.length - 1] !== node;
+  }
 
   readonly structureToNodeMap = new Map<Structures, Node>;
 
@@ -266,8 +289,10 @@ class StructureAndNodeData
        *   ConstructorDeclarationOverloadStructure (overload 2)
        *
        * The hashes have to reflect this pattern.
+       *
+       * node.isOverload() lies to us for type definition files.
        */
-      if (hash && Node.isOverloadable(node) && node.isOverload()) {
+      if (hash && Node.isOverloadable(node) && StructureAndNodeData.#isOverload(node)) {
         hash += "/overload";
       }
     }

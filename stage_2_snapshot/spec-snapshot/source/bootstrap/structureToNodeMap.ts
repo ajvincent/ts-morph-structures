@@ -121,9 +121,7 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   checkMap("stage_utilities/PromiseTypes.ts");
   checkMap("stage_utilities/PropertyKeySorter.ts");
   checkMap("stage_utilities/WeakRefSet.ts");
-  /* test disabled for a function overloads problem with ts-morph
   checkMap("types/declaredOverloads.d.ts");
-  */
   checkMap("exportPromise.ts");
   checkMap("grab-bag.ts");
 

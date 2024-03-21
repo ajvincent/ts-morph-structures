@@ -68,6 +68,7 @@ class Bar implements Omit<Foo, keyof Foo> {
 void(Bar.one);
 
 function foo(x: number, y: string): void
+function foo<NType extends number>(x: NType): void;
 function foo(x: number): void
 {
   void(x);

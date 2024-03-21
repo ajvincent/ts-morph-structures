@@ -1132,6 +1132,20 @@ function structureToNodeMap(nodeWithStructures, useTypeAwareStructures, hashNeed
  */
 class StructureAndNodeData {
     static #knownSyntaxKinds;
+    static #isOverload(node) {
+        if (Node.isAmbientable(node) && node.hasDeclareKeyword())
+            return false;
+        if (Node.isMethodDeclaration(node) || Node.isConstructorDeclaration(node)) {
+            const parent = node.getParentOrThrow();
+            if (Node.isAmbientable(parent) && parent.hasDeclareKeyword())
+                return false;
+        }
+        const nodes = node.getOverloads();
+        const implNode = node.getImplementation();
+        if (implNode)
+            nodes.push(implNode);
+        return nodes[nodes.length - 1] !== node;
+    }
     structureToNodeMap = new Map();
     // #region private fields, and life-cycle.
     #rootNode;
@@ -1268,8 +1282,12 @@ class StructureAndNodeData {
              *   ConstructorDeclarationOverloadStructure (overload 2)
              *
              * The hashes have to reflect this pattern.
+             *
+             * node.isOverload() lies to us for type definition files.
              */
-            if (hash && Node.isOverloadable(node) && node.isOverload()) {
+            if (hash &&
+                Node.isOverloadable(node) &&
+                _a$6.#isOverload(node)) {
                 hash += "/overload";
             }
         }
