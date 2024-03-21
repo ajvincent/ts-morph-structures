@@ -12,10 +12,37 @@ static clone(source: OptionalKind<ExportAssignmentStructure>): ExportAssignmentI
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;ExportAssignmentStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;ExportAssignmentStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [ExportAssignmentImpl](./ts-morph-structures.exportassignmentimpl.md)

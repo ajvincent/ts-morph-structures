@@ -12,8 +12,61 @@ export interface GetAccessorDeclarationStructureClassIfc
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [isStatic](./ts-morph-structures.getaccessordeclarationstructureclassifc.isstatic.md) |  | boolean |  |
-|  [kind](./ts-morph-structures.getaccessordeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.GetAccessor |  |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[isStatic](./ts-morph-structures.getaccessordeclarationstructureclassifc.isstatic.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.getaccessordeclarationstructureclassifc.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.GetAccessor
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

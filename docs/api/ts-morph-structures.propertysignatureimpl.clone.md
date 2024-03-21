@@ -12,10 +12,37 @@ static clone(source: OptionalKind<PropertySignatureStructure>): PropertySignatur
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;PropertySignatureStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;PropertySignatureStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [PropertySignatureImpl](./ts-morph-structures.propertysignatureimpl.md)

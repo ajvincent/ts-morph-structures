@@ -12,13 +12,158 @@ export interface MemberedStatementsKey
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [fieldKey](./ts-morph-structures.memberedstatementskey.fieldkey.md) | <code>readonly</code> | string |  |
-|  [fieldType](./ts-morph-structures.memberedstatementskey.fieldtype.md) | <code>readonly</code> | [TypeMemberImpl](./ts-morph-structures.typememberimpl.md) \| undefined |  |
-|  [groupType](./ts-morph-structures.memberedstatementskey.grouptype.md) | <code>readonly</code> | [TypeMemberImpl](./ts-morph-structures.typememberimpl.md) \| undefined |  |
-|  [isFieldStatic](./ts-morph-structures.memberedstatementskey.isfieldstatic.md) | <code>readonly</code> | boolean |  |
-|  [isGroupStatic](./ts-morph-structures.memberedstatementskey.isgroupstatic.md) | <code>readonly</code> | boolean |  |
-|  [purpose](./ts-morph-structures.memberedstatementskey.purpose.md) | <code>readonly</code> | string |  |
-|  [statementGroupKey](./ts-morph-structures.memberedstatementskey.statementgroupkey.md) | <code>readonly</code> | string |  |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[fieldKey](./ts-morph-structures.memberedstatementskey.fieldkey.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[fieldType](./ts-morph-structures.memberedstatementskey.fieldtype.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[TypeMemberImpl](./ts-morph-structures.typememberimpl.md) \| undefined
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[groupType](./ts-morph-structures.memberedstatementskey.grouptype.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[TypeMemberImpl](./ts-morph-structures.typememberimpl.md) \| undefined
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[isFieldStatic](./ts-morph-structures.memberedstatementskey.isfieldstatic.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[isGroupStatic](./ts-morph-structures.memberedstatementskey.isgroupstatic.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[purpose](./ts-morph-structures.memberedstatementskey.purpose.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[statementGroupKey](./ts-morph-structures.memberedstatementskey.statementgroupkey.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

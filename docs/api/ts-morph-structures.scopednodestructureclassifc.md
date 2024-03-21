@@ -12,7 +12,44 @@ export interface ScopedNodeStructureClassIfc
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [scope?](./ts-morph-structures.scopednodestructureclassifc.scope.md) |  | Scope | _(Optional)_ |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[scope?](./ts-morph-structures.scopednodestructureclassifc.scope.md)
+
+
+</td><td>
+
+
+</td><td>
+
+Scope
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+</tbody></table>

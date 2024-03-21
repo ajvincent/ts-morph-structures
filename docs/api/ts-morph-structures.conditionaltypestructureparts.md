@@ -12,10 +12,93 @@ export interface ConditionalTypeStructureParts
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [checkType](./ts-morph-structures.conditionaltypestructureparts.checktype.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) |  |
-|  [extendsType](./ts-morph-structures.conditionaltypestructureparts.extendstype.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) |  |
-|  [falseType](./ts-morph-structures.conditionaltypestructureparts.falsetype.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) |  |
-|  [trueType](./ts-morph-structures.conditionaltypestructureparts.truetype.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) |  |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[checkType](./ts-morph-structures.conditionaltypestructureparts.checktype.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[extendsType](./ts-morph-structures.conditionaltypestructureparts.extendstype.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[falseType](./ts-morph-structures.conditionaltypestructureparts.falsetype.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[trueType](./ts-morph-structures.conditionaltypestructureparts.truetype.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

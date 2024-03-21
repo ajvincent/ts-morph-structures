@@ -14,13 +14,87 @@ insertMemberKey(isFieldStatic: boolean, fieldType: PropertySignatureImpl, isGrou
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  isFieldStatic | boolean | true if the field is static. |
-|  fieldType | [PropertySignatureImpl](./ts-morph-structures.propertysignatureimpl.md) | the field signature. |
-|  isGroupStatic | boolean | true if the group is static (false for constructors) |
-|  groupType | InsertedMemberKey\["groupType"\] | the group signature, or "constructor" for the constructor I generate. |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+isFieldStatic
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+true if the field is static.
+
+
+</td></tr>
+<tr><td>
+
+fieldType
+
+
+</td><td>
+
+[PropertySignatureImpl](./ts-morph-structures.propertysignatureimpl.md)
+
+
+</td><td>
+
+the field signature.
+
+
+</td></tr>
+<tr><td>
+
+isGroupStatic
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+true if the group is static (false for constructors)
+
+
+</td></tr>
+<tr><td>
+
+groupType
+
+
+</td><td>
+
+InsertedMemberKey\["groupType"\]
+
+
+</td><td>
+
+the group signature, or "constructor" for the constructor I generate.
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 void

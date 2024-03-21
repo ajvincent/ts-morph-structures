@@ -14,10 +14,101 @@ export interface AddExportContext
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [exportNames](./ts-morph-structures.addexportcontext.exportnames.md) |  | readonly string\[\] | The names to add to the import. Pass an empty array for "\*". |
-|  [isDefaultExport](./ts-morph-structures.addexportcontext.isdefaultexport.md) |  | boolean | True if the import is the default. exportNames will then be the default export name. |
-|  [isType](./ts-morph-structures.addexportcontext.istype.md) |  | boolean | True if the export names are types only. |
-|  [pathToExportedModule](./ts-morph-structures.addexportcontext.pathtoexportedmodule.md) |  | string | This could be an absolute path, or a package import like "ts-morph-structures". |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[exportNames](./ts-morph-structures.addexportcontext.exportnames.md)
+
+
+</td><td>
+
+
+</td><td>
+
+readonly string\[\]
+
+
+</td><td>
+
+The names to add to the import. Pass an empty array for "\*".
+
+
+</td></tr>
+<tr><td>
+
+[isDefaultExport](./ts-morph-structures.addexportcontext.isdefaultexport.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+True if the import is the default. exportNames will then be the default export name.
+
+
+</td></tr>
+<tr><td>
+
+[isType](./ts-morph-structures.addexportcontext.istype.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+True if the export names are types only.
+
+
+</td></tr>
+<tr><td>
+
+[pathToExportedModule](./ts-morph-structures.addexportcontext.pathtoexportedmodule.md)
+
+
+</td><td>
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+This could be an absolute path, or a package import like "ts-morph-structures".
+
+
+</td></tr>
+</tbody></table>

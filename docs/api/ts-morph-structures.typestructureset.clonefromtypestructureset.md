@@ -14,10 +14,39 @@ cloneFromTypeStructureSet(other: TypeStructureSet): void;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  other | [TypeStructureSet](./ts-morph-structures.typestructureset.md) | the type structure set to copy |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+other
+
+
+</td><td>
+
+[TypeStructureSet](./ts-morph-structures.typestructureset.md)
+
+
+</td><td>
+
+the type structure set to copy
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 void

@@ -12,10 +12,37 @@ static clone(source: OptionalKind<JsxSelfClosingElementStructure>): JsxSelfClosi
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;JsxSelfClosingElementStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;JsxSelfClosingElementStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [JsxSelfClosingElementImpl](./ts-morph-structures.jsxselfclosingelementimpl.md)

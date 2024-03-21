@@ -12,7 +12,44 @@ export interface InitializerExpressionableNodeStructureClassIfc
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [initializer?](./ts-morph-structures.initializerexpressionablenodestructureclassifc.initializer.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[initializer?](./ts-morph-structures.initializerexpressionablenodestructureclassifc.initializer.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+</tbody></table>

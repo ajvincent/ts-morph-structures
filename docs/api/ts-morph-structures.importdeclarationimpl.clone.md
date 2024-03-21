@@ -12,10 +12,37 @@ static clone(source: OptionalKind<ImportDeclarationStructure>): ImportDeclaratio
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;ImportDeclarationStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;ImportDeclarationStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [ImportDeclarationImpl](./ts-morph-structures.importdeclarationimpl.md)

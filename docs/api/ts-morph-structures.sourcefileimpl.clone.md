@@ -12,10 +12,37 @@ static clone(source: OptionalKind<SourceFileStructure>): SourceFileImpl;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;SourceFileStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;SourceFileStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [SourceFileImpl](./ts-morph-structures.sourcefileimpl.md)

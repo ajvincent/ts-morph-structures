@@ -12,7 +12,42 @@ export interface ExclamationTokenableNodeStructureClassIfc
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [hasExclamationToken](./ts-morph-structures.exclamationtokenablenodestructureclassifc.hasexclamationtoken.md) |  | boolean |  |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[hasExclamationToken](./ts-morph-structures.exclamationtokenablenodestructureclassifc.hasexclamationtoken.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

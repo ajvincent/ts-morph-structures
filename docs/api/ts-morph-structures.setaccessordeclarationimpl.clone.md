@@ -12,10 +12,37 @@ static clone(source: OptionalKind<SetAccessorDeclarationStructure>): SetAccessor
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;SetAccessorDeclarationStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;SetAccessorDeclarationStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [SetAccessorDeclarationImpl](./ts-morph-structures.setaccessordeclarationimpl.md)

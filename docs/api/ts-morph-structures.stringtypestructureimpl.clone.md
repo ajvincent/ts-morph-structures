@@ -12,10 +12,37 @@ static clone(other: StringTypeStructureImpl): StringTypeStructureImpl;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  other | [StringTypeStructureImpl](./ts-morph-structures.stringtypestructureimpl.md) |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+other
+
+
+</td><td>
+
+[StringTypeStructureImpl](./ts-morph-structures.stringtypestructureimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [StringTypeStructureImpl](./ts-morph-structures.stringtypestructureimpl.md)

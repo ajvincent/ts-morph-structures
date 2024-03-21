@@ -13,24 +13,198 @@ export default class JsxAttributeImpl implements JsxAttributeStructureClassIfc
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(name)](./ts-morph-structures.jsxattributeimpl._constructor_.md) |  | Constructs a new instance of the <code>JsxAttributeImpl</code> class |
+<table><thead><tr><th>
+
+Constructor
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[(constructor)(name)](./ts-morph-structures.jsxattributeimpl._constructor_.md)
+
+
+</td><td>
+
+
+</td><td>
+
+Constructs a new instance of the `JsxAttributeImpl` class
+
+
+</td></tr>
+</tbody></table>
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [initializer?](./ts-morph-structures.jsxattributeimpl.initializer.md) |  | string | _(Optional)_ |
-|  [kind](./ts-morph-structures.jsxattributeimpl.kind.md) | <code>readonly</code> | StructureKind.JsxAttribute |  |
-|  [leadingTrivia](./ts-morph-structures.jsxattributeimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [name](./ts-morph-structures.jsxattributeimpl.name.md) |  | JsxNamespacedNameStructure \| string |  |
-|  [trailingTrivia](./ts-morph-structures.jsxattributeimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[initializer?](./ts-morph-structures.jsxattributeimpl.initializer.md)
+
+
+</td><td>
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.jsxattributeimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.JsxAttribute
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[leadingTrivia](./ts-morph-structures.jsxattributeimpl.leadingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[name](./ts-morph-structures.jsxattributeimpl.name.md)
+
+
+</td><td>
+
+
+</td><td>
+
+JsxNamespacedNameStructure \| string
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[trailingTrivia](./ts-morph-structures.jsxattributeimpl.trailingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(source)](./ts-morph-structures.jsxattributeimpl.clone.md) | <code>static</code> |  |
-|  [toJSON()](./ts-morph-structures.jsxattributeimpl.tojson.md) |  |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(source)](./ts-morph-structures.jsxattributeimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[toJSON()](./ts-morph-structures.jsxattributeimpl.tojson.md)
+
+
+</td><td>
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

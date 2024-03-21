@@ -12,10 +12,37 @@ static clone(other: LiteralTypeStructureImpl): LiteralTypeStructureImpl;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  other | [LiteralTypeStructureImpl](./ts-morph-structures.literaltypestructureimpl.md) |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+other
+
+
+</td><td>
+
+[LiteralTypeStructureImpl](./ts-morph-structures.literaltypestructureimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [LiteralTypeStructureImpl](./ts-morph-structures.literaltypestructureimpl.md)

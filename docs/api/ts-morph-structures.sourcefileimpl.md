@@ -13,17 +13,147 @@ export default class SourceFileImpl implements SourceFileStructureClassIfc
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [kind](./ts-morph-structures.sourcefileimpl.kind.md) | <code>readonly</code> | StructureKind.SourceFile |  |
-|  [leadingTrivia](./ts-morph-structures.sourcefileimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [statements](./ts-morph-structures.sourcefileimpl.statements.md) | <code>readonly</code> | ([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
-|  [trailingTrivia](./ts-morph-structures.sourcefileimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[kind](./ts-morph-structures.sourcefileimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.SourceFile
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[leadingTrivia](./ts-morph-structures.sourcefileimpl.leadingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[statements](./ts-morph-structures.sourcefileimpl.statements.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[trailingTrivia](./ts-morph-structures.sourcefileimpl.trailingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(source)](./ts-morph-structures.sourcefileimpl.clone.md) | <code>static</code> |  |
-|  [toJSON()](./ts-morph-structures.sourcefileimpl.tojson.md) |  |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(source)](./ts-morph-structures.sourcefileimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[toJSON()](./ts-morph-structures.sourcefileimpl.tojson.md)
+
+
+</td><td>
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

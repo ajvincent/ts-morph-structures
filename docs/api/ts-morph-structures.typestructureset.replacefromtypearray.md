@@ -14,10 +14,39 @@ replaceFromTypeArray(array: (string | WriterFunction)[]): void;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  array | (string \| WriterFunction)\[\] | the types to add. |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+array
+
+
+</td><td>
+
+(string \| WriterFunction)\[\]
+
+
+</td><td>
+
+the types to add.
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 void

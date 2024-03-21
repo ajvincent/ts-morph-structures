@@ -12,10 +12,37 @@ static clone(source: OptionalKind<JsxAttributeStructure>): JsxAttributeImpl;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;JsxAttributeStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;JsxAttributeStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [JsxAttributeImpl](./ts-morph-structures.jsxattributeimpl.md)

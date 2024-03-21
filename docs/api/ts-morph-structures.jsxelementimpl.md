@@ -13,26 +13,236 @@ export default class JsxElementImpl implements JsxElementStructureClassIfc
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(name)](./ts-morph-structures.jsxelementimpl._constructor_.md) |  | Constructs a new instance of the <code>JsxElementImpl</code> class |
+<table><thead><tr><th>
+
+Constructor
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[(constructor)(name)](./ts-morph-structures.jsxelementimpl._constructor_.md)
+
+
+</td><td>
+
+
+</td><td>
+
+Constructs a new instance of the `JsxElementImpl` class
+
+
+</td></tr>
+</tbody></table>
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [attributes](./ts-morph-structures.jsxelementimpl.attributes.md) | <code>readonly</code> | ([JsxAttributeImpl](./ts-morph-structures.jsxattributeimpl.md) \| [JsxSpreadAttributeImpl](./ts-morph-structures.jsxspreadattributeimpl.md)<!-- -->)\[\] |  |
-|  [bodyText?](./ts-morph-structures.jsxelementimpl.bodytext.md) |  | string | _(Optional)_ |
-|  [children](./ts-morph-structures.jsxelementimpl.children.md) | <code>readonly</code> | ([JsxElementImpl](./ts-morph-structures.jsxelementimpl.md) \| [JsxSelfClosingElementImpl](./ts-morph-structures.jsxselfclosingelementimpl.md)<!-- -->)\[\] |  |
-|  [kind](./ts-morph-structures.jsxelementimpl.kind.md) | <code>readonly</code> | StructureKind.JsxElement |  |
-|  [leadingTrivia](./ts-morph-structures.jsxelementimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [name](./ts-morph-structures.jsxelementimpl.name.md) |  | string |  |
-|  [trailingTrivia](./ts-morph-structures.jsxelementimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[attributes](./ts-morph-structures.jsxelementimpl.attributes.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+([JsxAttributeImpl](./ts-morph-structures.jsxattributeimpl.md) \| [JsxSpreadAttributeImpl](./ts-morph-structures.jsxspreadattributeimpl.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[bodyText?](./ts-morph-structures.jsxelementimpl.bodytext.md)
+
+
+</td><td>
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[children](./ts-morph-structures.jsxelementimpl.children.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+([JsxElementImpl](./ts-morph-structures.jsxelementimpl.md) \| [JsxSelfClosingElementImpl](./ts-morph-structures.jsxselfclosingelementimpl.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.jsxelementimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.JsxElement
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[leadingTrivia](./ts-morph-structures.jsxelementimpl.leadingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[name](./ts-morph-structures.jsxelementimpl.name.md)
+
+
+</td><td>
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[trailingTrivia](./ts-morph-structures.jsxelementimpl.trailingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(source)](./ts-morph-structures.jsxelementimpl.clone.md) | <code>static</code> |  |
-|  [toJSON()](./ts-morph-structures.jsxelementimpl.tojson.md) |  |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(source)](./ts-morph-structures.jsxelementimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[toJSON()](./ts-morph-structures.jsxelementimpl.tojson.md)
+
+
+</td><td>
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

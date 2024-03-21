@@ -14,11 +14,55 @@ importFromMemberedType(isStatic: boolean, membered: InterfaceDeclarationImpl | M
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  isStatic | boolean | true if the class members are static. |
-|  membered | [InterfaceDeclarationImpl](./ts-morph-structures.interfacedeclarationimpl.md) \| [MemberedObjectTypeStructureImpl](./ts-morph-structures.memberedobjecttypestructureimpl.md) | the interface or membered object type. |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+isStatic
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+true if the class members are static.
+
+
+</td></tr>
+<tr><td>
+
+membered
+
+
+</td><td>
+
+[InterfaceDeclarationImpl](./ts-morph-structures.interfacedeclarationimpl.md) \| [MemberedObjectTypeStructureImpl](./ts-morph-structures.memberedobjecttypestructureimpl.md)
+
+
+</td><td>
+
+the interface or membered object type.
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 void

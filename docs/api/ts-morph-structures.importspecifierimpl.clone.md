@@ -12,10 +12,37 @@ static clone(source: OptionalKind<ImportSpecifierStructure>): ImportSpecifierImp
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;ImportSpecifierStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;ImportSpecifierStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [ImportSpecifierImpl](./ts-morph-structures.importspecifierimpl.md)

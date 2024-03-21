@@ -14,7 +14,36 @@ constructor(iterable?: [string, string, ClassFieldStatement[]][]);
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  iterable | \[string, string, [ClassFieldStatement](./ts-morph-structures.classfieldstatement.md)<!-- -->\[\]\]\[\] | _(Optional)_ |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+iterable
+
+
+</td><td>
+
+\[string, string, [ClassFieldStatement](./ts-morph-structures.classfieldstatement.md)<!-- -->\[\]\]\[\]
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+</tbody></table>

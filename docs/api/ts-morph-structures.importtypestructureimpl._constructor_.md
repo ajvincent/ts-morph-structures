@@ -14,9 +14,62 @@ constructor(argument: StringTypeStructureImpl, qualifier: LiteralTypeStructureIm
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  argument | [StringTypeStructureImpl](./ts-morph-structures.stringtypestructureimpl.md) |  |
-|  qualifier | [LiteralTypeStructureImpl](./ts-morph-structures.literaltypestructureimpl.md) \| [QualifiedNameTypeStructureImpl](./ts-morph-structures.qualifiednametypestructureimpl.md) \| null |  |
-|  typeArguments | [TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\[\] |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+argument
+
+
+</td><td>
+
+[StringTypeStructureImpl](./ts-morph-structures.stringtypestructureimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+qualifier
+
+
+</td><td>
+
+[LiteralTypeStructureImpl](./ts-morph-structures.literaltypestructureimpl.md) \| [QualifiedNameTypeStructureImpl](./ts-morph-structures.qualifiednametypestructureimpl.md) \| null
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+typeArguments
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

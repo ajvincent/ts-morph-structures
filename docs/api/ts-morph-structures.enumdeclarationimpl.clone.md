@@ -12,10 +12,37 @@ static clone(source: OptionalKind<EnumDeclarationStructure>): EnumDeclarationImp
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;EnumDeclarationStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;EnumDeclarationStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [EnumDeclarationImpl](./ts-morph-structures.enumdeclarationimpl.md)

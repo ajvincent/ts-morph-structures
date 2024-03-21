@@ -6,7 +6,24 @@
 
 ## Packages
 
-|  Package | Description |
-|  --- | --- |
-|  [ts-morph-structures](./ts-morph-structures.md) |  |
+<table><thead><tr><th>
 
+Package
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[ts-morph-structures](./ts-morph-structures.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

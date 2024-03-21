@@ -15,22 +15,165 @@ export default class TemplateLiteralTypeStructureImpl extends TypeStructuresBase
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(head, spans)](./ts-morph-structures.templateliteraltypestructureimpl._constructor_.md) |  | Constructs a new instance of the <code>TemplateLiteralTypeStructureImpl</code> class |
+<table><thead><tr><th>
+
+Constructor
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[(constructor)(head, spans)](./ts-morph-structures.templateliteraltypestructureimpl._constructor_.md)
+
+
+</td><td>
+
+
+</td><td>
+
+Constructs a new instance of the `TemplateLiteralTypeStructureImpl` class
+
+
+</td></tr>
+</tbody></table>
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [head](./ts-morph-structures.templateliteraltypestructureimpl.head.md) |  | string |  |
-|  [kind](./ts-morph-structures.templateliteraltypestructureimpl.kind.md) | <code>readonly</code> | (not declared) |  |
-|  [spans](./ts-morph-structures.templateliteraltypestructureimpl.spans.md) |  | \[[TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->, string\]\[\] |  |
-|  [writerFunction](./ts-morph-structures.templateliteraltypestructureimpl.writerfunction.md) | <code>readonly</code> | WriterFunction |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[head](./ts-morph-structures.templateliteraltypestructureimpl.head.md)
+
+
+</td><td>
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.templateliteraltypestructureimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[spans](./ts-morph-structures.templateliteraltypestructureimpl.spans.md)
+
+
+</td><td>
+
+
+</td><td>
+
+\[[TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->, string\]\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[writerFunction](./ts-morph-structures.templateliteraltypestructureimpl.writerfunction.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+WriterFunction
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(other)](./ts-morph-structures.templateliteraltypestructureimpl.clone.md) | <code>static</code> |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(other)](./ts-morph-structures.templateliteraltypestructureimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

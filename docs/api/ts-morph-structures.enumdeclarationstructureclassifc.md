@@ -12,9 +12,80 @@ export interface EnumDeclarationStructureClassIfc
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [isConst](./ts-morph-structures.enumdeclarationstructureclassifc.isconst.md) |  | boolean |  |
-|  [kind](./ts-morph-structures.enumdeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.Enum |  |
-|  [members](./ts-morph-structures.enumdeclarationstructureclassifc.members.md) | <code>readonly</code> | [EnumMemberImpl](./ts-morph-structures.enummemberimpl.md)<!-- -->\[\] |  |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[isConst](./ts-morph-structures.enumdeclarationstructureclassifc.isconst.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.enumdeclarationstructureclassifc.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.Enum
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[members](./ts-morph-structures.enumdeclarationstructureclassifc.members.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[EnumMemberImpl](./ts-morph-structures.enummemberimpl.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

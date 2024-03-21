@@ -14,11 +14,55 @@ getAsKind<Kind extends NamedTypeMemberImpl["kind"]>(kind: Kind, name: string): E
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  kind | Kind | the structure kind. |
-|  name | string | the key to get. |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+kind
+
+
+</td><td>
+
+Kind
+
+
+</td><td>
+
+the structure kind.
+
+
+</td></tr>
+<tr><td>
+
+name
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+the key to get.
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 Extract&lt;[TypeMemberImpl](./ts-morph-structures.typememberimpl.md)<!-- -->, KindedStructure&lt;Kind&gt;&gt; \| undefined

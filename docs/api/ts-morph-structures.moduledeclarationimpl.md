@@ -13,29 +13,287 @@ export default class ModuleDeclarationImpl implements ModuleDeclarationStructure
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(name)](./ts-morph-structures.moduledeclarationimpl._constructor_.md) |  | Constructs a new instance of the <code>ModuleDeclarationImpl</code> class |
+<table><thead><tr><th>
+
+Constructor
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[(constructor)(name)](./ts-morph-structures.moduledeclarationimpl._constructor_.md)
+
+
+</td><td>
+
+
+</td><td>
+
+Constructs a new instance of the `ModuleDeclarationImpl` class
+
+
+</td></tr>
+</tbody></table>
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [declarationKind?](./ts-morph-structures.moduledeclarationimpl.declarationkind.md) |  | ModuleDeclarationKind | _(Optional)_ The module declaration kind. |
-|  [docs](./ts-morph-structures.moduledeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
-|  [hasDeclareKeyword](./ts-morph-structures.moduledeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
-|  [isDefaultExport](./ts-morph-structures.moduledeclarationimpl.isdefaultexport.md) |  | boolean |  |
-|  [isExported](./ts-morph-structures.moduledeclarationimpl.isexported.md) |  | boolean |  |
-|  [kind](./ts-morph-structures.moduledeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Module |  |
-|  [leadingTrivia](./ts-morph-structures.moduledeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [name](./ts-morph-structures.moduledeclarationimpl.name.md) |  | string |  |
-|  [statements](./ts-morph-structures.moduledeclarationimpl.statements.md) | <code>readonly</code> | ([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
-|  [trailingTrivia](./ts-morph-structures.moduledeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[declarationKind?](./ts-morph-structures.moduledeclarationimpl.declarationkind.md)
+
+
+</td><td>
+
+
+</td><td>
+
+ModuleDeclarationKind
+
+
+</td><td>
+
+_(Optional)_ The module declaration kind.
+
+
+</td></tr>
+<tr><td>
+
+[docs](./ts-morph-structures.moduledeclarationimpl.docs.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+(string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[hasDeclareKeyword](./ts-morph-structures.moduledeclarationimpl.hasdeclarekeyword.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[isDefaultExport](./ts-morph-structures.moduledeclarationimpl.isdefaultexport.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[isExported](./ts-morph-structures.moduledeclarationimpl.isexported.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.moduledeclarationimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.Module
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[leadingTrivia](./ts-morph-structures.moduledeclarationimpl.leadingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[name](./ts-morph-structures.moduledeclarationimpl.name.md)
+
+
+</td><td>
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[statements](./ts-morph-structures.moduledeclarationimpl.statements.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[trailingTrivia](./ts-morph-structures.moduledeclarationimpl.trailingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(source)](./ts-morph-structures.moduledeclarationimpl.clone.md) | <code>static</code> |  |
-|  [toJSON()](./ts-morph-structures.moduledeclarationimpl.tojson.md) |  |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(source)](./ts-morph-structures.moduledeclarationimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[toJSON()](./ts-morph-structures.moduledeclarationimpl.tojson.md)
+
+
+</td><td>
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

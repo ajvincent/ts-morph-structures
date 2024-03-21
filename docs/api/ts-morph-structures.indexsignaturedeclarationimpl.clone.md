@@ -12,10 +12,37 @@ static clone(source: OptionalKind<IndexSignatureDeclarationStructure>): IndexSig
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;IndexSignatureDeclarationStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;IndexSignatureDeclarationStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [IndexSignatureDeclarationImpl](./ts-morph-structures.indexsignaturedeclarationimpl.md)

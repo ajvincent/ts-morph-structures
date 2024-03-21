@@ -13,25 +13,292 @@ export default class ConstructorDeclarationImpl implements ConstructorDeclaratio
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [docs](./ts-morph-structures.constructordeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
-|  [kind](./ts-morph-structures.constructordeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Constructor |  |
-|  [leadingTrivia](./ts-morph-structures.constructordeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [overloads](./ts-morph-structures.constructordeclarationimpl.overloads.md) | <code>readonly</code> | [ConstructorDeclarationOverloadImpl](./ts-morph-structures.constructordeclarationoverloadimpl.md)<!-- -->\[\] |  |
-|  [parameters](./ts-morph-structures.constructordeclarationimpl.parameters.md) | <code>readonly</code> | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] |  |
-|  [returnType?](./ts-morph-structures.constructordeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
-|  [returnTypeStructure](./ts-morph-structures.constructordeclarationimpl.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
-|  [scope?](./ts-morph-structures.constructordeclarationimpl.scope.md) |  | import("ts-morph").Scope&lt;&gt; \| undefined | _(Optional)_ |
-|  [statements](./ts-morph-structures.constructordeclarationimpl.statements.md) | <code>readonly</code> | ([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
-|  [trailingTrivia](./ts-morph-structures.constructordeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [typeParameters](./ts-morph-structures.constructordeclarationimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[docs](./ts-morph-structures.constructordeclarationimpl.docs.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+(string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.constructordeclarationimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.Constructor
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[leadingTrivia](./ts-morph-structures.constructordeclarationimpl.leadingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[overloads](./ts-morph-structures.constructordeclarationimpl.overloads.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[ConstructorDeclarationOverloadImpl](./ts-morph-structures.constructordeclarationoverloadimpl.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[parameters](./ts-morph-structures.constructordeclarationimpl.parameters.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[returnType?](./ts-morph-structures.constructordeclarationimpl.returntype.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[returnTypeStructure](./ts-morph-structures.constructordeclarationimpl.returntypestructure.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md) \| undefined
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[scope?](./ts-morph-structures.constructordeclarationimpl.scope.md)
+
+
+</td><td>
+
+
+</td><td>
+
+import("ts-morph").Scope&lt;&gt; \| undefined
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[statements](./ts-morph-structures.constructordeclarationimpl.statements.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[trailingTrivia](./ts-morph-structures.constructordeclarationimpl.trailingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[typeParameters](./ts-morph-structures.constructordeclarationimpl.typeparameters.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+(string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(source)](./ts-morph-structures.constructordeclarationimpl.clone.md) | <code>static</code> |  |
-|  [fromSignature(signature)](./ts-morph-structures.constructordeclarationimpl.fromsignature.md) | <code>static</code> |  |
-|  [toJSON()](./ts-morph-structures.constructordeclarationimpl.tojson.md) |  |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(source)](./ts-morph-structures.constructordeclarationimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[fromSignature(signature)](./ts-morph-structures.constructordeclarationimpl.fromsignature.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[toJSON()](./ts-morph-structures.constructordeclarationimpl.tojson.md)
+
+
+</td><td>
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

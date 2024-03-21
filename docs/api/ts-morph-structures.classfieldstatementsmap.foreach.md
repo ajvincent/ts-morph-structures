@@ -14,11 +14,55 @@ forEach(__callback__: (statements: ClassFieldStatement[], fieldName: string, sta
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  \_\_callback\_\_ | (statements: [ClassFieldStatement](./ts-morph-structures.classfieldstatement.md)<!-- -->\[\], fieldName: string, statementGroup: string, \_\_collection\_\_: [ClassFieldStatementsMap](./ts-morph-structures.classfieldstatementsmap.md)<!-- -->) =&gt; void | A function to invoke for each iteration. |
-|  \_\_thisArg\_\_ | unknown | _(Optional)_ statements to use as this when executing callback. |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+\_\_callback\_\_
+
+
+</td><td>
+
+(statements: [ClassFieldStatement](./ts-morph-structures.classfieldstatement.md)<!-- -->\[\], fieldName: string, statementGroup: string, \_\_collection\_\_: [ClassFieldStatementsMap](./ts-morph-structures.classfieldstatementsmap.md)<!-- -->) =&gt; void
+
+
+</td><td>
+
+A function to invoke for each iteration.
+
+
+</td></tr>
+<tr><td>
+
+\_\_thisArg\_\_
+
+
+</td><td>
+
+unknown
+
+
+</td><td>
+
+_(Optional)_ statements to use as this when executing callback.
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 void

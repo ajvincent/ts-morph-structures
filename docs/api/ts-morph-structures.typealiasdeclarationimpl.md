@@ -13,30 +13,304 @@ export default class TypeAliasDeclarationImpl implements TypeAliasDeclarationStr
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(name, type)](./ts-morph-structures.typealiasdeclarationimpl._constructor_.md) |  | Constructs a new instance of the <code>TypeAliasDeclarationImpl</code> class |
+<table><thead><tr><th>
+
+Constructor
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[(constructor)(name, type)](./ts-morph-structures.typealiasdeclarationimpl._constructor_.md)
+
+
+</td><td>
+
+
+</td><td>
+
+Constructs a new instance of the `TypeAliasDeclarationImpl` class
+
+
+</td></tr>
+</tbody></table>
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [docs](./ts-morph-structures.typealiasdeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
-|  [hasDeclareKeyword](./ts-morph-structures.typealiasdeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
-|  [isDefaultExport](./ts-morph-structures.typealiasdeclarationimpl.isdefaultexport.md) |  | boolean |  |
-|  [isExported](./ts-morph-structures.typealiasdeclarationimpl.isexported.md) |  | boolean |  |
-|  [kind](./ts-morph-structures.typealiasdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.TypeAlias |  |
-|  [leadingTrivia](./ts-morph-structures.typealiasdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [name](./ts-morph-structures.typealiasdeclarationimpl.name.md) |  | string |  |
-|  [trailingTrivia](./ts-morph-structures.typealiasdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [type?](./ts-morph-structures.typealiasdeclarationimpl.type.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
-|  [typeParameters](./ts-morph-structures.typealiasdeclarationimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
-|  [typeStructure](./ts-morph-structures.typealiasdeclarationimpl.typestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[docs](./ts-morph-structures.typealiasdeclarationimpl.docs.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+(string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[hasDeclareKeyword](./ts-morph-structures.typealiasdeclarationimpl.hasdeclarekeyword.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[isDefaultExport](./ts-morph-structures.typealiasdeclarationimpl.isdefaultexport.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[isExported](./ts-morph-structures.typealiasdeclarationimpl.isexported.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.typealiasdeclarationimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.TypeAlias
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[leadingTrivia](./ts-morph-structures.typealiasdeclarationimpl.leadingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[name](./ts-morph-structures.typealiasdeclarationimpl.name.md)
+
+
+</td><td>
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[trailingTrivia](./ts-morph-structures.typealiasdeclarationimpl.trailingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[type?](./ts-morph-structures.typealiasdeclarationimpl.type.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[typeParameters](./ts-morph-structures.typealiasdeclarationimpl.typeparameters.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+(string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[typeStructure](./ts-morph-structures.typealiasdeclarationimpl.typestructure.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md) \| undefined
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(source)](./ts-morph-structures.typealiasdeclarationimpl.clone.md) | <code>static</code> |  |
-|  [toJSON()](./ts-morph-structures.typealiasdeclarationimpl.tojson.md) |  |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(source)](./ts-morph-structures.typealiasdeclarationimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[toJSON()](./ts-morph-structures.typealiasdeclarationimpl.tojson.md)
+
+
+</td><td>
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

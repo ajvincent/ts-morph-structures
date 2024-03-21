@@ -12,8 +12,63 @@ export interface JsxSelfClosingElementStructureClassIfc
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [attributes](./ts-morph-structures.jsxselfclosingelementstructureclassifc.attributes.md) | <code>readonly</code> | ([JsxAttributeImpl](./ts-morph-structures.jsxattributeimpl.md) \| [JsxSpreadAttributeImpl](./ts-morph-structures.jsxspreadattributeimpl.md)<!-- -->)\[\] |  |
-|  [kind](./ts-morph-structures.jsxselfclosingelementstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.JsxSelfClosingElement |  |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[attributes](./ts-morph-structures.jsxselfclosingelementstructureclassifc.attributes.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+([JsxAttributeImpl](./ts-morph-structures.jsxattributeimpl.md) \| [JsxSpreadAttributeImpl](./ts-morph-structures.jsxspreadattributeimpl.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.jsxselfclosingelementstructureclassifc.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.JsxSelfClosingElement
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

@@ -12,8 +12,63 @@ export interface ModuleDeclarationStructureClassIfc
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [declarationKind?](./ts-morph-structures.moduledeclarationstructureclassifc.declarationkind.md) |  | ModuleDeclarationKind | _(Optional)_ The module declaration kind. |
-|  [kind](./ts-morph-structures.moduledeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.Module |  |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[declarationKind?](./ts-morph-structures.moduledeclarationstructureclassifc.declarationkind.md)
+
+
+</td><td>
+
+
+</td><td>
+
+ModuleDeclarationKind
+
+
+</td><td>
+
+_(Optional)_ The module declaration kind.
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.moduledeclarationstructureclassifc.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.Module
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

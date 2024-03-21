@@ -12,10 +12,37 @@ static clone(source: OptionalKind<GetAccessorDeclarationStructure>): GetAccessor
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;GetAccessorDeclarationStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;GetAccessorDeclarationStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [GetAccessorDeclarationImpl](./ts-morph-structures.getaccessordeclarationimpl.md)

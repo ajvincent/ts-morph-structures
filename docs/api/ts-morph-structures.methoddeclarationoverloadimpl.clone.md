@@ -12,10 +12,37 @@ static clone(source: OptionalKind<MethodDeclarationOverloadStructure>): MethodDe
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;MethodDeclarationOverloadStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;MethodDeclarationOverloadStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [MethodDeclarationOverloadImpl](./ts-morph-structures.methoddeclarationoverloadimpl.md)

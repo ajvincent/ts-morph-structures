@@ -12,9 +12,80 @@ export interface MethodDeclarationStructureClassIfc
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [isStatic](./ts-morph-structures.methoddeclarationstructureclassifc.isstatic.md) |  | boolean |  |
-|  [kind](./ts-morph-structures.methoddeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.Method |  |
-|  [overloads](./ts-morph-structures.methoddeclarationstructureclassifc.overloads.md) | <code>readonly</code> | [MethodDeclarationOverloadImpl](./ts-morph-structures.methoddeclarationoverloadimpl.md)<!-- -->\[\] |  |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[isStatic](./ts-morph-structures.methoddeclarationstructureclassifc.isstatic.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.methoddeclarationstructureclassifc.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.Method
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[overloads](./ts-morph-structures.methoddeclarationstructureclassifc.overloads.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[MethodDeclarationOverloadImpl](./ts-morph-structures.methoddeclarationoverloadimpl.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

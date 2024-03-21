@@ -12,10 +12,39 @@ addExports(context: AddExportContext): void;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  context | [AddExportContext](./ts-morph-structures.addexportcontext.md) | a description of the exports to add. |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+context
+
+
+</td><td>
+
+[AddExportContext](./ts-morph-structures.addexportcontext.md)
+
+
+</td><td>
+
+a description of the exports to add.
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 void

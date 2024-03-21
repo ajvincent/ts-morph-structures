@@ -12,7 +12,44 @@ export interface ShorthandPropertyAssignmentStructureClassIfc
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [kind](./ts-morph-structures.shorthandpropertyassignmentstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.ShorthandPropertyAssignment |  |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[kind](./ts-morph-structures.shorthandpropertyassignmentstructureclassifc.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.ShorthandPropertyAssignment
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

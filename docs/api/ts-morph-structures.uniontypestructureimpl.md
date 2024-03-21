@@ -17,25 +17,234 @@ export default class UnionTypeStructureImpl extends TypeStructuresWithChildren<T
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(childTypes)](./ts-morph-structures.uniontypestructureimpl._constructor_.md) |  | Constructs a new instance of the <code>UnionTypeStructureImpl</code> class |
+<table><thead><tr><th>
+
+Constructor
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[(constructor)(childTypes)](./ts-morph-structures.uniontypestructureimpl._constructor_.md)
+
+
+</td><td>
+
+
+</td><td>
+
+Constructs a new instance of the `UnionTypeStructureImpl` class
+
+
+</td></tr>
+</tbody></table>
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [childTypes](./ts-morph-structures.uniontypestructureimpl.childtypes.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\[\] |  |
-|  [endToken](./ts-morph-structures.uniontypestructureimpl.endtoken.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
-|  [joinChildrenToken](./ts-morph-structures.uniontypestructureimpl.joinchildrentoken.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
-|  [kind](./ts-morph-structures.uniontypestructureimpl.kind.md) | <code>readonly</code> | (not declared) |  |
-|  [maxChildCount](./ts-morph-structures.uniontypestructureimpl.maxchildcount.md) | <p><code>protected</code></p><p><code>readonly</code></p> | number |  |
-|  [objectType](./ts-morph-structures.uniontypestructureimpl.objecttype.md) | <p><code>protected</code></p><p><code>readonly</code></p> | null |  |
-|  [startToken](./ts-morph-structures.uniontypestructureimpl.starttoken.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[childTypes](./ts-morph-structures.uniontypestructureimpl.childtypes.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[endToken](./ts-morph-structures.uniontypestructureimpl.endtoken.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[joinChildrenToken](./ts-morph-structures.uniontypestructureimpl.joinchildrentoken.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.uniontypestructureimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[maxChildCount](./ts-morph-structures.uniontypestructureimpl.maxchildcount.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+number
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[objectType](./ts-morph-structures.uniontypestructureimpl.objecttype.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+null
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[startToken](./ts-morph-structures.uniontypestructureimpl.starttoken.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(other)](./ts-morph-structures.uniontypestructureimpl.clone.md) | <code>static</code> |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(other)](./ts-morph-structures.uniontypestructureimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

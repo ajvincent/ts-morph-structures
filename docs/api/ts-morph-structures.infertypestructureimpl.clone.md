@@ -12,10 +12,37 @@ static clone(other: InferTypeStructureImpl): InferTypeStructureImpl;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  other | [InferTypeStructureImpl](./ts-morph-structures.infertypestructureimpl.md) |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+other
+
+
+</td><td>
+
+[InferTypeStructureImpl](./ts-morph-structures.infertypestructureimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [InferTypeStructureImpl](./ts-morph-structures.infertypestructureimpl.md)

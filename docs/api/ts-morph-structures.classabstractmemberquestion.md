@@ -12,7 +12,24 @@ export interface ClassAbstractMemberQuestion
 
 ## Methods
 
-|  Method | Description |
-|  --- | --- |
-|  [isAbstract(kind, memberName)](./ts-morph-structures.classabstractmemberquestion.isabstract.md) |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[isAbstract(kind, memberName)](./ts-morph-structures.classabstractmemberquestion.isabstract.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

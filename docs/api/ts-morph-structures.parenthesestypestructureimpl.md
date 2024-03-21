@@ -17,25 +17,236 @@ export default class ParenthesesTypeStructureImpl extends TypeStructuresWithChil
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(childType)](./ts-morph-structures.parenthesestypestructureimpl._constructor_.md) |  | Constructs a new instance of the <code>ParenthesesTypeStructureImpl</code> class |
+<table><thead><tr><th>
+
+Constructor
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[(constructor)(childType)](./ts-morph-structures.parenthesestypestructureimpl._constructor_.md)
+
+
+</td><td>
+
+
+</td><td>
+
+Constructs a new instance of the `ParenthesesTypeStructureImpl` class
+
+
+</td></tr>
+</tbody></table>
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [childTypes](./ts-morph-structures.parenthesestypestructureimpl.childtypes.md) | <code>readonly</code> | \[[TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\] |  |
-|  [endToken](./ts-morph-structures.parenthesestypestructureimpl.endtoken.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
-|  [joinChildrenToken](./ts-morph-structures.parenthesestypestructureimpl.joinchildrentoken.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
-|  [kind](./ts-morph-structures.parenthesestypestructureimpl.kind.md) | <code>readonly</code> | (not declared) |  |
-|  [maxChildCount](./ts-morph-structures.parenthesestypestructureimpl.maxchildcount.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
-|  [objectType](./ts-morph-structures.parenthesestypestructureimpl.objecttype.md) | <p><code>protected</code></p><p><code>readonly</code></p> | null |  |
-|  [startToken](./ts-morph-structures.parenthesestypestructureimpl.starttoken.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[childTypes](./ts-morph-structures.parenthesestypestructureimpl.childtypes.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+\[[TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[endToken](./ts-morph-structures.parenthesestypestructureimpl.endtoken.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[joinChildrenToken](./ts-morph-structures.parenthesestypestructureimpl.joinchildrentoken.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.parenthesestypestructureimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[maxChildCount](./ts-morph-structures.parenthesestypestructureimpl.maxchildcount.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[objectType](./ts-morph-structures.parenthesestypestructureimpl.objecttype.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+null
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[startToken](./ts-morph-structures.parenthesestypestructureimpl.starttoken.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(other)](./ts-morph-structures.parenthesestypestructureimpl.clone.md) | <code>static</code> |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(other)](./ts-morph-structures.parenthesestypestructureimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

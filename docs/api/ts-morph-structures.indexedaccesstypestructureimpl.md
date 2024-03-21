@@ -19,25 +19,232 @@ export default class IndexedAccessTypeStructureImpl extends TypeStructuresWithCh
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(objectType, indexType)](./ts-morph-structures.indexedaccesstypestructureimpl._constructor_.md) |  | Constructs a new instance of the <code>IndexedAccessTypeStructureImpl</code> class |
+<table><thead><tr><th>
+
+Constructor
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[(constructor)(objectType, indexType)](./ts-morph-structures.indexedaccesstypestructureimpl._constructor_.md)
+
+
+</td><td>
+
+
+</td><td>
+
+Constructs a new instance of the `IndexedAccessTypeStructureImpl` class
+
+
+</td></tr>
+</tbody></table>
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [childTypes](./ts-morph-structures.indexedaccesstypestructureimpl.childtypes.md) | <code>readonly</code> | \[[TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\] |  |
-|  [endToken](./ts-morph-structures.indexedaccesstypestructureimpl.endtoken.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
-|  [joinChildrenToken](./ts-morph-structures.indexedaccesstypestructureimpl.joinchildrentoken.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
-|  [kind](./ts-morph-structures.indexedaccesstypestructureimpl.kind.md) | <code>readonly</code> | (not declared) |  |
-|  [maxChildCount](./ts-morph-structures.indexedaccesstypestructureimpl.maxchildcount.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
-|  [objectType](./ts-morph-structures.indexedaccesstypestructureimpl.objecttype.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) |  |
-|  [startToken](./ts-morph-structures.indexedaccesstypestructureimpl.starttoken.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[childTypes](./ts-morph-structures.indexedaccesstypestructureimpl.childtypes.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+\[[TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[endToken](./ts-morph-structures.indexedaccesstypestructureimpl.endtoken.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[joinChildrenToken](./ts-morph-structures.indexedaccesstypestructureimpl.joinchildrentoken.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.indexedaccesstypestructureimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[maxChildCount](./ts-morph-structures.indexedaccesstypestructureimpl.maxchildcount.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[objectType](./ts-morph-structures.indexedaccesstypestructureimpl.objecttype.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[startToken](./ts-morph-structures.indexedaccesstypestructureimpl.starttoken.md)
+
+
+</td><td>
+
+`protected`
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(other)](./ts-morph-structures.indexedaccesstypestructureimpl.clone.md) | <code>static</code> |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(other)](./ts-morph-structures.indexedaccesstypestructureimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

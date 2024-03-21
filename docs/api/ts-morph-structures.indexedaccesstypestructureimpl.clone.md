@@ -12,10 +12,37 @@ static clone(other: IndexedAccessTypeStructureImpl): IndexedAccessTypeStructureI
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  other | [IndexedAccessTypeStructureImpl](./ts-morph-structures.indexedaccesstypestructureimpl.md) |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+other
+
+
+</td><td>
+
+[IndexedAccessTypeStructureImpl](./ts-morph-structures.indexedaccesstypestructureimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [IndexedAccessTypeStructureImpl](./ts-morph-structures.indexedaccesstypestructureimpl.md)

@@ -14,10 +14,39 @@ addMembers(members: readonly TypeMemberImpl[]): void;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  members | readonly [TypeMemberImpl](./ts-morph-structures.typememberimpl.md)<!-- -->\[\] | the type members to add. |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+members
+
+
+</td><td>
+
+readonly [TypeMemberImpl](./ts-morph-structures.typememberimpl.md)<!-- -->\[\]
+
+
+</td><td>
+
+the type members to add.
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 void

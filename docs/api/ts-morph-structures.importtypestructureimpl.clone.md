@@ -12,10 +12,37 @@ static clone(other: ImportTypeStructureImpl): ImportTypeStructureImpl;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  other | [ImportTypeStructureImpl](./ts-morph-structures.importtypestructureimpl.md) |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+other
+
+
+</td><td>
+
+[ImportTypeStructureImpl](./ts-morph-structures.importtypestructureimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [ImportTypeStructureImpl](./ts-morph-structures.importtypestructureimpl.md)

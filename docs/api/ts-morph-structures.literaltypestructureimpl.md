@@ -15,22 +15,166 @@ export default class LiteralTypeStructureImpl extends TypeStructuresBase<TypeStr
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(literal)](./ts-morph-structures.literaltypestructureimpl._constructor_.md) |  | Constructs a new instance of the <code>LiteralTypeStructureImpl</code> class |
+<table><thead><tr><th>
+
+Constructor
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[(constructor)(literal)](./ts-morph-structures.literaltypestructureimpl._constructor_.md)
+
+
+</td><td>
+
+
+</td><td>
+
+Constructs a new instance of the `LiteralTypeStructureImpl` class
+
+
+</td></tr>
+</tbody></table>
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [kind](./ts-morph-structures.literaltypestructureimpl.kind.md) | <code>readonly</code> | (not declared) |  |
-|  [stringValue](./ts-morph-structures.literaltypestructureimpl.stringvalue.md) | <code>readonly</code> | string |  |
-|  [writerFunction](./ts-morph-structures.literaltypestructureimpl.writerfunction.md) | <code>readonly</code> | WriterFunction |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[kind](./ts-morph-structures.literaltypestructureimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[stringValue](./ts-morph-structures.literaltypestructureimpl.stringvalue.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[writerFunction](./ts-morph-structures.literaltypestructureimpl.writerfunction.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+WriterFunction
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(other)](./ts-morph-structures.literaltypestructureimpl.clone.md) | <code>static</code> |  |
-|  [get(name)](./ts-morph-structures.literaltypestructureimpl.get.md) | <code>static</code> | Gets a singleton <code>LiteralTypeStructureImpl</code> for the given name. |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(other)](./ts-morph-structures.literaltypestructureimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[get(name)](./ts-morph-structures.literaltypestructureimpl.get.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+Gets a singleton `LiteralTypeStructureImpl` for the given name.
+
+
+</td></tr>
+</tbody></table>

@@ -14,7 +14,34 @@ constructor(typeParameter: TypeParameterDeclarationImpl);
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  typeParameter | [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+typeParameter
+
+
+</td><td>
+
+[TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

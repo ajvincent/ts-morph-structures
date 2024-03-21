@@ -14,10 +14,37 @@ moveMembersToClass(classDecl: ClassDeclarationImpl): ClassDeclarationImpl;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  classDecl | [ClassDeclarationImpl](./ts-morph-structures.classdeclarationimpl.md) |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+classDecl
+
+
+</td><td>
+
+[ClassDeclarationImpl](./ts-morph-structures.classdeclarationimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [ClassDeclarationImpl](./ts-morph-structures.classdeclarationimpl.md)

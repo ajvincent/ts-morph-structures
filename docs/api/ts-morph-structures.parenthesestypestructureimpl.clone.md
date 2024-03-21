@@ -12,10 +12,37 @@ static clone(other: ParenthesesTypeStructureImpl): ParenthesesTypeStructureImpl;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  other | [ParenthesesTypeStructureImpl](./ts-morph-structures.parenthesestypestructureimpl.md) |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+other
+
+
+</td><td>
+
+[ParenthesesTypeStructureImpl](./ts-morph-structures.parenthesestypestructureimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [ParenthesesTypeStructureImpl](./ts-morph-structures.parenthesestypestructureimpl.md)

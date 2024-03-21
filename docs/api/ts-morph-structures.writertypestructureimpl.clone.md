@@ -12,10 +12,37 @@ static clone(other: WriterTypeStructureImpl): WriterTypeStructureImpl;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  other | [WriterTypeStructureImpl](./ts-morph-structures.writertypestructureimpl.md) |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+other
+
+
+</td><td>
+
+[WriterTypeStructureImpl](./ts-morph-structures.writertypestructureimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [WriterTypeStructureImpl](./ts-morph-structures.writertypestructureimpl.md)

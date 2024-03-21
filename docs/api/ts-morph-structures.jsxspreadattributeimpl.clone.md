@@ -12,10 +12,37 @@ static clone(source: OptionalKind<JsxSpreadAttributeStructure>): JsxSpreadAttrib
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  source | OptionalKind&lt;JsxSpreadAttributeStructure&gt; |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+
+</td><td>
+
+OptionalKind&lt;JsxSpreadAttributeStructure&gt;
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [JsxSpreadAttributeImpl](./ts-morph-structures.jsxspreadattributeimpl.md)

@@ -14,12 +14,71 @@ set(fieldName: string, statementGroup: string, statements: ClassFieldStatement[]
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  fieldName | string | The class field name for the statements. |
-|  statementGroup | string | The statement group owning the statements. |
-|  statements | [ClassFieldStatement](./ts-morph-structures.classfieldstatement.md)<!-- -->\[\] | The statements. |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+fieldName
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+The class field name for the statements.
+
+
+</td></tr>
+<tr><td>
+
+statementGroup
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+The statement group owning the statements.
+
+
+</td></tr>
+<tr><td>
+
+statements
+
+
+</td><td>
+
+[ClassFieldStatement](./ts-morph-structures.classfieldstatement.md)<!-- -->\[\]
+
+
+</td><td>
+
+The statements.
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 this

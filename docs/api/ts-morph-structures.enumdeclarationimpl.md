@@ -13,29 +13,285 @@ export default class EnumDeclarationImpl implements EnumDeclarationStructureClas
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(name)](./ts-morph-structures.enumdeclarationimpl._constructor_.md) |  | Constructs a new instance of the <code>EnumDeclarationImpl</code> class |
+<table><thead><tr><th>
+
+Constructor
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[(constructor)(name)](./ts-morph-structures.enumdeclarationimpl._constructor_.md)
+
+
+</td><td>
+
+
+</td><td>
+
+Constructs a new instance of the `EnumDeclarationImpl` class
+
+
+</td></tr>
+</tbody></table>
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [docs](./ts-morph-structures.enumdeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
-|  [hasDeclareKeyword](./ts-morph-structures.enumdeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
-|  [isConst](./ts-morph-structures.enumdeclarationimpl.isconst.md) |  | boolean |  |
-|  [isDefaultExport](./ts-morph-structures.enumdeclarationimpl.isdefaultexport.md) |  | boolean |  |
-|  [isExported](./ts-morph-structures.enumdeclarationimpl.isexported.md) |  | boolean |  |
-|  [kind](./ts-morph-structures.enumdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Enum |  |
-|  [leadingTrivia](./ts-morph-structures.enumdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [members](./ts-morph-structures.enumdeclarationimpl.members.md) | <code>readonly</code> | [EnumMemberImpl](./ts-morph-structures.enummemberimpl.md)<!-- -->\[\] |  |
-|  [name](./ts-morph-structures.enumdeclarationimpl.name.md) |  | string |  |
-|  [trailingTrivia](./ts-morph-structures.enumdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[docs](./ts-morph-structures.enumdeclarationimpl.docs.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+(string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[hasDeclareKeyword](./ts-morph-structures.enumdeclarationimpl.hasdeclarekeyword.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[isConst](./ts-morph-structures.enumdeclarationimpl.isconst.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[isDefaultExport](./ts-morph-structures.enumdeclarationimpl.isdefaultexport.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[isExported](./ts-morph-structures.enumdeclarationimpl.isexported.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.enumdeclarationimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.Enum
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[leadingTrivia](./ts-morph-structures.enumdeclarationimpl.leadingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[members](./ts-morph-structures.enumdeclarationimpl.members.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[EnumMemberImpl](./ts-morph-structures.enummemberimpl.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[name](./ts-morph-structures.enumdeclarationimpl.name.md)
+
+
+</td><td>
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[trailingTrivia](./ts-morph-structures.enumdeclarationimpl.trailingtrivia.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(source)](./ts-morph-structures.enumdeclarationimpl.clone.md) | <code>static</code> |  |
-|  [toJSON()](./ts-morph-structures.enumdeclarationimpl.tojson.md) |  |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(source)](./ts-morph-structures.enumdeclarationimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[toJSON()](./ts-morph-structures.enumdeclarationimpl.tojson.md)
+
+
+</td><td>
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

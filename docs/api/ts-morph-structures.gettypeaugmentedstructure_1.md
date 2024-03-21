@@ -14,13 +14,87 @@ declare function getTypeAugmentedStructure<TKind extends StructureKind>(rootNode
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  rootNode | NodeWithStructures | The node to start from. |
-|  userConsole | [TypeNodeToTypeStructureConsole](./ts-morph-structures.typenodetotypestructureconsole.md) | a callback for conversion failures. |
-|  assertNoFailures | boolean | if true, assert there are no conversion failures. |
-|  kind | TKind | the expected structure kind to retrieve. |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+rootNode
+
+
+</td><td>
+
+NodeWithStructures
+
+
+</td><td>
+
+The node to start from.
+
+
+</td></tr>
+<tr><td>
+
+userConsole
+
+
+</td><td>
+
+[TypeNodeToTypeStructureConsole](./ts-morph-structures.typenodetotypestructureconsole.md)
+
+
+</td><td>
+
+a callback for conversion failures.
+
+
+</td></tr>
+<tr><td>
+
+assertNoFailures
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+if true, assert there are no conversion failures.
+
+
+</td></tr>
+<tr><td>
+
+kind
+
+
+</td><td>
+
+TKind
+
+
+</td><td>
+
+the expected structure kind to retrieve.
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 RootStructureWithConvertFailures&lt;TKind&gt;

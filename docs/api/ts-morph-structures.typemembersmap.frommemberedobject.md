@@ -14,10 +14,39 @@ static fromMemberedObject(membered: InterfaceDeclarationImpl | MemberedObjectTyp
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  membered | [InterfaceDeclarationImpl](./ts-morph-structures.interfacedeclarationimpl.md) \| [MemberedObjectTypeStructureImpl](./ts-morph-structures.memberedobjecttypestructureimpl.md) | the membered object. |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+membered
+
+
+</td><td>
+
+[InterfaceDeclarationImpl](./ts-morph-structures.interfacedeclarationimpl.md) \| [MemberedObjectTypeStructureImpl](./ts-morph-structures.memberedobjecttypestructureimpl.md)
+
+
+</td><td>
+
+the membered object.
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [TypeMembersMap](./ts-morph-structures.typemembersmap.md)

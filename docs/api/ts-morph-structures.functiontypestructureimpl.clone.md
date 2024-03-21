@@ -12,10 +12,37 @@ static clone(other: FunctionTypeStructureImpl): FunctionTypeStructureImpl;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  other | [FunctionTypeStructureImpl](./ts-morph-structures.functiontypestructureimpl.md) |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+other
+
+
+</td><td>
+
+[FunctionTypeStructureImpl](./ts-morph-structures.functiontypestructureimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [FunctionTypeStructureImpl](./ts-morph-structures.functiontypestructureimpl.md)

@@ -15,24 +15,199 @@ export default class ConditionalTypeStructureImpl extends TypeStructuresBase<Typ
 
 ## Constructors
 
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(conditionalParts)](./ts-morph-structures.conditionaltypestructureimpl._constructor_.md) |  | Constructs a new instance of the <code>ConditionalTypeStructureImpl</code> class |
+<table><thead><tr><th>
+
+Constructor
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[(constructor)(conditionalParts)](./ts-morph-structures.conditionaltypestructureimpl._constructor_.md)
+
+
+</td><td>
+
+
+</td><td>
+
+Constructs a new instance of the `ConditionalTypeStructureImpl` class
+
+
+</td></tr>
+</tbody></table>
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [checkType](./ts-morph-structures.conditionaltypestructureimpl.checktype.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) |  |
-|  [extendsType](./ts-morph-structures.conditionaltypestructureimpl.extendstype.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) |  |
-|  [falseType](./ts-morph-structures.conditionaltypestructureimpl.falsetype.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) |  |
-|  [kind](./ts-morph-structures.conditionaltypestructureimpl.kind.md) | <code>readonly</code> | (not declared) |  |
-|  [trueType](./ts-morph-structures.conditionaltypestructureimpl.truetype.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) |  |
-|  [writerFunction](./ts-morph-structures.conditionaltypestructureimpl.writerfunction.md) | <code>readonly</code> | WriterFunction |  |
+<table><thead><tr><th>
+
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[checkType](./ts-morph-structures.conditionaltypestructureimpl.checktype.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[extendsType](./ts-morph-structures.conditionaltypestructureimpl.extendstype.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[falseType](./ts-morph-structures.conditionaltypestructureimpl.falsetype.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.conditionaltypestructureimpl.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+(not declared)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[trueType](./ts-morph-structures.conditionaltypestructureimpl.truetype.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeStructures](./ts-morph-structures.typestructures.md)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[writerFunction](./ts-morph-structures.conditionaltypestructureimpl.writerfunction.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+WriterFunction
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [clone(other)](./ts-morph-structures.conditionaltypestructureimpl.clone.md) | <code>static</code> |  |
+<table><thead><tr><th>
 
+Method
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clone(other)](./ts-morph-structures.conditionaltypestructureimpl.clone.md)
+
+
+</td><td>
+
+`static`
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

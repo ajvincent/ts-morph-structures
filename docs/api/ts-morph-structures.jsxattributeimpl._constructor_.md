@@ -14,7 +14,34 @@ constructor(name: JsxNamespacedNameStructure | string);
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  name | JsxNamespacedNameStructure \| string |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+name
+
+
+</td><td>
+
+JsxNamespacedNameStructure \| string
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>

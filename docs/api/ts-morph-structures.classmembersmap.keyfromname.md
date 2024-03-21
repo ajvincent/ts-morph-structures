@@ -12,12 +12,71 @@ static keyFromName(kind: ClassMemberImpl["kind"], isStatic: boolean, name: strin
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  kind | [ClassMemberImpl](./ts-morph-structures.classmemberimpl.md)<!-- -->\["kind"\] | the structure kind. |
-|  isStatic | boolean | true if the class member should be static. |
-|  name | string | the name of the class member. |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+kind
+
+
+</td><td>
+
+[ClassMemberImpl](./ts-morph-structures.classmemberimpl.md)<!-- -->\["kind"\]
+
+
+</td><td>
+
+the structure kind.
+
+
+</td></tr>
+<tr><td>
+
+isStatic
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+true if the class member should be static.
+
+
+</td></tr>
+<tr><td>
+
+name
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+the name of the class member.
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 string

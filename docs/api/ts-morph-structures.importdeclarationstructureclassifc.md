@@ -12,13 +12,154 @@ export interface ImportDeclarationStructureClassIfc
 
 ## Properties
 
-|  Property | Modifiers | Type | Description |
-|  --- | --- | --- | --- |
-|  [attributes?](./ts-morph-structures.importdeclarationstructureclassifc.attributes.md) |  | [ImportAttributeImpl](./ts-morph-structures.importattributeimpl.md)<!-- -->\[\] | _(Optional)_ |
-|  [defaultImport?](./ts-morph-structures.importdeclarationstructureclassifc.defaultimport.md) |  | string | _(Optional)_ |
-|  [isTypeOnly](./ts-morph-structures.importdeclarationstructureclassifc.istypeonly.md) |  | boolean |  |
-|  [kind](./ts-morph-structures.importdeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.ImportDeclaration |  |
-|  [moduleSpecifier](./ts-morph-structures.importdeclarationstructureclassifc.modulespecifier.md) |  | string |  |
-|  [namedImports](./ts-morph-structures.importdeclarationstructureclassifc.namedimports.md) | <code>readonly</code> | ([ImportSpecifierImpl](./ts-morph-structures.importspecifierimpl.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
-|  [namespaceImport?](./ts-morph-structures.importdeclarationstructureclassifc.namespaceimport.md) |  | string | _(Optional)_ |
+<table><thead><tr><th>
 
+Property
+
+
+</th><th>
+
+Modifiers
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[attributes?](./ts-morph-structures.importdeclarationstructureclassifc.attributes.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[ImportAttributeImpl](./ts-morph-structures.importattributeimpl.md)<!-- -->\[\]
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[defaultImport?](./ts-morph-structures.importdeclarationstructureclassifc.defaultimport.md)
+
+
+</td><td>
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[isTypeOnly](./ts-morph-structures.importdeclarationstructureclassifc.istypeonly.md)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[kind](./ts-morph-structures.importdeclarationstructureclassifc.kind.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+StructureKind.ImportDeclaration
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[moduleSpecifier](./ts-morph-structures.importdeclarationstructureclassifc.modulespecifier.md)
+
+
+</td><td>
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[namedImports](./ts-morph-structures.importdeclarationstructureclassifc.namedimports.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+([ImportSpecifierImpl](./ts-morph-structures.importspecifierimpl.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\]
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+[namespaceImport?](./ts-morph-structures.importdeclarationstructureclassifc.namespaceimport.md)
+
+
+</td><td>
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+</tbody></table>

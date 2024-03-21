@@ -12,10 +12,37 @@ static clone(other: ArrayTypeStructureImpl): ArrayTypeStructureImpl;
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  other | [ArrayTypeStructureImpl](./ts-morph-structures.arraytypestructureimpl.md) |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+other
+
+
+</td><td>
+
+[ArrayTypeStructureImpl](./ts-morph-structures.arraytypestructureimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [ArrayTypeStructureImpl](./ts-morph-structures.arraytypestructureimpl.md)

@@ -12,10 +12,37 @@ static clone(other: PrefixOperatorsTypeStructureImpl): PrefixOperatorsTypeStruct
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  other | [PrefixOperatorsTypeStructureImpl](./ts-morph-structures.prefixoperatorstypestructureimpl.md) |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+other
+
+
+</td><td>
+
+[PrefixOperatorsTypeStructureImpl](./ts-morph-structures.prefixoperatorstypestructureimpl.md)
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
 
 [PrefixOperatorsTypeStructureImpl](./ts-morph-structures.prefixoperatorstypestructureimpl.md)
