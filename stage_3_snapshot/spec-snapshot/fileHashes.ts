@@ -101,8 +101,12 @@ describe("File hashes match for", () => {
       stage_three_hashes
     ] = (await hashDirectories(stage_two_snapshot, stage_three_snapshot)) as [string[], string[]];
 
-    stage_three_hashes.splice(stage_three_hashes.findIndex(f => f.endsWith(" /dist/exports.d.ts")), 1);
-    stage_three_hashes.splice(stage_three_hashes.findIndex(f => f.endsWith(" /dist/exports.js")), 1);
+    let index = stage_three_hashes.findIndex(f => f.endsWith(" /dist/exports.d.ts"));
+    if ((index > -1) && !stage_two_hashes.find(f => f.endsWith(" /dist/exports.d.ts")))
+      stage_three_hashes.splice(index, 1);
+    index = stage_three_hashes.findIndex(f => f.endsWith(" /dist/exports.js"));
+    if ((index > -1) && !stage_two_hashes.find(f => f.endsWith(" /dist/exports.js")))
+      stage_three_hashes.splice(index, 1);
 
     const diffFileHashes = getArrayDiff(stage_two_hashes, stage_three_hashes);
     expect(diffFileHashes).withContext("file hashes").toEqual([]);
