@@ -23,10 +23,11 @@ import {
 } from "#utilities/source/PromiseTypes.js";
 
 import {
-  StructureKindToSyntaxKindMap,
   structureToNodeMap,
   structureImplToNodeMap,
-} from "#stage_two/snapshot/source/internal-exports.js";
+} from "#stage_two/snapshot/source/bootstrap/structureToNodeMap.js";
+
+import StructureKindToSyntaxKindMap from "#stage_two/snapshot/source/bootstrap/structureToSyntax.js";
 
 async function getSupportedKindSet(): Promise<Set<StructureKind>> {
   const stageDir: ModuleSourceDirectory = {
@@ -94,6 +95,7 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
       console.log(pathToModuleFile);
       throw ex;
     }
+
     map.forEach((node, structure) => {
       expect(Node.hasStructure(node)).withContext(relativePathToModuleFile).toBe(true);
       if (Node.hasStructure(node)) {
@@ -115,6 +117,9 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   checkMap("stage_utilities/PromiseTypes.ts");
   checkMap("stage_utilities/PropertyKeySorter.ts");
   checkMap("stage_utilities/WeakRefSet.ts");
+  /* test disabled for a function overloads problem with ts-morph
+  checkMap("types/declaredOverloads.d.ts");
+  */
   checkMap("exportPromise.ts");
   checkMap("grab-bag.ts");
 

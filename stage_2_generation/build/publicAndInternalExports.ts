@@ -255,6 +255,13 @@ function defineInternalExports(
   });
 
   dictionaries.internalExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/base/TypeStructureClassesMap.ts"),
+    exportNames: ["TypeStructureClassesMap"],
+    isDefaultExport: true,
+    isType: false
+  });
+
+  dictionaries.internalExports.addExports({
     absolutePathToModule: path.join(distDir, "source/base/TypeStructureSet.ts"),
     exportNames: ["TypeStructureSetInternal"],
     isDefaultExport: true,
@@ -269,23 +276,6 @@ function defineInternalExports(
       "STRUCTURE_AND_TYPES_CHILDREN"
     ],
     isDefaultExport: false,
-    isType: false
-  });
-
-  dictionaries.internalExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/bootstrap/structureToNodeMap.ts"),
-    exportNames: [
-      "structureToNodeMap",
-      "structureImplToNodeMap"
-    ],
-    isDefaultExport: false,
-    isType: false
-  });
-
-  dictionaries.internalExports.addExports({
-    absolutePathToModule: path.join(distDir, "source/base/TypeStructureClassesMap.ts"),
-    exportNames: ["TypeStructureClassesMap"],
-    isDefaultExport: true,
     isType: false
   });
 

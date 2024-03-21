@@ -276,16 +276,6 @@ function defineInternalExports(): void
   });
 
   internalExports.addExports({
-    pathToExportedModule: pathToModule(distDir, "source/bootstrap/structureToNodeMap.ts"),
-    exportNames: [
-      "structureToNodeMap",
-      "structureImplToNodeMap"
-    ],
-    isDefaultExport: false,
-    isType: false
-  });
-
-  internalExports.addExports({
     pathToExportedModule: pathToModule(distDir, "source/base/TypeStructureClassesMap.ts"),
     exportNames: ["TypeStructureClassesMap"],
     isDefaultExport: true,
