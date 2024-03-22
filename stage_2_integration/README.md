@@ -156,7 +156,7 @@ The backing array is the `target` parameter of each proxy trap.  It is very spec
 
 ### `TypeStructureSet`
 
-The []`TypeStructureSet`](./source/base/TypeStructureSet.ts) class extends `Set<string | WriterFunction | TypeStructures>`.  It overrides the `add`, `clear`, `has` and `delete` methods to update a backing array of strings and writer functions which it shares with the readonly array proxy.
+The [`TypeStructureSet`](./source/base/TypeStructureSet.ts) class extends `Set<string | WriterFunction | TypeStructures>`.  It overrides the `add`, `clear`, `has` and `delete` methods to update a backing array of strings and writer functions which it shares with the readonly array proxy.
 
 ### Example implementation of a types array
 

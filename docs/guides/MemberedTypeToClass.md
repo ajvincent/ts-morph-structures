@@ -321,13 +321,14 @@ Now we get to the center of it all: the `MemberedTypeToClass` class.  Primarily,
 2. Define a constructor's parameters (which you pass in when calling `new MemberedTypeToClass`)
 3. Define a callback hook for getting statements (which you pass in when calling `new MemberedTypeToClass`)
 4. Define other callback hooks for:
-  - Resolving index signatures (`indexSignatureResolver`)
-  - Deciding if a class member is abstract (`isAbstractCallback`)
-  - Declaring a class method is asynchronous (`isAsyncCallback`)
-  - Declaring a class method is a generator (`isGeneratorCallback`)
-  - Declaring a class field's scope ("public", "protected", "private": `scopeCallback`)
+    - Resolving index signatures (`indexSignatureResolver`)
+    - Deciding if a class member is abstract (`isAbstractCallback`)
+    - Declaring a class method is asynchronous (`isAsyncCallback`)
+    - Declaring a class method is a generator (`isGeneratorCallback`)
+    - Declaring a class field's scope ("public", "protected", "private": `scopeCallback`)
 5. Defining the class field statement maps (purpose, `isBlockStatement`, optional `regionName`)
-6. Building a class members map using all of the above (`buildClassMembersMap()`)
+6. Adding in additional membered statement keys for properties you replaced with getters and setters (`insertMemberKey`)
+7. Building a class members map using all of the above (`buildClassMembersMap()`)
 
 Building a class declaration is trivial, once you have the class members map.  (`.moveMembersToClass(classDecl)`)
 
@@ -389,10 +390,37 @@ declare class MemberedTypeToClass {
 
   /** The class constructor's current parameters list. */
   get constructorParameters(): ParameterDeclarationImpl[];
+
+  /**
+   * Add member keys for a field and a group.
+   * @param isFieldStatic - true if the field is static.
+   * @param fieldType - the field signature.
+   * @param isGroupStatic - true if the group is static (false for constructors)
+   * @param groupType - the group signature, or "constructor" for the constructor I generate.
+   */
+  insertMemberKey(
+    isFieldStatic: boolean,
+    fieldType: PropertySignatureImpl,
+    isGroupStatic: boolean,
+    groupType: InsertedMemberKey["groupType"]
+  ): void;
 }
 
 export interface ClassStatementsGetter {
   getStatements(key: MemberedStatementsKey): ClassFieldStatement[];
+}
+
+export interface InsertedMemberKey {
+  readonly isFieldStatic: boolean;
+  readonly fieldType: PropertySignatureImpl;
+  readonly isGroupStatic: boolean;
+  readonly groupType: (
+    GetAccessorDeclarationImpl |
+    SetAccessorDeclarationImpl |
+    MethodSignatureImpl |
+    "constructor" |
+    "(initializer or property reference)" /* ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY */
+  )
 }
 
 export interface MemberedStatementsKey {
@@ -410,11 +438,15 @@ export interface MemberedStatementsKey {
 
 The `constructorArguments` are the parameters to define on the class constructor, if one is necessary.  (If the constructor has no statements, not even a `super()` call, the class members map will omit the constructor.)  You can also edit the constructor arguments later, via the `constructorParameters` getter.
 
+Sometimes you may need to insert additional statement keys into the set `MemberedTypeToClass` visits.  (The example I can cite is converting a property to a getter/setter pair in a `TypeMembersMap` before the type-to-class code ever sees it.  Getters and setters aren't field keys in the table below, and you may need them to be.)  When you run into this, the `insertMemberKey()` method exists to provide you the under-the-hood support.
+
 The `statementsGetter` interface is a simple callback hook.  It provides the field key, the statement group key, and the purpose for the statement array in question.  You return the array matching those conditions.
 
 It may not be convenient to have _all_ of these in one callback object.  More likely, you'll want to forward the request to other `ClassStatementsGetter` objects based on the field key, the statement group key, and/or the purpose.  Rather than decide for you how to do such routing, I simply provide the interface for you to make the decisions.
 
-| Field key                                         | Statement Group Key                                           | Meaning                              |
+Here is a table of the _default_ keys.  You may use `insertMemberKey()` to add your own as you need.
+
+| Field key                                         | Statement Group Key                                     | Meaning                              |
 |---------------------------------------------------|---------------------------------------------------------|--------------------------------------|
 | _property name_                                   | `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY` | Initial value for a property         |
 | `(static)?` _getter or setter name_               | `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY` | A property to mirror                 |
