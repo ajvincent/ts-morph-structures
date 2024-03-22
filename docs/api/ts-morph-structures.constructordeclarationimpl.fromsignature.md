@@ -12,37 +12,10 @@ static fromSignature(signature: ConstructSignatureDeclarationImpl): ConstructorD
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  signature | [ConstructSignatureDeclarationImpl](./ts-morph-structures.constructsignaturedeclarationimpl.md) |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-signature
-
-
-</td><td>
-
-[ConstructSignatureDeclarationImpl](./ts-morph-structures.constructsignaturedeclarationimpl.md)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [ConstructorDeclarationImpl](./ts-morph-structures.constructordeclarationimpl.md)

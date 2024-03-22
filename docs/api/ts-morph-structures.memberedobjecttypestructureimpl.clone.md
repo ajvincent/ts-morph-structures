@@ -12,37 +12,10 @@ static clone(other: MemberedObjectTypeStructureImpl): MemberedObjectTypeStructur
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  other | [MemberedObjectTypeStructureImpl](./ts-morph-structures.memberedobjecttypestructureimpl.md) |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-other
-
-
-</td><td>
-
-[MemberedObjectTypeStructureImpl](./ts-morph-structures.memberedobjecttypestructureimpl.md)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [MemberedObjectTypeStructureImpl](./ts-morph-structures.memberedobjecttypestructureimpl.md)

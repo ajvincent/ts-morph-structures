@@ -14,34 +14,7 @@ constructor(expression: stringOrWriterFunction);
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  expression | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-expression
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

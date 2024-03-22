@@ -12,78 +12,9 @@ export interface PropertyDeclarationStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [hasAccessorKeyword](./ts-morph-structures.propertydeclarationstructureclassifc.hasaccessorkeyword.md) |  | boolean |  |
+|  [isStatic](./ts-morph-structures.propertydeclarationstructureclassifc.isstatic.md) |  | boolean |  |
+|  [kind](./ts-morph-structures.propertydeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.Property |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[hasAccessorKeyword](./ts-morph-structures.propertydeclarationstructureclassifc.hasaccessorkeyword.md)
-
-
-</td><td>
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[isStatic](./ts-morph-structures.propertydeclarationstructureclassifc.isstatic.md)
-
-
-</td><td>
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.propertydeclarationstructureclassifc.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.Property
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

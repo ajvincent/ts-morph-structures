@@ -12,37 +12,10 @@ static clone(source: OptionalKind<VariableDeclarationStructure>): VariableDeclar
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  source | OptionalKind&lt;VariableDeclarationStructure&gt; |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-source
-
-
-</td><td>
-
-OptionalKind&lt;VariableDeclarationStructure&gt;
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [VariableDeclarationImpl](./ts-morph-structures.variabledeclarationimpl.md)

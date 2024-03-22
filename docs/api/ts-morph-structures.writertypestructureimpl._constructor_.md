@@ -14,34 +14,7 @@ constructor(writer: WriterFunction);
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  writer | WriterFunction |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-writer
-
-
-</td><td>
-
-WriterFunction
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

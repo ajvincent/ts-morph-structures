@@ -12,84 +12,9 @@ export interface DecoratorStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [arguments](./ts-morph-structures.decoratorstructureclassifc.arguments.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] | Arguments for a decorator factory. |
+|  [kind](./ts-morph-structures.decoratorstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.Decorator |  |
+|  [typeArguments](./ts-morph-structures.decoratorstructureclassifc.typearguments.md) | <code>readonly</code> | string\[\] |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[arguments](./ts-morph-structures.decoratorstructureclassifc.arguments.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
-
-
-</td><td>
-
-Arguments for a decorator factory.
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.decoratorstructureclassifc.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.Decorator
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[typeArguments](./ts-morph-structures.decoratorstructureclassifc.typearguments.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-string\[\]
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

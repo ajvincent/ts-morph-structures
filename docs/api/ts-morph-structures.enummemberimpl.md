@@ -13,236 +13,26 @@ export default class EnumMemberImpl implements EnumMemberStructureClassIfc
 
 ## Constructors
 
-<table><thead><tr><th>
-
-Constructor
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[(constructor)(name)](./ts-morph-structures.enummemberimpl._constructor_.md)
-
-
-</td><td>
-
-
-</td><td>
-
-Constructs a new instance of the `EnumMemberImpl` class
-
-
-</td></tr>
-</tbody></table>
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(name)](./ts-morph-structures.enummemberimpl._constructor_.md) |  | Constructs a new instance of the <code>EnumMemberImpl</code> class |
 
 ## Properties
 
-<table><thead><tr><th>
-
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[docs](./ts-morph-structures.enummemberimpl.docs.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-(string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[initializer?](./ts-morph-structures.enummemberimpl.initializer.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.enummemberimpl.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.EnumMember
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[leadingTrivia](./ts-morph-structures.enummemberimpl.leadingtrivia.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[name](./ts-morph-structures.enummemberimpl.name.md)
-
-
-</td><td>
-
-
-</td><td>
-
-string
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[trailingTrivia](./ts-morph-structures.enummemberimpl.trailingtrivia.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[value?](./ts-morph-structures.enummemberimpl.value.md)
-
-
-</td><td>
-
-
-</td><td>
-
-number \| string
-
-
-</td><td>
-
-_(Optional)_ Convenience property for setting the initializer.
-
-
-</td></tr>
-</tbody></table>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [docs](./ts-morph-structures.enummemberimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [initializer?](./ts-morph-structures.enummemberimpl.initializer.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [kind](./ts-morph-structures.enummemberimpl.kind.md) | <code>readonly</code> | StructureKind.EnumMember |  |
+|  [leadingTrivia](./ts-morph-structures.enummemberimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.enummemberimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.enummemberimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [value?](./ts-morph-structures.enummemberimpl.value.md) |  | number \| string | _(Optional)_ Convenience property for setting the initializer. |
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [clone(source)](./ts-morph-structures.enummemberimpl.clone.md) | <code>static</code> |  |
+|  [toJSON()](./ts-morph-structures.enummemberimpl.tojson.md) |  |  |
 
-Method
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[clone(source)](./ts-morph-structures.enummemberimpl.clone.md)
-
-
-</td><td>
-
-`static`
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[toJSON()](./ts-morph-structures.enummemberimpl.tojson.md)
-
-
-</td><td>
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

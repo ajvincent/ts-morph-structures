@@ -15,216 +15,25 @@ export default class MappedTypeStructureImpl extends TypeStructuresWithTypeParam
 
 ## Constructors
 
-<table><thead><tr><th>
-
-Constructor
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[(constructor)(parameter)](./ts-morph-structures.mappedtypestructureimpl._constructor_.md)
-
-
-</td><td>
-
-
-</td><td>
-
-Constructs a new instance of the `MappedTypeStructureImpl` class
-
-
-</td></tr>
-</tbody></table>
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(parameter)](./ts-morph-structures.mappedtypestructureimpl._constructor_.md) |  | Constructs a new instance of the <code>MappedTypeStructureImpl</code> class |
 
 ## Properties
 
-<table><thead><tr><th>
-
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[asName](./ts-morph-structures.mappedtypestructureimpl.asname.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[TypeStructures](./ts-morph-structures.typestructures.md) \| undefined
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.mappedtypestructureimpl.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[TypeStructureKind.Mapped](./ts-morph-structures.typestructurekind.md)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[parameter](./ts-morph-structures.mappedtypestructureimpl.parameter.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[questionToken](./ts-morph-structures.mappedtypestructureimpl.questiontoken.md)
-
-
-</td><td>
-
-
-</td><td>
-
-"+?" \| "-?" \| "?" \| undefined
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[readonlyToken](./ts-morph-structures.mappedtypestructureimpl.readonlytoken.md)
-
-
-</td><td>
-
-
-</td><td>
-
-"+readonly" \| "-readonly" \| "readonly" \| undefined
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[type](./ts-morph-structures.mappedtypestructureimpl.type.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[TypeStructures](./ts-morph-structures.typestructures.md) \| undefined
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[writerFunction](./ts-morph-structures.mappedtypestructureimpl.writerfunction.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-WriterFunction
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [asName](./ts-morph-structures.mappedtypestructureimpl.asname.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
+|  [kind](./ts-morph-structures.mappedtypestructureimpl.kind.md) | <code>readonly</code> | [TypeStructureKind.Mapped](./ts-morph-structures.typestructurekind.md) |  |
+|  [parameter](./ts-morph-structures.mappedtypestructureimpl.parameter.md) |  | [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) |  |
+|  [questionToken](./ts-morph-structures.mappedtypestructureimpl.questiontoken.md) |  | "+?" \| "-?" \| "?" \| undefined |  |
+|  [readonlyToken](./ts-morph-structures.mappedtypestructureimpl.readonlytoken.md) |  | "+readonly" \| "-readonly" \| "readonly" \| undefined |  |
+|  [type](./ts-morph-structures.mappedtypestructureimpl.type.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
+|  [writerFunction](./ts-morph-structures.mappedtypestructureimpl.writerfunction.md) | <code>readonly</code> | WriterFunction |  |
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [clone(other)](./ts-morph-structures.mappedtypestructureimpl.clone.md) | <code>static</code> |  |
 
-Method
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[clone(other)](./ts-morph-structures.mappedtypestructureimpl.clone.md)
-
-
-</td><td>
-
-`static`
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

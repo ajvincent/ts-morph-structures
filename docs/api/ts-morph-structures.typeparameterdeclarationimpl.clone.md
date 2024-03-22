@@ -12,37 +12,10 @@ static clone(source: OptionalKind<TypeParameterDeclarationStructure>): TypeParam
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  source | OptionalKind&lt;TypeParameterDeclarationStructure&gt; |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-source
-
-
-</td><td>
-
-OptionalKind&lt;TypeParameterDeclarationStructure&gt;
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)

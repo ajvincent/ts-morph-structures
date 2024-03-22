@@ -14,34 +14,7 @@ constructor(conditionalParts: Partial<ConditionalTypeStructureParts>);
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  conditionalParts | Partial&lt;[ConditionalTypeStructureParts](./ts-morph-structures.conditionaltypestructureparts.md)<!-- -->&gt; |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-conditionalParts
-
-
-</td><td>
-
-Partial&lt;[ConditionalTypeStructureParts](./ts-morph-structures.conditionaltypestructureparts.md)<!-- -->&gt;
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

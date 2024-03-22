@@ -12,44 +12,7 @@ export interface ConstructorDeclarationOverloadStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [kind](./ts-morph-structures.constructordeclarationoverloadstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.ConstructorOverload |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[kind](./ts-morph-structures.constructordeclarationoverloadstructureclassifc.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.ConstructorOverload
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

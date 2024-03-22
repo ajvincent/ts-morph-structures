@@ -12,80 +12,9 @@ export interface JsxAttributeStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [initializer?](./ts-morph-structures.jsxattributestructureclassifc.initializer.md) |  | string | _(Optional)_ |
+|  [kind](./ts-morph-structures.jsxattributestructureclassifc.kind.md) | <code>readonly</code> | StructureKind.JsxAttribute |  |
+|  [name](./ts-morph-structures.jsxattributestructureclassifc.name.md) |  | JsxNamespacedNameStructure \| string |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[initializer?](./ts-morph-structures.jsxattributestructureclassifc.initializer.md)
-
-
-</td><td>
-
-
-</td><td>
-
-string
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.jsxattributestructureclassifc.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.JsxAttribute
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[name](./ts-morph-structures.jsxattributestructureclassifc.name.md)
-
-
-</td><td>
-
-
-</td><td>
-
-JsxNamespacedNameStructure \| string
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

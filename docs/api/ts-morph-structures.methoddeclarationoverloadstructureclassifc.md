@@ -12,61 +12,8 @@ export interface MethodDeclarationOverloadStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [isStatic](./ts-morph-structures.methoddeclarationoverloadstructureclassifc.isstatic.md) |  | boolean |  |
+|  [kind](./ts-morph-structures.methoddeclarationoverloadstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.MethodOverload |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[isStatic](./ts-morph-structures.methoddeclarationoverloadstructureclassifc.isstatic.md)
-
-
-</td><td>
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.methoddeclarationoverloadstructureclassifc.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.MethodOverload
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

@@ -29,126 +29,20 @@ sourceFile.statements.unshift(...importsManager.getDeclarations());
 
 ## Constructors
 
-<table><thead><tr><th>
-
-Constructor
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[(constructor)(absolutePathToModule)](./ts-morph-structures.importmanager._constructor_.md)
-
-
-</td><td>
-
-
-</td><td>
-
-Constructs a new instance of the `ImportManager` class
-
-
-</td></tr>
-</tbody></table>
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(absolutePathToModule)](./ts-morph-structures.importmanager._constructor_.md) |  | Constructs a new instance of the <code>ImportManager</code> class |
 
 ## Properties
 
-<table><thead><tr><th>
-
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[absolutePathToModule](./ts-morph-structures.importmanager.absolutepathtomodule.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-string
-
-
-</td><td>
-
-Where the file will live on the file system.
-
-
-</td></tr>
-</tbody></table>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [absolutePathToModule](./ts-morph-structures.importmanager.absolutepathtomodule.md) | <code>readonly</code> | string | Where the file will live on the file system. |
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [addImports(context)](./ts-morph-structures.importmanager.addimports.md) |  |  |
+|  [getDeclarations()](./ts-morph-structures.importmanager.getdeclarations.md) |  | Get the import declarations, sorted by path to file, then internally by specified import values. |
 
-Method
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[addImports(context)](./ts-morph-structures.importmanager.addimports.md)
-
-
-</td><td>
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[getDeclarations()](./ts-morph-structures.importmanager.getdeclarations.md)
-
-
-</td><td>
-
-
-</td><td>
-
-Get the import declarations, sorted by path to file, then internally by specified import values.
-
-
-</td></tr>
-</tbody></table>

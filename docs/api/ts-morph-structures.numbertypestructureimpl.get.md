@@ -14,37 +14,10 @@ static get(name: number): NumberTypeStructureImpl;
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  name | number |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-name
-
-
-</td><td>
-
-number
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [NumberTypeStructureImpl](./ts-morph-structures.numbertypestructureimpl.md)

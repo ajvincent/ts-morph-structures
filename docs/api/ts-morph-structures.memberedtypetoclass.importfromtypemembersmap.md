@@ -14,55 +14,11 @@ importFromTypeMembersMap(isStatic: boolean, membersMap: TypeMembersMap): void;
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  isStatic | boolean | true if the class members are static. |
+|  membersMap | [TypeMembersMap](./ts-morph-structures.typemembersmap.md) | the type members map for conversion to class members. |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-isStatic
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-true if the class members are static.
-
-
-</td></tr>
-<tr><td>
-
-membersMap
-
-
-</td><td>
-
-[TypeMembersMap](./ts-morph-structures.typemembersmap.md)
-
-
-</td><td>
-
-the type members map for conversion to class members.
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 void

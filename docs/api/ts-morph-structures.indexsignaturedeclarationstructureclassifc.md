@@ -12,99 +12,10 @@ export interface IndexSignatureDeclarationStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [keyName?](./ts-morph-structures.indexsignaturedeclarationstructureclassifc.keyname.md) |  | string | _(Optional)_ |
+|  [keyType?](./ts-morph-structures.indexsignaturedeclarationstructureclassifc.keytype.md) |  | string | _(Optional)_ |
+|  [keyTypeStructure](./ts-morph-structures.indexsignaturedeclarationstructureclassifc.keytypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
+|  [kind](./ts-morph-structures.indexsignaturedeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.IndexSignature |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[keyName?](./ts-morph-structures.indexsignaturedeclarationstructureclassifc.keyname.md)
-
-
-</td><td>
-
-
-</td><td>
-
-string
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[keyType?](./ts-morph-structures.indexsignaturedeclarationstructureclassifc.keytype.md)
-
-
-</td><td>
-
-
-</td><td>
-
-string
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[keyTypeStructure](./ts-morph-structures.indexsignaturedeclarationstructureclassifc.keytypestructure.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[TypeStructures](./ts-morph-structures.typestructures.md) \| undefined
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.indexsignaturedeclarationstructureclassifc.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.IndexSignature
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

@@ -12,37 +12,10 @@ static clone(other: TypeArgumentedTypeStructureImpl): TypeArgumentedTypeStructur
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  other | [TypeArgumentedTypeStructureImpl](./ts-morph-structures.typeargumentedtypestructureimpl.md) |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-other
-
-
-</td><td>
-
-[TypeArgumentedTypeStructureImpl](./ts-morph-structures.typeargumentedtypestructureimpl.md)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [TypeArgumentedTypeStructureImpl](./ts-morph-structures.typeargumentedtypestructureimpl.md)

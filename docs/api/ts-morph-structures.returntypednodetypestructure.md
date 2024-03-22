@@ -12,59 +12,8 @@ export interface ReturnTypedNodeTypeStructure
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [returnType](./ts-morph-structures.returntypednodetypestructure.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined |  |
+|  [returnTypeStructure](./ts-morph-structures.returntypednodetypestructure.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[returnType](./ts-morph-structures.returntypednodetypestructure.returntype.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[returnTypeStructure](./ts-morph-structures.returntypednodetypestructure.returntypestructure.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[TypeStructures](./ts-morph-structures.typestructures.md) \| undefined
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

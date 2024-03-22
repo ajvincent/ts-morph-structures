@@ -15,148 +15,21 @@ export default class ArrayTypeStructureImpl extends TypeStructuresBase<TypeStruc
 
 ## Constructors
 
-<table><thead><tr><th>
-
-Constructor
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[(constructor)(objectType)](./ts-morph-structures.arraytypestructureimpl._constructor_.md)
-
-
-</td><td>
-
-
-</td><td>
-
-Constructs a new instance of the `ArrayTypeStructureImpl` class
-
-
-</td></tr>
-</tbody></table>
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(objectType)](./ts-morph-structures.arraytypestructureimpl._constructor_.md) |  | Constructs a new instance of the <code>ArrayTypeStructureImpl</code> class |
 
 ## Properties
 
-<table><thead><tr><th>
-
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[kind](./ts-morph-structures.arraytypestructureimpl.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-(not declared)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[objectType](./ts-morph-structures.arraytypestructureimpl.objecttype.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[TypeStructures](./ts-morph-structures.typestructures.md)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[writerFunction](./ts-morph-structures.arraytypestructureimpl.writerfunction.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-WriterFunction
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [kind](./ts-morph-structures.arraytypestructureimpl.kind.md) | <code>readonly</code> | (not declared) |  |
+|  [objectType](./ts-morph-structures.arraytypestructureimpl.objecttype.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) |  |
+|  [writerFunction](./ts-morph-structures.arraytypestructureimpl.writerfunction.md) | <code>readonly</code> | WriterFunction |  |
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [clone(other)](./ts-morph-structures.arraytypestructureimpl.clone.md) | <code>static</code> |  |
 
-Method
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[clone(other)](./ts-morph-structures.arraytypestructureimpl.clone.md)
-
-
-</td><td>
-
-`static`
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

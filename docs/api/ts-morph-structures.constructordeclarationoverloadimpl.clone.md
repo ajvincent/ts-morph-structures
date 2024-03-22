@@ -12,37 +12,10 @@ static clone(source: OptionalKind<ConstructorDeclarationOverloadStructure>): Con
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  source | OptionalKind&lt;ConstructorDeclarationOverloadStructure&gt; |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-source
-
-
-</td><td>
-
-OptionalKind&lt;ConstructorDeclarationOverloadStructure&gt;
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [ConstructorDeclarationOverloadImpl](./ts-morph-structures.constructordeclarationoverloadimpl.md)

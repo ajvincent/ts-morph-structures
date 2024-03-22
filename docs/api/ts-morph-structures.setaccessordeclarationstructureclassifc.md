@@ -12,61 +12,8 @@ export interface SetAccessorDeclarationStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [isStatic](./ts-morph-structures.setaccessordeclarationstructureclassifc.isstatic.md) |  | boolean |  |
+|  [kind](./ts-morph-structures.setaccessordeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.SetAccessor |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[isStatic](./ts-morph-structures.setaccessordeclarationstructureclassifc.isstatic.md)
-
-
-</td><td>
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.setaccessordeclarationstructureclassifc.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.SetAccessor
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

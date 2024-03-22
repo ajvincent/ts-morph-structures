@@ -12,82 +12,9 @@ export interface VariableStatementStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [declarationKind?](./ts-morph-structures.variablestatementstructureclassifc.declarationkind.md) |  | VariableDeclarationKind | _(Optional)_ |
+|  [declarations](./ts-morph-structures.variablestatementstructureclassifc.declarations.md) | <code>readonly</code> | [VariableDeclarationImpl](./ts-morph-structures.variabledeclarationimpl.md)<!-- -->\[\] |  |
+|  [kind](./ts-morph-structures.variablestatementstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.VariableStatement |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[declarationKind?](./ts-morph-structures.variablestatementstructureclassifc.declarationkind.md)
-
-
-</td><td>
-
-
-</td><td>
-
-VariableDeclarationKind
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[declarations](./ts-morph-structures.variablestatementstructureclassifc.declarations.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[VariableDeclarationImpl](./ts-morph-structures.variabledeclarationimpl.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.variablestatementstructureclassifc.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.VariableStatement
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

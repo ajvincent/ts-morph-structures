@@ -12,37 +12,10 @@ static clone(source: OptionalKind<EnumMemberStructure>): EnumMemberImpl;
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  source | OptionalKind&lt;EnumMemberStructure&gt; |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-source
-
-
-</td><td>
-
-OptionalKind&lt;EnumMemberStructure&gt;
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [EnumMemberImpl](./ts-morph-structures.enummemberimpl.md)

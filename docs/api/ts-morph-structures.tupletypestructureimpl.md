@@ -17,234 +17,25 @@ export default class TupleTypeStructureImpl extends TypeStructuresWithChildren<T
 
 ## Constructors
 
-<table><thead><tr><th>
-
-Constructor
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[(constructor)(childTypes)](./ts-morph-structures.tupletypestructureimpl._constructor_.md)
-
-
-</td><td>
-
-
-</td><td>
-
-Constructs a new instance of the `TupleTypeStructureImpl` class
-
-
-</td></tr>
-</tbody></table>
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(childTypes)](./ts-morph-structures.tupletypestructureimpl._constructor_.md) |  | Constructs a new instance of the <code>TupleTypeStructureImpl</code> class |
 
 ## Properties
 
-<table><thead><tr><th>
-
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[childTypes](./ts-morph-structures.tupletypestructureimpl.childtypes.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[endToken](./ts-morph-structures.tupletypestructureimpl.endtoken.md)
-
-
-</td><td>
-
-`protected`
-
-`readonly`
-
-
-</td><td>
-
-(not declared)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[joinChildrenToken](./ts-morph-structures.tupletypestructureimpl.joinchildrentoken.md)
-
-
-</td><td>
-
-`protected`
-
-`readonly`
-
-
-</td><td>
-
-(not declared)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.tupletypestructureimpl.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-(not declared)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[maxChildCount](./ts-morph-structures.tupletypestructureimpl.maxchildcount.md)
-
-
-</td><td>
-
-`protected`
-
-`readonly`
-
-
-</td><td>
-
-number
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[objectType](./ts-morph-structures.tupletypestructureimpl.objecttype.md)
-
-
-</td><td>
-
-`protected`
-
-`readonly`
-
-
-</td><td>
-
-null
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[startToken](./ts-morph-structures.tupletypestructureimpl.starttoken.md)
-
-
-</td><td>
-
-`protected`
-
-`readonly`
-
-
-</td><td>
-
-(not declared)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [childTypes](./ts-morph-structures.tupletypestructureimpl.childtypes.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\[\] |  |
+|  [endToken](./ts-morph-structures.tupletypestructureimpl.endtoken.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
+|  [joinChildrenToken](./ts-morph-structures.tupletypestructureimpl.joinchildrentoken.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
+|  [kind](./ts-morph-structures.tupletypestructureimpl.kind.md) | <code>readonly</code> | (not declared) |  |
+|  [maxChildCount](./ts-morph-structures.tupletypestructureimpl.maxchildcount.md) | <p><code>protected</code></p><p><code>readonly</code></p> | number |  |
+|  [objectType](./ts-morph-structures.tupletypestructureimpl.objecttype.md) | <p><code>protected</code></p><p><code>readonly</code></p> | null |  |
+|  [startToken](./ts-morph-structures.tupletypestructureimpl.starttoken.md) | <p><code>protected</code></p><p><code>readonly</code></p> | (not declared) |  |
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [clone(other)](./ts-morph-structures.tupletypestructureimpl.clone.md) | <code>static</code> |  |
 
-Method
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[clone(other)](./ts-morph-structures.tupletypestructureimpl.clone.md)
-
-
-</td><td>
-
-`static`
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

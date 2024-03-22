@@ -12,59 +12,8 @@ export interface TypedNodeTypeStructure
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [type](./ts-morph-structures.typednodetypestructure.type.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined |  |
+|  [typeStructure](./ts-morph-structures.typednodetypestructure.typestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[type](./ts-morph-structures.typednodetypestructure.type.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[typeStructure](./ts-morph-structures.typednodetypestructure.typestructure.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[TypeStructures](./ts-morph-structures.typestructures.md) \| undefined
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

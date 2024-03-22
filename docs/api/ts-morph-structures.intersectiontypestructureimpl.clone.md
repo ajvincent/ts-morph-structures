@@ -12,37 +12,10 @@ static clone(other: IntersectionTypeStructureImpl): IntersectionTypeStructureImp
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  other | [IntersectionTypeStructureImpl](./ts-morph-structures.intersectiontypestructureimpl.md) |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-other
-
-
-</td><td>
-
-[IntersectionTypeStructureImpl](./ts-morph-structures.intersectiontypestructureimpl.md)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [IntersectionTypeStructureImpl](./ts-morph-structures.intersectiontypestructureimpl.md)

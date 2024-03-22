@@ -17,148 +17,21 @@ export default class QualifiedNameTypeStructureImpl extends TypeStructuresBase<T
 
 ## Constructors
 
-<table><thead><tr><th>
-
-Constructor
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[(constructor)(childTypes)](./ts-morph-structures.qualifiednametypestructureimpl._constructor_.md)
-
-
-</td><td>
-
-
-</td><td>
-
-Constructs a new instance of the `QualifiedNameTypeStructureImpl` class
-
-
-</td></tr>
-</tbody></table>
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(childTypes)](./ts-morph-structures.qualifiednametypestructureimpl._constructor_.md) |  | Constructs a new instance of the <code>QualifiedNameTypeStructureImpl</code> class |
 
 ## Properties
 
-<table><thead><tr><th>
-
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[childTypes](./ts-morph-structures.qualifiednametypestructureimpl.childtypes.md)
-
-
-</td><td>
-
-
-</td><td>
-
-string\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.qualifiednametypestructureimpl.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-(not declared)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[writerFunction](./ts-morph-structures.qualifiednametypestructureimpl.writerfunction.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-WriterFunction
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [childTypes](./ts-morph-structures.qualifiednametypestructureimpl.childtypes.md) |  | string\[\] |  |
+|  [kind](./ts-morph-structures.qualifiednametypestructureimpl.kind.md) | <code>readonly</code> | (not declared) |  |
+|  [writerFunction](./ts-morph-structures.qualifiednametypestructureimpl.writerfunction.md) | <code>readonly</code> | WriterFunction |  |
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [clone(other)](./ts-morph-structures.qualifiednametypestructureimpl.clone.md) | <code>static</code> |  |
 
-Method
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[clone(other)](./ts-morph-structures.qualifiednametypestructureimpl.clone.md)
-
-
-</td><td>
-
-`static`
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

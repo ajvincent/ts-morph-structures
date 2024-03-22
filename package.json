@@ -47,7 +47,7 @@
   },
   "homepage": "https://github.com/ajvincent/ts-morph-structures#readme",
   "devDependencies": {
-    "@microsoft/api-documenter": "^7.24.1",
+    "@microsoft/api-documenter": "^7.23.38",
     "@microsoft/api-extractor": "^7.43.0",
     "@rollup/plugin-typescript": "^11.1.6",
     "@tsconfig/node18": "^18.2.2",

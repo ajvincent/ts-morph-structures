@@ -14,39 +14,10 @@ static keyFromMember(member: TypeMemberImpl): string;
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  member | [TypeMemberImpl](./ts-morph-structures.typememberimpl.md) | the type member |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-member
-
-
-</td><td>
-
-[TypeMemberImpl](./ts-morph-structures.typememberimpl.md)
-
-
-</td><td>
-
-the type member
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 string

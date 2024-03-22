@@ -13,179 +13,23 @@ export default class ShorthandPropertyAssignmentImpl implements ShorthandPropert
 
 ## Constructors
 
-<table><thead><tr><th>
-
-Constructor
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[(constructor)(name)](./ts-morph-structures.shorthandpropertyassignmentimpl._constructor_.md)
-
-
-</td><td>
-
-
-</td><td>
-
-Constructs a new instance of the `ShorthandPropertyAssignmentImpl` class
-
-
-</td></tr>
-</tbody></table>
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(name)](./ts-morph-structures.shorthandpropertyassignmentimpl._constructor_.md) |  | Constructs a new instance of the <code>ShorthandPropertyAssignmentImpl</code> class |
 
 ## Properties
 
-<table><thead><tr><th>
-
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[kind](./ts-morph-structures.shorthandpropertyassignmentimpl.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.ShorthandPropertyAssignment
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[leadingTrivia](./ts-morph-structures.shorthandpropertyassignmentimpl.leadingtrivia.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[name](./ts-morph-structures.shorthandpropertyassignmentimpl.name.md)
-
-
-</td><td>
-
-
-</td><td>
-
-string
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[trailingTrivia](./ts-morph-structures.shorthandpropertyassignmentimpl.trailingtrivia.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [kind](./ts-morph-structures.shorthandpropertyassignmentimpl.kind.md) | <code>readonly</code> | StructureKind.ShorthandPropertyAssignment |  |
+|  [leadingTrivia](./ts-morph-structures.shorthandpropertyassignmentimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.shorthandpropertyassignmentimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.shorthandpropertyassignmentimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [clone(source)](./ts-morph-structures.shorthandpropertyassignmentimpl.clone.md) | <code>static</code> |  |
+|  [toJSON()](./ts-morph-structures.shorthandpropertyassignmentimpl.tojson.md) |  |  |
 
-Method
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[clone(source)](./ts-morph-structures.shorthandpropertyassignmentimpl.clone.md)
-
-
-</td><td>
-
-`static`
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[toJSON()](./ts-morph-structures.shorthandpropertyassignmentimpl.tojson.md)
-
-
-</td><td>
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

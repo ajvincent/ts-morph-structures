@@ -15,165 +15,22 @@ export default class ParameterTypeStructureImpl extends TypeStructuresBase<TypeS
 
 ## Constructors
 
-<table><thead><tr><th>
-
-Constructor
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[(constructor)(name, typeStructure)](./ts-morph-structures.parametertypestructureimpl._constructor_.md)
-
-
-</td><td>
-
-
-</td><td>
-
-Constructs a new instance of the `ParameterTypeStructureImpl` class
-
-
-</td></tr>
-</tbody></table>
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(name, typeStructure)](./ts-morph-structures.parametertypestructureimpl._constructor_.md) |  | Constructs a new instance of the <code>ParameterTypeStructureImpl</code> class |
 
 ## Properties
 
-<table><thead><tr><th>
-
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[kind](./ts-morph-structures.parametertypestructureimpl.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-(not declared)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[name](./ts-morph-structures.parametertypestructureimpl.name.md)
-
-
-</td><td>
-
-
-</td><td>
-
-string
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[typeStructure](./ts-morph-structures.parametertypestructureimpl.typestructure.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[TypeStructures](./ts-morph-structures.typestructures.md) \| undefined
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[writerFunction](./ts-morph-structures.parametertypestructureimpl.writerfunction.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-(writer: CodeBlockWriter) =&gt; void
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [kind](./ts-morph-structures.parametertypestructureimpl.kind.md) | <code>readonly</code> | (not declared) |  |
+|  [name](./ts-morph-structures.parametertypestructureimpl.name.md) |  | string |  |
+|  [typeStructure](./ts-morph-structures.parametertypestructureimpl.typestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
+|  [writerFunction](./ts-morph-structures.parametertypestructureimpl.writerfunction.md) | <code>readonly</code> | (writer: CodeBlockWriter) =&gt; void |  |
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [clone(other)](./ts-morph-structures.parametertypestructureimpl.clone.md) | <code>static</code> |  |
 
-Method
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[clone(other)](./ts-morph-structures.parametertypestructureimpl.clone.md)
-
-
-</td><td>
-
-`static`
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

@@ -12,37 +12,10 @@ static clone(other: ParameterTypeStructureImpl): ParameterTypeStructureImpl;
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  other | [ParameterTypeStructureImpl](./ts-morph-structures.parametertypestructureimpl.md) |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-other
-
-
-</td><td>
-
-[ParameterTypeStructureImpl](./ts-morph-structures.parametertypestructureimpl.md)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [ParameterTypeStructureImpl](./ts-morph-structures.parametertypestructureimpl.md)

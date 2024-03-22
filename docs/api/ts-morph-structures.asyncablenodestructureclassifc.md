@@ -12,42 +12,7 @@ export interface AsyncableNodeStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [isAsync](./ts-morph-structures.asyncablenodestructureclassifc.isasync.md) |  | boolean |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[isAsync](./ts-morph-structures.asyncablenodestructureclassifc.isasync.md)
-
-
-</td><td>
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

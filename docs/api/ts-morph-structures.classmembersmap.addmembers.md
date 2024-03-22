@@ -14,39 +14,10 @@ addMembers(members: readonly ClassMemberImpl[]): void;
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  members | readonly [ClassMemberImpl](./ts-morph-structures.classmemberimpl.md)<!-- -->\[\] | the class members to add. |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-members
-
-
-</td><td>
-
-readonly [ClassMemberImpl](./ts-morph-structures.classmemberimpl.md)<!-- -->\[\]
-
-
-</td><td>
-
-the class members to add.
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 void

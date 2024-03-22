@@ -13,251 +13,27 @@ export default class VariableDeclarationImpl implements VariableDeclarationStruc
 
 ## Constructors
 
-<table><thead><tr><th>
-
-Constructor
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[(constructor)(name)](./ts-morph-structures.variabledeclarationimpl._constructor_.md)
-
-
-</td><td>
-
-
-</td><td>
-
-Constructs a new instance of the `VariableDeclarationImpl` class
-
-
-</td></tr>
-</tbody></table>
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(name)](./ts-morph-structures.variabledeclarationimpl._constructor_.md) |  | Constructs a new instance of the <code>VariableDeclarationImpl</code> class |
 
 ## Properties
 
-<table><thead><tr><th>
-
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[hasExclamationToken](./ts-morph-structures.variabledeclarationimpl.hasexclamationtoken.md)
-
-
-</td><td>
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[initializer?](./ts-morph-structures.variabledeclarationimpl.initializer.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.variabledeclarationimpl.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.VariableDeclaration
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[leadingTrivia](./ts-morph-structures.variabledeclarationimpl.leadingtrivia.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[name](./ts-morph-structures.variabledeclarationimpl.name.md)
-
-
-</td><td>
-
-
-</td><td>
-
-string
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[trailingTrivia](./ts-morph-structures.variabledeclarationimpl.trailingtrivia.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[type?](./ts-morph-structures.variabledeclarationimpl.type.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[typeStructure](./ts-morph-structures.variabledeclarationimpl.typestructure.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[TypeStructures](./ts-morph-structures.typestructures.md) \| undefined
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [hasExclamationToken](./ts-morph-structures.variabledeclarationimpl.hasexclamationtoken.md) |  | boolean |  |
+|  [initializer?](./ts-morph-structures.variabledeclarationimpl.initializer.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [kind](./ts-morph-structures.variabledeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.VariableDeclaration |  |
+|  [leadingTrivia](./ts-morph-structures.variabledeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [name](./ts-morph-structures.variabledeclarationimpl.name.md) |  | string |  |
+|  [trailingTrivia](./ts-morph-structures.variabledeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [type?](./ts-morph-structures.variabledeclarationimpl.type.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [typeStructure](./ts-morph-structures.variabledeclarationimpl.typestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [clone(source)](./ts-morph-structures.variabledeclarationimpl.clone.md) | <code>static</code> |  |
+|  [toJSON()](./ts-morph-structures.variabledeclarationimpl.tojson.md) |  |  |
 
-Method
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[clone(source)](./ts-morph-structures.variabledeclarationimpl.clone.md)
-
-
-</td><td>
-
-`static`
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[toJSON()](./ts-morph-structures.variabledeclarationimpl.tojson.md)
-
-
-</td><td>
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

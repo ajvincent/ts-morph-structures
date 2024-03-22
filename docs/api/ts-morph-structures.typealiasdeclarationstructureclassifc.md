@@ -12,61 +12,8 @@ export interface TypeAliasDeclarationStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [kind](./ts-morph-structures.typealiasdeclarationstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.TypeAlias |  |
+|  [type](./ts-morph-structures.typealiasdeclarationstructureclassifc.type.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[kind](./ts-morph-structures.typealiasdeclarationstructureclassifc.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.TypeAlias
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[type](./ts-morph-structures.typealiasdeclarationstructureclassifc.type.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

@@ -12,42 +12,7 @@ export interface QuestionTokenableNodeStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [hasQuestionToken](./ts-morph-structures.questiontokenablenodestructureclassifc.hasquestiontoken.md) |  | boolean |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[hasQuestionToken](./ts-morph-structures.questiontokenablenodestructureclassifc.hasquestiontoken.md)
-
-
-</td><td>
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

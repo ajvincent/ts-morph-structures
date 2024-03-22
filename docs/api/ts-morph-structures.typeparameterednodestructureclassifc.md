@@ -12,44 +12,7 @@ export interface TypeParameteredNodeStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [typeParameters](./ts-morph-structures.typeparameterednodestructureclassifc.typeparameters.md) | <code>readonly</code> | ([TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) \| string)\[\] |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[typeParameters](./ts-morph-structures.typeparameterednodestructureclassifc.typeparameters.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-([TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) \| string)\[\]
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

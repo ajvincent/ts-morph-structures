@@ -14,48 +14,8 @@ constructor(operators: readonly PrefixUnaryOperator[], objectType: TypeStructure
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  operators | readonly [PrefixUnaryOperator](./ts-morph-structures.prefixunaryoperator.md)<!-- -->\[\] |  |
+|  objectType | [TypeStructures](./ts-morph-structures.typestructures.md) |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-operators
-
-
-</td><td>
-
-readonly [PrefixUnaryOperator](./ts-morph-structures.prefixunaryoperator.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-objectType
-
-
-</td><td>
-
-[TypeStructures](./ts-morph-structures.typestructures.md)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

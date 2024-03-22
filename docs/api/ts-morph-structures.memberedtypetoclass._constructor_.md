@@ -14,52 +14,8 @@ constructor(constructorArguments: ParameterDeclarationImpl[], statementsGetter: 
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  constructorArguments | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] | parameters to define on the constructor. |
+|  statementsGetter | [ClassStatementsGetter](./ts-morph-structures.classstatementsgetter.md) | a callback to get statements for each individual statement purpose, field name and statement group name. |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-constructorArguments
-
-
-</td><td>
-
-[ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\]
-
-
-</td><td>
-
-parameters to define on the constructor.
-
-
-</td></tr>
-<tr><td>
-
-statementsGetter
-
-
-</td><td>
-
-[ClassStatementsGetter](./ts-morph-structures.classstatementsgetter.md)
-
-
-</td><td>
-
-a callback to get statements for each individual statement purpose, field name and statement group name.
-
-
-</td></tr>
-</tbody></table>

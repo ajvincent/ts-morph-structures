@@ -15,51 +15,11 @@ isAbstract(
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  kind | Exclude&lt;[ClassMemberImpl](./ts-morph-structures.classmemberimpl.md)<!-- -->, [ConstructorDeclarationImpl](./ts-morph-structures.constructordeclarationimpl.md)<!-- -->&gt;\["kind"\] |  |
+|  memberName | string |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-kind
-
-
-</td><td>
-
-Exclude&lt;[ClassMemberImpl](./ts-morph-structures.classmemberimpl.md)<!-- -->, [ConstructorDeclarationImpl](./ts-morph-structures.constructordeclarationimpl.md)<!-- -->&gt;\["kind"\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-memberName
-
-
-</td><td>
-
-string
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 boolean

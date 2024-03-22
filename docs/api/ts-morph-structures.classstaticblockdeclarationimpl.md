@@ -13,166 +13,18 @@ export default class ClassStaticBlockDeclarationImpl implements ClassStaticBlock
 
 ## Properties
 
-<table><thead><tr><th>
-
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[docs](./ts-morph-structures.classstaticblockdeclarationimpl.docs.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-(string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.classstaticblockdeclarationimpl.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.ClassStaticBlock
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[leadingTrivia](./ts-morph-structures.classstaticblockdeclarationimpl.leadingtrivia.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[statements](./ts-morph-structures.classstaticblockdeclarationimpl.statements.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[trailingTrivia](./ts-morph-structures.classstaticblockdeclarationimpl.trailingtrivia.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [docs](./ts-morph-structures.classstaticblockdeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [kind](./ts-morph-structures.classstaticblockdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.ClassStaticBlock |  |
+|  [leadingTrivia](./ts-morph-structures.classstaticblockdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [statements](./ts-morph-structures.classstaticblockdeclarationimpl.statements.md) | <code>readonly</code> | ([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
+|  [trailingTrivia](./ts-morph-structures.classstaticblockdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [clone(source)](./ts-morph-structures.classstaticblockdeclarationimpl.clone.md) | <code>static</code> |  |
+|  [toJSON()](./ts-morph-structures.classstaticblockdeclarationimpl.tojson.md) |  |  |
 
-Method
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[clone(source)](./ts-morph-structures.classstaticblockdeclarationimpl.clone.md)
-
-
-</td><td>
-
-`static`
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[toJSON()](./ts-morph-structures.classstaticblockdeclarationimpl.tojson.md)
-
-
-</td><td>
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

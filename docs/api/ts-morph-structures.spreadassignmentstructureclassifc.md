@@ -12,61 +12,8 @@ export interface SpreadAssignmentStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [expression](./ts-morph-structures.spreadassignmentstructureclassifc.expression.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) |  |
+|  [kind](./ts-morph-structures.spreadassignmentstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.SpreadAssignment |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[expression](./ts-morph-structures.spreadassignmentstructureclassifc.expression.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.spreadassignmentstructureclassifc.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.SpreadAssignment
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

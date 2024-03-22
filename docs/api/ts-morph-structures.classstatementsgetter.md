@@ -12,24 +12,7 @@ export interface ClassStatementsGetter
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Description |
+|  --- | --- |
+|  [getStatements(key)](./ts-morph-structures.classstatementsgetter.getstatements.md) |  |
 
-Method
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[getStatements(key)](./ts-morph-structures.classstatementsgetter.getstatements.md)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

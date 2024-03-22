@@ -12,42 +12,7 @@ export interface AmbientableNodeStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [hasDeclareKeyword](./ts-morph-structures.ambientablenodestructureclassifc.hasdeclarekeyword.md) |  | boolean |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[hasDeclareKeyword](./ts-morph-structures.ambientablenodestructureclassifc.hasdeclarekeyword.md)
-
-
-</td><td>
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

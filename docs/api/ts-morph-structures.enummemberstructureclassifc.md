@@ -12,63 +12,8 @@ export interface EnumMemberStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [kind](./ts-morph-structures.enummemberstructureclassifc.kind.md) | <code>readonly</code> | StructureKind.EnumMember |  |
+|  [value?](./ts-morph-structures.enummemberstructureclassifc.value.md) |  | number \| string | _(Optional)_ Convenience property for setting the initializer. |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[kind](./ts-morph-structures.enummemberstructureclassifc.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.EnumMember
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[value?](./ts-morph-structures.enummemberstructureclassifc.value.md)
-
-
-</td><td>
-
-
-</td><td>
-
-number \| string
-
-
-</td><td>
-
-_(Optional)_ Convenience property for setting the initializer.
-
-
-</td></tr>
-</tbody></table>

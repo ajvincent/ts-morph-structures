@@ -13,215 +13,25 @@ export default class ExportAssignmentImpl implements ExportAssignmentStructureCl
 
 ## Constructors
 
-<table><thead><tr><th>
-
-Constructor
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[(constructor)(expression)](./ts-morph-structures.exportassignmentimpl._constructor_.md)
-
-
-</td><td>
-
-
-</td><td>
-
-Constructs a new instance of the `ExportAssignmentImpl` class
-
-
-</td></tr>
-</tbody></table>
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(expression)](./ts-morph-structures.exportassignmentimpl._constructor_.md) |  | Constructs a new instance of the <code>ExportAssignmentImpl</code> class |
 
 ## Properties
 
-<table><thead><tr><th>
-
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[docs](./ts-morph-structures.exportassignmentimpl.docs.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-(string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[expression](./ts-morph-structures.exportassignmentimpl.expression.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[isExportEquals](./ts-morph-structures.exportassignmentimpl.isexportequals.md)
-
-
-</td><td>
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[kind](./ts-morph-structures.exportassignmentimpl.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.ExportAssignment
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[leadingTrivia](./ts-morph-structures.exportassignmentimpl.leadingtrivia.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[trailingTrivia](./ts-morph-structures.exportassignmentimpl.trailingtrivia.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\]
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [docs](./ts-morph-structures.exportassignmentimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [expression](./ts-morph-structures.exportassignmentimpl.expression.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) |  |
+|  [isExportEquals](./ts-morph-structures.exportassignmentimpl.isexportequals.md) |  | boolean |  |
+|  [kind](./ts-morph-structures.exportassignmentimpl.kind.md) | <code>readonly</code> | StructureKind.ExportAssignment |  |
+|  [leadingTrivia](./ts-morph-structures.exportassignmentimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
+|  [trailingTrivia](./ts-morph-structures.exportassignmentimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [clone(source)](./ts-morph-structures.exportassignmentimpl.clone.md) | <code>static</code> |  |
+|  [toJSON()](./ts-morph-structures.exportassignmentimpl.tojson.md) |  |  |
 
-Method
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[clone(source)](./ts-morph-structures.exportassignmentimpl.clone.md)
-
-
-</td><td>
-
-`static`
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[toJSON()](./ts-morph-structures.exportassignmentimpl.tojson.md)
-
-
-</td><td>
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

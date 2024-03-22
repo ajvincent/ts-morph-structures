@@ -12,37 +12,10 @@ resolveIndexSignature(signature: IndexSignatureDeclarationImpl): string[];
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  signature | [IndexSignatureDeclarationImpl](./ts-morph-structures.indexsignaturedeclarationimpl.md) |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-signature
-
-
-</td><td>
-
-[IndexSignatureDeclarationImpl](./ts-morph-structures.indexsignaturedeclarationimpl.md)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 string\[\]

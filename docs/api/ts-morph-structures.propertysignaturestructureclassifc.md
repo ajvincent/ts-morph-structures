@@ -12,44 +12,7 @@ export interface PropertySignatureStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [kind](./ts-morph-structures.propertysignaturestructureclassifc.kind.md) | <code>readonly</code> | StructureKind.PropertySignature |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[kind](./ts-morph-structures.propertysignaturestructureclassifc.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-StructureKind.PropertySignature
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

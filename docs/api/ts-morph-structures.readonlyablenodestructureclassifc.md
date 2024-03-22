@@ -12,42 +12,7 @@ export interface ReadonlyableNodeStructureClassIfc
 
 ## Properties
 
-<table><thead><tr><th>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [isReadonly](./ts-morph-structures.readonlyablenodestructureclassifc.isreadonly.md) |  | boolean |  |
 
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[isReadonly](./ts-morph-structures.readonlyablenodestructureclassifc.isreadonly.md)
-
-
-</td><td>
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>

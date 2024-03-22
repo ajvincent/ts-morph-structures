@@ -12,51 +12,11 @@ static fromSignature(isStatic: boolean, signature: MethodSignatureImpl): MethodD
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  isStatic | boolean |  |
+|  signature | [MethodSignatureImpl](./ts-morph-structures.methodsignatureimpl.md) |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-isStatic
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-signature
-
-
-</td><td>
-
-[MethodSignatureImpl](./ts-morph-structures.methodsignatureimpl.md)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [MethodDeclarationImpl](./ts-morph-structures.methoddeclarationimpl.md)

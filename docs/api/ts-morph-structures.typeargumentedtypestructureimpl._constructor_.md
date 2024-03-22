@@ -14,50 +14,8 @@ constructor(objectType: TypeStructures, childTypes?: TypeStructures[]);
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  objectType | [TypeStructures](./ts-morph-structures.typestructures.md) |  |
+|  childTypes | [TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\[\] | _(Optional)_ |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-objectType
-
-
-</td><td>
-
-[TypeStructures](./ts-morph-structures.typestructures.md)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-childTypes
-
-
-</td><td>
-
-[TypeStructures](./ts-morph-structures.typestructures.md)<!-- -->\[\]
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-</tbody></table>

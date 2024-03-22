@@ -12,37 +12,10 @@ static clone(other: NumberTypeStructureImpl): NumberTypeStructureImpl;
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  other | [NumberTypeStructureImpl](./ts-morph-structures.numbertypestructureimpl.md) |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-other
-
-
-</td><td>
-
-[NumberTypeStructureImpl](./ts-morph-structures.numbertypestructureimpl.md)
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [NumberTypeStructureImpl](./ts-morph-structures.numbertypestructureimpl.md)

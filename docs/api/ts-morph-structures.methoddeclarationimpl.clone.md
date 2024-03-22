@@ -12,37 +12,10 @@ static clone(source: OptionalKind<MethodDeclarationStructure>): MethodDeclaratio
 
 ## Parameters
 
-<table><thead><tr><th>
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  source | OptionalKind&lt;MethodDeclarationStructure&gt; |  |
 
-Parameter
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-source
-
-
-</td><td>
-
-OptionalKind&lt;MethodDeclarationStructure&gt;
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
 **Returns:**
 
 [MethodDeclarationImpl](./ts-morph-structures.methoddeclarationimpl.md)

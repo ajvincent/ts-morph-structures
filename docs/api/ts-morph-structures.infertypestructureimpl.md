@@ -17,148 +17,21 @@ infer &lt;<!-- -->type<!-- -->&gt; (extends &lt;<!-- -->type<!-- -->&gt;<!-- -->
 
 ## Constructors
 
-<table><thead><tr><th>
-
-Constructor
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[(constructor)(typeParameter)](./ts-morph-structures.infertypestructureimpl._constructor_.md)
-
-
-</td><td>
-
-
-</td><td>
-
-Constructs a new instance of the `InferTypeStructureImpl` class
-
-
-</td></tr>
-</tbody></table>
+|  Constructor | Modifiers | Description |
+|  --- | --- | --- |
+|  [(constructor)(typeParameter)](./ts-morph-structures.infertypestructureimpl._constructor_.md) |  | Constructs a new instance of the <code>InferTypeStructureImpl</code> class |
 
 ## Properties
 
-<table><thead><tr><th>
-
-Property
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Type
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[kind](./ts-morph-structures.infertypestructureimpl.kind.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-[TypeStructureKind.Infer](./ts-morph-structures.typestructurekind.md)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[typeParameter](./ts-morph-structures.infertypestructureimpl.typeparameter.md)
-
-
-</td><td>
-
-
-</td><td>
-
-[TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)
-
-
-</td><td>
-
-
-</td></tr>
-<tr><td>
-
-[writerFunction](./ts-morph-structures.infertypestructureimpl.writerfunction.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-WriterFunction
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [kind](./ts-morph-structures.infertypestructureimpl.kind.md) | <code>readonly</code> | [TypeStructureKind.Infer](./ts-morph-structures.typestructurekind.md) |  |
+|  [typeParameter](./ts-morph-structures.infertypestructureimpl.typeparameter.md) |  | [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) |  |
+|  [writerFunction](./ts-morph-structures.infertypestructureimpl.writerfunction.md) | <code>readonly</code> | WriterFunction |  |
 
 ## Methods
 
-<table><thead><tr><th>
+|  Method | Modifiers | Description |
+|  --- | --- | --- |
+|  [clone(other)](./ts-morph-structures.infertypestructureimpl.clone.md) | <code>static</code> |  |
 
-Method
-
-
-</th><th>
-
-Modifiers
-
-
-</th><th>
-
-Description
-
-
-</th></tr></thead>
-<tbody><tr><td>
-
-[clone(other)](./ts-morph-structures.infertypestructureimpl.clone.md)
-
-
-</td><td>
-
-`static`
-
-
-</td><td>
-
-
-</td></tr>
-</tbody></table>
