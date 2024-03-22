@@ -109,6 +109,16 @@ const BPSet = new BuildPromiseSet;
 }
 // #endregion stage 3
 
+// use cases
+{
+  const target = BPSet.get("use-cases");
+  target.addTask(async (): Promise<void> => {
+    console.log("starting use cases");
+    await recursiveBuild("use-cases", "buildStage.ts");
+    console.log("completed use cases");
+  });
+}
+
 BPSet.markReady();
 {
   if ((env.TSMS_STAGE === undefined) || (env.TSMS_STAGE === "one")) {
@@ -121,6 +131,9 @@ BPSet.markReady();
   }
   if ((env.TSMS_STAGE === undefined) || (env.TSMS_STAGE === "three")) {
     BPSet.main.addSubtarget("stage 3");
+  }
+  if ((env.TSMS_STAGE === undefined) || (env.TSMS_STAGE === "use-cases")) {
+    BPSet.main.addSubtarget("use-cases");
   }
 }
 await BPSet.main.run();
