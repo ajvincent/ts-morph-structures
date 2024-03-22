@@ -6,7 +6,7 @@ Structures themselves are somewhat opaque in `ts-morph`.  The documentation on t
 
 One not-so-little detail: types don't have structures in `ts-morph`.  Instead, the `ts-morph` structures present them as serialized strings or writer functions.  This means, unless you happen to like writing parsers, your best tool for manipulating types is a regular expression...  not a good fit for the job.
 
-I solve this with a completely independent (but not complete) structure classes set, and a new set of "type structure" classes.  Where regular structure interfaces specify a `type?: string | WriterFunction` field, I add a `typeStructure: TypeStructures` field.  Similarly, `returnType?: string | WriterFunction` has a corresponding `returnTypeStructure: TypeStructures` field.
+I solve this with a completely independent structure classes set, and a new set of "type structure" classes.  Where regular structure interfaces specify a `type?: string | WriterFunction` field, I add a `typeStructure: TypeStructures` field.  Similarly, `returnType?: string | WriterFunction` has a corresponding `returnTypeStructure: TypeStructures` field.
 
 ## Guides
 
