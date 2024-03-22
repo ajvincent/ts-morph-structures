@@ -14,5 +14,7 @@ export default class StringStringMap<V> {
     return [firstKey, secondKey];
   }
 
+  /*
   readonly #hashMap = new Map<string, V>;
+  */
 }

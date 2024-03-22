@@ -3,7 +3,15 @@ import path from "path";
 import {
   type InterfaceDeclaration,
   type SourceFile,
+  StructureKind,
 } from "ts-morph";
+
+import {
+  PropertySignatureImpl,
+  TypeMembersMap,
+  getTypeAugmentedStructure,
+  VoidTypeNodeToTypeStructureConsole,
+} from "#stage_two/snapshot/source/exports.js";
 
 import {
   distDir,
@@ -42,7 +50,9 @@ export default class StringStringMap<V> {
     return [firstKey, secondKey];
   }
 
+  /*
   readonly #hashMap = new Map<string, V>;
+  */
 }
     `.trim()
   );
@@ -54,6 +64,23 @@ export default class StringStringMap<V> {
   for (const node of MapInterfaceNodes) {
     console.log(node.print());
   }
+
+  // Create the initial type members map
+  const typeMembers = new TypeMembersMap();
+  MapInterfaceNodes.forEach(node => {
+    const structure = getTypeAugmentedStructure(node, VoidTypeNodeToTypeStructureConsole, true, StructureKind.Interface).rootStructure;
+    typeMembers.addMembers([
+      // no getters or setters to worry about
+      ...structure.properties,
+      ...structure.methods
+    ]);
+  });
+  {
+    const hashMap = new PropertySignatureImpl("#hashMap");
+    hashMap.isReadonly = true;
+    typeMembers.addMembers([hashMap]);
+  }
+  typeMembers.convertPropertyToAccessors("size", true, false);
 
   await moduleFile.save();
   return Promise.resolve();
