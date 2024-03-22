@@ -1,4 +1,4 @@
-name: build-stage-two
+name: build-use-cases
 on:
   push:
     paths:
@@ -7,7 +7,7 @@ on:
       - 'stage_2_snapshot/snapshot/source/**'
       - 'use-cases/**'
 jobs:
-  build-stage-two:
+  build-use-cases:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
