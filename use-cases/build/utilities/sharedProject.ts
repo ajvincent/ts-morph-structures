@@ -5,9 +5,11 @@ import url from "url";
 import {
   ModuleKind,
   ModuleResolutionKind,
+  type Node,
   Project,
   type ProjectOptions,
   ScriptTarget,
+  type Structures,
   SourceFile,
 } from "ts-morph";
 
@@ -24,8 +26,13 @@ const TSC_CONFIG: ProjectOptions = {
   skipFileDependencyResolution: true,
 };
 
-export const stageDir = path.normalize(path.join(url.fileURLToPath(import.meta.url), "../../"));
+export interface NodeWithStructures extends Node {
+  getStructure(): Structures;
+}
+
+export const stageDir = path.normalize(path.join(url.fileURLToPath(import.meta.url), "../../../"));
 export const distDir = path.join(stageDir, "dist");
+export const projectDir = path.dirname(stageDir);
 
 export const project = new Project(TSC_CONFIG);
 
@@ -46,3 +53,4 @@ export function getExistingSourceFile(
 {
   return project.getSourceFile(absolutePathToFile) ?? project.addSourceFileAtPath(absolutePathToFile);
 }
+

@@ -1,11 +1,18 @@
 import path from "path";
+
+import {
+  type InterfaceDeclaration,
+  type SourceFile,
+} from "ts-morph";
+
 import {
   distDir,
   project,
   removeDistFile,
   //getExistingSourceFile,
-} from "./sharedProject.js";
-import { SourceFile } from "ts-morph";
+} from "./utilities/sharedProject.js";
+
+import getTypeScriptNodes from "./utilities/typescript-builtins.js";
 
 export default async function buildStringStringMap(): Promise<void>
 {
@@ -39,6 +46,14 @@ export default class StringStringMap<V> {
 }
     `.trim()
   );
+
+  /* What are we dealing with? */
+  const MapInterfaceNodes = getTypeScriptNodes<InterfaceDeclaration>(
+    sourceFile => sourceFile.getInterfaces().filter(ifc => ifc.getName() === "Map")
+  ).map(entry => entry[1]);
+  for (const node of MapInterfaceNodes) {
+    console.log(node.print());
+  }
 
   await moduleFile.save();
   return Promise.resolve();
