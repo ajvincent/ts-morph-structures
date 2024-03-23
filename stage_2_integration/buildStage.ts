@@ -8,11 +8,11 @@ import {
 
 import copySnapshot from "./build/copySnapshot.js";
 import structureToSyntax from "./build/structureToSyntax.js";
-import compileTypeDefinitions from "./build/typedefs.js";
-import doBundles from "./build/bundle.js";
-import runAPIExtractor from "./build/runAPIExtractor.js";
-import applyDecoratorsForDocModel from "./build/decoratorsInDocModel.js";
-import runAPIDocumenter from "./build/runAPIDocumenter.js";
+import compileTypeDefinitions from "./build/docs/typedefs.js";
+import doBundles from "./build/rollup/bundle.js";
+import runAPIExtractor from "./build/docs/runAPIExtractor.js";
+import applyDecoratorsForDocModel from "./build/docs/decoratorsInDocModel.js";
+import runAPIDocumenter from "./build/docs/runAPIDocumenter.js";
 
 const BPSet = new BuildPromiseSet;
 

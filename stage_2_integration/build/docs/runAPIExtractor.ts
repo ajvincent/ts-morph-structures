@@ -14,7 +14,7 @@ import {
 
 import {
   typingsSnapshotDir,
-} from "./constants.js";
+} from "../constants.js";
 
 export default
 async function runAPIExtractor(): Promise<void>

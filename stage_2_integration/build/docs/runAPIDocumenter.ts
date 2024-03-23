@@ -11,7 +11,7 @@ import {
 
 import {
   stageDir,
-} from "./constants.js";
+} from "../constants.js";
 
 export default
 async function runAPIDocumenter(): Promise<void>

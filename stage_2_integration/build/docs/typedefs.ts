@@ -19,7 +19,7 @@ import readDirsDeep from "#utilities/source/readDirsDeep.js";
 import {
   snapshotDir,
   typingsSnapshotDir
-} from "./constants.js";
+} from "../constants.js";
 
 export default
 async function compileTypeDefinitions(): Promise<void>

@@ -1,4 +1,5 @@
 import path from "path";
+import fs from "fs/promises";
 import { spawn } from "child_process";
 
 import {
@@ -13,13 +14,20 @@ import {
 import {
   snapshotDir,
   stageDir
-} from "./constants.js";
+} from "../constants.js";
 
 export default async function doBundles(): Promise<void>
 {
+  await doRollup();
+
+  await fs.cp(pathToModule(stageDir, "snapshot/dist"), path.join(projectDir, "dist"), { recursive: true });
+}
+
+async function doRollup(): Promise<void>
+{
   const d = new Deferred<void>;
   const rollupLocation = path.join(projectDir, "node_modules/rollup/dist/bin/rollup");
-  const pathToConfig = pathToModule(stageDir, "build/rollup.config.js");
+  const pathToConfig = pathToModule(stageDir, "build/rollup/rollup.config.js");
   const child = spawn(
     "node",
     [
