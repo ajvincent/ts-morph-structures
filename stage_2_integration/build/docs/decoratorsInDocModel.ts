@@ -16,7 +16,7 @@ import {
 
 import {
   typingsSnapshotDir
-} from './constants.js';
+} from '../constants.js';
 
 import {
   ImportDeclarationImpl,

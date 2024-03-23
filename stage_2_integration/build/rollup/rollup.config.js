@@ -1,4 +1,5 @@
 import pkg from 'typescript';
+// eslint-disable-next-line import/no-named-as-default-member
 const {  ModuleKind, ModuleResolutionKind, ScriptTarget } = pkg;
 
 import ts_plugin from "@rollup/plugin-typescript";
