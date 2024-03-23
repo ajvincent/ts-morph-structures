@@ -129,7 +129,7 @@ The second interface is more challenging.  [`[Symbol.iterator]`](https://develop
 
 For the third interface, I just have to look up the documentation on [`Symbol.toStringTag`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toStringTag).
 
-## Creating a `TypeMembersMap` from the interface nodes
+## Creating a [`TypeMembersMap`](../guides/MemberedTypeToClass.md#typemembersmap) from the interface nodes
 
 This is relatively easy, and is necessary for `MemberedTypeToClass` to work:
 
@@ -191,7 +191,7 @@ I need to think of these as tables, for method statements.  Properties have thei
 
 There are two key pieces missing from these tables.  First, I know each of these methods will refer to `this.#hashMap`, but there's no interface property for private members.  (The reason for this should be obvious.)  I specified the property directly in the class stub earlier, but this now appears to be a mistake.
 
-The second missing piece is "constructor".  The interfaces don't tell you this, but the `Map` class has a constructor which takes an optional argument:
+The second missing piece is "constructor".  The interfaces don't tell you this, but [the `Map` class has a constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/Map) which takes an optional argument:
 
 ```typescript
 interface MapConstructor {
@@ -247,7 +247,52 @@ With this, I can adjust the above tables:
 | constructor(...?) | | | | |
 | get size() | | | | |
 
-## Rewriting the `Map` type in the `TypeMembersMap`
+## Adjusting method types in the `TypeMembersMap`
+
+Most methods need _some_ adjustment.  So I'm going to call `arrayOfKind` to get the method signatures.  (Method _signatures_ in interfaces are the type definitions for the equivalent method _declarations_ in classes.)
+
+```typescript
+{
+  const methods: readonly MethodSignatureImpl[] = typeMembers.arrayOfKind(StructureKind.MethodSignature);
+  for (const method of methods) {
+    // ...
+  }
+}
+```
+
+[MethodSignatureImpl documentation](../api/ts-morph-structures.methodsignatureimpl.md)
+
+### The `keys` method
+
+I've already called out the `keys` method as needing special attention.  What I want is a return type of `IterableIterator<[string, string]>`.  What I have is a return type of `IterableIterator<K>`.
+
+Here, I'm going to use NodeJS's `assert` function for a couple reasons.  (1) I wish to _assert_ the existing definition of `keys` from TypeScript doesn't change in the future.  (The odds of this are not quite infinitesimal, but if it does change, I want to know.)  (2) The [assert function allows TypeScript to _know_](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#assertion-functions) the shape of a particular type structure.
+
+It helps to look up the [type structures table](../guides/TypeStructures.md#table-of-type-structure-classes).  I also need to be familiar with the following properties of `MethodSignatureImpl` objects:
+
+- name
+- parameters
+- returnTypeStructure
+
+For the `keys` case, I'll skip the research and present the solution:
+```typescript
+if (method.name === "keys") {
+  const { returnTypeStructure } = method;
+  assert.equal(returnTypeStructure?.kind, TypeStructureKind.TypeArgumented, "Expected a type-argumented type.");
+  assert.equal(returnTypeStructure.objectType, LiteralTypeStructureImpl.get("IterableIterator"), "Expected an IterableIterator");
+  assert.equal(returnTypeStructure.childTypes.length, 1);
+  assert.equal(returnTypeStructure.childTypes[0], LiteralTypeStructureImpl.get("K"));
+
+  returnTypeStructure.childTypes[0] = new TupleTypeStructureImpl([
+    LiteralTypeStructureImpl.get("string"),
+    LiteralTypeStructureImpl.get("string"),
+  ]);
+}
+```
+
+### Other iterator methods
+
+### Methods taking arguments
 
 ## Creating the existing class structure
 

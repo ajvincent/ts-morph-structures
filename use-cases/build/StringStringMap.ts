@@ -1,3 +1,4 @@
+import assert from "node:assert/strict";
 import path from "path";
 
 import {
@@ -7,10 +8,14 @@ import {
 } from "ts-morph";
 
 import {
+  LiteralTypeStructureImpl,
+  type MethodSignatureImpl,
   PropertySignatureImpl,
   TypeMembersMap,
+  TypeStructureKind,
   getTypeAugmentedStructure,
   VoidTypeNodeToTypeStructureConsole,
+  TupleTypeStructureImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
@@ -81,6 +86,24 @@ export default class StringStringMap<V> {
     typeMembers.addMembers([hashMap]);
   }
   typeMembers.convertPropertyToAccessors("size", true, false);
+
+  {
+    const methods: readonly MethodSignatureImpl[] = typeMembers.arrayOfKind(StructureKind.MethodSignature);
+    for (const method of methods) {
+      if (method.name === "keys") {
+        const { returnTypeStructure } = method;
+        assert.equal(returnTypeStructure?.kind, TypeStructureKind.TypeArgumented, "Expected a type-argumented type.");
+        assert.equal(returnTypeStructure.objectType, LiteralTypeStructureImpl.get("IterableIterator"), "Expected an IterableIterator");
+        assert.equal(returnTypeStructure.childTypes.length, 1);
+        assert.equal(returnTypeStructure.childTypes[0], LiteralTypeStructureImpl.get("K"));
+
+        returnTypeStructure.childTypes[0] = new TupleTypeStructureImpl([
+          LiteralTypeStructureImpl.get("string"),
+          LiteralTypeStructureImpl.get("string"),
+        ]);
+      }
+    }
+  }
 
   await moduleFile.save();
   return Promise.resolve();
