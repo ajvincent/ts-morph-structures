@@ -8,7 +8,7 @@ import {
 
 import copySnapshot from "./build/copySnapshot.js";
 import structureToSyntax from "./build/structureToSyntax.js";
-import doBundles from "./build/bundle.js";
+import doBundles from "./build/rollup/bundle.js";
 
 const BPSet = new BuildPromiseSet;
 

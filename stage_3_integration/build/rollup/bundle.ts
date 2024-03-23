@@ -13,13 +13,13 @@ import {
 import {
   snapshotDir,
   stageDir
-} from "./constants.js";
+} from "../constants.js";
 
 export default async function doBundles(): Promise<void>
 {
   const d = new Deferred<void>;
   const rollupLocation = path.join(projectDir, "node_modules/rollup/dist/bin/rollup");
-  const pathToConfig = pathToModule(stageDir, "build/rollup.config.js");
+  const pathToConfig = pathToModule(stageDir, "build/rollup/rollup.config.js");
   const child = spawn(
     "node",
     [
