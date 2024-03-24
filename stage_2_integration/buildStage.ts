@@ -8,7 +8,7 @@ import {
 
 import copySnapshot from "./build/copySnapshot.js";
 import structureToSyntax from "./build/structureToSyntax.js";
-import compileTypeDefinitions from "./build/docs/typedefs.js";
+import compileTypeDeclarations from "./build/docs/typeDeclarations.js";
 import doBundles from "./build/rollup/bundle.js";
 import runAPIExtractor from "./build/docs/runAPIExtractor.js";
 import applyDecoratorsForDocModel from "./build/docs/decoratorsInDocModel.js";
@@ -63,7 +63,7 @@ const BPSet = new BuildPromiseSet;
   const target = BPSet.get("docs");
   target.addTask(async () => {
     console.log("starting stage_2_integration:docs");
-    await compileTypeDefinitions();
+    await compileTypeDeclarations();
     await applyDecoratorsForDocModel();
     console.log("Running API Extractor...");
     await runAPIExtractor();
