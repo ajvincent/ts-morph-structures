@@ -37,7 +37,7 @@ function addExportsFile(project: Project): void {
   publicExports.addExports({
     pathToExportedModule: path.join(projectDir, "./source/classes/NumberStringClass.ts"),
     exportNames: ["NumberStringClass"],
-    isDefaultImport: false,
+    isDefaultImport: true,
     isTypeOnly: false
   });
 
@@ -45,7 +45,7 @@ function addExportsFile(project: Project): void {
     pathToExportedModule: path.join(projectDir, "./source/classes/NumberStringClass.ts"),
     exportNames: ["NumberStringType"],
     isDefaultImport: false,
-    isTypeOnly: false
+    isTypeOnly: true
   });
 
   const sourceFile = new SourceFileImpl();
@@ -140,7 +140,9 @@ function addTypeFestSimplify(sourceFile: SourceFile): void {
   // assuming the "Simplify" type is already in the source file
   const aliasNode: TypeAliasDeclaration = sourceFile.getTypeAliasOrThrow("PushableArray");
 
-  let typeStructure: TypeStructures = parseLiteralType(aliasNode.getTypeNodeOrThrow().getText());
+  let typeStructure: TypeStructures = parseLiteralType(
+    aliasNode.getTypeNodeOrThrow().getText()
+  );
   typeStructures = new TypeArgumentedTypeStructureImpl(
     LiteralTypeStructureImpl.get("Simplify"), [ typeStructure ]
   );
