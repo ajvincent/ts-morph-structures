@@ -152,12 +152,12 @@ This is relatively easy, and is necessary for `MemberedTypeToClass` to work:
 
 There are a few properties, but mostly methods:
 
-_Properties_
+### Properties
 
 - `readonly size: number`
 - `readonly [Symbol.toStringTag]: string`
 
-_Methods_
+### Methods
 
 - clear
 - delete
@@ -275,6 +275,7 @@ It helps to look up the [type structures table](../guides/TypeStructures.md#tabl
 - returnTypeStructure
 
 For the `keys` case, I'll skip the research and present the solution:
+
 ```typescript
 if (method.name === "keys") {
   const { returnTypeStructure } = method;

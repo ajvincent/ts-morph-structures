@@ -184,6 +184,6 @@ As for the type structure classes themselves, see [the guide on type structures]
 
 ## Feeding back to ts-morph
 
-https://ts-morph.com/manipulation/structures#setting-with-structure
+First, read [ts-morph's "setting with structure" documentation](https://ts-morph.com/manipulation/structures#setting-with-structure).
 
 Each structure class instance _should_ correctly implement a `Structure`... if it doesn't, file a bug on this project!

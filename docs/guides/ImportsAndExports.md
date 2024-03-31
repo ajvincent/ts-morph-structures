@@ -26,8 +26,8 @@ To make this _much_ easier to deal with, I provide an [`ImportManager`](../api/t
 At its heart, the `ImportManager` class has three key parts:
 
 1. The absolute path to the source file it lives in, as the constructor's sole argument.
-  - Pass in files ending in `.ts` or `.mts`.
-  - I may support `.js` and `.mjs` if someone asks for it.
+    - Pass in files ending in `.ts` or `.mts`.
+    - I may support `.js` and `.mjs` if someone asks for it.
 2. The `addImports(context: AddImportContext)` method, which allows you to define what you're importing.
 3. The `getDeclarations()` method, which returns `ImportDeclarationImpl[]` for you to add as statements to a [`SourceFileImpl`](../api/ts-morph-structures.sourcefileimpl.md) for your source file.
 

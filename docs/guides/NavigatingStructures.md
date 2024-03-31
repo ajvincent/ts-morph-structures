@@ -29,7 +29,7 @@ The rules for this function are pretty simple:
 1. If we receive an array of structures and/or type structures, call the callback on each element of the array, until the first one returns a truthy value, and return that value.
 2. If the structure is a `StructureImpl`, call `forEachStructureChild()` first.  If the return value is truthy, return that value.
 3. Call the callback for each child which `forEachStructureCHild()` may have missed.  Return the first truthy value from the callback.
-  - this includes type structure children, such as `typeStructure`, `returnTypeStructure`, `implementsSet`, etc.
+    - this includes type structure children, such as `typeStructure`, `returnTypeStructure`, `implementsSet`, etc.
 
 In all cases, I prefer to visit structure classes before type structure classes.
 
