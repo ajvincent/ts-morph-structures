@@ -2243,19 +2243,6 @@ interface MemberedStatementsKey {
   readonly groupType: TypeMemberImpl | undefined;
 }
 
-type ClassMemberQuestion<
-  StructureProperty extends string,
-  ClassMemberType extends ClassMemberImpl,
-  Returns,
-> = Record<
-  StructureProperty,
-  (
-    isStatic: boolean,
-    kind: ClassMemberType["kind"],
-    memberName: string,
-  ) => Returns
->;
-
 interface ClassAbstractMemberQuestion {
   isAbstract(
     kind: Exclude<ClassMemberImpl, ConstructorDeclarationImpl>["kind"],
@@ -2263,23 +2250,21 @@ interface ClassAbstractMemberQuestion {
   ): boolean;
 }
 
-type ClassAsyncMethodQuestion = ClassMemberQuestion<
-  "isAsync",
-  MethodDeclarationImpl,
-  boolean
->;
+interface ClassAsyncMethodQuestion {
+  isAsync(isStatic: boolean, methodName: string): boolean;
+}
 
-type ClassGeneratorMethodQuestion = ClassMemberQuestion<
-  "isGenerator",
-  MethodDeclarationImpl,
-  boolean
->;
+interface ClassGeneratorMethodQuestion {
+  isGenerator(isStatic: boolean, methodName: string): boolean;
+}
 
-type ClassScopeMemberQuestion = ClassMemberQuestion<
-  "getScope",
-  ClassMemberImpl,
-  Scope | undefined
->;
+interface ClassScopeMemberQuestion {
+  getScope(
+    isStatic: boolean,
+    kind: ClassMemberImpl["kind"],
+    memberName: string,
+  ): Scope | undefined;
+}
 
 interface ClassStatementsGetter {
   getStatements(

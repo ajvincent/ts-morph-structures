@@ -437,14 +437,12 @@ export default class MemberedTypeToClass {
         if (this.#isAsyncCallback) {
           method.isAsync = this.#isAsyncCallback.isAsync(
             method.isStatic,
-            method.kind,
             method.name,
           );
         }
         if (this.#isGeneratorCallback) {
           method.isGenerator = this.#isGeneratorCallback.isGenerator(
             method.isStatic,
-            method.kind,
             method.name,
           );
         }

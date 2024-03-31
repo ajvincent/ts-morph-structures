@@ -228,7 +228,7 @@ function defineClassCallbacks(
 ): void
 {
   typeToClass.isGeneratorCallback = {
-    isGenerator: function(isStatic: boolean, kind: StructureKind.Method, memberName: string): boolean {
+    isGenerator: function(isStatic: boolean, memberName: string): boolean {
       return isStatic === false && memberName === "[STRUCTURE_AND_TYPES_CHILDREN]";
     }
   };

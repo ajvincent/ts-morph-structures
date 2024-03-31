@@ -106,8 +106,11 @@
 |  [AsyncableNodeStructureClassIfc](./ts-morph-structures.asyncablenodestructureclassifc.md) |  |
 |  [CallSignatureDeclarationStructureClassIfc](./ts-morph-structures.callsignaturedeclarationstructureclassifc.md) |  |
 |  [ClassAbstractMemberQuestion](./ts-morph-structures.classabstractmemberquestion.md) |  |
+|  [ClassAsyncMethodQuestion](./ts-morph-structures.classasyncmethodquestion.md) |  |
 |  [ClassDeclarationStructureClassIfc](./ts-morph-structures.classdeclarationstructureclassifc.md) |  |
 |  [ClassDeclarationWithImplementsTypeStructures](./ts-morph-structures.classdeclarationwithimplementstypestructures.md) |  |
+|  [ClassGeneratorMethodQuestion](./ts-morph-structures.classgeneratormethodquestion.md) |  |
+|  [ClassScopeMemberQuestion](./ts-morph-structures.classscopememberquestion.md) |  |
 |  [ClassStatementsGetter](./ts-morph-structures.classstatementsgetter.md) |  |
 |  [ClassStaticBlockDeclarationStructureClassIfc](./ts-morph-structures.classstaticblockdeclarationstructureclassifc.md) |  |
 |  [ConditionalTypeStructureParts](./ts-morph-structures.conditionaltypestructureparts.md) |  |
@@ -182,12 +185,9 @@
 
 |  Type Alias | Description |
 |  --- | --- |
-|  [ClassAsyncMethodQuestion](./ts-morph-structures.classasyncmethodquestion.md) |  |
 |  [ClassFieldStatement](./ts-morph-structures.classfieldstatement.md) |  |
-|  [ClassGeneratorMethodQuestion](./ts-morph-structures.classgeneratormethodquestion.md) |  |
 |  [ClassMemberImpl](./ts-morph-structures.classmemberimpl.md) |  |
 |  [ClassMemberStructureImpls](./ts-morph-structures.classmemberstructureimpls.md) |  |
-|  [ClassScopeMemberQuestion](./ts-morph-structures.classscopememberquestion.md) |  |
 |  [InterfaceMemberStructureImpls](./ts-morph-structures.interfacememberstructureimpls.md) |  |
 |  [JsxStructureImpls](./ts-morph-structures.jsxstructureimpls.md) |  |
 |  [NamedClassMemberImpl](./ts-morph-structures.namedclassmemberimpl.md) |  |

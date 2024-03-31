@@ -423,12 +423,12 @@ export default class MemberedTypeToClass {
       methods.forEach(method => {
         if (this.#isAsyncCallback) {
           method.isAsync = this.#isAsyncCallback.isAsync(
-            method.isStatic, method.kind, method.name
+            method.isStatic, method.name
           );
         }
         if (this.#isGeneratorCallback) {
           method.isGenerator = this.#isGeneratorCallback.isGenerator(
-            method.isStatic, method.kind, method.name
+            method.isStatic, method.name
           );
         }
       });

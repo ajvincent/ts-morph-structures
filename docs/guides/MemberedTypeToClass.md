@@ -474,11 +474,11 @@ export interface ClassAbstractMemberQuestion {
 }
 
 export interface ClassAsyncMethodQuestion {
-  isAsync(isStatic: boolean, kind: StructureKind.Method, memberName: string): boolean;
+  isAsync(isStatic: boolean, memberName: string): boolean;
 }
 
 export interface ClassGeneratorMethodQuestion {
-  isGenerator(isStatic: boolean, kind: StructureKind.Method, memberName: string): boolean;
+  isGenerator(isStatic: boolean, memberName: string): boolean;
 }
 
 export interface ClassScopeMemberQuestion {
@@ -547,6 +547,6 @@ Some time ago, [a TypeScript bug on "static implements"](https://github.com/micr
 
 You can do dumb things with ts-morph-structures, like provide a getter and a property with the same name.  You can do the same dumb things with ts-morph.  The utilities here don't try very hard to protect you from this.
 
-## Enjoy!
+## Enjoy
 
 Please, let me know of any pain points you encounter - and suggestions for improving them.  Unlike the structure classes, these are more complex.  I can add new features as necessary.

@@ -2,16 +2,17 @@
 
 [Home](./index.md) &gt; [ts-morph-structures](./ts-morph-structures.md) &gt; [ClassScopeMemberQuestion](./ts-morph-structures.classscopememberquestion.md)
 
-## ClassScopeMemberQuestion type
+## ClassScopeMemberQuestion interface
 
 **Signature:**
 
 ```typescript
-export type ClassScopeMemberQuestion = ClassMemberQuestion<
-  "getScope",
-  ClassMemberImpl,
-  Scope | undefined
->;
+export interface ClassScopeMemberQuestion 
 ```
-**References:** [ClassMemberImpl](./ts-morph-structures.classmemberimpl.md)
+
+## Methods
+
+|  Method | Description |
+|  --- | --- |
+|  [getScope(isStatic, kind, memberName)](./ts-morph-structures.classscopememberquestion.getscope.md) |  |
 

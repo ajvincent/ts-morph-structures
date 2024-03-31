@@ -744,7 +744,7 @@ describe("MemberedTypeToClass", () => {
     method2.returnTypeStructure = LiteralTypeStructureImpl.get("string");
 
     typeToClass.isAsyncCallback = {
-      isAsync: function(isStatic: boolean, kind, name): boolean {
+      isAsync: function(isStatic: boolean, name): boolean {
         return name === "one";
       }
     };
@@ -776,7 +776,7 @@ describe("MemberedTypeToClass", () => {
     method2.returnTypeStructure = LiteralTypeStructureImpl.get("string");
 
     typeToClass.isGeneratorCallback = {
-      isGenerator: function(isStatic: boolean, kind, name): boolean {
+      isGenerator: function(isStatic: boolean, name): boolean {
         return name === "one";
       }
     };

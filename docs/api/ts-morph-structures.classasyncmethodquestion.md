@@ -2,16 +2,17 @@
 
 [Home](./index.md) &gt; [ts-morph-structures](./ts-morph-structures.md) &gt; [ClassAsyncMethodQuestion](./ts-morph-structures.classasyncmethodquestion.md)
 
-## ClassAsyncMethodQuestion type
+## ClassAsyncMethodQuestion interface
 
 **Signature:**
 
 ```typescript
-export type ClassAsyncMethodQuestion = ClassMemberQuestion<
-  "isAsync",
-  MethodDeclarationImpl,
-  boolean
->;
+export interface ClassAsyncMethodQuestion 
 ```
-**References:** [MethodDeclarationImpl](./ts-morph-structures.methoddeclarationimpl.md)
+
+## Methods
+
+|  Method | Description |
+|  --- | --- |
+|  [isAsync(isStatic, methodName)](./ts-morph-structures.classasyncmethodquestion.isasync.md) |  |
 

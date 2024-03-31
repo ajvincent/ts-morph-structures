@@ -2,16 +2,17 @@
 
 [Home](./index.md) &gt; [ts-morph-structures](./ts-morph-structures.md) &gt; [ClassGeneratorMethodQuestion](./ts-morph-structures.classgeneratormethodquestion.md)
 
-## ClassGeneratorMethodQuestion type
+## ClassGeneratorMethodQuestion interface
 
 **Signature:**
 
 ```typescript
-export type ClassGeneratorMethodQuestion = ClassMemberQuestion<
-  "isGenerator",
-  MethodDeclarationImpl,
-  boolean
->;
+export interface ClassGeneratorMethodQuestion 
 ```
-**References:** [MethodDeclarationImpl](./ts-morph-structures.methoddeclarationimpl.md)
+
+## Methods
+
+|  Method | Description |
+|  --- | --- |
+|  [isGenerator(isStatic, methodName)](./ts-morph-structures.classgeneratormethodquestion.isgenerator.md) |  |
 
