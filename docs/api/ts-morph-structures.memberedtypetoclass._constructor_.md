@@ -9,7 +9,7 @@ Constructs a new instance of the `MemberedTypeToClass` class
 **Signature:**
 
 ```typescript
-constructor(constructorArguments: ParameterDeclarationImpl[], statementsGetter: ClassStatementsGetter);
+constructor(constructorArguments: ParameterDeclarationImpl[]);
 ```
 
 ## Parameters
@@ -17,5 +17,4 @@ constructor(constructorArguments: ParameterDeclarationImpl[], statementsGetter: 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  constructorArguments | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] | parameters to define on the constructor. |
-|  statementsGetter | [ClassStatementsGetter](./ts-morph-structures.classstatementsgetter.md) | a callback to get statements for each individual statement purpose, field name and statement group name. |
 

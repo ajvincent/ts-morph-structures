@@ -82,6 +82,7 @@
 
 |  Enumeration | Description |
 |  --- | --- |
+|  [ClassSupportsStatementsFlags](./ts-morph-structures.classsupportsstatementsflags.md) |  |
 |  [FunctionWriterStyle](./ts-morph-structures.functionwriterstyle.md) |  |
 |  [TypeStructureKind](./ts-morph-structures.typestructurekind.md) |  |
 

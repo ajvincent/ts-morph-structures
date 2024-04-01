@@ -52,6 +52,17 @@ interface InsertedMemberKey {
     | "(initializer or property reference)" /* ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY */;
 }
 
+export enum ClassSupportsStatementsFlags {
+  PropertyInitializer = 1 << 0,
+  AccessorMirror = 1 << 1,
+  HeadStatements = 1 << 2,
+  BodyStatements = 1 << 3,
+  TailStatements = 1 << 4,
+  ConstructorHeadStatements = 1 << 5,
+  ConstructorBodyStatements = 1 << 6,
+  ConstructorTailStatements = 1 << 7,
+}
+
 /** Convert type members to a class members map, including statements. */
 export default class MemberedTypeToClass {
   static #compareKeys(
@@ -72,6 +83,171 @@ export default class MemberedTypeToClass {
     return result;
   }
 
+  static #supportsFlagsNumbers: readonly number[];
+  static {
+    this.#supportsFlagsNumbers = Array.from(
+      Object.values(ClassSupportsStatementsFlags),
+    ).filter((n) => typeof n === "number") as number[];
+  }
+
+  static #getFlagForFieldAndGroup(
+    formattedFieldName: string,
+    formattedGroupName: string,
+  ): ClassSupportsStatementsFlags {
+    let flag: ClassSupportsStatementsFlags;
+    switch (formattedFieldName) {
+      case ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL:
+        if (formattedGroupName === "constructor")
+          flag = ClassSupportsStatementsFlags.ConstructorHeadStatements;
+        else flag = ClassSupportsStatementsFlags.HeadStatements;
+        break;
+
+      case ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN:
+        if (formattedGroupName === "constructor")
+          flag = ClassSupportsStatementsFlags.ConstructorTailStatements;
+        else flag = ClassSupportsStatementsFlags.TailStatements;
+        break;
+
+      default:
+        if (formattedGroupName === "constructor")
+          flag = ClassSupportsStatementsFlags.ConstructorBodyStatements;
+        else flag = ClassSupportsStatementsFlags.BodyStatements;
+    }
+    return flag;
+  }
+
+  static #validateStatementsGetter(
+    getter: ClassStatementsGetter,
+  ): readonly Error[] {
+    const errors: Error[] = [];
+    let validFlagFound = false;
+    if (
+      this.#validateStatementsGetterByFlag(
+        getter,
+        ClassSupportsStatementsFlags.PropertyInitializer,
+        "filterPropertyInitializer",
+        "getPropertyInitializer",
+        errors,
+      )
+    )
+      validFlagFound = true;
+
+    if (
+      this.#validateStatementsGetterByFlag(
+        getter,
+        ClassSupportsStatementsFlags.AccessorMirror,
+        "filterAccessorMirror",
+        "getAccessorMirror",
+        errors,
+      )
+    )
+      validFlagFound = true;
+
+    if (
+      this.#validateStatementsGetterByFlag(
+        getter,
+        ClassSupportsStatementsFlags.HeadStatements,
+        "filterHeadStatements",
+        "getHeadStatements",
+        errors,
+      )
+    )
+      validFlagFound = true;
+
+    if (
+      this.#validateStatementsGetterByFlag(
+        getter,
+        ClassSupportsStatementsFlags.BodyStatements,
+        "filterBodyStatements",
+        "getBodyStatements",
+        errors,
+      )
+    )
+      validFlagFound = true;
+
+    if (
+      this.#validateStatementsGetterByFlag(
+        getter,
+        ClassSupportsStatementsFlags.TailStatements,
+        "filterTailStatements",
+        "getTailStatements",
+        errors,
+      )
+    )
+      validFlagFound = true;
+
+    if (
+      this.#validateStatementsGetterByFlag(
+        getter,
+        ClassSupportsStatementsFlags.ConstructorHeadStatements,
+        "filterCtorHeadStatements",
+        "getCtorHeadStatements",
+        errors,
+      )
+    )
+      validFlagFound = true;
+
+    if (
+      this.#validateStatementsGetterByFlag(
+        getter,
+        ClassSupportsStatementsFlags.ConstructorBodyStatements,
+        "filterCtorBodyStatements",
+        "getCtorBodyStatements",
+        errors,
+      )
+    )
+      validFlagFound = true;
+
+    if (
+      this.#validateStatementsGetterByFlag(
+        getter,
+        ClassSupportsStatementsFlags.ConstructorTailStatements,
+        "filterCtorTailStatements",
+        "getCtorTailStatements",
+        errors,
+      )
+    )
+      validFlagFound = true;
+
+    if (!validFlagFound) {
+      errors.push(
+        new Error(
+          "statements getter's supportsStatementsFlag property is invalid: " +
+            getter.keyword,
+        ),
+      );
+    }
+
+    return errors;
+  }
+
+  static #validateStatementsGetterByFlag(
+    getter: ClassStatementsGetter,
+    flag: ClassSupportsStatementsFlags,
+    filterName: Extract<keyof ClassStatementsGetter, `filter${string}`>,
+    getterName: Extract<keyof ClassStatementsGetter, `get${string}`>,
+    errors: Error[],
+  ): boolean {
+    if (getter.supportsStatementFlags & flag) {
+      if (!getter[filterName]) {
+        errors.push(
+          new Error(
+            `statements getter is missing ${filterName}: ${getter.keyword}`,
+          ),
+        );
+      }
+      if (!getter[getterName]) {
+        errors.push(
+          new Error(
+            `statements getter is missing ${getterName}: ${getter.keyword}`,
+          ),
+        );
+      }
+      return true;
+    }
+    return false;
+  }
+
   readonly #aggregateStaticTypesMap = new TypeMembersMap();
   readonly #aggregateTypeMembersMap = new TypeMembersMap();
   readonly #classMemberToTypeMemberMap = new WeakMap<
@@ -87,7 +263,6 @@ export default class MemberedTypeToClass {
   >();
 
   readonly #classConstructor = new ConstructorDeclarationImpl();
-  readonly #statementsGetter: ClassStatementsGetter;
 
   #indexSignatureResolver?: IndexSignatureResolver;
   #isAbstractCallback?: ClassAbstractMemberQuestion;
@@ -96,16 +271,25 @@ export default class MemberedTypeToClass {
   #scopeCallback?: ClassScopeMemberQuestion;
   readonly #insertedMemberKeys: InsertedMemberKey[] = [];
 
+  readonly #statementsGettersBySupportFlag = new Map<
+    ClassSupportsStatementsFlags,
+    ClassStatementsGetter[]
+  >();
+  readonly #statementsGettersToPriorityAndPositionMap = new Map<
+    ClassStatementsGetter,
+    [number, number]
+  >();
+  readonly #statementKeysBySupportFlag = new Map<
+    ClassSupportsStatementsFlags,
+    MemberedStatementsKey[]
+  >();
+
   /**
    * @param constructorArguments - parameters to define on the constructor.
    * @param statementsGetter - a callback to get statements for each individual statement purpose, field name and statement group name.
    */
-  constructor(
-    constructorArguments: ParameterDeclarationImpl[],
-    statementsGetter: ClassStatementsGetter,
-  ) {
+  constructor(constructorArguments: ParameterDeclarationImpl[]) {
     this.#classConstructor.parameters.push(...constructorArguments);
-    this.#statementsGetter = statementsGetter;
   }
 
   #requireNotStarted(): void {
@@ -164,34 +348,6 @@ export default class MemberedTypeToClass {
   set scopeCallback(value: ClassScopeMemberQuestion | undefined) {
     this.#requireNotStarted();
     this.#scopeCallback = value;
-  }
-
-  /**
-   *
-   * @param purposeKey - The purpose of the statmeent group (validation, preconditions, body, postconditions, etc.)
-   * @param isBlockStatement - true if the statement block should be enclosed in curly braces.
-   * @param regionName - an optional #region / #endregion comment name.
-   *
-   * Call this in the order of statement purpose groups you intend.
-   */
-  defineStatementsByPurpose(
-    purposeKey: string,
-    isBlockStatement: boolean,
-    regionName?: string,
-  ): void {
-    this.#requireNotStarted();
-    if (this.#classFieldStatementsByPurpose.has(purposeKey))
-      throw new Error(
-        "You have already defined a statements purpose with the key: " +
-          purposeKey,
-      );
-    const statementsMap = new ClassFieldStatementsMap();
-    this.#classFieldStatementsByPurpose.set(purposeKey, statementsMap);
-    statementsMap.purposeKey = purposeKey;
-    statementsMap.isBlockStatement = isBlockStatement;
-    if (regionName) {
-      statementsMap.regionName = regionName;
-    }
   }
 
   //#region type members
@@ -353,16 +509,10 @@ export default class MemberedTypeToClass {
     this.#classMembersMap = new ClassMembersMap();
 
     const members = this.#addClassMembersToMap();
-    const keyClassArray = this.#buildKeyClassArray(members);
+    this.#sortStatementGetters();
+    this.#buildKeyClasses(members);
 
-    const errors: Error[] = [];
-    keyClassArray.forEach((keyClass) => {
-      try {
-        this.#callStatementGetter(keyClass);
-      } catch (ex) {
-        errors.push(ex instanceof Error ? ex : new Error(String(ex)));
-      }
-    });
+    const errors: Error[] = this.#buildStatements();
     if (errors.length) throw new AggregateError(errors);
 
     this.#classMembersMap.moveStatementsToMembers(
@@ -452,9 +602,107 @@ export default class MemberedTypeToClass {
     return members;
   }
 
-  #buildKeyClassArray(
-    members: ClassMemberImpl[],
-  ): MemberedStatementsKeyClass[] {
+  //#endregion build the class members map
+
+  //#region statement management
+
+  /**
+   *
+   * @param purposeKey - The purpose of the statmeent group (validation, preconditions, body, postconditions, etc.)
+   * @param isBlockStatement - true if the statement block should be enclosed in curly braces.
+   * @param regionName - an optional #region / #endregion comment name.
+   *
+   * Call this in the order of statement purpose groups you intend.
+   */
+  defineStatementsByPurpose(
+    purposeKey: string,
+    isBlockStatement: boolean,
+    regionName?: string,
+  ): void {
+    this.#requireNotStarted();
+    if (this.#classFieldStatementsByPurpose.has(purposeKey))
+      throw new Error(
+        "You have already defined a statements purpose with the key: " +
+          purposeKey,
+      );
+    const statementsMap = new ClassFieldStatementsMap();
+    this.#classFieldStatementsByPurpose.set(purposeKey, statementsMap);
+    statementsMap.purposeKey = purposeKey;
+    statementsMap.isBlockStatement = isBlockStatement;
+    if (regionName) {
+      statementsMap.regionName = regionName;
+    }
+  }
+
+  addStatementGetters(
+    priority: number,
+    statementGetters: readonly ClassStatementsGetter[],
+  ): void {
+    const knownGetters: string[] = [];
+    const invalidGetterErrors: Error[] = [];
+
+    for (const getter of statementGetters) {
+      if (this.#statementsGettersToPriorityAndPositionMap.has(getter))
+        knownGetters.push(getter.keyword);
+      else
+        invalidGetterErrors.push(
+          ...MemberedTypeToClass.#validateStatementsGetter(getter),
+        );
+    }
+
+    if (knownGetters.length > 0) {
+      invalidGetterErrors.unshift(
+        new Error(
+          "The following getters are already known: " + knownGetters.join(", "),
+        ),
+      );
+    }
+
+    if (invalidGetterErrors.length > 0) {
+      throw new AggregateError(invalidGetterErrors);
+    }
+
+    for (const getter of statementGetters) {
+      this.#statementsGettersToPriorityAndPositionMap.set(getter, [
+        priority,
+        this.#statementsGettersToPriorityAndPositionMap.size,
+      ]);
+      for (const flag of MemberedTypeToClass.#supportsFlagsNumbers) {
+        if (flag & getter.supportsStatementFlags) {
+          let getterArray = this.#statementsGettersBySupportFlag.get(flag);
+          if (!getterArray) {
+            getterArray = [];
+            this.#statementsGettersBySupportFlag.set(flag, getterArray);
+          }
+          getterArray.push(getter);
+        }
+      }
+    }
+  }
+
+  #sortStatementGetters(): void {
+    const comparator = this.#compareStatementGetters.bind(this);
+    for (const getterArray of this.#statementsGettersBySupportFlag.values()) {
+      getterArray.sort(comparator);
+    }
+  }
+
+  #compareStatementGetters(
+    a: ClassStatementsGetter,
+    b: ClassStatementsGetter,
+  ): number {
+    const [aPriority, aPosition] =
+      this.#statementsGettersToPriorityAndPositionMap.get(a)!;
+    const [bPriority, bPosition] =
+      this.#statementsGettersToPriorityAndPositionMap.get(b)!;
+    return aPriority - bPriority || aPosition - bPosition;
+  }
+
+  //#endregion statement management
+
+  //#region statement key management
+
+  #buildKeyClasses(members: ClassMemberImpl[]): MemberedStatementsKeyClass[] {
     const keyClassMap = new Map<string, MemberedStatementsKeyClass>();
     const purposeKeys: string[] = Array.from(
       this.#classFieldStatementsByPurpose.keys(),
@@ -541,7 +789,7 @@ export default class MemberedTypeToClass {
   }
 
   #sortMembersByKind(members: ClassMemberImpl[]): ClassMembersByKind {
-    const rv: ClassMembersByKind = {
+    const membersByKind: ClassMembersByKind = {
       ctors: [],
       getAccessors: [],
       methods: [],
@@ -552,26 +800,26 @@ export default class MemberedTypeToClass {
     members.forEach((member) => {
       switch (member.kind) {
         case StructureKind.Constructor:
-          rv.ctors.push(member);
+          membersByKind.ctors.push(member);
           return;
         case StructureKind.GetAccessor:
-          rv.getAccessors.push(member);
+          membersByKind.getAccessors.push(member);
           return;
         case StructureKind.Method:
-          rv.methods.push(member);
+          membersByKind.methods.push(member);
           return;
         case StructureKind.Property:
-          rv.properties.push(member);
+          membersByKind.properties.push(member);
           return;
         case StructureKind.SetAccessor:
-          rv.setAccessors.push(member);
+          membersByKind.setAccessors.push(member);
           return;
         default:
           assert(false, "not reachable");
       }
     });
 
-    return rv;
+    return membersByKind;
   }
 
   #addPropertyInitializerKeys(
@@ -592,6 +840,7 @@ export default class MemberedTypeToClass {
 
     for (const purposeKey of purposeKeys) {
       this.#addKeyClass(
+        ClassSupportsStatementsFlags.PropertyInitializer,
         formattedFieldName,
         formattedGroupName,
         purposeKey,
@@ -617,8 +866,15 @@ export default class MemberedTypeToClass {
       const [formattedFieldName, formattedGroupName] =
         ClassFieldStatementsMap.normalizeKeys(fieldName, groupName);
 
+      const flag: ClassSupportsStatementsFlags =
+        MemberedTypeToClass.#getFlagForFieldAndGroup(
+          formattedFieldName,
+          formattedGroupName,
+        );
+
       for (const purposeKey of purposeKeys) {
         this.#addKeyClass(
+          flag,
           formattedFieldName,
           formattedGroupName,
           purposeKey,
@@ -644,6 +900,7 @@ export default class MemberedTypeToClass {
 
     purposeKeys.forEach((purposeKey) =>
       this.#addKeyClass(
+        ClassSupportsStatementsFlags.AccessorMirror,
         accessorName,
         ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY,
         purposeKey,
@@ -665,9 +922,20 @@ export default class MemberedTypeToClass {
     if (!this.#memberKeyToClassMember.has(accessorName))
       this.#memberKeyToClassMember.set(accessorName, accessor);
 
-    for (const purposeKey of purposeKeys) {
-      for (const propertyName of propertyNames) {
-        this.#addKeyClass(propertyName, accessorName, purposeKey, keyClassMap);
+    for (const propertyName of propertyNames) {
+      const flag: ClassSupportsStatementsFlags =
+        MemberedTypeToClass.#getFlagForFieldAndGroup(
+          propertyName,
+          accessorName,
+        );
+      for (const purposeKey of purposeKeys) {
+        this.#addKeyClass(
+          flag,
+          propertyName,
+          accessorName,
+          purposeKey,
+          keyClassMap,
+        );
       }
     }
   }
@@ -700,9 +968,15 @@ export default class MemberedTypeToClass {
 
     const [formattedFieldName, formattedGroupName] =
       ClassFieldStatementsMap.normalizeKeys(fieldName, groupName);
+    const flag: ClassSupportsStatementsFlags =
+      MemberedTypeToClass.#getFlagForFieldAndGroup(
+        formattedFieldName,
+        formattedGroupName,
+      );
 
     for (const purposeKey of purposeKeys) {
       this.#addKeyClass(
+        flag,
         formattedFieldName,
         formattedGroupName,
         purposeKey,
@@ -712,6 +986,7 @@ export default class MemberedTypeToClass {
   }
 
   #addKeyClass(
+    supportsStatementsFlag: ClassSupportsStatementsFlags,
     fieldName: string,
     groupName: string,
     purposeKey: string,
@@ -738,21 +1013,183 @@ export default class MemberedTypeToClass {
         ? groupClassMember.isStatic
         : false;
 
-    keyClassMap.set(
-      compositeKey,
-      new MemberedStatementsKeyClass(
-        fieldName,
-        groupName,
-        purposeKey,
-        fieldTypeMember ? [isFieldStatic, fieldTypeMember] : undefined,
-        groupTypeMember ? [isGroupStatic, groupTypeMember] : undefined,
-      ),
+    const key = new MemberedStatementsKeyClass(
+      fieldName,
+      groupName,
+      purposeKey,
+      fieldTypeMember ? [isFieldStatic, fieldTypeMember] : undefined,
+      groupTypeMember ? [isGroupStatic, groupTypeMember] : undefined,
+    );
+    keyClassMap.set(compositeKey, key);
+
+    let keyArray = this.#statementKeysBySupportFlag.get(supportsStatementsFlag);
+    if (!keyArray) {
+      keyArray = [];
+      this.#statementKeysBySupportFlag.set(supportsStatementsFlag, keyArray);
+    }
+    keyArray.push(key);
+  }
+  //#endregion statement key management
+
+  //#region get the statements!
+  #buildStatements(): Error[] {
+    return [
+      ...this.#buildPropertyInitializerStatements(),
+      ...this.#buildAccessorMirrorStatements(),
+      ...this.#buildHeadStatements(),
+      ...this.#buildBodyStatements(),
+      ...this.#buildTailStatements(),
+      ...this.#buildCtorHeadStatements(),
+      ...this.#buildCtorBodyStatements(),
+      ...this.#buildCtorTailStatements(),
+    ];
+  }
+
+  #buildPropertyInitializerStatements(): Error[] {
+    const getters =
+      this.#statementsGettersBySupportFlag.get(
+        ClassSupportsStatementsFlags.PropertyInitializer,
+      ) ?? [];
+    if (getters.length === 0) {
+      return [];
+    }
+
+    const keys =
+      this.#statementKeysBySupportFlag.get(
+        ClassSupportsStatementsFlags.PropertyInitializer,
+      ) ?? [];
+
+    const errors: Error[] = [];
+    keys.forEach((key) => {
+      for (const getter of getters) {
+        try {
+          if (getter.filterPropertyInitializer!(key) === false) continue;
+          const statement = getter.getPropertyInitializer!(key);
+          if (statement) this.#addStatementsToMap(key, [statement]);
+          break;
+        } catch (ex) {
+          errors.push(ex as Error);
+        }
+      }
+    });
+
+    return errors;
+  }
+
+  #buildAccessorMirrorStatements(): Error[] {
+    const getters =
+      this.#statementsGettersBySupportFlag.get(
+        ClassSupportsStatementsFlags.AccessorMirror,
+      ) ?? [];
+    if (getters.length === 0) {
+      return [];
+    }
+
+    const keys =
+      this.#statementKeysBySupportFlag.get(
+        ClassSupportsStatementsFlags.AccessorMirror,
+      ) ?? [];
+
+    const errors: Error[] = [];
+    keys.forEach((key) => {
+      for (const getter of getters) {
+        try {
+          if (getter.filterAccessorMirror!(key) === false) continue;
+          const statement = getter.getAccessorMirror!(key);
+          if (statement) this.#addStatementsToMap(key, [statement]);
+          break;
+        } catch (ex) {
+          errors.push(ex as Error);
+        }
+      }
+    });
+
+    return errors;
+  }
+
+  #buildHeadStatements(): Error[] {
+    return this.#buildStatementsForFlag(
+      ClassSupportsStatementsFlags.HeadStatements,
+      "filterHeadStatements",
+      "getHeadStatements",
     );
   }
 
-  #callStatementGetter(keyClass: MemberedStatementsKeyClass): void {
-    const statementsArray: readonly stringWriterOrStatementImpl[] =
-      this.#statementsGetter.getStatements(keyClass);
+  #buildBodyStatements(): Error[] {
+    return this.#buildStatementsForFlag(
+      ClassSupportsStatementsFlags.BodyStatements,
+      "filterBodyStatements",
+      "getBodyStatements",
+    );
+  }
+
+  #buildTailStatements(): Error[] {
+    return this.#buildStatementsForFlag(
+      ClassSupportsStatementsFlags.TailStatements,
+      "filterTailStatements",
+      "getTailStatements",
+    );
+  }
+
+  #buildCtorHeadStatements(): Error[] {
+    return this.#buildStatementsForFlag(
+      ClassSupportsStatementsFlags.ConstructorHeadStatements,
+      "filterCtorHeadStatements",
+      "getCtorHeadStatements",
+    );
+  }
+
+  #buildCtorBodyStatements(): Error[] {
+    return this.#buildStatementsForFlag(
+      ClassSupportsStatementsFlags.ConstructorBodyStatements,
+      "filterCtorBodyStatements",
+      "getCtorBodyStatements",
+    );
+  }
+
+  #buildCtorTailStatements(): Error[] {
+    return this.#buildStatementsForFlag(
+      ClassSupportsStatementsFlags.ConstructorTailStatements,
+      "filterCtorTailStatements",
+      "getCtorTailStatements",
+    );
+  }
+
+  #buildStatementsForFlag(
+    flag: ClassSupportsStatementsFlags,
+    filterName: Extract<
+      keyof ClassStatementsGetter,
+      `filter${string}Statements`
+    >,
+    getterName: Extract<keyof ClassStatementsGetter, `get${string}Statements`>,
+  ): Error[] {
+    const getters = this.#statementsGettersBySupportFlag.get(flag) ?? [];
+    if (getters.length === 0) {
+      return [];
+    }
+
+    const keys = this.#statementKeysBySupportFlag.get(flag) ?? [];
+    const errors: Error[] = [];
+    for (const key of keys) {
+      for (const getter of getters) {
+        try {
+          if (getter[filterName]!(key) === false) continue;
+          const statements = getter[getterName]!(key);
+          if (statements.length > 0) this.#addStatementsToMap(key, statements);
+          break;
+        } catch (ex) {
+          errors.push(ex as Error);
+        }
+      }
+    }
+
+    return errors;
+  }
+
+  #addStatementsToMap(
+    keyClass: MemberedStatementsKey,
+    statementsArray: readonly stringWriterOrStatementImpl[],
+  ): void {
     if (statementsArray.length === 0) return;
 
     const statementsMap: ClassFieldStatementsMap =
@@ -763,6 +1200,5 @@ export default class MemberedTypeToClass {
       statementsArray.slice(),
     );
   }
-
-  //#endregion build the class members map
+  //#endregion get the statements!
 }

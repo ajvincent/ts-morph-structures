@@ -65,6 +65,8 @@ export type ClassMemberImpl = (
   SetAccessorDeclarationImpl
 );
 
+export type NamedClassMemberImpl = Extract<ClassMemberImpl, { name: string }>;
+
 export interface IndexSignatureResolver {
   resolveIndexSignature(signature: IndexSignatureDeclarationImpl): string[];
 }
@@ -110,12 +112,6 @@ export interface ClassScopeMemberQuestion {
   ): Scope | undefined;
 }
 
-export interface ClassStatementsGetter {
-  getStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[]
-}
-
-export type NamedClassMemberImpl = Extract<ClassMemberImpl, { name: string }>;
-
 export type NamedTypeMemberImpl = Extract<TypeMemberImpl, { name: string }>;
 
 export type TypeMemberImpl = (
@@ -129,3 +125,32 @@ export type TypeMemberImpl = (
 );
 
 export type stringWriterOrStatementImpl = stringOrWriterFunction | StatementStructureImpls;
+
+export interface ClassStatementsGetter {
+  supportsStatementFlags: readonly number;
+  keyword: readonly string;
+
+  filterPropertyInitializer?(key: MemberedStatementsKey): boolean;
+  getPropertyInitializer?(key: MemberedStatementsKey): stringWriterOrStatementImpl;
+
+  filterAccessorMirror?(key: MemberedStatementsKey): boolean;
+  getAccessorMirror?(key: MemberedStatementsKey): stringWriterOrStatementImpl;
+
+  filterHeadStatements?(key: MemberedStatementsKey): boolean;
+  getHeadStatements?(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
+
+  filterBodyStatements?(key: MemberedStatementsKey): boolean;
+  getBodyStatements?(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
+
+  filterTailStatements?(key: MemberedStatementsKey): boolean;
+  getTailStatements?(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
+
+  filterCtorHeadStatements?(key: MemberedStatementsKey): boolean;
+  getCtorHeadStatements?(): readonly stringWriterOrStatementImpl[];
+
+  filterCtorBodyStatements?(key: MemberedStatementsKey): boolean;
+  getCtorBodyStatements?(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
+
+  filterCtorTailStatements?(key: MemberedStatementsKey): boolean;
+  getCtorTailStatements?(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
+}

@@ -16,7 +16,7 @@ export default class MemberedTypeToClass
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)(constructorArguments, statementsGetter)](./ts-morph-structures.memberedtypetoclass._constructor_.md) |  | Constructs a new instance of the <code>MemberedTypeToClass</code> class |
+|  [(constructor)(constructorArguments)](./ts-morph-structures.memberedtypetoclass._constructor_.md) |  | Constructs a new instance of the <code>MemberedTypeToClass</code> class |
 
 ## Properties
 
@@ -33,6 +33,7 @@ export default class MemberedTypeToClass
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
+|  [addStatementGetters(priority, statementGetters)](./ts-morph-structures.memberedtypetoclass.addstatementgetters.md) |  |  |
 |  [addTypeMember(isStatic, member)](./ts-morph-structures.memberedtypetoclass.addtypemember.md) |  | Define a class member for a given type member (constructor, property, method, getter, setter). |
 |  [buildClassMembersMap()](./ts-morph-structures.memberedtypetoclass.buildclassmembersmap.md) |  | Convert cached type members to a ClassMembersMap, complete with statements. |
 |  [defineStatementsByPurpose(purposeKey, isBlockStatement, regionName)](./ts-morph-structures.memberedtypetoclass.definestatementsbypurpose.md) |  |  |

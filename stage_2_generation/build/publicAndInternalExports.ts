@@ -156,6 +156,13 @@ function definePublicExports(
   });
 
   dictionaries.publicExports.addExports({
+    absolutePathToModule: path.join(distDir, "source/toolbox/MemberedTypeToClass.ts"),
+    exportNames: ["ClassSupportsStatementsFlags"],
+    isDefaultExport: false,
+    isType: false
+  });
+
+  dictionaries.publicExports.addExports({
     absolutePathToModule: path.join(distDir, "source/toolbox/TypeMembersMap.ts"),
     exportNames: ["TypeMembersMap"],
     isDefaultExport: true,
