@@ -7,34 +7,22 @@
 **Signature:**
 
 ```typescript
-export interface ClassStatementsGetter 
+export interface ClassStatementsGetter
+  extends Partial<PropertyInitializerGetter>,
+    Partial<AccessorMirrorGetter>,
+    Partial<ClassHeadStatementsGetter>,
+    Partial<ClassBodyStatementsGetter>,
+    Partial<ClassTailStatementsGetter>,
+    Partial<ConstructorHeadStatementsGetter>,
+    Partial<ConstructorBodyStatementsGetter>,
+    Partial<ConstructorTailStatementsGetter> 
 ```
+**Extends:** Partial&lt;[PropertyInitializerGetter](./ts-morph-structures.propertyinitializergetter.md)<!-- -->&gt;, Partial&lt;[AccessorMirrorGetter](./ts-morph-structures.accessormirrorgetter.md)<!-- -->&gt;, Partial&lt;[ClassHeadStatementsGetter](./ts-morph-structures.classheadstatementsgetter.md)<!-- -->&gt;, Partial&lt;[ClassBodyStatementsGetter](./ts-morph-structures.classbodystatementsgetter.md)<!-- -->&gt;, Partial&lt;[ClassTailStatementsGetter](./ts-morph-structures.classtailstatementsgetter.md)<!-- -->&gt;, Partial&lt;[ConstructorHeadStatementsGetter](./ts-morph-structures.constructorheadstatementsgetter.md)<!-- -->&gt;, Partial&lt;[ConstructorBodyStatementsGetter](./ts-morph-structures.constructorbodystatementsgetter.md)<!-- -->&gt;, Partial&lt;[ConstructorTailStatementsGetter](./ts-morph-structures.constructortailstatementsgetter.md)<!-- -->&gt;
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [keyword](./ts-morph-structures.classstatementsgetter.keyword.md) |  | readonly string |  |
-|  [supportsStatementFlags](./ts-morph-structures.classstatementsgetter.supportsstatementflags.md) |  | readonly number |  |
-
-## Methods
-
-|  Method | Description |
-|  --- | --- |
-|  [filterAccessorMirror(key)?](./ts-morph-structures.classstatementsgetter.filteraccessormirror.md) | _(Optional)_ |
-|  [filterBodyStatements(key)?](./ts-morph-structures.classstatementsgetter.filterbodystatements.md) | _(Optional)_ |
-|  [filterCtorBodyStatements(key)?](./ts-morph-structures.classstatementsgetter.filterctorbodystatements.md) | _(Optional)_ |
-|  [filterCtorHeadStatements(key)?](./ts-morph-structures.classstatementsgetter.filterctorheadstatements.md) | _(Optional)_ |
-|  [filterCtorTailStatements(key)?](./ts-morph-structures.classstatementsgetter.filterctortailstatements.md) | _(Optional)_ |
-|  [filterHeadStatements(key)?](./ts-morph-structures.classstatementsgetter.filterheadstatements.md) | _(Optional)_ |
-|  [filterPropertyInitializer(key)?](./ts-morph-structures.classstatementsgetter.filterpropertyinitializer.md) | _(Optional)_ |
-|  [filterTailStatements(key)?](./ts-morph-structures.classstatementsgetter.filtertailstatements.md) | _(Optional)_ |
-|  [getAccessorMirror(key)?](./ts-morph-structures.classstatementsgetter.getaccessormirror.md) | _(Optional)_ |
-|  [getBodyStatements(key)?](./ts-morph-structures.classstatementsgetter.getbodystatements.md) | _(Optional)_ |
-|  [getCtorBodyStatements(key)?](./ts-morph-structures.classstatementsgetter.getctorbodystatements.md) | _(Optional)_ |
-|  [getCtorHeadStatements()?](./ts-morph-structures.classstatementsgetter.getctorheadstatements.md) | _(Optional)_ |
-|  [getCtorTailStatements(key)?](./ts-morph-structures.classstatementsgetter.getctortailstatements.md) | _(Optional)_ |
-|  [getHeadStatements(key)?](./ts-morph-structures.classstatementsgetter.getheadstatements.md) | _(Optional)_ |
-|  [getPropertyInitializer(key)?](./ts-morph-structures.classstatementsgetter.getpropertyinitializer.md) | _(Optional)_ |
-|  [getTailStatements(key)?](./ts-morph-structures.classstatementsgetter.gettailstatements.md) | _(Optional)_ |
+|  [supportsStatementFlags](./ts-morph-structures.classstatementsgetter.supportsstatementflags.md) |  | readonly NonNegativeInteger |  |
 

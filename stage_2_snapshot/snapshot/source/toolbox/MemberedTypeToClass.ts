@@ -1065,7 +1065,7 @@ export default class MemberedTypeToClass {
         try {
           if (getter.filterPropertyInitializer!(key) === false) continue;
           const statement = getter.getPropertyInitializer!(key);
-          if (statement) this.#addStatementsToMap(key, [statement]);
+          this.#addStatementsToMap(key, [statement]);
           break;
         } catch (ex) {
           errors.push(ex as Error);
@@ -1096,7 +1096,7 @@ export default class MemberedTypeToClass {
         try {
           if (getter.filterAccessorMirror!(key) === false) continue;
           const statement = getter.getAccessorMirror!(key);
-          if (statement) this.#addStatementsToMap(key, [statement]);
+          this.#addStatementsToMap(key, [statement]);
           break;
         } catch (ex) {
           errors.push(ex as Error);
@@ -1190,8 +1190,6 @@ export default class MemberedTypeToClass {
     keyClass: MemberedStatementsKey,
     statementsArray: readonly stringWriterOrStatementImpl[],
   ): void {
-    if (statementsArray.length === 0) return;
-
     const statementsMap: ClassFieldStatementsMap =
       this.#classFieldStatementsByPurpose.get(keyClass.purpose)!;
     statementsMap.set(

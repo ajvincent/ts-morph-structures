@@ -3,6 +3,10 @@ import type {
   WriterFunction,
 } from "ts-morph";
 
+import {
+  NonNegativeInteger
+} from "type-fest";
+
 import type {
   CallSignatureDeclarationImpl,
   ConstructorDeclarationImpl,
@@ -126,31 +130,51 @@ export type TypeMemberImpl = (
 
 export type stringWriterOrStatementImpl = stringOrWriterFunction | StatementStructureImpls;
 
-export interface ClassStatementsGetter {
-  supportsStatementFlags: readonly number;
+export interface PropertyInitializerGetter {
+  filterPropertyInitializer(key: MemberedStatementsKey): boolean;
+  getPropertyInitializer(key: MemberedStatementsKey): stringWriterOrStatementImpl;
+}
+
+export interface AccessorMirrorGetter {
+  filterAccessorMirror(key: MemberedStatementsKey): boolean;
+  getAccessorMirror(key: MemberedStatementsKey): stringWriterOrStatementImpl;
+}
+
+export interface ClassHeadStatementsGetter {
+  filterHeadStatements(key: MemberedStatementsKey): boolean;
+  getHeadStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
+}
+
+export interface ClassBodyStatementsGetter {
+  filterBodyStatements(key: MemberedStatementsKey): boolean;
+  getBodyStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
+}
+
+export interface ClassTailStatementsGetter {
+  filterTailStatements(key: MemberedStatementsKey): boolean;
+  getTailStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
+}
+
+export interface ConstructorHeadStatementsGetter {
+  filterCtorHeadStatements(key: MemberedStatementsKey): boolean;
+  getCtorHeadStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
+}
+
+export interface ConstructorBodyStatementsGetter {
+  filterCtorBodyStatements(key: MemberedStatementsKey): boolean;
+  getCtorBodyStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
+}
+
+export interface ConstructorTailStatementsGetter {
+  filterCtorTailStatements(key: MemberedStatementsKey): boolean;
+  getCtorTailStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
+}
+
+export interface ClassStatementsGetter
+extends Partial<PropertyInitializerGetter>, Partial<AccessorMirrorGetter>,
+Partial<ClassHeadStatementsGetter>, Partial<ClassBodyStatementsGetter>, Partial<ClassTailStatementsGetter>,
+Partial<ConstructorHeadStatementsGetter>, Partial<ConstructorBodyStatementsGetter>, Partial<ConstructorTailStatementsGetter>
+{
   keyword: readonly string;
-
-  filterPropertyInitializer?(key: MemberedStatementsKey): boolean;
-  getPropertyInitializer?(key: MemberedStatementsKey): stringWriterOrStatementImpl;
-
-  filterAccessorMirror?(key: MemberedStatementsKey): boolean;
-  getAccessorMirror?(key: MemberedStatementsKey): stringWriterOrStatementImpl;
-
-  filterHeadStatements?(key: MemberedStatementsKey): boolean;
-  getHeadStatements?(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
-
-  filterBodyStatements?(key: MemberedStatementsKey): boolean;
-  getBodyStatements?(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
-
-  filterTailStatements?(key: MemberedStatementsKey): boolean;
-  getTailStatements?(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
-
-  filterCtorHeadStatements?(key: MemberedStatementsKey): boolean;
-  getCtorHeadStatements?(): readonly stringWriterOrStatementImpl[];
-
-  filterCtorBodyStatements?(key: MemberedStatementsKey): boolean;
-  getCtorBodyStatements?(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
-
-  filterCtorTailStatements?(key: MemberedStatementsKey): boolean;
-  getCtorTailStatements?(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[];
+  supportsStatementFlags: readonly NonNegativeInteger;
 }

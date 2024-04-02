@@ -101,6 +101,7 @@
 |  Interface | Description |
 |  --- | --- |
 |  [AbstractableNodeStructureClassIfc](./ts-morph-structures.abstractablenodestructureclassifc.md) |  |
+|  [AccessorMirrorGetter](./ts-morph-structures.accessormirrorgetter.md) |  |
 |  [AddExportContext](./ts-morph-structures.addexportcontext.md) | A description of the exports to add. |
 |  [AddImportContext](./ts-morph-structures.addimportcontext.md) | A description of the imports to add. |
 |  [AmbientableNodeStructureClassIfc](./ts-morph-structures.ambientablenodestructureclassifc.md) |  |
@@ -108,15 +109,21 @@
 |  [CallSignatureDeclarationStructureClassIfc](./ts-morph-structures.callsignaturedeclarationstructureclassifc.md) |  |
 |  [ClassAbstractMemberQuestion](./ts-morph-structures.classabstractmemberquestion.md) |  |
 |  [ClassAsyncMethodQuestion](./ts-morph-structures.classasyncmethodquestion.md) |  |
+|  [ClassBodyStatementsGetter](./ts-morph-structures.classbodystatementsgetter.md) |  |
 |  [ClassDeclarationStructureClassIfc](./ts-morph-structures.classdeclarationstructureclassifc.md) |  |
 |  [ClassDeclarationWithImplementsTypeStructures](./ts-morph-structures.classdeclarationwithimplementstypestructures.md) |  |
 |  [ClassGeneratorMethodQuestion](./ts-morph-structures.classgeneratormethodquestion.md) |  |
+|  [ClassHeadStatementsGetter](./ts-morph-structures.classheadstatementsgetter.md) |  |
 |  [ClassScopeMemberQuestion](./ts-morph-structures.classscopememberquestion.md) |  |
 |  [ClassStatementsGetter](./ts-morph-structures.classstatementsgetter.md) |  |
 |  [ClassStaticBlockDeclarationStructureClassIfc](./ts-morph-structures.classstaticblockdeclarationstructureclassifc.md) |  |
+|  [ClassTailStatementsGetter](./ts-morph-structures.classtailstatementsgetter.md) |  |
 |  [ConditionalTypeStructureParts](./ts-morph-structures.conditionaltypestructureparts.md) |  |
+|  [ConstructorBodyStatementsGetter](./ts-morph-structures.constructorbodystatementsgetter.md) |  |
 |  [ConstructorDeclarationOverloadStructureClassIfc](./ts-morph-structures.constructordeclarationoverloadstructureclassifc.md) |  |
 |  [ConstructorDeclarationStructureClassIfc](./ts-morph-structures.constructordeclarationstructureclassifc.md) |  |
+|  [ConstructorHeadStatementsGetter](./ts-morph-structures.constructorheadstatementsgetter.md) |  |
+|  [ConstructorTailStatementsGetter](./ts-morph-structures.constructortailstatementsgetter.md) |  |
 |  [ConstructSignatureDeclarationStructureClassIfc](./ts-morph-structures.constructsignaturedeclarationstructureclassifc.md) |  |
 |  [DecoratableNodeStructureClassIfc](./ts-morph-structures.decoratablenodestructureclassifc.md) |  |
 |  [DecoratorStructureClassIfc](./ts-morph-structures.decoratorstructureclassifc.md) |  |
@@ -160,6 +167,7 @@
 |  [ParameteredNodeStructureClassIfc](./ts-morph-structures.parameterednodestructureclassifc.md) |  |
 |  [PropertyAssignmentStructureClassIfc](./ts-morph-structures.propertyassignmentstructureclassifc.md) |  |
 |  [PropertyDeclarationStructureClassIfc](./ts-morph-structures.propertydeclarationstructureclassifc.md) |  |
+|  [PropertyInitializerGetter](./ts-morph-structures.propertyinitializergetter.md) |  |
 |  [PropertySignatureStructureClassIfc](./ts-morph-structures.propertysignaturestructureclassifc.md) |  |
 |  [QuestionTokenableNodeStructureClassIfc](./ts-morph-structures.questiontokenablenodestructureclassifc.md) |  |
 |  [ReadonlyableNodeStructureClassIfc](./ts-morph-structures.readonlyablenodestructureclassifc.md) |  |
