@@ -288,12 +288,23 @@ if (method.name === "keys") {
     LiteralTypeStructureImpl.get("string"),
     LiteralTypeStructureImpl.get("string"),
   ]);
+  continue;
 }
 ```
 
+Note I probably could've gotten away with replacing the `K` with `{ firstKey: string, secondKey: string }`.
+
 ### Other iterator methods
 
-### Methods taking arguments
+These already specify `IterableIterator<[K, V]>`.  I want `IterableIterator<[string, string, V]>`.  I think, from the keys example above, the solution for this should be obvious.
+
+The `values` method I don't need to adjust at all: `IterableIterator<V>`.  
+
+### The `forEach` method
+
+Here the adjustments are to the _arguments_ of `forEach` - and they're a little deeper for the first argument, which is a callback function.  So we'll be dealing with the `parameters` array property of the method signature.
+
+### Other methods taking arguments
 
 ## Creating the existing class structure
 
