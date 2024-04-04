@@ -101,7 +101,23 @@ export default class StringStringMap<V> {
           LiteralTypeStructureImpl.get("string"),
           LiteralTypeStructureImpl.get("string"),
         ]);
+        continue;
       }
+
+      if ((method.name === "entries") || (method.name === "[Symbol.iterator]")) {
+        const { returnTypeStructure } = method;
+        assert.equal(returnTypeStructure?.kind, TypeStructureKind.TypeArgumented, "Expected a type-argumented type.");
+        assert.equal(returnTypeStructure.objectType, LiteralTypeStructureImpl.get("IterableIterator"), "Expected an IterableIterator");
+        assert.equal(returnTypeStructure.childTypes.length, 1);
+
+        assert.equal(returnTypeStructure.childTypes[0].kind, TypeStructureKind.Tuple);
+        returnTypeStructure.childTypes[0].childTypes.splice(
+          0, 1, LiteralTypeStructureImpl.get("string"), LiteralTypeStructureImpl.get("string")
+        );
+        continue;
+      }
+
+
     }
   }
 
