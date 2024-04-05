@@ -1,7 +1,7 @@
 import * as ts_morph from 'ts-morph';
 import { OptionalKind, Structures, WriterFunction, CodeBlockWriter, TypeNode, Node, StructureKind, KindedStructure, JsxNamespacedNameStructure, ModuleDeclarationKind, Scope, TypeParameterVariance, VariableDeclarationKind, TypeParameterDeclarationStructure, DecoratorStructure, ParameterDeclarationStructure, JSDocStructure, CallSignatureDeclarationStructure, ClassDeclarationStructure, ClassStaticBlockDeclarationStructure, ConstructorDeclarationStructure, ConstructorDeclarationOverloadStructure, ConstructSignatureDeclarationStructure, EnumDeclarationStructure, EnumMemberStructure, ExportAssignmentStructure, ExportDeclarationStructure, ExportSpecifierStructure, FunctionDeclarationStructure, FunctionDeclarationOverloadStructure, GetAccessorDeclarationStructure, ImportAttributeStructure, ImportDeclarationStructure, ImportSpecifierStructure, IndexSignatureDeclarationStructure, InterfaceDeclarationStructure, JSDocTagStructure, JsxAttributeStructure, JsxElementStructure, JsxSelfClosingElementStructure, JsxSpreadAttributeStructure, MethodDeclarationStructure, MethodDeclarationOverloadStructure, MethodSignatureStructure, ModuleDeclarationStructure, PropertyAssignmentStructure, PropertyDeclarationStructure, PropertySignatureStructure, SetAccessorDeclarationStructure, ShorthandPropertyAssignmentStructure, SourceFileStructure, SpreadAssignmentStructure, TypeAliasDeclarationStructure, VariableDeclarationStructure, VariableStatementStructure } from 'ts-morph';
 import * as mixin_decorators from 'mixin-decorators';
-import { Writable, Simplify, NonNegativeInteger } from 'type-fest';
+import { Writable, Simplify } from 'type-fest';
 
 declare const COPY_FIELDS: unique symbol;
 declare const REPLACE_WRITER_WITH_STRING: unique symbol;
@@ -2028,7 +2028,8 @@ declare enum ClassSupportsStatementsFlags {
     TailStatements = 16,
     ConstructorHeadStatements = 32,
     ConstructorBodyStatements = 64,
-    ConstructorTailStatements = 128
+    ConstructorTailStatements = 128,
+    All = 255
 }
 /** Convert type members to a class members map, including statements. */
 declare class MemberedTypeToClass {
@@ -2298,12 +2299,14 @@ interface PropertyInitializerGetter {
   filterPropertyInitializer(key: MemberedStatementsKey): boolean;
   getPropertyInitializer(
     key: MemberedStatementsKey,
-  ): stringWriterOrStatementImpl;
+  ): stringWriterOrStatementImpl | undefined;
 }
 
 interface AccessorMirrorGetter {
   filterAccessorMirror(key: MemberedStatementsKey): boolean;
-  getAccessorMirror(key: MemberedStatementsKey): stringWriterOrStatementImpl;
+  getAccessorMirror(
+    key: MemberedStatementsKey,
+  ): stringWriterOrStatementImpl | undefined;
 }
 
 interface ClassHeadStatementsGetter {
@@ -2358,7 +2361,7 @@ interface ClassStatementsGetter
     Partial<ConstructorBodyStatementsGetter>,
     Partial<ConstructorTailStatementsGetter> {
   keyword: readonly string;
-  supportsStatementFlags: readonly NonNegativeInteger;
+  supportsStatementFlags: readonly number;
 }
 
 type stringOrWriterFunction = string | WriterFunction;
