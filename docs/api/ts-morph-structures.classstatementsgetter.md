@@ -24,5 +24,5 @@ export interface ClassStatementsGetter
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [keyword](./ts-morph-structures.classstatementsgetter.keyword.md) |  | readonly string |  |
-|  [supportsStatementFlags](./ts-morph-structures.classstatementsgetter.supportsstatementflags.md) |  | readonly NonNegativeInteger |  |
+|  [supportsStatementFlags](./ts-morph-structures.classstatementsgetter.supportsstatementflags.md) |  | readonly number |  |
 

@@ -7,7 +7,9 @@
 **Signature:**
 
 ```typescript
-getAccessorMirror(key: MemberedStatementsKey): stringWriterOrStatementImpl;
+getAccessorMirror(
+    key: MemberedStatementsKey,
+  ): stringWriterOrStatementImpl | undefined;
 ```
 
 ## Parameters
@@ -18,5 +20,5 @@ getAccessorMirror(key: MemberedStatementsKey): stringWriterOrStatementImpl;
 
 **Returns:**
 
-[stringWriterOrStatementImpl](./ts-morph-structures.stringwriterorstatementimpl.md)
+[stringWriterOrStatementImpl](./ts-morph-structures.stringwriterorstatementimpl.md) \| undefined
 

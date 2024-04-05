@@ -1,29 +1,42 @@
 import {
-  ClassFieldStatementsMap,
+  ClassSupportsStatementsFlags,
   type MemberedStatementsKey,
+  type PropertyInitializerGetter,
   type stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
-import GetterFilter from "../GetterFilter.js";
+import {
+  BaseClassModule
+} from "#stage_three/generation/moduleClasses/exports.js";
+
+import StatementGetterBase from "../GetterBase.js";
 
 export default
-class TypeManagerStatements extends GetterFilter
+class TypeManagerStatements extends StatementGetterBase
+implements PropertyInitializerGetter
 {
   static readonly #managerRE = /^#(.*)Manager$/;
-  accept(
+
+  constructor(
+    module: BaseClassModule,
+  )
+  {
+    super(module, "TypeManagerStatements", ClassSupportsStatementsFlags.PropertyInitializer);
+  }
+
+  filterPropertyInitializer(
     key: MemberedStatementsKey
   ): boolean
   {
-    if (key.statementGroupKey !== ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY)
-      return false;
     return TypeManagerStatements.#managerRE.test(key.fieldKey);
   }
-  getStatements(
+
+  getPropertyInitializer(
     key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
+  ): stringWriterOrStatementImpl
   {
     void(key);
     this.module.addImports("internal", ["TypeAccessors"], []);
-    return [`new TypeAccessors()`];
+    return `new TypeAccessors()`;
   }
 }

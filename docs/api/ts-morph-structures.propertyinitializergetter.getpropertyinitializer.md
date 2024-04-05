@@ -9,7 +9,7 @@
 ```typescript
 getPropertyInitializer(
     key: MemberedStatementsKey,
-  ): stringWriterOrStatementImpl;
+  ): stringWriterOrStatementImpl | undefined;
 ```
 
 ## Parameters
@@ -20,5 +20,5 @@ getPropertyInitializer(
 
 **Returns:**
 
-[stringWriterOrStatementImpl](./ts-morph-structures.stringwriterorstatementimpl.md)
+[stringWriterOrStatementImpl](./ts-morph-structures.stringwriterorstatementimpl.md) \| undefined
 

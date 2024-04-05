@@ -1,8 +1,6 @@
 import type {
   ClassStatementsGetter,
   ImportManager,
-  MemberedStatementsKey,
-  stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
 import BaseClassModule from "../../moduleClasses/BaseClassModule.js";
@@ -15,16 +13,19 @@ implements ClassStatementsGetter
   protected readonly baseName: string;
   protected readonly module: BaseClassModule;
 
+  readonly keyword: string;
+  readonly supportsStatementFlags: number;
+
   constructor(
-    module: BaseClassModule
+    module: BaseClassModule,
+    keyword: string,
+    flags: number,
   )
   {
     this.importManager = module.importManager;
     this.baseName = module.baseName;
     this.module = module;
+    this.keyword = keyword;
+    this.supportsStatementFlags = flags;
   }
-
-  abstract getStatements(
-    key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[];
 }

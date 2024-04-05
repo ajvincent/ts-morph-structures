@@ -1,7 +1,5 @@
 import type { Scope, WriterFunction } from "ts-morph";
 
-import { NonNegativeInteger } from "type-fest";
-
 import type {
   CallSignatureDeclarationImpl,
   ConstructorDeclarationImpl,
@@ -126,12 +124,14 @@ export interface PropertyInitializerGetter {
   filterPropertyInitializer(key: MemberedStatementsKey): boolean;
   getPropertyInitializer(
     key: MemberedStatementsKey,
-  ): stringWriterOrStatementImpl;
+  ): stringWriterOrStatementImpl | undefined;
 }
 
 export interface AccessorMirrorGetter {
   filterAccessorMirror(key: MemberedStatementsKey): boolean;
-  getAccessorMirror(key: MemberedStatementsKey): stringWriterOrStatementImpl;
+  getAccessorMirror(
+    key: MemberedStatementsKey,
+  ): stringWriterOrStatementImpl | undefined;
 }
 
 export interface ClassHeadStatementsGetter {
@@ -186,5 +186,5 @@ export interface ClassStatementsGetter
     Partial<ConstructorBodyStatementsGetter>,
     Partial<ConstructorTailStatementsGetter> {
   keyword: readonly string;
-  supportsStatementFlags: readonly NonNegativeInteger;
+  supportsStatementFlags: readonly number;
 }

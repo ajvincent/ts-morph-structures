@@ -10,7 +10,8 @@ import {
 
 import {
   ArrayTypeStructureImpl,
-  ClassFieldStatementsMap,
+  type ClassBodyStatementsGetter,
+  type ClassHeadStatementsGetter,
   GetAccessorDeclarationImpl,
   LiteralTypeStructureImpl,
   MemberedStatementsKey,
@@ -25,6 +26,7 @@ import {
   VariableStatementImpl,
   type stringWriterOrStatementImpl,
   type stringOrWriterFunction,
+  ClassSupportsStatementsFlags,
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
@@ -33,21 +35,22 @@ import {
   getStructureNameFromModified,
 } from "#utilities/source/StructureNameTransforms.js";
 
-import GetterFilter from "../fieldStatements/GetterFilter.js";
-
 import BlockStatementImpl from "../../pseudoStatements/BlockStatement.js";
 import CallExpressionStatementImpl from "../../pseudoStatements/CallExpression.js";
 import {
+  BaseClassModule,
   InterfaceModule,
 } from "../../moduleClasses/exports.js";
 import FlatInterfaceMap from "#stage_three/generation/vanilla/FlatInterfaceMap.js";
+import StatementGetterBase from "./GetterBase.js";
 //#endregion preamble
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
 const stringType = LiteralTypeStructureImpl.get("string");
 const stringOrWriterFunctionType = LiteralTypeStructureImpl.get("stringOrWriterFunction");
 
-export default class CopyFieldsStatements extends GetterFilter
+export default class CopyFieldsStatements extends StatementGetterBase
+implements ClassHeadStatementsGetter, ClassBodyStatementsGetter
 {
   static #managerRE = /^#.*Manager$/;
 
@@ -66,7 +69,31 @@ export default class CopyFieldsStatements extends GetterFilter
     return kindProperty.typeStructure.childTypes[1];
   }
 
-  accept(
+  constructor(
+    module: BaseClassModule,
+  )
+  {
+    super(
+      module,
+      "CopyFieldsStatements",
+      ClassSupportsStatementsFlags.HeadStatements |
+      ClassSupportsStatementsFlags.BodyStatements
+    );
+  }
+
+  filterHeadStatements(key: MemberedStatementsKey): boolean {
+    return this.#accept(key);
+  }
+
+  filterBodyStatements(key: MemberedStatementsKey): boolean {
+    if (key.fieldKey === "kind")
+      return false;
+    if (key.fieldKey === "kind")
+      return false;
+    return this.#accept(key);
+  }
+
+  #accept(
     key: MemberedStatementsKey
   ): boolean
   {
@@ -74,26 +101,20 @@ export default class CopyFieldsStatements extends GetterFilter
       return false;
     if (key.isFieldStatic === true)
       return false;
-    if (key.fieldKey === ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN)
-      return false;
-    if (key.fieldKey === "kind")
-      return false;
     if (key.fieldKey.endsWith("Set"))
       return false;
 
     return true;
   }
 
-  getStatements(
-    key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
-  {
-    if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) {
-      return [
-        `super[COPY_FIELDS](source, target);`
-      ];
-    }
+  getHeadStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+    void(key);
+    return [
+      `super[COPY_FIELDS](source, target);`
+    ];
+  }
 
+  getBodyStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
     if (key.fieldType?.kind === StructureKind.GetAccessor) {
       return this.#getCopyTypeStatements(key.fieldType);
     }
@@ -117,7 +138,11 @@ export default class CopyFieldsStatements extends GetterFilter
         return this.#getStatementsForUnionType(key.fieldType, key.fieldType.typeStructure.childTypes);
     }
 
-    throw new Error(`unexpected field type structure: ${this.baseName}:${key.fieldType.name}, ${TypeStructureKind[key.fieldType.typeStructure.kind]}`);
+    throw new Error(
+      `unexpected field type structure: ${this.baseName}:${key.fieldType.name}, ${
+        TypeStructureKind[key.fieldType.typeStructure.kind]
+      }`
+    );
   }
 
   //#region literal type

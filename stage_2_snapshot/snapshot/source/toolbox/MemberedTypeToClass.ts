@@ -61,6 +61,7 @@ export enum ClassSupportsStatementsFlags {
   ConstructorHeadStatements = 1 << 5,
   ConstructorBodyStatements = 1 << 6,
   ConstructorTailStatements = 1 << 7,
+  All = ClassSupportsStatementsFlags.ConstructorTailStatements * 2 - 1,
 }
 
 /** Convert type members to a class members map, including statements. */
@@ -1065,7 +1066,7 @@ export default class MemberedTypeToClass {
         try {
           if (getter.filterPropertyInitializer!(key) === false) continue;
           const statement = getter.getPropertyInitializer!(key);
-          this.#addStatementsToMap(key, [statement]);
+          if (statement) this.#addStatementsToMap(key, [statement]);
           break;
         } catch (ex) {
           errors.push(ex as Error);
@@ -1096,7 +1097,7 @@ export default class MemberedTypeToClass {
         try {
           if (getter.filterAccessorMirror!(key) === false) continue;
           const statement = getter.getAccessorMirror!(key);
-          this.#addStatementsToMap(key, [statement]);
+          if (statement) this.#addStatementsToMap(key, [statement]);
           break;
         } catch (ex) {
           errors.push(ex as Error);

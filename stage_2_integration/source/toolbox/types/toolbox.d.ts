@@ -3,10 +3,6 @@ import type {
   WriterFunction,
 } from "ts-morph";
 
-import {
-  NonNegativeInteger
-} from "type-fest";
-
 import type {
   CallSignatureDeclarationImpl,
   ConstructorDeclarationImpl,
@@ -132,12 +128,12 @@ export type stringWriterOrStatementImpl = stringOrWriterFunction | StatementStru
 
 export interface PropertyInitializerGetter {
   filterPropertyInitializer(key: MemberedStatementsKey): boolean;
-  getPropertyInitializer(key: MemberedStatementsKey): stringWriterOrStatementImpl;
+  getPropertyInitializer(key: MemberedStatementsKey): stringWriterOrStatementImpl | undefined;
 }
 
 export interface AccessorMirrorGetter {
   filterAccessorMirror(key: MemberedStatementsKey): boolean;
-  getAccessorMirror(key: MemberedStatementsKey): stringWriterOrStatementImpl;
+  getAccessorMirror(key: MemberedStatementsKey): stringWriterOrStatementImpl | undefined;
 }
 
 export interface ClassHeadStatementsGetter {
@@ -176,5 +172,5 @@ Partial<ClassHeadStatementsGetter>, Partial<ClassBodyStatementsGetter>, Partial<
 Partial<ConstructorHeadStatementsGetter>, Partial<ConstructorBodyStatementsGetter>, Partial<ConstructorTailStatementsGetter>
 {
   keyword: readonly string;
-  supportsStatementFlags: readonly NonNegativeInteger;
+  supportsStatementFlags: readonly number;
 }

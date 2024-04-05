@@ -15,6 +15,7 @@ export declare enum ClassSupportsStatementsFlags
 |  Member | Value | Description |
 |  --- | --- | --- |
 |  AccessorMirror | <code>2</code> |  |
+|  All | <code>255</code> |  |
 |  BodyStatements | <code>8</code> |  |
 |  ConstructorBodyStatements | <code>64</code> |  |
 |  ConstructorHeadStatements | <code>32</code> |  |

@@ -5490,6 +5490,7 @@ var ClassSupportsStatementsFlags;
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["ConstructorHeadStatements"] = 32] = "ConstructorHeadStatements";
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["ConstructorBodyStatements"] = 64] = "ConstructorBodyStatements";
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["ConstructorTailStatements"] = 128] = "ConstructorTailStatements";
+    ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["All"] = 255] = "All";
 })(ClassSupportsStatementsFlags || (ClassSupportsStatementsFlags = {}));
 /** Convert type members to a class members map, including statements. */
 class MemberedTypeToClass {
@@ -6053,7 +6054,8 @@ class MemberedTypeToClass {
                     if (getter.filterPropertyInitializer(key) === false)
                         continue;
                     const statement = getter.getPropertyInitializer(key);
-                    this.#addStatementsToMap(key, [statement]);
+                    if (statement)
+                        this.#addStatementsToMap(key, [statement]);
                     break;
                 }
                 catch (ex) {
@@ -6076,7 +6078,8 @@ class MemberedTypeToClass {
                     if (getter.filterAccessorMirror(key) === false)
                         continue;
                     const statement = getter.getAccessorMirror(key);
-                    this.#addStatementsToMap(key, [statement]);
+                    if (statement)
+                        this.#addStatementsToMap(key, [statement]);
                     break;
                 }
                 catch (ex) {

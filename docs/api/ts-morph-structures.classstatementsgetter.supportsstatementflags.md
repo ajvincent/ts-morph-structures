@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-supportsStatementFlags: readonly NonNegativeInteger;
+supportsStatementFlags: readonly number;
 ```
