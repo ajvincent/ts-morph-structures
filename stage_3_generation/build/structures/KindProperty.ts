@@ -5,38 +5,40 @@ import {
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap,
+  ClassSupportsStatementsFlags,
   MemberedStatementsKey,
+  type PropertyInitializerGetter,
   TypeStructureKind,
-  type stringWriterOrStatementImpl
+  type stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
-import GetterFilter from "../fieldStatements/GetterFilter.js";
 import {
   StructureModule
 } from "../../moduleClasses/exports.js";
+import StatementGetterBase from "../fieldStatements/GetterBase.js";
 
 export default
-class KindPropertyInitializer extends GetterFilter
+class KindPropertyInitializer extends StatementGetterBase
+implements PropertyInitializerGetter
 {
   protected module: StructureModule;
 
   constructor(module: StructureModule) {
-    super(module);
+    super(
+      module,
+      "KindPropertyInitializer",
+      ClassSupportsStatementsFlags.PropertyInitializer
+    );
     this.module = module;
   }
 
-  accept(key: MemberedStatementsKey): boolean {
-    if (key.statementGroupKey !== ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY)
-      return false;
-    if (key.fieldKey !== "kind")
-      return false;
-    return true;
+  filterPropertyInitializer(key: MemberedStatementsKey): boolean {
+    return (key.fieldKey === "kind");
   }
 
-  getStatements(
+  getPropertyInitializer(
     key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
+  ): stringWriterOrStatementImpl
   {
     assert(key.fieldType, "No field type?")
     assert.equal(key.fieldType.kind, StructureKind.PropertySignature, "kind must be a property");
@@ -44,8 +46,6 @@ class KindPropertyInitializer extends GetterFilter
     assert.equal(key.fieldType.typeStructure.childTypes.length, 2);
     assert.equal(key.fieldType.typeStructure.childTypes[0], "StructureKind");
 
-    return [
-      `StructureKind.${key.fieldType.typeStructure.childTypes[1]}`
-    ];
+    return `StructureKind.${key.fieldType.typeStructure.childTypes[1]}`;
   }
 }

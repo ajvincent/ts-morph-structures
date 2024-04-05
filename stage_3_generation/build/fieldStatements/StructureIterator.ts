@@ -5,7 +5,9 @@ import {
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap,
+  ClassBodyStatementsGetter,
+  ClassHeadStatementsGetter,
+  ClassSupportsStatementsFlags,
   MemberedStatementsKey,
   TypeStructureKind,
   type stringWriterOrStatementImpl
@@ -13,32 +15,38 @@ import {
 
 import BlockStatementImpl from "../../pseudoStatements/BlockStatement.js";
 import PropertyHashesWithTypes from "../classTools/PropertyHashesWithTypes.js";
+import StatementGetterBase from "./GetterBase.js";
+import BaseClassModule from "#stage_three/generation/moduleClasses/BaseClassModule.js";
 
-import GetterFilter from "./GetterFilter.js";
-
-
-export default class StructureIteratorStatements extends GetterFilter
+export default class StructureIteratorStatements extends StatementGetterBase
+implements ClassHeadStatementsGetter, ClassBodyStatementsGetter
 {
-  accept(
-    key: MemberedStatementsKey
-  ): boolean
+  constructor(
+    module: BaseClassModule
+  )
   {
-    if (key.statementGroupKey !== "[STRUCTURE_AND_TYPES_CHILDREN]")
-      return false;
-    if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL)
-      return true;
-
-    return PropertyHashesWithTypes.has(this.module.baseName, key.fieldKey);
+    super(
+      module,
+      "StructureIteratorStatements",
+      ClassSupportsStatementsFlags.HeadStatements |
+      ClassSupportsStatementsFlags.BodyStatements
+    );
   }
 
-  getStatements(
-    key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
-  {
-    if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) {
-      return [`yield* super[STRUCTURE_AND_TYPES_CHILDREN]();`];
-    }
+  filterHeadStatements(key: MemberedStatementsKey): boolean {
+    return (key.statementGroupKey === "[STRUCTURE_AND_TYPES_CHILDREN]");
+  }
+  getHeadStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+    void(key);
+    return [`yield* super[STRUCTURE_AND_TYPES_CHILDREN]();`];
+  }
 
+  filterBodyStatements(key: MemberedStatementsKey): boolean {
+    if (key.statementGroupKey !== "[STRUCTURE_AND_TYPES_CHILDREN]")
+      return false;
+    return PropertyHashesWithTypes.has(this.module.baseName, key.fieldKey);
+  }
+  getBodyStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
     assert.equal(key.fieldType?.kind, StructureKind.GetAccessor);
     if (key.fieldType.returnTypeStructure?.kind === TypeStructureKind.Array) {
       return [

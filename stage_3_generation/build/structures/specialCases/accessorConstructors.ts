@@ -5,7 +5,9 @@ import {
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap,
+  ClassHeadStatementsGetter,
+  ClassSupportsStatementsFlags,
+  ConstructorBodyStatementsGetter,
   LiteralTypeStructureImpl,
   type MemberedStatementsKey,
   ParameterDeclarationImpl,
@@ -15,14 +17,13 @@ import {
   type stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
-import GetterFilter from "../../fieldStatements/GetterFilter.js";
-
 import type {
   BaseClassModule,
 } from "../../../moduleClasses/exports.js";
 
 import BlockStatementImpl from "../../../pseudoStatements/BlockStatement.js";
 import CallExpressionStatementImpl from "../../../pseudoStatements/CallExpression.js";
+import StatementGetterBase from "../../fieldStatements/GetterBase.js";
 // #endregion preamble
 
 export function getInsertedAccessorProperty(
@@ -45,7 +46,8 @@ export function getInsertedAccessorProperty(
   return undefined;
 }
 
-export class AccessorExtraParameters extends GetterFilter
+export class AccessorExtraParameters extends StatementGetterBase
+implements ConstructorBodyStatementsGetter, ClassHeadStatementsGetter
 {
   readonly #ctorParameters: ParameterDeclarationImpl[];
 
@@ -54,47 +56,26 @@ export class AccessorExtraParameters extends GetterFilter
     ctorParameters: ParameterDeclarationImpl[],
   )
   {
-    super(module);
+    super(
+      module,
+      "AccessorExtraParameters",
+      ClassSupportsStatementsFlags.ConstructorBodyStatements |
+      ClassSupportsStatementsFlags.HeadStatements
+    );
     this.#ctorParameters = ctorParameters;
   }
 
-  accept(
-    key: MemberedStatementsKey
-  ): boolean
-  {
-    if (key.statementGroupKey === "constructor") {
-      if ((this.module.defaultExportName === "GetAccessorDeclarationImpl") && (key.fieldKey === "returnType"))
-        return true;
-
-      if ((this.module.defaultExportName === "SetAccessorDeclarationImpl") && (key.fieldKey === "setterParameter"))
-        return true;
-    }
-
-    if ((key.statementGroupKey === "static clone") &&
-        (this.module.defaultExportName === "GetAccessorDeclarationImpl") &&
-        (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL)) {
+  filterCtorBodyStatements(key: MemberedStatementsKey): boolean {
+    if ((this.module.defaultExportName === "GetAccessorDeclarationImpl") && (key.fieldKey === "returnType"))
       return true;
-    }
+
+    if ((this.module.defaultExportName === "SetAccessorDeclarationImpl") && (key.fieldKey === "setterParameter"))
+      return true;
 
     return false;
   }
 
-  getStatements(
-    key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
-  {
-    if (key.statementGroupKey === "constructor") {
-      return this.#getConstructorStatements(key);
-    }
-
-    if (key.statementGroupKey === "static clone") {
-      return this.#getCloneStatements(key);
-    }
-
-    return [];
-  }
-
-  #getConstructorStatements(
+  getCtorBodyStatements(
     key: MemberedStatementsKey
   ): readonly stringWriterOrStatementImpl[]
   {
@@ -127,27 +108,35 @@ export class AccessorExtraParameters extends GetterFilter
     return [];
   }
 
-  #getCloneStatements(
+  filterHeadStatements(
+    key: MemberedStatementsKey
+  ): boolean
+  {
+    return (
+      (key.statementGroupKey === "static clone") &&
+      (this.module.defaultExportName === "GetAccessorDeclarationImpl")
+    );
+  }
+
+  getHeadStatements(
     key: MemberedStatementsKey
   ): readonly stringWriterOrStatementImpl[]
   {
-    if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) {
-      const targetDeclStatement = new VariableStatementImpl;
-      targetDeclStatement.declarationKind = VariableDeclarationKind.Const;
+    void(key);
 
-      const targetDecl = new VariableDeclarationImpl("target");
-      targetDecl.initializer = (writer: CodeBlockWriter): void => {
-        const statement = new CallExpressionStatementImpl({
-          name: "new " + this.module.exportName,
-          parameters: [`source.isStatic ?? false`, `source.name`]
-        });
-        statement.writerFunction(writer);
-      };
+    const targetDeclStatement = new VariableStatementImpl;
+    targetDeclStatement.declarationKind = VariableDeclarationKind.Const;
 
-      targetDeclStatement.declarations.push(targetDecl);
-      return [targetDeclStatement];
-    }
+    const targetDecl = new VariableDeclarationImpl("target");
+    targetDecl.initializer = (writer: CodeBlockWriter): void => {
+      const statement = new CallExpressionStatementImpl({
+        name: "new " + this.module.exportName,
+        parameters: [`source.isStatic ?? false`, `source.name`]
+      });
+      statement.writerFunction(writer);
+    };
 
-    return [];
+    targetDeclStatement.declarations.push(targetDecl);
+    return [targetDeclStatement];
   }
 }

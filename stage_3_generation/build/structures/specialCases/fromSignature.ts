@@ -9,7 +9,10 @@ import {
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap,
+  type ClassBodyStatementsGetter,
+  type ClassHeadStatementsGetter,
+  type ClassTailStatementsGetter,
+  ClassSupportsStatementsFlags,
   type GetAccessorDeclarationImpl,
   LiteralTypeStructureImpl,
   type MemberedStatementsKey,
@@ -22,7 +25,7 @@ import {
   VariableStatementImpl,
   type stringOrWriterFunction,
   type stringWriterOrStatementImpl,
-  ReadonlyTypeMembersMap
+  ReadonlyTypeMembersMap,
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
@@ -30,7 +33,6 @@ import {
   getStructureNameFromModified,
 } from "#utilities/source/StructureNameTransforms.js";
 
-import GetterFilter from "../../fieldStatements/GetterFilter.js";
 import FlatInterfaceMap from "../../../vanilla/FlatInterfaceMap.js";
 
 import {
@@ -41,6 +43,7 @@ import {
 
 import BlockStatementImpl from "../../../pseudoStatements/BlockStatement.js";
 import CallExpressionStatementImpl from "../../../pseudoStatements/CallExpression.js";
+import StatementGetterBase from "../../fieldStatements/GetterBase.js";
 // #endregion preamble
 
 const DeclarationToSignature: ReadonlyMap<string, string> = new Map<string, string>([
@@ -83,7 +86,8 @@ export function getFromSignatureMethod(
   return fromSignature;
 }
 
-export class FromSignatureStatements extends GetterFilter
+export class FromSignatureStatements extends StatementGetterBase
+implements ClassHeadStatementsGetter, ClassBodyStatementsGetter, ClassTailStatementsGetter
 {
   readonly #ctorParameters: readonly ParameterDeclarationImpl[];
 
@@ -95,7 +99,13 @@ export class FromSignatureStatements extends GetterFilter
     ctorParameters: ParameterDeclarationImpl[],
   )
   {
-    super(module);
+    super(
+      module,
+      "FromSignatureStatements",
+      ClassSupportsStatementsFlags.HeadStatements |
+      ClassSupportsStatementsFlags.BodyStatements |
+      ClassSupportsStatementsFlags.TailStatements
+    );
     this.#ctorParameters = ctorParameters;
 
     const signatureName = DeclarationToSignature.get(module.defaultExportName)!;
@@ -116,67 +126,11 @@ export class FromSignatureStatements extends GetterFilter
     this.declarationFlatTypeMembers = declarationTypeMembers;
   }
 
-  accept(
-    key: MemberedStatementsKey
-  ): boolean
-  {
-    if (key.statementGroupKey !== "static fromSignature")
-      return false;
-    
-    if (
-      (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) ||
-      (key.fieldKey === ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN)
-    )
-      return true;
-
-    if (key.fieldKey === "kind")
-      return false;
-
-    if (!this.sharedKeys.has(key.fieldKey))
-      return false;
-
-    const flatMap = FlatInterfaceMap.get(this.module.baseName)!;
-    return flatMap.properties.some(prop => prop.name === key.fieldKey);
+  filterHeadStatements(key: MemberedStatementsKey): boolean {
+    return (key.statementGroupKey === "static fromSignature");
   }
 
-  getStatements(
-    key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
-  {
-    if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) {
-      return this.#headStatements();
-    }
-
-    if (key.fieldKey === ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN) {
-      return [`return declaration;`];
-    }
-
-    // The rest of this function borrows heavily from fieldStatements/CopyFields.ts
-
-    if (key.fieldType?.kind === StructureKind.GetAccessor) {
-      return this.#getCopyTypeStatements(key.fieldType);
-    }
-
-    const fieldType = this.declarationFlatTypeMembers.get(key.fieldKey);
-
-    assert.equal(
-      fieldType?.kind,
-      StructureKind.PropertySignature,
-      "not a property?  " + (key.fieldType ? StructureKind[key.fieldType.kind] : "(undefined)"));
-
-    assert(fieldType.typeStructure, "no type structure?");
-
-    switch (fieldType.typeStructure.kind) {
-      case TypeStructureKind.Literal:
-        return this.#getStatementsForLiteralType(fieldType, fieldType.typeStructure);
-      case TypeStructureKind.Array:
-        return this.#getStatementsForArrayType(fieldType, fieldType.typeStructure.objectType);
-    }
-
-    throw new Error(`unexpected field type structure: ${this.baseName}:${fieldType.name}, ${TypeStructureKind[fieldType.typeStructure.kind]}`);
-  }
-
-  #headStatements(): readonly stringWriterOrStatementImpl[]
+  getHeadStatements(): readonly stringWriterOrStatementImpl[]
   {
     const declStatement = new VariableStatementImpl;
     declStatement.declarationKind = VariableDeclarationKind.Const;
@@ -206,6 +160,49 @@ export class FromSignatureStatements extends GetterFilter
     return [
       declStatement,
     ];
+  }
+
+  filterBodyStatements(key: MemberedStatementsKey): boolean {
+    if (key.statementGroupKey !== "static fromSignature")
+      return false;
+
+    if (key.fieldKey === "kind")
+      return false;
+
+    if (!this.sharedKeys.has(key.fieldKey))
+      return false;
+
+    const flatMap = FlatInterfaceMap.get(this.module.baseName)!;
+    return flatMap.properties.some(prop => prop.name === key.fieldKey);
+  }
+
+  getBodyStatements(
+    key: MemberedStatementsKey
+  ): readonly stringWriterOrStatementImpl[]
+  {
+    // The rest of this function borrows heavily from fieldStatements/CopyFields.ts
+
+    if (key.fieldType?.kind === StructureKind.GetAccessor) {
+      return this.#getCopyTypeStatements(key.fieldType);
+    }
+
+    const fieldType = this.declarationFlatTypeMembers.get(key.fieldKey);
+
+    assert.equal(
+      fieldType?.kind,
+      StructureKind.PropertySignature,
+      "not a property?  " + (key.fieldType ? StructureKind[key.fieldType.kind] : "(undefined)"));
+
+    assert(fieldType.typeStructure, "no type structure?");
+
+    switch (fieldType.typeStructure.kind) {
+      case TypeStructureKind.Literal:
+        return this.#getStatementsForLiteralType(fieldType, fieldType.typeStructure);
+      case TypeStructureKind.Array:
+        return this.#getStatementsForArrayType(fieldType, fieldType.typeStructure.objectType);
+    }
+
+    throw new Error(`unexpected field type structure: ${this.baseName}:${fieldType.name}, ${TypeStructureKind[fieldType.typeStructure.kind]}`);
   }
 
   #getStatementsForLiteralType(
@@ -309,5 +306,13 @@ export class FromSignatureStatements extends GetterFilter
   {
     void(member);
     return [];
+  }
+
+  filterTailStatements(key: MemberedStatementsKey): boolean {
+    return (key.statementGroupKey === "static fromSignature");
+  }
+  getTailStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+    void(key);
+    return [`return declaration;`];
   }
 }

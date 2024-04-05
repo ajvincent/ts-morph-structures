@@ -1,7 +1,13 @@
 import assert from "node:assert/strict";
 
 import {
-  ClassFieldStatementsMap,
+  StructureKind
+} from "ts-morph";
+
+import {
+  ClassSupportsStatementsFlags,
+  type ConstructorBodyStatementsGetter,
+  type ConstructorHeadStatementsGetter,
   LiteralTypeStructureImpl,
   MemberedStatementsKey,
   ParameterDeclarationImpl,
@@ -9,15 +15,15 @@ import {
   type stringWriterOrStatementImpl
 } from "#stage_two/snapshot/source/exports.js";
 
-import GetterFilter from "../fieldStatements/GetterFilter.js";
-
 import {
   StructureModule
 } from "../../moduleClasses/exports.js";
-import { StructureKind } from "ts-morph";
+
+import StatementGetterBase from "../fieldStatements/GetterBase.js";
 
 export default
-class ConstructorStatements extends GetterFilter
+class ConstructorStatements extends StatementGetterBase
+implements ConstructorHeadStatementsGetter, ConstructorBodyStatementsGetter
 {
   protected readonly module: StructureModule;
   readonly #constructorParameters: ParameterDeclarationImpl[];
@@ -27,47 +33,44 @@ class ConstructorStatements extends GetterFilter
     constructorParameters: ParameterDeclarationImpl[]
   )
   {
-    super(module);
+    super(
+      module,
+      "ConstructorStatements",
+      ClassSupportsStatementsFlags.ConstructorHeadStatements |
+      ClassSupportsStatementsFlags.ConstructorBodyStatements
+    );
     this.module = module;
     this.#constructorParameters = constructorParameters;
   }
 
-  accept(
-    key: MemberedStatementsKey
-  ): boolean
-  {
-    if (key.statementGroupKey !== "constructor")
-      return false;
-    if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL)
-      return true;
+  filterCtorHeadStatements(key: MemberedStatementsKey): boolean {
+    void(key);
+    return true;
+  }
+  getCtorHeadStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+    void(key);
+    return [`super();`];
+  }
 
+  filterCtorBodyStatements(key: MemberedStatementsKey): boolean {
     if (key.isFieldStatic === true)
       return false;
     if (key.fieldKey.startsWith("#") || key.fieldKey === "kind" || key.fieldKey.endsWith("Set"))
       return false;
-    if (key.fieldType) {
-      if (key.fieldType.kind !== StructureKind.PropertySignature)
-        return false;
-      if (key.fieldType.typeStructure?.kind === TypeStructureKind.Array)
-        return false;
-      if (key.fieldType.typeStructure === LiteralTypeStructureImpl.get("boolean"))
-        return false;
-      return key.fieldType.hasQuestionToken === false;
-    }
 
-    if (key.fieldKey !== ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN) {
+    if (!key.fieldType)
       return true;
-    }
-    return false;
+
+    if (key.fieldType.kind !== StructureKind.PropertySignature)
+      return false;
+    if (key.fieldType.typeStructure?.kind === TypeStructureKind.Array)
+      return false;
+    if (key.fieldType.typeStructure === LiteralTypeStructureImpl.get("boolean"))
+      return false;
+    return key.fieldType.hasQuestionToken === false;
   }
 
-  getStatements(
-    key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
-  {
-    if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL)
-      return [`super();`];
-
+  getCtorBodyStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
     let { fieldType } = key;
     if (!fieldType) {
       fieldType = this.module.getFlatTypeMembers().getAsKind(
