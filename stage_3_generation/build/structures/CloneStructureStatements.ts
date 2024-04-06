@@ -4,7 +4,9 @@ import {
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap,
+  type ClassHeadStatementsGetter,
+  ClassSupportsStatementsFlags,
+  type ClassTailStatementsGetter,
   LiteralTypeStructureImpl,
   MemberedStatementsKey,
   type ParameterDeclarationImpl,
@@ -14,16 +16,16 @@ import {
   type stringWriterOrStatementImpl
 } from "#stage_two/snapshot/source/exports.js";
 
-import GetterFilter from "../fieldStatements/GetterFilter.js";
-
 import {
   StructureModule
 } from "../../moduleClasses/exports.js";
 
 import CallExpressionStatementImpl from "../../pseudoStatements/CallExpression.js";
+import StatementGetterBase from "../fieldStatements/GetterBase.js";
 
 export default
-class CloneStructureStatements extends GetterFilter
+class CloneStructureStatements extends StatementGetterBase
+implements ClassHeadStatementsGetter, ClassTailStatementsGetter
 {
   protected readonly module: StructureModule;
   readonly #constructorParameters: ParameterDeclarationImpl[];
@@ -33,53 +35,39 @@ class CloneStructureStatements extends GetterFilter
     constructorParameters: ParameterDeclarationImpl[]
   )
   {
-    super(module);
+    super(
+      module,
+      "CloneStructureStatements",
+      ClassSupportsStatementsFlags.HeadStatements |
+      ClassSupportsStatementsFlags.TailStatements
+    );
     this.module = module;
     this.#constructorParameters = constructorParameters;
   }
 
-  accept(
-    key: MemberedStatementsKey
-  ): boolean
-  {
-    if (key.statementGroupKey !== "static clone")
-      return false;
-    if ((key.fieldKey !== ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) &&
-        (key.fieldKey !== ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN))
-      return false;
-    return true;
+  filterHeadStatements(key: MemberedStatementsKey): boolean {
+    return (key.statementGroupKey === "static clone");
   }
 
-  getStatements(
-    key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
-  {
-    if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) {
-      const targetDeclStatement = new VariableStatementImpl;
-      targetDeclStatement.declarationKind = VariableDeclarationKind.Const;
+  getHeadStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+    void(key);
 
-      const targetDecl = new VariableDeclarationImpl("target");
-      targetDecl.initializer = (writer: CodeBlockWriter): void => {
-        const statement = new CallExpressionStatementImpl({
-          name: "new " + this.module.exportName,
-          parameters: this.#constructorParameters.map(
-            param => this.#getInitializerValue(param)
-          )
-        });
-        statement.writerFunction(writer);
-      };
+    const targetDeclStatement = new VariableStatementImpl;
+    targetDeclStatement.declarationKind = VariableDeclarationKind.Const;
 
-      targetDeclStatement.declarations.push(targetDecl);
-      return [targetDeclStatement];
-    }
+    const targetDecl = new VariableDeclarationImpl("target");
+    targetDecl.initializer = (writer: CodeBlockWriter): void => {
+      const statement = new CallExpressionStatementImpl({
+        name: "new " + this.module.exportName,
+        parameters: this.#constructorParameters.map(
+          param => this.#getInitializerValue(param)
+        )
+      });
+      statement.writerFunction(writer);
+    };
 
-    return [
-      new CallExpressionStatementImpl({
-        name: `this[COPY_FIELDS]`,
-        parameters: ["source", "target"]
-      }).writerFunction,
-      `return target;`
-    ];
+    targetDeclStatement.declarations.push(targetDecl);
+    return [targetDeclStatement];
   }
 
   #getInitializerValue(
@@ -95,5 +83,19 @@ class CloneStructureStatements extends GetterFilter
         value += " ?? false";
     }
     return value;
+  }
+
+  filterTailStatements(key: MemberedStatementsKey): boolean {
+    return (key.statementGroupKey === "static clone");
+  }
+  getTailStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+    void(key);
+    return [
+      new CallExpressionStatementImpl({
+        name: `this[COPY_FIELDS]`,
+        parameters: ["source", "target"]
+      }).writerFunction,
+      `return target;`
+    ];
   }
 }

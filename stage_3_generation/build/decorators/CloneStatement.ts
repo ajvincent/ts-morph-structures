@@ -4,7 +4,8 @@ import {
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap,
+  ClassSupportsStatementsFlags,
+  type ClassTailStatementsGetter,
   LiteralTypeStructureImpl,
   MemberedStatementsKey,
   MethodSignatureImpl,
@@ -13,14 +14,26 @@ import {
   type stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
-import GetterFilter from "../fieldStatements/GetterFilter.js";
-
 import BlockStatementImpl from "../../pseudoStatements/BlockStatement.js";
 import CallExpressionStatementImpl from "#stage_three/generation/pseudoStatements/CallExpression.js";
+import StatementGetterBase from "../fieldStatements/GetterBase.js";
+import { DecoratorModule } from "#stage_three/generation/moduleClasses/exports.js";
 //#endregion preamble
 
-export default class CloneStatement_Statements extends GetterFilter
+export default class CloneStatement_Statements extends StatementGetterBase
+implements ClassTailStatementsGetter
 {
+  constructor(
+    module: DecoratorModule
+  )
+  {
+    super(
+      module,
+      "CloneStatement_Statements",
+      ClassSupportsStatementsFlags.TailStatements
+    )
+  }
+
   getMethodSignature(): MethodSignatureImpl
   {
     this.module.addImports("ts-morph", [], ["StatementStructures"]);
@@ -42,17 +55,14 @@ export default class CloneStatement_Statements extends GetterFilter
     return method;
   }
 
-  accept(
+  filterTailStatements(
     key: MemberedStatementsKey
   ): boolean
   {
-    return (
-      (key.statementGroupKey === "static #cloneStatement") &&
-      (key.fieldKey === ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN)
-    );
+    return key.statementGroupKey === "static #cloneStatement";
   }
 
-  getStatements(
+  getTailStatements(
     key: MemberedStatementsKey
   ): readonly stringWriterOrStatementImpl[]
   {

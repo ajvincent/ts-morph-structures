@@ -1,36 +1,49 @@
+import assert from "node:assert/strict";
+
 import {
   StructureKind
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap,
   MemberedStatementsKey,
+  type PropertyInitializerGetter,
   TypeStructureKind,
-  type stringWriterOrStatementImpl
+  type stringWriterOrStatementImpl,
+  ClassSupportsStatementsFlags
 } from "#stage_two/snapshot/source/exports.js";
 
-import GetterFilter from "./GetterFilter.js";
+import StatementGetterBase from "./GetterBase.js";
+import BaseClassModule from "#stage_three/generation/moduleClasses/BaseClassModule.js";
 
 export default
-class UndefinedProperties extends GetterFilter
+class UndefinedProperties extends StatementGetterBase
+implements PropertyInitializerGetter
 {
-  accept(
+  constructor(
+    module: BaseClassModule
+  )
+  {
+    super(
+      module,
+      "UndefinedProperties",
+      ClassSupportsStatementsFlags.PropertyInitializer
+    );
+  }
+
+  filterPropertyInitializer(
     key: MemberedStatementsKey
   ): boolean
   {
-    if (key.statementGroupKey !== ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY)
-      return false;
-    if (key.fieldType?.kind !== StructureKind.PropertySignature)
-      return false;
+    assert(key.fieldType?.kind === StructureKind.PropertySignature);
     if (key.fieldType.typeStructure?.kind === TypeStructureKind.Array)
       return false;
     return key.fieldType.hasQuestionToken;
   }
 
-  getStatements(
+  getPropertyInitializer(
     key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[] {
+  ): stringWriterOrStatementImpl {
     void(key);
-    return [`undefined`];
+    return `undefined`;
   }
 }

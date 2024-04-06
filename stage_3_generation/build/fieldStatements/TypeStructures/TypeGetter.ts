@@ -3,31 +3,40 @@ import {
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap,
+  type AccessorMirrorGetter,
   type MemberedStatementsKey,
   type stringWriterOrStatementImpl,
+  ClassSupportsStatementsFlags,
 } from "#stage_two/snapshot/source/exports.js";
 
-import GetterFilter from "../GetterFilter.js";
 import PropertyHashesWithTypes from "../../classTools/PropertyHashesWithTypes.js";
+import StatementGetterBase from "../GetterBase.js";
+import { BaseClassModule } from "#stage_three/generation/moduleClasses/exports.js";
 
 export default
-class TypeGetterStatements extends GetterFilter
+class TypeGetterStatements extends StatementGetterBase
+implements AccessorMirrorGetter
 {
-  accept(
+  constructor(
+    module: BaseClassModule,
+  )
+  {
+    super(module, "TypeGetterStatements", ClassSupportsStatementsFlags.AccessorMirror);
+  }
+
+  filterAccessorMirror(
     key: MemberedStatementsKey
   ): boolean
   {
-    if (key.statementGroupKey !== ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY)
-      return false;
     if (key.fieldType?.kind !== StructureKind.GetAccessor)
       return false;
     return PropertyHashesWithTypes.has(this.module.baseName, key.fieldKey);
   }
-  getStatements(
+
+  getAccessorMirror(
     key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
+  ): stringWriterOrStatementImpl
   {
-    return [`this.#${key.fieldKey}Manager.type`];
+    return `this.#${key.fieldKey}Manager.type`;
   }
 }

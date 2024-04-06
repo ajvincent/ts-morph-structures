@@ -2020,14 +2020,32 @@ interface InsertedMemberKey {
     readonly isGroupStatic: boolean;
     readonly groupType: GetAccessorDeclarationImpl | SetAccessorDeclarationImpl | MethodSignatureImpl | "constructor" | "(initializer or property reference)";
 }
+/**
+ * Bitwise flags to enable statement getter traps.
+ */
+declare enum ClassSupportsStatementsFlags {
+    /** The initial value of a property.*/
+    PropertyInitializer = 1,
+    /** Values for a class getter or class setter to mirror. */
+    AccessorMirror = 2,
+    /** Statements starting a statement purpose block. */
+    HeadStatements = 4,
+    /** Statements in a purpose block for a given property and class member. */
+    BodyStatements = 8,
+    /** Statements closing a statement purpose block. */
+    TailStatements = 16,
+    /** Statements starting a statement purpose block for the constructor. */
+    ConstructorHeadStatements = 32,
+    /** Statements in a purpose block for a given property on the constructor. */
+    ConstructorBodyStatements = 64,
+    /** Statements closing a statement purpose block for the constructor. */
+    ConstructorTailStatements = 128,
+    /** "I support all statement getter traps."  Try not to use this. */
+    All = 255
+}
 /** Convert type members to a class members map, including statements. */
 declare class MemberedTypeToClass {
     #private;
-    /**
-     * @param constructorArguments - parameters to define on the constructor.
-     * @param statementsGetter - a callback to get statements for each individual statement purpose, field name and statement group name.
-     */
-    constructor(constructorArguments: ParameterDeclarationImpl[], statementsGetter: ClassStatementsGetter);
     /** The class constructor's current parameters list. */
     get constructorParameters(): ParameterDeclarationImpl[];
     /**
@@ -2043,15 +2061,6 @@ declare class MemberedTypeToClass {
     set isGeneratorCallback(value: ClassGeneratorMethodQuestion | undefined);
     get scopeCallback(): ClassScopeMemberQuestion | undefined;
     set scopeCallback(value: ClassScopeMemberQuestion | undefined);
-    /**
-     *
-     * @param purposeKey - The purpose of the statmeent group (validation, preconditions, body, postconditions, etc.)
-     * @param isBlockStatement - true if the statement block should be enclosed in curly braces.
-     * @param regionName - an optional #region / #endregion comment name.
-     *
-     * Call this in the order of statement purpose groups you intend.
-     */
-    defineStatementsByPurpose(purposeKey: string, isBlockStatement: boolean, regionName?: string): void;
     /**
      * Get the current type members in our cache.
      *
@@ -2080,6 +2089,23 @@ declare class MemberedTypeToClass {
      * Convert cached type members to a ClassMembersMap, complete with statements.
      */
     buildClassMembersMap(): ClassMembersMap;
+    /**
+     * Define a statement purpose group for the target class.
+     *
+     * @param purposeKey - The purpose of the statmeent group (validation, preconditions, body, postconditions, etc.)
+     * @param isBlockStatement - true if the statement block should be enclosed in curly braces.
+     * @param regionName - an optional #region / #endregion comment name.
+     *
+     * Call this in the order of statement purpose groups you intend.
+     */
+    defineStatementsByPurpose(purposeKey: string, isBlockStatement: boolean, regionName?: string): void;
+    /**
+     * Add statement getters to this.
+     *
+     * @param priority - a number indicating the priority of the getters (lower numbers beat higher numbers).
+     * @param statementGetters - the statement getters to insert.
+     */
+    addStatementGetters(priority: number, statementGetters: readonly ClassStatementsGetter[]): void;
     /**
      * Add member keys for a field and a group.
      * @param isFieldStatic - true if the field is static.
@@ -2227,6 +2253,8 @@ type ClassMemberImpl =
   | PropertyDeclarationImpl
   | SetAccessorDeclarationImpl;
 
+type NamedClassMemberImpl = Extract<ClassMemberImpl, { name: string }>;
+
 interface IndexSignatureResolver {
   resolveIndexSignature(signature: IndexSignatureDeclarationImpl): string[];
 }
@@ -2266,14 +2294,6 @@ interface ClassScopeMemberQuestion {
   ): Scope | undefined;
 }
 
-interface ClassStatementsGetter {
-  getStatements(
-    key: MemberedStatementsKey,
-  ): readonly stringWriterOrStatementImpl[];
-}
-
-type NamedClassMemberImpl = Extract<ClassMemberImpl, { name: string }>;
-
 type NamedTypeMemberImpl = Extract<TypeMemberImpl, { name: string }>;
 
 type TypeMemberImpl =
@@ -2288,6 +2308,203 @@ type TypeMemberImpl =
 type stringWriterOrStatementImpl =
   | stringOrWriterFunction
   | StatementStructureImpls;
+
+/**
+ * For the initial value of a property.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.PropertyInitializer` must be non-zero.
+ */
+interface PropertyInitializerGetter {
+  /**
+   * @param key - The property description key.  `statementGroupKey` will be `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY`.
+   * @returns true for a match against the key.
+   */
+  filterPropertyInitializer(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - The property description key.  `statementGroupKey` will be `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY`.
+   * @returns the value to write for the property initializer.
+   */
+  getPropertyInitializer(
+    key: MemberedStatementsKey,
+  ): stringWriterOrStatementImpl | undefined;
+}
+
+/**
+ * A value for getters and setters of a class to reflect.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.AccessorMirror` must be non-zero.
+ */
+interface AccessorMirrorGetter {
+  /**
+   * @param key - Describing the getter or setter to implement.  `statementGroupKey` will be `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY`.
+   * @returns true for a match against the key.
+   */
+  filterAccessorMirror(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - Describing the getter or setter to implement.  `statementGroupKey` will be `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY`.
+   * @returns the value to write for the getter and/or setter to mirror.
+   */
+  getAccessorMirror(
+    key: MemberedStatementsKey,
+  ): stringWriterOrStatementImpl | undefined;
+}
+
+/**
+ * Statements at the start of a statement purpose block.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.HeadStatements` must be non-zero.
+ */
+interface ClassHeadStatementsGetter {
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL`.
+   * @returns true for a match against the key.
+   */
+  filterHeadStatements(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL`.
+   * @returns statements to insert before other statements in the purpose block.
+   */
+  getHeadStatements(
+    key: MemberedStatementsKey,
+  ): readonly stringWriterOrStatementImpl[];
+}
+
+/**
+ * Statements in a statement purpose block for a particular property and function.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.BodyStatements` must be non-zero.
+ */
+interface ClassBodyStatementsGetter {
+  /**
+   * @param key - The membered statement key.
+   * @returns true for a match against the key.
+   */
+  filterBodyStatements(key: MemberedStatementsKey): boolean;
+  /**
+   * @param key - The membered statement key.
+   * @returns statements to insert for the given field key and statement group key.
+   */
+  getBodyStatements(
+    key: MemberedStatementsKey,
+  ): readonly stringWriterOrStatementImpl[];
+}
+
+/**
+ * Statements at the end of a statement purpose block.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.TailStatements` must be non-zero.
+ */
+interface ClassTailStatementsGetter {
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN`.
+   * @returns true for a match against the key.
+   */
+  filterTailStatements(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN`.
+   * @returns statements to insert after other statements in the purpose block.
+   */
+  getTailStatements(
+    key: MemberedStatementsKey,
+  ): readonly stringWriterOrStatementImpl[];
+}
+
+/**
+ * Statements at the start of a constructor's statement purpose block.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.ConstructorHeadStatements` must be non-zero.
+ */
+interface ConstructorHeadStatementsGetter {
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL`.  `statementGroupKey` will be "constructor".
+   * @returns true for a match against the key.
+   */
+  filterCtorHeadStatements(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL`.  `statementGroupKey` will be "constructor".
+   * @returns statements to insert before other statements in the purpose block.
+   */
+  getCtorHeadStatements(
+    key: MemberedStatementsKey,
+  ): readonly stringWriterOrStatementImpl[];
+}
+
+/**
+ * Statements in a statement purpose block for a particular property in the constructor.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.ConstructorBodyStatements` must be non-zero.
+ */
+interface ConstructorBodyStatementsGetter {
+  /**
+   * @param key - The membered statement key.  `statementGroupKey` will be "constructor".
+   * @returns true for a match against the key.
+   */
+  filterCtorBodyStatements(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - The membered statement key.  `statementGroupKey` will be "constructor".
+   * @returns statements to insert for the given field key and statement group key.
+   */
+  getCtorBodyStatements(
+    key: MemberedStatementsKey,
+  ): readonly stringWriterOrStatementImpl[];
+}
+
+/**
+ * Statements at the end of a constructor's statement purpose block.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.ConstructorTailStatements` must be non-zero.
+ */
+interface ConstructorTailStatementsGetter {
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN`.  `statementGroupKey` will be "constructor".
+   * @returns true for a match against the key.
+   */
+  filterCtorTailStatements(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN`.  `statementGroupKey` will be "constructor".
+   * @returns statements to insert before other statements in the purpose block.
+   */
+  getCtorTailStatements(
+    key: MemberedStatementsKey,
+  ): readonly stringWriterOrStatementImpl[];
+}
+
+/**
+ * Traps for getting statements, based on a `MemberedStatementsKey`.
+ */
+interface ClassStatementsGetter
+  extends Partial<PropertyInitializerGetter>,
+    Partial<AccessorMirrorGetter>,
+    Partial<ClassHeadStatementsGetter>,
+    Partial<ClassBodyStatementsGetter>,
+    Partial<ClassTailStatementsGetter>,
+    Partial<ConstructorHeadStatementsGetter>,
+    Partial<ConstructorBodyStatementsGetter>,
+    Partial<ConstructorTailStatementsGetter> {
+  /** A human-readable string for debugging. */
+  keyword: readonly string;
+
+  /**
+   * Bitwise flags to determine which statement getter traps are active.
+   * @see ClassSupportsStatementsFlags
+   */
+  supportsStatementsFlags: readonly number;
+}
 
 type stringOrWriterFunction = string | WriterFunction;
 
@@ -2377,4 +2594,4 @@ interface InterfaceDeclarationWithExtendsTypeStructures {
   extends: stringOrWriterFunction[];
 }
 
-export { type AbstractableNodeStructureClassIfc, type AddExportContext, type AddImportContext, type AmbientableNodeStructureClassIfc, ArrayTypeStructureImpl, type AsyncableNodeStructureClassIfc, CallSignatureDeclarationImpl, type CallSignatureDeclarationStructureClassIfc, type ClassAbstractMemberQuestion, type ClassAsyncMethodQuestion, ClassDeclarationImpl, type ClassDeclarationStructureClassIfc, type ClassDeclarationWithImplementsTypeStructures, type ClassFieldStatement, ClassFieldStatementsMap, type ClassGeneratorMethodQuestion, type ClassMemberImpl, type ClassMemberStructureImpls, ClassMembersMap, type ClassScopeMemberQuestion, type ClassStatementsGetter, ClassStaticBlockDeclarationImpl, type ClassStaticBlockDeclarationStructureClassIfc, ConditionalTypeStructureImpl, type ConditionalTypeStructureParts, ConstructSignatureDeclarationImpl, type ConstructSignatureDeclarationStructureClassIfc, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, type ConstructorDeclarationOverloadStructureClassIfc, type ConstructorDeclarationStructureClassIfc, type DecoratableNodeStructureClassIfc, DecoratorImpl, type DecoratorStructureClassIfc, EnumDeclarationImpl, type EnumDeclarationStructureClassIfc, EnumMemberImpl, type EnumMemberStructureClassIfc, type ExclamationTokenableNodeStructureClassIfc, ExportAssignmentImpl, type ExportAssignmentStructureClassIfc, ExportDeclarationImpl, type ExportDeclarationStructureClassIfc, ExportManager, ExportSpecifierImpl, type ExportSpecifierStructureClassIfc, type ExportableNodeStructureClassIfc, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, type FunctionDeclarationOverloadStructureClassIfc, type FunctionDeclarationStructureClassIfc, type FunctionTypeContext, FunctionTypeStructureImpl, FunctionWriterStyle, type GeneratorableNodeStructureClassIfc, GetAccessorDeclarationImpl, type GetAccessorDeclarationStructureClassIfc, ImportAttributeImpl, type ImportAttributeStructureClassIfc, ImportDeclarationImpl, type ImportDeclarationStructureClassIfc, ImportManager, ImportSpecifierImpl, type ImportSpecifierStructureClassIfc, ImportTypeStructureImpl, IndexSignatureDeclarationImpl, type IndexSignatureDeclarationStructureClassIfc, type IndexSignatureResolver, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, type InitializerExpressionableNodeStructureClassIfc, InterfaceDeclarationImpl, type InterfaceDeclarationStructureClassIfc, type InterfaceDeclarationWithExtendsTypeStructures, type InterfaceMemberStructureImpls, IntersectionTypeStructureImpl, JSDocImpl, type JSDocStructureClassIfc, JSDocTagImpl, type JSDocTagStructureClassIfc, type JSDocableNodeStructureClassIfc, JsxAttributeImpl, type JsxAttributeStructureClassIfc, JsxElementImpl, type JsxElementStructureClassIfc, JsxSelfClosingElementImpl, type JsxSelfClosingElementStructureClassIfc, JsxSpreadAttributeImpl, type JsxSpreadAttributeStructureClassIfc, type JsxStructureImpls, type KindedTypeStructure, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, type MemberedStatementsKey, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, type MethodDeclarationOverloadStructureClassIfc, type MethodDeclarationStructureClassIfc, MethodSignatureImpl, type MethodSignatureStructureClassIfc, ModuleDeclarationImpl, type ModuleDeclarationStructureClassIfc, type NameableNodeStructureClassIfc, type NamedClassMemberImpl, type NamedNodeStructureClassIfc, type NamedTypeMemberImpl, NumberTypeStructureImpl, type ObjectLiteralExpressionPropertyStructureImpls, type OverrideableNodeStructureClassIfc, ParameterDeclarationImpl, type ParameterDeclarationStructureClassIfc, ParameterTypeStructureImpl, type ParameteredNodeStructureClassIfc, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, type PrefixUnaryOperator, PropertyAssignmentImpl, type PropertyAssignmentStructureClassIfc, PropertyDeclarationImpl, type PropertyDeclarationStructureClassIfc, PropertySignatureImpl, type PropertySignatureStructureClassIfc, QualifiedNameTypeStructureImpl, type QuestionTokenableNodeStructureClassIfc, type ReadonlyTypeMembersMap, type ReadonlyableNodeStructureClassIfc, type ReturnTypedNodeStructureClassIfc, type ReturnTypedNodeTypeStructure, type ScopedNodeStructureClassIfc, SetAccessorDeclarationImpl, type SetAccessorDeclarationStructureClassIfc, ShorthandPropertyAssignmentImpl, type ShorthandPropertyAssignmentStructureClassIfc, SourceFileImpl, type SourceFileStructureClassIfc, SpreadAssignmentImpl, type SpreadAssignmentStructureClassIfc, type StatementStructureImpls, type StatementedNodeStructureClassIfc, StringTypeStructureImpl, type StructureClassIfc, type StructureImpls, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, type TypeAliasDeclarationStructureClassIfc, TypeArgumentedTypeStructureImpl, type TypeElementMemberStructureImpls, type TypeMemberImpl, TypeMembersMap, type TypeNodeToTypeStructureConsole, TypeParameterDeclarationImpl, type TypeParameterDeclarationStructureClassIfc, type TypeParameterWithTypeStructures, type TypeParameteredNodeStructureClassIfc, TypeStructureKind, type TypeStructureSet, type TypeStructures, type TypeStructuresOrNull, type TypedNodeStructureClassIfc, type TypedNodeTypeStructure, UnionTypeStructureImpl, VariableDeclarationImpl, type VariableDeclarationStructureClassIfc, VariableStatementImpl, type VariableStatementStructureClassIfc, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, parseLiteralType, type stringOrWriterFunction, type stringWriterOrStatementImpl };
+export { type AbstractableNodeStructureClassIfc, type AccessorMirrorGetter, type AddExportContext, type AddImportContext, type AmbientableNodeStructureClassIfc, ArrayTypeStructureImpl, type AsyncableNodeStructureClassIfc, CallSignatureDeclarationImpl, type CallSignatureDeclarationStructureClassIfc, type ClassAbstractMemberQuestion, type ClassAsyncMethodQuestion, type ClassBodyStatementsGetter, ClassDeclarationImpl, type ClassDeclarationStructureClassIfc, type ClassDeclarationWithImplementsTypeStructures, type ClassFieldStatement, ClassFieldStatementsMap, type ClassGeneratorMethodQuestion, type ClassHeadStatementsGetter, type ClassMemberImpl, type ClassMemberStructureImpls, ClassMembersMap, type ClassScopeMemberQuestion, type ClassStatementsGetter, ClassStaticBlockDeclarationImpl, type ClassStaticBlockDeclarationStructureClassIfc, ClassSupportsStatementsFlags, type ClassTailStatementsGetter, ConditionalTypeStructureImpl, type ConditionalTypeStructureParts, ConstructSignatureDeclarationImpl, type ConstructSignatureDeclarationStructureClassIfc, type ConstructorBodyStatementsGetter, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, type ConstructorDeclarationOverloadStructureClassIfc, type ConstructorDeclarationStructureClassIfc, type ConstructorHeadStatementsGetter, type ConstructorTailStatementsGetter, type DecoratableNodeStructureClassIfc, DecoratorImpl, type DecoratorStructureClassIfc, EnumDeclarationImpl, type EnumDeclarationStructureClassIfc, EnumMemberImpl, type EnumMemberStructureClassIfc, type ExclamationTokenableNodeStructureClassIfc, ExportAssignmentImpl, type ExportAssignmentStructureClassIfc, ExportDeclarationImpl, type ExportDeclarationStructureClassIfc, ExportManager, ExportSpecifierImpl, type ExportSpecifierStructureClassIfc, type ExportableNodeStructureClassIfc, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, type FunctionDeclarationOverloadStructureClassIfc, type FunctionDeclarationStructureClassIfc, type FunctionTypeContext, FunctionTypeStructureImpl, FunctionWriterStyle, type GeneratorableNodeStructureClassIfc, GetAccessorDeclarationImpl, type GetAccessorDeclarationStructureClassIfc, ImportAttributeImpl, type ImportAttributeStructureClassIfc, ImportDeclarationImpl, type ImportDeclarationStructureClassIfc, ImportManager, ImportSpecifierImpl, type ImportSpecifierStructureClassIfc, ImportTypeStructureImpl, IndexSignatureDeclarationImpl, type IndexSignatureDeclarationStructureClassIfc, type IndexSignatureResolver, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, type InitializerExpressionableNodeStructureClassIfc, InterfaceDeclarationImpl, type InterfaceDeclarationStructureClassIfc, type InterfaceDeclarationWithExtendsTypeStructures, type InterfaceMemberStructureImpls, IntersectionTypeStructureImpl, JSDocImpl, type JSDocStructureClassIfc, JSDocTagImpl, type JSDocTagStructureClassIfc, type JSDocableNodeStructureClassIfc, JsxAttributeImpl, type JsxAttributeStructureClassIfc, JsxElementImpl, type JsxElementStructureClassIfc, JsxSelfClosingElementImpl, type JsxSelfClosingElementStructureClassIfc, JsxSpreadAttributeImpl, type JsxSpreadAttributeStructureClassIfc, type JsxStructureImpls, type KindedTypeStructure, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, type MemberedStatementsKey, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, type MethodDeclarationOverloadStructureClassIfc, type MethodDeclarationStructureClassIfc, MethodSignatureImpl, type MethodSignatureStructureClassIfc, ModuleDeclarationImpl, type ModuleDeclarationStructureClassIfc, type NameableNodeStructureClassIfc, type NamedClassMemberImpl, type NamedNodeStructureClassIfc, type NamedTypeMemberImpl, NumberTypeStructureImpl, type ObjectLiteralExpressionPropertyStructureImpls, type OverrideableNodeStructureClassIfc, ParameterDeclarationImpl, type ParameterDeclarationStructureClassIfc, ParameterTypeStructureImpl, type ParameteredNodeStructureClassIfc, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, type PrefixUnaryOperator, PropertyAssignmentImpl, type PropertyAssignmentStructureClassIfc, PropertyDeclarationImpl, type PropertyDeclarationStructureClassIfc, type PropertyInitializerGetter, PropertySignatureImpl, type PropertySignatureStructureClassIfc, QualifiedNameTypeStructureImpl, type QuestionTokenableNodeStructureClassIfc, type ReadonlyTypeMembersMap, type ReadonlyableNodeStructureClassIfc, type ReturnTypedNodeStructureClassIfc, type ReturnTypedNodeTypeStructure, type ScopedNodeStructureClassIfc, SetAccessorDeclarationImpl, type SetAccessorDeclarationStructureClassIfc, ShorthandPropertyAssignmentImpl, type ShorthandPropertyAssignmentStructureClassIfc, SourceFileImpl, type SourceFileStructureClassIfc, SpreadAssignmentImpl, type SpreadAssignmentStructureClassIfc, type StatementStructureImpls, type StatementedNodeStructureClassIfc, StringTypeStructureImpl, type StructureClassIfc, type StructureImpls, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, type TypeAliasDeclarationStructureClassIfc, TypeArgumentedTypeStructureImpl, type TypeElementMemberStructureImpls, type TypeMemberImpl, TypeMembersMap, type TypeNodeToTypeStructureConsole, TypeParameterDeclarationImpl, type TypeParameterDeclarationStructureClassIfc, type TypeParameterWithTypeStructures, type TypeParameteredNodeStructureClassIfc, TypeStructureKind, type TypeStructureSet, type TypeStructures, type TypeStructuresOrNull, type TypedNodeStructureClassIfc, type TypedNodeTypeStructure, UnionTypeStructureImpl, VariableDeclarationImpl, type VariableDeclarationStructureClassIfc, VariableStatementImpl, type VariableStatementStructureClassIfc, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, parseLiteralType, type stringOrWriterFunction, type stringWriterOrStatementImpl };

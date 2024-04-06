@@ -5,25 +5,33 @@ import {
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap,
+  ClassSupportsStatementsFlags,
   type MemberedStatementsKey,
+  type PropertyInitializerGetter,
   type stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
-import GetterFilter from "../GetterFilter.js";
 import CallExpressionStatementImpl from "../../../pseudoStatements/CallExpression.js";
 
 import PropertyHashesWithTypes from "../../classTools/PropertyHashesWithTypes.js";
+import StatementGetterBase from "../GetterBase.js";
+import BaseClassModule from "#stage_three/generation/moduleClasses/BaseClassModule.js";
 
 export default
-class TypeStructureSetStatements extends GetterFilter
+class TypeStructureSetStatements extends StatementGetterBase
+implements PropertyInitializerGetter
 {
-  accept(
+  constructor(
+    module: BaseClassModule,
+  )
+  {
+    super(module, "TypeArrayStatements", ClassSupportsStatementsFlags.PropertyInitializer);
+  }
+
+  filterPropertyInitializer(
     key: MemberedStatementsKey
   ): boolean
   {
-    if (key.statementGroupKey !== ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY)
-      return false;
     if (key.fieldType?.kind !== StructureKind.PropertySignature)
       return false;
     if (key.isFieldStatic === true)
@@ -35,22 +43,20 @@ class TypeStructureSetStatements extends GetterFilter
     return PropertyHashesWithTypes.has(this.module.baseName, propName);
   }
 
-  getStatements(
+  getPropertyInitializer(
     key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
+  ): stringWriterOrStatementImpl
   {
     assert(key.fieldType?.kind === StructureKind.PropertySignature);
     const propBase: string = key.fieldType.name.replace(/Set$/, "");
 
     this.module.addImports("public", [], ["TypeStructureSet"]);
     this.module.addImports("internal", ["TypeStructureSetInternal"], []);
-    return [
-      new CallExpressionStatementImpl({
-        name: "new TypeStructureSetInternal",
-        parameters: [
-          `this.#${propBase}_ShadowArray`
-        ]
-      }).writerFunction
-    ];
+    return new CallExpressionStatementImpl({
+      name: "new TypeStructureSetInternal",
+      parameters: [
+        `this.#${propBase}_ShadowArray`
+      ]
+    }).writerFunction;
   }
 }

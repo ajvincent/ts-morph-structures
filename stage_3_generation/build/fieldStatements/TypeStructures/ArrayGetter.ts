@@ -5,25 +5,35 @@ import {
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap,
+  type AccessorMirrorGetter,
+  ClassSupportsStatementsFlags,
   TypeStructureKind,
   type MemberedStatementsKey,
   type stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
-import GetterFilter from "../GetterFilter.js";
+import {
+  BaseClassModule
+} from "#stage_three/generation/moduleClasses/exports.js";
 
 import PropertyHashesWithTypes from "../../classTools/PropertyHashesWithTypes.js";
+import StatementGetterBase from "../GetterBase.js";
 
 export default
-class TypeArrayStatements extends GetterFilter
+class TypeArrayStatements extends StatementGetterBase
+implements AccessorMirrorGetter
 {
-  accept(
+  constructor(
+    module: BaseClassModule,
+  )
+  {
+    super(module, "TypeArrayStatements", ClassSupportsStatementsFlags.AccessorMirror);
+  }
+
+  filterAccessorMirror(
     key: MemberedStatementsKey
   ): boolean
   {
-    if (key.statementGroupKey !== ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY)
-      return false;
     if (key.fieldType?.kind !== StructureKind.GetAccessor)
       return false;
     if (key.fieldType.returnTypeStructure?.kind !== TypeStructureKind.Array)
@@ -31,11 +41,11 @@ class TypeArrayStatements extends GetterFilter
     return PropertyHashesWithTypes.has(this.module.baseName, key.fieldType.name);
   }
 
-  getStatements(
+  getAccessorMirror(
     key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
+  ): stringWriterOrStatementImpl
   {
     assert.equal(key.fieldType?.kind, StructureKind.GetAccessor);
-    return [`this.#${key.fieldType.name}ProxyArray`];
+    return `this.#${key.fieldType.name}ProxyArray`;
   }
 }

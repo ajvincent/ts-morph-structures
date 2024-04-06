@@ -4,15 +4,27 @@
 
 ## ClassStatementsGetter interface
 
+Traps for getting statements, based on a `MemberedStatementsKey`<!-- -->.
+
 **Signature:**
 
 ```typescript
-export interface ClassStatementsGetter 
+export interface ClassStatementsGetter
+  extends Partial<PropertyInitializerGetter>,
+    Partial<AccessorMirrorGetter>,
+    Partial<ClassHeadStatementsGetter>,
+    Partial<ClassBodyStatementsGetter>,
+    Partial<ClassTailStatementsGetter>,
+    Partial<ConstructorHeadStatementsGetter>,
+    Partial<ConstructorBodyStatementsGetter>,
+    Partial<ConstructorTailStatementsGetter> 
 ```
+**Extends:** Partial&lt;[PropertyInitializerGetter](./ts-morph-structures.propertyinitializergetter.md)<!-- -->&gt;, Partial&lt;[AccessorMirrorGetter](./ts-morph-structures.accessormirrorgetter.md)<!-- -->&gt;, Partial&lt;[ClassHeadStatementsGetter](./ts-morph-structures.classheadstatementsgetter.md)<!-- -->&gt;, Partial&lt;[ClassBodyStatementsGetter](./ts-morph-structures.classbodystatementsgetter.md)<!-- -->&gt;, Partial&lt;[ClassTailStatementsGetter](./ts-morph-structures.classtailstatementsgetter.md)<!-- -->&gt;, Partial&lt;[ConstructorHeadStatementsGetter](./ts-morph-structures.constructorheadstatementsgetter.md)<!-- -->&gt;, Partial&lt;[ConstructorBodyStatementsGetter](./ts-morph-structures.constructorbodystatementsgetter.md)<!-- -->&gt;, Partial&lt;[ConstructorTailStatementsGetter](./ts-morph-structures.constructortailstatementsgetter.md)<!-- -->&gt;
 
-## Methods
+## Properties
 
-|  Method | Description |
-|  --- | --- |
-|  [getStatements(key)](./ts-morph-structures.classstatementsgetter.getstatements.md) |  |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [keyword](./ts-morph-structures.classstatementsgetter.keyword.md) |  | readonly string | A human-readable string for debugging. |
+|  [supportsStatementsFlags](./ts-morph-structures.classstatementsgetter.supportsstatementsflags.md) |  | readonly number | Bitwise flags to determine which statement getter traps are active. |
 

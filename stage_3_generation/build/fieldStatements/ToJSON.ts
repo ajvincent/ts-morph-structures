@@ -7,7 +7,10 @@ import {
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap,
+  type ClassBodyStatementsGetter,
+  type ClassHeadStatementsGetter,
+  type ClassTailStatementsGetter,
+  ClassSupportsStatementsFlags,
   LiteralTypeStructureImpl,
   MemberedStatementsKey,
   type TypeStructures,
@@ -15,14 +18,73 @@ import {
   TypeStructureKind,
 } from "#stage_two/snapshot/source/exports.js";
 
-import GetterFilter from "../fieldStatements/GetterFilter.js";
-
 import BlockStatementImpl from "../../pseudoStatements/BlockStatement.js";
 import CallExpressionStatementImpl from "../../pseudoStatements/CallExpression.js";
+import StatementGetterBase from "./GetterBase.js";
+import BaseClassModule from "#stage_three/generation/moduleClasses/BaseClassModule.js";
 
-export default class ToJSONStatements extends GetterFilter
+export default class ToJSONStatements extends StatementGetterBase
+implements ClassHeadStatementsGetter, ClassBodyStatementsGetter, ClassTailStatementsGetter
 {
-  accept(
+  static #hasStructure(
+    typeStructure: TypeStructures
+  ): boolean
+  {
+    if (typeStructure.kind !== TypeStructureKind.Parentheses)
+      return false;
+    typeStructure = typeStructure.childTypes[0];
+
+    if (typeStructure.kind !== TypeStructureKind.Union)
+      return false;
+
+    const { childTypes } = typeStructure;
+    return childTypes.some(child => child !== LiteralTypeStructureImpl.get("stringOrWriterFunction"));
+  }
+
+  static #hasWriter(
+    typeStructure: TypeStructures
+  ): boolean
+  {
+    switch (typeStructure.kind) {
+      case TypeStructureKind.Literal:
+        return (typeStructure.stringValue === "stringOrWriterFunction") || (typeStructure.stringValue === "WriterFunction");
+      case TypeStructureKind.Array:
+        return this.#hasWriter(typeStructure.objectType);
+      case TypeStructureKind.Parentheses:
+        return this.#hasWriter(typeStructure.childTypes[0]);
+      case TypeStructureKind.Union:
+        return typeStructure.childTypes.some(childType => this.#hasWriter(childType));
+    }
+
+    return false;
+  }
+
+  constructor(
+    module: BaseClassModule
+  )
+  {
+    super(
+      module,
+      "toJSON",
+      ClassSupportsStatementsFlags.HeadStatements |
+      ClassSupportsStatementsFlags.BodyStatements |
+      ClassSupportsStatementsFlags.TailStatements
+    );
+  }
+
+  filterHeadStatements(key: MemberedStatementsKey): boolean {
+    return this.#accept(key);
+  }
+  getHeadStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+    return [(writer: CodeBlockWriter): void => {
+      writer.write(`const rv = super.toJSON() as `);
+      assert(key.groupType?.kind === StructureKind.MethodSignature);
+      key.groupType.returnTypeStructure?.writerFunction(writer);
+      writer.write(";");
+    }];
+  }
+
+  #accept(
     key: MemberedStatementsKey
   ): boolean
   {
@@ -34,23 +96,14 @@ export default class ToJSONStatements extends GetterFilter
     );
   }
 
-  getStatements(
+  filterBodyStatements(key: MemberedStatementsKey): boolean {
+    return this.#accept(key);
+  }
+
+  getBodyStatements(
     key: MemberedStatementsKey
   ): readonly stringWriterOrStatementImpl[]
   {
-    if (key.fieldKey === ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL) {
-      return [(writer: CodeBlockWriter): void => {
-        writer.write(`const rv = super.toJSON() as `);
-        assert(key.groupType?.kind === StructureKind.MethodSignature);
-        key.groupType.returnTypeStructure?.writerFunction(writer);
-        writer.write(";");
-      }];
-    }
-
-    if (key.fieldKey === ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN) {
-      return [`return rv;`];
-    }
-
     assert(key.fieldType?.kind === StructureKind.PropertySignature || key.fieldType?.kind === StructureKind.GetAccessor);
     let hasWriter: boolean;
 
@@ -135,36 +188,11 @@ export default class ToJSONStatements extends GetterFilter
     return [statement];
   }
 
-  static #hasStructure(
-    typeStructure: TypeStructures
-  ): boolean
-  {
-    if (typeStructure.kind !== TypeStructureKind.Parentheses)
-      return false;
-    typeStructure = typeStructure.childTypes[0];
-
-    if (typeStructure.kind !== TypeStructureKind.Union)
-      return false;
-
-    const { childTypes } = typeStructure;
-    return childTypes.some(child => child !== LiteralTypeStructureImpl.get("stringOrWriterFunction"));
+  filterTailStatements(key: MemberedStatementsKey): boolean {
+    return this.#accept(key);
   }
-
-  static #hasWriter(
-    typeStructure: TypeStructures
-  ): boolean
-  {
-    switch (typeStructure.kind) {
-      case TypeStructureKind.Literal:
-        return (typeStructure.stringValue === "stringOrWriterFunction") || (typeStructure.stringValue === "WriterFunction");
-      case TypeStructureKind.Array:
-        return this.#hasWriter(typeStructure.objectType);
-      case TypeStructureKind.Parentheses:
-        return this.#hasWriter(typeStructure.childTypes[0]);
-      case TypeStructureKind.Union:
-        return typeStructure.childTypes.some(childType => this.#hasWriter(childType));
-    }
-
-    return false;
+  getTailStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+    void(key);
+    return [`return rv;`];
   }
 }

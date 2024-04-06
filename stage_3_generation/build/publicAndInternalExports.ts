@@ -155,6 +155,13 @@ function definePublicExports(): void
   });
 
   publicExports.addExports({
+    pathToExportedModule: pathToModule(distDir, "source/toolbox/MemberedTypeToClass.ts"),
+    exportNames: ["ClassSupportsStatementsFlags"],
+    isDefaultExport: false,
+    isType: false
+  });
+
+  publicExports.addExports({
     pathToExportedModule: pathToModule(distDir, "source/toolbox/TypeMembersMap.ts"),
     exportNames: ["TypeMembersMap"],
     isDefaultExport: true,
@@ -178,19 +185,27 @@ function definePublicExports(): void
   publicExports.addExports({
     pathToExportedModule: pathToModule(distDir, "source/toolbox/types/toolbox.d.ts"),
     exportNames: [
+      "AccessorMirrorGetter",
       "AddExportContext",
       "AddImportContext",
       "ClassAbstractMemberQuestion",
       "ClassAsyncMethodQuestion",
+      "ClassBodyStatementsGetter",
       "ClassFieldStatement",
       "ClassGeneratorMethodQuestion",
+      "ClassHeadStatementsGetter",
       "ClassMemberImpl",
       "ClassScopeMemberQuestion",
       "ClassStatementsGetter",
+      "ClassTailStatementsGetter",
+      "ConstructorBodyStatementsGetter",
+      "ConstructorHeadStatementsGetter",
+      "ConstructorTailStatementsGetter",
       "IndexSignatureResolver",
       "MemberedStatementsKey",
       "NamedClassMemberImpl",
       "NamedTypeMemberImpl",
+      "PropertyInitializerGetter",
       "TypeMemberImpl",
       "stringWriterOrStatementImpl",
     ],

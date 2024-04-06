@@ -1,20 +1,23 @@
 // #region preamble
 import {
-  ClassFieldStatementsMap,
+  type ClassBodyStatementsGetter,
+  ClassSupportsStatementsFlags,
+  type ConstructorBodyStatementsGetter,
   LiteralTypeStructureImpl,
   type MemberedStatementsKey,
   ParameterDeclarationImpl,
+  type PropertyInitializerGetter,
   type stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
-
-import GetterFilter from "../../fieldStatements/GetterFilter.js";
 
 import type {
   BaseClassModule,
 } from "../../../moduleClasses/exports.js";
+import StatementGetterBase from "../../fieldStatements/GetterBase.js";
 // #endregion preamble
 
-export default class IsStatic_Constructor extends GetterFilter
+export default class IsStatic_Constructor extends StatementGetterBase
+implements ClassBodyStatementsGetter, ConstructorBodyStatementsGetter, PropertyInitializerGetter
 {
   readonly #ctorParameters: ParameterDeclarationImpl[];
 
@@ -23,39 +26,48 @@ export default class IsStatic_Constructor extends GetterFilter
     ctorParameters: ParameterDeclarationImpl[],
   )
   {
-    super(module);
+    super(
+      module,
+      "IsStatic_Constructor",
+      ClassSupportsStatementsFlags.BodyStatements |
+      ClassSupportsStatementsFlags.ConstructorBodyStatements |
+      ClassSupportsStatementsFlags.PropertyInitializer
+    );
     this.#ctorParameters = ctorParameters;
   }
 
-  accept(key: MemberedStatementsKey): boolean {
-    if (key.isFieldStatic)
-      return false;
-    if (key.fieldKey !== "isStatic")
-      return false;
-
-    switch (key.statementGroupKey) {
-      case ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY:
-      case "static [COPY_FIELDS]":
-      case "constructor":
-        return true;
-    }
-
-    return false;
+  filterBodyStatements(key: MemberedStatementsKey): boolean {
+    return this.#isStatic_Key(key) && key.statementGroupKey !== "toJSON";
   }
 
-  getStatements(
-    key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[] {
-    if (key.statementGroupKey === ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY)
-      return [];
+  getBodyStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+    void(key);
+    return [];
+  }
 
-    if (key.statementGroupKey === "static [COPY_FIELDS]")
-      return [];
+  filterCtorBodyStatements(key: MemberedStatementsKey): boolean {
+    return this.#isStatic_Key(key);
+  }
 
+  getCtorBodyStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+    void(key);
     const ctorParam = new ParameterDeclarationImpl("isStatic");
     ctorParam.typeStructure = LiteralTypeStructureImpl.get("boolean");
     this.#ctorParameters.unshift(ctorParam);
 
     return [`this.isStatic = isStatic;`];
+  }
+
+  filterPropertyInitializer(key: MemberedStatementsKey): boolean {
+    return this.#isStatic_Key(key);
+  }
+
+  getPropertyInitializer(key: MemberedStatementsKey): undefined {
+    void(key);
+    return undefined;
+  }
+
+  #isStatic_Key(key: MemberedStatementsKey): boolean {
+    return (!key.isFieldStatic && key.fieldKey === "isStatic");
   }
 }

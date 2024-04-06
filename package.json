@@ -26,6 +26,7 @@
     "debug-stage-three-generation-test": "TSMS_STAGE='three' TSMS_DEBUG='stage_three_generation_test' node --import ./register-hooks.js ./build.ts",
     "debug-stage-three-integration": "TSMS_STAGE='three' TSMS_DEBUG='stage_3_integration' node --import ./register-hooks.js ./build.ts",
     "debug-stage-three-test": "TSMS_STAGE='three' TSMS_DEBUG='stage_three_test' node --import ./register-hooks.js ./build.ts",
+    "diff-stages": "diff -p -U 8 -N -r ./stage_2_snapshot/snapshot/source ./stage_3_integration/snapshot/source",
     "use-cases": "TSMS_STAGE='use-cases' node --import ./register-hooks.js ./build.ts",
     "debug-use-cases": "TSMS_STAGE='use-cases' TSMS_DEBUG='use-cases' node --import ./register-hooks.js ./build.ts",
     "tsc-tasks": "tsc --project ./utilities/source/tasks/tsconfig.json",

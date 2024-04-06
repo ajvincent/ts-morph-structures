@@ -4,6 +4,8 @@
 
 ## MemberedTypeToClass.defineStatementsByPurpose() method
 
+Define a statement purpose group for the target class.
+
 **Signature:**
 
 ```typescript

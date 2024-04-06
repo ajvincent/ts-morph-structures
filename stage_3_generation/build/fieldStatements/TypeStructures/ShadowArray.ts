@@ -3,24 +3,32 @@ import {
 } from "ts-morph";
 
 import {
-  ClassFieldStatementsMap,
+  ClassSupportsStatementsFlags,
   type MemberedStatementsKey,
+  type PropertyInitializerGetter,
   type stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
 
-import GetterFilter from "../GetterFilter.js";
+import StatementGetterBase from "../GetterBase.js";
+import { BaseClassModule } from "#stage_three/generation/moduleClasses/exports.js";
 
 export default
-class ShadowArrayStatements extends GetterFilter
+class ShadowArrayStatements extends StatementGetterBase
+implements PropertyInitializerGetter
 {
   static readonly #regexp = /^#(.*)_ShadowArray$/;
 
-  accept(
+  constructor(
+    module: BaseClassModule,
+  )
+  {
+    super(module, "ShadowArrayStatements", ClassSupportsStatementsFlags.PropertyInitializer);
+  }
+
+  filterPropertyInitializer(
     key: MemberedStatementsKey
   ): boolean
   {
-    if (key.statementGroupKey !== ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY)
-      return false;
     if (key.fieldType?.kind !== StructureKind.PropertySignature)
       return false;
     if (key.isFieldStatic === true)
@@ -31,12 +39,12 @@ class ShadowArrayStatements extends GetterFilter
     return true;
   }
 
-  getStatements(
+  getPropertyInitializer(
     key: MemberedStatementsKey
-  ): readonly stringWriterOrStatementImpl[]
+  ): stringWriterOrStatementImpl
   {
     void(key);
-    return ["[]"];
+    return "[]";
   }
 }
 

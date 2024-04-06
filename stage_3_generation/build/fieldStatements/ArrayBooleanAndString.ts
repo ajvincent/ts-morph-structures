@@ -1,24 +1,28 @@
 import assert from "node:assert/strict";
 
 import {
-  ClassFieldStatementsMap,
+  ClassSupportsStatementsFlags,
   LiteralTypeStructureImpl,
   type MemberedStatementsKey,
+  type PropertyInitializerGetter,
   type stringWriterOrStatementImpl,
   TypeStructureKind,
 } from "#stage_two/snapshot/source/exports.js";
 import { StructureKind } from "ts-morph";
 
-import GetterFilter from "./GetterFilter.js";
 import {
   BaseClassModule,
 } from "../../moduleClasses/exports.js";
+
+import StatementGetterBase from "./GetterBase.js";
 
 const booleanType = LiteralTypeStructureImpl.get("boolean");
 const stringType = LiteralTypeStructureImpl.get("string");
 
 export default
-class ArrayBooleanAndString extends GetterFilter
+class ArrayBooleanAndString
+extends StatementGetterBase
+implements PropertyInitializerGetter
 {
   readonly #isStructureModule: boolean;
   constructor(
@@ -26,16 +30,11 @@ class ArrayBooleanAndString extends GetterFilter
     isStructureModule: boolean
   )
   {
-    super(module);
+    super(module, "ArrayBooleanAndString", ClassSupportsStatementsFlags.PropertyInitializer);
     this.#isStructureModule = isStructureModule;
   }
 
-  accept(
-    key: MemberedStatementsKey
-  ): boolean
-  {
-    if (key.statementGroupKey !== ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY)
-      return false;
+  filterPropertyInitializer(key: MemberedStatementsKey): boolean {
     if (key.fieldType?.kind !== StructureKind.PropertySignature)
       return false;
     if (key.fieldType.hasQuestionToken)
@@ -49,18 +48,18 @@ class ArrayBooleanAndString extends GetterFilter
     );
   }
 
-  getStatements(
+  getPropertyInitializer(
     key: MemberedStatementsKey
-  ): stringWriterOrStatementImpl[]
+  ): stringWriterOrStatementImpl | undefined
   {
     assert(key.fieldType?.kind === StructureKind.PropertySignature);
     if (key.fieldType.typeStructure === booleanType)
-      return ["false"];
+      return "false";
 
     if (key.fieldType.typeStructure === stringType) {
-      return this.#isStructureModule ? [] : [`""`];
+      return this.#isStructureModule ? undefined : `""`;
     }
 
-    return ["[]"];
+    return "[]";
   }
 }

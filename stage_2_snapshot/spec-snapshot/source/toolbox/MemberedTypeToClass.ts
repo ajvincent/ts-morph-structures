@@ -1,15 +1,24 @@
+//#region preamble
 import {
   StructureKind,
   type CodeBlockWriter,
   Scope,
-  type WriterFunction
+  type WriterFunction,
 } from "ts-morph";
 
 import {
+  type AccessorMirrorGetter,
+  type ClassBodyStatementsGetter,
   ClassFieldStatementsMap,
+  type ClassHeadStatementsGetter,
   ClassMembersMap,
   type ClassMemberImpl,
   type ClassStatementsGetter,
+  ClassSupportsStatementsFlags,
+  type ClassTailStatementsGetter,
+  type ConstructorBodyStatementsGetter,
+  type ConstructorHeadStatementsGetter,
+  type ConstructorTailStatementsGetter,
   GetAccessorDeclarationImpl,
   LiteralTypeStructureImpl,
   IndexSignatureDeclarationImpl,
@@ -19,6 +28,7 @@ import {
   MemberedObjectTypeStructureImpl,
   MethodSignatureImpl,
   ParameterDeclarationImpl,
+  type PropertyInitializerGetter,
   PropertySignatureImpl,
   SetAccessorDeclarationImpl,
   TypeMembersMap,
@@ -29,111 +39,216 @@ import {
 import {
   MemberedStatementsKeyClass,
 } from "#stage_two/snapshot/source/internal-exports.js";
-
-class StubStatementsGetter implements ClassStatementsGetter {
-  static #hashKeys(
-    fieldName: string,
-    groupName: string,
-    purpose: string
-  ): string
-  {
-    const keyClass = new MemberedStatementsKeyClass(fieldName, groupName, purpose);
-    return JSON.stringify(keyClass);
-  }
-
-  readonly #writerToContents = new WeakMap<WriterFunction, string>;
-  readonly #statementsMap = new Map<string, stringWriterOrStatementImpl[]>;
-  readonly #visitedHashes = new Set<string>;
-
-  createWriter(
-    contents = "void(true);"
-  ): WriterFunction
-  {
-    const writer = function(writer: CodeBlockWriter): void {
-      writer.writeLine(contents);
-    };
-    this.#writerToContents.set(writer, contents);
-    return writer;
-  }
-
-  getWriterValues(
-    keys: stringOrWriterFunction[]
-  ): string[]
-  {
-    return keys.map(key => {
-      if (typeof key === "string")
-        return key;
-      return this.#writerToContents.get(key)!;
-    });
-  }
-
-  setStatements(
-    fieldName: string,
-    groupName: string,
-    purpose: string,
-    statements: stringWriterOrStatementImpl[]
-  ): void
-  {
-    const hash = StubStatementsGetter.#hashKeys(fieldName, groupName, purpose);
-    this.#statementsMap.set(hash, statements);
-  }
-
-  getStatements(
-    key: MemberedStatementsKey
-  ): stringWriterOrStatementImpl[]
-  {
-    const hash = StubStatementsGetter.#hashKeys(key.fieldKey, key.statementGroupKey, key.purpose);
-    this.#visitedHashes.add(hash);
-    return this.#statementsMap.get(hash) ?? [];
-  }
-
-  get visitedSize(): number {
-    return this.#visitedHashes.size;
-  }
-
-  hasVisited(
-    fieldName: string,
-    groupName: string,
-    purpose: string,
-  ): boolean
-  {
-    return this.#visitedHashes.has(
-      StubStatementsGetter.#hashKeys(fieldName, groupName, purpose)
-    );
-  }
-
-  matchesVisited(
-    fieldNames: string[],
-    groupNames: string[],
-    purposeKeys: string[]
-  ): boolean
-  {
-    for (const fieldName of fieldNames) {
-      for (const groupName of groupNames) {
-        for (const purpose of purposeKeys) {
-          if (!this.hasVisited(fieldName, groupName, purpose))
-            return false;
-        }
-      }
-    }
-
-    return true;
-  }
-}
+//#endregion preamble
 
 describe("MemberedTypeToClass", () => {
-  let statementsGetter: StubStatementsGetter;
+  class StubStatementsGetter implements ClassStatementsGetter {
+    protected static hashKeys(
+      fieldName: string,
+      groupName: string,
+      purpose: string
+    ): string
+    {
+      const keyClass = new MemberedStatementsKeyClass(fieldName, groupName, purpose);
+      return JSON.stringify(keyClass);
+    }
+
+    readonly keyword: string;
+    readonly supportsStatementsFlags: number;
+
+    readonly #visitedHashes = new Set<string>;
+    readonly #contentsToWriter = new Map<string, WriterFunction>;
+    readonly contentsToWriter: ReadonlyMap<string, WriterFunction> = this.#contentsToWriter;
+
+    constructor(
+      keyword: string,
+      flags: number
+    )
+    {
+      this.keyword = keyword;
+      this.supportsStatementsFlags = flags;
+    }
+
+    createWriter(
+      contents = "void(true);"
+    ): WriterFunction
+    {
+      const writer = function(writer: CodeBlockWriter): void {
+        writer.writeLine(contents);
+      };
+      this.#contentsToWriter.set(contents, writer);
+      return writer;
+    }
+
+    get visitedSize(): number {
+      return this.#visitedHashes.size;
+    }
+
+    protected visitKey(
+      key: MemberedStatementsKey
+    ): void
+    {
+      this.#visitedHashes.add(StubStatementsGetter.hashKeys(
+        key.fieldKey, key.statementGroupKey, key.purpose
+      ));
+    }
+  
+    hasVisited(
+      fieldName: string,
+      groupName: string,
+      purpose: string,
+    ): boolean
+    {
+      return this.#visitedHashes.has(
+        StubStatementsGetter.hashKeys(fieldName, groupName, purpose)
+      );
+    }
+  
+    matchesVisited(
+      fieldNames: string[],
+      groupNames: string[],
+      purposeKeys: string[],
+    ): boolean
+    {
+      for (const fieldName of fieldNames) {
+        for (const groupName of groupNames) {
+          for (const purpose of purposeKeys) {
+            if (!this.hasVisited(fieldName, groupName, purpose))
+              return false;
+          }
+        }
+      }
+  
+      return true;
+    }
+  }
+
+  class ConstructorStatementsGetter extends StubStatementsGetter
+  implements ConstructorHeadStatementsGetter, ConstructorTailStatementsGetter
+  {
+    filterCtorHeadStatements(key: MemberedStatementsKey): boolean {
+      void(key)
+      return true;
+    }
+    getCtorHeadStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+      this.visitKey(key);
+      return [this.createWriter(key.purpose + " head")];
+    }
+
+    filterCtorTailStatements(key: MemberedStatementsKey): boolean {
+      void(key);
+      return true;
+    }
+    getCtorTailStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+      this.visitKey(key);
+      return [this.createWriter(key.purpose + " tail")];
+    }
+  }
+
+  class AllStatementsGetter extends ConstructorStatementsGetter
+  implements AccessorMirrorGetter, ConstructorBodyStatementsGetter, PropertyInitializerGetter,
+  ClassBodyStatementsGetter, ClassHeadStatementsGetter, ClassTailStatementsGetter
+  {
+    readonly #statementsMap = new Map<string, stringWriterOrStatementImpl[]>;
+
+    constructor(
+      keyword: string
+    )
+    {
+      super(
+        keyword,
+        ClassSupportsStatementsFlags.AccessorMirror | ClassSupportsStatementsFlags.PropertyInitializer |
+        ClassSupportsStatementsFlags.ConstructorHeadStatements | ClassSupportsStatementsFlags.ConstructorBodyStatements | ClassSupportsStatementsFlags.ConstructorTailStatements |
+        ClassSupportsStatementsFlags.HeadStatements | ClassSupportsStatementsFlags.BodyStatements | ClassSupportsStatementsFlags.TailStatements
+      );
+    }
+
+    setStatements(
+      fieldName: string,
+      groupName: string,
+      purpose: string,
+      statements: stringWriterOrStatementImpl[]
+    ): void
+    {
+      const hash = StubStatementsGetter.hashKeys(fieldName, groupName, purpose);
+      this.#statementsMap.set(hash, statements);
+    }
+
+    #getStatements(
+      key: MemberedStatementsKey
+    ): stringWriterOrStatementImpl[]
+    {
+      this.visitKey(key);
+      const hash = StubStatementsGetter.hashKeys(key.fieldKey, key.statementGroupKey, key.purpose);
+      return this.#statementsMap.get(hash) ?? [];
+    }
+
+    filterAccessorMirror(key: MemberedStatementsKey): boolean {
+      return Boolean(key);
+    }
+    getAccessorMirror(key: MemberedStatementsKey): stringWriterOrStatementImpl {
+      this.visitKey(key);
+      return this.#getStatements(key)[0];
+    }
+
+    filterPropertyInitializer(key: MemberedStatementsKey): boolean {
+      return Boolean(key);
+    }
+    getPropertyInitializer(key: MemberedStatementsKey): stringWriterOrStatementImpl {
+      return this.#getStatements(key)[0];
+    }
+
+    getCtorHeadStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+      this.visitKey(key);
+      return this.#getStatements(key);
+    }
+
+    filterCtorBodyStatements(key: MemberedStatementsKey): boolean {
+      return Boolean(key);
+    }
+    getCtorBodyStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+      this.visitKey(key);
+      return this.#getStatements(key);
+    }
+
+    getCtorTailStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+      this.visitKey(key);
+      return this.#getStatements(key);
+    }
+
+    filterHeadStatements(key: MemberedStatementsKey): boolean {
+      return Boolean(key);
+    }
+    getHeadStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+      this.visitKey(key);
+      return this.#getStatements(key);
+    }
+
+    filterBodyStatements(key: MemberedStatementsKey): boolean {
+      return Boolean(key);
+    }
+    getBodyStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+      this.visitKey(key);
+      return this.#getStatements(key);
+    }
+
+    filterTailStatements(key: MemberedStatementsKey): boolean {
+      return Boolean(key);
+    }
+    getTailStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
+      this.visitKey(key);
+      return this.#getStatements(key);
+    }
+  }
+
   let typeToClass: MemberedTypeToClass;
   beforeEach(() => {
-    statementsGetter = new StubStatementsGetter;
-    typeToClass = new MemberedTypeToClass([], statementsGetter);
+    typeToClass = new MemberedTypeToClass;
   });
 
   it("can create an empty class, with no statement maps", () => {
     const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
     expect(classMembers.size).toBe(0);
-
-    expect(statementsGetter.visitedSize).toBe(0);
   });
 
   it("will visit all keys and groups for a constructor with multiple statement groups", () => {
@@ -142,44 +257,11 @@ describe("MemberedTypeToClass", () => {
     typeToClass.defineStatementsByPurpose("second", false);
     typeToClass.defineStatementsByPurpose("fourth", false);
 
-    const first_head_ctor = statementsGetter.createWriter(`void("first head");`);
-    const second_head_ctor = statementsGetter.createWriter(`void("second head");`);
-    const fourth_head_ctor = statementsGetter.createWriter(`void("fourth head");`);
-    const first_tail_ctor = statementsGetter.createWriter(`void("first tail");`);
-    const second_tail_ctor = statementsGetter.createWriter(`void("second tail");`);
-    const fourth_tail_ctor = statementsGetter.createWriter(`void("fourth tail");`);
-
-    statementsGetter.setStatements(
-      ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, "constructor", "first", [
-        first_head_ctor
-      ]
+    const statementsGetter = new ConstructorStatementsGetter(
+      "testAllConstructorKeys",
+      ClassSupportsStatementsFlags.ConstructorHeadStatements | ClassSupportsStatementsFlags.ConstructorTailStatements
     );
-    statementsGetter.setStatements(
-      ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN, "constructor", "first", [
-        first_tail_ctor
-      ]
-    );
-    statementsGetter.setStatements(
-      ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, "constructor", "fourth", [
-        fourth_head_ctor
-      ]
-    );
-    statementsGetter.setStatements(
-      ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN, "constructor", "fourth", [
-        fourth_tail_ctor
-      ]
-    );
-    statementsGetter.setStatements(
-      ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, "constructor", "second", [
-        second_head_ctor
-      ]
-    );
-    statementsGetter.setStatements(
-      ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN, "constructor", "second", [
-        second_tail_ctor
-      ]
-    );
-
+    typeToClass.addStatementGetters(0, [statementsGetter]);
     const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
 
     expect(statementsGetter.matchesVisited(
@@ -204,19 +286,266 @@ describe("MemberedTypeToClass", () => {
     expect(ctor.typeParameters.length).toBe(0);
     expect(ctor.parameters.length).toBe(0);
 
-    const expectedStatements = statementsGetter.getWriterValues([
-      first_head_ctor,
-      first_tail_ctor,
+    const expectedStatements = [
+      statementsGetter.contentsToWriter.get("first head"),
+      statementsGetter.contentsToWriter.get("first tail"),
+      statementsGetter.contentsToWriter.get("second head"),
+      statementsGetter.contentsToWriter.get("second tail"),
+      statementsGetter.contentsToWriter.get("fourth head"),
+      statementsGetter.contentsToWriter.get("fourth tail")
+    ];
+    expect(expectedStatements.includes(undefined)).toBe(false);
+    expect(ctor.statements).toEqual(expectedStatements as stringOrWriterFunction[]);
+  });
 
-      second_head_ctor,
-      second_tail_ctor,
+  describe("validates the filter* and get* methods for a given supports flag:", () => {
+    function runValidateTest(flag: ClassSupportsStatementsFlags, methodBase: string): void {
+      const stub = new StubStatementsGetter("test", flag);
+      let error: AggregateError | undefined;
+      try {
+        typeToClass.addStatementGetters(0, [stub]);
+      }
+      catch (ex) {
+        expect(ex).toBeInstanceOf(AggregateError);
+        if (ex instanceof AggregateError) {
+          error = ex;
+        }
+      }
+      expect(error).toBeDefined();
+      if (!error)
+        return;
 
-      fourth_head_ctor,
-      fourth_tail_ctor,
-    ]);
-    const actualStatements = statementsGetter.getWriterValues(ctor.statements as stringOrWriterFunction[]);
+      const { errors } = error;
+      expect(errors.length).toBe(2);
+      if (errors.length !== 2)
+        return;
 
-    expect(actualStatements).toEqual(expectedStatements);
+      const [firstError, secondError] = errors as [Error, Error];
+      expect(firstError).toBeInstanceOf(Error);
+      if (!(firstError instanceof Error))
+        return;
+      expect(secondError).toBeInstanceOf(Error);
+      if (!(secondError instanceof Error))
+        return;
+      expect(firstError.message).toBe(`statements getter is missing filter${methodBase}: test`);
+      expect(secondError.message).toBe(`statements getter is missing get${methodBase}: test`);
+    }
+
+    it("PropertyInitializer", () => {
+      runValidateTest(ClassSupportsStatementsFlags.PropertyInitializer, "PropertyInitializer");
+    });
+
+    it("AccessorMirror", () => {
+      runValidateTest(ClassSupportsStatementsFlags.AccessorMirror, "AccessorMirror");
+    });
+    it("HeadStatements", () => {
+      runValidateTest(ClassSupportsStatementsFlags.HeadStatements, "HeadStatements");
+    });
+    it("BodyStatements", () => {
+      runValidateTest(ClassSupportsStatementsFlags.BodyStatements, "BodyStatements");
+    });
+    it("TailStatements", () => {
+      runValidateTest(ClassSupportsStatementsFlags.TailStatements, "TailStatements");
+    });
+    it("ConstructorHeadStatements", () => {
+      runValidateTest(ClassSupportsStatementsFlags.ConstructorHeadStatements, "CtorHeadStatements");
+    });
+    it("ConstructorBodyStatements", () => {
+      runValidateTest(ClassSupportsStatementsFlags.ConstructorBodyStatements, "CtorBodyStatements");
+    });
+    it("ConstructorTailStatements", () => {
+      runValidateTest(ClassSupportsStatementsFlags.ConstructorTailStatements, "CtorTailStatements");
+    });
+
+    it("rejects a statements getter with an invalid flag", () => {
+      const stub = new StubStatementsGetter("test", 0);
+      let error: AggregateError | undefined;
+      try {
+        typeToClass.addStatementGetters(0, [stub]);
+      }
+      catch (ex) {
+        expect(ex).toBeInstanceOf(AggregateError);
+        if (ex instanceof AggregateError) {
+          error = ex;
+        }
+      }
+      expect(error).toBeDefined();
+      if (!error)
+        return;
+
+      const { errors } = error;
+      expect(errors.length).toBe(1);
+      if (!errors[0])
+        return;
+      expect(errors[0]).toBeInstanceOf(Error);
+      expect((errors[0] as Error).message).toBe(`statements getter's supportsStatementsFlag property is invalid: test`);
+    });
+  });
+
+  it("visits statement getters with a lower priority number first (priority 1 beats priority 2)", () => {
+    const firstCtorGetter = new ConstructorStatementsGetter(
+      "unreached",
+      ClassSupportsStatementsFlags.ConstructorHeadStatements | ClassSupportsStatementsFlags.ConstructorTailStatements
+    );
+    const secondCtorGetter = new ConstructorStatementsGetter(
+      "higher-priority",
+      ClassSupportsStatementsFlags.ConstructorHeadStatements | ClassSupportsStatementsFlags.ConstructorTailStatements
+    );
+
+    typeToClass.addStatementGetters(2, [firstCtorGetter]);
+    typeToClass.addStatementGetters(1, [secondCtorGetter]);
+    typeToClass.defineStatementsByPurpose("alpha", false);
+    typeToClass.buildClassMembersMap();
+
+    expect(secondCtorGetter.matchesVisited(
+      [ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN],
+      ["constructor"],
+      ["alpha"],
+    )).toBe(true);
+    expect(secondCtorGetter.visitedSize).toBe(2);
+
+    expect(firstCtorGetter.visitedSize).toBe(0);
+  });
+
+  it("calls earlier statement getters of an array first, given the same priority", () => {
+    const firstCtorGetter = new ConstructorStatementsGetter(
+      "first",
+      ClassSupportsStatementsFlags.ConstructorHeadStatements | ClassSupportsStatementsFlags.ConstructorTailStatements
+    );
+    const secondCtorGetter = new ConstructorStatementsGetter(
+      "second",
+      ClassSupportsStatementsFlags.ConstructorHeadStatements | ClassSupportsStatementsFlags.ConstructorTailStatements
+    );
+
+    typeToClass.addStatementGetters(0, [firstCtorGetter, secondCtorGetter]);
+    typeToClass.defineStatementsByPurpose("alpha", false);
+    typeToClass.buildClassMembersMap();
+
+    expect(firstCtorGetter.matchesVisited(
+      [ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL, ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN],
+      ["constructor"],
+      ["alpha"],
+    )).toBe(true);
+    expect(firstCtorGetter.visitedSize).toBe(2);
+
+    expect(secondCtorGetter.visitedSize).toBe(0);
+  });
+
+  it("will not visit statement getter traps for statements which did not match the flags of the getter", () => {
+    const firstCtorGetter = new ConstructorStatementsGetter(
+      "first",
+      ClassSupportsStatementsFlags.ConstructorHeadStatements
+    );
+    const secondCtorGetter = new ConstructorStatementsGetter(
+      "second",
+      ClassSupportsStatementsFlags.ConstructorHeadStatements | ClassSupportsStatementsFlags.ConstructorTailStatements
+    );
+
+    typeToClass.addStatementGetters(0, [firstCtorGetter, secondCtorGetter]);
+    typeToClass.defineStatementsByPurpose("alpha", false);
+    typeToClass.buildClassMembersMap();
+
+    expect(firstCtorGetter.matchesVisited(
+      [ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL],
+      ["constructor"],
+      ["alpha"],
+    )).toBe(true);
+    expect(firstCtorGetter.visitedSize).toBe(1);
+
+    expect(secondCtorGetter.matchesVisited(
+      [ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN],
+      ["constructor"],
+      ["alpha"],
+    )).toBe(true);
+    expect(secondCtorGetter.visitedSize).toBe(1);
+  });
+
+  it("will not visit statement getter traps when the filter returns false", () => {
+    const firstCtorGetter = new ConstructorStatementsGetter(
+      "first",
+      ClassSupportsStatementsFlags.ConstructorHeadStatements | ClassSupportsStatementsFlags.ConstructorTailStatements
+    );
+    firstCtorGetter.filterCtorHeadStatements = function(key: MemberedStatementsKey): boolean {
+      void(key);
+      return false;
+    }
+
+    const secondCtorGetter = new ConstructorStatementsGetter(
+      "second",
+      ClassSupportsStatementsFlags.ConstructorHeadStatements | ClassSupportsStatementsFlags.ConstructorTailStatements
+    );
+
+    typeToClass.addStatementGetters(0, [firstCtorGetter, secondCtorGetter]);
+    typeToClass.defineStatementsByPurpose("alpha", false);
+    typeToClass.buildClassMembersMap();
+
+    expect(firstCtorGetter.matchesVisited(
+      [ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN],
+      ["constructor"],
+      ["alpha"],
+    )).toBe(true);
+    expect(firstCtorGetter.visitedSize).toBe(1);
+
+    expect(secondCtorGetter.matchesVisited(
+      [ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL],
+      ["constructor"],
+      ["alpha"],
+    )).toBe(true);
+    expect(secondCtorGetter.visitedSize).toBe(1);
+  });
+
+  it("aggregates errors from multiple statement getters", () => {
+    const firstCtorGetter = new ConstructorStatementsGetter(
+      "first",
+      ClassSupportsStatementsFlags.ConstructorHeadStatements | ClassSupportsStatementsFlags.ConstructorTailStatements
+    );
+    firstCtorGetter.filterCtorHeadStatements = function(key: MemberedStatementsKey): boolean {
+      void(key);
+      throw new Error("first filter " + key.purpose);
+    }
+
+    const secondCtorGetter = new ConstructorStatementsGetter(
+      "second",
+      ClassSupportsStatementsFlags.ConstructorHeadStatements | ClassSupportsStatementsFlags.ConstructorTailStatements
+    );
+    secondCtorGetter.getCtorHeadStatements = function(key: MemberedStatementsKey): stringWriterOrStatementImpl[] {
+      void(key);
+      throw new Error("second get " + key.purpose);
+    }
+
+    typeToClass.addStatementGetters(0, [firstCtorGetter, secondCtorGetter]);
+    typeToClass.defineStatementsByPurpose("alpha", false);
+
+    let exception: AggregateError | undefined;
+    try {
+      typeToClass.buildClassMembersMap();
+    } catch (ex) {
+      if (ex instanceof AggregateError)
+        exception = ex;
+    }
+
+    expect(firstCtorGetter.matchesVisited(
+      [ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN],
+      ["constructor"],
+      ["alpha"],
+    )).toBe(true);
+    expect(firstCtorGetter.visitedSize).toBe(1);
+
+    expect(secondCtorGetter.visitedSize).toBe(0);
+
+    expect(exception).toBeTruthy();
+    if (exception === undefined)
+      return;
+    expect(exception.errors.length).toBe(2);
+    if (exception.errors.length !== 2)
+      return;
+
+    const [firstError, secondError] = exception.errors as Error[];
+    expect(firstError).toBeInstanceOf(Error);
+    expect(firstError.message).toBe("first filter alpha");
+
+    expect(secondError).toBeInstanceOf(Error);
+    expect(secondError.message).toBe("second get alpha");
   });
 
   it("will iterate over properties for initializers and all statemented nodes", () => {
@@ -249,6 +578,7 @@ describe("MemberedTypeToClass", () => {
     // #endregion set up type members
 
     //#region statementsGetter set-up
+    const statementsGetter = new AllStatementsGetter("test");
 
     const head_ctor = statementsGetter.createWriter(`void("ctor head");`);
     const tail_ctor = statementsGetter.createWriter(`void("ctor tail");`);
@@ -302,18 +632,19 @@ describe("MemberedTypeToClass", () => {
     );
     //#endregion statementsGetter set-up
 
-    const ctorParameters: ParameterDeclarationImpl[] = [];
     const ctorOneParam = new ParameterDeclarationImpl("one");
     ctorOneParam.typeStructure = prop1.typeStructure;
-    ctorParameters.push(ctorOneParam);
 
-    typeToClass = new MemberedTypeToClass(ctorParameters, statementsGetter);
+    typeToClass = new MemberedTypeToClass();
+    typeToClass.constructorParameters.push(ctorOneParam);
 
     typeToClass.importFromTypeMembersMap(false, membersMap);
     typeToClass.addTypeMember(true, prop2);
     typeToClass.addTypeMember(false, private_4);
 
     typeToClass.defineStatementsByPurpose("first", false);
+
+    typeToClass.addStatementGetters(1, [statementsGetter]);
 
     const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
 
@@ -424,6 +755,8 @@ describe("MemberedTypeToClass", () => {
     index_C.keyTypeStructure = LiteralTypeStructureImpl.get("string");
     index_C.returnTypeStructure = LiteralTypeStructureImpl.get("boolean");
 
+    const statementsGetter = new AllStatementsGetter("test");
+
     statementsGetter.setStatements(
       "foo", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first", [`true`]
     );
@@ -442,6 +775,7 @@ describe("MemberedTypeToClass", () => {
     }
     typeToClass.addTypeMember(false, index_C);
     typeToClass.defineStatementsByPurpose("first", false);
+    typeToClass.addStatementGetters(1, [statementsGetter]);
 
     const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
     expect(classMembers.size).toBe(2);
@@ -585,6 +919,8 @@ describe("MemberedTypeToClass", () => {
       }
     }
 
+    const statementsGetter = new AllStatementsGetter("test");
+
     statementsGetter.setStatements(
       "one", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first", [
         `"value one"`
@@ -614,6 +950,7 @@ describe("MemberedTypeToClass", () => {
 
     typeToClass.defineStatementsByPurpose("first", false);
     typeToClass.importFromTypeMembersMap(false, membersMap);
+    typeToClass.addStatementGetters(1, [statementsGetter]);
     const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
 
     //#region inspecting the class members map
@@ -686,6 +1023,8 @@ describe("MemberedTypeToClass", () => {
     expect(statementsGetter.hasVisited(
       "four", ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY, "first"
     )).toBe(false);
+
+    //#endregion inspecting the class members map
   });
 
   it("can add scope to class members", () => {
@@ -804,6 +1143,8 @@ describe("MemberedTypeToClass", () => {
     typeToClass.defineStatementsByPurpose("first", false);
     typeToClass.defineStatementsByPurpose("second", false);
 
+    const statementsGetter = new AllStatementsGetter("test");
+
     const first_hello_ctor = statementsGetter.createWriter(`void("first hello");`);
     const second_hello_ctor = statementsGetter.createWriter(`void("second hello");`);
 
@@ -819,6 +1160,7 @@ describe("MemberedTypeToClass", () => {
     );
 
     typeToClass.insertMemberKey(false, new PropertySignatureImpl("hello"), false, "constructor");
+    typeToClass.addStatementGetters(1, [statementsGetter]);
     const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
 
     const ctor_Decl = classMembers.getAsKind<StructureKind.Constructor>(StructureKind.Constructor, false, "constructor");
@@ -836,6 +1178,7 @@ describe("MemberedTypeToClass", () => {
     typeToClass.defineStatementsByPurpose("first", false);
     typeToClass.defineStatementsByPurpose("second", false);
 
+    const statementsGetter = new AllStatementsGetter("test");
     const membersMap: TypeMembersMap = new TypeMembersMap;
 
     const prop1 = new PropertySignatureImpl("one");
@@ -875,8 +1218,8 @@ describe("MemberedTypeToClass", () => {
     );
 
     typeToClass.importFromTypeMembersMap(false, membersMap);
-
     typeToClass.insertMemberKey(false, new PropertySignatureImpl("hello"), false, method3);
+    typeToClass.addStatementGetters(1, [statementsGetter]);
     const classMembers: ClassMembersMap = typeToClass.buildClassMembersMap();
 
     const three = classMembers.getAsKind(StructureKind.Method, false, "three");
