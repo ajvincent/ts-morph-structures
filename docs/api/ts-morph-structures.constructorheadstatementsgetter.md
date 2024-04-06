@@ -4,11 +4,17 @@
 
 ## ConstructorHeadStatementsGetter interface
 
+Statements at the start of a constructor's statement purpose block.
+
 **Signature:**
 
 ```typescript
 export interface ConstructorHeadStatementsGetter 
 ```
+
+## Remarks
+
+To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.ConstructorHeadStatements` must be non-zero.
 
 ## Methods
 

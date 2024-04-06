@@ -4,6 +4,8 @@
 
 ## MemberedTypeToClass.addStatementGetters() method
 
+Add statement getters to this.
+
 **Signature:**
 
 ```typescript
@@ -14,8 +16,8 @@ addStatementGetters(priority: number, statementGetters: readonly ClassStatements
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  priority | number |  |
-|  statementGetters | readonly [ClassStatementsGetter](./ts-morph-structures.classstatementsgetter.md)<!-- -->\[\] |  |
+|  priority | number | a number indicating the priority of the getters (lower numbers beat higher numbers). |
+|  statementGetters | readonly [ClassStatementsGetter](./ts-morph-structures.classstatementsgetter.md)<!-- -->\[\] | the statement getters to insert. |
 
 **Returns:**
 

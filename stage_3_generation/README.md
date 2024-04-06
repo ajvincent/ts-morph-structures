@@ -12,7 +12,7 @@ Unlike in stage 2, when I was figuring it out as I went along, this time I made 
     - ["pseudo-statement structures"](./pseudoStatements/) which the type structure classes inspire
     - ["vanilla" interfaces and unions from ts-morph](./vanilla/), which I represent as `InterfaceDeclarationImpl` instances and arrays of strings, respectively
     - `TypeMembersMap` to combine interfaces into convenient map structures
-    - `MemberedTypeToClass` to actually generate the classes, with [class field statement generators](./build/fieldStatements/), starting with a [router class](./build/fieldStatements/StatementsRouter.ts) and a [statements getter base class with filtering](./build/fieldStatements/GetterFilter.ts)
+    - `MemberedTypeToClass` to actually generate the classes, with [class field statement generators](./build/fieldStatements/), starting with a [statements getter base class](./build/fieldStatements/GetterBase.ts)
     - ["special case"](./build/structures/specialCases/) helpers to handle the rare deviations away from what the interfaces naturally provide, such as a `static fromSignature` method, or cleaning up conversions from a property to a getter/setter pair.
 
 In particular, I [tightened the property types of each interface](./build/interfaces/tightenPropertyType.ts) before I fed them to `MemberedTypeToClass`.  This helps a _lot_ in defining what types each _class_ property can be.  It wasn't quite perfect:  whenever I converted a property to a getter ("type"), I often had to call `typeToClass.insertMemberKey()` to make sure the constructor or another method processed the lost property _in the right place_ alphabetically.

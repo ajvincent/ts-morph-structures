@@ -54,7 +54,7 @@ describe("MemberedTypeToClass", () => {
     }
 
     readonly keyword: string;
-    readonly supportsStatementFlags: number;
+    readonly supportsStatementsFlags: number;
 
     readonly #visitedHashes = new Set<string>;
     readonly #contentsToWriter = new Map<string, WriterFunction>;
@@ -66,7 +66,7 @@ describe("MemberedTypeToClass", () => {
     )
     {
       this.keyword = keyword;
-      this.supportsStatementFlags = flags;
+      this.supportsStatementsFlags = flags;
     }
 
     createWriter(

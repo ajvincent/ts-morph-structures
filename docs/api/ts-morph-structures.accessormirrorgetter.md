@@ -4,11 +4,17 @@
 
 ## AccessorMirrorGetter interface
 
+A value for getters and setters of a class to reflect.
+
 **Signature:**
 
 ```typescript
 export interface AccessorMirrorGetter 
 ```
+
+## Remarks
+
+To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.AccessorMirror` must be non-zero.
 
 ## Methods
 

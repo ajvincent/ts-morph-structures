@@ -4,6 +4,8 @@
 
 ## ClassStatementsGetter.keyword property
 
+A human-readable string for debugging.
+
 **Signature:**
 
 ```typescript

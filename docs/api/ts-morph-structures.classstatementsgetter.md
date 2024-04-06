@@ -4,6 +4,8 @@
 
 ## ClassStatementsGetter interface
 
+Traps for getting statements, based on a `MemberedStatementsKey`<!-- -->.
+
 **Signature:**
 
 ```typescript
@@ -23,6 +25,6 @@ export interface ClassStatementsGetter
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [keyword](./ts-morph-structures.classstatementsgetter.keyword.md) |  | readonly string |  |
-|  [supportsStatementFlags](./ts-morph-structures.classstatementsgetter.supportsstatementflags.md) |  | readonly number |  |
+|  [keyword](./ts-morph-structures.classstatementsgetter.keyword.md) |  | readonly string | A human-readable string for debugging. |
+|  [supportsStatementsFlags](./ts-morph-structures.classstatementsgetter.supportsstatementsflags.md) |  | readonly number | Bitwise flags to determine which statement getter traps are active. |
 

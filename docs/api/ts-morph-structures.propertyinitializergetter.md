@@ -4,11 +4,17 @@
 
 ## PropertyInitializerGetter interface
 
+For the initial value of a property.
+
 **Signature:**
 
 ```typescript
 export interface PropertyInitializerGetter 
 ```
+
+## Remarks
+
+To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.PropertyInitializer` must be non-zero.
 
 ## Methods
 

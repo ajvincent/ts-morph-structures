@@ -5480,16 +5480,28 @@ class ImportManager {
 }
 
 var _a$1;
+/**
+ * Bitwise flags to enable statement getter traps.
+ */
 var ClassSupportsStatementsFlags;
 (function (ClassSupportsStatementsFlags) {
+    /** The initial value of a property.*/
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["PropertyInitializer"] = 1] = "PropertyInitializer";
+    /** Values for a class getter or class setter to mirror. */
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["AccessorMirror"] = 2] = "AccessorMirror";
+    /** Statements starting a statement purpose block. */
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["HeadStatements"] = 4] = "HeadStatements";
+    /** Statements in a purpose block for a given property and class member. */
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["BodyStatements"] = 8] = "BodyStatements";
+    /** Statements closing a statement purpose block. */
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["TailStatements"] = 16] = "TailStatements";
+    /** Statements starting a statement purpose block for the constructor. */
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["ConstructorHeadStatements"] = 32] = "ConstructorHeadStatements";
+    /** Statements in a purpose block for a given property on the constructor. */
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["ConstructorBodyStatements"] = 64] = "ConstructorBodyStatements";
+    /** Statements closing a statement purpose block for the constructor. */
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["ConstructorTailStatements"] = 128] = "ConstructorTailStatements";
+    /** "I support all statement getter traps."  Try not to use this. */
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["All"] = 255] = "All";
 })(ClassSupportsStatementsFlags || (ClassSupportsStatementsFlags = {}));
 /** Convert type members to a class members map, including statements. */
@@ -5562,7 +5574,7 @@ class MemberedTypeToClass {
         return errors;
     }
     static #validateStatementsGetterByFlag(getter, flag, filterName, getterName, errors) {
-        if (getter.supportsStatementFlags & flag) {
+        if (getter.supportsStatementsFlags & flag) {
             if (!getter[filterName]) {
                 errors.push(new Error(`statements getter is missing ${filterName}: ${getter.keyword}`));
             }
@@ -5792,6 +5804,7 @@ class MemberedTypeToClass {
     //#endregion build the class members map
     //#region statement management
     /**
+     * Define a statement purpose group for the target class.
      *
      * @param purposeKey - The purpose of the statmeent group (validation, preconditions, body, postconditions, etc.)
      * @param isBlockStatement - true if the statement block should be enclosed in curly braces.
@@ -5812,6 +5825,12 @@ class MemberedTypeToClass {
             statementsMap.regionName = regionName;
         }
     }
+    /**
+     * Add statement getters to this.
+     *
+     * @param priority - a number indicating the priority of the getters (lower numbers beat higher numbers).
+     * @param statementGetters - the statement getters to insert.
+     */
     addStatementGetters(priority, statementGetters) {
         const knownGetters = [];
         const invalidGetterErrors = [];
@@ -5833,7 +5852,7 @@ class MemberedTypeToClass {
                 this.#statementsGettersToPriorityAndPositionMap.size,
             ]);
             for (const flag of _a$1.#supportsFlagsNumbers) {
-                if (flag & getter.supportsStatementFlags) {
+                if (flag & getter.supportsStatementsFlags) {
                     let getterArray = this.#statementsGettersBySupportFlag.get(flag);
                     if (!getterArray) {
                         getterArray = [];

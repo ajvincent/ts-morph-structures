@@ -14,9 +14,11 @@ filterCtorBodyStatements(key: MemberedStatementsKey): boolean;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) |  |
+|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) | The membered statement key. <code>statementGroupKey</code> will be "constructor". |
 
 **Returns:**
 
 boolean
+
+true for a match against the key.
 

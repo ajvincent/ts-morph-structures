@@ -82,7 +82,7 @@
 
 |  Enumeration | Description |
 |  --- | --- |
-|  [ClassSupportsStatementsFlags](./ts-morph-structures.classsupportsstatementsflags.md) |  |
+|  [ClassSupportsStatementsFlags](./ts-morph-structures.classsupportsstatementsflags.md) | Bitwise flags to enable statement getter traps. |
 |  [FunctionWriterStyle](./ts-morph-structures.functionwriterstyle.md) |  |
 |  [TypeStructureKind](./ts-morph-structures.typestructurekind.md) |  |
 
@@ -101,7 +101,7 @@
 |  Interface | Description |
 |  --- | --- |
 |  [AbstractableNodeStructureClassIfc](./ts-morph-structures.abstractablenodestructureclassifc.md) |  |
-|  [AccessorMirrorGetter](./ts-morph-structures.accessormirrorgetter.md) |  |
+|  [AccessorMirrorGetter](./ts-morph-structures.accessormirrorgetter.md) | A value for getters and setters of a class to reflect. |
 |  [AddExportContext](./ts-morph-structures.addexportcontext.md) | A description of the exports to add. |
 |  [AddImportContext](./ts-morph-structures.addimportcontext.md) | A description of the imports to add. |
 |  [AmbientableNodeStructureClassIfc](./ts-morph-structures.ambientablenodestructureclassifc.md) |  |
@@ -109,21 +109,21 @@
 |  [CallSignatureDeclarationStructureClassIfc](./ts-morph-structures.callsignaturedeclarationstructureclassifc.md) |  |
 |  [ClassAbstractMemberQuestion](./ts-morph-structures.classabstractmemberquestion.md) |  |
 |  [ClassAsyncMethodQuestion](./ts-morph-structures.classasyncmethodquestion.md) |  |
-|  [ClassBodyStatementsGetter](./ts-morph-structures.classbodystatementsgetter.md) |  |
+|  [ClassBodyStatementsGetter](./ts-morph-structures.classbodystatementsgetter.md) | Statements in a statement purpose block for a particular property and function. |
 |  [ClassDeclarationStructureClassIfc](./ts-morph-structures.classdeclarationstructureclassifc.md) |  |
 |  [ClassDeclarationWithImplementsTypeStructures](./ts-morph-structures.classdeclarationwithimplementstypestructures.md) |  |
 |  [ClassGeneratorMethodQuestion](./ts-morph-structures.classgeneratormethodquestion.md) |  |
-|  [ClassHeadStatementsGetter](./ts-morph-structures.classheadstatementsgetter.md) |  |
+|  [ClassHeadStatementsGetter](./ts-morph-structures.classheadstatementsgetter.md) | Statements at the start of a statement purpose block. |
 |  [ClassScopeMemberQuestion](./ts-morph-structures.classscopememberquestion.md) |  |
-|  [ClassStatementsGetter](./ts-morph-structures.classstatementsgetter.md) |  |
+|  [ClassStatementsGetter](./ts-morph-structures.classstatementsgetter.md) | Traps for getting statements, based on a <code>MemberedStatementsKey</code>. |
 |  [ClassStaticBlockDeclarationStructureClassIfc](./ts-morph-structures.classstaticblockdeclarationstructureclassifc.md) |  |
-|  [ClassTailStatementsGetter](./ts-morph-structures.classtailstatementsgetter.md) |  |
+|  [ClassTailStatementsGetter](./ts-morph-structures.classtailstatementsgetter.md) | Statements at the end of a statement purpose block. |
 |  [ConditionalTypeStructureParts](./ts-morph-structures.conditionaltypestructureparts.md) |  |
-|  [ConstructorBodyStatementsGetter](./ts-morph-structures.constructorbodystatementsgetter.md) |  |
+|  [ConstructorBodyStatementsGetter](./ts-morph-structures.constructorbodystatementsgetter.md) | Statements in a statement purpose block for a particular property in the constructor. |
 |  [ConstructorDeclarationOverloadStructureClassIfc](./ts-morph-structures.constructordeclarationoverloadstructureclassifc.md) |  |
 |  [ConstructorDeclarationStructureClassIfc](./ts-morph-structures.constructordeclarationstructureclassifc.md) |  |
-|  [ConstructorHeadStatementsGetter](./ts-morph-structures.constructorheadstatementsgetter.md) |  |
-|  [ConstructorTailStatementsGetter](./ts-morph-structures.constructortailstatementsgetter.md) |  |
+|  [ConstructorHeadStatementsGetter](./ts-morph-structures.constructorheadstatementsgetter.md) | Statements at the start of a constructor's statement purpose block. |
+|  [ConstructorTailStatementsGetter](./ts-morph-structures.constructortailstatementsgetter.md) | Statements at the end of a constructor's statement purpose block. |
 |  [ConstructSignatureDeclarationStructureClassIfc](./ts-morph-structures.constructsignaturedeclarationstructureclassifc.md) |  |
 |  [DecoratableNodeStructureClassIfc](./ts-morph-structures.decoratablenodestructureclassifc.md) |  |
 |  [DecoratorStructureClassIfc](./ts-morph-structures.decoratorstructureclassifc.md) |  |
@@ -167,7 +167,7 @@
 |  [ParameteredNodeStructureClassIfc](./ts-morph-structures.parameterednodestructureclassifc.md) |  |
 |  [PropertyAssignmentStructureClassIfc](./ts-morph-structures.propertyassignmentstructureclassifc.md) |  |
 |  [PropertyDeclarationStructureClassIfc](./ts-morph-structures.propertydeclarationstructureclassifc.md) |  |
-|  [PropertyInitializerGetter](./ts-morph-structures.propertyinitializergetter.md) |  |
+|  [PropertyInitializerGetter](./ts-morph-structures.propertyinitializergetter.md) | For the initial value of a property. |
 |  [PropertySignatureStructureClassIfc](./ts-morph-structures.propertysignaturestructureclassifc.md) |  |
 |  [QuestionTokenableNodeStructureClassIfc](./ts-morph-structures.questiontokenablenodestructureclassifc.md) |  |
 |  [ReadonlyableNodeStructureClassIfc](./ts-morph-structures.readonlyablenodestructureclassifc.md) |  |

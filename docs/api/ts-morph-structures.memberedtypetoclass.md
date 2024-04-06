@@ -27,10 +27,10 @@ export default class MemberedTypeToClass
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [addStatementGetters(priority, statementGetters)](./ts-morph-structures.memberedtypetoclass.addstatementgetters.md) |  |  |
+|  [addStatementGetters(priority, statementGetters)](./ts-morph-structures.memberedtypetoclass.addstatementgetters.md) |  | Add statement getters to this. |
 |  [addTypeMember(isStatic, member)](./ts-morph-structures.memberedtypetoclass.addtypemember.md) |  | Define a class member for a given type member (constructor, property, method, getter, setter). |
 |  [buildClassMembersMap()](./ts-morph-structures.memberedtypetoclass.buildclassmembersmap.md) |  | Convert cached type members to a ClassMembersMap, complete with statements. |
-|  [defineStatementsByPurpose(purposeKey, isBlockStatement, regionName)](./ts-morph-structures.memberedtypetoclass.definestatementsbypurpose.md) |  |  |
+|  [defineStatementsByPurpose(purposeKey, isBlockStatement, regionName)](./ts-morph-structures.memberedtypetoclass.definestatementsbypurpose.md) |  | Define a statement purpose group for the target class. |
 |  [importFromMemberedType(isStatic, membered)](./ts-morph-structures.memberedtypetoclass.importfrommemberedtype.md) |  | Define class members for a membered object type or interface. |
 |  [importFromTypeMembersMap(isStatic, membersMap)](./ts-morph-structures.memberedtypetoclass.importfromtypemembersmap.md) |  | Define class members for a map of given type members (constructor, property, method, getter, setter). |
 |  [insertMemberKey(isFieldStatic, fieldType, isGroupStatic, groupType)](./ts-morph-structures.memberedtypetoclass.insertmemberkey.md) |  | Add member keys for a field and a group. |

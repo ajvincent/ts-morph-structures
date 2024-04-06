@@ -16,9 +16,11 @@ getCtorBodyStatements(
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) |  |
+|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) | The membered statement key. <code>statementGroupKey</code> will be "constructor". |
 
 **Returns:**
 
 readonly [stringWriterOrStatementImpl](./ts-morph-structures.stringwriterorstatementimpl.md)<!-- -->\[\]
+
+statements to insert for the given field key and statement group key.
 

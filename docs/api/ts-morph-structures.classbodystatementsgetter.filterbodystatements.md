@@ -14,9 +14,11 @@ filterBodyStatements(key: MemberedStatementsKey): boolean;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) |  |
+|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) | The membered statement key. |
 
 **Returns:**
 
 boolean
+
+true for a match against the key.
 

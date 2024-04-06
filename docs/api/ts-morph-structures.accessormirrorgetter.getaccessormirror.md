@@ -16,9 +16,11 @@ getAccessorMirror(
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) |  |
+|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) | Describing the getter or setter to implement. <code>statementGroupKey</code> will be <code>ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY</code>. |
 
 **Returns:**
 
 [stringWriterOrStatementImpl](./ts-morph-structures.stringwriterorstatementimpl.md) \| undefined
+
+the value to write for the getter and/or setter to mirror.
 

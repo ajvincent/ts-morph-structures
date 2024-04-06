@@ -120,62 +120,184 @@ export type stringWriterOrStatementImpl =
   | stringOrWriterFunction
   | StatementStructureImpls;
 
+/**
+ * For the initial value of a property.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.PropertyInitializer` must be non-zero.
+ */
 export interface PropertyInitializerGetter {
+  /**
+   * @param key - The property description key.  `statementGroupKey` will be `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY`.
+   * @returns true for a match against the key.
+   */
   filterPropertyInitializer(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - The property description key.  `statementGroupKey` will be `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY`.
+   * @returns the value to write for the property initializer.
+   */
   getPropertyInitializer(
     key: MemberedStatementsKey,
   ): stringWriterOrStatementImpl | undefined;
 }
 
+/**
+ * A value for getters and setters of a class to reflect.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.AccessorMirror` must be non-zero.
+ */
 export interface AccessorMirrorGetter {
+  /**
+   * @param key - Describing the getter or setter to implement.  `statementGroupKey` will be `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY`.
+   * @returns true for a match against the key.
+   */
   filterAccessorMirror(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - Describing the getter or setter to implement.  `statementGroupKey` will be `ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY`.
+   * @returns the value to write for the getter and/or setter to mirror.
+   */
   getAccessorMirror(
     key: MemberedStatementsKey,
   ): stringWriterOrStatementImpl | undefined;
 }
 
+/**
+ * Statements at the start of a statement purpose block.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.HeadStatements` must be non-zero.
+ */
 export interface ClassHeadStatementsGetter {
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL`.
+   * @returns true for a match against the key.
+   */
   filterHeadStatements(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL`.
+   * @returns statements to insert before other statements in the purpose block.
+   */
   getHeadStatements(
     key: MemberedStatementsKey,
   ): readonly stringWriterOrStatementImpl[];
 }
 
+/**
+ * Statements in a statement purpose block for a particular property and function.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.BodyStatements` must be non-zero.
+ */
 export interface ClassBodyStatementsGetter {
+  /**
+   * @param key - The membered statement key.
+   * @returns true for a match against the key.
+   */
   filterBodyStatements(key: MemberedStatementsKey): boolean;
+  /**
+   * @param key - The membered statement key.
+   * @returns statements to insert for the given field key and statement group key.
+   */
   getBodyStatements(
     key: MemberedStatementsKey,
   ): readonly stringWriterOrStatementImpl[];
 }
 
+/**
+ * Statements at the end of a statement purpose block.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.TailStatements` must be non-zero.
+ */
 export interface ClassTailStatementsGetter {
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN`.
+   * @returns true for a match against the key.
+   */
   filterTailStatements(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN`.
+   * @returns statements to insert after other statements in the purpose block.
+   */
   getTailStatements(
     key: MemberedStatementsKey,
   ): readonly stringWriterOrStatementImpl[];
 }
 
+/**
+ * Statements at the start of a constructor's statement purpose block.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.ConstructorHeadStatements` must be non-zero.
+ */
 export interface ConstructorHeadStatementsGetter {
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL`.  `statementGroupKey` will be "constructor".
+   * @returns true for a match against the key.
+   */
   filterCtorHeadStatements(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL`.  `statementGroupKey` will be "constructor".
+   * @returns statements to insert before other statements in the purpose block.
+   */
   getCtorHeadStatements(
     key: MemberedStatementsKey,
   ): readonly stringWriterOrStatementImpl[];
 }
 
+/**
+ * Statements in a statement purpose block for a particular property in the constructor.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.ConstructorBodyStatements` must be non-zero.
+ */
 export interface ConstructorBodyStatementsGetter {
+  /**
+   * @param key - The membered statement key.  `statementGroupKey` will be "constructor".
+   * @returns true for a match against the key.
+   */
   filterCtorBodyStatements(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - The membered statement key.  `statementGroupKey` will be "constructor".
+   * @returns statements to insert for the given field key and statement group key.
+   */
   getCtorBodyStatements(
     key: MemberedStatementsKey,
   ): readonly stringWriterOrStatementImpl[];
 }
 
+/**
+ * Statements at the end of a constructor's statement purpose block.
+ *
+ * @remarks
+ * To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.ConstructorTailStatements` must be non-zero.
+ */
 export interface ConstructorTailStatementsGetter {
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN`.  `statementGroupKey` will be "constructor".
+   * @returns true for a match against the key.
+   */
   filterCtorTailStatements(key: MemberedStatementsKey): boolean;
+
+  /**
+   * @param key - The membered statement key.  `fieldKey` will be `ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN`.  `statementGroupKey` will be "constructor".
+   * @returns statements to insert before other statements in the purpose block.
+   */
   getCtorTailStatements(
     key: MemberedStatementsKey,
   ): readonly stringWriterOrStatementImpl[];
 }
 
+/**
+ * Traps for getting statements, based on a `MemberedStatementsKey`.
+ */
 export interface ClassStatementsGetter
   extends Partial<PropertyInitializerGetter>,
     Partial<AccessorMirrorGetter>,
@@ -185,6 +307,12 @@ export interface ClassStatementsGetter
     Partial<ConstructorHeadStatementsGetter>,
     Partial<ConstructorBodyStatementsGetter>,
     Partial<ConstructorTailStatementsGetter> {
+  /** A human-readable string for debugging. */
   keyword: readonly string;
-  supportsStatementFlags: readonly number;
+
+  /**
+   * Bitwise flags to determine which statement getter traps are active.
+   * @see ClassSupportsStatementsFlags
+   */
+  supportsStatementsFlags: readonly number;
 }

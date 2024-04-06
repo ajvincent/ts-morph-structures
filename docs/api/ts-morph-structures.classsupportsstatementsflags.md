@@ -4,6 +4,8 @@
 
 ## ClassSupportsStatementsFlags enum
 
+Bitwise flags to enable statement getter traps.
+
 **Signature:**
 
 ```typescript
@@ -14,13 +16,13 @@ export declare enum ClassSupportsStatementsFlags
 
 |  Member | Value | Description |
 |  --- | --- | --- |
-|  AccessorMirror | <code>2</code> |  |
-|  All | <code>255</code> |  |
-|  BodyStatements | <code>8</code> |  |
-|  ConstructorBodyStatements | <code>64</code> |  |
-|  ConstructorHeadStatements | <code>32</code> |  |
-|  ConstructorTailStatements | <code>128</code> |  |
-|  HeadStatements | <code>4</code> |  |
-|  PropertyInitializer | <code>1</code> |  |
-|  TailStatements | <code>16</code> |  |
+|  AccessorMirror | <code>2</code> | Values for a class getter or class setter to mirror. |
+|  All | <code>255</code> | "I support all statement getter traps." Try not to use this. |
+|  BodyStatements | <code>8</code> | Statements in a purpose block for a given property and class member. |
+|  ConstructorBodyStatements | <code>64</code> | Statements in a purpose block for a given property on the constructor. |
+|  ConstructorHeadStatements | <code>32</code> | Statements starting a statement purpose block for the constructor. |
+|  ConstructorTailStatements | <code>128</code> | Statements closing a statement purpose block for the constructor. |
+|  HeadStatements | <code>4</code> | Statements starting a statement purpose block. |
+|  PropertyInitializer | <code>1</code> | The initial value of a property. |
+|  TailStatements | <code>16</code> | Statements closing a statement purpose block. |
 

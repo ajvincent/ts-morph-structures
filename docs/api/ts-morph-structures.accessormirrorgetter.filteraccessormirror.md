@@ -14,9 +14,11 @@ filterAccessorMirror(key: MemberedStatementsKey): boolean;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) |  |
+|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) | Describing the getter or setter to implement. <code>statementGroupKey</code> will be <code>ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY</code>. |
 
 **Returns:**
 
 boolean
+
+true for a match against the key.
 

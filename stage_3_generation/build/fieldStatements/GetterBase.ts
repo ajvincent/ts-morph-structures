@@ -14,7 +14,7 @@ implements ClassStatementsGetter
   protected readonly module: BaseClassModule;
 
   readonly keyword: string;
-  readonly supportsStatementFlags: number;
+  readonly supportsStatementsFlags: number;
 
   constructor(
     module: BaseClassModule,
@@ -26,6 +26,6 @@ implements ClassStatementsGetter
     this.baseName = module.baseName;
     this.module = module;
     this.keyword = module.baseName + ":" + keyword;
-    this.supportsStatementFlags = flags;
+    this.supportsStatementsFlags = flags;
   }
 }

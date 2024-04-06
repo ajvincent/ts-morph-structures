@@ -52,15 +52,27 @@ interface InsertedMemberKey {
     | "(initializer or property reference)" /* ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY */;
 }
 
+/**
+ * Bitwise flags to enable statement getter traps.
+ */
 export enum ClassSupportsStatementsFlags {
+  /** The initial value of a property.*/
   PropertyInitializer = 1 << 0,
+  /** Values for a class getter or class setter to mirror. */
   AccessorMirror = 1 << 1,
+  /** Statements starting a statement purpose block. */
   HeadStatements = 1 << 2,
+  /** Statements in a purpose block for a given property and class member. */
   BodyStatements = 1 << 3,
+  /** Statements closing a statement purpose block. */
   TailStatements = 1 << 4,
+  /** Statements starting a statement purpose block for the constructor. */
   ConstructorHeadStatements = 1 << 5,
+  /** Statements in a purpose block for a given property on the constructor. */
   ConstructorBodyStatements = 1 << 6,
+  /** Statements closing a statement purpose block for the constructor. */
   ConstructorTailStatements = 1 << 7,
+  /** "I support all statement getter traps."  Try not to use this. */
   All = ClassSupportsStatementsFlags.ConstructorTailStatements * 2 - 1,
 }
 
@@ -229,7 +241,7 @@ export default class MemberedTypeToClass {
     getterName: Extract<keyof ClassStatementsGetter, `get${string}`>,
     errors: Error[],
   ): boolean {
-    if (getter.supportsStatementFlags & flag) {
+    if (getter.supportsStatementsFlags & flag) {
       if (!getter[filterName]) {
         errors.push(
           new Error(
@@ -600,6 +612,7 @@ export default class MemberedTypeToClass {
   //#region statement management
 
   /**
+   * Define a statement purpose group for the target class.
    *
    * @param purposeKey - The purpose of the statmeent group (validation, preconditions, body, postconditions, etc.)
    * @param isBlockStatement - true if the statement block should be enclosed in curly braces.
@@ -627,6 +640,12 @@ export default class MemberedTypeToClass {
     }
   }
 
+  /**
+   * Add statement getters to this.
+   *
+   * @param priority - a number indicating the priority of the getters (lower numbers beat higher numbers).
+   * @param statementGetters - the statement getters to insert.
+   */
   addStatementGetters(
     priority: number,
     statementGetters: readonly ClassStatementsGetter[],
@@ -661,7 +680,7 @@ export default class MemberedTypeToClass {
         this.#statementsGettersToPriorityAndPositionMap.size,
       ]);
       for (const flag of MemberedTypeToClass.#supportsFlagsNumbers) {
-        if (flag & getter.supportsStatementFlags) {
+        if (flag & getter.supportsStatementsFlags) {
           let getterArray = this.#statementsGettersBySupportFlag.get(flag);
           if (!getterArray) {
             getterArray = [];

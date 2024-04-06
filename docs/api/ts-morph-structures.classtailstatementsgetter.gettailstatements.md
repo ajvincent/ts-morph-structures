@@ -16,9 +16,11 @@ getTailStatements(
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) |  |
+|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) | The membered statement key. <code>fieldKey</code> will be <code>ClassFieldStatementsMap.FIELD_TAIL_FINAL_RETURN</code>. |
 
 **Returns:**
 
 readonly [stringWriterOrStatementImpl](./ts-morph-structures.stringwriterorstatementimpl.md)<!-- -->\[\]
+
+statements to insert after other statements in the purpose block.
 

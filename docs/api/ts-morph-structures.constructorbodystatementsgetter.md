@@ -4,11 +4,17 @@
 
 ## ConstructorBodyStatementsGetter interface
 
+Statements in a statement purpose block for a particular property in the constructor.
+
 **Signature:**
 
 ```typescript
 export interface ConstructorBodyStatementsGetter 
 ```
+
+## Remarks
+
+To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.ConstructorBodyStatements` must be non-zero.
 
 ## Methods
 

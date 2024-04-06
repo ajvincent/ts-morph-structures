@@ -4,11 +4,17 @@
 
 ## ClassHeadStatementsGetter interface
 
+Statements at the start of a statement purpose block.
+
 **Signature:**
 
 ```typescript
 export interface ClassHeadStatementsGetter 
 ```
+
+## Remarks
+
+To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.HeadStatements` must be non-zero.
 
 ## Methods
 

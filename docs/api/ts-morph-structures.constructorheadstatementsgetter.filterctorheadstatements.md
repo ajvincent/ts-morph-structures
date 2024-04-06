@@ -14,9 +14,11 @@ filterCtorHeadStatements(key: MemberedStatementsKey): boolean;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) |  |
+|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) | The membered statement key. <code>fieldKey</code> will be <code>ClassFieldStatementsMap.FIELD_HEAD_SUPER_CALL</code>. <code>statementGroupKey</code> will be "constructor". |
 
 **Returns:**
 
 boolean
+
+true for a match against the key.
 

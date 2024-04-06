@@ -4,11 +4,17 @@
 
 ## ClassTailStatementsGetter interface
 
+Statements at the end of a statement purpose block.
+
 **Signature:**
 
 ```typescript
 export interface ClassTailStatementsGetter 
 ```
+
+## Remarks
+
+To run these methods, `this.supportsStatementsFlags & ClassSupportsStatementsFlags.TailStatements` must be non-zero.
 
 ## Methods
 

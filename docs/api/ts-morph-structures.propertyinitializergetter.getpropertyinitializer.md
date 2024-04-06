@@ -16,9 +16,11 @@ getPropertyInitializer(
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) |  |
+|  key | [MemberedStatementsKey](./ts-morph-structures.memberedstatementskey.md) | The property description key. <code>statementGroupKey</code> will be <code>ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY</code>. |
 
 **Returns:**
 
 [stringWriterOrStatementImpl](./ts-morph-structures.stringwriterorstatementimpl.md) \| undefined
+
+the value to write for the property initializer.
 
