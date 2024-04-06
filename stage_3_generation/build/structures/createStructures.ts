@@ -148,7 +148,7 @@ function buildTypeToClass(
   interfaceModule: InterfaceModule
 ): MemberedTypeToClass
 {
-  const typeToClass = new MemberedTypeToClass([]);
+  const typeToClass = new MemberedTypeToClass;
   addReadonlyArrayHandlers(module, interfaceModule.typeMembers, typeToClass);
 
   typeToClass.addStatementGetters(StatementsPriority.BASELINE, getBaselineStatementGetters(module));

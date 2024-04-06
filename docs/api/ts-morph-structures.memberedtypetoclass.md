@@ -12,12 +12,6 @@ Convert type members to a class members map, including statements.
 export default class MemberedTypeToClass 
 ```
 
-## Constructors
-
-|  Constructor | Modifiers | Description |
-|  --- | --- | --- |
-|  [(constructor)(constructorArguments)](./ts-morph-structures.memberedtypetoclass._constructor_.md) |  | Constructs a new instance of the <code>MemberedTypeToClass</code> class |
-
 ## Properties
 
 |  Property | Modifiers | Type | Description |

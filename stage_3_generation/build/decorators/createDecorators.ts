@@ -65,7 +65,7 @@ async function buildDecorator(
 
   const replacedProperties = modifyTypeMembersForTypeStructures(name, interfaceMembers);
 
-  const typeToClass = new MemberedTypeToClass([]);
+  const typeToClass = new MemberedTypeToClass;
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
   typeToClass.addStatementGetters(StatementsPriority.BASELINE, getBaselineStatementGetters(module));
 

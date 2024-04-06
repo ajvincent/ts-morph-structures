@@ -5589,13 +5589,6 @@ class MemberedTypeToClass {
     #statementsGettersBySupportFlag = new Map();
     #statementsGettersToPriorityAndPositionMap = new Map();
     #statementKeysBySupportFlag = new Map();
-    /**
-     * @param constructorArguments - parameters to define on the constructor.
-     * @param statementsGetter - a callback to get statements for each individual statement purpose, field name and statement group name.
-     */
-    constructor(constructorArguments) {
-        this.#classConstructor.parameters.push(...constructorArguments);
-    }
     #requireNotStarted() {
         if (this.#classMembersMap)
             throw new Error("You have already called buildClassDeclaration()");

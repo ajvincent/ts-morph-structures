@@ -285,14 +285,6 @@ export default class MemberedTypeToClass {
     MemberedStatementsKey[]
   >();
 
-  /**
-   * @param constructorArguments - parameters to define on the constructor.
-   * @param statementsGetter - a callback to get statements for each individual statement purpose, field name and statement group name.
-   */
-  constructor(constructorArguments: ParameterDeclarationImpl[]) {
-    this.#classConstructor.parameters.push(...constructorArguments);
-  }
-
   #requireNotStarted(): void {
     if (this.#classMembersMap)
       throw new Error("You have already called buildClassDeclaration()");

@@ -2034,11 +2034,6 @@ declare enum ClassSupportsStatementsFlags {
 /** Convert type members to a class members map, including statements. */
 declare class MemberedTypeToClass {
     #private;
-    /**
-     * @param constructorArguments - parameters to define on the constructor.
-     * @param statementsGetter - a callback to get statements for each individual statement purpose, field name and statement group name.
-     */
-    constructor(constructorArguments: ParameterDeclarationImpl[]);
     /** The class constructor's current parameters list. */
     get constructorParameters(): ParameterDeclarationImpl[];
     /**

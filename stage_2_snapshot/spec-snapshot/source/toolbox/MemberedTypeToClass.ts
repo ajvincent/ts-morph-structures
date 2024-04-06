@@ -243,7 +243,7 @@ describe("MemberedTypeToClass", () => {
 
   let typeToClass: MemberedTypeToClass;
   beforeEach(() => {
-    typeToClass = new MemberedTypeToClass([]);
+    typeToClass = new MemberedTypeToClass;
   });
 
   it("can create an empty class, with no statement maps", () => {
@@ -632,12 +632,11 @@ describe("MemberedTypeToClass", () => {
     );
     //#endregion statementsGetter set-up
 
-    const ctorParameters: ParameterDeclarationImpl[] = [];
     const ctorOneParam = new ParameterDeclarationImpl("one");
     ctorOneParam.typeStructure = prop1.typeStructure;
-    ctorParameters.push(ctorOneParam);
 
-    typeToClass = new MemberedTypeToClass(ctorParameters);
+    typeToClass = new MemberedTypeToClass();
+    typeToClass.constructorParameters.push(ctorOneParam);
 
     typeToClass.importFromTypeMembersMap(false, membersMap);
     typeToClass.addTypeMember(true, prop2);
