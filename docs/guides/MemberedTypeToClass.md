@@ -379,7 +379,7 @@ Here, it's best to:
 
 Later, you can use the original interface as part of an `implementsSet` for the class declaration.
 
-### Constructor parameters
+### Constructor parameters and adding new class fields, methods, and accessors
 
 ```typescript
 declare class MemberedTypeToClass {
