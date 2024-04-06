@@ -21,7 +21,7 @@ implements AccessorMirrorGetter
     module: BaseClassModule,
   )
   {
-    super(module, "TypeGetterStatements", ClassSupportsStatementsFlags.PropertyInitializer);
+    super(module, "TypeGetterStatements", ClassSupportsStatementsFlags.AccessorMirror);
   }
 
   filterAccessorMirror(

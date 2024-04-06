@@ -88,8 +88,6 @@ implements ClassHeadStatementsGetter, ClassBodyStatementsGetter
   filterBodyStatements(key: MemberedStatementsKey): boolean {
     if (key.fieldKey === "kind")
       return false;
-    if (key.fieldKey === "kind")
-      return false;
     return this.#accept(key);
   }
 

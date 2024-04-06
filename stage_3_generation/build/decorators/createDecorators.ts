@@ -25,7 +25,6 @@ import {
 
 import modifyTypeMembersForTypeStructures from "../classTools/modifyTypeMembersForTypeStructures.js";
 
-import StatementsRouter from "../fieldStatements/StatementsRouter.js";
 import CloneStatement_Statements from "./CloneStatement.js";
 
 import {
@@ -36,6 +35,10 @@ import {
 } from "../../moduleClasses/exports.js";
 
 import DebuggingFilter from "../fieldStatements/Debugging.js";
+import {
+  StatementsPriority,
+  getBaselineStatementGetters,
+} from "../fieldStatements/StatementsPriority.js";
 
 void(ClassFieldStatementsMap);
 void(DebuggingFilter);
@@ -62,10 +65,9 @@ async function buildDecorator(
 
   const replacedProperties = modifyTypeMembersForTypeStructures(name, interfaceMembers);
 
-  const router = new StatementsRouter(module);
-
-  const typeToClass = new MemberedTypeToClass([], router);
+  const typeToClass = new MemberedTypeToClass([]);
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
+  typeToClass.addStatementGetters(StatementsPriority.BASELINE, getBaselineStatementGetters(module));
 
   // stage two sorts the type members... we don't.
 
@@ -85,7 +87,7 @@ async function buildDecorator(
 
   if (name.startsWith("StatementedNode")) {
     const cloneStatementFilter = new CloneStatement_Statements(module);
-    router.filters.unshift(cloneStatementFilter);
+    typeToClass.addStatementGetters(StatementsPriority.DECORATOR_SPECIFIC, [cloneStatementFilter]);
     typeToClass.addTypeMember(true, cloneStatementFilter.getMethodSignature());
   }
 

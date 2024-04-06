@@ -65,6 +65,6 @@ implements ClassBodyStatementsGetter, ConstructorBodyStatementsGetter, PropertyI
   }
 
   #isStatic_Key(key: MemberedStatementsKey): boolean {
-    return (key.isFieldStatic && key.fieldKey === "isStatic");
+    return (!key.isFieldStatic && key.fieldKey === "isStatic");
   }
 }

@@ -1,5 +1,5 @@
 // #region preamble
-import BaseClassModule from "#stage_three/generation/moduleClasses/BaseClassModule";
+import BaseClassModule from "#stage_three/generation/moduleClasses/BaseClassModule.js";
 import {
   type ClassHeadStatementsGetter,
   ClassSupportsStatementsFlags,
@@ -8,7 +8,7 @@ import {
   type PropertyInitializerGetter,
   type stringWriterOrStatementImpl,
 } from "#stage_two/snapshot/source/exports.js";
-import StatementGetterBase from "../../fieldStatements/GetterBase";
+import StatementGetterBase from "../../fieldStatements/GetterBase.js";
 
 // #endregion preamble
 

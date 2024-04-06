@@ -3,7 +3,6 @@ import {
   type ClassBodyStatementsGetter,
   type ClassHeadStatementsGetter,
   type ClassTailStatementsGetter,
-  ClassSupportsStatementsFlags,
   type ConstructorBodyStatementsGetter,
   type ConstructorHeadStatementsGetter,
   type ConstructorTailStatementsGetter,
@@ -27,6 +26,7 @@ ConstructorBodyStatementsGetter, ConstructorHeadStatementsGetter, ConstructorTai
 
   constructor(
     module: BaseClassModule,
+    flags: number,
     fieldKeyPrefix: string,
     groupKeyNeedle: string,
     baseName?: string
@@ -35,7 +35,7 @@ ConstructorBodyStatementsGetter, ConstructorHeadStatementsGetter, ConstructorTai
     super(
       module,
       "Debugging",
-      ClassSupportsStatementsFlags.All,
+      flags,
     );
     this.#fieldKeyPrefix = fieldKeyPrefix;
     this.#groupKeyNeedle = groupKeyNeedle;

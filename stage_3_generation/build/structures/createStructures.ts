@@ -45,7 +45,6 @@ import PropertyHashesWithTypes from "../classTools/PropertyHashesWithTypes.js";
 
 import addReadonlyArrayHandlers from "./addReadonlyArrayHandler.js";
 
-import StatementsRouter from "../fieldStatements/StatementsRouter.js";
 import ArrayReadonlyHandler from "../fieldStatements/TypeStructures/ArrayReadonlyHandler.js";
 import KindPropertyInitializer from "./KindProperty.js";
 import CloneStructureStatements from "./CloneStructureStatements.js";
@@ -70,6 +69,10 @@ import {
   AccessorExtraParameters,
   getInsertedAccessorProperty,
 } from "./specialCases/accessorConstructors.js";
+import {
+  StatementsPriority,
+  getBaselineStatementGetters,
+} from "../fieldStatements/StatementsPriority.js";
 
 void(ClassFieldStatementsMap);
 void(DebuggingFilter);
@@ -99,10 +102,10 @@ async function buildStructure(
   const interfaceMembers: TypeMembersMap = interfaceModule.typeMembers.clone();
   const replacedProperties = modifyTypeMembersForTypeStructures(name, interfaceMembers);
 
-  const [typeToClass, router] = buildTypeToClass(module, interfaceModule);
+  const typeToClass = buildTypeToClass(module, interfaceModule);
   typeToClass.importFromTypeMembersMap(false, interfaceMembers);
 
-  defineImplMethods(module, interfaceMembers, typeToClass, replacedProperties, router);
+  defineImplMethods(module, interfaceMembers, typeToClass, replacedProperties);
   typeToClass.defineStatementsByPurpose("body", false);
   defineClassCallbacks(typeToClass);
   insertConstructorKeys(module, typeToClass);
@@ -140,13 +143,13 @@ async function buildStructure(
 function buildTypeToClass(
   module: StructureModule,
   interfaceModule: InterfaceModule
-): [MemberedTypeToClass, StatementsRouter]
+): MemberedTypeToClass
 {
-  const router = new StatementsRouter(module);
-  const typeToClass = new MemberedTypeToClass([], router);
+  const typeToClass = new MemberedTypeToClass([]);
   addReadonlyArrayHandlers(module, interfaceModule.typeMembers, typeToClass);
 
-  router.filters.unshift(
+  typeToClass.addStatementGetters(StatementsPriority.BASELINE, getBaselineStatementGetters(module));
+  typeToClass.addStatementGetters(StatementsPriority.STRUCTURE_SPECIFIC, [
     new FixKeyType_Filter(module),
     new AccessorExtraParameters(module, typeToClass.constructorParameters),
     new ArrayReadonlyHandler(module),
@@ -157,14 +160,18 @@ function buildTypeToClass(
     new ProxyArrayStatements(module),
     new TypeStructureSetStatements(module),
     new TypeArrayStatements(module),
-  );
+  ]);
 
   const flatTypes = InterfaceModule.flatTypesMap.get(
     getClassInterfaceName(module.baseName)
   )!;
   const isStaticProp = flatTypes.getAsKind(StructureKind.PropertySignature, "isStatic");
   if (isStaticProp) {
-    router.filters.unshift(new IsStatic_Constructor(module, typeToClass.constructorParameters));
+    typeToClass.addStatementGetters(
+      StatementsPriority.IS_STATIC, [
+        new IsStatic_Constructor(module, typeToClass.constructorParameters)
+      ]
+    );
     typeToClass.insertMemberKey(false, isStaticProp, false, "constructor");
   }
 
@@ -173,7 +180,7 @@ function buildTypeToClass(
     typeToClass.insertMemberKey(false, accessorProp, false, "constructor");
   }
 
-  return [typeToClass, router];
+  return typeToClass;
 }
 
 function defineImplMethods(
@@ -181,7 +188,6 @@ function defineImplMethods(
   interfaceMembers: TypeMembersMap,
   typeToClass: MemberedTypeToClass,
   replacedProperties: PropertySignatureImpl[],
-  router: StatementsRouter,
 ): void
 {
   const copyFieldsMethod = module.createCopyFieldsMethod(true);
@@ -192,7 +198,7 @@ function defineImplMethods(
   if (fromSignature) {
     typeToClass.addTypeMember(true, fromSignature);
     const fromSignatureGetters = new FromSignatureStatements(module, typeToClass.constructorParameters);
-    router.filters.push(fromSignatureGetters);
+    typeToClass.addStatementGetters(StatementsPriority.BASELINE, [fromSignatureGetters]);
 
     fromSignatureGetters.sharedKeys.forEach(sharedKey => {
       typeToClass.insertMemberKey(

@@ -14,7 +14,7 @@ import {
 } from "#stage_two/snapshot/source/exports.js";
 
 import CallExpressionStatementImpl from "#stage_three/generation/pseudoStatements/CallExpression.js";
-import StatementGetterBase from "../GetterBase";
+import StatementGetterBase from "../GetterBase.js";
 import { BaseClassModule } from "#stage_three/generation/moduleClasses/exports.js";
 
 export default

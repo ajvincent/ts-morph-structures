@@ -8,15 +8,28 @@ import {
   MemberedStatementsKey,
   type PropertyInitializerGetter,
   TypeStructureKind,
-  type stringWriterOrStatementImpl
+  type stringWriterOrStatementImpl,
+  ClassSupportsStatementsFlags
 } from "#stage_two/snapshot/source/exports.js";
 
 import StatementGetterBase from "./GetterBase.js";
+import BaseClassModule from "#stage_three/generation/moduleClasses/BaseClassModule.js";
 
 export default
 class UndefinedProperties extends StatementGetterBase
 implements PropertyInitializerGetter
 {
+  constructor(
+    module: BaseClassModule
+  )
+  {
+    super(
+      module,
+      "UndefinedProperties",
+      ClassSupportsStatementsFlags.PropertyInitializer
+    );
+  }
+
   filterPropertyInitializer(
     key: MemberedStatementsKey
   ): boolean

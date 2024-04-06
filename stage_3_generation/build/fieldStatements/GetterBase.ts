@@ -25,7 +25,7 @@ implements ClassStatementsGetter
     this.importManager = module.importManager;
     this.baseName = module.baseName;
     this.module = module;
-    this.keyword = keyword;
+    this.keyword = module.baseName + ":" + keyword;
     this.supportsStatementFlags = flags;
   }
 }
