@@ -1,6 +1,11 @@
 // #region preamble
+import {
+  StructureKind
+} from "ts-morph";
+
 import BaseClassModule from "#stage_three/generation/moduleClasses/BaseClassModule.js";
 import {
+  type AccessorMirrorGetter,
   type ClassHeadStatementsGetter,
   ClassSupportsStatementsFlags,
   type ClassTailStatementsGetter,
@@ -13,7 +18,7 @@ import StatementGetterBase from "../../fieldStatements/GetterBase.js";
 // #endregion preamble
 
 export default class FixKeyType_Filter extends StatementGetterBase
-implements ClassHeadStatementsGetter, ClassTailStatementsGetter, PropertyInitializerGetter
+implements AccessorMirrorGetter, ClassHeadStatementsGetter, ClassTailStatementsGetter, PropertyInitializerGetter
 {
   constructor(
     module: BaseClassModule
@@ -22,10 +27,23 @@ implements ClassHeadStatementsGetter, ClassTailStatementsGetter, PropertyInitial
     super(
       module,
       "FixKeyType_Filter",
+      ClassSupportsStatementsFlags.AccessorMirror |
       ClassSupportsStatementsFlags.HeadStatements |
       ClassSupportsStatementsFlags.TailStatements |
       ClassSupportsStatementsFlags.PropertyInitializer
     );
+  }
+
+  filterAccessorMirror(key: MemberedStatementsKey): boolean {
+    if (this.module.baseName !== "IndexSignatureDeclarationStructure")
+      return false;
+    if (key.fieldType?.kind !== StructureKind.GetAccessor)
+      return false;
+    return (key.fieldKey === "keyType");
+  }
+
+  getAccessorMirror(key: MemberedStatementsKey): undefined {
+    void(key);
   }
 
   filterHeadStatements(key: MemberedStatementsKey): boolean {

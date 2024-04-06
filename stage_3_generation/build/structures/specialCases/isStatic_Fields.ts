@@ -37,8 +37,9 @@ implements ClassBodyStatementsGetter, ConstructorBodyStatementsGetter, PropertyI
   }
 
   filterBodyStatements(key: MemberedStatementsKey): boolean {
-    return this.#isStatic_Key(key);
+    return this.#isStatic_Key(key) && key.statementGroupKey !== "toJSON";
   }
+
   getBodyStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
     void(key);
     return [];
@@ -47,6 +48,7 @@ implements ClassBodyStatementsGetter, ConstructorBodyStatementsGetter, PropertyI
   filterCtorBodyStatements(key: MemberedStatementsKey): boolean {
     return this.#isStatic_Key(key);
   }
+
   getCtorBodyStatements(key: MemberedStatementsKey): readonly stringWriterOrStatementImpl[] {
     void(key);
     const ctorParam = new ParameterDeclarationImpl("isStatic");
@@ -59,6 +61,7 @@ implements ClassBodyStatementsGetter, ConstructorBodyStatementsGetter, PropertyI
   filterPropertyInitializer(key: MemberedStatementsKey): boolean {
     return this.#isStatic_Key(key);
   }
+
   getPropertyInitializer(key: MemberedStatementsKey): undefined {
     void(key);
     return undefined;

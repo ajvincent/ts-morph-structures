@@ -15,6 +15,7 @@ import {
   type TypeMembersMap,
   TypeStructureKind,
   ClassMembersMap,
+  ClassSupportsStatementsFlags,
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
@@ -74,7 +75,9 @@ import {
   getBaselineStatementGetters,
 } from "../fieldStatements/StatementsPriority.js";
 
+// useful for debugging
 void(ClassFieldStatementsMap);
+void(ClassSupportsStatementsFlags);
 void(DebuggingFilter);
 // #endregion preamble
 
