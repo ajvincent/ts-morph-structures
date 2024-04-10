@@ -943,11 +943,13 @@ class TypeStructuresWithChildren extends TypeStructuresBase {
             return;
         if (childTypes.length > this.maxChildCount)
             childTypes = childTypes.slice(0, this.maxChildCount);
-        const lastChild = childTypes[childTypes.length - 1];
-        for (const child of childTypes) {
+        const lastIndex = childTypes.length - 1;
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+        for (let index = 0; index <= lastIndex; index++) {
+            const child = childTypes[index];
             child.writerFunction(writer);
-            if (child === lastChild)
-                return;
+            if (index === lastIndex)
+                break;
             if (this.printerSettings.oneLinePerChild) {
                 writer.write(this.joinChildrenToken.trimEnd());
                 writer.newLine();

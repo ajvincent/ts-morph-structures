@@ -289,10 +289,10 @@ describe("TypeStructure for ts-morph (stage 2): ", () => {
   });
 
   it("TupleTypeStructureImpl", () => {
-    const typedWriter = new TupleTypeStructureImpl([fooTyped, nstTyped]);
+    const typedWriter = new TupleTypeStructureImpl([fooTyped, nstTyped, nstTyped]);
 
     typedWriter.writerFunction(writer);
-    expect<string>(writer.toString()).toBe(`[foo, NumberStringType]`);
+    expect<string>(writer.toString()).toBe(`[foo, NumberStringType, NumberStringType]`);
     expect(typedWriter.kind).toBe(TypeStructureKind.Tuple);
     checkCloneAndRegistration(typedWriter, TupleTypeStructureImpl, false);
   });
