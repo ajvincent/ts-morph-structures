@@ -424,20 +424,20 @@ Now that we know the shape of what we're trying to implement, we can fill out th
 | `[Symbol.toStringTag]` | "StringStringMap"    |
 | `#hashMap`             |                      |
 
-| Method name         | (header)     | `toStringTag` | `#hashMap`   | (footer)     |
-|---------------------|--------------|---------------|--------------|--------------|
-| clear               |              |               | :check_mark: |              |
-| delete              | :check_mark: |               |              | :check_mark: |
-| forEach             |              |               | :check_mark: |              |
-| get                 | :check_mark: |               | :check_mark: | :check_mark: |
-| has                 | :check_mark: |               | :check_mark: | :check_mark: |
-| set                 | :check_mark  |               | :check_mark: | :check_mark: |
-| `[Symbol.Iterator]` |              |               | :check_mark: |              |
-| entries             |              |               |              | :check_mark: |
-| keys                |              |               | :check_mark: |              |
-| values              |              |               |              | :check_mark: |
-| constructor(...?)   |              |               | :check_mark: |              |
-| get size()          |              |               |              | :check_mark: |
+| Method name         | (header) | `toStringTag` | `#hashMap` | (footer) |
+|---------------------|----------|---------------|------------|----------|
+| clear               |          |               | &#x2713;   |          |
+| delete              | &#x2713; |               |            | &#x2713; |
+| forEach             |          |               | &#x2713;   |          |
+| get                 | &#x2713; |               | &#x2713;   | &#x2713; |
+| has                 | &#x2713; |               | &#x2713;   | &#x2713; |
+| set                 | &#x2713; |               | &#x2713;   | &#x2713; |
+| `[Symbol.Iterator]` |          |               | &#x2713;   |          |
+| entries             |          |               |            | &#x2713; |
+| keys                |          |               | &#x2713;   |          |
+| values              |          |               |            | &#x2713; |
+| constructor(...?)   |          |               | &#x2713;   |          |
+| get size()          |          |               |            | &#x2713; |
 
 These require a bit of explanation, and the decisions are partially arbitrary.  
 
