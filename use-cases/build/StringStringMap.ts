@@ -2,33 +2,52 @@ import assert from "node:assert/strict";
 import path from "path";
 
 import {
-  type InterfaceDeclaration,
   type SourceFile,
   StructureKind,
+  InterfaceDeclaration,
 } from "ts-morph";
 
 import {
+  InterfaceDeclarationImpl,
   LiteralTypeStructureImpl,
   type MethodSignatureImpl,
+  ParameterDeclarationImpl,
+  ParameterTypeStructureImpl,
   PropertySignatureImpl,
+  TupleTypeStructureImpl,
   TypeMembersMap,
   TypeStructureKind,
-  getTypeAugmentedStructure,
   VoidTypeNodeToTypeStructureConsole,
-  TupleTypeStructureImpl,
+  getTypeAugmentedStructure,
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
   distDir,
   project,
   removeDistFile,
-  //getExistingSourceFile,
 } from "./utilities/sharedProject.js";
 
 import getTypeScriptNodes from "./utilities/typescript-builtins.js";
 
 export default async function buildStringStringMap(): Promise<void>
 {
+  const moduleFile = await buildInitialModuleFile();
+  const typeMembers = buildTypeMembersMap();
+
+  // checkpoint
+  {
+    const interfaceTemp = new InterfaceDeclarationImpl("StringStringMapInterface");
+    typeMembers.clone().moveMembersToType(interfaceTemp);
+    const interfaceNode: InterfaceDeclaration = moduleFile.addInterface(interfaceTemp);
+    console.log(interfaceNode.print());
+    interfaceNode.remove();
+  }
+
+  await moduleFile.save();
+  return Promise.resolve();
+}
+
+async function buildInitialModuleFile(): Promise<SourceFile> {
   await removeDistFile("StringStringMap.ts");
 
   /* This is a starting point, based on our needs:
@@ -62,6 +81,10 @@ export default class StringStringMap<V> {
     `.trim()
   );
 
+  return moduleFile;
+}
+
+function buildTypeMembersMap(): TypeMembersMap {
   /* What are we dealing with? */
   const MapInterfaceNodes = getTypeScriptNodes<InterfaceDeclaration>(
     sourceFile => sourceFile.getInterfaces().filter(ifc => ifc.getName() === "Map")
@@ -86,41 +109,63 @@ export default class StringStringMap<V> {
     typeMembers.addMembers([hashMap]);
   }
   typeMembers.convertPropertyToAccessors("size", true, false);
+  typeMembers.arrayOfKind(StructureKind.MethodSignature).forEach(modifyMethodSignature);
 
-  {
-    const methods: readonly MethodSignatureImpl[] = typeMembers.arrayOfKind(StructureKind.MethodSignature);
-    for (const method of methods) {
-      if (method.name === "keys") {
-        const { returnTypeStructure } = method;
-        assert.equal(returnTypeStructure?.kind, TypeStructureKind.TypeArgumented, "Expected a type-argumented type.");
-        assert.equal(returnTypeStructure.objectType, LiteralTypeStructureImpl.get("IterableIterator"), "Expected an IterableIterator");
-        assert.equal(returnTypeStructure.childTypes.length, 1);
-        assert.equal(returnTypeStructure.childTypes[0], LiteralTypeStructureImpl.get("K"));
+  return typeMembers;
+}
 
-        returnTypeStructure.childTypes[0] = new TupleTypeStructureImpl([
-          LiteralTypeStructureImpl.get("string"),
-          LiteralTypeStructureImpl.get("string"),
-        ]);
-        continue;
-      }
+function modifyMethodSignature(method: MethodSignatureImpl): void {
+  if (method.name === "keys") {
+    const { returnTypeStructure } = method;
+    assert.equal(returnTypeStructure?.kind, TypeStructureKind.TypeArgumented, "Expected a type-argumented type.");
+    assert.equal(returnTypeStructure.objectType, LiteralTypeStructureImpl.get("IterableIterator"), "Expected an IterableIterator");
+    assert.equal(returnTypeStructure.childTypes.length, 1);
+    assert.equal(returnTypeStructure.childTypes[0], LiteralTypeStructureImpl.get("K"));
 
-      if ((method.name === "entries") || (method.name === "[Symbol.iterator]")) {
-        const { returnTypeStructure } = method;
-        assert.equal(returnTypeStructure?.kind, TypeStructureKind.TypeArgumented, "Expected a type-argumented type.");
-        assert.equal(returnTypeStructure.objectType, LiteralTypeStructureImpl.get("IterableIterator"), "Expected an IterableIterator");
-        assert.equal(returnTypeStructure.childTypes.length, 1);
-
-        assert.equal(returnTypeStructure.childTypes[0].kind, TypeStructureKind.Tuple);
-        returnTypeStructure.childTypes[0].childTypes.splice(
-          0, 1, LiteralTypeStructureImpl.get("string"), LiteralTypeStructureImpl.get("string")
-        );
-        continue;
-      }
-
-
-    }
+    returnTypeStructure.childTypes[0] = new TupleTypeStructureImpl([
+      LiteralTypeStructureImpl.get("string"),
+      LiteralTypeStructureImpl.get("string"),
+    ]);
+    return;
   }
 
-  await moduleFile.save();
-  return Promise.resolve();
+  if ((method.name === "entries") || (method.name === "[Symbol.iterator]")) {
+    const { returnTypeStructure } = method;
+    assert.equal(returnTypeStructure?.kind, TypeStructureKind.TypeArgumented, "Expected a type-argumented type.");
+    assert.equal(returnTypeStructure.objectType, LiteralTypeStructureImpl.get("IterableIterator"), "Expected an IterableIterator");
+    assert.equal(returnTypeStructure.childTypes.length, 1);
+
+    assert.equal(returnTypeStructure.childTypes[0].kind, TypeStructureKind.Tuple);
+    returnTypeStructure.childTypes[0].childTypes.splice(
+      0, 1, LiteralTypeStructureImpl.get("string"), LiteralTypeStructureImpl.get("string")
+    );
+    return;
+  }
+
+  if (method.name === "forEach") {
+    // forEach(callbackfn: (value: V, key: K, map: Map<K, V>) => void, thisArg?: any): void;
+    const callbackFn: ParameterDeclarationImpl = method.parameters[0];
+
+    const { typeStructure } = callbackFn;
+    assert.equal(typeStructure?.kind, TypeStructureKind.Function, "the callback should be a function");
+
+    const firstKeyParam = new ParameterTypeStructureImpl("firstKey", LiteralTypeStructureImpl.get("string"));
+    const secondKeyParam = new ParameterTypeStructureImpl("secondKey", LiteralTypeStructureImpl.get("string"));
+
+    typeStructure.parameters.splice(1, 1, firstKeyParam, secondKeyParam);
+    typeStructure.parameters[3].typeStructure = LiteralTypeStructureImpl.get("StringStringMap");
+    return;
+  }
+
+  const { parameters } = method;
+  const keyIndex = parameters.findIndex(param => param.name === "key");
+  if (keyIndex > -1) {
+    const firstParam = new ParameterDeclarationImpl("firstKey");
+    firstParam.typeStructure = LiteralTypeStructureImpl.get("string");
+
+    const secondParam = new ParameterDeclarationImpl("secondKey");
+    secondParam.typeStructure = LiteralTypeStructureImpl.get("string");
+
+    parameters.splice(keyIndex, 1, firstParam, secondParam);
+  }
 }

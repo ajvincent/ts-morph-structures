@@ -184,6 +184,7 @@ I need to think of these as tables, for method statements.  Properties have thei
 | forEach     | | | | |
 | get         | | | | |
 | has         | | | | |
+| set         | | | | |
 | `[Symbol.Iterator]` | | | | |
 | entries     | | | | |
 | keys        | | | | |
@@ -231,7 +232,7 @@ With this, I can adjust the above tables:
 | Property name          | Initializer          |
 |------------------------|----------------------|
 | `[Symbol.toStringTag]` | "StringStringMap"    |
-| `#hashMap`             | `new Map<string, V>` |
+| `#hashMap`             |                      |
 
 | Method name | (header) | `toStringTag` | `#hashMap` | (footer) |
 |-------------|----------|---------------|------------|----------|
@@ -240,6 +241,7 @@ With this, I can adjust the above tables:
 | forEach     | | | | |
 | get         | | | | |
 | has         | | | | |
+| set         | | | | |
 | `[Symbol.Iterator]` | | | | |
 | entries     | | | | |
 | keys        | | | | |
@@ -304,10 +306,157 @@ The `values` method I don't need to adjust at all: `IterableIterator<V>`.
 
 Here the adjustments are to the _arguments_ of `forEach` - and they're a little deeper for the first argument, which is a callback function.  So we'll be dealing with the `parameters` array property of the method signature.
 
+```typescript
+if (method.name === "forEach") {
+  // forEach(callbackfn: (value: V, key: K, map: Map<K, V>) => void, thisArg?: any): void;
+  const callbackFn: ParameterDeclarationImpl = method.parameters[0];
+
+  const { typeStructure } = callbackFn;
+  assert.equal(typeStructure?.kind, TypeStructureKind.Function, "the callback should be a function");
+
+  const firstKeyParam = new ParameterTypeStructureImpl("firstKey", LiteralTypeStructureImpl.get("string"));
+  const secondKeyParam = new ParameterTypeStructureImpl("secondKey", LiteralTypeStructureImpl.get("string"));
+
+  typeStructure.parameters.splice(1, 1, firstKeyParam, secondKeyParam);
+  typeStructure.parameters[3].typeStructure = LiteralTypeStructureImpl.get("StringStringMap");
+  continue;
+}
+```
+
 ### Other methods taking arguments
 
-## Creating the existing class structure
+At this point, the only methods we haven't touched are those with simple parameters, where one of the parameters may be the `key` parameter.  A simple parameter replacement should suffice.
 
-## Using `MemberedTypeToClass` to build the rest of the class
+```typescript
+const { parameters } = method;
+const keyIndex = parameters.findIndex(param => param.name === "key");
+if (keyIndex > -1) {
+  const firstParam = new ParameterDeclarationImpl("firstKey");
+  firstParam.typeStructure = LiteralTypeStructureImpl.get("string");
 
-### Statements
+  const secondParam = new ParameterDeclarationImpl("secondKey");
+  secondParam.typeStructure = LiteralTypeStructureImpl.get("string");
+
+  parameters.splice(keyIndex, 1, firstParam, secondParam);
+}
+```
+
+### Checkpoint
+
+We should print the existing type members as an interface, to make sure we're on track.  Looking over the `TypeMembersMap`, there is a `moveMembersToType` method, but the documentation says "clear this map" after doing so.  That could be a problem.
+
+Fortunately, there's also a `clone()` method.  We'll also need to feed an interface declaration to ts-morph to use its printing capability.
+
+```typescript
+const interfaceTemp = new InterfaceDeclarationImpl("StringStringMapInterface");
+typeMembers.clone().moveMembersToType(interfaceTemp);
+const interfaceNode: InterfaceDeclaration = moduleFile.addInterface(interfaceTemp);
+console.log(interfaceNode.print());
+interfaceNode.remove();
+```
+
+The resulting output:
+
+```typescript
+interface StringStringMapInterface {
+    /** @returns the number of elements in the Map. */
+    get size(): number;
+    readonly [Symbol.toStringTag]: string;
+    readonly #hashMap;
+    clear(): void;
+    /** @returns true if an element in the Map existed and has been removed, or false if the element does not exist. */
+    delete(firstKey: string, secondKey: string): boolean;
+    /**
+     * Executes a provided function once per each key/value pair in the Map, in insertion order.
+     */
+    forEach(callbackfn: (value: V, firstKey: string, secondKey: string, map: StringStringMap) => void, thisArg?: any): void;
+    /**
+     * Returns a specified element from the Map object. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the Map.
+     * @returns Returns the element associated with the specified key. If no element is associated with the specified key, undefined is returned.
+     */
+    get(firstKey: string, secondKey: string): V | undefined;
+    /** @returns boolean indicating whether an element with the specified key exists or not. */
+    has(firstKey: string, secondKey: string): boolean;
+    /**
+     * Adds a new element with a specified key and value to the Map. If an element with the same key already exists, the element will be updated.
+     */
+    set(firstKey: string, secondKey: string, value: V): this;
+    /** Returns an iterable of entries in the map. */
+    [Symbol.iterator](): IterableIterator<[
+        string,
+        string,
+        V
+    ]>;
+    /**
+     * Returns an iterable of key, value pairs for every entry in the map.
+     */
+    entries(): IterableIterator<[
+        string,
+        string,
+        V
+    ]>;
+    /**
+     * Returns an iterable of keys in the map
+     */
+    keys(): IterableIterator<[
+        string,
+        string
+    ]>;
+    /**
+     * Returns an iterable of values in the map
+     */
+    values(): IterableIterator<V>;
+}
+```
+
+The `readonly #hashMap;` part is clearly illegal for an interface.  But that's okay, because this is just a check point.  I can ignore that.  The rest of this pseudo-interface is correct.
+
+Now we get to the _hard_ part.
+
+## Using `MemberedTypeToClass` to build the class
+
+### Properties, headers and footers affecting methods and getters
+
+Now that we know the shape of what we're trying to implement, we can fill out the rest of our properties / methods tables.
+
+| Property name          | Initializer          |
+|------------------------|----------------------|
+| `[Symbol.toStringTag]` | "StringStringMap"    |
+| `#hashMap`             |                      |
+
+| Method name         | (header)     | `toStringTag` | `#hashMap`   | (footer)     |
+|---------------------|--------------|---------------|--------------|--------------|
+| clear               |              |               | :check_mark: |              |
+| delete              | :check_mark: |               |              | :check_mark: |
+| forEach             |              |               | :check_mark: |              |
+| get                 | :check_mark: |               | :check_mark: | :check_mark: |
+| has                 | :check_mark: |               | :check_mark: | :check_mark: |
+| set                 | :check_mark  |               | :check_mark: | :check_mark: |
+| `[Symbol.Iterator]` |              |               | :check_mark: |              |
+| entries             |              |               |              | :check_mark: |
+| keys                |              |               | :check_mark: |              |
+| values              |              |               |              | :check_mark: |
+| constructor(...?)   |              |               | :check_mark: |              |
+| get size()          |              |               |              | :check_mark: |
+
+These require a bit of explanation, and the decisions are partially arbitrary.  
+
+1. Almost every method requires we hash the keys coming in or parse the keys from the map.  I will use the `(header)` traps for this.
+2. Most methods require we do something with the hash map.
+3. Several methods require returning a value.  I will use the `(footer)` traps for this.
+
+`entries` is a special case, in that it can just call `return this[Symbol.iterator]()`.
+
+For the `keys` iterator, I am making a conscious decision to keep statements in the `#hashMap` property column.  This is because I know I will be iterating over the hash map, and using [generator syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).  I follow the same pattern for `[Symbol.iterator]`.
+
+For the `values` iterator, I simply need to return `this.#hashMap.values()`.  The `size` getter is equally simple.
+
+You may have noticed `toStringTag` didn't show up anywhere here.  This property has zero impact on the methods, so I don't need to do anything with it.
+
+### Set-up
+
+### Type-to-class traps (other than statements)
+
+### Registering statement getters
+
+### Actually building the class!
