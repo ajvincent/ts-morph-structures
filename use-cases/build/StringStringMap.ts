@@ -8,17 +8,31 @@ import {
 } from "ts-morph";
 
 import {
+  type ClassBodyStatementsGetter,
+  /*
+  type ClassHeadStatementsGetter,
+  */
+  type ClassTailStatementsGetter,
+  type ClassStatementsGetter,
+  ClassSupportsStatementsFlags,
+  /*
+  type ConstructorBodyStatementsGetter,
+  */
   InterfaceDeclarationImpl,
   LiteralTypeStructureImpl,
+  MemberedTypeToClass,
+  type MemberedStatementsKey,
   type MethodSignatureImpl,
   ParameterDeclarationImpl,
   ParameterTypeStructureImpl,
+  type PropertyInitializerGetter,
   PropertySignatureImpl,
   TupleTypeStructureImpl,
   TypeMembersMap,
   TypeStructureKind,
   VoidTypeNodeToTypeStructureConsole,
   getTypeAugmentedStructure,
+  parseLiteralType,
 } from "#stage_two/snapshot/source/exports.js";
 
 import {
@@ -42,6 +56,9 @@ export default async function buildStringStringMap(): Promise<void>
     console.log(interfaceNode.print());
     interfaceNode.remove();
   }
+
+  const typeToClass = createClassBuilder(typeMembers);
+  void(typeToClass);
 
   await moduleFile.save();
   return Promise.resolve();
@@ -168,4 +185,68 @@ function modifyMethodSignature(method: MethodSignatureImpl): void {
 
     parameters.splice(keyIndex, 1, firstParam, secondParam);
   }
+}
+
+function createClassBuilder(typeMembers: TypeMembersMap): MemberedTypeToClass {
+  const typeToClass = new MemberedTypeToClass();
+  typeToClass.importFromTypeMembersMap(false, typeMembers);
+  {
+    const param = new ParameterDeclarationImpl("entries");
+    param.typeStructure = parseLiteralType(`[string, string, V][]`);
+    param.initializer = "[]";
+    typeToClass.constructorParameters.push(param);
+  }
+
+  typeToClass.isGeneratorCallback = {
+    isGenerator: function(isStatic, methodName): boolean {
+      return methodName === "[Symbol.iterator]" || methodName === "keys";
+    }
+  };
+  typeToClass.defineStatementsByPurpose("main body", false);
+
+  const toStringTagGetter: ClassStatementsGetter & PropertyInitializerGetter = {
+    keyword: "Symbol.toStringTag",
+    supportsStatementsFlags: ClassSupportsStatementsFlags.PropertyInitializer,
+
+    filterPropertyInitializer: function (key: MemberedStatementsKey): boolean {
+      return key.fieldKey === "[Symbol.toStringTag]";
+    },
+
+    getPropertyInitializer: function (key: MemberedStatementsKey): string {
+      void(key);
+      return "StringStringMap";
+    }
+  };
+
+  const iteratorStatements: ClassStatementsGetter & ClassBodyStatementsGetter & ClassTailStatementsGetter = {
+    keyword: "iterators",
+    supportsStatementsFlags: ClassSupportsStatementsFlags.BodyStatements | ClassSupportsStatementsFlags.TailStatements,
+
+    filterBodyStatements: function(key: MemberedStatementsKey): boolean {
+      return key.fieldKey === "keys" || key.fieldKey === "[Symbol.iterator]";
+    },
+    getBodyStatements: function(key: MemberedStatementsKey): string[] {
+      return [`
+        for (const x of this.#hashMap.${key.fieldKey}()) {
+          const { firstKey, secondKey } = this.#parseKeys(${key.fieldKey === "keys" ? "x" : "x[0]"});
+          yield [firstKey, secondKey${key.fieldKey === "[Symbol.iterator]" ? ", x[1]" : ""}];
+        }
+      `.trim()];
+    },
+
+    filterTailStatements: function(key: MemberedStatementsKey): boolean {
+      return key.fieldKey === "values" || key.fieldKey === "entries";
+    },
+
+    getTailStatements: function(key: MemberedStatementsKey): string[] {
+      if (key.fieldKey === "values") {
+        return [`return this.#hashMap.values()`];
+      }
+
+      return [`return this[Symbol.iterator]();`]
+    }
+  };
+
+  typeToClass.addStatementGetters(0, [toStringTagGetter, iteratorStatements]);
+  return typeToClass;
 }

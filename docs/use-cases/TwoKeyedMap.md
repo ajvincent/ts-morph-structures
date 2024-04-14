@@ -323,6 +323,12 @@ if (method.name === "forEach") {
 }
 ```
 
+[FunctionTypeStructureImpl](../api/ts-morph-structures.functiontypestructureimpl.md)
+[ParameterDeclarationImpl](../api/ts-morph-structures.parameterdeclarationimpl.md)
+[ParameterTypeStructureImpl](../api/ts-morph-structures.parametertypestructureimpl.md)
+
+
+
 ### Other methods taking arguments
 
 At this point, the only methods we haven't touched are those with simple parameters, where one of the parameters may be the `key` parameter.  A simple parameter replacement should suffice.
@@ -453,10 +459,90 @@ For the `values` iterator, I simply need to return `this.#hashMap.values()`.  Th
 
 You may have noticed `toStringTag` didn't show up anywhere here.  This property has zero impact on the methods, so I don't need to do anything with it.
 
-### Set-up
+### Initializing the class builder
 
-### Type-to-class traps (other than statements)
+Following the `MemberedTypeToClass` guide, there are certain steps we need to take:
+
+- Adding the type members
+- Defining the constructor's parameters
+- Defining which methods are generators
+- Adding a statement purpose
+
+```typescript
+const typeToClass = new MemberedTypeToClass();
+typeToClass.importFromTypeMembersMap(false, typeMembers);
+{
+  const param = new ParameterDeclarationImpl("entries");
+  param.typeStructure = parseLiteralType(`[string, string, V][]`);
+  param.initializer = "[]";
+  typeToClass.constructorParameters.push(param);
+}
+
+typeToClass.isGeneratorCallback = {
+  isGenerator: function(isStatic, methodName): boolean {
+    return methodName === "[Symbol.iterator]" || methodName === "keys";
+  }
+};
+typeToClass.defineStatementsByPurpose("main body", false);
+```
+
+I use `parseLiteralType` here because it's more human-readable.  It's less efficient to be sure, but I've already illustrated building type structures manually.  Since this is the last complex type I expect to define directly, it's fine here.
 
 ### Registering statement getters
 
+Our tables above indicate what statement getters we need.  First, the `toStringTag` property.  We need to initialize its value in the class.  This means an object which implements `ClassStatmentsGetter` and `PropertyInitialzierGetter`.
+
+```typescript
+const toStringTagGetter: ClassStatementsGetter & PropertyInitializerGetter = {
+  keyword: "Symbol.toStringTag",
+  supportsStatementsFlags: ClassSupportsStatementsFlags.PropertyInitializer,
+
+  filterPropertyInitializer: function (key: MemberedStatementsKey): boolean {
+    return key.fieldKey === "[Symbol.toStringTag]";
+  },
+
+  getPropertyInitializer: function (key: MemberedStatementsKey): string {
+    void(key);
+    return "StringStringMap";
+  }
+};
+```
+
+The iterators are complex enough to go next.  Our table above indicates for `keys`, `values`, `entries` and `Symbol.iterator`, we need the `ClassBodyStatementsGetter` and `ClassTailStatementsGetter` interfaces.
+
+```typescript
+const iteratorStatements: ClassStatementsGetter & ClassBodyStatementsGetter & ClassTailStatementsGetter = {
+  keyword: "iterators",
+  supportsStatementsFlags: ClassSupportsStatementsFlags.BodyStatements | ClassSupportsStatementsFlags.TailStatements,
+
+  filterBodyStatements: function(key: MemberedStatementsKey): boolean {
+    return key.fieldKey === "keys" || key.fieldKey === "[Symbol.iterator]";
+  },
+  getBodyStatements: function(key: MemberedStatementsKey): string[] {
+    return [`
+      for (const x of this.#hashMap.${key.fieldKey}()) {
+        const { firstKey, secondKey } = this.#parseKeys(${key.fieldKey === "keys" ? "x" : "x[0]"});
+        yield [firstKey, secondKey${key.fieldKey === "[Symbol.iterator]" ? ", x[1]" : ""}];
+      }
+    `.trim()];
+  },
+
+  filterTailStatements: function(key: MemberedStatementsKey): boolean {
+    return key.fieldKey === "values" || key.fieldKey === "entries";
+  },
+
+  getTailStatements: function(key: MemberedStatementsKey): string[] {
+    if (key.fieldKey === "values") {
+      return [`return this.#hashMap.values()`];
+    }
+
+    return [`return this[Symbol.iterator]();`]
+  }
+};
+```
+
 ### Actually building the class!
+
+### Other class details (like type parameters and exports)
+
+## The final code and after-thoughts

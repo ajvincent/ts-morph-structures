@@ -319,15 +319,15 @@ Now we get to the center of it all: the `MemberedTypeToClass` class.  Primarily,
 
 1. Convert signatures of methods, properties, getters and setters from existing types (`importFromMemberedType()`, `importFromTypeMembersMap()`, `addTypeMember()`)
 2. Define a constructor's parameters (which you pass in when calling `new MemberedTypeToClass`)
-3. Define a callback hook for getting statements (which you pass in when calling `new MemberedTypeToClass`)
-4. Define other callback hooks for:
+3. Define callback hooks for:
     - Resolving index signatures (`indexSignatureResolver`)
     - Deciding if a class member is abstract (`isAbstractCallback`)
     - Declaring a class method is asynchronous (`isAsyncCallback`)
     - Declaring a class method is a generator (`isGeneratorCallback`)
     - Declaring a class field's scope ("public", "protected", "private": `scopeCallback`)
-5. Defining the class field statement maps (purpose, `isBlockStatement`, optional `regionName`)
-6. Adding in additional membered statement keys for properties you replaced with getters and setters (`insertMemberKey`)
+4. Defining the class field statement maps (purpose, `isBlockStatement`, optional `regionName`)
+5. Adding in additional membered statement keys for properties you replaced with getters and setters (`insertMemberKey`)
+6. Define callback hooks for getting statements
 7. Building a class members map using all of the above (`buildClassMembersMap()`)
 
 Building a class declaration is trivial, once you have the class members map.  (`.moveMembersToClass(classDecl)`)
