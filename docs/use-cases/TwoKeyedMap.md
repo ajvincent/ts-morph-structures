@@ -232,7 +232,7 @@ With this, I can adjust the above tables:
 | Property name          | Initializer          |
 |------------------------|----------------------|
 | `[Symbol.toStringTag]` | "StringStringMap"    |
-| `#hashMap`             |                      |
+| `#hashMap`             | `new Map<string, V>` |
 
 | Method name | (header) | `toStringTag` | `#hashMap` | (footer) |
 |-------------|----------|---------------|------------|----------|
@@ -428,7 +428,7 @@ Now that we know the shape of what we're trying to implement, we can fill out th
 | Property name          | Initializer          |
 |------------------------|----------------------|
 | `[Symbol.toStringTag]` | "StringStringMap"    |
-| `#hashMap`             |                      |
+| `#hashMap`             | `new Map<string, V>` |
 
 | Method name         | (header) | `toStringTag` | `#hashMap` | (footer) |
 |---------------------|----------|---------------|------------|----------|
@@ -503,10 +503,12 @@ const toStringTagGetter: ClassStatementsGetter & PropertyInitializerGetter = {
 
   getPropertyInitializer: function (key: MemberedStatementsKey): string {
     void(key);
-    return "StringStringMap";
+    return `"StringStringMap"`;
   }
 };
 ```
+
+We will need a property initializer for the `#hashMap` property as well.  I'll skip past the boilerplate here.
 
 The iterators are complex enough to go next.  Our table above indicates for `keys`, `values`, `entries` and `Symbol.iterator`, we need the `ClassBodyStatementsGetter` and `ClassTailStatementsGetter` interfaces.
 
@@ -516,23 +518,25 @@ const iteratorStatements: ClassStatementsGetter & ClassBodyStatementsGetter & Cl
   supportsStatementsFlags: ClassSupportsStatementsFlags.BodyStatements | ClassSupportsStatementsFlags.TailStatements,
 
   filterBodyStatements: function(key: MemberedStatementsKey): boolean {
-    return key.fieldKey === "keys" || key.fieldKey === "[Symbol.iterator]";
+    if (key.fieldKey !== "#hashMap")
+      return false;
+    return key.statementGroupKey === "keys" || key.statementGroupKey === "[Symbol.iterator]";
   },
   getBodyStatements: function(key: MemberedStatementsKey): string[] {
     return [`
-      for (const x of this.#hashMap.${key.fieldKey}()) {
-        const { firstKey, secondKey } = this.#parseKeys(${key.fieldKey === "keys" ? "x" : "x[0]"});
-        yield [firstKey, secondKey${key.fieldKey === "[Symbol.iterator]" ? ", x[1]" : ""}];
+      for (const x of this.#hashMap${key.statementGroupKey === "keys" ? "." + key.statementGroupKey : key.statementGroupKey}()) {
+        const [ firstKey, secondKey ] = StringStringMap.#parseKeys(${key.fieldKey === "keys" ? "x" : "x[0]"});
+        yield [firstKey, secondKey${key.statementGroupKey === "[Symbol.iterator]" ? ", x[1]" : ""}];
       }
     `.trim()];
   },
 
   filterTailStatements: function(key: MemberedStatementsKey): boolean {
-    return key.fieldKey === "values" || key.fieldKey === "entries";
+    return key.statementGroupKey === "values" || key.statementGroupKey === "entries";
   },
 
   getTailStatements: function(key: MemberedStatementsKey): string[] {
-    if (key.fieldKey === "values") {
+    if (key.statementGroupKey === "values") {
       return [`return this.#hashMap.values()`];
     }
 
@@ -541,7 +545,7 @@ const iteratorStatements: ClassStatementsGetter & ClassBodyStatementsGetter & Cl
 };
 ```
 
-### Actually building the class!
+### Actually building the class
 
 ### Other class details (like type parameters and exports)
 

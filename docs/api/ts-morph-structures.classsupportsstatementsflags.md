@@ -17,7 +17,6 @@ export declare enum ClassSupportsStatementsFlags
 |  Member | Value | Description |
 |  --- | --- | --- |
 |  AccessorMirror | <code>2</code> | Values for a class getter or class setter to mirror. |
-|  All | <code>255</code> | "I support all statement getter traps." Try not to use this. |
 |  BodyStatements | <code>8</code> | Statements in a purpose block for a given property and class member. |
 |  ConstructorBodyStatements | <code>64</code> | Statements in a purpose block for a given property on the constructor. |
 |  ConstructorHeadStatements | <code>32</code> | Statements starting a statement purpose block for the constructor. |

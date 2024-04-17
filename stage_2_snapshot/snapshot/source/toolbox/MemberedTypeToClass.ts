@@ -72,8 +72,6 @@ export enum ClassSupportsStatementsFlags {
   ConstructorBodyStatements = 1 << 6,
   /** Statements closing a statement purpose block for the constructor. */
   ConstructorTailStatements = 1 << 7,
-  /** "I support all statement getter traps."  Try not to use this. */
-  All = ClassSupportsStatementsFlags.ConstructorTailStatements * 2 - 1,
 }
 
 /** Convert type members to a class members map, including statements. */

@@ -9,6 +9,7 @@ import {
 
 import {
   type ClassBodyStatementsGetter,
+  ClassDeclarationImpl,
   /*
   type ClassHeadStatementsGetter,
   */
@@ -58,7 +59,18 @@ export default async function buildStringStringMap(): Promise<void>
   }
 
   const typeToClass = createClassBuilder(typeMembers);
-  void(typeToClass);
+
+  const classDecl = moduleFile.getClassOrThrow("StringStringMap");
+  const classStructure = ClassDeclarationImpl.clone(classDecl.getStructure());
+
+  const classMembers = typeToClass.buildClassMembersMap();
+  classMembers.moveMembersToClass(classStructure);
+
+  /*
+  classDecl.set(classStructure);
+  */
+  classDecl.remove();
+  moduleFile.addClass(classStructure);
 
   await moduleFile.save();
   return Promise.resolve();
@@ -90,10 +102,6 @@ export default class StringStringMap<V> {
     const { firstKey, secondKey } = JSON.parse(hashedKey) as StringStringKey;
     return [firstKey, secondKey];
   }
-
-  /*
-  readonly #hashMap = new Map<string, V>;
-  */
 }
     `.trim()
   );
@@ -214,32 +222,48 @@ function createClassBuilder(typeMembers: TypeMembersMap): MemberedTypeToClass {
 
     getPropertyInitializer: function (key: MemberedStatementsKey): string {
       void(key);
-      return "StringStringMap";
+      return `"StringStringMap"`;
     }
   };
+
+  const hashMapInitializer: ClassStatementsGetter & PropertyInitializerGetter = {
+    keyword: "#hashMap",
+    supportsStatementsFlags: ClassSupportsStatementsFlags.PropertyInitializer,
+
+    filterPropertyInitializer: function (key: MemberedStatementsKey): boolean {
+      return key.fieldKey === "#hashMap";
+    },
+
+    getPropertyInitializer: function (key: MemberedStatementsKey): string {
+      void(key);
+      return `new Map<string, V>`;
+    }
+  }
 
   const iteratorStatements: ClassStatementsGetter & ClassBodyStatementsGetter & ClassTailStatementsGetter = {
     keyword: "iterators",
     supportsStatementsFlags: ClassSupportsStatementsFlags.BodyStatements | ClassSupportsStatementsFlags.TailStatements,
 
     filterBodyStatements: function(key: MemberedStatementsKey): boolean {
-      return key.fieldKey === "keys" || key.fieldKey === "[Symbol.iterator]";
+      if (key.fieldKey !== "#hashMap")
+        return false;
+      return key.statementGroupKey === "keys" || key.statementGroupKey === "[Symbol.iterator]";
     },
     getBodyStatements: function(key: MemberedStatementsKey): string[] {
       return [`
-        for (const x of this.#hashMap.${key.fieldKey}()) {
-          const { firstKey, secondKey } = this.#parseKeys(${key.fieldKey === "keys" ? "x" : "x[0]"});
-          yield [firstKey, secondKey${key.fieldKey === "[Symbol.iterator]" ? ", x[1]" : ""}];
+        for (const x of this.#hashMap${key.statementGroupKey === "keys" ? "." + key.statementGroupKey : key.statementGroupKey}()) {
+          const [ firstKey, secondKey ] = StringStringMap.#parseKeys(${key.fieldKey === "keys" ? "x" : "x[0]"});
+          yield [firstKey, secondKey${key.statementGroupKey === "[Symbol.iterator]" ? ", x[1]" : ""}];
         }
       `.trim()];
     },
 
     filterTailStatements: function(key: MemberedStatementsKey): boolean {
-      return key.fieldKey === "values" || key.fieldKey === "entries";
+      return key.statementGroupKey === "values" || key.statementGroupKey === "entries";
     },
 
     getTailStatements: function(key: MemberedStatementsKey): string[] {
-      if (key.fieldKey === "values") {
+      if (key.statementGroupKey === "values") {
         return [`return this.#hashMap.values()`];
       }
 
@@ -247,6 +271,8 @@ function createClassBuilder(typeMembers: TypeMembersMap): MemberedTypeToClass {
     }
   };
 
-  typeToClass.addStatementGetters(0, [toStringTagGetter, iteratorStatements]);
+  typeToClass.addStatementGetters(0, [
+    toStringTagGetter, hashMapInitializer, iteratorStatements
+  ]);
   return typeToClass;
 }

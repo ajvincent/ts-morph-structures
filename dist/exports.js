@@ -5503,8 +5503,6 @@ var ClassSupportsStatementsFlags;
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["ConstructorBodyStatements"] = 64] = "ConstructorBodyStatements";
     /** Statements closing a statement purpose block for the constructor. */
     ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["ConstructorTailStatements"] = 128] = "ConstructorTailStatements";
-    /** "I support all statement getter traps."  Try not to use this. */
-    ClassSupportsStatementsFlags[ClassSupportsStatementsFlags["All"] = 255] = "All";
 })(ClassSupportsStatementsFlags || (ClassSupportsStatementsFlags = {}));
 /** Convert type members to a class members map, including statements. */
 class MemberedTypeToClass {

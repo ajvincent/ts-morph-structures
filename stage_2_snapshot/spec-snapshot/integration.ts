@@ -114,7 +114,6 @@ it("ts-morph-structures: integration test", () => {
   }
   */
   {
-
     const TypeKeyIndexed = new IndexedAccessTypeStructureImpl(
       LiteralTypeStructureImpl.get("Type"),
       LiteralTypeStructureImpl.get("key")

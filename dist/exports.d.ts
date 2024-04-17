@@ -2039,9 +2039,7 @@ declare enum ClassSupportsStatementsFlags {
     /** Statements in a purpose block for a given property on the constructor. */
     ConstructorBodyStatements = 64,
     /** Statements closing a statement purpose block for the constructor. */
-    ConstructorTailStatements = 128,
-    /** "I support all statement getter traps."  Try not to use this. */
-    All = 255
+    ConstructorTailStatements = 128
 }
 /** Convert type members to a class members map, including statements. */
 declare class MemberedTypeToClass {
