@@ -154,8 +154,8 @@ This is relatively easy, and is necessary for `MemberedTypeToClass` to work:
   });
 ```
 
-[TypeMembersMap API documentation](../api/ts-morph-structures.typemembersmap.md)
-[getTypeAugmentedStructure API documentation](../api/ts-morph-structures.gettypeaugmentedstructure.md) with [overload](../api/ts-morph-structures.gettypeaugmentedstructure_1.md)
+- [TypeMembersMap API documentation](../api/ts-morph-structures.typemembersmap.md)
+- [getTypeAugmentedStructure API documentation](../api/ts-morph-structures.gettypeaugmentedstructure.md) with [overload](../api/ts-morph-structures.gettypeaugmentedstructure_1.md)
 
 ## Analyzing the interfaces for type-to-class requirements
 
@@ -273,7 +273,7 @@ Most methods need _some_ adjustment.  So I'm going to call `arrayOfKind` to get 
 }
 ```
 
-[MethodSignatureImpl documentation](../api/ts-morph-structures.methodsignatureimpl.md)
+- [MethodSignatureImpl documentation](../api/ts-morph-structures.methodsignatureimpl.md)
 
 ### The `keys` method
 
@@ -305,9 +305,9 @@ if (method.name === "keys") {
 }
 ```
 
-[LiteralTypeStructureImpl documentation](../api/ts-morph-structures.literaltypestructureimpl.md)
-[TupleTypeStructure documentation](../api/ts-morph-structures.tupletypestructureimpl.md)
-[TypeStructureKind documentation](../api/ts-morph-structures.typestructurekind.md)
+- [LiteralTypeStructureImpl documentation](../api/ts-morph-structures.literaltypestructureimpl.md)
+- [TupleTypeStructure documentation](../api/ts-morph-structures.tupletypestructureimpl.md)
+- [TypeStructureKind documentation](../api/ts-morph-structures.typestructurekind.md)
 
 Note I probably could've gotten away with replacing the `K` with `{ firstKey: string, secondKey: string }`.
 
@@ -341,9 +341,9 @@ if (method.name === "forEach") {
 }
 ```
 
-[FunctionTypeStructureImpl](../api/ts-morph-structures.functiontypestructureimpl.md)
-[ParameterDeclarationImpl](../api/ts-morph-structures.parameterdeclarationimpl.md)
-[ParameterTypeStructureImpl](../api/ts-morph-structures.parametertypestructureimpl.md)
+- [FunctionTypeStructureImpl](../api/ts-morph-structures.functiontypestructureimpl.md)
+- [ParameterDeclarationImpl](../api/ts-morph-structures.parameterdeclarationimpl.md)
+- [ParameterTypeStructureImpl](../api/ts-morph-structures.parametertypestructureimpl.md)
 
 ### Other methods taking arguments
 
@@ -377,7 +377,7 @@ console.log(interfaceNode.print());
 interfaceNode.remove();
 ```
 
-[InterfaceDeclarationImpl API documentation](../api/ts-morph-structures.interfacedeclarationimpl.md)
+- [InterfaceDeclarationImpl API documentation](../api/ts-morph-structures.interfacedeclarationimpl.md)
 
 The resulting output:
 
@@ -435,7 +435,7 @@ interface StringStringMapInterface {
 
 The `readonly #hashMap;` part is clearly illegal for an interface.  But that's okay, because this is just a check point.  I can ignore that.  The rest of this pseudo-interface is correct.
 
-Now we get to the _hard_ part.
+We are ready to start on the _hard_ part.
 
 ## Using `MemberedTypeToClass` to build the class
 
@@ -504,7 +504,7 @@ typeToClass.isGeneratorCallback = {
 typeToClass.defineStatementsByPurpose("main body", false);
 ```
 
-[parseLiteralType API documentation](../api/ts-morph-structures.parseliteraltype.md)
+- [parseLiteralType API documentation](../api/ts-morph-structures.parseliteraltype.md)
 
 I use `parseLiteralType` here because it's more human-readable.  It's less efficient to be sure, but I've already illustrated building type structures manually.  Since this is the last complex type I expect to define directly, it's fine here.
 
@@ -528,10 +528,10 @@ const toStringTagGetter: ClassStatementsGetter & PropertyInitializerGetter = {
 };
 ```
 
-[ClassStatementsGetter interface](../api/ts-morph-structures.classstatementsgetter.md)
-[ClassSupportsStatementsFlags enum](../api/ts-morph-structures.classsupportsstatementsflags.md)
-[MemberedStatementsKey interface](../api/ts-morph-structures.memberedstatementskey.md)
-[PropertyInitializerGetter interface](../api/ts-morph-structures.propertyinitializergetter.md)
+- [ClassStatementsGetter interface](../api/ts-morph-structures.classstatementsgetter.md)
+- [ClassSupportsStatementsFlags enum](../api/ts-morph-structures.classsupportsstatementsflags.md)
+- [MemberedStatementsKey interface](../api/ts-morph-structures.memberedstatementskey.md)
+- [PropertyInitializerGetter interface](../api/ts-morph-structures.propertyinitializergetter.md)
 
 We will need a property initializer for the `#hashMap` property as well.  I'll skip past the boilerplate here.
 
@@ -570,8 +570,8 @@ const iteratorStatements: ClassStatementsGetter & ClassBodyStatementsGetter & Cl
 };
 ```
 
-[ClassBodyStatementsGetter interface](../api/ts-morph-structures.classbodystatementsgetter.md)
-[ClassTailStatementsGetter interface](../api/ts-morph-structures.classtailstatementsgetter.md)
+- [ClassBodyStatementsGetter interface](../api/ts-morph-structures.classbodystatementsgetter.md)
+- [ClassTailStatementsGetter interface](../api/ts-morph-structures.classtailstatementsgetter.md)
 
 Then there's `forEach()`.  There's no elegance here, just brute force.
 
@@ -648,7 +648,7 @@ const forwardToMapMethods: (
 };
 ```
 
-[ClassHeadStatementsGetter interface](../api/ts-morph-structures.classheadstatementsgetter.md)
+- [ClassHeadStatementsGetter interface](../api/ts-morph-structures.classheadstatementsgetter.md)
 
 You may be wondering why `set` has special treatment inside the `getBodyStatements()` and `getTailStatements()` methods.  The reason is `Map.set()` returns the `Map` instance, and `StringStringMap.prototype.set()` returns `this` as well.
 
@@ -684,7 +684,7 @@ const noKeyMembers: ClassStatementsGetter & ClassTailStatementsGetter & Construc
 };
 ```
 
-[ConstructorBodyStatementsGetter interface](../api/ts-morph-structures.constructorbodystatementsgetter.md)
+- [ConstructorBodyStatementsGetter interface](../api/ts-morph-structures.constructorbodystatementsgetter.md)
 
 We have all these statement getters.  Now we need to register them.
 
@@ -718,12 +718,12 @@ moduleFile.addClass(classStructure);
 await moduleFile.save();
 ```
 
-[ClassDeclarationImpl API documentation](../api/ts-morph-structures.classdeclarationimpl.md)
+- [ClassDeclarationImpl API documentation](../api/ts-morph-structures.classdeclarationimpl.md)
 
 ## The final code and after-thoughts
 
-[Source code to build the StringStringMap module](https://github.com/ajvincent/ts-morph-structures/blob/main/use-cases/build/StringStringMap.ts)
-[The actual StringStringMap generated module](https://github.com/ajvincent/ts-morph-structures/blob/main/use-cases/dist/StringStringMap.ts)
+- [Source code to build the StringStringMap module](https://github.com/ajvincent/ts-morph-structures/blob/main/use-cases/build/StringStringMap.ts)
+- [The actual StringStringMap generated module](https://github.com/ajvincent/ts-morph-structures/blob/main/use-cases/dist/StringStringMap.ts)
 
 First, the `StringStringMap` class is potentially useful, but limited.  I run into situations quite often where I have a two- or three-part key I need to use in a map or weak-map scenario, and the keys aren't always strings.  This is one reason why I created the [`composite-collection`](https://www.npmjs.com/package/composite-collection) package.
 
