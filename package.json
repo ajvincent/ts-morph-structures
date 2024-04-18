@@ -30,7 +30,6 @@
     "use-cases": "TSMS_STAGE='use-cases' node --import ./register-hooks.js ./build.ts",
     "debug-use-cases": "TSMS_STAGE='use-cases' TSMS_DEBUG='use-cases' node --import ./register-hooks.js ./build.ts",
     "tsc-tasks": "tsc --project ./utilities/source/tasks/tsconfig.json",
-    "postinstall": "patch-package",
     "is-repo-clean": "node --import ./register-hooks.js ./utilities/source/assertRepoIsClean.ts"
   },
   "repository": {
@@ -65,7 +64,6 @@
     "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-tsdoc": "^0.2.17",
     "jasmine": "^5.1.0",
-    "patch-package": "^8.0.0",
     "prettier": "^3.2.5",
     "rollup": "^4.14.3",
     "rollup-plugin-dts": "^6.1.0",
