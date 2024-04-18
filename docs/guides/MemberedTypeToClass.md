@@ -796,7 +796,6 @@ After this, you usually would call `.moveMembersToClass(classDecl)` on the `Clas
 - Give your purpose keys meaningful names.  "one", "two", "three" are less useful than "precondition", "argumentValidation", "processing".
 - Decide carefully whether you want to use "isBlockStatement" on purpose blocks.  Curly braces affect the scope of `const` and `let` variable declarations.
   - Region names, on the other hand, are comments and won't affect scope.
-- Consider implementing router and/or filter classes for your statements getter.
 
 ## What's not part of this?
 
