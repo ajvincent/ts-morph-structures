@@ -2,7 +2,7 @@
 
 Very often, I find myself needing a map with two keys for each value.  Instead of writing `Map<string, Map<string, object>>`, though, I want a simple class I generate from existing `Map` objects and the `Map` interface.
 
-To do this, I'll have to bootstrap from existing `Map`, hashing the keys into a combined key... but I also have to generate a new type and then build a class for it, using [`MemberedTypeToClass`](../guides/MemberedTypeToClass.md)
+To do this, I'll have to bootstrap from existing `Map`, hashing the keys into a combined key... but I also have to generate a new type and then build a class for it, using [`MemberedTypeToClass`](../guides/MemberedTypeToClass.md).
 
 ## Design requirements
 
@@ -64,6 +64,12 @@ import {
   project,
   projectDir,
 } from "./sharedProject.js";
+
+/*
+export interface NodeWithStructures extends Node {
+  getStructure(): Structures;
+}
+*/
 
 const TYPESCRIPT_LIBS = path.join(projectDir, "node_modules/typescript/lib");
 const fileNames = (await fs.readdir(TYPESCRIPT_LIBS)).filter(f => /^lib\..*\.d.ts$/.test(f)).map(f => path.join(TYPESCRIPT_LIBS, f));
@@ -148,6 +154,9 @@ This is relatively easy, and is necessary for `MemberedTypeToClass` to work:
   });
 ```
 
+[TypeMembersMap API documentation](../api/ts-morph-structures.typemembersmap.md)
+[getTypeAugmentedStructure API documentation](../api/ts-morph-structures.gettypeaugmentedstructure.md) with [overload](../api/ts-morph-structures.gettypeaugmentedstructure_1.md)
+
 ## Analyzing the interfaces for type-to-class requirements
 
 There are a few properties, but mostly methods:
@@ -177,6 +186,8 @@ I need to think of these as tables, for method statements.  Properties have thei
 | size                   | 0                 |
 | `[Symbol.toStringTag]` | "StringStringMap" |
 
+The methods table primarily deals with properties (the columns) and the statemented nodes (rows).
+
 | Method name | (header) | `size` | `toStringTag` | (footer) |
 |-------------|----------|--------|---------------|----------|
 | clear       | | | | |
@@ -205,7 +216,7 @@ declare var Map: MapConstructor;
 
 Our `StringStringMap` class _will_ emulate this, but for now we just need to be aware of it and adjust our method-property statements table accordingly.
 
-To solve the first, I need to create a property signature for the property, and add the signature to the type members map.  To save myself some trouble, I'm going to comment out this line from earlier:
+To solve the first, I need to create a property signature for the property, and add the signature to the type members map.  To save myself some trouble, I'm going to remove this line from earlier:
 
 ```typescript
   readonly #hashMap = new Map<string, V>;
@@ -294,11 +305,15 @@ if (method.name === "keys") {
 }
 ```
 
+[LiteralTypeStructureImpl documentation](../api/ts-morph-structures.literaltypestructureimpl.md)
+[TupleTypeStructure documentation](../api/ts-morph-structures.tupletypestructureimpl.md)
+[TypeStructureKind documentation](../api/ts-morph-structures.typestructurekind.md)
+
 Note I probably could've gotten away with replacing the `K` with `{ firstKey: string, secondKey: string }`.
 
 ### Other iterator methods
 
-These already specify `IterableIterator<[K, V]>`.  I want `IterableIterator<[string, string, V]>`.  I think, from the keys example above, the solution for this should be obvious.
+The `[Symbol.iterator]()` and `entries()` methods already specify `IterableIterator<[K, V]>`.  I want `IterableIterator<[string, string, V]>`.  I think, from the keys example above, the solution for this should be obvious.
 
 The `values` method I don't need to adjust at all: `IterableIterator<V>`.  
 
@@ -318,7 +333,10 @@ if (method.name === "forEach") {
   const secondKeyParam = new ParameterTypeStructureImpl("secondKey", LiteralTypeStructureImpl.get("string"));
 
   typeStructure.parameters.splice(1, 1, firstKeyParam, secondKeyParam);
-  typeStructure.parameters[3].typeStructure = LiteralTypeStructureImpl.get("StringStringMap");
+  typeStructure.parameters[3].typeStructure = new TypeArgumentedTypeStructureImpl(
+    LiteralTypeStructureImpl.get("StringStringMap"),
+    [LiteralTypeStructureImpl.get("V")]
+  );
   continue;
 }
 ```
@@ -326,8 +344,6 @@ if (method.name === "forEach") {
 [FunctionTypeStructureImpl](../api/ts-morph-structures.functiontypestructureimpl.md)
 [ParameterDeclarationImpl](../api/ts-morph-structures.parameterdeclarationimpl.md)
 [ParameterTypeStructureImpl](../api/ts-morph-structures.parametertypestructureimpl.md)
-
-
 
 ### Other methods taking arguments
 
@@ -360,6 +376,8 @@ const interfaceNode: InterfaceDeclaration = moduleFile.addInterface(interfaceTem
 console.log(interfaceNode.print());
 interfaceNode.remove();
 ```
+
+[InterfaceDeclarationImpl API documentation](../api/ts-morph-structures.interfacedeclarationimpl.md)
 
 The resulting output:
 
@@ -447,7 +465,7 @@ Now that we know the shape of what we're trying to implement, we can fill out th
 
 These require a bit of explanation, and the decisions are partially arbitrary.  
 
-1. Almost every method requires we hash the keys coming in or parse the keys from the map.  I will use the `(header)` traps for this.
+1. We hash the keys coming in or parse the keys from the map.  I will use the `(header)` traps for this.
 2. Most methods require we do something with the hash map.
 3. Several methods require returning a value.  I will use the `(footer)` traps for this.
 
@@ -457,7 +475,7 @@ For the `keys` iterator, I am making a conscious decision to keep statements in 
 
 For the `values` iterator, I simply need to return `this.#hashMap.values()`.  The `size` getter is equally simple.
 
-You may have noticed `toStringTag` didn't show up anywhere here.  This property has zero impact on the methods, so I don't need to do anything with it.
+You may have noticed `toStringTag` didn't have any checkmarks in its column here.  This property has zero impact on the methods, so I don't need to do anything with it.
 
 ### Initializing the class builder
 
@@ -486,6 +504,8 @@ typeToClass.isGeneratorCallback = {
 typeToClass.defineStatementsByPurpose("main body", false);
 ```
 
+[parseLiteralType API documentation](../api/ts-morph-structures.parseliteraltype.md)
+
 I use `parseLiteralType` here because it's more human-readable.  It's less efficient to be sure, but I've already illustrated building type structures manually.  Since this is the last complex type I expect to define directly, it's fine here.
 
 ### Registering statement getters
@@ -507,6 +527,11 @@ const toStringTagGetter: ClassStatementsGetter & PropertyInitializerGetter = {
   }
 };
 ```
+
+[ClassStatementsGetter interface](../api/ts-morph-structures.classstatementsgetter.md)
+[ClassSupportsStatementsFlags enum](../api/ts-morph-structures.classsupportsstatementsflags.md)
+[MemberedStatementsKey interface](../api/ts-morph-structures.memberedstatementskey.md)
+[PropertyInitializerGetter interface](../api/ts-morph-structures.propertyinitializergetter.md)
 
 We will need a property initializer for the `#hashMap` property as well.  I'll skip past the boilerplate here.
 
@@ -545,8 +570,169 @@ const iteratorStatements: ClassStatementsGetter & ClassBodyStatementsGetter & Cl
 };
 ```
 
+[ClassBodyStatementsGetter interface](../api/ts-morph-structures.classbodystatementsgetter.md)
+[ClassTailStatementsGetter interface](../api/ts-morph-structures.classtailstatementsgetter.md)
+
+Then there's `forEach()`.  There's no elegance here, just brute force.
+
+```typescript
+const forEachStatements: ClassStatementsGetter & ClassBodyStatementsGetter = {
+  keyword: "forEach",
+  supportsStatementsFlags: ClassSupportsStatementsFlags.BodyStatements,
+
+  filterBodyStatements: function(key: MemberedStatementsKey): boolean {
+    return key.fieldKey === "#hashMap" && key.statementGroupKey === "forEach";
+  },
+
+  getBodyStatements: function(key: MemberedStatementsKey): string[] {
+    void(key);
+    return [`
+      this.#hashMap.forEach((value, key): void => {
+        const [ firstKey, secondKey ] = StringStringMap.#parseKeys(key);
+        callbackfn.call(thisArg, value, firstKey, secondKey, this);
+      }, thisArg);
+    `.trim()];
+  }
+};
+```
+
+At this point we've dealt with the hard cases, and we can start doing simpler forwarding code.  These all depend on `#hashMap`, but only some of them have the `firstKey` and `secondKey` parameters.  This time, instead of relying on the statement group key, I'll rely on the method's type signature.
+
+```typescript
+const forwardToMapMethods: (
+  ClassStatementsGetter & ClassHeadStatementsGetter &
+  ClassBodyStatementsGetter & ClassTailStatementsGetter
+) = {
+  keyword: "forward-to-map",
+  supportsStatementsFlags:
+    ClassSupportsStatementsFlags.HeadStatements |
+    ClassSupportsStatementsFlags.BodyStatements |
+    ClassSupportsStatementsFlags.TailStatements,
+
+  filterHeadStatements: function(key: MemberedStatementsKey): boolean {
+    if (key.groupType?.kind !== StructureKind.MethodSignature)
+      return false;
+    return Boolean(key.groupType.parameters.find(param => param.name === "firstKey"));
+  },
+
+  getHeadStatements: function(key: MemberedStatementsKey): string[] {
+    void(key);
+    return [`
+      const key = StringStringMap.#hashKeys(firstKey, secondKey);
+    `.trim()];
+  },
+
+  filterBodyStatements: function(key: MemberedStatementsKey): boolean {
+    return this.filterHeadStatements(key) && key.fieldKey === "#hashMap";
+  },
+
+  getBodyStatements: function(key: MemberedStatementsKey): string[] {
+    return [`
+    ${
+      key.statementGroupKey !== "set" ? "const rv = " : ""
+    }this.#hashMap.${key.statementGroupKey}(key${
+      key.statementGroupKey === "set" ? ", value" : ""
+    });
+    `.trim()]
+  },
+
+  filterTailStatements: function(key: MemberedStatementsKey): boolean {
+    return this.filterHeadStatements(key);
+  },
+
+  getTailStatements: function(key: MemberedStatementsKey): string[] {
+    if (key.statementGroupKey === "set")
+      return [`return this;`];
+    return [`return rv;`];
+  }
+};
+```
+
+[ClassHeadStatementsGetter interface](../api/ts-morph-structures.classheadstatementsgetter.md)
+
+You may be wondering why `set` has special treatment inside the `getBodyStatements()` and `getTailStatements()` methods.  The reason is `Map.set()` returns the `Map` instance, and `StringStringMap.prototype.set()` returns `this` as well.
+
+There's only three class members left:  `clear` and `get size()`, and the constructor.
+
+```typescript
+const noKeyMembers: ClassStatementsGetter & ClassTailStatementsGetter & ConstructorBodyStatementsGetter = {
+  keyword: "no-key-members",
+  supportsStatementsFlags: ClassSupportsStatementsFlags.TailStatements | ClassSupportsStatementsFlags.ConstructorBodyStatements,
+
+  filterTailStatements: function(key: MemberedStatementsKey): boolean {
+    return key.statementGroupKey === "get size" || key.statementGroupKey === "clear";
+  },
+
+  getTailStatements: function(key: MemberedStatementsKey): string[] {
+    if (key.statementGroupKey === "get size")
+      return [`return this.#hashMap.size;`];
+    return [
+      `return this.#hashMap.clear();
+    `.trim()];
+  },
+
+  filterCtorBodyStatements: function(key: MemberedStatementsKey): boolean {
+    return key.fieldKey === "#hashMap";
+  },
+
+  getCtorBodyStatements: function(key: MemberedStatementsKey): string[] {
+    void(key);
+    return [`
+      entries.forEach(([firstKey, secondKey, value]) => this.set(firstKey, secondKey, value));
+    `.trim()];
+  }
+};
+```
+
+[ConstructorBodyStatementsGetter interface](../api/ts-morph-structures.constructorbodystatementsgetter.md)
+
+We have all these statement getters.  Now we need to register them.
+
+```typescript
+typeToClass.addStatementGetters(0, [
+  toStringTagGetter, hashMapInitializer, iteratorStatements,
+  forEachStatements, forwardToMapMethods, noKeyMembers,
+]);
+```
+
 ### Actually building the class
 
-### Other class details (like type parameters and exports)
+```typescript
+// getting the class with its static methods defined
+const classDecl = moduleFile.getClassOrThrow("StringStringMap");
+const classStructure = ClassDeclarationImpl.clone(classDecl.getStructure());
+
+// build the class!
+const classMembers = typeToClass.buildClassMembersMap();
+classMembers.moveMembersToClass(classStructure);
+
+/*
+This doesn't work due to a bug in ts-morph:
+classDecl.set(classStructure);
+
+Instead, I do this, which is almost as good:
+*/
+classDecl.remove();
+moduleFile.addClass(classStructure);
+
+await moduleFile.save();
+```
+
+[ClassDeclarationImpl API documentation](../api/ts-morph-structures.classdeclarationimpl.md)
 
 ## The final code and after-thoughts
+
+[Source code to build the StringStringMap module](https://github.com/ajvincent/ts-morph-structures/blob/main/use-cases/build/StringStringMap.ts)
+[The actual StringStringMap generated module](https://github.com/ajvincent/ts-morph-structures/blob/main/use-cases/dist/StringStringMap.ts)
+
+First, the `StringStringMap` class is potentially useful, but limited.  I run into situations quite often where I have a two- or three-part key I need to use in a map or weak-map scenario, and the keys aren't always strings.  This is one reason why I created the [`composite-collection`](https://www.npmjs.com/package/composite-collection) package.
+
+Second, this class, while _probably_ usable or close to it, is not polished for production use.
+
+- ESLint rejects it for an `any` type in the `forEach` method
+- The code is very ugly in its whitespace formatting.  [Prettier](https://prettier.io/playground/) would clean it up nicely, and it's not hard to [write a script to invoke Prettier](https://github.com/ajvincent/ts-morph-structures/blob/main/utilities/source/runPrettify.ts).
+- I have written precisely _zero_ tests for this.
+- The [tsdoc comments](https://tsdoc.org) comments are insufficient.
+- I haven't written general purpose documentation for it either.
+
+Both of these concerns are beside the point.  You _can_ build a realistic class from nothing but the interfaces and existing classes, using ts-morph.  The ts-morph-structures package's tools make it somewhat easier... but there's still a fair bit of complexity to writing (and maintaining) code which generates other code.  There's really no getting around that.

@@ -7,8 +7,13 @@ export default class StringStringMap<V> {
     readonly [Symbol.toStringTag]: string = "StringStringMap";
     readonly #hashMap = new Map<string, V>;
 
+    constructor(entries: [string, string, V][] = []) {
+        entries.forEach(([firstKey, secondKey, value]) => this.set(firstKey, secondKey, value));
+    }
+
     /** @returns the number of elements in the Map. */
     get size(): number {
+        return this.#hashMap.size;
     }
 
     static #hashKeys(firstKey: string, secondKey: string): string {
@@ -21,16 +26,24 @@ export default class StringStringMap<V> {
     }
 
     clear(): void {
+        return this.#hashMap.clear();
     }
 
     /** @returns true if an element in the Map existed and has been removed, or false if the element does not exist. */
     delete(firstKey: string, secondKey: string): boolean {
+        const key = StringStringMap.#hashKeys(firstKey, secondKey);
+        const rv = this.#hashMap.delete(key);
+        return rv;
     }
 
     /**
      * Executes a provided function once per each key/value pair in the Map, in insertion order.
      */
-    forEach(callbackfn: (value: V, firstKey: string, secondKey: string, map: StringStringMap) => void, thisArg?: any): void {
+    forEach(callbackfn: (value: V, firstKey: string, secondKey: string, map: StringStringMap<V>) => void, thisArg?: any): void {
+        this.#hashMap.forEach((value, key): void => {
+                  const [ firstKey, secondKey ] = StringStringMap.#parseKeys(key);
+                  callbackfn.call(thisArg, value, firstKey, secondKey, this);
+                }, thisArg);
     }
 
     /**
@@ -38,16 +51,25 @@ export default class StringStringMap<V> {
      * @returns Returns the element associated with the specified key. If no element is associated with the specified key, undefined is returned.
      */
     get(firstKey: string, secondKey: string): V | undefined {
+        const key = StringStringMap.#hashKeys(firstKey, secondKey);
+        const rv = this.#hashMap.get(key);
+        return rv;
     }
 
     /** @returns boolean indicating whether an element with the specified key exists or not. */
     has(firstKey: string, secondKey: string): boolean {
+        const key = StringStringMap.#hashKeys(firstKey, secondKey);
+        const rv = this.#hashMap.has(key);
+        return rv;
     }
 
     /**
      * Adds a new element with a specified key and value to the Map. If an element with the same key already exists, the element will be updated.
      */
     set(firstKey: string, secondKey: string, value: V): this {
+        const key = StringStringMap.#hashKeys(firstKey, secondKey);
+        this.#hashMap.set(key, value);
+        return this;
     }
 
     /** Returns an iterable of entries in the map. */

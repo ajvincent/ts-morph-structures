@@ -10,15 +10,11 @@ import {
 import {
   type ClassBodyStatementsGetter,
   ClassDeclarationImpl,
-  /*
   type ClassHeadStatementsGetter,
-  */
   type ClassTailStatementsGetter,
   type ClassStatementsGetter,
   ClassSupportsStatementsFlags,
-  /*
   type ConstructorBodyStatementsGetter,
-  */
   InterfaceDeclarationImpl,
   LiteralTypeStructureImpl,
   MemberedTypeToClass,
@@ -29,6 +25,7 @@ import {
   type PropertyInitializerGetter,
   PropertySignatureImpl,
   TupleTypeStructureImpl,
+  TypeArgumentedTypeStructureImpl,
   TypeMembersMap,
   TypeStructureKind,
   VoidTypeNodeToTypeStructureConsole,
@@ -178,7 +175,10 @@ function modifyMethodSignature(method: MethodSignatureImpl): void {
     const secondKeyParam = new ParameterTypeStructureImpl("secondKey", LiteralTypeStructureImpl.get("string"));
 
     typeStructure.parameters.splice(1, 1, firstKeyParam, secondKeyParam);
-    typeStructure.parameters[3].typeStructure = LiteralTypeStructureImpl.get("StringStringMap");
+    typeStructure.parameters[3].typeStructure = new TypeArgumentedTypeStructureImpl(
+      LiteralTypeStructureImpl.get("StringStringMap"),
+      [LiteralTypeStructureImpl.get("V")]
+    );
     return;
   }
 
@@ -271,8 +271,104 @@ function createClassBuilder(typeMembers: TypeMembersMap): MemberedTypeToClass {
     }
   };
 
+  const forEachStatements: ClassStatementsGetter & ClassBodyStatementsGetter = {
+    keyword: "forEach",
+    supportsStatementsFlags: ClassSupportsStatementsFlags.BodyStatements,
+
+    filterBodyStatements: function(key: MemberedStatementsKey): boolean {
+      return key.fieldKey === "#hashMap" && key.statementGroupKey === "forEach";
+    },
+
+    getBodyStatements: function(key: MemberedStatementsKey): string[] {
+      void(key);
+      return [`
+        this.#hashMap.forEach((value, key): void => {
+          const [ firstKey, secondKey ] = StringStringMap.#parseKeys(key);
+          callbackfn.call(thisArg, value, firstKey, secondKey, this);
+        }, thisArg);
+      `.trim()];
+    }
+  };
+
+  const forwardToMapMethods: (
+    ClassStatementsGetter & ClassHeadStatementsGetter &
+    ClassBodyStatementsGetter & ClassTailStatementsGetter
+  ) = {
+    keyword: "forward-to-map",
+    supportsStatementsFlags:
+      ClassSupportsStatementsFlags.HeadStatements |
+      ClassSupportsStatementsFlags.BodyStatements |
+      ClassSupportsStatementsFlags.TailStatements,
+
+    filterHeadStatements: function(key: MemberedStatementsKey): boolean {
+      if (key.groupType?.kind !== StructureKind.MethodSignature)
+        return false;
+      return Boolean(key.groupType.parameters.find(param => param.name === "firstKey"));
+    },
+
+    getHeadStatements: function(key: MemberedStatementsKey): string[] {
+      void(key);
+      return [`
+        const key = StringStringMap.#hashKeys(firstKey, secondKey);
+      `.trim()];
+    },
+
+    filterBodyStatements: function(key: MemberedStatementsKey): boolean {
+      return this.filterHeadStatements(key) && key.fieldKey === "#hashMap";
+    },
+
+    getBodyStatements: function(key: MemberedStatementsKey): string[] {
+      return [`
+      ${
+        key.statementGroupKey !== "set" ? "const rv = " : ""
+      }this.#hashMap.${key.statementGroupKey}(key${
+        key.statementGroupKey === "set" ? ", value" : ""
+      });
+      `.trim()]
+    },
+
+    filterTailStatements: function(key: MemberedStatementsKey): boolean {
+      return this.filterHeadStatements(key);
+    },
+
+    getTailStatements: function(key: MemberedStatementsKey): string[] {
+      if (key.statementGroupKey === "set")
+        return [`return this;`];
+      return [`return rv;`];
+    }
+  };
+
+  const noKeyMembers: ClassStatementsGetter & ClassTailStatementsGetter & ConstructorBodyStatementsGetter = {
+    keyword: "no-key-members",
+    supportsStatementsFlags: ClassSupportsStatementsFlags.TailStatements | ClassSupportsStatementsFlags.ConstructorBodyStatements,
+
+    filterTailStatements: function(key: MemberedStatementsKey): boolean {
+      return key.statementGroupKey === "get size" || key.statementGroupKey === "clear";
+    },
+
+    getTailStatements: function(key: MemberedStatementsKey): string[] {
+      if (key.statementGroupKey === "get size")
+        return [`return this.#hashMap.size;`];
+      return [
+        `return this.#hashMap.clear();
+      `.trim()];
+    },
+
+    filterCtorBodyStatements: function(key: MemberedStatementsKey): boolean {
+      return key.fieldKey === "#hashMap";
+    },
+
+    getCtorBodyStatements: function(key: MemberedStatementsKey): string[] {
+      void(key);
+      return [`
+        entries.forEach(([firstKey, secondKey, value]) => this.set(firstKey, secondKey, value));
+      `.trim()];
+    }
+  };
+
   typeToClass.addStatementGetters(0, [
-    toStringTagGetter, hashMapInitializer, iteratorStatements
+    toStringTagGetter, hashMapInitializer, iteratorStatements,
+    forEachStatements, forwardToMapMethods, noKeyMembers,
   ]);
   return typeToClass;
 }

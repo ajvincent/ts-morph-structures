@@ -507,13 +507,12 @@ export enum ClassSupportsStatementsFlags {
   ConstructorBodyStatements = 1 << 6,
   /** Statements closing a statement purpose block for the constructor. */
   ConstructorTailStatements = 1 << 7,
-  /** "I support all statement getter traps."  Try not to use this. */
-  All = ClassSupportsStatementsFlags.ConstructorTailStatements * 2 - 1,
 }
 ```
 
 This is how we define the actual statements which `MemberedTypeToClass` will retrieve:
 
+- Each statement getter has a `supportsStatementsFlags` property, based on [bitwise operations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_operators#bitwise_operators) to enable (and in fact require) callback traps.
 - Properties have their initializers through the `PropertyInitializerGetter` interface.
 - Getters and setters have values they mirror through the `AccessorMirrorGetter` interface.
 - Methods, getters and setters have statements they get, in order of statement purpose via the:
