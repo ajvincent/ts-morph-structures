@@ -33,6 +33,7 @@ export declare enum TypeStructureKind
 |  TemplateLiteral | <code>1000000018</code> |  |
 |  Tuple | <code>1000000010</code> |  |
 |  TypeArgumented | <code>1000000015</code> |  |
+|  TypePredicate | <code>1000000021</code> |  |
 |  Union | <code>1000000008</code> |  |
 |  Writer | <code>1000000003</code> |  |
 

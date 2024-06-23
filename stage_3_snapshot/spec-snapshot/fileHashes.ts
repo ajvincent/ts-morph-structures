@@ -245,7 +245,6 @@ function compareFileStructures(
 {
   stage_two_files = stage_two_files.map(f => path.relative(stage_two_dir.pathToDirectory, f));
   stage_three_files = stage_three_files.map(f => path.relative(stage_three_dir.pathToDirectory, f));
-
   const stage_two_map = new Map(stage_two_files.map(
     f => getStructureEntryForFile(stage_two_dir, f))
   );

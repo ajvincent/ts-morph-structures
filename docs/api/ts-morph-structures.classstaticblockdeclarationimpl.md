@@ -15,7 +15,7 @@ export default class ClassStaticBlockDeclarationImpl implements ClassStaticBlock
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [docs](./ts-morph-structures.classstaticblockdeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [docs](./ts-morph-structures.classstaticblockdeclarationimpl.docs.md) | <code>readonly</code> | ([JSDocImpl](./ts-morph-structures.jsdocimpl.md) \| string)\[\] |  |
 |  [kind](./ts-morph-structures.classstaticblockdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.ClassStaticBlock |  |
 |  [leadingTrivia](./ts-morph-structures.classstaticblockdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [statements](./ts-morph-structures.classstaticblockdeclarationimpl.statements.md) | <code>readonly</code> | ([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |

@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-scope?: import("ts-morph").Scope<> | undefined;
+scope?: import("ts-morph").Scope<>;
 ```

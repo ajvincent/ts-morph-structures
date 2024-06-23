@@ -22,12 +22,12 @@ export default class VariableDeclarationImpl implements VariableDeclarationStruc
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [hasExclamationToken](./ts-morph-structures.variabledeclarationimpl.hasexclamationtoken.md) |  | boolean |  |
-|  [initializer?](./ts-morph-structures.variabledeclarationimpl.initializer.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [initializer?](./ts-morph-structures.variabledeclarationimpl.initializer.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
 |  [kind](./ts-morph-structures.variabledeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.VariableDeclaration |  |
 |  [leadingTrivia](./ts-morph-structures.variabledeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [name](./ts-morph-structures.variabledeclarationimpl.name.md) |  | string |  |
 |  [trailingTrivia](./ts-morph-structures.variabledeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [type?](./ts-morph-structures.variabledeclarationimpl.type.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [type?](./ts-morph-structures.variabledeclarationimpl.type.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
 |  [typeStructure](./ts-morph-structures.variabledeclarationimpl.typestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 
 ## Methods

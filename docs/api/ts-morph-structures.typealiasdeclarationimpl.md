@@ -21,7 +21,7 @@ export default class TypeAliasDeclarationImpl implements TypeAliasDeclarationStr
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [docs](./ts-morph-structures.typealiasdeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [docs](./ts-morph-structures.typealiasdeclarationimpl.docs.md) | <code>readonly</code> | ([JSDocImpl](./ts-morph-structures.jsdocimpl.md) \| string)\[\] |  |
 |  [hasDeclareKeyword](./ts-morph-structures.typealiasdeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
 |  [isDefaultExport](./ts-morph-structures.typealiasdeclarationimpl.isdefaultexport.md) |  | boolean |  |
 |  [isExported](./ts-morph-structures.typealiasdeclarationimpl.isexported.md) |  | boolean |  |
@@ -30,7 +30,7 @@ export default class TypeAliasDeclarationImpl implements TypeAliasDeclarationStr
 |  [name](./ts-morph-structures.typealiasdeclarationimpl.name.md) |  | string |  |
 |  [trailingTrivia](./ts-morph-structures.typealiasdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [type?](./ts-morph-structures.typealiasdeclarationimpl.type.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
-|  [typeParameters](./ts-morph-structures.typealiasdeclarationimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
+|  [typeParameters](./ts-morph-structures.typealiasdeclarationimpl.typeparameters.md) | <code>readonly</code> | ([TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) \| string)\[\] |  |
 |  [typeStructure](./ts-morph-structures.typealiasdeclarationimpl.typestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 
 ## Methods

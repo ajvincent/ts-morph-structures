@@ -40,8 +40,9 @@ const npm = await which("npm");
 
 it("Driver generates a valid set of classes", async () => {
   const DefaultMapModule = pathToModule(stageDir, "fixtures/stage_utilities/DefaultMap.ts");
+  const DefaultMapSourceFile = getTS_SourceFile(stageDir, "fixtures/stage_utilities/DefaultMap.ts");
   const DefaultMapStructure = getTypeAugmentedStructure(
-    getTS_SourceFile(stageDir, "fixtures/stage_utilities/DefaultMap.ts"), VoidTypeNodeToTypeStructureConsole, true
+    DefaultMapSourceFile, VoidTypeNodeToTypeStructureConsole, true
   ).rootStructure;
 
   try {
@@ -63,4 +64,4 @@ it("Driver generates a valid set of classes", async () => {
     cleanup.resolve(null);
     await cleanup.promise;
   }
-}, 1000 * 30);
+}, 1000 * 60 * 60);

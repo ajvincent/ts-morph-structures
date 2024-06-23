@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-readonly docs: (string | JSDocImpl)[];
+readonly docs: (JSDocImpl | string)[];
 ```

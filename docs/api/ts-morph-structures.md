@@ -73,6 +73,7 @@
 |  [TypeArgumentedTypeStructureImpl](./ts-morph-structures.typeargumentedtypestructureimpl.md) | This resolves type parameters, as opposed to defining them. |
 |  [TypeMembersMap](./ts-morph-structures.typemembersmap.md) | A map for members of <code>InterfaceDeclarationImpl</code> and <code>MemberedObjectTypeStructureImpl</code>. This doesn't replace the structures, rather it \_feeds\_ them. |
 |  [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) |  |
+|  [TypePredicateTypeStructureImpl](./ts-morph-structures.typepredicatetypestructureimpl.md) |  |
 |  [UnionTypeStructureImpl](./ts-morph-structures.uniontypestructureimpl.md) |  |
 |  [VariableDeclarationImpl](./ts-morph-structures.variabledeclarationimpl.md) |  |
 |  [VariableStatementImpl](./ts-morph-structures.variablestatementimpl.md) |  |

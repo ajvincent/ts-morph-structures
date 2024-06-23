@@ -3,12 +3,14 @@ import {
   ConstructorTypeNode,
   EntityName,
   FunctionTypeNode,
+  Identifier,
   MappedTypeNode,
   Node,
   ParameterDeclaration,
   StructureKind,
   SyntaxKind,
   TemplateLiteralTypeNode,
+  ThisTypeNode,
   TypeLiteralNode,
   TypeNode,
   TypeOperatorTypeNode,
@@ -38,6 +40,7 @@ import {
   TupleTypeStructureImpl,
   TypeArgumentedTypeStructureImpl,
   TypeParameterDeclarationImpl,
+  TypePredicateTypeStructureImpl,
   TypeStructures,
   UnionTypeStructureImpl,
   type TypeStructuresOrNull,
@@ -187,6 +190,24 @@ export default function convertTypeNode(
 
   if (Node.isTypeLiteral(typeNode)) {
     return convertTypeLiteralNode(typeNode, consoleTrap, subStructureResolver);
+  }
+
+  if (Node.isTypePredicate(typeNode)) {
+    const parameterNode: Identifier | ThisTypeNode = typeNode.getParameterNameNode();
+    let parameterName: LiteralTypeStructureImpl;
+    if (Node.isThisTypeNode(parameterNode)) {
+      parameterName = LiteralTypeStructureImpl.get("this");
+    } else {
+      parameterName = LiteralTypeStructureImpl.get(parameterNode.getText());
+    }
+
+    const isType_node = typeNode.getTypeNode();
+    let isType_TypeStructure: TypeStructures | null = null;
+    if (isType_node) {
+      isType_TypeStructure = convertTypeNode(isType_node, consoleTrap, subStructureResolver);
+    }
+
+    return new TypePredicateTypeStructureImpl(typeNode.hasAssertsModifier(), parameterName, isType_TypeStructure);
   }
 
   // Type nodes with generic type node children, based on a type.

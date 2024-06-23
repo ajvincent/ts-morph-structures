@@ -8,97 +8,87 @@
  * This file is specifically for catching new methods of arrays when they appear in the ECMAScript language.
  * When this file fails to compile, it means `ReadonlyArrayProxyHandler.#safeMembers` may need updating.
  */
-const ArrayNotImplementedCanary: Omit<Array<unknown>, number> = {
-  [Symbol.iterator]: function (): IterableIterator<unknown> {
+class ArrayNotImplementedCanary implements Omit<Array<unknown>, number> {
+  [Symbol.iterator](): IterableIterator<unknown> {
     throw new Error("Function not implemented.");
-  },
+  }
   get [Symbol.unscopables](): {
     [K in keyof any[]]?: boolean;
   } {
     throw new Error("not implemented");
-  },
-  length: 0,
-  pop: function (): unknown {
+  }
+  get length(): number {
+    throw new Error("Getter not implemented");
+  }
+  pop(): unknown {
     throw new Error("Function not implemented.");
-  },
-  push: function (...items: unknown[]): number {
+  }
+  push(...items: unknown[]): number {
     throw new Error("Function not implemented.");
-  },
-  concat: function (...items: ConcatArray<unknown>[]): unknown[] {
+  }
+  concat(...items: ConcatArray<unknown>[]): unknown[] {
     throw new Error("Function not implemented.");
-  },
-  join: function (separator?: string | undefined): string {
+  }
+  join(separator?: string | undefined): string {
     throw new Error("Function not implemented.");
-  },
-  reverse: function (): unknown[] {
+  }
+  reverse(): unknown[] {
     throw new Error("Function not implemented.");
-  },
-  shift: function (): unknown {
+  }
+  shift(): unknown {
     throw new Error("Function not implemented.");
-  },
-  slice: function (
-    start?: number | undefined,
-    end?: number | undefined,
-  ): unknown[] {
+  }
+  slice(start?: number | undefined, end?: number | undefined): unknown[] {
     throw new Error("Function not implemented.");
-  },
-  sort: function (
+  }
+  sort(
     compareFn?: ((a: unknown, b: unknown) => number) | undefined,
   ): unknown[] {
     throw new Error("Function not implemented.");
-  },
-  splice: function (
-    start: number,
-    deleteCount?: number | undefined,
-  ): unknown[] {
+  }
+  splice(start: number, deleteCount?: number | undefined): unknown[] {
     throw new Error("Function not implemented.");
-  },
-  unshift: function (...items: unknown[]): number {
+  }
+  unshift(...items: unknown[]): number {
     throw new Error("Function not implemented.");
-  },
-  indexOf: function (
-    searchElement: unknown,
-    fromIndex?: number | undefined,
-  ): number {
+  }
+  indexOf(searchElement: unknown, fromIndex?: number | undefined): number {
     throw new Error("Function not implemented.");
-  },
-  lastIndexOf: function (
-    searchElement: unknown,
-    fromIndex?: number | undefined,
-  ): number {
+  }
+  lastIndexOf(searchElement: unknown, fromIndex?: number | undefined): number {
     throw new Error("Function not implemented.");
-  },
-  every: function <S>(
+  }
+  every<S>(
     predicate: (value: unknown, index: number, array: unknown[]) => value is S,
     thisArg?: any,
-  ): boolean {
+  ): this is S[] {
     throw new Error("Function not implemented.");
-  },
-  some: function (
+  }
+  some(
     predicate: (value: unknown, index: number, array: unknown[]) => unknown,
     thisArg?: any,
   ): boolean {
     throw new Error("Function not implemented.");
-  },
-  forEach: function (
+  }
+  forEach(
     callbackfn: (value: unknown, index: number, array: unknown[]) => void,
     thisArg?: any,
   ): void {
     throw new Error("Function not implemented.");
-  },
-  map: function <U>(
+  }
+  map<U>(
     callbackfn: (value: unknown, index: number, array: unknown[]) => U,
     thisArg?: any,
   ): U[] {
     throw new Error("Function not implemented.");
-  },
-  filter: function <S>(
+  }
+  filter<S>(
     predicate: (value: unknown, index: number, array: unknown[]) => value is S,
     thisArg?: any,
   ): S[] {
     throw new Error("Function not implemented.");
-  },
-  reduce: function (
+  }
+  reduce(
     callbackfn: (
       previousValue: unknown,
       currentValue: unknown,
@@ -107,8 +97,8 @@ const ArrayNotImplementedCanary: Omit<Array<unknown>, number> = {
     ) => unknown,
   ): unknown {
     throw new Error("Function not implemented.");
-  },
-  reduceRight: function (
+  }
+  reduceRight(
     callbackfn: (
       previousValue: unknown,
       currentValue: unknown,
@@ -117,49 +107,46 @@ const ArrayNotImplementedCanary: Omit<Array<unknown>, number> = {
     ) => unknown,
   ): unknown {
     throw new Error("Function not implemented.");
-  },
-  find: function <S>(
+  }
+  find<S>(
     predicate: (value: unknown, index: number, obj: unknown[]) => value is S,
     thisArg?: any,
   ): S | undefined {
     throw new Error("Function not implemented.");
-  },
-  findIndex: function (
+  }
+  findIndex(
     predicate: (value: unknown, index: number, obj: unknown[]) => unknown,
     thisArg?: any,
   ): number {
     throw new Error("Function not implemented.");
-  },
-  fill: function (
+  }
+  fill(
     value: unknown,
     start?: number | undefined,
     end?: number | undefined,
   ): unknown[] {
     throw new Error("Function not implemented.");
-  },
-  copyWithin: function (
+  }
+  copyWithin(
     target: number,
     start?: number | undefined,
     end?: number | undefined,
   ): unknown[] {
     throw new Error("Function not implemented.");
-  },
-  entries: function (): IterableIterator<[number, unknown]> {
+  }
+  entries(): IterableIterator<[number, unknown]> {
     throw new Error("Function not implemented.");
-  },
-  keys: function (): IterableIterator<number> {
+  }
+  keys(): IterableIterator<number> {
     throw new Error("Function not implemented.");
-  },
-  values: function (): IterableIterator<unknown> {
+  }
+  values(): IterableIterator<unknown> {
     throw new Error("Function not implemented.");
-  },
-  includes: function (
-    searchElement: unknown,
-    fromIndex?: number | undefined,
-  ): boolean {
+  }
+  includes(searchElement: unknown, fromIndex?: number | undefined): boolean {
     throw new Error("Function not implemented.");
-  },
-  flatMap: function <U, This = undefined>(
+  }
+  flatMap<U, This = undefined>(
     callback: (
       this: This,
       value: unknown,
@@ -169,46 +156,46 @@ const ArrayNotImplementedCanary: Omit<Array<unknown>, number> = {
     thisArg?: This | undefined,
   ): U[] {
     throw new Error("Function not implemented.");
-  },
-  flat: function <A, D extends number = 1>(
+  }
+  flat<A, D extends number = 1>(
     this: A,
     depth?: D | undefined,
   ): FlatArray<A, D>[] {
     throw new Error("Function not implemented.");
-  },
-  at: function (index: number): unknown {
+  }
+  at(index: number): unknown {
     throw new Error("Function not implemented.");
-  },
-  findLast: function <S>(
+  }
+  findLast<S>(
     predicate: (value: unknown, index: number, array: unknown[]) => value is S,
     thisArg?: any,
   ): S | undefined {
     throw new Error("Function not implemented.");
-  },
-  findLastIndex: function (
+  }
+  findLastIndex(
     predicate: (value: unknown, index: number, array: unknown[]) => unknown,
     thisArg?: any,
   ): number {
     throw new Error("Function not implemented.");
-  },
-  toReversed: function (): unknown[] {
+  }
+  toReversed(): unknown[] {
     throw new Error("Function not implemented.");
-  },
-  toSorted: function (
+  }
+  toSorted(
     compareFn?: ((a: unknown, b: unknown) => number) | undefined,
   ): unknown[] {
     throw new Error("Function not implemented.");
-  },
-  toSpliced: function (
+  }
+  toSpliced(
     start: number,
     deleteCount: number,
     ...items: unknown[]
   ): unknown[] {
     throw new Error("Function not implemented.");
-  },
-  with: function (index: number, value: unknown): unknown[] {
+  }
+  with(index: number, value: unknown): unknown[] {
     throw new Error("Function not implemented.");
-  },
-};
+  }
+}
 
 export default ArrayNotImplementedCanary;

@@ -17,6 +17,7 @@ import StringTypeStructureImpl from "./StringTypeStructureImpl.js";
 import TemplateLiteralTypeStructureImpl from "./TemplateLiteralTypeStructureImpl.js";
 import TupleTypeStructureImpl from "./TupleTypeStructureImpl.js";
 import TypeArgumentedTypeStructureImpl from "./TypeArgumentedTypeStructureImpl.js";
+import TypePredicateTypeStructureImpl from "./TypePredicateTypeStructureImpl.js";
 import UnionTypeStructureImpl from "./UnionTypeStructureImpl.js";
 import WriterTypeStructureImpl from "./WriterTypeStructureImpl.js";
 
@@ -40,6 +41,7 @@ export type TypeStructures =
   | TemplateLiteralTypeStructureImpl
   | TupleTypeStructureImpl
   | TypeArgumentedTypeStructureImpl
+  | TypePredicateTypeStructureImpl
   | UnionTypeStructureImpl
   | WriterTypeStructureImpl;
 

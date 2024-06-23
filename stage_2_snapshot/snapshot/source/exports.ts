@@ -144,6 +144,7 @@ export { default as StringTypeStructureImpl } from "./structures/type/StringType
 export { default as TemplateLiteralTypeStructureImpl } from "./structures/type/TemplateLiteralTypeStructureImpl.js";
 export { default as TupleTypeStructureImpl } from "./structures/type/TupleTypeStructureImpl.js";
 export { default as TypeArgumentedTypeStructureImpl } from "./structures/type/TypeArgumentedTypeStructureImpl.js";
+export { default as TypePredicateTypeStructureImpl } from "./structures/type/TypePredicateTypeStructureImpl.js";
 export type {
   TypeStructures,
   TypeStructuresOrNull,

@@ -15,17 +15,17 @@ export default class ConstructorDeclarationImpl implements ConstructorDeclaratio
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [docs](./ts-morph-structures.constructordeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [docs](./ts-morph-structures.constructordeclarationimpl.docs.md) | <code>readonly</code> | ([JSDocImpl](./ts-morph-structures.jsdocimpl.md) \| string)\[\] |  |
 |  [kind](./ts-morph-structures.constructordeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Constructor |  |
 |  [leadingTrivia](./ts-morph-structures.constructordeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [overloads](./ts-morph-structures.constructordeclarationimpl.overloads.md) | <code>readonly</code> | [ConstructorDeclarationOverloadImpl](./ts-morph-structures.constructordeclarationoverloadimpl.md)<!-- -->\[\] |  |
 |  [parameters](./ts-morph-structures.constructordeclarationimpl.parameters.md) | <code>readonly</code> | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] |  |
-|  [returnType?](./ts-morph-structures.constructordeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [returnType?](./ts-morph-structures.constructordeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
 |  [returnTypeStructure](./ts-morph-structures.constructordeclarationimpl.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
-|  [scope?](./ts-morph-structures.constructordeclarationimpl.scope.md) |  | import("ts-morph").Scope&lt;&gt; \| undefined | _(Optional)_ |
+|  [scope?](./ts-morph-structures.constructordeclarationimpl.scope.md) |  | import("ts-morph").Scope&lt;&gt; | _(Optional)_ |
 |  [statements](./ts-morph-structures.constructordeclarationimpl.statements.md) | <code>readonly</code> | ([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
 |  [trailingTrivia](./ts-morph-structures.constructordeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [typeParameters](./ts-morph-structures.constructordeclarationimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
+|  [typeParameters](./ts-morph-structures.constructordeclarationimpl.typeparameters.md) | <code>readonly</code> | ([TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) \| string)\[\] |  |
 
 ## Methods
 

@@ -22,7 +22,7 @@ export default class MethodDeclarationImpl implements MethodDeclarationStructure
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [decorators](./ts-morph-structures.methoddeclarationimpl.decorators.md) | <code>readonly</code> | [DecoratorImpl](./ts-morph-structures.decoratorimpl.md)<!-- -->\[\] |  |
-|  [docs](./ts-morph-structures.methoddeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [docs](./ts-morph-structures.methoddeclarationimpl.docs.md) | <code>readonly</code> | ([JSDocImpl](./ts-morph-structures.jsdocimpl.md) \| string)\[\] |  |
 |  [hasOverrideKeyword](./ts-morph-structures.methoddeclarationimpl.hasoverridekeyword.md) |  | boolean |  |
 |  [hasQuestionToken](./ts-morph-structures.methoddeclarationimpl.hasquestiontoken.md) |  | boolean |  |
 |  [isAbstract](./ts-morph-structures.methoddeclarationimpl.isabstract.md) |  | boolean |  |
@@ -34,12 +34,12 @@ export default class MethodDeclarationImpl implements MethodDeclarationStructure
 |  [name](./ts-morph-structures.methoddeclarationimpl.name.md) |  | string |  |
 |  [overloads](./ts-morph-structures.methoddeclarationimpl.overloads.md) | <code>readonly</code> | [MethodDeclarationOverloadImpl](./ts-morph-structures.methoddeclarationoverloadimpl.md)<!-- -->\[\] |  |
 |  [parameters](./ts-morph-structures.methoddeclarationimpl.parameters.md) | <code>readonly</code> | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] |  |
-|  [returnType?](./ts-morph-structures.methoddeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [returnType?](./ts-morph-structures.methoddeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
 |  [returnTypeStructure](./ts-morph-structures.methoddeclarationimpl.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
-|  [scope?](./ts-morph-structures.methoddeclarationimpl.scope.md) |  | import("ts-morph").Scope&lt;&gt; \| undefined | _(Optional)_ |
+|  [scope?](./ts-morph-structures.methoddeclarationimpl.scope.md) |  | import("ts-morph").Scope&lt;&gt; | _(Optional)_ |
 |  [statements](./ts-morph-structures.methoddeclarationimpl.statements.md) | <code>readonly</code> | ([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
 |  [trailingTrivia](./ts-morph-structures.methoddeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [typeParameters](./ts-morph-structures.methoddeclarationimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
+|  [typeParameters](./ts-morph-structures.methoddeclarationimpl.typeparameters.md) | <code>readonly</code> | ([TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) \| string)\[\] |  |
 
 ## Methods
 

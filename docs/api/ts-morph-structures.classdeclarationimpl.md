@@ -17,7 +17,7 @@ export default class ClassDeclarationImpl implements ClassDeclarationStructureCl
 |  --- | --- | --- | --- |
 |  [ctors](./ts-morph-structures.classdeclarationimpl.ctors.md) | <code>readonly</code> | [ConstructorDeclarationImpl](./ts-morph-structures.constructordeclarationimpl.md)<!-- -->\[\] |  |
 |  [decorators](./ts-morph-structures.classdeclarationimpl.decorators.md) | <code>readonly</code> | [DecoratorImpl](./ts-morph-structures.decoratorimpl.md)<!-- -->\[\] |  |
-|  [docs](./ts-morph-structures.classdeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [docs](./ts-morph-structures.classdeclarationimpl.docs.md) | <code>readonly</code> | ([JSDocImpl](./ts-morph-structures.jsdocimpl.md) \| string)\[\] |  |
 |  [extends](./ts-morph-structures.classdeclarationimpl.extends.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined |  |
 |  [extendsStructure](./ts-morph-structures.classdeclarationimpl.extendsstructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 |  [getAccessors](./ts-morph-structures.classdeclarationimpl.getaccessors.md) | <code>readonly</code> | [GetAccessorDeclarationImpl](./ts-morph-structures.getaccessordeclarationimpl.md)<!-- -->\[\] |  |
@@ -30,12 +30,12 @@ export default class ClassDeclarationImpl implements ClassDeclarationStructureCl
 |  [kind](./ts-morph-structures.classdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Class |  |
 |  [leadingTrivia](./ts-morph-structures.classdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [methods](./ts-morph-structures.classdeclarationimpl.methods.md) | <code>readonly</code> | [MethodDeclarationImpl](./ts-morph-structures.methoddeclarationimpl.md)<!-- -->\[\] |  |
-|  [name?](./ts-morph-structures.classdeclarationimpl.name.md) |  | string \| undefined | _(Optional)_ |
+|  [name?](./ts-morph-structures.classdeclarationimpl.name.md) |  | string | _(Optional)_ |
 |  [properties](./ts-morph-structures.classdeclarationimpl.properties.md) | <code>readonly</code> | [PropertyDeclarationImpl](./ts-morph-structures.propertydeclarationimpl.md)<!-- -->\[\] |  |
 |  [setAccessors](./ts-morph-structures.classdeclarationimpl.setaccessors.md) | <code>readonly</code> | [SetAccessorDeclarationImpl](./ts-morph-structures.setaccessordeclarationimpl.md)<!-- -->\[\] |  |
 |  [staticBlocks](./ts-morph-structures.classdeclarationimpl.staticblocks.md) | <code>readonly</code> | [ClassStaticBlockDeclarationImpl](./ts-morph-structures.classstaticblockdeclarationimpl.md)<!-- -->\[\] |  |
 |  [trailingTrivia](./ts-morph-structures.classdeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [typeParameters](./ts-morph-structures.classdeclarationimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
+|  [typeParameters](./ts-morph-structures.classdeclarationimpl.typeparameters.md) | <code>readonly</code> | ([TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) \| string)\[\] |  |
 
 ## Methods
 

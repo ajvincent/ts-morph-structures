@@ -21,8 +21,8 @@ export default class EnumMemberImpl implements EnumMemberStructureClassIfc
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [docs](./ts-morph-structures.enummemberimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
-|  [initializer?](./ts-morph-structures.enummemberimpl.initializer.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
+|  [docs](./ts-morph-structures.enummemberimpl.docs.md) | <code>readonly</code> | ([JSDocImpl](./ts-morph-structures.jsdocimpl.md) \| string)\[\] |  |
+|  [initializer?](./ts-morph-structures.enummemberimpl.initializer.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
 |  [kind](./ts-morph-structures.enummemberimpl.kind.md) | <code>readonly</code> | StructureKind.EnumMember |  |
 |  [leadingTrivia](./ts-morph-structures.enummemberimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [name](./ts-morph-structures.enummemberimpl.name.md) |  | string |  |

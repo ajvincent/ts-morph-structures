@@ -24,6 +24,7 @@ export enum TypeStructureKind {
   TemplateLiteral,
   MemberedObject,
   Import,
+  TypePredicate,
 }
 
 export interface KindedTypeStructure<

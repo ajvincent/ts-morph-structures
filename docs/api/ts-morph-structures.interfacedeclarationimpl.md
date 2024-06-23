@@ -23,7 +23,7 @@ export default class InterfaceDeclarationImpl implements InterfaceDeclarationStr
 |  --- | --- | --- | --- |
 |  [callSignatures](./ts-morph-structures.interfacedeclarationimpl.callsignatures.md) | <code>readonly</code> | [CallSignatureDeclarationImpl](./ts-morph-structures.callsignaturedeclarationimpl.md)<!-- -->\[\] |  |
 |  [constructSignatures](./ts-morph-structures.interfacedeclarationimpl.constructsignatures.md) | <code>readonly</code> | [ConstructSignatureDeclarationImpl](./ts-morph-structures.constructsignaturedeclarationimpl.md)<!-- -->\[\] |  |
-|  [docs](./ts-morph-structures.interfacedeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [docs](./ts-morph-structures.interfacedeclarationimpl.docs.md) | <code>readonly</code> | ([JSDocImpl](./ts-morph-structures.jsdocimpl.md) \| string)\[\] |  |
 |  [extends](./ts-morph-structures.interfacedeclarationimpl.extends.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] | Treat this as a read-only array. Use <code>.extendsSet</code> to modify this. |
 |  [extendsSet](./ts-morph-structures.interfacedeclarationimpl.extendsset.md) | <code>readonly</code> | [TypeStructureSet](./ts-morph-structures.typestructureset.md) |  |
 |  [getAccessors](./ts-morph-structures.interfacedeclarationimpl.getaccessors.md) | <code>readonly</code> | [GetAccessorDeclarationImpl](./ts-morph-structures.getaccessordeclarationimpl.md)<!-- -->\[\] |  |
@@ -38,7 +38,7 @@ export default class InterfaceDeclarationImpl implements InterfaceDeclarationStr
 |  [properties](./ts-morph-structures.interfacedeclarationimpl.properties.md) | <code>readonly</code> | [PropertySignatureImpl](./ts-morph-structures.propertysignatureimpl.md)<!-- -->\[\] |  |
 |  [setAccessors](./ts-morph-structures.interfacedeclarationimpl.setaccessors.md) | <code>readonly</code> | [SetAccessorDeclarationImpl](./ts-morph-structures.setaccessordeclarationimpl.md)<!-- -->\[\] |  |
 |  [trailingTrivia](./ts-morph-structures.interfacedeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [typeParameters](./ts-morph-structures.interfacedeclarationimpl.typeparameters.md) | <code>readonly</code> | (string \| [TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md)<!-- -->)\[\] |  |
+|  [typeParameters](./ts-morph-structures.interfacedeclarationimpl.typeparameters.md) | <code>readonly</code> | ([TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) \| string)\[\] |  |
 
 ## Methods
 

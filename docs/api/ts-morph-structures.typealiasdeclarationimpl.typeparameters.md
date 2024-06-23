@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-readonly typeParameters: (string | TypeParameterDeclarationImpl)[];
+readonly typeParameters: (TypeParameterDeclarationImpl | string)[];
 ```

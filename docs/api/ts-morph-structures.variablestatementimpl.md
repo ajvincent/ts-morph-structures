@@ -17,7 +17,7 @@ export default class VariableStatementImpl implements VariableStatementStructure
 |  --- | --- | --- | --- |
 |  [declarationKind?](./ts-morph-structures.variablestatementimpl.declarationkind.md) |  | VariableDeclarationKind | _(Optional)_ |
 |  [declarations](./ts-morph-structures.variablestatementimpl.declarations.md) | <code>readonly</code> | [VariableDeclarationImpl](./ts-morph-structures.variabledeclarationimpl.md)<!-- -->\[\] |  |
-|  [docs](./ts-morph-structures.variablestatementimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [docs](./ts-morph-structures.variablestatementimpl.docs.md) | <code>readonly</code> | ([JSDocImpl](./ts-morph-structures.jsdocimpl.md) \| string)\[\] |  |
 |  [hasDeclareKeyword](./ts-morph-structures.variablestatementimpl.hasdeclarekeyword.md) |  | boolean |  |
 |  [isDefaultExport](./ts-morph-structures.variablestatementimpl.isdefaultexport.md) |  | boolean |  |
 |  [isExported](./ts-morph-structures.variablestatementimpl.isexported.md) |  | boolean |  |

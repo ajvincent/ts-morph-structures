@@ -584,7 +584,7 @@ export default class MemberedTypeToClass {
     if (this.#isAsyncCallback ?? this.#isGeneratorCallback) {
       const methods = members.filter(
         (member) => member.kind === StructureKind.Method,
-      ) as MethodDeclarationImpl[];
+      );
 
       methods.forEach((method) => {
         if (this.#isAsyncCallback) {

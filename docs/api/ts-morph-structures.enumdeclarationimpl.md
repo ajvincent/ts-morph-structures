@@ -21,7 +21,7 @@ export default class EnumDeclarationImpl implements EnumDeclarationStructureClas
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [docs](./ts-morph-structures.enumdeclarationimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [docs](./ts-morph-structures.enumdeclarationimpl.docs.md) | <code>readonly</code> | ([JSDocImpl](./ts-morph-structures.jsdocimpl.md) \| string)\[\] |  |
 |  [hasDeclareKeyword](./ts-morph-structures.enumdeclarationimpl.hasdeclarekeyword.md) |  | boolean |  |
 |  [isConst](./ts-morph-structures.enumdeclarationimpl.isconst.md) |  | boolean |  |
 |  [isDefaultExport](./ts-morph-structures.enumdeclarationimpl.isdefaultexport.md) |  | boolean |  |

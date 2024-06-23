@@ -432,7 +432,9 @@ class StructureAndNodeData {
       }
       assert(
         false,
-        `Expected candidate node to exist, structureHash = "${structureHash}", nodeHash = "${nodeHash}"${parentMsg}`,
+        `Expected candidate node to exist, structureHash = "${
+          structureHash
+        }", nodeHash = "${nodeHash}"${parentMsg}`,
       );
     }
 

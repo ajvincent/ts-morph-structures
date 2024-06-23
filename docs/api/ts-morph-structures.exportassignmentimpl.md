@@ -21,7 +21,7 @@ export default class ExportAssignmentImpl implements ExportAssignmentStructureCl
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [docs](./ts-morph-structures.exportassignmentimpl.docs.md) | <code>readonly</code> | (string \| [JSDocImpl](./ts-morph-structures.jsdocimpl.md)<!-- -->)\[\] |  |
+|  [docs](./ts-morph-structures.exportassignmentimpl.docs.md) | <code>readonly</code> | ([JSDocImpl](./ts-morph-structures.jsdocimpl.md) \| string)\[\] |  |
 |  [expression](./ts-morph-structures.exportassignmentimpl.expression.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) |  |
 |  [isExportEquals](./ts-morph-structures.exportassignmentimpl.isexportequals.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.exportassignmentimpl.kind.md) | <code>readonly</code> | StructureKind.ExportAssignment |  |

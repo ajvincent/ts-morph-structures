@@ -27,6 +27,7 @@ import {
   TemplateLiteralTypeStructureImpl,
   TupleTypeStructureImpl,
   TypeArgumentedTypeStructureImpl,
+  TypePredicateTypeStructureImpl,
   UnionTypeStructureImpl,
   TypeStructures
 } from "#stage_two/snapshot/source/exports.js";
@@ -276,6 +277,47 @@ let A: string;
       expect(failNode).toBe(null);
     }
   );
+
+  it(`Function: (value: object | boolean) => value is object`, () => {
+    setTypeStructure(`(value: object | boolean) => value is object`, failCallback);
+    expect(structure).toBeInstanceOf(FunctionTypeStructureImpl);
+    if (!(structure instanceof FunctionTypeStructureImpl))
+      return;
+
+    expect(structure.name).toBe("");
+    expect(structure.isConstructor).toBe(false);
+
+    expect(structure.typeParameters.length).toBe(0);
+    expect(structure.parameters.length).toBe(1);
+    {
+      const param = structure.parameters[0];
+      expect(param.name).toBe("value");
+      expect(param.typeStructure).toBeInstanceOf(UnionTypeStructureImpl);
+
+      if (param.typeStructure instanceof UnionTypeStructureImpl) {
+        expect(param.typeStructure.childTypes).toEqual([
+          LiteralTypeStructureImpl.get("object"),
+          LiteralTypeStructureImpl.get("boolean")
+        ]);
+      }
+    }
+
+    expect(structure.restParameter).toBe(undefined);
+    const { returnType } = structure;
+    expect(returnType).not.toBeUndefined();
+    if (returnType) {
+      expect(returnType).toBeInstanceOf(TypePredicateTypeStructureImpl);
+      if (returnType instanceof TypePredicateTypeStructureImpl) {
+        expect(returnType.hasAssertsKeyword).toBe(false);
+        expect(returnType.parameterName).toBe(LiteralTypeStructureImpl.get("value"));
+        expect(returnType.isType).toBe(LiteralTypeStructureImpl.get("object"));
+      }
+    }
+
+    expect(structure.writerStyle).toBe(FunctionWriterStyle.Arrow);
+    expect(failMessage).toBe(undefined);
+    expect(failNode).toBe(null);
+  });
 
   it(`IndexedAccess: NumberStringType["repeatForward"]`, () => {
     setTypeStructure(`NumberStringType["repeatForward"]`, failCallback);

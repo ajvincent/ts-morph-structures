@@ -59,6 +59,7 @@ These are type structures which contain other type structures.
 | [TemplateLiteralTypeStructureImpl](../api/ts-morph-structures.templateliteraltypestructureimpl.md) | &#x60;`one${"A"}two${"C"}three`&#x60; | head, spans |
 | [TupleTypeStructureImpl](../api/ts-morph-structures.tupletypestructureimpl.md) | `[string, number]` | childTypes |
 | [TypeArgumentedTypeStructureImpl](../api/ts-morph-structures.typeargumentedtypestructureimpl.md) | `Pick<Array, "slice">` | objectType, childTypes |
+| [TypePredicateTypeStructureImpl](../api/ts-morph-structures.typepredicatetypestructureimpl.md) | `asserts condition is true` | hasAssertsKeyword, parameterName, isType |
 | [UnionTypeStructureImpl](../api/ts-morph-structures.uniontypestructureimpl.md) | "one" &#x7c; "two" &#x7c; "three" | childTypes |
 | [WriterTypeStructureImpl](../api/ts-morph-structures.writertypestructureimpl.md) | Wrapper for `(writer: CodeBlockWriter) => void` | writerFunction |
 

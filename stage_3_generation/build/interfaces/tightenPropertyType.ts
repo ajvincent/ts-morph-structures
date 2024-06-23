@@ -118,7 +118,7 @@ function tightenUnion(
     return childTypes[0];
 
   if (childTypes.every(type => type.kind === TypeStructureKind.Literal))
-    (childTypes as LiteralTypeStructureImpl[]).sort(compareLiterals);
+    childTypes.sort(compareLiterals);
   return new UnionTypeStructureImpl(childTypes);
 }
 

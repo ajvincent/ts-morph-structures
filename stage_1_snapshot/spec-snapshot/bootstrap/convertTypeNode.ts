@@ -385,7 +385,7 @@ const A: string;
       return;
 
     expect(
-      types.map(type => (type as LiteralTypedStructureImpl).stringValue)
+      types.map(type => type.stringValue)
     ).toEqual(["true", "ReturnsModified", "BaseClassType", "void"]);
     expect(failMessage).toBe(undefined);
     expect(failNode).toBe(null);
