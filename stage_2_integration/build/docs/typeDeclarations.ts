@@ -40,7 +40,9 @@ async function compileTypeDefinitions(): Promise<void>
     });
 
     // run the TypeScript compiler!
+    // cwd is important for ts-node/tsimp hooks to run.
     const tsc = fork(pathToTSC, parameters, {
+      cwd: projectDir,
       silent: false,
       // this ensures you can see TypeScript error messages
       stdio: ["ignore", "inherit", "inherit", "ipc"]
