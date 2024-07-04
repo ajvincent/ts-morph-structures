@@ -9,6 +9,12 @@
     "dist/exports.d.ts"
   ],
   "type": "module",
+  "//": {
+    "debug": [
+      "Debugging this code requires Node 18.  Node 20 will fail to start running your code when using --inspect-brk and --import.",
+      "note to self: what about --inspect-wait, added in Node 20.15?  No, that doesn't fix it."
+    ]
+  },
   "engines": {
     "node": ">=18.19"
   },
@@ -51,6 +57,7 @@
     "@microsoft/api-extractor": "^7.43.0",
     "@rollup/plugin-typescript": "^11.1.6",
     "@tsconfig/node18": "^18.2.4",
+    "@types/eslint": "^8.56.10",
     "@types/jasmine": "^5.1.4",
     "@types/node": "^20.14.8",
     "@types/which": "^3.0.4",
