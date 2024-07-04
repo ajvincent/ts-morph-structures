@@ -64,6 +64,7 @@ const BPSet = new BuildPromiseSet;
     console.log("Running API Extractor...");
     await runAPIExtractor();
     await runAPIDocumenter();
+    console.log("cwd: " + process.cwd());
   });
 }
 

@@ -28,6 +28,7 @@ const BPSet = new BuildPromiseSet;
 
   target.addTask(async () => {
     console.log("starting stage_2_snapshot:jasmine");
+    console.log("cwd: " + process.cwd());
     await runJasmine("./spec-snapshot/support/jasmine.json", "stage_two_test");
   });
 }
