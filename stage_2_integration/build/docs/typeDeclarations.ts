@@ -1,6 +1,7 @@
 import { spawn } from 'child_process';
 import fs from "fs/promises";
 import path from "path";
+import { cwd, chdir } from 'process';
 import url from "url";
 
 const projectDir = path.normalize(path.join(url.fileURLToPath(import.meta.url), "../../../.."));
@@ -29,6 +30,8 @@ async function compileTypeDefinitions(): Promise<void>
     "--project", tsconfigSourceFile
   ];
 
+  const popDir: string = cwd();
+
   try {
     // set up a promise to resolve or reject when tsc exits
     type PromiseResolver<T> = (value: T | PromiseLike<T>) => unknown;
@@ -54,6 +57,7 @@ async function compileTypeDefinitions(): Promise<void>
   finally {
     // clean up
     await fs.rm(tsconfigSourceFile);
+    chdir(popDir);
   }
 
   let files = await fs.readdir(sourceDir, { encoding: "utf-8", recursive: true });
