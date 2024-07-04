@@ -1,4 +1,4 @@
-import { fork } from 'child_process';
+import { spawn } from 'child_process';
 import fs from "fs/promises";
 import path from "path";
 import url from "url";
@@ -25,6 +25,7 @@ async function compileTypeDefinitions(): Promise<void>
 
   const pathToTSC = path.join(projectDir, `node_modules/typescript/bin/tsc`);
   const parameters = [
+    pathToTSC,
     "--project", tsconfigSourceFile
   ];
 
@@ -40,8 +41,9 @@ async function compileTypeDefinitions(): Promise<void>
     });
 
     // run the TypeScript compiler!
-    const tsc = fork(pathToTSC, parameters, {
-      silent: false,
+    // cwd is important for ts-node/tsimp hooks to run.
+    const tsc = spawn(process.argv0, parameters, {
+      cwd: projectDir,
       // this ensures you can see TypeScript error messages
       stdio: ["ignore", "inherit", "inherit", "ipc"]
     });
