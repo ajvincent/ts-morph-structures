@@ -49,6 +49,8 @@ async function runAPIDocumenter(): Promise<void>
       ],
       {
         cwd: projectDir,
+        // this ensures you can see TypeScript error messages
+        stdio: ["ignore", "inherit", "inherit", "ipc"]
       }
     );
     apiDocumenter.on("exit", code => code ? reject(code) : resolve());
