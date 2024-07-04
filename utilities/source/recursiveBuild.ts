@@ -9,8 +9,9 @@ export default async function recursiveBuild(
   const popDir: string = cwd();
   try {
     const pushDir = path.resolve(popDir, dirName);
+    const scriptToLoad = path.resolve(pushDir, relativePathToModule);
     chdir(pushDir);
-    await import(path.resolve(pushDir, relativePathToModule));
+    await import(scriptToLoad);
   }
   finally {
     chdir(popDir);
