@@ -1,3 +1,4 @@
+import { cwd } from "node:process";
 import Jasmine from "jasmine";
 
 export default async function runJasmine(
@@ -7,7 +8,9 @@ export default async function runJasmine(
 {
   void(triggerDebugFlag);
 
-  const jasmineRunner = new Jasmine();
+  const jasmineRunner = new Jasmine({
+    projectBaseDir: cwd(),
+  });
   jasmineRunner.loadConfigFile(pathToConfigFile);
   jasmineRunner.configureDefaultReporter({
     showColors: true,
