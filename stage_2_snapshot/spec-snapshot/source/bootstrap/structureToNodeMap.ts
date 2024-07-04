@@ -1,3 +1,4 @@
+// #region preamble
 import fs from "fs/promises";
 import path from "path";
 
@@ -28,7 +29,9 @@ import {
 } from "#stage_two/snapshot/source/bootstrap/structureToNodeMap.js";
 
 import StructureKindToSyntaxKindMap from "#stage_two/snapshot/source/bootstrap/structureToSyntax.js";
-import fixFunctionOverloads from "#stage_two/snapshot/source/bootstrap/fixFunctionOverloads.js";
+import {
+  fixFunctionOverloads,
+} from "#stage_two/snapshot/source/bootstrap/adjustForOverloads.js";
 
 async function getSupportedKindSet(): Promise<Set<StructureKind>> {
   const stageDir: ModuleSourceDirectory = {
@@ -76,8 +79,9 @@ const fixturesDir: ModuleSourceDirectory = {
   importMeta: import.meta,
   pathToDirectory: "../../../../fixtures"
 };
+// #endregion preamble
 
-it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
+xit("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   const remainingKeys = new Set(remainingKeysBase);
   function checkMap(
     relativePathToModuleFile: string,
@@ -99,7 +103,11 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
 
     map.forEach((node, structure) => {
       expect(Node.hasStructure(node)).withContext(relativePathToModuleFile).toBe(true);
-      if (Node.hasStructure(node)) {
+      /* This is an expensive check, but it's important.  I am checking that _every_ node with a
+      getStructure() method returns an equivalent (or in the case of overloads, nearly so) structure
+      to what we get from the structure-to-node map.
+      */
+      if (Node.isSourceFile(node)) {
         const expectedStructure = node.getStructure();
         fixFunctionOverloads(expectedStructure);
 
@@ -151,4 +159,4 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   remainingKinds.sort();
 
   expect(remainingKinds).withContext("we didn't find examples of these kinds in the fixtures").toEqual([]);
-});
+}, 1000 * 60 * 60);

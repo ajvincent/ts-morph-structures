@@ -29,7 +29,9 @@ import type {
   NodeWithStructures,
 } from "./types/conversions.js";
 
-import fixFunctionOverloads from "./fixFunctionOverloads.js";
+import {
+  fixFunctionOverloads,
+} from "./adjustForOverloads.js";
 // #endregion preamble
 
 /**
@@ -90,6 +92,7 @@ class StructureAndNodeData
 {
   static #knownSyntaxKinds?: ReadonlySet<SyntaxKind>;
 
+  //FIXME: Move this to its own testable module file, and write tests explicitly for this!  You've been burned a lot by overload instability.
   static #isOverload(
     node: OverloadableNode & Node
   ): boolean
@@ -145,6 +148,10 @@ class StructureAndNodeData
   )
   {
     this.#rootNode = nodeWithStructures;
+    if (!StructureAndNodeData.#knownSyntaxKinds) {
+      StructureAndNodeData.#knownSyntaxKinds = new Set<SyntaxKind>(StructureKindToSyntaxKindMap.values());
+    }
+
     this.#collectDescendantNodes(this.#rootNode, "");
 
     if (hashNeedle) {
@@ -206,12 +213,8 @@ class StructureAndNodeData
   ): void =>
   {
     const kind: SyntaxKind = node.getKind();
-    if (!StructureAndNodeData.#knownSyntaxKinds) {
-      StructureAndNodeData.#knownSyntaxKinds = new Set<SyntaxKind>(StructureKindToSyntaxKindMap.values());
-    }
-
     // Build the node hash, and register the node.
-    if (StructureAndNodeData.#knownSyntaxKinds.has(kind) && (this.#nodeToHash.has(node) === false)) {
+    if (StructureAndNodeData.#knownSyntaxKinds!.has(kind) && (this.#nodeToHash.has(node) === false)) {
       const localHash = this.#hashNodeLocal(node);
       assert(localHash, "this.#hashNodeLocal() must return a non-empty string");
 
@@ -292,8 +295,17 @@ class StructureAndNodeData
        *
        * node.isOverload() lies to us for type definition files.
        */
-      if (hash && Node.isOverloadable(node) && StructureAndNodeData.#isOverload(node)) {
-        hash += "/overload";
+      if (hash && Node.isOverloadable(node)) {
+        const isOverload = StructureAndNodeData.#isOverload(node);
+        if (isOverload) {
+          hash += "/overload";
+        }
+
+        const filePath = node.getSourceFile().getFilePath();
+        if (filePath.match(/Overload/)) {
+          const parentHash = this.#nodeToHash.get(node.getParentOrThrow());
+          console.log(filePath + ":" + node.getStartLineNumber(), parentHash + "/" + hash);
+        }
       }
     }
 

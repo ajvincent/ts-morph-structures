@@ -1087,9 +1087,63 @@ function fixFunctionOverloads(structure) {
                 return true;
             return false;
         });
+        // declared functions don't appear as overloads always
+        let lastNamedFunction;
+        for (let i = structure.statements.length - 1; i >= 0; i--) {
+            const statement = structure.statements[i];
+            if (typeof statement !== "object") {
+                lastNamedFunction = undefined;
+                continue;
+            }
+            if (statement.kind !== StructureKind.Function) {
+                lastNamedFunction = undefined;
+                continue;
+            }
+            if (statement.name === undefined) {
+                lastNamedFunction = undefined;
+                continue;
+            }
+            if (lastNamedFunction === undefined ||
+                lastNamedFunction.name !== statement.name) {
+                lastNamedFunction = statement;
+                continue;
+            }
+            assert(lastNamedFunction.overloads === undefined ||
+                lastNamedFunction.overloads.length === 0, "why does a function with the same name in this statement block have overloads?");
+            assert(lastNamedFunction.statements === undefined ||
+                lastNamedFunction.statements.length === 0, "why does a function with the same name in this statement block have statements?");
+            // the statement is actually a function overload
+            const overload = statement;
+            overload.kind = StructureKind.FunctionOverload;
+            lastNamedFunction.overloads ||= [];
+            lastNamedFunction.overloads.push(overload);
+            delete statement.name;
+            structure.statements.splice(i, 1);
+        }
     }
     forEachStructureChild(structure, fixFunctionOverloads);
 }
+/*
+export function isOverload(
+  node: OverloadableNode & Node
+): boolean
+{
+  if (Node.isAmbientable(node) && node.hasDeclareKeyword())
+    return false;
+
+  if (Node.isMethodDeclaration(node) || Node.isConstructorDeclaration(node)) {
+    const parent: ClassDeclaration | ClassExpression | ObjectLiteralExpression = node.getParentOrThrow();
+    if (Node.isAmbientable(parent) && parent.hasDeclareKeyword())
+      return false;
+  }
+
+  const nodes: OverloadableNode[] = node.getOverloads();
+  const implNode = node.getImplementation();
+  if (implNode)
+    nodes.push(implNode);
+  return nodes[nodes.length - 1] !== node;
+}
+*/
 
 var _a$6;
 // #endregion preamble
@@ -1135,6 +1189,7 @@ function structureToNodeMap(nodeWithStructures, useTypeAwareStructures, hashNeed
  */
 class StructureAndNodeData {
     static #knownSyntaxKinds;
+    //FIXME: Move this to its own testable module file, and write tests explicitly for this!  You've been burned a lot by overload instability.
     static #isOverload(node) {
         if (Node.isAmbientable(node) && node.hasDeclareKeyword())
             return false;
@@ -1170,6 +1225,9 @@ class StructureAndNodeData {
     }
     constructor(nodeWithStructures, useTypeAwareStructures, hashNeedle) {
         this.#rootNode = nodeWithStructures;
+        if (!_a$6.#knownSyntaxKinds) {
+            _a$6.#knownSyntaxKinds = new Set(StructureKindToSyntaxKindMap.values());
+        }
         this.#collectDescendantNodes(this.#rootNode, "");
         if (hashNeedle) {
             this.#nodeSetsByHash.forEach((nodeSet, hash) => {
@@ -1217,9 +1275,6 @@ class StructureAndNodeData {
      */
     #collectDescendantNodes = (node, hash) => {
         const kind = node.getKind();
-        if (!_a$6.#knownSyntaxKinds) {
-            _a$6.#knownSyntaxKinds = new Set(StructureKindToSyntaxKindMap.values());
-        }
         // Build the node hash, and register the node.
         if (_a$6.#knownSyntaxKinds.has(kind) &&
             this.#nodeToHash.has(node) === false) {
@@ -1288,10 +1343,16 @@ class StructureAndNodeData {
              *
              * node.isOverload() lies to us for type definition files.
              */
-            if (hash &&
-                Node.isOverloadable(node) &&
-                _a$6.#isOverload(node)) {
-                hash += "/overload";
+            if (hash && Node.isOverloadable(node)) {
+                const isOverload = _a$6.#isOverload(node);
+                if (isOverload) {
+                    hash += "/overload";
+                }
+                const filePath = node.getSourceFile().getFilePath();
+                if (filePath.match(/Overload/)) {
+                    const parentHash = this.#nodeToHash.get(node.getParentOrThrow());
+                    console.log(filePath + ":" + node.getStartLineNumber(), parentHash + "/" + hash);
+                }
             }
         }
         return hash;
