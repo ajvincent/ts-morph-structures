@@ -46,7 +46,7 @@ export {
   TypeParameterConstraintMode
 } from "./structures/TypeParameterDeclarationImpl.js";
 
-export {
+export type {
   TypeElementMemberedOwner
 } from "./decorators/TypeElementMemberedNode.js";
 

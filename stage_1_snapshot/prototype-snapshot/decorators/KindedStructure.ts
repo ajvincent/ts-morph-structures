@@ -28,7 +28,7 @@ export type KindedStructureFields<TKind extends StructureKind> = RightExtendsLef
   }
 >;
 
-function KindedStructure<TKind extends StructureKind>(
+function KindedStructureMixin<TKind extends StructureKind>(
   kind: TKind
 ): SubclassDecorator<KindedStructureFields<TKind>, typeof StructureBase, false>
 {
@@ -47,8 +47,8 @@ function KindedStructure<TKind extends StructureKind>(
     }
   }
 }
-KindedStructure satisfies SubclassDecorator<
+KindedStructureMixin satisfies SubclassDecorator<
   KindedStructureFields<StructureKind>, typeof StructureBase, [StructureKind]
 >;
 
-export default KindedStructure;
+export default KindedStructureMixin;

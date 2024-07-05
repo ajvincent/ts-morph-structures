@@ -1,6 +1,15 @@
-import { BuildPromiseSet } from "#utilities/source/BuildPromise.js";
+import path from "node:path";
+
+import {
+  projectDir,
+} from "#utilities/source/AsyncSpecModules.js";
+
+import {
+  BuildPromiseSet,
+} from "#utilities/source/BuildPromise.js";
+
 import runJasmine from "#utilities/source/runJasmine.js";
-import { runModule } from "#utilities/source/runModule.js";
+import runESLint from "#utilities/source/runEslint.js";
 
 import copySnapshot from "./build/copySnapshot.js";
 
@@ -25,24 +34,14 @@ const BPSet = new BuildPromiseSet;
 
 { // eslint
   const target = BPSet.get("eslint");
-
-  const args = [
-    "-c", "./.eslintrc.json",
-    "--max-warnings=0",
-  ];
-
-  args.push("buildStage.ts");
-  args.push("build/**/*.ts");
-  //args.push("fixtures/**/*.ts");
-  //args.push("snapshot/**/*.ts");
-  args.push("spec-snapshot/**/*.ts");
-
-  target.addTask(
-    async () => {
-      console.log("starting stage_3_snapshot:eslint");
-      await runModule("../node_modules/eslint/bin/eslint.js", args);
-    }
-  );
+  target.addTask(async () => {
+    console.log("starting stage_3_snapshot:eslint");
+    await runESLint(path.join(projectDir, "stage_3_snapshot"), [
+      "buildStage.ts",
+      "build/**/*.ts",
+      "spec-snapshot/**/*.ts",
+    ]);
+  });
 }
 
 BPSet.markReady();

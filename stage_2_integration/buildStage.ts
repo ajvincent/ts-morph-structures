@@ -1,10 +1,14 @@
-import {
-  BuildPromiseSet
-} from "#utilities/source/BuildPromise.js";
+import path from "node:path";
 
 import {
-  runModule
-} from "#utilities/source/runModule.js";
+  projectDir,
+} from "#utilities/source/AsyncSpecModules.js";
+
+import {
+  BuildPromiseSet,
+} from "#utilities/source/BuildPromise.js";
+
+import runESLint from "#utilities/source/runEslint.js";
 
 import copySnapshot from "./build/copySnapshot.js";
 import structureToSyntax from "./build/structureToSyntax.js";
@@ -18,21 +22,13 @@ const BPSet = new BuildPromiseSet;
 
 { // eslint
   const target = BPSet.get("eslint");
-
-  const args = [
-    "-c", "./.eslintrc.json",
-    "--max-warnings=0",
-  ];
-
-  args.push("buildStage.ts");
-  args.push("build/**/*.ts");
-
-  target.addTask(
-    async () => {
-      console.log("starting stage_2_integration:eslint");
-      await runModule("../node_modules/eslint/bin/eslint.js", args);
-    }
-  );
+  target.addTask(async () => {
+    console.log("starting stage_2_integration:eslint");
+    await runESLint(path.join(projectDir, "stage_2_integration"), [
+      "buildStage.ts",
+      "build/**/*.ts",
+    ]);
+  });
 }
 
 {  // copySnapshot

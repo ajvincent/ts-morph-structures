@@ -9,28 +9,32 @@
     "dist/exports.d.ts"
   ],
   "type": "module",
+  "//": {
+    "debug": [
+      "Debugging this code requires Node 18.  Node 20 will fail to start running your code when using --inspect-brk and --import.",
+      "note to self: what about --inspect-wait, added in Node 20.15?  No, that doesn't fix it."
+    ]
+  },
   "engines": {
     "node": ">=18.19"
   },
   "scripts": {
-    "build": "node --import ./register-hooks.js ./build.ts",
-    "clean": "node --import ./register-hooks.js ./clean.ts",
-    "build-stage-one": "TSMS_STAGE='one' node --import ./register-hooks.js ./build.ts",
-    "build-stage-two": "TSMS_STAGE='two' node --import ./register-hooks.js ./build.ts",
-    "build-stage-three": "TSMS_STAGE='three' node --import ./register-hooks.js ./build.ts",
-    "debug-stage-two-generation": "TSMS_STAGE='two' TSMS_DEBUG='stage_2_generation' node --import ./register-hooks.js ./build.ts",
-    "debug-stage-two-generation-test": "TSMS_STAGE='two' TSMS_DEBUG='stage_two_generation_test' node --import ./register-hooks.js ./build.ts",
-    "debug-stage-two-integration": "TSMS_STAGE='two' TSMS_DEBUG='stage_2_integration' node --import ./register-hooks.js ./build.ts",
-    "debug-stage-two-test": "TSMS_STAGE='two' TSMS_DEBUG='stage_two_test' node --import ./register-hooks.js ./build.ts",
-    "debug-stage-three-generation": "TSMS_STAGE='three' TSMS_DEBUG='stage_3_generation' node --import ./register-hooks.js ./build.ts",
-    "debug-stage-three-generation-test": "TSMS_STAGE='three' TSMS_DEBUG='stage_three_generation_test' node --import ./register-hooks.js ./build.ts",
-    "debug-stage-three-integration": "TSMS_STAGE='three' TSMS_DEBUG='stage_3_integration' node --import ./register-hooks.js ./build.ts",
-    "debug-stage-three-test": "TSMS_STAGE='three' TSMS_DEBUG='stage_three_test' node --import ./register-hooks.js ./build.ts",
+    "build": "node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
+    "clean": "node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./clean.ts",
+    "debug": "node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
+    "build-stage-one": "TSMS_STAGE='one' node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
+    "build-stage-two": "TSMS_STAGE='two' node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
+    "build-stage-three": "TSMS_STAGE='three' node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
+    "debug-stage-one": "TSMS_STAGE='one' node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
+    "debug-stage-two": "TSMS_STAGE='two' node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
+    "debug-stage-three": "TSMS_STAGE='three' node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
+    "debug-stage-one-old": "TSMS_STAGE='one' node --inspect-brk --import ./register-hooks.js ./build.ts",
+    "debug-stage-two-old": "TSMS_STAGE='two' node --inspect-brk --import ./register-hooks.js ./build.ts",
+    "debug-stage-three-old": "TSMS_STAGE='three' node --inspect-brk --import ./register-hooks.js ./build.ts",
     "diff-stages": "diff -p -U 8 -N -r ./stage_2_snapshot/snapshot/source ./stage_3_integration/snapshot/source",
-    "use-cases": "TSMS_STAGE='use-cases' node --import ./register-hooks.js ./build.ts",
-    "debug-use-cases": "TSMS_STAGE='use-cases' TSMS_DEBUG='use-cases' node --import ./register-hooks.js ./build.ts",
-    "tsc-tasks": "tsc --project ./utilities/source/tasks/tsconfig.json",
-    "is-repo-clean": "node --import ./register-hooks.js ./utilities/source/assertRepoIsClean.ts"
+    "use-cases": "TSMS_STAGE='use-cases' node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
+    "debug-use-cases": "TSMS_STAGE='use-cases' node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
+    "is-repo-clean": "node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./utilities/source/assertRepoIsClean.ts"
   },
   "repository": {
     "type": "git",
@@ -51,6 +55,7 @@
     "@microsoft/api-extractor": "^7.43.0",
     "@rollup/plugin-typescript": "^11.1.6",
     "@tsconfig/node18": "^18.2.4",
+    "@types/eslint": "^8.56.10",
     "@types/jasmine": "^5.1.4",
     "@types/node": "^20.14.8",
     "@types/which": "^3.0.4",
@@ -68,6 +73,7 @@
     "rollup": "^4.18.0",
     "rollup-plugin-dts": "^6.1.1",
     "ts-node": "^10.9.2",
+    "tsimp": "^2.0.11",
     "tslib": "^2.6.3",
     "type-fest": "^4.20.1",
     "typescript": "^5.5.2",

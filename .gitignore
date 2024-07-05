@@ -10,3 +10,5 @@ stage_3_generation/dist
 stage_3_integration/snapshot
 stage_3_integration/typings-snapshot
 stage_3_snapshot/snapshot
+
+.tsimp
