@@ -1,13 +1,21 @@
 import path from "path";
 
 import {
-  runModule
-} from "#utilities/source/runModule.js";
+  chdir,
+  cwd
+} from 'node:process';
+
+import { spawn } from 'child_process';
 
 import {
   projectDir,
   pathToModule,
 } from "#utilities/source/AsyncSpecModules.js";
+
+import type {
+  PromiseRejecter,
+  PromiseResolver,
+} from "#utilities/source/PromiseTypes.js";
 
 import {
   stageDir,
@@ -16,16 +24,39 @@ import {
 export default
 async function runAPIDocumenter(): Promise<void>
 {
-  await runModule(
-    path.join(projectDir, "node_modules/@microsoft/api-documenter/bin/api-documenter"),
-    [
-      "markdown",
+  const popDir: string = cwd();
+  try {
+    chdir(projectDir);
 
-      "--input-folder",
-      pathToModule(stageDir, "typings-snapshot/extracted"),
+    let resolve: PromiseResolver<void>, reject: PromiseRejecter;
+    const apiPromise = new Promise((res, rej) => {
+      resolve = res;
+      reject = rej;
+    });
 
-      "--output-folder",
-      path.join(projectDir, "docs/api")
-    ]
-  );
+    // cwd is important for ts-node/tsimp hooks to run.
+    const apiDocumenter = spawn(
+      process.argv0,
+      [
+        path.join(projectDir, "node_modules/@microsoft/api-documenter/bin/api-documenter"),
+        "markdown",
+
+        "--input-folder",
+        pathToModule(stageDir, "typings-snapshot/extracted"),
+
+        "--output-folder",
+        path.join(projectDir, "docs/api")
+      ],
+      {
+        cwd: projectDir,
+        // this ensures you can see TypeScript error messages
+        stdio: ["ignore", "inherit", "inherit", "ipc"]
+      }
+    );
+    apiDocumenter.on("exit", code => code ? reject(code) : resolve());
+    await apiPromise;
+  }
+  finally {
+    chdir(popDir);
+  }
 }

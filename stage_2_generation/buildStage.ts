@@ -1,8 +1,19 @@
-import { performance } from "perf_hooks";
+import path from "node:path";
 
-import { BuildPromiseSet } from "#utilities/source/BuildPromise.js";
-import { runModule } from "#utilities/source/runModule.js";
+import {
+  performance,
+} from "perf_hooks";
+
+import {
+  projectDir,
+} from "#utilities/source/AsyncSpecModules.js";
+
+import {
+  BuildPromiseSet,
+} from "#utilities/source/BuildPromise.js";
+
 import runJasmine from "#utilities/source/runJasmine.js";
+import runESLint from "#utilities/source/runEslint.js";
 
 const BPSet = new BuildPromiseSet;
 
@@ -27,25 +38,13 @@ const BPSet = new BuildPromiseSet;
 
 { // eslint
   const target = BPSet.get("eslint");
-
-  const args = [
-    "-c", "./.eslintrc.json",
-    "--max-warnings=0",
-  ];
-
-  args.push("buildStage.ts");
-  args.push("build/**/*.ts");
-
-  target.addTask(() => {
+  target.addTask(async () => {
     console.log("starting stage_2_generation:eslint");
-    return Promise.resolve();
+    await runESLint(path.join(projectDir, "stage_2_generation"), [
+      "buildStage.ts",
+      "build/**/*.ts",
+    ]);
   });
-
-  target.addTask(
-    async () => {
-      await runModule("../node_modules/eslint/bin/eslint.js", args);
-    }
-  );
 }
 
 BPSet.markReady();
