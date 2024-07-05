@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "lib": ["ESNext"],
-    "module": "es2022",
-    "target": "esnext",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "target": "ES2022",
+    "moduleResolution": "NodeNext",
 
     "baseUrl": ".",
     "paths": {
