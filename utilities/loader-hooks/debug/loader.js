@@ -15,22 +15,18 @@ async function logWithHook(...args) {
 
 export async function resolve(specifier, context, nextResolve) {
   // Take an `import` or `require` specifier and resolve it to a URL.
-  if (specifier?.includes("BuildPromise."))
-    await logWithHook(`resolve: ${specifier} parentURL: ${context.parentURL} (inbound)`);
+  await logWithHook(`resolve: ${specifier} parentURL: ${context.parentURL} (inbound)`);
   const result = await nextResolve(specifier, context);
-  if (specifier?.includes("BuildPromise."))
-    await logWithHook("resolve: " + specifier, "parentURL: " + context.parentURL, "result: " + result.url);
+  await logWithHook("resolve: " + specifier, "parentURL: " + context.parentURL, "result: " + result.url);
   return Promise.resolve(result);
 }
 
 export async function load(url, context, nextLoad) {
-  if (url?.includes("BuildPromise."))
-    await logWithHook("load begin: " + url);
+  await logWithHook("load begin: " + url);
   const result = await nextLoad(url, context);
-  if (url?.includes("BuildPromise."))
+  if (includesFileMatch && url.includes(includesFileMatch))
     await logWithHook("source: " + url + "\n" + result.source.toString());
 
-  if (url?.includes("BuildPromise."))
-    await logWithHook("load close: " + url);
+  await logWithHook("load close: " + url);
   return result;
 }

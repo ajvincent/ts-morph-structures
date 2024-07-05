@@ -35,7 +35,6 @@ const BPSet = new BuildPromiseSet;
   const target = BPSet.get("copySnapshot");
   target.addTask(async () => {
     console.log("starting stage_2_integration:copySnapshot");
-    console.log("cwd: " + process.cwd());
     await copySnapshot();
   });
 }
