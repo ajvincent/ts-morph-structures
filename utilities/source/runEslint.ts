@@ -1,42 +1,32 @@
 import path from "node:path";
-import {
-  execPath,
-} from "node:process";
 
 import {
-  spawn
-} from "node:child_process";
-
-import {
-  Deferred
-} from "./PromiseTypes.js";
-
-import {
-  projectDir
-} from "./AsyncSpecModules.js";
+  ESLint
+} from "eslint";
 
 export default async function runESLint(
   cwd: string,
   files: string[]
 ): Promise<void>
 {
-  const args: string[] = [
-    path.join(projectDir, "node_modules/eslint/bin/eslint.js"),
-    "-c", path.join(cwd, ".eslintrc.json"),
-    "--max-warnings=0",
-    ...files
-  ];
+  const eslintRunner = new ESLint({
+    cwd,
+    overrideConfigFile: path.join(cwd, ".eslintrc.json"),
+  });
 
-  const d = new Deferred<void>;
+  const results = await eslintRunner.lintFiles(files);
 
-  const child = spawn(
-    execPath,
-    args,
-    {
-      stdio: ["ignore", "inherit", "inherit", "ipc"],
-    }
-  );
-  child.on('exit', code => code ? d.reject(code) : d.resolve());
+  // 4. Format the results.
+  const formatter = await eslintRunner.loadFormatter("stylish");
+  const resultText = await formatter.format(results);
 
-  return d.promise;
+  // 5. Output it.
+  console.log(resultText);
+
+  const errorCount = results.reduce((previousValue, result): number => {
+    return previousValue + result.errorCount + result.warningCount;
+  }, 0);
+  if (errorCount > 0) {
+    process.exit(1);
+  }
 }
