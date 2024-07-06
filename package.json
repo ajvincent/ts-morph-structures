@@ -22,6 +22,7 @@
     "build": "node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
     "clean": "node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./clean.ts",
     "debug": "node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
+    "build-old": "node --import ./register-hooks.js ./build.ts",
     "build-stage-one": "TSMS_STAGE='one' node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
     "build-stage-two": "TSMS_STAGE='two' node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
     "build-stage-three": "TSMS_STAGE='three' node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
