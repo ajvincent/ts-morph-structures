@@ -81,7 +81,7 @@ const fixturesDir: ModuleSourceDirectory = {
 };
 // #endregion preamble
 
-xit("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
+it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   const remainingKeys = new Set(remainingKeysBase);
   function checkMap(
     relativePathToModuleFile: string,
