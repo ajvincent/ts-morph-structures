@@ -716,42 +716,622 @@ declare class Base<NType extends number> {
 }
       `,
       [
+        {
+          "kind": StructureKind.Class,
+          "docs": [],
+          "decorators": [],
+          "isAbstract": false,
+          "hasDeclareKeyword": true,
+          "isDefaultExport": false,
+          "isExported": false,
+          "name": "Bar",
+          "typeParameters": [
+            {
+              kind: StructureKind.TypeParameter,
+              name: "NType",
+              constraint: "number",
+              isConst: false,
+              default: undefined,
+              variance: 0,
+            }
+          ],
+          "extends": undefined,
+          "implements": [],
 
+          "ctors": [],
+          "properties": [],
+          "getAccessors": [],
+          "setAccessors": [],
+          "staticBlocks": [],
+
+          "methods": [
+            {
+              "kind": StructureKind.Method,
+              "name": "helloWorld",
+              "isStatic": true,
+              "typeParameters": [],
+              "parameters": [
+                {
+                  "name": "x",
+                  "type": "number",
+                  "isReadonly": false,
+                  "decorators": [],
+                  "hasQuestionToken": false,
+                  "hasOverrideKeyword": false,
+                  "kind": StructureKind.Parameter,
+                  "isRestParameter": false,
+                  "initializer": undefined,
+                  "scope": undefined,
+                },
+              ],
+              "returnType": "boolean",
+              "overloads": [
+                {
+                  "kind": StructureKind.MethodOverload,
+                  "isStatic": true,
+                  "typeParameters": [],
+                  "parameters": [
+                    {
+                      "name": "x",
+                      "type": "number",
+                      "isReadonly": false,
+                      "decorators": [],
+                      "hasQuestionToken": false,
+                      "hasOverrideKeyword": false,
+                      "kind": StructureKind.Parameter,
+                      "isRestParameter": false,
+                      "initializer": undefined,
+                      "scope": undefined,
+                    },
+                    {
+                      "name": "y",
+                      "type": "string",
+                      "isReadonly": false,
+                      "decorators": [],
+                      "hasQuestionToken": false,
+                      "hasOverrideKeyword": false,
+                      "kind": StructureKind.Parameter,
+                      "isRestParameter": false,
+                      "initializer": undefined,
+                      "scope": undefined,
+                    },
+                  ],
+                  "returnType": "boolean",
+                  "docs": [],
+                  "hasOverrideKeyword": false,
+                  "hasQuestionToken": false,
+                  "isAbstract": false,
+                  "isAsync": false,
+                  "isGenerator": false,
+                  "scope": undefined,
+                },
+              ],
+              "decorators": [],
+              "docs": [],
+              "hasOverrideKeyword": false,
+              "hasQuestionToken": false,
+              "isAbstract": false,
+              "isAsync": false,
+              "isGenerator": false,
+              "scope": undefined,
+              "statements": []
+            },
+            {
+              "kind": StructureKind.Method,
+              "name": "helloWorld",
+              "isStatic": false,
+              "overloads": [
+                {
+                  "kind": StructureKind.MethodOverload,
+                  "isStatic": false,
+                  "isAsync": false,
+                  "isGenerator": false,
+                  "typeParameters": [],
+                  "parameters": [
+                    {
+                      "name": "x",
+                      "type": "number",
+                      "isReadonly": false,
+                      "decorators": [],
+                      "hasQuestionToken": false,
+                      "hasOverrideKeyword": false,
+                      "kind": StructureKind.Parameter,
+                      "isRestParameter": false,
+                      "initializer": undefined,
+                      "scope": undefined,
+                    },
+                    {
+                      "name": "y",
+                      "type": "string",
+                      "isReadonly": false,
+                      "decorators": [],
+                      "hasQuestionToken": false,
+                      "hasOverrideKeyword": false,
+                      "kind": StructureKind.Parameter,
+                      "isRestParameter": false,
+                      "initializer": undefined,
+                      "scope": undefined,
+                    },
+                  ],
+                  "returnType": "boolean",
+                  "docs": [],
+                  "hasOverrideKeyword": false,
+                  "hasQuestionToken": false,
+                  "isAbstract": false,
+                  "scope": undefined,
+                },
+                {
+                  "kind": StructureKind.MethodOverload,
+                  "isStatic": false,
+                  "isAsync": false,
+                  "isGenerator": false,
+                  "typeParameters": [],
+                  "parameters": [
+                    {
+                      "name": "x",
+                      "type": "number",
+                      "isReadonly": false,
+                      "decorators": [],
+                      "hasQuestionToken": false,
+                      "hasOverrideKeyword": false,
+                      "kind": StructureKind.Parameter,
+                      "isRestParameter": false,
+                      "initializer": undefined,
+                      "scope": undefined,
+                    },
+                    {
+                      "name": "y",
+                      "type": "string",
+                      "isReadonly": false,
+                      "decorators": [],
+                      "hasQuestionToken": false,
+                      "hasOverrideKeyword": false,
+                      "kind": StructureKind.Parameter,
+                      "isRestParameter": false,
+                      "initializer": undefined,
+                      "scope": undefined,
+                    },
+                  ],
+                  "returnType": "boolean",
+                  "docs": [],
+                  "hasOverrideKeyword": false,
+                  "hasQuestionToken": false,
+                  "isAbstract": false,
+                  "scope": undefined,
+                },
+              ],
+              "typeParameters": [],
+              "parameters": [
+                {
+                  "name": "x",
+                  "type": "number",
+                  "isReadonly": false,
+                  "decorators": [],
+                  "hasQuestionToken": false,
+                  "hasOverrideKeyword": false,
+                  "kind": StructureKind.Parameter,
+                  "isRestParameter": false,
+                  "initializer": undefined,
+                  "scope": undefined,
+                },
+              ],
+              "returnType": "boolean",
+              "decorators": [],
+              "docs": [],
+              "hasOverrideKeyword": false,
+              "hasQuestionToken": false,
+              "isAbstract": false,
+              "isAsync": false,
+              "isGenerator": false,
+              "scope": undefined,
+              "statements": [
+                "return Boolean(x);"
+              ]
+            }
+          ]
+        },
+      ],
+    );
+  });
+
+  xit("declared functions (no body)", () => {
+    compareSourceToStructure(
+      `
+declare function foo(x: number, y: string): void;
+declare function foo(x: number): void;
+      `,
+      [
+        {
+          "name": "foo",
+          "statements": [],
+          "parameters": [
+            {
+              "name": "x",
+              "type": "number",
+              "isReadonly": false,
+              "decorators": [],
+              "hasQuestionToken": false,
+              "hasOverrideKeyword": false,
+              "kind": StructureKind.Parameter,
+              "isRestParameter": false,
+              "initializer": undefined,
+              "scope": undefined,
+            }
+          ],
+          "returnType": "void",
+          "typeParameters": [],
+          "docs": [],
+          "isExported": false,
+          "isDefaultExport": false,
+          "hasDeclareKeyword": true,
+          "isGenerator": false,
+          "isAsync": false,
+          "kind": StructureKind.Function,
+          "overloads": [
+            {
+              "isExported": false,
+              "isDefaultExport": false,
+              "typeParameters": [],
+              "docs": [],
+              "hasDeclareKeyword": true,
+              "parameters": [
+                {
+                  "name": "x",
+                  "type": "number",
+                  "isReadonly": false,
+                  "decorators": [],
+                  "hasQuestionToken": false,
+                  "hasOverrideKeyword": false,
+                  "kind": StructureKind.Parameter,
+                  "isRestParameter": false,
+                  "initializer": undefined,
+                  "scope": undefined,
+                },
+                {
+                  "name": "y",
+                  "type": "string",
+                  "isReadonly": false,
+                  "decorators": [],
+                  "hasQuestionToken": false,
+                  "hasOverrideKeyword": false,
+                  "kind": StructureKind.Parameter,
+                  "isRestParameter": false,
+                  "initializer": undefined,
+                  "scope": undefined,
+                }
+              ],
+              "returnType": "void",
+              "isGenerator": false,
+              "isAsync": false,
+              "kind": StructureKind.FunctionOverload
+            }
+          ]
+        }
       ]
     );
   });
 
-
-  xit("declared functions (no body)", () => {
-    expect(false).toBe(true);
-  });
-
   xit("declared namespace containing functions (no body)", () => {
-    expect(false).toBe(true);
+    compareSourceToStructure(
+      `
+declare namespace NamespaceTest {
+  function foo(x: number, y: string): void;
+  function foo(x: number): void;
+}
+      `,
+      [
+        {
+          kind: StructureKind.Module,
+          name: "NamespaceTest",
+          hasDeclareKeyword: true,
+          statements: [
+            {
+              "name": "foo",
+              "statements": [],
+              "parameters": [
+                {
+                  "name": "x",
+                  "type": "number",
+                  "isReadonly": false,
+                  "decorators": [],
+                  "hasQuestionToken": false,
+                  "hasOverrideKeyword": false,
+                  "kind": StructureKind.Parameter,
+                  "isRestParameter": false,
+                  "initializer": undefined,
+                  "scope": undefined,
+                }
+              ],
+              "returnType": "void",
+              "typeParameters": [],
+              "docs": [],
+              "isExported": false,
+              "isDefaultExport": false,
+              "hasDeclareKeyword": false,
+              "isGenerator": false,
+              "isAsync": false,
+              "kind": StructureKind.Function,
+              "overloads": [
+                {
+                  "isExported": false,
+                  "isDefaultExport": false,
+                  "typeParameters": [],
+                  "docs": [],
+                  "hasDeclareKeyword": false,
+                  "parameters": [
+                    {
+                      "name": "x",
+                      "type": "number",
+                      "isReadonly": false,
+                      "decorators": [],
+                      "hasQuestionToken": false,
+                      "hasOverrideKeyword": false,
+                      "kind": StructureKind.Parameter,
+                      "isRestParameter": false,
+                      "initializer": undefined,
+                      "scope": undefined,
+                    },
+                    {
+                      "name": "y",
+                      "type": "string",
+                      "isReadonly": false,
+                      "decorators": [],
+                      "hasQuestionToken": false,
+                      "hasOverrideKeyword": false,
+                      "kind": StructureKind.Parameter,
+                      "isRestParameter": false,
+                      "initializer": undefined,
+                      "scope": undefined,
+                    }
+                  ],
+                  "returnType": "void",
+                  "isGenerator": false,
+                  "isAsync": false,
+                  "kind": StructureKind.FunctionOverload
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    );
   });
 
   xit("declared namespace containing a class (no body)", () => {
-    expect(false).toBe(true);
+    compareSourceToStructure(
+      `
+declare namespace NamespaceTest {
+  class Base<NType extends number> {
+    static helloWorld(x: number, y: string): void;
+    static helloWorld<NType extends number>(x: NType): void;
+    helloWorld(x: number, y: string): void;
+    helloWorld<NType extends number>(x: NType): void;
+  }
+}
+      `,
+      [
+        {
+          kind: StructureKind.Module,
+          name: "NamespaceTest",
+          hasDeclareKeyword: true,
+          statements: [
+            {
+              "kind": StructureKind.Class,
+              "docs": [],
+              "decorators": [],
+              "isAbstract": false,
+              "hasDeclareKeyword": false,
+              "isDefaultExport": false,
+              "isExported": false,
+              "name": "Bar",
+              "typeParameters": [
+                {
+                  kind: StructureKind.TypeParameter,
+                  name: "NType",
+                  constraint: "number",
+                  isConst: false,
+                  default: undefined,
+                  variance: 0,
+                }
+              ],
+              "extends": undefined,
+              "implements": [],
+    
+              "ctors": [],
+              "properties": [],
+              "getAccessors": [],
+              "setAccessors": [],
+              "staticBlocks": [],
+    
+              "methods": [
+                {
+                  "kind": StructureKind.Method,
+                  "name": "helloWorld",
+                  "isStatic": true,
+                  "typeParameters": [],
+                  "parameters": [
+                    {
+                      "name": "x",
+                      "type": "number",
+                      "isReadonly": false,
+                      "decorators": [],
+                      "hasQuestionToken": false,
+                      "hasOverrideKeyword": false,
+                      "kind": StructureKind.Parameter,
+                      "isRestParameter": false,
+                      "initializer": undefined,
+                      "scope": undefined,
+                    },
+                  ],
+                  "returnType": "boolean",
+                  "overloads": [
+                    {
+                      "kind": StructureKind.MethodOverload,
+                      "isStatic": true,
+                      "typeParameters": [],
+                      "parameters": [
+                        {
+                          "name": "x",
+                          "type": "number",
+                          "isReadonly": false,
+                          "decorators": [],
+                          "hasQuestionToken": false,
+                          "hasOverrideKeyword": false,
+                          "kind": StructureKind.Parameter,
+                          "isRestParameter": false,
+                          "initializer": undefined,
+                          "scope": undefined,
+                        },
+                        {
+                          "name": "y",
+                          "type": "string",
+                          "isReadonly": false,
+                          "decorators": [],
+                          "hasQuestionToken": false,
+                          "hasOverrideKeyword": false,
+                          "kind": StructureKind.Parameter,
+                          "isRestParameter": false,
+                          "initializer": undefined,
+                          "scope": undefined,
+                        },
+                      ],
+                      "returnType": "boolean",
+                      "docs": [],
+                      "hasOverrideKeyword": false,
+                      "hasQuestionToken": false,
+                      "isAbstract": false,
+                      "isAsync": false,
+                      "isGenerator": false,
+                      "scope": undefined,
+                    },
+                  ],
+                  "decorators": [],
+                  "docs": [],
+                  "hasOverrideKeyword": false,
+                  "hasQuestionToken": false,
+                  "isAbstract": false,
+                  "isAsync": false,
+                  "isGenerator": false,
+                  "scope": undefined,
+                  "statements": []
+                },
+                {
+                  "kind": StructureKind.Method,
+                  "name": "helloWorld",
+                  "isStatic": false,
+                  "overloads": [
+                    {
+                      "kind": StructureKind.MethodOverload,
+                      "isStatic": false,
+                      "isAsync": false,
+                      "isGenerator": false,
+                      "typeParameters": [],
+                      "parameters": [
+                        {
+                          "name": "x",
+                          "type": "number",
+                          "isReadonly": false,
+                          "decorators": [],
+                          "hasQuestionToken": false,
+                          "hasOverrideKeyword": false,
+                          "kind": StructureKind.Parameter,
+                          "isRestParameter": false,
+                          "initializer": undefined,
+                          "scope": undefined,
+                        },
+                        {
+                          "name": "y",
+                          "type": "string",
+                          "isReadonly": false,
+                          "decorators": [],
+                          "hasQuestionToken": false,
+                          "hasOverrideKeyword": false,
+                          "kind": StructureKind.Parameter,
+                          "isRestParameter": false,
+                          "initializer": undefined,
+                          "scope": undefined,
+                        },
+                      ],
+                      "returnType": "boolean",
+                      "docs": [],
+                      "hasOverrideKeyword": false,
+                      "hasQuestionToken": false,
+                      "isAbstract": false,
+                      "scope": undefined,
+                    },
+                    {
+                      "kind": StructureKind.MethodOverload,
+                      "isStatic": false,
+                      "isAsync": false,
+                      "isGenerator": false,
+                      "typeParameters": [],
+                      "parameters": [
+                        {
+                          "name": "x",
+                          "type": "number",
+                          "isReadonly": false,
+                          "decorators": [],
+                          "hasQuestionToken": false,
+                          "hasOverrideKeyword": false,
+                          "kind": StructureKind.Parameter,
+                          "isRestParameter": false,
+                          "initializer": undefined,
+                          "scope": undefined,
+                        },
+                        {
+                          "name": "y",
+                          "type": "string",
+                          "isReadonly": false,
+                          "decorators": [],
+                          "hasQuestionToken": false,
+                          "hasOverrideKeyword": false,
+                          "kind": StructureKind.Parameter,
+                          "isRestParameter": false,
+                          "initializer": undefined,
+                          "scope": undefined,
+                        },
+                      ],
+                      "returnType": "boolean",
+                      "docs": [],
+                      "hasOverrideKeyword": false,
+                      "hasQuestionToken": false,
+                      "isAbstract": false,
+                      "scope": undefined,
+                    },
+                  ],
+                  "typeParameters": [],
+                  "parameters": [
+                    {
+                      "name": "x",
+                      "type": "number",
+                      "isReadonly": false,
+                      "decorators": [],
+                      "hasQuestionToken": false,
+                      "hasOverrideKeyword": false,
+                      "kind": StructureKind.Parameter,
+                      "isRestParameter": false,
+                      "initializer": undefined,
+                      "scope": undefined,
+                    },
+                  ],
+                  "returnType": "boolean",
+                  "decorators": [],
+                  "docs": [],
+                  "hasOverrideKeyword": false,
+                  "hasQuestionToken": false,
+                  "isAbstract": false,
+                  "isAsync": false,
+                  "isGenerator": false,
+                  "scope": undefined,
+                  "statements": [
+                    "return Boolean(x);"
+                  ]
+                }
+              ]
+            },
+          ]
+        }
+      ]
+    )
   });
-`
-
-declare class Base<NType extends number> {
-  constructor(x: number, y: string);
-  constructor(x: NType);
-  helloWorld(x: number, y: string): void;
-  helloWorld<NType extends number>(x: NType): void;
-}
-
-declare function wop(x: number, y: string): void;
-declare function wop<NType extends number>(x: NType): void;
-
-declare namespace ReflectTest {
-  function apply<T, A extends readonly unknown[], R>(
-      target: (this: T, ...args: A) => R,
-      thisArgument: T,
-      argumentsList: Readonly<A>,
-  ): R;
-  function apply(target: Function, thisArgument: unknown, argumentsList: ArrayLike<unknown>): unknown;
-}
-`
 });
