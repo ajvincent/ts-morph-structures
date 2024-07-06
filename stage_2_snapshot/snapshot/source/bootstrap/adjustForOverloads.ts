@@ -4,23 +4,23 @@ import {
   type ClassDeclaration,
   type ClassExpression,
   */
+  type ConstructorDeclarationStructure,
+  type ConstructorDeclarationOverloadStructure,
   type FunctionDeclarationStructure,
   type FunctionDeclarationOverloadStructure,
+  type MethodDeclarationStructure,
+  type MethodDeclarationOverloadStructure,
   Node,
   /*
   type ObjectLiteralExpression,
   */
   type OverloadableNode,
+  type StatementedNodeStructure,
   Structure,
   type Structures,
   StructureKind,
   type WriterFunction,
   forEachStructureChild,
-  MethodDeclarationStructure,
-  ConstructorDeclarationStructure,
-  StatementedNodeStructure,
-  MethodDeclarationOverloadStructure,
-  ConstructorDeclarationOverloadStructure,
 } from "ts-morph";
 
 import { IterableElement } from "type-fest";
