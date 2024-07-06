@@ -51,34 +51,50 @@ describe("adjustForOverloads:", () => {
   describe("fixFunctionOverloads works with", () => {
     function compareSourceToStructure(
       source: string,
-      expected: StatementStructures[],
-      shouldLog?: boolean
+      expected: StatementStructures[]
     ): void
     {
       sourceFile.addStatements(source.trim());
       const structure: SourceFileStructure = sourceFile.getStructure();
-      if (shouldLog === true)
-        console.debug(JSON.stringify(structure, null, 2));
       fixFunctionOverloads(structure);
-      if (shouldLog === false)
-        console.debug(JSON.stringify(structure, null, 2));
+
       expect<
         (string | WriterFunction | StatementStructures)[] | string | WriterFunction
       >(structure.statements!).toEqual(expected);
+
+      sourceFile.set(structure);
+
+      const actualSourceTrimmed   = sourceFile.print().replace(/\n/g, " ").replace(/\s\s+/gm, " ").trim();
+      const expectedSourceTrimmed = source.replace(/\n/g, " ").replace(/\s\s+/gm, " ").trim();
+
+      if (actualSourceTrimmed !== expectedSourceTrimmed) {
+        console.error("\n");
+        console.error(actualSourceTrimmed);
+        console.error(expectedSourceTrimmed);
+        const minLength = Math.min(actualSourceTrimmed.length, expectedSourceTrimmed.length);
+        let matchIndex: number;
+        for (matchIndex = 0; matchIndex < minLength; matchIndex++) {
+          if (actualSourceTrimmed[matchIndex] !== expectedSourceTrimmed[matchIndex])
+            break;
+        }
+        console.error(" ".repeat(matchIndex) + "^");
+      }
+
+      expect(actualSourceTrimmed).toEqual(expectedSourceTrimmed);
     }
 
     it("functions having no overloads", () => {
       compareSourceToStructure(
         `
 function foo(x: number): void {
-  void(x);
+  void (x);
 }
         `,
         [
           {
             "name": "foo",
             "statements": [
-              "void(x);"
+              "void (x);"
             ],
             "parameters": [
               {
@@ -112,16 +128,16 @@ function foo(x: number): void {
     it("functions having an overload", () => {
       compareSourceToStructure(
         `
-function foo(x: number, y: string): void
+function foo(x: number, y: string): void;
 function foo(x: number): void {
-  void(x);
+  void (x);
 }
         `,
         [
           {
             "name": "foo",
             "statements": [
-              "void(x);"
+              "void (x);"
             ],
             "parameters": [
               {
@@ -194,13 +210,13 @@ function foo(x: number): void {
       compareSourceToStructure(
         `
 class Bar {
-  constructor(x: number, y: string, z: boolean)
-  constructor(x: number, y: string)
+  constructor(x: number, y: string, z: boolean);
+  constructor(x: number, y: string);
   constructor(x: number)
   {
-    void(x);
-    void(y);
-    void(z);
+    void (x);
+    void (y);
+    void (z);
   }
 }
         `,
@@ -306,7 +322,9 @@ class Bar {
                   },
                 ],
                 "statements": [
-                  "void(x);", "void(y);", "void(z);"
+                  "void (x);",
+                  "void (y);",
+                  "void (z);"
                 ],
                 "docs": [],
                 "typeParameters": [],
@@ -337,14 +355,14 @@ class Bar {
       compareSourceToStructure(
         `
 class Bar {
-  static foo(x: number, y: string): boolean
+  static foo(x: number, y: string): boolean;
   static foo(x: number): boolean
   {
     return Boolean(x);
   }
 
-  foo(x: number, y: string, z: boolean): boolean
-  foo(x: number, y: string): boolean
+  foo(x: number, y: string, z: boolean): boolean;
+  foo(x: number, y: string): boolean;
   foo(x: number): boolean
   {
     return Boolean(x);
@@ -1409,11 +1427,5 @@ declare class Bar {
       );
       expect(indices).toEqual([0, -1, 0, 1, -1, -1]);
     });
-  });
-});
-
-xdescribe("all these structures are writable via ts-morph after packing them down", () => {
-  xit("to a TypeScript file", () => {
-    expect(false).toBe(true);
   });
 });

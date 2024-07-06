@@ -1,9 +1,6 @@
 import assert from "node:assert/strict";
+
 import {
-  /*
-  type ClassDeclaration,
-  type ClassExpression,
-  */
   type ConstructorDeclaration,
   type ConstructorDeclarationStructure,
   type ConstructorDeclarationOverloadStructure,
@@ -13,9 +10,6 @@ import {
   type MethodDeclaration,
   type MethodDeclarationStructure,
   type MethodDeclarationOverloadStructure,
-  /*
-  type ObjectLiteralExpression,
-  */
   type StatementedNodeStructure,
   Structure,
   type Structures,
