@@ -1,4 +1,7 @@
 import {
+  ConstructorDeclaration,
+  FunctionDeclaration,
+  type MethodDeclaration,
   ModuleKind,
   ModuleDeclarationKind,
   ModuleResolutionKind,
@@ -10,11 +13,15 @@ import {
   StructureKind,
   StatementStructures,
   WriterFunction,
+  SyntaxKind,
 } from "ts-morph";
 
 import {
-  fixFunctionOverloads
+  fixFunctionOverloads,
+  getOverloadIndex,
 } from "#stage_two/snapshot/source/bootstrap/adjustForOverloads.js";
+
+type OverloadableDeclaration = ConstructorDeclaration | FunctionDeclaration | MethodDeclaration;
 
 describe("adjustForOverloads:", () => {
   let sourceFile: SourceFile;
@@ -42,7 +49,12 @@ describe("adjustForOverloads:", () => {
   });
 
   describe("fixFunctionOverloads works with", () => {
-    function compareSourceToStructure(source: string, expected: StatementStructures[], shouldLog?: boolean): void {
+    function compareSourceToStructure(
+      source: string,
+      expected: StatementStructures[],
+      shouldLog?: boolean
+    ): void
+    {
       sourceFile.addStatements(source.trim());
       const structure: SourceFileStructure = sourceFile.getStructure();
       if (shouldLog === true)
@@ -58,9 +70,9 @@ describe("adjustForOverloads:", () => {
     it("functions having no overloads", () => {
       compareSourceToStructure(
         `
-  function foo(x: number): void {
-    void(x);
-  }
+function foo(x: number): void {
+  void(x);
+}
         `,
         [
           {
@@ -100,10 +112,10 @@ describe("adjustForOverloads:", () => {
     it("functions having an overload", () => {
       compareSourceToStructure(
         `
-  function foo(x: number, y: string): void
-  function foo(x: number): void {
-    void(x);
-  }
+function foo(x: number, y: string): void
+function foo(x: number): void {
+  void(x);
+}
         `,
         [
           {
@@ -181,16 +193,16 @@ describe("adjustForOverloads:", () => {
     it("classes with constructor overloads", () => {
       compareSourceToStructure(
         `
-  class Bar {
-    constructor(x: number, y: string, z: boolean)
-    constructor(x: number, y: string)
-    constructor(x: number)
-    {
-      void(x);
-      void(y);
-      void(z);
-    }
+class Bar {
+  constructor(x: number, y: string, z: boolean)
+  constructor(x: number, y: string)
+  constructor(x: number)
+  {
+    void(x);
+    void(y);
+    void(z);
   }
+}
         `,
         [
           {
@@ -324,20 +336,20 @@ describe("adjustForOverloads:", () => {
     it("classes with method overloads (static and non-static)", () => {
       compareSourceToStructure(
         `
-  class Bar {
-    static foo(x: number, y: string): boolean
-    static foo(x: number): boolean
-    {
-      return Boolean(x);
-    }
-
-    foo(x: number, y: string, z: boolean): boolean
-    foo(x: number, y: string): boolean
-    foo(x: number): boolean
-    {
-      return Boolean(x);
-    }
+class Bar {
+  static foo(x: number, y: string): boolean
+  static foo(x: number): boolean
+  {
+    return Boolean(x);
   }
+
+  foo(x: number, y: string, z: boolean): boolean
+  foo(x: number, y: string): boolean
+  foo(x: number): boolean
+  {
+    return Boolean(x);
+  }
+}
         `,
         [
           {
@@ -566,11 +578,11 @@ describe("adjustForOverloads:", () => {
     it("declared classes with overloaded constructors (no body)", () => {
       compareSourceToStructure(
         `
-  declare class Base<NType extends number> {
-    constructor(x: number, y: string, z: boolean);
-    constructor(x: number, y: string);
-    constructor(x: NType);
-  }
+declare class Base<NType extends number> {
+  constructor(x: number, y: string, z: boolean);
+  constructor(x: number, y: string);
+  constructor(x: NType);
+}
         `,
         [
           {
@@ -711,12 +723,12 @@ describe("adjustForOverloads:", () => {
     it("declared classes with overloaded methods (no body)", () => {
       compareSourceToStructure(
         `
-  declare class Base<NType extends number> {
-    static helloWorld(x: number, y: string): void;
-    static helloWorld(x: NType): void;
-    helloWorld(x: number, y: string): void;
-    helloWorld(x: NType): void;
-  }
+declare class Base<NType extends number> {
+  static helloWorld(x: number, y: string): void;
+  static helloWorld(x: NType): void;
+  helloWorld(x: number, y: string): void;
+  helloWorld(x: NType): void;
+}
         `,
         [
           {
@@ -899,8 +911,8 @@ describe("adjustForOverloads:", () => {
     it("declared functions (no body)", () => {
       compareSourceToStructure(
         `
-  declare function foo(x: number, y: string): void;
-  declare function foo(x: number): void;
+declare function foo(x: number, y: string): void;
+declare function foo(x: number): void;
         `,
         [
           {
@@ -976,10 +988,10 @@ describe("adjustForOverloads:", () => {
     it("declared namespace containing functions (no body)", () => {
       compareSourceToStructure(
         `
-  declare namespace NamespaceTest {
-    function foo(x: number, y: string): void;
-    function foo(x: number): void;
-  }
+declare namespace NamespaceTest {
+  function foo(x: number, y: string): void;
+  function foo(x: number): void;
+}
         `,
         [
           {
@@ -1066,14 +1078,14 @@ describe("adjustForOverloads:", () => {
     it("declared namespace containing a class (no body)", () => {
       compareSourceToStructure(
         `
-  declare namespace NamespaceTest {
-    class Base<NType extends number> {
-      static helloWorld(x: number, y: string): void;
-      static helloWorld(x: NType): void;
-      helloWorld(x: number, y: string): void;
-      helloWorld(x: NType): void;
-    }
+declare namespace NamespaceTest {
+  class Base<NType extends number> {
+    static helloWorld(x: number, y: string): void;
+    static helloWorld(x: NType): void;
+    helloWorld(x: number, y: string): void;
+    helloWorld(x: NType): void;
   }
+}
         `,
         [
           {
@@ -1264,10 +1276,144 @@ describe("adjustForOverloads:", () => {
       )
     });
   });
+
+  describe("getOverloadIndex works with", () => {
+    function getOverloadIndices<
+      NodeType extends OverloadableDeclaration
+    >
+    (
+      source: string,
+      nodeGetter: (sourceFile: SourceFile) => NodeType[]
+    ): number[]
+    {
+      sourceFile.addStatements(source);
+      const nodes: NodeType[] = nodeGetter(sourceFile);
+      return nodes.map(getOverloadIndex<NodeType>);
+    }
+
+    it("functions", () => {
+      const indices = getOverloadIndices<FunctionDeclaration>(
+        `
+function foo(x: number, y: string, z: boolean): void
+function foo(x: number, y: string): void
+function foo(x: number): void {
+  void(x);
+}
+
+function bar(x: number, y: string): void
+function bar(x: number): void {
+  void(x);
+}
+
+function baz(x: number): void {
+  void(x);
+}
+        `,
+        sourceFile => sourceFile.getChildrenOfKind(SyntaxKind.FunctionDeclaration)
+      );
+
+      expect(indices).toEqual([0, 1, -1, 0, -1, -1]);
+    });
+
+    it("declared functions", () => {
+      const indices = getOverloadIndices<FunctionDeclaration>(
+        `
+declare function foo(x: number, y: string, z: boolean): void
+declare function foo(x: number, y: string): void
+declare function foo(x: number): void;
+
+declare function bar(x: number, y: string): void;
+declare function bar(x: number): void;
+
+declare function baz(x: number): void;
+        `,
+        sourceFile => sourceFile.getChildrenOfKind(SyntaxKind.FunctionDeclaration)
+      );
+
+      expect(indices).toEqual([0, 1, -1, 0, -1, -1]);
+    });
+
+    it("classes with constructor overloads", () => {
+      const indices = getOverloadIndices<ConstructorDeclaration>(
+        `
+class Bar {
+  constructor(x: number, y: string, z: boolean)
+  constructor(x: number, y: string)
+  constructor(x: number)
+  {
+    void(x);
+  }
+}
+        `,
+        sourceFile => sourceFile.getClassOrThrow("Bar").getChildrenOfKind(SyntaxKind.Constructor)
+      );
+      expect(indices).toEqual([0, 1, -1]);
+    });
+
+    it("declared classes with overloaded constructors (no body)", () => {
+      const indices = getOverloadIndices<ConstructorDeclaration>(
+        `
+declare class Bar<NType extends number> {
+  constructor(x: number, y: string, z: boolean);
+  constructor(x: number, y: string);
+  constructor(x: NType);
+}
+        `,
+        sourceFile => sourceFile.getClassOrThrow("Bar").getChildrenOfKind(SyntaxKind.Constructor)
+      );
+      expect(indices).toEqual([0, 1, -1]);
+    });
+
+    it("classes with method overloads (static and non-static)", () => {
+      const indices = getOverloadIndices<MethodDeclaration>(
+        `
+class Bar {
+  static foo(x: number, y: string): boolean
+  static foo(x: number): boolean
+  {
+    return Boolean(x);
+  }
+
+  foo(x: number, y: string, z: boolean): boolean
+  foo(x: number, y: string): boolean
+  foo(x: number): boolean
+  {
+    return Boolean(x);
+  }
+
+  bar(x: number): void {
+    void(x);
+  }
+}
+        `,
+        sourceFile => sourceFile.getClassOrThrow("Bar").getChildrenOfKind(SyntaxKind.MethodDeclaration)
+      );
+      expect(indices).toEqual([0, -1, 0, 1, -1, -1]);
+    });
+
+    it("declared classes with method overloads (static and non-static)", () => {
+      const indices = getOverloadIndices<MethodDeclaration>(
+        `
+declare class Bar {
+  static foo(x: number, y: string): boolean
+  static foo(x: number): boolean
+
+  foo(x: number, y: string, z: boolean): boolean
+  foo(x: number, y: string): boolean
+  foo(x: number): boolean
+
+  bar(x: number): void
+}
+        `,
+        sourceFile => sourceFile.getClassOrThrow("Bar").getChildrenOfKind(SyntaxKind.MethodDeclaration)
+      );
+      expect(indices).toEqual([0, -1, 0, 1, -1, -1]);
+    });
+  });
 });
 
 xdescribe("all these structures are writable via ts-morph after packing them down", () => {
   xit("to a TypeScript file", () => {
     expect(false).toBe(true);
-  })
+  });
 });

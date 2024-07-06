@@ -4,21 +4,23 @@ import {
   type ClassDeclaration,
   type ClassExpression,
   */
+  type ConstructorDeclaration,
   type ConstructorDeclarationStructure,
   type ConstructorDeclarationOverloadStructure,
+  type FunctionDeclaration,
   type FunctionDeclarationStructure,
   type FunctionDeclarationOverloadStructure,
+  type MethodDeclaration,
   type MethodDeclarationStructure,
   type MethodDeclarationOverloadStructure,
-  Node,
   /*
   type ObjectLiteralExpression,
   */
-  type OverloadableNode,
   type StatementedNodeStructure,
   Structure,
   type Structures,
   StructureKind,
+  SyntaxKind,
   type WriterFunction,
   forEachStructureChild,
 } from "ts-morph";
@@ -256,32 +258,39 @@ function prependOverload<
 
 //#endregion move structure overloads inside their parent structures
 
-export function getOverloadIndex(
-  node: OverloadableNode & Node
+export function getOverloadIndex<
+  NodeType extends ConstructorDeclaration | FunctionDeclaration | MethodDeclaration
+>
+(
+  node: NodeType
 ): number
 {
-  const nodes: OverloadableNode[] = node.getOverloads();
-  return nodes.indexOf(node);
-}
+  const kind = node.getKind() as SyntaxKind.Constructor | SyntaxKind.FunctionDeclaration | SyntaxKind.MethodDeclaration;
+  let matchingNodes = node.getParentOrThrow().getChildrenOfKind(kind) as NodeType[];
 
-/*
-export function isOverload(
-  node: OverloadableNode & Node
-): boolean
-{
-  if (Node.isAmbientable(node) && node.hasDeclareKeyword())
-    return false;
+  switch (kind) {
+    case SyntaxKind.Constructor:
+      matchingNodes = matchingNodes.slice();
+      break;
 
-  if (Node.isMethodDeclaration(node) || Node.isConstructorDeclaration(node)) {
-    const parent: ClassDeclaration | ClassExpression | ObjectLiteralExpression = node.getParentOrThrow();
-    if (Node.isAmbientable(parent) && parent.hasDeclareKeyword())
-      return false;
+    case SyntaxKind.FunctionDeclaration: {
+      const name = (node as FunctionDeclaration).getName();
+      if (name === undefined)
+        return -1;
+      matchingNodes = (matchingNodes as FunctionDeclaration[]).filter(n => n.getName() === name) as NodeType[];
+      break;
+    }
+
+    case SyntaxKind.MethodDeclaration: {
+      const name = (node as MethodDeclaration).getName();
+      const isStatic = (node as MethodDeclaration).isStatic();
+      matchingNodes = (matchingNodes as MethodDeclaration[]).filter(
+        n => n.isStatic() === isStatic && n.getName() === name
+      ) as NodeType[];
+      break;
+    }
   }
 
-  const nodes: OverloadableNode[] = node.getOverloads();
-  const implNode = node.getImplementation();
-  if (implNode)
-    nodes.push(implNode);
-  return nodes[nodes.length - 1] !== node;
+  matchingNodes.pop();
+  return matchingNodes.indexOf(node);
 }
-*/

@@ -1197,27 +1197,6 @@ function prependOverload(parentStructure, overloadStructure, kind) {
     parentStructure.overloads.unshift(overload);
     return overload;
 }
-/*
-export function isOverload(
-  node: OverloadableNode & Node
-): boolean
-{
-  if (Node.isAmbientable(node) && node.hasDeclareKeyword())
-    return false;
-
-  if (Node.isMethodDeclaration(node) || Node.isConstructorDeclaration(node)) {
-    const parent: ClassDeclaration | ClassExpression | ObjectLiteralExpression = node.getParentOrThrow();
-    if (Node.isAmbientable(parent) && parent.hasDeclareKeyword())
-      return false;
-  }
-
-  const nodes: OverloadableNode[] = node.getOverloads();
-  const implNode = node.getImplementation();
-  if (implNode)
-    nodes.push(implNode);
-  return nodes[nodes.length - 1] !== node;
-}
-*/
 
 var _a$6;
 // #endregion preamble
