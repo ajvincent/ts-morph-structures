@@ -1,5 +1,6 @@
 import {
   ModuleKind,
+  ModuleDeclarationKind,
   ModuleResolutionKind,
   Project,
   type ProjectOptions,
@@ -561,10 +562,11 @@ class Bar {
     );
   });
 
-  xit("declared classes with overloaded constructors (no body)", () => {
+  it("declared classes with overloaded constructors (no body)", () => {
     compareSourceToStructure(
       `
 declare class Base<NType extends number> {
+  constructor(x: number, y: string, z: boolean);
   constructor(x: number, y: string);
   constructor(x: NType);
 }
@@ -670,7 +672,7 @@ declare class Base<NType extends number> {
                   "scope": undefined,
                 },
               ],
-              "statements": [],
+              "statements": undefined,
               "docs": [],
               "typeParameters": [],
               "scope": undefined,
@@ -705,14 +707,14 @@ declare class Base<NType extends number> {
     );
   });
 
-  xit("declared classes with overloaded methods (no body)", () => {
+  it("declared classes with overloaded methods (no body)", () => {
     compareSourceToStructure(
       `
 declare class Base<NType extends number> {
   static helloWorld(x: number, y: string): void;
-  static helloWorld<NType extends number>(x: NType): void;
+  static helloWorld(x: NType): void;
   helloWorld(x: number, y: string): void;
-  helloWorld<NType extends number>(x: NType): void;
+  helloWorld(x: NType): void;
 }
       `,
       [
@@ -724,7 +726,7 @@ declare class Base<NType extends number> {
           "hasDeclareKeyword": true,
           "isDefaultExport": false,
           "isExported": false,
-          "name": "Bar",
+          "name": "Base",
           "typeParameters": [
             {
               kind: StructureKind.TypeParameter,
@@ -753,7 +755,7 @@ declare class Base<NType extends number> {
               "parameters": [
                 {
                   "name": "x",
-                  "type": "number",
+                  "type": "NType",
                   "isReadonly": false,
                   "decorators": [],
                   "hasQuestionToken": false,
@@ -764,7 +766,7 @@ declare class Base<NType extends number> {
                   "scope": undefined,
                 },
               ],
-              "returnType": "boolean",
+              "returnType": "void",
               "overloads": [
                 {
                   "kind": StructureKind.MethodOverload,
@@ -796,7 +798,7 @@ declare class Base<NType extends number> {
                       "scope": undefined,
                     },
                   ],
-                  "returnType": "boolean",
+                  "returnType": "void",
                   "docs": [],
                   "hasOverrideKeyword": false,
                   "hasQuestionToken": false,
@@ -814,7 +816,7 @@ declare class Base<NType extends number> {
               "isAsync": false,
               "isGenerator": false,
               "scope": undefined,
-              "statements": []
+              "statements": undefined,
             },
             {
               "kind": StructureKind.Method,
@@ -853,46 +855,7 @@ declare class Base<NType extends number> {
                       "scope": undefined,
                     },
                   ],
-                  "returnType": "boolean",
-                  "docs": [],
-                  "hasOverrideKeyword": false,
-                  "hasQuestionToken": false,
-                  "isAbstract": false,
-                  "scope": undefined,
-                },
-                {
-                  "kind": StructureKind.MethodOverload,
-                  "isStatic": false,
-                  "isAsync": false,
-                  "isGenerator": false,
-                  "typeParameters": [],
-                  "parameters": [
-                    {
-                      "name": "x",
-                      "type": "number",
-                      "isReadonly": false,
-                      "decorators": [],
-                      "hasQuestionToken": false,
-                      "hasOverrideKeyword": false,
-                      "kind": StructureKind.Parameter,
-                      "isRestParameter": false,
-                      "initializer": undefined,
-                      "scope": undefined,
-                    },
-                    {
-                      "name": "y",
-                      "type": "string",
-                      "isReadonly": false,
-                      "decorators": [],
-                      "hasQuestionToken": false,
-                      "hasOverrideKeyword": false,
-                      "kind": StructureKind.Parameter,
-                      "isRestParameter": false,
-                      "initializer": undefined,
-                      "scope": undefined,
-                    },
-                  ],
-                  "returnType": "boolean",
+                  "returnType": "void",
                   "docs": [],
                   "hasOverrideKeyword": false,
                   "hasQuestionToken": false,
@@ -904,7 +867,7 @@ declare class Base<NType extends number> {
               "parameters": [
                 {
                   "name": "x",
-                  "type": "number",
+                  "type": "NType",
                   "isReadonly": false,
                   "decorators": [],
                   "hasQuestionToken": false,
@@ -915,7 +878,7 @@ declare class Base<NType extends number> {
                   "scope": undefined,
                 },
               ],
-              "returnType": "boolean",
+              "returnType": "void",
               "decorators": [],
               "docs": [],
               "hasOverrideKeyword": false,
@@ -924,9 +887,7 @@ declare class Base<NType extends number> {
               "isAsync": false,
               "isGenerator": false,
               "scope": undefined,
-              "statements": [
-                "return Boolean(x);"
-              ]
+              "statements": undefined
             }
           ]
         },
@@ -934,7 +895,7 @@ declare class Base<NType extends number> {
     );
   });
 
-  xit("declared functions (no body)", () => {
+  it("declared functions (no body)", () => {
     compareSourceToStructure(
       `
 declare function foo(x: number, y: string): void;
@@ -943,7 +904,7 @@ declare function foo(x: number): void;
       [
         {
           "name": "foo",
-          "statements": [],
+          "statements": undefined,
           "parameters": [
             {
               "name": "x",
@@ -1011,7 +972,7 @@ declare function foo(x: number): void;
     );
   });
 
-  xit("declared namespace containing functions (no body)", () => {
+  it("declared namespace containing functions (no body)", () => {
     compareSourceToStructure(
       `
 declare namespace NamespaceTest {
@@ -1027,7 +988,7 @@ declare namespace NamespaceTest {
           statements: [
             {
               "name": "foo",
-              "statements": [],
+              "statements": undefined,
               "parameters": [
                 {
                   "name": "x",
@@ -1091,21 +1052,25 @@ declare namespace NamespaceTest {
                 }
               ]
             }
-          ]
+          ],
+          isDefaultExport: false,
+          isExported: false,
+          docs: [],
+          declarationKind: ModuleDeclarationKind.Namespace,
         }
       ]
     );
   });
 
-  xit("declared namespace containing a class (no body)", () => {
+  it("declared namespace containing a class (no body)", () => {
     compareSourceToStructure(
       `
 declare namespace NamespaceTest {
   class Base<NType extends number> {
     static helloWorld(x: number, y: string): void;
-    static helloWorld<NType extends number>(x: NType): void;
+    static helloWorld(x: NType): void;
     helloWorld(x: number, y: string): void;
-    helloWorld<NType extends number>(x: NType): void;
+    helloWorld(x: NType): void;
   }
 }
       `,
@@ -1123,7 +1088,7 @@ declare namespace NamespaceTest {
               "hasDeclareKeyword": false,
               "isDefaultExport": false,
               "isExported": false,
-              "name": "Bar",
+              "name": "Base",
               "typeParameters": [
                 {
                   kind: StructureKind.TypeParameter,
@@ -1142,7 +1107,7 @@ declare namespace NamespaceTest {
               "getAccessors": [],
               "setAccessors": [],
               "staticBlocks": [],
-    
+
               "methods": [
                 {
                   "kind": StructureKind.Method,
@@ -1152,7 +1117,7 @@ declare namespace NamespaceTest {
                   "parameters": [
                     {
                       "name": "x",
-                      "type": "number",
+                      "type": "NType",
                       "isReadonly": false,
                       "decorators": [],
                       "hasQuestionToken": false,
@@ -1163,7 +1128,7 @@ declare namespace NamespaceTest {
                       "scope": undefined,
                     },
                   ],
-                  "returnType": "boolean",
+                  "returnType": "void",
                   "overloads": [
                     {
                       "kind": StructureKind.MethodOverload,
@@ -1195,7 +1160,7 @@ declare namespace NamespaceTest {
                           "scope": undefined,
                         },
                       ],
-                      "returnType": "boolean",
+                      "returnType": "void",
                       "docs": [],
                       "hasOverrideKeyword": false,
                       "hasQuestionToken": false,
@@ -1213,7 +1178,7 @@ declare namespace NamespaceTest {
                   "isAsync": false,
                   "isGenerator": false,
                   "scope": undefined,
-                  "statements": []
+                  "statements": undefined,
                 },
                 {
                   "kind": StructureKind.Method,
@@ -1252,46 +1217,7 @@ declare namespace NamespaceTest {
                           "scope": undefined,
                         },
                       ],
-                      "returnType": "boolean",
-                      "docs": [],
-                      "hasOverrideKeyword": false,
-                      "hasQuestionToken": false,
-                      "isAbstract": false,
-                      "scope": undefined,
-                    },
-                    {
-                      "kind": StructureKind.MethodOverload,
-                      "isStatic": false,
-                      "isAsync": false,
-                      "isGenerator": false,
-                      "typeParameters": [],
-                      "parameters": [
-                        {
-                          "name": "x",
-                          "type": "number",
-                          "isReadonly": false,
-                          "decorators": [],
-                          "hasQuestionToken": false,
-                          "hasOverrideKeyword": false,
-                          "kind": StructureKind.Parameter,
-                          "isRestParameter": false,
-                          "initializer": undefined,
-                          "scope": undefined,
-                        },
-                        {
-                          "name": "y",
-                          "type": "string",
-                          "isReadonly": false,
-                          "decorators": [],
-                          "hasQuestionToken": false,
-                          "hasOverrideKeyword": false,
-                          "kind": StructureKind.Parameter,
-                          "isRestParameter": false,
-                          "initializer": undefined,
-                          "scope": undefined,
-                        },
-                      ],
-                      "returnType": "boolean",
+                      "returnType": "void",
                       "docs": [],
                       "hasOverrideKeyword": false,
                       "hasQuestionToken": false,
@@ -1303,7 +1229,7 @@ declare namespace NamespaceTest {
                   "parameters": [
                     {
                       "name": "x",
-                      "type": "number",
+                      "type": "NType",
                       "isReadonly": false,
                       "decorators": [],
                       "hasQuestionToken": false,
@@ -1314,7 +1240,7 @@ declare namespace NamespaceTest {
                       "scope": undefined,
                     },
                   ],
-                  "returnType": "boolean",
+                  "returnType": "void",
                   "decorators": [],
                   "docs": [],
                   "hasOverrideKeyword": false,
@@ -1323,15 +1249,23 @@ declare namespace NamespaceTest {
                   "isAsync": false,
                   "isGenerator": false,
                   "scope": undefined,
-                  "statements": [
-                    "return Boolean(x);"
-                  ]
+                  "statements": undefined,
                 }
               ]
             },
-          ]
+          ],
+          isDefaultExport: false,
+          isExported: false,
+          docs: [],
+          declarationKind: ModuleDeclarationKind.Namespace,
         }
       ]
     )
   });
+});
+
+xdescribe("all these structures are writable via ts-morph after packing them down", () => {
+  xit("to a TypeScript file", () => {
+    expect(false).toBe(true);
+  })
 });
