@@ -33,6 +33,7 @@ const stage_three_snapshot = path.join(projectDir, "stage_3_snapshot/snapshot");
  */
 
 describe("File hashes match for", () => {
+  /*
   it("array utilities", async () => {
     await compareSnapshots("source/array-utilities");
   });
@@ -76,6 +77,11 @@ describe("File hashes match for", () => {
   it("internal exports", async () => {
     await compareOneSnapshot("source/internal-exports.ts");
   });
+  */
+
+  it("all source files", async () => {
+    await compareSnapshots("source");
+  });
 
   it("distributed files", async () => {
     const stage_two_dir = path.join(projectDir, "dist");
@@ -91,23 +97,6 @@ describe("File hashes match for", () => {
       stage_two_hashes,
       stage_three_hashes
     ] = await hashDirectories(stage_two_dir, stage_three_dir);
-    const diffFileHashes = getArrayDiff(stage_two_hashes, stage_three_hashes);
-    expect(diffFileHashes).withContext("file hashes").toEqual([]);
-  });
-
-  it("all files", async () => {
-    const [
-      stage_two_hashes,
-      stage_three_hashes
-    ] = (await hashDirectories(stage_two_snapshot, stage_three_snapshot)) as [string[], string[]];
-
-    let index = stage_three_hashes.findIndex(f => f.endsWith(" /dist/exports.d.ts"));
-    if ((index > -1) && !stage_two_hashes.find(f => f.endsWith(" /dist/exports.d.ts")))
-      stage_three_hashes.splice(index, 1);
-    index = stage_three_hashes.findIndex(f => f.endsWith(" /dist/exports.js"));
-    if ((index > -1) && !stage_two_hashes.find(f => f.endsWith(" /dist/exports.js")))
-      stage_three_hashes.splice(index, 1);
-
     const diffFileHashes = getArrayDiff(stage_two_hashes, stage_three_hashes);
     expect(diffFileHashes).withContext("file hashes").toEqual([]);
   });
@@ -134,6 +123,7 @@ async function compareSnapshots(
   expect(diffFileHashes).withContext("file hashes").toEqual([]);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function compareOneSnapshot(
   localPath: string
 ): Promise<void>
