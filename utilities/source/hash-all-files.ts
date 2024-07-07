@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import fs from "fs/promises";
+import path from "path";
 
 import readDirsDeep from "./readDirsDeep.js";
 import { PromiseAllParallel } from "./PromiseTypes.js";
@@ -40,33 +41,28 @@ export async function getHashFileList(
  * @returns The hash of all non-ignored contents.
  */
 export async function hashAllFiles(
-  root: string,
-  verbose: boolean
-): Promise<string>
+  root: string
+): Promise<readonly [string, string][]>
 {
   const allFiles = await getHashFileList(root);
-  const fileHashes = await PromiseAllParallel(
-    allFiles, async file => hashOneFile(root, file)
+  const fileHashes: readonly [string, string][] = await PromiseAllParallel(
+    allFiles, async file => [path.relative(root, file), await hashOneFile(file)]
   );
-  const contents = fileHashes.join("\n");
-
-  if (verbose) {
-    return contents;
-  }
-
-  const hash = crypto.createHash('sha512');
-  hash.update(contents);
-  return hash.digest('hex');
+  return fileHashes;
 }
 
 export async function hashOneFile(
-  root: string,
   file: string,
 ): Promise<string>
 {
   const contents = await fs.readFile(file, "utf-8");
+  return hashContents(contents);
+}
+
+export function hashContents(contents: string): string {
   const hash = crypto.createHash('sha512');
   hash.update(contents);
 
-  return hash.digest('hex') + " " + file.replace(root, "");
+  return hash.digest('hex');
 }
+

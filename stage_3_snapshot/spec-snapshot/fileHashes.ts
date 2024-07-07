@@ -135,8 +135,8 @@ async function compareOneSnapshot(
   if (compareFileLists(stage_two_snapshot, stage_three_snapshot, [ stage_two_file ], [ stage_three_file ]) === false)
     return;
 
-  const stage_two_hash = await hashOneFile(stage_two_snapshot, stage_two_file);
-  const stage_three_hash = await hashOneFile(stage_three_snapshot, stage_three_file);
+  const stage_two_hash = await hashOneFile(stage_two_file);
+  const stage_three_hash = await hashOneFile(stage_three_file);
   expect(stage_three_hash).withContext("file hashes").toEqual(stage_two_hash);
 }
 
@@ -201,11 +201,14 @@ async function hashDirectories(
   stage_three_dir: string,
 ): Promise<[readonly string[], readonly string[]]>
 {
-  const [stage_two_hash, stage_three_hash] = await Promise.all([
-    hashAllFiles(stage_two_dir, true),
-    hashAllFiles(stage_three_dir, true)
+  const [stage_two_key_hash_pairs, stage_three_key_hash_pairs] = await Promise.all([
+    hashAllFiles(stage_two_dir),
+    hashAllFiles(stage_three_dir)
   ]);
-  return [stage_two_hash.split("\n"), stage_three_hash.split("\n")];
+  return [
+    stage_two_key_hash_pairs.map(([key, hash]) => key + " " + hash),
+    stage_three_key_hash_pairs.map(([key, hash]) => key + " " + hash)
+  ];
 }
 
 function getArrayDiff(
