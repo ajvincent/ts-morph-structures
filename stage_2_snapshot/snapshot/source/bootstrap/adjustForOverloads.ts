@@ -19,7 +19,7 @@ import {
   forEachStructureChild,
 } from "ts-morph";
 
-import { IterableElement } from "type-fest";
+import type { IterableElement } from "type-fest";
 
 //#region move structure overloads inside their parent structures
 

@@ -19,7 +19,7 @@ import {
   forEachStructureChild,
 } from "ts-morph";
 
-import {
+import type {
   IterableElement
 } from "type-fest";
 
@@ -128,8 +128,7 @@ class CallableDescription<
 
 type LastCallableWrapper<
   DeclarationStructure extends FunctionDeclarationStructure | MethodDeclarationStructure | ConstructorDeclarationStructure
->
- = {
+> = {
   lastCallable: CallableDescription<DeclarationStructure> | undefined;
 };
 

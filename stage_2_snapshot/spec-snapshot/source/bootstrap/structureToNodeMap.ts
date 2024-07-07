@@ -3,6 +3,12 @@ import fs from "fs/promises";
 import path from "path";
 
 import {
+  type ConstructorDeclarationOverloadStructure,
+  type ConstructorDeclarationStructure,
+  type FunctionDeclarationOverloadStructure,
+  type FunctionDeclarationStructure,
+  type MethodDeclarationOverloadStructure,
+  type MethodDeclarationStructure,
   ModuleKind,
   ModuleResolutionKind,
   Node,
@@ -10,7 +16,7 @@ import {
   ProjectOptions,
   ScriptTarget,
   StructureKind,
-  Structures,
+  type Structures,
   SyntaxKind,
 } from "ts-morph";
 
@@ -101,20 +107,101 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
       throw ex;
     }
 
-    map.forEach((node, structure) => {
+    map.forEach((node: Node, structure: Structures) => {
       expect(Node.hasStructure(node)).withContext(relativePathToModuleFile).toBe(true);
-      /* This is an expensive check, but it's important.  I am checking that _every_ node with a
+      if (Node.hasStructure(node) === false)
+        return;
+
+      /* This is an expensive check (O(n^2)), but it's important.  I am checking that _every_ node with a
       getStructure() method returns an equivalent (or in the case of overloads, nearly so) structure
       to what we get from the structure-to-node map.
-      */
-      if (Node.isSourceFile(node)) {
-        const expectedStructure = node.getStructure();
-        fixFunctionOverloads(expectedStructure);
 
-        expect<Structures>(structure).withContext(
-          `at ${pathToModuleFile}#${sourceFile.getLineAndColumnAtPos(node.getPos()).line}`
-        ).toEqual(expectedStructure);
+      Note I am excluding overloaded functions inside functions.  That's just not fair for this test.
+      */
+      const expectedStructure = node.getStructure();
+      switch (structure.kind) {
+        case StructureKind.Constructor: {
+          expect(expectedStructure.kind).withContext(
+            `with kind ${StructureKind[structure.kind]} at ${pathToModuleFile}#${sourceFile.getLineAndColumnAtPos(node.getPos()).line}`
+          ).toBe(StructureKind.Constructor);
+
+          if ((expectedStructure as ConstructorDeclarationStructure).overloads === undefined)
+            delete structure.overloads;
+          break;
+        }
+
+        case StructureKind.ConstructorOverload: {
+          if (expectedStructure.kind !== StructureKind.ConstructorOverload)
+            expect(expectedStructure.kind).withContext(
+              `with kind ${StructureKind[structure.kind]} at ${pathToModuleFile}#${sourceFile.getLineAndColumnAtPos(node.getPos()).line}`
+            ).toBe(StructureKind.Constructor);
+
+          const expectedOverload = (expectedStructure as ConstructorDeclarationOverloadStructure);
+          expectedOverload.kind = StructureKind.ConstructorOverload;
+          Reflect.deleteProperty(expectedOverload, "overloads");
+          Reflect.deleteProperty(expectedOverload, "statements");
+          break;
+        }
+
+        case StructureKind.Function: {
+          expect(expectedStructure.kind).withContext(
+            `with kind ${StructureKind[structure.kind]} at ${pathToModuleFile}#${sourceFile.getLineAndColumnAtPos(node.getPos()).line}`
+          ).toBe(StructureKind.Function);
+
+          if ((expectedStructure as FunctionDeclarationStructure).overloads === undefined)
+              delete structure.overloads;
+          break;
+        }
+
+        case StructureKind.FunctionOverload: {
+          if (expectedStructure.kind !== StructureKind.FunctionOverload)
+            expect(expectedStructure.kind).withContext(
+              `with kind ${StructureKind[structure.kind]} at ${pathToModuleFile}#${sourceFile.getLineAndColumnAtPos(node.getPos()).line}`
+            ).toBe(StructureKind.Function);
+
+          const expectedOverload = (expectedStructure as FunctionDeclarationOverloadStructure);
+          expectedOverload.kind = StructureKind.FunctionOverload;
+          Reflect.deleteProperty(expectedOverload, "name");
+          Reflect.deleteProperty(expectedOverload, "overloads");
+          Reflect.deleteProperty(expectedOverload, "statements");
+
+          break;
+        }
+
+        case StructureKind.Method: {
+          expect(expectedStructure.kind).withContext(
+            `with kind ${StructureKind[structure.kind]} at ${pathToModuleFile}#${sourceFile.getLineAndColumnAtPos(node.getPos()).line}`
+          ).toBe(StructureKind.Method);
+
+          if ((expectedStructure as MethodDeclarationStructure).overloads === undefined)
+            delete structure.overloads;
+          break;
+        }
+
+        case StructureKind.MethodOverload: {
+          if (expectedStructure.kind !== StructureKind.MethodOverload)
+            expect(expectedStructure.kind).withContext(
+              `with kind ${StructureKind[structure.kind]} at ${pathToModuleFile}#${sourceFile.getLineAndColumnAtPos(node.getPos()).line}`
+            ).toBe(StructureKind.Method);
+
+          const expectedOverload = (expectedStructure as MethodDeclarationOverloadStructure);
+          expectedOverload.kind = StructureKind.MethodOverload;
+          Reflect.deleteProperty(expectedOverload, "decorators");
+          Reflect.deleteProperty(expectedOverload, "name");
+          Reflect.deleteProperty(expectedOverload, "overloads");
+          Reflect.deleteProperty(expectedOverload, "statements");
+          break;
+        }
+
+        default:
+          fixFunctionOverloads(expectedStructure);
       }
+
+      expect<Structures>(structure)
+        .withContext(
+          `with kind ${StructureKind[structure.kind]} at ${pathToModuleFile}#${sourceFile.getLineAndColumnAtPos(node.getPos()).line}`
+        ).toEqual(expectedStructure);
+
       remainingKeys.delete(structure.kind);
     });
 
@@ -159,4 +246,4 @@ it("structureToNodeMap returns an accurate Map<Structure, Node>", () => {
   remainingKinds.sort();
 
   expect(remainingKinds).withContext("we didn't find examples of these kinds in the fixtures").toEqual([]);
-}, 1000 * 60 * 60);
+});

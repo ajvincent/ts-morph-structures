@@ -1,6 +1,6 @@
 import {
-  ConstructorDeclaration,
-  FunctionDeclaration,
+  type ConstructorDeclaration,
+  type FunctionDeclaration,
   type MethodDeclaration,
   ModuleKind,
   ModuleDeclarationKind,
@@ -11,9 +11,9 @@ import {
   type SourceFile,
   type SourceFileStructure,
   StructureKind,
-  StatementStructures,
-  WriterFunction,
+  type StatementStructures,
   SyntaxKind,
+  type WriterFunction,
 } from "ts-morph";
 
 import {

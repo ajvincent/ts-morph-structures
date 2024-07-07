@@ -77,7 +77,7 @@ describe("File hashes match for", () => {
     await compareOneSnapshot("source/internal-exports.ts");
   });
 
-  xit("distributed files", async () => {
+  it("distributed files", async () => {
     const stage_two_dir = path.join(projectDir, "dist");
     const stage_three_dir = path.join(stage_three_snapshot, "dist");
 
