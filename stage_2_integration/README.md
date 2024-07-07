@@ -206,6 +206,10 @@ First I have to match [ts-morph structures to ts-morph nodes](./source/bootstrap
 
 There are nuances to both node trees and structure trees which make this a specialized task.  There is a fair bit of trial-and-error in developing this.  The module tracks debugging information (structure hashes, parent hashes of structure and node, node-to-hash maps, etc.), for the occasions when it fails.
 
+Failures here are fatal exceptions.  The structure-to-node map code _must_ work flawlessly.  (Which is a high bar, I know.)  Unlike the type structures, these structures directly reflect the ts-morph nodes they come from - and in theory, we can pass any of them back to ts-morph.  Any failures in building the Map destabilize the rest of the code.
+
+For this reason, we have to assert that for every `Structure`, we can refer back to a `Node` where it came from.  It's an internal assertion, but absolutely critical.
+
 ### Finding the type nodes for a given node
 
 Next we need to [find where the type nodes are](./source/bootstrap/buildTypesForStructures.ts) for each structure we care about.  This takes a `Map<Structures, Node>`, and a special type node converter (which I describe in the next section) and for each structure-node pair, runs the following algorithm:

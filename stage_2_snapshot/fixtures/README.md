@@ -13,3 +13,6 @@ Snapshot dates:
   - [PropertyKeySorter](./stage_utilities/PropertyKeySorter.mts): August 2, 2023
   - [WeakRefSet](./stage_utilities/WeakRefSet.mts): Aug
 - [grab bag](./grab-bag.mts): August 4, 2023
+
+See also:
+- [types/declaredOverloads.d.ts](./types/declaredOverloads.d.ts): March 20, 2024

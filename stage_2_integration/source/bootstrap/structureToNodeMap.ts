@@ -3,14 +3,11 @@ import assert from "node:assert/strict";
 
 import {
   type ClassDeclaration,
-  type ClassExpression,
   type FunctionDeclarationOverloadStructure,
   type JSDocableNode,
   type JSDoc,
   type Structures,
   Node,
-  type ObjectLiteralExpression,
-  type OverloadableNode,
   StructureKind,
   SyntaxKind,
   forEachStructureChild,
@@ -29,7 +26,10 @@ import type {
   NodeWithStructures,
 } from "./types/conversions.js";
 
-import fixFunctionOverloads from "./fixFunctionOverloads.js";
+import {
+  fixFunctionOverloads,
+  getOverloadIndex,
+} from "./adjustForOverloads.js";
 // #endregion preamble
 
 /**
@@ -90,26 +90,6 @@ class StructureAndNodeData
 {
   static #knownSyntaxKinds?: ReadonlySet<SyntaxKind>;
 
-  static #isOverload(
-    node: OverloadableNode & Node
-  ): boolean
-  {
-    if (Node.isAmbientable(node) && node.hasDeclareKeyword())
-      return false;
-
-    if (Node.isMethodDeclaration(node) || Node.isConstructorDeclaration(node)) {
-      const parent: ClassDeclaration | ClassExpression | ObjectLiteralExpression = node.getParentOrThrow();
-      if (Node.isAmbientable(parent) && parent.hasDeclareKeyword())
-        return false;
-    }
-
-    const nodes: OverloadableNode[] = node.getOverloads();
-    const implNode = node.getImplementation();
-    if (implNode)
-      nodes.push(implNode);
-    return nodes[nodes.length - 1] !== node;
-  }
-
   readonly structureToNodeMap = new Map<Structures, Node>;
 
   // #region private fields, and life-cycle.
@@ -145,6 +125,10 @@ class StructureAndNodeData
   )
   {
     this.#rootNode = nodeWithStructures;
+    if (!StructureAndNodeData.#knownSyntaxKinds) {
+      StructureAndNodeData.#knownSyntaxKinds = new Set<SyntaxKind>(StructureKindToSyntaxKindMap.values());
+    }
+
     this.#collectDescendantNodes(this.#rootNode, "");
 
     if (hashNeedle) {
@@ -206,12 +190,8 @@ class StructureAndNodeData
   ): void =>
   {
     const kind: SyntaxKind = node.getKind();
-    if (!StructureAndNodeData.#knownSyntaxKinds) {
-      StructureAndNodeData.#knownSyntaxKinds = new Set<SyntaxKind>(StructureKindToSyntaxKindMap.values());
-    }
-
     // Build the node hash, and register the node.
-    if (StructureAndNodeData.#knownSyntaxKinds.has(kind) && (this.#nodeToHash.has(node) === false)) {
+    if (StructureAndNodeData.#knownSyntaxKinds!.has(kind) && (this.#nodeToHash.has(node) === false)) {
       const localHash = this.#hashNodeLocal(node);
       assert(localHash, "this.#hashNodeLocal() must return a non-empty string");
 
@@ -251,7 +231,7 @@ class StructureAndNodeData
    * @returns the hash part for this node.
    *
    * @remarks
-   * The current format is `${node.getKindName}:${node.getName()}(/overload)?`
+   * The current format is `${node.getKindName}:${node.getName()}(/overload:1)?`
    */
   #hashNodeLocal(
     node: Node
@@ -292,8 +272,16 @@ class StructureAndNodeData
        *
        * node.isOverload() lies to us for type definition files.
        */
-      if (hash && Node.isOverloadable(node) && StructureAndNodeData.#isOverload(node)) {
-        hash += "/overload";
+      if (hash && Node.isOverloadable(node)) {
+        let overloadIndex = NaN;
+        if (Node.isConstructorDeclaration(node) || Node.isMethodDeclaration(node) || Node.isFunctionDeclaration(node)) {
+          overloadIndex = getOverloadIndex(node);
+        } else {
+          assert(false, "what kind of node is this? " + node.getStartLineNumber() + ":" + node.getStartLinePos());
+        }
+        if (overloadIndex > -1) {
+          hash += "/overload:" + overloadIndex;
+        }
       }
     }
 
@@ -438,12 +426,12 @@ class StructureAndNodeData
       */
 
       let parentMsg = "";
+      const sourceFile = this.#rootNode!.getSourceFile();
       if (parentNode) {
-        const sourceFile = this.#rootNode!.getSourceFile();
-
-        parentMsg = `, parent at ${
-          JSON.stringify(sourceFile.getLineAndColumnAtPos(parentNode.getPos()))
-        }`;
+        const { line, column } = sourceFile.getLineAndColumnAtPos(parentNode.getPos());
+        parentMsg = `, parent at ${sourceFile.getFilePath()} line ${line} column ${column}`;
+      } else {
+        parentMsg = `, at ${sourceFile.getFilePath()}`;
       }
       assert(false,
         `Expected candidate node to exist, structureHash = "${
@@ -476,8 +464,9 @@ class StructureAndNodeData
   ): string
   {
     let parentHash = "";
+    let parentStructure: Structures | undefined;
     if (structure !== this.#rootStructure) {
-      const parentStructure = this.#structureToParent.get(structure)!;
+      parentStructure = this.#structureToParent.get(structure)!;
       const parentNode = this.structureToNodeMap.get(parentStructure)!;
       const parentHashTemp = this.#nodeToHash.get(parentNode);
       assert(parentHashTemp !== undefined, "must have a parent hash");
@@ -492,7 +481,11 @@ class StructureAndNodeData
       localKind = "VariableStatement";
 
     if (StructureKind[structure.kind].endsWith("Overload")) {
-      localKind = "overload";
+      assert(
+        parentStructure && "overloads" in parentStructure && Array.isArray(parentStructure.overloads),
+        "must find the overload index in the parent structure"
+      );
+      localKind = "overload:" + (parentStructure.overloads as Structures[]).indexOf(structure);
     }
 
     let hash: string = parentHash + "/" + localKind;

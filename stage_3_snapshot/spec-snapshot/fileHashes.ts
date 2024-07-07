@@ -80,13 +80,13 @@ describe("File hashes match for", () => {
   it("distributed files", async () => {
     const stage_two_dir = path.join(projectDir, "dist");
     const stage_three_dir = path.join(stage_three_snapshot, "dist");
-  
+
     const { files: stage_two_files }   = await readDirsDeep(stage_two_dir);
     const { files: stage_three_files } = await readDirsDeep(stage_three_dir);
-  
+
     if (compareFileLists(stage_two_dir, stage_three_dir, stage_two_files, stage_three_files) === false)
       return;
-  
+
     const [
       stage_two_hashes,
       stage_three_hashes

@@ -1072,6 +1072,7 @@ class MemberedStatementsKeyClass {
     }
 }
 
+//#region move structure overloads inside their parent structures
 /**
  * Remove function overloads preceding a function.
  * @param structure - The structure direct from ts-morph to clean up.
@@ -1080,15 +1081,148 @@ class MemberedStatementsKeyClass {
 function fixFunctionOverloads(structure) {
     if (Structure.isStatemented(structure) &&
         Array.isArray(structure.statements)) {
-        structure.statements = structure.statements.filter((statement) => {
-            if (typeof statement !== "object")
-                return true;
-            if (statement.kind !== StructureKind.FunctionOverload)
-                return true;
-            return false;
-        });
+        structure.statements = structure.statements.filter(excludeFunctionOverloads);
+        const wrapper = {
+            lastCallable: undefined,
+        };
+        structure.statements = structure.statements.reduceRight((collectedStatements, statement) => {
+            return prependOverloadsOfKindInside(StructureKind.Function, wrapper, collectedStatements, statement);
+        }, []);
+    }
+    else if (structure.kind === StructureKind.Class) {
+        if (structure.methods && structure.methods.length > 0) {
+            const wrapper = {
+                lastCallable: undefined,
+            };
+            structure.methods = structure.methods.reduceRight((collectedMethods, method) => {
+                return prependOverloadsOfKindInside(StructureKind.Method, wrapper, collectedMethods, method);
+            }, []);
+        }
+        if (structure.ctors && structure.ctors.length > 0) {
+            const wrapper = {
+                lastCallable: undefined,
+            };
+            structure.ctors = structure.ctors.reduceRight((collectedConstructors, ctor) => {
+                return prependOverloadsOfKindInside(StructureKind.Constructor, wrapper, collectedConstructors, ctor);
+            }, []);
+        }
     }
     forEachStructureChild(structure, fixFunctionOverloads);
+}
+class CallableDescription {
+    isStatic;
+    kind;
+    name;
+    structure;
+    constructor(structure) {
+        this.isStatic =
+            structure.kind === StructureKind.Method && (structure.isStatic ?? false);
+        this.kind = structure.kind;
+        this.name =
+            structure.kind === StructureKind.Constructor
+                ? "constructor"
+                : structure.name;
+        this.structure = structure;
+    }
+    isEquivalent(other) {
+        return (this.isStatic === other.isStatic &&
+            this.kind === other.kind &&
+            this.name === other.name);
+    }
+}
+function excludeFunctionOverloads(statement) {
+    return (typeof statement !== "object" ||
+        statement.kind !== StructureKind.FunctionOverload);
+}
+function prependOverloadsOfKindInside(matchKind, lastCallableWrapper, collectedFromBack, statement) {
+    if (typeof statement !== "object") {
+        collectedFromBack.unshift(statement);
+        lastCallableWrapper.lastCallable = undefined;
+        return collectedFromBack;
+    }
+    if (statement.kind !== matchKind) {
+        collectedFromBack.unshift(statement);
+        lastCallableWrapper.lastCallable = undefined;
+        return collectedFromBack;
+    }
+    const callable = statement;
+    if (callable.kind !== StructureKind.Constructor &&
+        callable.name === undefined) {
+        collectedFromBack.unshift(statement);
+        lastCallableWrapper.lastCallable = undefined;
+        return collectedFromBack;
+    }
+    const description = new CallableDescription(callable);
+    if (lastCallableWrapper.lastCallable === undefined) {
+        collectedFromBack.unshift(statement);
+        lastCallableWrapper.lastCallable = description;
+        return collectedFromBack;
+    }
+    if (description.isEquivalent(lastCallableWrapper.lastCallable) === false) {
+        collectedFromBack.unshift(statement);
+        lastCallableWrapper.lastCallable = description;
+        return collectedFromBack;
+    }
+    assert(statement.overloads === undefined || statement.overloads.length === 0, "why does a function with the same name in this statement block have overloads?");
+    assert(statement.statements === undefined || statement.statements.length === 0, "why does a function with the same name in this statement block have statements?");
+    if (statement.kind === StructureKind.Method) {
+        assert(statement.decorators === undefined || statement.decorators.length === 0, "why does a method with the same name in this statement block have decorators?");
+    }
+    // the statement is actually an overload
+    const { structure: parentStructure } = lastCallableWrapper.lastCallable;
+    parentStructure.overloads ??= [];
+    if (parentStructure.kind === StructureKind.Function) {
+        assert.equal(statement.kind, StructureKind.Function);
+        prependOverload(parentStructure, statement, StructureKind.FunctionOverload);
+        Reflect.deleteProperty(statement, "name");
+    }
+    else if (parentStructure.kind === StructureKind.Method) {
+        assert.equal(statement.kind, StructureKind.Method);
+        prependOverload(parentStructure, statement, StructureKind.MethodOverload);
+        delete statement.decorators;
+        Reflect.deleteProperty(statement, "name");
+    }
+    else if (parentStructure.kind === StructureKind.Constructor) {
+        assert.equal(statement.kind, StructureKind.Constructor);
+        prependOverload(parentStructure, statement, StructureKind.ConstructorOverload);
+    }
+    return collectedFromBack;
+}
+function prependOverload(parentStructure, overloadStructure, kind) {
+    delete overloadStructure.statements;
+    delete overloadStructure.overloads;
+    const overload = overloadStructure;
+    overload.kind = kind;
+    parentStructure.overloads ||= [];
+    parentStructure.overloads.unshift(overload);
+    return overload;
+}
+//#endregion move structure overloads inside their parent structures
+function getOverloadIndex(node) {
+    const kind = node.getKind();
+    let matchingNodes = node
+        .getParentOrThrow()
+        .getChildrenOfKind(kind);
+    switch (kind) {
+        case SyntaxKind.Constructor:
+            matchingNodes = matchingNodes.slice();
+            break;
+        case SyntaxKind.FunctionDeclaration: {
+            const name = node.getName();
+            if (name === undefined)
+                return -1;
+            matchingNodes = matchingNodes.filter((n) => n.getName() === name);
+            break;
+        }
+        case SyntaxKind.MethodDeclaration: {
+            const name = node.getName();
+            const isStatic = node.isStatic();
+            matchingNodes = matchingNodes.filter((n) => n.isStatic() === isStatic && n.getName() === name);
+            break;
+        }
+    }
+    matchingNodes.pop();
+    return matchingNodes.indexOf(node);
 }
 
 var _a$6;
@@ -1135,20 +1269,6 @@ function structureToNodeMap(nodeWithStructures, useTypeAwareStructures, hashNeed
  */
 class StructureAndNodeData {
     static #knownSyntaxKinds;
-    static #isOverload(node) {
-        if (Node.isAmbientable(node) && node.hasDeclareKeyword())
-            return false;
-        if (Node.isMethodDeclaration(node) || Node.isConstructorDeclaration(node)) {
-            const parent = node.getParentOrThrow();
-            if (Node.isAmbientable(parent) && parent.hasDeclareKeyword())
-                return false;
-        }
-        const nodes = node.getOverloads();
-        const implNode = node.getImplementation();
-        if (implNode)
-            nodes.push(implNode);
-        return nodes[nodes.length - 1] !== node;
-    }
     structureToNodeMap = new Map();
     // #region private fields, and life-cycle.
     #rootNode;
@@ -1170,6 +1290,9 @@ class StructureAndNodeData {
     }
     constructor(nodeWithStructures, useTypeAwareStructures, hashNeedle) {
         this.#rootNode = nodeWithStructures;
+        if (!_a$6.#knownSyntaxKinds) {
+            _a$6.#knownSyntaxKinds = new Set(StructureKindToSyntaxKindMap.values());
+        }
         this.#collectDescendantNodes(this.#rootNode, "");
         if (hashNeedle) {
             this.#nodeSetsByHash.forEach((nodeSet, hash) => {
@@ -1217,9 +1340,6 @@ class StructureAndNodeData {
      */
     #collectDescendantNodes = (node, hash) => {
         const kind = node.getKind();
-        if (!_a$6.#knownSyntaxKinds) {
-            _a$6.#knownSyntaxKinds = new Set(StructureKindToSyntaxKindMap.values());
-        }
         // Build the node hash, and register the node.
         if (_a$6.#knownSyntaxKinds.has(kind) &&
             this.#nodeToHash.has(node) === false) {
@@ -1255,7 +1375,7 @@ class StructureAndNodeData {
      * @returns the hash part for this node.
      *
      * @remarks
-     * The current format is `${node.getKindName}:${node.getName()}(/overload)?`
+     * The current format is `${node.getKindName}:${node.getName()}(/overload:1)?`
      */
     #hashNodeLocal(node) {
         let hash = this.#nodeToHash.get(node) ?? "";
@@ -1288,10 +1408,22 @@ class StructureAndNodeData {
              *
              * node.isOverload() lies to us for type definition files.
              */
-            if (hash &&
-                Node.isOverloadable(node) &&
-                _a$6.#isOverload(node)) {
-                hash += "/overload";
+            if (hash && Node.isOverloadable(node)) {
+                let overloadIndex = NaN;
+                if (Node.isConstructorDeclaration(node) ||
+                    Node.isMethodDeclaration(node) ||
+                    Node.isFunctionDeclaration(node)) {
+                    overloadIndex = getOverloadIndex(node);
+                }
+                else {
+                    assert(false, "what kind of node is this? " +
+                        node.getStartLineNumber() +
+                        ":" +
+                        node.getStartLinePos());
+                }
+                if (overloadIndex > -1) {
+                    hash += "/overload:" + overloadIndex;
+                }
             }
         }
         return hash;
@@ -1391,9 +1523,13 @@ class StructureAndNodeData {
             3. The node hash from the structure is wrong.  `#createNodeHashFromStructure()`.
             */
             let parentMsg = "";
+            const sourceFile = this.#rootNode.getSourceFile();
             if (parentNode) {
-                const sourceFile = this.#rootNode.getSourceFile();
-                parentMsg = `, parent at ${JSON.stringify(sourceFile.getLineAndColumnAtPos(parentNode.getPos()))}`;
+                const { line, column } = sourceFile.getLineAndColumnAtPos(parentNode.getPos());
+                parentMsg = `, parent at ${sourceFile.getFilePath()} line ${line} column ${column}`;
+            }
+            else {
+                parentMsg = `, at ${sourceFile.getFilePath()}`;
             }
             assert(false, `Expected candidate node to exist, structureHash = "${structureHash}", nodeHash = "${nodeHash}"${parentMsg}`);
         }
@@ -1415,8 +1551,9 @@ class StructureAndNodeData {
      */
     #createNodeHashFromStructure(structure) {
         let parentHash = "";
+        let parentStructure;
         if (structure !== this.#rootStructure) {
-            const parentStructure = this.#structureToParent.get(structure);
+            parentStructure = this.#structureToParent.get(structure);
             const parentNode = this.structureToNodeMap.get(parentStructure);
             const parentHashTemp = this.#nodeToHash.get(parentNode);
             assert(parentHashTemp !== undefined, "must have a parent hash");
@@ -1429,7 +1566,12 @@ class StructureAndNodeData {
         if (localKind === "FirstStatement")
             localKind = "VariableStatement";
         if (StructureKind[structure.kind].endsWith("Overload")) {
-            localKind = "overload";
+            assert(parentStructure &&
+                "overloads" in parentStructure &&
+                Array.isArray(parentStructure.overloads), "must find the overload index in the parent structure");
+            localKind =
+                "overload:" +
+                    parentStructure.overloads.indexOf(structure);
         }
         let hash = parentHash + "/" + localKind;
         if ("name" in structure)

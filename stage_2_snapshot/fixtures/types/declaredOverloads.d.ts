@@ -21,13 +21,21 @@ declare class Base<NType extends number> {
 }
 
 /*
-function foo(x: number, y: string): void
-function foo<NType extends number>(x: NType): void;
-function foo(x: number): void
+function bar(x: number, y: string): void
+function bar<NType extends number>(x: NType): void;
+function bar(x: number): void
 {
   void(x);
 }
 */
-declare function foo(x: number, y: string): void;
-declare function foo<NType extends number>(x: NType): void;
+declare function bar(x: number, y: string): void;
+declare function bar<NType extends number>(x: NType): void;
 
+declare namespace ReflectTest {
+  function apply<T, A extends readonly unknown[], R>(
+      target: (this: T, ...args: A) => R,
+      thisArgument: T,
+      argumentsList: Readonly<A>,
+  ): R;
+  function apply(target: Function, thisArgument: unknown, argumentsList: ArrayLike<unknown>): unknown;
+}
