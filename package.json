@@ -33,6 +33,8 @@
     "debug-stage-three": "TSMS_STAGE='three' node --inspect-brk --import ./register-hooks.js ./build.ts",
     "use-cases": "TSMS_STAGE='use-cases' node ./register-hooks.js ./build.ts",
     "debug-use-cases": "TSMS_STAGE='use-cases' node --inspect-brk ./register-hooks.js ./build.ts",
+    "is-repo-clean": "node --import ./register-hooks.js ./utilities/source/assertRepoIsClean.ts",
+    "diff-stages": "diff -p -U 8 -N -r ./stage_2_snapshot/snapshot/source ./stage_3_integration/snapshot/source",
     "build-tsimp": "node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
     "clean-tsimp": "node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./clean.ts",
     "debug-tsimp": "node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
@@ -44,8 +46,7 @@
     "debug-stage-three-tsimp": "TSMS_STAGE='three' node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
     "use-cases-tsimp": "TSMS_STAGE='use-cases' node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
     "debug-use-cases-tsimp": "TSMS_STAGE='use-cases' node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
-    "diff-stages": "diff -p -U 8 -N -r ./stage_2_snapshot/snapshot/source ./stage_3_integration/snapshot/source",
-    "is-repo-clean": "node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./utilities/source/assertRepoIsClean.ts"
+    "is-repo-clean-tsimp": "node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./utilities/source/assertRepoIsClean.ts"
   },
   "repository": {
     "type": "git",
