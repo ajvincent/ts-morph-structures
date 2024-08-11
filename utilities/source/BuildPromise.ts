@@ -132,7 +132,6 @@ export class BuildPromise
   async #run(): Promise<void>
   {
     if (this.#writeToConsole) {
-      // eslint-disable-next-line no-console
       console.log("Starting " + this.target + "...");
     }
 
@@ -186,7 +185,6 @@ export class BuildPromise
     }
 
     if (this.#writeToConsole) {
-      // eslint-disable-next-line no-console
       console.log("Completed " + this.target + "!");
     }
 

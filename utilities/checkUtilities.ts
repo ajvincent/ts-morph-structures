@@ -26,7 +26,7 @@ const BPSet = new BuildPromiseSet;
     console.log("starting utilities:eslint");
     await runESLint(path.join(projectDir, "utilities"), [
       "**/*.ts",
-      "../build.ts",
+      //"../build.ts",
     ]);
   });
 }

@@ -32,6 +32,8 @@ class ValueWithDependencies<ValueType>
     this.#valuePromise = valuePromise;
     this.#runPromise = new SingletonPromise(async () => this.#run());
     this.#dependencies = new Set(dependencies);
+
+    void(this.#name); // it's here for debugging purposes
   }
 
   addDependencies(

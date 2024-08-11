@@ -14,8 +14,7 @@ type One = NumberString.one;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface HasConstructSignature {
-
-  // eslint-disable-next-line @typescript-eslint/no-misused-new, @typescript-eslint/prefer-function-type
+  // eslint-disable-next-line @typescript-eslint/no-misused-new
   new (x: number): HasConstructSignature
 }
 
@@ -29,7 +28,6 @@ class Bar implements Omit<Foo, keyof Foo> {
   static one: number;
   static two: string;
   static {
-    // eslint-disable-next-line @typescript-eslint/dot-notation
     this["one"] = 1;
     this.two = "two";
   }
@@ -51,7 +49,6 @@ class Bar implements Omit<Foo, keyof Foo> {
     void(x);
   }
 
-  // eslint-disable-next-line @typescript-eslint/class-literal-property-style
   get wop(): string {
     return "wop";
   }

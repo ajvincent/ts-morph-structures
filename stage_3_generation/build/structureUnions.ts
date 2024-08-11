@@ -13,7 +13,7 @@ import {
   UnionModule
 } from "../moduleClasses/exports.js";
 
-import initializeTypes from "../vanilla/initializer.js"; "../vanilla/initializer.js";
+import initializeTypes from "../vanilla/initializer.js";
 import UnionMap from "../vanilla/UnionMap.js";
 
 /**

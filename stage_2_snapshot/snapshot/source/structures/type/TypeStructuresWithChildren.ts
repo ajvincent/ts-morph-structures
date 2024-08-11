@@ -62,7 +62,6 @@ export default abstract class TypeStructuresWithChildren<
       ) as unknown as Children;
 
     const lastIndex = childTypes.length - 1;
-    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let index = 0; index <= lastIndex; index++) {
       const child = childTypes[index];
       child.writerFunction(writer);

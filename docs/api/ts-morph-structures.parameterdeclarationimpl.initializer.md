@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-initializer?: stringOrWriterFunction;
+initializer?: stringOrWriterFunction | undefined;
 ```

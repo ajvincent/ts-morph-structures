@@ -14,7 +14,7 @@ import type {
   RightExtendsLeft
 } from "#utilities/source/_types/Utility.js";
 
-import StructureBase from "../base/StructureBase.js";
+import type StructureBase from "../base/StructureBase.js";
 // #endregion preamble
 
 declare const KindedStructureKey: unique symbol;

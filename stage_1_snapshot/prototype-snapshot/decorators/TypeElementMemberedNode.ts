@@ -27,7 +27,7 @@ import {
   PropertySignatureImpl,
 } from "../exports.js";
 
-import StructureBase from "../base/StructureBase.js";
+import type StructureBase from "../base/StructureBase.js";
 
 import {
   cloneArrayOrUndefined

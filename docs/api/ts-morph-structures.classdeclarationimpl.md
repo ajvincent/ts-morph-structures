@@ -30,7 +30,7 @@ export default class ClassDeclarationImpl implements ClassDeclarationStructureCl
 |  [kind](./ts-morph-structures.classdeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Class |  |
 |  [leadingTrivia](./ts-morph-structures.classdeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [methods](./ts-morph-structures.classdeclarationimpl.methods.md) | <code>readonly</code> | [MethodDeclarationImpl](./ts-morph-structures.methoddeclarationimpl.md)<!-- -->\[\] |  |
-|  [name?](./ts-morph-structures.classdeclarationimpl.name.md) |  | string | _(Optional)_ |
+|  [name?](./ts-morph-structures.classdeclarationimpl.name.md) |  | string \| undefined | _(Optional)_ |
 |  [properties](./ts-morph-structures.classdeclarationimpl.properties.md) | <code>readonly</code> | [PropertyDeclarationImpl](./ts-morph-structures.propertydeclarationimpl.md)<!-- -->\[\] |  |
 |  [setAccessors](./ts-morph-structures.classdeclarationimpl.setaccessors.md) | <code>readonly</code> | [SetAccessorDeclarationImpl](./ts-morph-structures.setaccessordeclarationimpl.md)<!-- -->\[\] |  |
 |  [staticBlocks](./ts-morph-structures.classdeclarationimpl.staticblocks.md) | <code>readonly</code> | [ClassStaticBlockDeclarationImpl](./ts-morph-structures.classstaticblockdeclarationimpl.md)<!-- -->\[\] |  |

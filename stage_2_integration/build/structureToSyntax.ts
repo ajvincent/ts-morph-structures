@@ -81,7 +81,7 @@ async function structureToSyntax(): Promise<void>
           fileWriter.writeLine(`  // no SyntaxKind found for StructureKind.${structureKindName}`);
       });
     }
-    catch (ex) {
+    catch {
       // do nothing
     }
   }

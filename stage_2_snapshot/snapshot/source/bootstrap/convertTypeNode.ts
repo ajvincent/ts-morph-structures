@@ -349,7 +349,7 @@ function convertFunctionTypeNode(
     typeParameterNodes = (
       typeNode as Pick<FunctionTypeNode, "getTypeParameters">
     ).getTypeParameters();
-  } catch (ex) {
+  } catch {
     typeParameterNodes = typeNode.getChildrenOfKind(SyntaxKind.TypeParameter);
   }
 
