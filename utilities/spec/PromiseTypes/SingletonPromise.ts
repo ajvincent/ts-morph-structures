@@ -17,7 +17,7 @@ describe("PromiseTypes.SingletonPromise", () => {
   });
 
   it("rejects with the error we passed in", async () => {
-    const expected = new Error("rejection");
+    const expected = {};
     const spy = jasmine.createSpy();
     spy.and.returnValue(Promise.reject(expected));
     const x = new SingletonPromise<object>(spy);

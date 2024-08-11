@@ -4,17 +4,16 @@ import AwaitedMap, {
 
 describe("AwaitedMap", () => {
   it(".allSettled() converts promises to promise-settled results", async () => {
-    const rejectTwoError = new Error("reject two");
     const map = new AwaitedMap<string, number>([
       ["one", Promise.resolve(1)],
-      ["two", Promise.reject(rejectTwoError)],
+      ["two", Promise.reject("reject two")],
     ]);
 
     const results = await map.allSettled();
     const entries = Array.from(results.entries());
     expect(entries).toEqual([
       ["one", { status: "fulfilled", value: 1}],
-      ["two", { status: "rejected", reason: rejectTwoError}],
+      ["two", { status: "rejected", reason: "reject two"}],
     ]);
   });
 
@@ -34,12 +33,10 @@ describe("AwaitedMap", () => {
   });
 
   it(".allResolved() rejects with an AwaitedMapError for all errors that failed", async () => {
-    const rejectOneError = new Error("reject one");
-    const rejectThreeError = new Error("reject three");
     const map = new AwaitedMap<string, number>([
-      ["one", Promise.reject(rejectOneError)],
+      ["one", Promise.reject("reject one")],
       ["two", Promise.resolve(2)],
-      ["three", Promise.reject(rejectThreeError)],
+      ["three", Promise.reject("reject three")],
     ]);
 
     await expectAsync(map.allResolved()).toBeRejectedWithError(AwaitedMapError);
@@ -51,8 +48,8 @@ describe("AwaitedMap", () => {
         (ex as AwaitedMapError<string>).errorMap.entries()
       );
       expect(entries).toEqual([
-        ["one", rejectOneError],
-        ["three", rejectThreeError],
+        ["one", "reject one"],
+        ["three", "reject three"],
       ]);
     }
   });
