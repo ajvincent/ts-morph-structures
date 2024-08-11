@@ -13,6 +13,7 @@ describe("BuildPromise.mts: ", () => {
     if (willResolve)
       spy.and.returnValue(Promise.resolve(value));
     else
+      //eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
       spy.and.returnValue(Promise.reject(value));
     return spy;
   }
