@@ -19,7 +19,7 @@ export default class ConstructSignatureDeclarationImpl implements ConstructSigna
 |  [kind](./ts-morph-structures.constructsignaturedeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.ConstructSignature |  |
 |  [leadingTrivia](./ts-morph-structures.constructsignaturedeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [parameters](./ts-morph-structures.constructsignaturedeclarationimpl.parameters.md) | <code>readonly</code> | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] |  |
-|  [returnType?](./ts-morph-structures.constructsignaturedeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
+|  [returnType?](./ts-morph-structures.constructsignaturedeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
 |  [returnTypeStructure](./ts-morph-structures.constructsignaturedeclarationimpl.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 |  [trailingTrivia](./ts-morph-structures.constructsignaturedeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [typeParameters](./ts-morph-structures.constructsignaturedeclarationimpl.typeparameters.md) | <code>readonly</code> | ([TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) \| string)\[\] |  |

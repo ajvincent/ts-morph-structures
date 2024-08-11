@@ -11,14 +11,17 @@ export default async function runESLint(
 {
   const eslintRunner = new ESLint({
     cwd,
-    overrideConfigFile: path.join(cwd, ".eslintrc.json"),
+    overrideConfigFile: path.join(cwd, "eslint.config.mjs"),
   });
 
   const results = await eslintRunner.lintFiles(files);
 
   // 4. Format the results.
-  const formatter = await eslintRunner.loadFormatter("stylish");
-  const resultText = await formatter.format(results);
+  const formatter = await eslintRunner.loadFormatter();
+  const resultText = await formatter.format(results, {
+    cwd,
+    rulesMeta: {}
+  });
 
   // 5. Output it.
   console.log(resultText);

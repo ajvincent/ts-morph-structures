@@ -31,6 +31,7 @@ var TypeStructureKind;
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 /**
  * This proxy handler is simply making any methods which modify an array in
  * place unreachable, and likewise prevents setting index values.
@@ -144,7 +145,6 @@ const COPY_FIELDS = Symbol("copy fields");
 const REPLACE_WRITER_WITH_STRING = Symbol("replaceWriterWithString");
 const STRUCTURE_AND_TYPES_CHILDREN = Symbol("otherwise unreachable structure and type-structure children");
 
-/* eslint-disable @typescript-eslint/no-empty-function */
 class StructureBase {
     /** @internal */
     static [COPY_FIELDS](source, target) {
@@ -945,7 +945,6 @@ class TypeStructuresWithChildren extends TypeStructuresBase {
         if (childTypes.length > this.maxChildCount)
             childTypes = childTypes.slice(0, this.maxChildCount);
         const lastIndex = childTypes.length - 1;
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let index = 0; index <= lastIndex; index++) {
             const child = childTypes[index];
             child.writerFunction(writer);
@@ -1884,7 +1883,7 @@ function convertFunctionTypeNode(typeNode, consoleTrap, subStructureResolver) {
         // https://github.com/dsherret/ts-morph/issues/1434
         typeParameterNodes = typeNode.getTypeParameters();
     }
-    catch (ex) {
+    catch {
         typeParameterNodes = typeNode.getChildrenOfKind(SyntaxKind.TypeParameter);
     }
     const typeParameterStructures = [];

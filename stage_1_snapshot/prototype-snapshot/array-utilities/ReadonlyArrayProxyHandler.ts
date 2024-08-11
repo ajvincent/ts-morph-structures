@@ -77,6 +77,7 @@ implements Required<ProxyHandler<ElementType[]>>
   {
     throw new Error("Method not implemented.");
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   construct(target: ElementType[], argArray: any[], newTarget: Function): object {
     throw new Error("Method not implemented.");
   }

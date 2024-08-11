@@ -1044,6 +1044,8 @@ describe("MemberedTypeToClass", () => {
         name: string
       ): Scope | undefined
       {
+        void(isStatic);
+        void(kind);
         if (name === "one")
           return Scope.Public;
         if (name === "two")
@@ -1084,6 +1086,7 @@ describe("MemberedTypeToClass", () => {
 
     typeToClass.isAsyncCallback = {
       isAsync: function(isStatic: boolean, name): boolean {
+        void(isStatic);
         return name === "one";
       }
     };
@@ -1116,6 +1119,7 @@ describe("MemberedTypeToClass", () => {
 
     typeToClass.isGeneratorCallback = {
       isGenerator: function(isStatic: boolean, name): boolean {
+        void(isStatic);
         return name === "one";
       }
     };

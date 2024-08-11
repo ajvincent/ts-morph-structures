@@ -15,7 +15,7 @@ import type {
   RightExtendsLeft
 } from "#utilities/source/_types/Utility.js";
 
-import StructureBase from "../base/StructureBase.js";
+import type StructureBase from "../base/StructureBase.js";
 
 import DecoratorImpl from "../structures/DecoratorImpl.js";
 import {

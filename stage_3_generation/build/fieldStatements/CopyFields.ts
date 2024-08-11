@@ -52,8 +52,6 @@ const stringOrWriterFunctionType = LiteralTypeStructureImpl.get("stringOrWriterF
 export default class CopyFieldsStatements extends StatementGetterBase
 implements ClassHeadStatementsGetter, ClassBodyStatementsGetter
 {
-  static #managerRE = /^#.*Manager$/;
-
   static #getStructureKind(
     structureName: string
   ): string

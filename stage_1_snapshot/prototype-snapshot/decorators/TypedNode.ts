@@ -17,7 +17,7 @@ import type {
 
 import TypeAccessors from "../base/TypeAccessors.js";
 
-import StructureBase from "../base/StructureBase.js";
+import type StructureBase from "../base/StructureBase.js";
 
 import {
   replaceWriterWithString,

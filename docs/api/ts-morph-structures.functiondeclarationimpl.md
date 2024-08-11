@@ -23,10 +23,10 @@ export default class FunctionDeclarationImpl implements FunctionDeclarationStruc
 |  [isGenerator](./ts-morph-structures.functiondeclarationimpl.isgenerator.md) |  | boolean |  |
 |  [kind](./ts-morph-structures.functiondeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.Function |  |
 |  [leadingTrivia](./ts-morph-structures.functiondeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [name?](./ts-morph-structures.functiondeclarationimpl.name.md) |  | string | _(Optional)_ |
+|  [name?](./ts-morph-structures.functiondeclarationimpl.name.md) |  | string \| undefined | _(Optional)_ |
 |  [overloads](./ts-morph-structures.functiondeclarationimpl.overloads.md) | <code>readonly</code> | [FunctionDeclarationOverloadImpl](./ts-morph-structures.functiondeclarationoverloadimpl.md)<!-- -->\[\] |  |
 |  [parameters](./ts-morph-structures.functiondeclarationimpl.parameters.md) | <code>readonly</code> | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] |  |
-|  [returnType?](./ts-morph-structures.functiondeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
+|  [returnType?](./ts-morph-structures.functiondeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
 |  [returnTypeStructure](./ts-morph-structures.functiondeclarationimpl.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 |  [statements](./ts-morph-structures.functiondeclarationimpl.statements.md) | <code>readonly</code> | ([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
 |  [trailingTrivia](./ts-morph-structures.functiondeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |

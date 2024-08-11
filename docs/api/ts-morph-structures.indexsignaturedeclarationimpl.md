@@ -22,7 +22,7 @@ export default class IndexSignatureDeclarationImpl implements IndexSignatureDecl
 |  [keyTypeStructure](./ts-morph-structures.indexsignaturedeclarationimpl.keytypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 |  [kind](./ts-morph-structures.indexsignaturedeclarationimpl.kind.md) | <code>readonly</code> | StructureKind.IndexSignature |  |
 |  [leadingTrivia](./ts-morph-structures.indexsignaturedeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
-|  [returnType?](./ts-morph-structures.indexsignaturedeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
+|  [returnType?](./ts-morph-structures.indexsignaturedeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
 |  [returnTypeStructure](./ts-morph-structures.indexsignaturedeclarationimpl.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
 |  [trailingTrivia](./ts-morph-structures.indexsignaturedeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 

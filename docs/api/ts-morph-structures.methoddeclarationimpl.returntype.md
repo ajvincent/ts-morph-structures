@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-returnType?: stringOrWriterFunction;
+returnType?: stringOrWriterFunction | undefined;
 ```

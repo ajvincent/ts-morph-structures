@@ -29,9 +29,9 @@ export default class GetAccessorDeclarationImpl implements GetAccessorDeclaratio
 |  [leadingTrivia](./ts-morph-structures.getaccessordeclarationimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [name](./ts-morph-structures.getaccessordeclarationimpl.name.md) |  | string |  |
 |  [parameters](./ts-morph-structures.getaccessordeclarationimpl.parameters.md) | <code>readonly</code> | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] |  |
-|  [returnType?](./ts-morph-structures.getaccessordeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
+|  [returnType?](./ts-morph-structures.getaccessordeclarationimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
 |  [returnTypeStructure](./ts-morph-structures.getaccessordeclarationimpl.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
-|  [scope?](./ts-morph-structures.getaccessordeclarationimpl.scope.md) |  | import("ts-morph").Scope&lt;&gt; | _(Optional)_ |
+|  [scope?](./ts-morph-structures.getaccessordeclarationimpl.scope.md) |  | import("ts-morph").Scope&lt;&gt; \| undefined | _(Optional)_ |
 |  [statements](./ts-morph-structures.getaccessordeclarationimpl.statements.md) | <code>readonly</code> | ([StatementStructureImpls](./ts-morph-structures.statementstructureimpls.md) \| [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->)\[\] |  |
 |  [trailingTrivia](./ts-morph-structures.getaccessordeclarationimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [typeParameters](./ts-morph-structures.getaccessordeclarationimpl.typeparameters.md) | <code>readonly</code> | ([TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) \| string)\[\] |  |

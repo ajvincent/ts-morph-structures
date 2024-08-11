@@ -31,9 +31,9 @@ export default class MethodDeclarationOverloadImpl implements MethodDeclarationO
 |  [kind](./ts-morph-structures.methoddeclarationoverloadimpl.kind.md) | <code>readonly</code> | StructureKind.MethodOverload |  |
 |  [leadingTrivia](./ts-morph-structures.methoddeclarationoverloadimpl.leadingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [parameters](./ts-morph-structures.methoddeclarationoverloadimpl.parameters.md) | <code>readonly</code> | [ParameterDeclarationImpl](./ts-morph-structures.parameterdeclarationimpl.md)<!-- -->\[\] |  |
-|  [returnType?](./ts-morph-structures.methoddeclarationoverloadimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) | _(Optional)_ |
+|  [returnType?](./ts-morph-structures.methoddeclarationoverloadimpl.returntype.md) |  | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md) \| undefined | _(Optional)_ |
 |  [returnTypeStructure](./ts-morph-structures.methoddeclarationoverloadimpl.returntypestructure.md) |  | [TypeStructures](./ts-morph-structures.typestructures.md) \| undefined |  |
-|  [scope?](./ts-morph-structures.methoddeclarationoverloadimpl.scope.md) |  | import("ts-morph").Scope&lt;&gt; | _(Optional)_ |
+|  [scope?](./ts-morph-structures.methoddeclarationoverloadimpl.scope.md) |  | import("ts-morph").Scope&lt;&gt; \| undefined | _(Optional)_ |
 |  [trailingTrivia](./ts-morph-structures.methoddeclarationoverloadimpl.trailingtrivia.md) | <code>readonly</code> | [stringOrWriterFunction](./ts-morph-structures.stringorwriterfunction.md)<!-- -->\[\] |  |
 |  [typeParameters](./ts-morph-structures.methoddeclarationoverloadimpl.typeparameters.md) | <code>readonly</code> | ([TypeParameterDeclarationImpl](./ts-morph-structures.typeparameterdeclarationimpl.md) \| string)\[\] |  |
 

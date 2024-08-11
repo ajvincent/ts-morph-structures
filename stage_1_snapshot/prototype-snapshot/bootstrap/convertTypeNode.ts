@@ -392,7 +392,7 @@ function convertFunctionTypeNode(
     // https://github.com/dsherret/ts-morph/issues/1434
     typeParameterNodes = (typeNode as Pick<FunctionTypeNode, "getTypeParameters">).getTypeParameters();
   }
-  catch (ex) {
+  catch {
     typeParameterNodes = typeNode.getChildrenOfKind(SyntaxKind.TypeParameter);
   }
 
