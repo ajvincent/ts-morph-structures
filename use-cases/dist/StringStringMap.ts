@@ -73,7 +73,7 @@ export default class StringStringMap<V> {
     }
 
     /** Returns an iterable of entries in the map. */
-    *[Symbol.iterator](): IterableIterator<[string, string, V]> {
+    *[Symbol.iterator](): MapIterator<[string, string, V]> {
         for (const x of this.#hashMap[Symbol.iterator]()) {
                   const [ firstKey, secondKey ] = StringStringMap.#parseKeys(x[0]);
                   yield [firstKey, secondKey, x[1]];
@@ -83,14 +83,14 @@ export default class StringStringMap<V> {
     /**
      * Returns an iterable of key, value pairs for every entry in the map.
      */
-    entries(): IterableIterator<[string, string, V]> {
+    entries(): MapIterator<[string, string, V]> {
         return this[Symbol.iterator]();
     }
 
     /**
      * Returns an iterable of keys in the map
      */
-    *keys(): IterableIterator<[string, string]> {
+    *keys(): MapIterator<[string, string]> {
         for (const x of this.#hashMap.keys()) {
                   const [ firstKey, secondKey ] = StringStringMap.#parseKeys(x[0]);
                   yield [firstKey, secondKey];
@@ -100,7 +100,7 @@ export default class StringStringMap<V> {
     /**
      * Returns an iterable of values in the map
      */
-    values(): IterableIterator<V> {
+    values(): MapIterator<V> {
         return this.#hashMap.values()
     }
 }

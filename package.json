@@ -81,7 +81,7 @@
     "ts-node": "^10.9.2",
     "tslib": "^2.6.3",
     "type-fest": "^4.20.1",
-    "typescript": "^5.5.4",
+    "typescript": "^5.6.3",
     "typescript-eslint": "^8.0.1",
     "which": "^4.0.0"
   },
@@ -89,7 +89,7 @@
     "mixin-decorators": "^1.0.1"
   },
   "peerDependencies": {
-    "ts-morph": "^23.0.0"
+    "ts-morph": "^24.0.0"
   },
   "imports": {
     "#stage_one/*": "./stage_1_snapshot/*",

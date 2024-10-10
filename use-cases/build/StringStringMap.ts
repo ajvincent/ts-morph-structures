@@ -140,7 +140,7 @@ function modifyMethodSignature(method: MethodSignatureImpl): void {
   if (method.name === "keys") {
     const { returnTypeStructure } = method;
     assert.equal(returnTypeStructure?.kind, TypeStructureKind.TypeArgumented, "Expected a type-argumented type.");
-    assert.equal(returnTypeStructure.objectType, LiteralTypeStructureImpl.get("IterableIterator"), "Expected an IterableIterator");
+    assert.equal(returnTypeStructure.objectType, LiteralTypeStructureImpl.get("MapIterator"), "Expected a MapIterator for " + method.name);
     assert.equal(returnTypeStructure.childTypes.length, 1);
     assert.equal(returnTypeStructure.childTypes[0], LiteralTypeStructureImpl.get("K"));
 
@@ -154,7 +154,7 @@ function modifyMethodSignature(method: MethodSignatureImpl): void {
   if ((method.name === "entries") || (method.name === "[Symbol.iterator]")) {
     const { returnTypeStructure } = method;
     assert.equal(returnTypeStructure?.kind, TypeStructureKind.TypeArgumented, "Expected a type-argumented type.");
-    assert.equal(returnTypeStructure.objectType, LiteralTypeStructureImpl.get("IterableIterator"), "Expected an IterableIterator");
+    assert.equal(returnTypeStructure.objectType, LiteralTypeStructureImpl.get("MapIterator"), "Expected a MapIterator for " + method.name);
     assert.equal(returnTypeStructure.childTypes.length, 1);
 
     assert.equal(returnTypeStructure.childTypes[0].kind, TypeStructureKind.Tuple);

@@ -259,7 +259,7 @@ class TypeAccessors {
             return type;
         if (typeStructure.kind === TypeStructureKind.Literal)
             return typeStructure.stringValue;
-        const value = TypeStructureClassesMap$1.clone(typeStructure);
+        const value = TypeStructureClassesMap.clone(typeStructure);
         return value.writerFunction;
     }
 }
@@ -273,7 +273,6 @@ class TypeStructureClassesMapClass extends Map {
     }
 }
 const TypeStructureClassesMap = new TypeStructureClassesMapClass();
-var TypeStructureClassesMap$1 = TypeStructureClassesMap;
 
 /**
  * This supports setting "implements" and "extends" types for arrays behind read-only array
@@ -350,7 +349,7 @@ class TypeStructureSetInternal extends Set {
             if (typeof value === "string")
                 this.add(value);
             else
-                this.add(TypeStructureClassesMap$1.clone(value));
+                this.add(TypeStructureClassesMap.clone(value));
         });
     }
 }
@@ -700,7 +699,7 @@ function ReturnTypedNodeStructureMixin(baseClass, context) {
             const { returnTypeStructure } = source;
             if (returnTypeStructure) {
                 target.returnTypeStructure =
-                    TypeStructureClassesMap$1.clone(returnTypeStructure);
+                    TypeStructureClassesMap.clone(returnTypeStructure);
             }
             else if (source.returnType) {
                 target.returnType = source.returnType;
@@ -841,7 +840,7 @@ function TypedNodeStructureMixin(baseClass, context) {
             super[COPY_FIELDS](source, target);
             const { typeStructure } = source;
             if (typeStructure) {
-                target.typeStructure = TypeStructureClassesMap$1.clone(typeStructure);
+                target.typeStructure = TypeStructureClassesMap.clone(typeStructure);
             }
             else if (source.type) {
                 target.type = source.type;
@@ -2264,7 +2263,7 @@ class ClassDeclarationImpl extends ClassDeclarationStructureBase {
         }
         const { extendsStructure } = source;
         if (extendsStructure) {
-            target.extendsStructure = TypeStructureClassesMap$1.clone(extendsStructure);
+            target.extendsStructure = TypeStructureClassesMap.clone(extendsStructure);
         }
         else if (source.extends) {
             target.extends = source.extends;
@@ -2382,7 +2381,7 @@ class ConstructorDeclarationImpl extends ConstructorDeclarationStructureBase {
         declaration.leadingTrivia.push(...signature.leadingTrivia);
         declaration.parameters.push(...StructureClassesMap.cloneArray(signature.parameters));
         if (signature.returnTypeStructure) {
-            declaration.returnTypeStructure = TypeStructureClassesMap$1.clone(signature.returnTypeStructure);
+            declaration.returnTypeStructure = TypeStructureClassesMap.clone(signature.returnTypeStructure);
         }
         declaration.trailingTrivia.push(...signature.trailingTrivia);
         declaration.typeParameters.push(...StructureClassesMap.cloneArray(signature.typeParameters));
@@ -2980,7 +2979,7 @@ class IndexSignatureDeclarationImpl extends IndexSignatureDeclarationStructureBa
         }
         const { keyTypeStructure } = source;
         if (keyTypeStructure) {
-            target.keyTypeStructure = TypeStructureClassesMap$1.clone(keyTypeStructure);
+            target.keyTypeStructure = TypeStructureClassesMap.clone(keyTypeStructure);
         }
         else if (source.keyType) {
             target.keyType = source.keyType;
@@ -3382,7 +3381,7 @@ class MethodDeclarationImpl extends MethodDeclarationStructureBase {
         declaration.leadingTrivia.push(...signature.leadingTrivia);
         declaration.parameters.push(...StructureClassesMap.cloneArray(signature.parameters));
         if (signature.returnTypeStructure) {
-            declaration.returnTypeStructure = TypeStructureClassesMap$1.clone(signature.returnTypeStructure);
+            declaration.returnTypeStructure = TypeStructureClassesMap.clone(signature.returnTypeStructure);
         }
         declaration.trailingTrivia.push(...signature.trailingTrivia);
         declaration.typeParameters.push(...StructureClassesMap.cloneArray(signature.typeParameters));
@@ -3619,7 +3618,7 @@ class PropertyDeclarationImpl extends PropertyDeclarationStructureBase {
         declaration.leadingTrivia.push(...signature.leadingTrivia);
         declaration.trailingTrivia.push(...signature.trailingTrivia);
         if (signature.typeStructure) {
-            declaration.typeStructure = TypeStructureClassesMap$1.clone(signature.typeStructure);
+            declaration.typeStructure = TypeStructureClassesMap.clone(signature.typeStructure);
         }
         return declaration;
     }
@@ -3860,14 +3859,14 @@ class TypeParameterDeclarationImpl extends TypeParameterDeclarationStructureBase
         const { constraintStructure } = source;
         if (constraintStructure) {
             target.constraintStructure =
-                TypeStructureClassesMap$1.clone(constraintStructure);
+                TypeStructureClassesMap.clone(constraintStructure);
         }
         else if (source.constraint) {
             target.constraint = source.constraint;
         }
         const { defaultStructure } = source;
         if (defaultStructure) {
-            target.defaultStructure = TypeStructureClassesMap$1.clone(defaultStructure);
+            target.defaultStructure = TypeStructureClassesMap.clone(defaultStructure);
         }
         else if (source.default) {
             target.default = source.default;
@@ -3991,7 +3990,7 @@ StructureClassesMap.set(StructureKind.VariableStatement, VariableStatementImpl);
  */
 class ArrayTypeStructureImpl extends TypeStructuresBase {
     static clone(other) {
-        return new ArrayTypeStructureImpl(TypeStructureClassesMap$1.clone(other.objectType));
+        return new ArrayTypeStructureImpl(TypeStructureClassesMap.clone(other.objectType));
     }
     kind = TypeStructureKind.Array;
     objectType;
@@ -4012,16 +4011,16 @@ class ArrayTypeStructureImpl extends TypeStructuresBase {
             yield this.objectType;
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Array, ArrayTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Array, ArrayTypeStructureImpl);
 
 /** `checkType` extends `extendsType` ? `trueType` : `falseType` */
 class ConditionalTypeStructureImpl extends TypeStructuresBase {
     static clone(other) {
         const parts = {
-            checkType: TypeStructureClassesMap$1.clone(other.checkType),
-            extendsType: TypeStructureClassesMap$1.clone(other.extendsType),
-            trueType: TypeStructureClassesMap$1.clone(other.trueType),
-            falseType: TypeStructureClassesMap$1.clone(other.falseType),
+            checkType: TypeStructureClassesMap.clone(other.checkType),
+            extendsType: TypeStructureClassesMap.clone(other.extendsType),
+            trueType: TypeStructureClassesMap.clone(other.trueType),
+            falseType: TypeStructureClassesMap.clone(other.falseType),
         };
         return new ConditionalTypeStructureImpl(parts);
     }
@@ -4065,7 +4064,7 @@ class ConditionalTypeStructureImpl extends TypeStructuresBase {
             yield this.falseType;
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Conditional, ConditionalTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Conditional, ConditionalTypeStructureImpl);
 
 var _a$3;
 // #endregion preamble
@@ -4088,7 +4087,7 @@ class FunctionTypeStructureImpl extends TypeStructuresWithTypeParameters {
                 ? ParameterTypeStructureImpl.clone(other.restParameter)
                 : undefined,
             returnType: other.returnType
-                ? TypeStructureClassesMap$1.clone(other.returnType)
+                ? TypeStructureClassesMap.clone(other.returnType)
                 : undefined,
             writerStyle: other.writerStyle,
         });
@@ -4182,7 +4181,7 @@ class FunctionTypeStructureImpl extends TypeStructuresWithTypeParameters {
     }
 }
 _a$3 = FunctionTypeStructureImpl;
-TypeStructureClassesMap$1.set(TypeStructureKind.Function, FunctionTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Function, FunctionTypeStructureImpl);
 
 // #endregion preamble
 /**
@@ -4219,7 +4218,7 @@ class LiteralTypeStructureImpl extends TypeStructuresBase {
     }
     writerFunction = this.#writerFunction.bind(this);
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Literal, LiteralTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Literal, LiteralTypeStructureImpl);
 
 /** @example `import("ts-morph").StatementStructures` */
 class ImportTypeStructureImpl extends TypeStructuresBase {
@@ -4279,10 +4278,10 @@ class ImportTypeStructureImpl extends TypeStructuresBase {
         else if (qualifier?.kind === TypeStructureKind.QualifiedName) {
             qualifier = QualifiedNameTypeStructureImpl.clone(qualifier);
         }
-        return new ImportTypeStructureImpl(other.argument, qualifier, TypeStructureClassesMap$1.cloneArray(other.childTypes));
+        return new ImportTypeStructureImpl(other.argument, qualifier, TypeStructureClassesMap.cloneArray(other.childTypes));
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Import, ImportTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Import, ImportTypeStructureImpl);
 
 /**
  * @example
@@ -4310,7 +4309,7 @@ class IndexedAccessTypeStructureImpl extends TypeStructuresWithChildren {
         this.registerCallbackForTypeStructure();
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.IndexedAccess, IndexedAccessTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.IndexedAccess, IndexedAccessTypeStructureImpl);
 
 // #endregion preamble
 /** @example infer \<type\> (extends \<type\>)? */
@@ -4336,12 +4335,12 @@ class InferTypeStructureImpl extends TypeStructuresWithTypeParameters {
         yield this.typeParameter;
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Infer, InferTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Infer, InferTypeStructureImpl);
 
 /** @example `Foo & Bar & ...` */
 class IntersectionTypeStructureImpl extends TypeStructuresWithChildren {
     static clone(other) {
-        return new IntersectionTypeStructureImpl(TypeStructureClassesMap$1.cloneArray(other.childTypes));
+        return new IntersectionTypeStructureImpl(TypeStructureClassesMap.cloneArray(other.childTypes));
     }
     kind = TypeStructureKind.Intersection;
     objectType = null;
@@ -4356,7 +4355,7 @@ class IntersectionTypeStructureImpl extends TypeStructuresWithChildren {
         this.registerCallbackForTypeStructure();
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Intersection, IntersectionTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Intersection, IntersectionTypeStructureImpl);
 
 // #endregion preamble
 /**
@@ -4403,10 +4402,10 @@ class MappedTypeStructureImpl extends TypeStructuresWithTypeParameters {
     static clone(other) {
         const clone = new MappedTypeStructureImpl(TypeParameterDeclarationImpl.clone(other.parameter));
         if (other.asName) {
-            clone.asName = TypeStructureClassesMap$1.clone(other.asName);
+            clone.asName = TypeStructureClassesMap.clone(other.asName);
         }
         if (other.type) {
-            clone.type = TypeStructureClassesMap$1.clone(other.type);
+            clone.type = TypeStructureClassesMap.clone(other.type);
         }
         clone.readonlyToken = other.readonlyToken;
         clone.questionToken = other.questionToken;
@@ -4422,7 +4421,7 @@ class MappedTypeStructureImpl extends TypeStructuresWithTypeParameters {
             yield this.type;
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Mapped, MappedTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Mapped, MappedTypeStructureImpl);
 
 /**
  * Properties, methods, getters, setters, and index signatures.  Very much like interfaces.  Usually in type aliases.
@@ -4481,7 +4480,7 @@ class MemberedObjectTypeStructureImpl extends TypeStructuresBase {
         yield* this.setAccessors.values();
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.MemberedObject, MemberedObjectTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.MemberedObject, MemberedObjectTypeStructureImpl);
 
 // #endregion preamble
 /**
@@ -4518,7 +4517,7 @@ class NumberTypeStructureImpl extends TypeStructuresBase {
     }
     writerFunction = this.#writerFunction.bind(this);
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Number, NumberTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Number, NumberTypeStructureImpl);
 
 // #endregion preamble
 /** Just a parameter name and type for a `FunctionTypeStructureImpl`. */
@@ -4526,7 +4525,7 @@ class ParameterTypeStructureImpl extends TypeStructuresBase {
     static clone(other) {
         let typeClone;
         if (other.typeStructure)
-            typeClone = TypeStructureClassesMap$1.clone(other.typeStructure);
+            typeClone = TypeStructureClassesMap.clone(other.typeStructure);
         return new ParameterTypeStructureImpl(other.name, typeClone);
     }
     kind = TypeStructureKind.Parameter;
@@ -4553,7 +4552,7 @@ class ParameterTypeStructureImpl extends TypeStructuresBase {
             yield this.typeStructure;
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Parameter, ParameterTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Parameter, ParameterTypeStructureImpl);
 
 /** Wrap the child type in parentheses. */
 class ParenthesesTypeStructureImpl extends TypeStructuresWithChildren {
@@ -4573,12 +4572,12 @@ class ParenthesesTypeStructureImpl extends TypeStructuresWithChildren {
         this.registerCallbackForTypeStructure();
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Parentheses, ParenthesesTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Parentheses, ParenthesesTypeStructureImpl);
 
 /** `("..." | "keyof" | "typeof" | "readonly" | "unique")[]` (object type) */
 class PrefixOperatorsTypeStructureImpl extends TypeStructuresBase {
     static clone(other) {
-        return new PrefixOperatorsTypeStructureImpl(other.operators, TypeStructureClassesMap$1.clone(other.objectType));
+        return new PrefixOperatorsTypeStructureImpl(other.operators, TypeStructureClassesMap.clone(other.objectType));
     }
     kind = TypeStructureKind.PrefixOperators;
     operators;
@@ -4603,7 +4602,7 @@ class PrefixOperatorsTypeStructureImpl extends TypeStructuresBase {
             yield this.objectType;
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.PrefixOperators, PrefixOperatorsTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.PrefixOperators, PrefixOperatorsTypeStructureImpl);
 
 /** @example `Foo.bar.baz...` */
 class QualifiedNameTypeStructureImpl extends TypeStructuresBase {
@@ -4622,7 +4621,7 @@ class QualifiedNameTypeStructureImpl extends TypeStructuresBase {
     }
     writerFunction = this.#writerFunction.bind(this);
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.QualifiedName, QualifiedNameTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.QualifiedName, QualifiedNameTypeStructureImpl);
 
 // #endregion preamble
 /** Strings, encased in double quotes.  Leaf nodes. */
@@ -4656,13 +4655,13 @@ class StringTypeStructureImpl extends TypeStructuresBase {
     }
     writerFunction = this.#writerFunction.bind(this);
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.String, StringTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.String, StringTypeStructureImpl);
 
 /** `one${"A" | "B"}two${"C" | "D"}three` */
 class TemplateLiteralTypeStructureImpl extends TypeStructuresBase {
     static clone(other) {
         const spans = other.spans.map((span) => [
-            TypeStructureClassesMap$1.clone(span[0]),
+            TypeStructureClassesMap.clone(span[0]),
             span[1],
         ]);
         return new TemplateLiteralTypeStructureImpl(other.head, spans);
@@ -4696,7 +4695,7 @@ class TemplateLiteralTypeStructureImpl extends TypeStructuresBase {
         }
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.TemplateLiteral, TemplateLiteralTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.TemplateLiteral, TemplateLiteralTypeStructureImpl);
 
 /**
  * @example
@@ -4707,7 +4706,7 @@ TypeStructureClassesMap$1.set(TypeStructureKind.TemplateLiteral, TemplateLiteral
  */
 class TupleTypeStructureImpl extends TypeStructuresWithChildren {
     static clone(other) {
-        return new TupleTypeStructureImpl(TypeStructureClassesMap$1.cloneArray(other.childTypes));
+        return new TupleTypeStructureImpl(TypeStructureClassesMap.cloneArray(other.childTypes));
     }
     kind = TypeStructureKind.Tuple;
     objectType = null;
@@ -4722,7 +4721,7 @@ class TupleTypeStructureImpl extends TypeStructuresWithChildren {
         this.registerCallbackForTypeStructure();
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Tuple, TupleTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Tuple, TupleTypeStructureImpl);
 
 /**
  * This resolves type parameters, as opposed to defining them.
@@ -4734,7 +4733,7 @@ TypeStructureClassesMap$1.set(TypeStructureKind.Tuple, TupleTypeStructureImpl);
  */
 class TypeArgumentedTypeStructureImpl extends TypeStructuresWithChildren {
     static clone(other) {
-        return new TypeArgumentedTypeStructureImpl(TypeStructureClassesMap$1.clone(other.objectType), TypeStructureClassesMap$1.cloneArray(other.childTypes));
+        return new TypeArgumentedTypeStructureImpl(TypeStructureClassesMap.clone(other.objectType), TypeStructureClassesMap.cloneArray(other.childTypes));
     }
     kind = TypeStructureKind.TypeArgumented;
     objectType;
@@ -4750,7 +4749,7 @@ class TypeArgumentedTypeStructureImpl extends TypeStructuresWithChildren {
         this.registerCallbackForTypeStructure();
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.TypeArgumented, TypeArgumentedTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.TypeArgumented, TypeArgumentedTypeStructureImpl);
 
 /** @example assert condition is true */
 class TypePredicateTypeStructureImpl extends TypeStructuresBase {
@@ -4778,7 +4777,7 @@ class TypePredicateTypeStructureImpl extends TypeStructuresBase {
     static clone(other) {
         let isType;
         if (other.isType) {
-            isType = TypeStructureClassesMap$1.clone(other.isType);
+            isType = TypeStructureClassesMap.clone(other.isType);
         }
         return new TypePredicateTypeStructureImpl(other.hasAssertsKeyword, other.parameterName, isType);
     }
@@ -4789,12 +4788,12 @@ class TypePredicateTypeStructureImpl extends TypeStructuresBase {
             yield this.isType;
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.TypePredicate, TypePredicateTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.TypePredicate, TypePredicateTypeStructureImpl);
 
 /** @example `Foo | Bar | ...` */
 class UnionTypeStructureImpl extends TypeStructuresWithChildren {
     static clone(other) {
-        return new UnionTypeStructureImpl(TypeStructureClassesMap$1.cloneArray(other.childTypes));
+        return new UnionTypeStructureImpl(TypeStructureClassesMap.cloneArray(other.childTypes));
     }
     kind = TypeStructureKind.Union;
     objectType = null;
@@ -4809,7 +4808,7 @@ class UnionTypeStructureImpl extends TypeStructuresWithChildren {
         this.registerCallbackForTypeStructure();
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Union, UnionTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Union, UnionTypeStructureImpl);
 
 // #endregion preamble
 /** Wrappers for writer functions from external sources.  Leaf nodes. */
@@ -4829,7 +4828,7 @@ class WriterTypeStructureImpl extends TypeStructuresBase {
         this.registerCallbackForTypeStructure();
     }
 }
-TypeStructureClassesMap$1.set(TypeStructureKind.Writer, WriterTypeStructureImpl);
+TypeStructureClassesMap.set(TypeStructureKind.Writer, WriterTypeStructureImpl);
 
 /**
  * This is a map for specifying statements across several class members for a single class field.
@@ -5202,12 +5201,12 @@ class ClassMembersMap extends OrderedMap {
         prop.scope = getter?.scope ?? setter?.scope;
         prop.trailingTrivia.push(...(getter?.leadingTrivia ?? setter.leadingTrivia));
         if (getter?.returnTypeStructure) {
-            prop.typeStructure = TypeStructureClassesMap$1.clone(getter.returnTypeStructure);
+            prop.typeStructure = TypeStructureClassesMap.clone(getter.returnTypeStructure);
         }
         else if (setter) {
             const setterParam = setter.parameters[0];
             if (setterParam.typeStructure) {
-                prop.typeStructure = TypeStructureClassesMap$1.clone(setterParam.typeStructure);
+                prop.typeStructure = TypeStructureClassesMap.clone(setterParam.typeStructure);
             }
         }
         this.addMembers([prop]);
@@ -5251,7 +5250,7 @@ class ClassMembersMap extends OrderedMap {
         if (toSetter) {
             const param = new ParameterDeclarationImpl("value");
             if (prop.typeStructure)
-                param.typeStructure = TypeStructureClassesMap$1.clone(prop.typeStructure);
+                param.typeStructure = TypeStructureClassesMap.clone(prop.typeStructure);
             const setter = new SetAccessorDeclarationImpl(prop.isStatic, prop.name, param);
             if (prop.docs) {
                 setter.docs.push(...StructureClassesMap.cloneArray(prop.docs));
@@ -5782,8 +5781,8 @@ class MemberedTypeToClass {
         }
         return false;
     }
-    #aggregateStaticTypesMap = new TypeMembersMap$1();
-    #aggregateTypeMembersMap = new TypeMembersMap$1();
+    #aggregateStaticTypesMap = new TypeMembersMap();
+    #aggregateTypeMembersMap = new TypeMembersMap();
     #classMemberToTypeMemberMap = new WeakMap();
     #memberKeyToClassMember = new Map();
     #classMembersMap;
@@ -5862,10 +5861,10 @@ class MemberedTypeToClass {
      */
     addTypeMember(isStatic, member) {
         this.#requireNotStarted();
-        const typeMembersMap = new TypeMembersMap$1([
-            [TypeMembersMap$1.keyFromMember(member), member],
+        const typeMembersMap = new TypeMembersMap([
+            [TypeMembersMap.keyFromMember(member), member],
         ]);
-        const temporaryTypeMembers = new TypeMembersMap$1();
+        const temporaryTypeMembers = new TypeMembersMap();
         this.#importFromTypeMembers(isStatic, typeMembersMap, temporaryTypeMembers);
         this.#adoptTypeMembers(isStatic, temporaryTypeMembers);
     }
@@ -5876,7 +5875,7 @@ class MemberedTypeToClass {
      */
     importFromTypeMembersMap(isStatic, membersMap) {
         this.#requireNotStarted();
-        const temporaryTypeMembers = new TypeMembersMap$1();
+        const temporaryTypeMembers = new TypeMembersMap();
         this.#importFromTypeMembers(isStatic, membersMap, temporaryTypeMembers);
         this.#adoptTypeMembers(isStatic, temporaryTypeMembers);
     }
@@ -5886,7 +5885,7 @@ class MemberedTypeToClass {
      * @param membered - the interface or membered object type.
      */
     importFromMemberedType(isStatic, membered) {
-        return this.importFromTypeMembersMap(isStatic, TypeMembersMap$1.fromMemberedObject(membered));
+        return this.importFromTypeMembersMap(isStatic, TypeMembersMap.fromMemberedObject(membered));
     }
     #importFromTypeMembers(isStatic, membersMap, temporaryTypeMembers) {
         for (const member of membersMap.values()) {
@@ -5916,12 +5915,12 @@ class MemberedTypeToClass {
                 });
                 temporaryTypeMembers.addMembers([member]);
                 const newMembers = temporaryTypeMembers.resolveIndexSignature(member, names);
-                newMembers.forEach((newMember) => temporaryTypeMembers.delete(TypeMembersMap$1.keyFromMember(newMember)));
+                newMembers.forEach((newMember) => temporaryTypeMembers.delete(TypeMembersMap.keyFromMember(newMember)));
                 newMembers.forEach((newMember) => this.#validateTypeMember(isStatic, newMember, temporaryTypeMembers));
                 return;
             }
             default: {
-                const key = TypeMembersMap$1.keyFromMember(member);
+                const key = TypeMembersMap.keyFromMember(member);
                 const aggregateMembers = isStatic
                     ? this.#aggregateStaticTypesMap
                     : this.#aggregateTypeMembersMap;
@@ -6191,14 +6190,14 @@ class MemberedTypeToClass {
         }
     }
     #applyInsertedKeys(addedKey, keyClassMap, purposeKeys) {
-        let fieldName = TypeMembersMap$1.keyFromName(addedKey.fieldType.kind, addedKey.fieldType.name);
+        let fieldName = TypeMembersMap.keyFromName(addedKey.fieldType.kind, addedKey.fieldType.name);
         if (addedKey.isFieldStatic)
             fieldName = "static " + fieldName;
         let groupName = "constructor";
         if (addedKey.groupType !== "constructor" &&
             addedKey.groupType !==
                 ClassFieldStatementsMap.GROUP_INITIALIZER_OR_PROPERTY) {
-            groupName = TypeMembersMap$1.keyFromName(addedKey.groupType.kind, addedKey.groupType.name);
+            groupName = TypeMembersMap.keyFromName(addedKey.groupType.kind, addedKey.groupType.name);
             if (addedKey.isGroupStatic) {
                 groupName = "static " + groupName;
             }
@@ -6422,7 +6421,7 @@ class TypeMembersMap extends OrderedMap {
     static #convertParameterFromTypeToImpl(source) {
         const impl = new ParameterDeclarationImpl(source.name);
         if (source.typeStructure)
-            impl.typeStructure = TypeStructureClassesMap$1.clone(source.typeStructure);
+            impl.typeStructure = TypeStructureClassesMap.clone(source.typeStructure);
         return impl;
     }
     /**
@@ -6472,12 +6471,12 @@ class TypeMembersMap extends OrderedMap {
         prop.leadingTrivia.push(...(getter?.leadingTrivia ?? setter.leadingTrivia));
         prop.trailingTrivia.push(...(getter?.leadingTrivia ?? setter.leadingTrivia));
         if (getter?.returnTypeStructure) {
-            prop.typeStructure = TypeStructureClassesMap$1.clone(getter.returnTypeStructure);
+            prop.typeStructure = TypeStructureClassesMap.clone(getter.returnTypeStructure);
         }
         else if (setter) {
             const setterParam = setter.parameters[0];
             if (setterParam.typeStructure) {
-                prop.typeStructure = TypeStructureClassesMap$1.clone(setterParam.typeStructure);
+                prop.typeStructure = TypeStructureClassesMap.clone(setterParam.typeStructure);
             }
         }
         this.addMembers([prop]);
@@ -6516,7 +6515,7 @@ class TypeMembersMap extends OrderedMap {
         if (toSetter) {
             const param = new ParameterDeclarationImpl("value");
             if (prop.typeStructure)
-                param.typeStructure = TypeStructureClassesMap$1.clone(prop.typeStructure);
+                param.typeStructure = TypeStructureClassesMap.clone(prop.typeStructure);
             const setter = new SetAccessorDeclarationImpl(false, prop.name, param);
             if (prop.docs) {
                 setter.docs.push(...StructureClassesMap.cloneArray(prop.docs));
@@ -6657,6 +6656,5 @@ class TypeMembersMap extends OrderedMap {
     }
 }
 _a = TypeMembersMap;
-var TypeMembersMap$1 = TypeMembersMap;
 
-export { ArrayTypeStructureImpl, CallSignatureDeclarationImpl, ClassDeclarationImpl, ClassFieldStatementsMap, ClassMembersMap, ClassStaticBlockDeclarationImpl, ClassSupportsStatementsFlags, ConditionalTypeStructureImpl, ConstructSignatureDeclarationImpl, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, DecoratorImpl, EnumDeclarationImpl, EnumMemberImpl, ExportAssignmentImpl, ExportDeclarationImpl, ExportManager, ExportSpecifierImpl, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, FunctionTypeStructureImpl, FunctionWriterStyle, GetAccessorDeclarationImpl, ImportAttributeImpl, ImportDeclarationImpl, ImportManager, ImportSpecifierImpl, ImportTypeStructureImpl, IndexSignatureDeclarationImpl, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, InterfaceDeclarationImpl, IntersectionTypeStructureImpl, JSDocImpl, JSDocTagImpl, JsxAttributeImpl, JsxElementImpl, JsxSelfClosingElementImpl, JsxSpreadAttributeImpl, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, MethodSignatureImpl, ModuleDeclarationImpl, NumberTypeStructureImpl, ParameterDeclarationImpl, ParameterTypeStructureImpl, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, PropertyAssignmentImpl, PropertyDeclarationImpl, PropertySignatureImpl, QualifiedNameTypeStructureImpl, SetAccessorDeclarationImpl, ShorthandPropertyAssignmentImpl, SourceFileImpl, SpreadAssignmentImpl, StringTypeStructureImpl, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, TypeArgumentedTypeStructureImpl, TypeMembersMap$1 as TypeMembersMap, TypeParameterDeclarationImpl, TypePredicateTypeStructureImpl, TypeStructureKind, UnionTypeStructureImpl, VariableDeclarationImpl, VariableStatementImpl, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, parseLiteralType };
+export { ArrayTypeStructureImpl, CallSignatureDeclarationImpl, ClassDeclarationImpl, ClassFieldStatementsMap, ClassMembersMap, ClassStaticBlockDeclarationImpl, ClassSupportsStatementsFlags, ConditionalTypeStructureImpl, ConstructSignatureDeclarationImpl, ConstructorDeclarationImpl, ConstructorDeclarationOverloadImpl, DecoratorImpl, EnumDeclarationImpl, EnumMemberImpl, ExportAssignmentImpl, ExportDeclarationImpl, ExportManager, ExportSpecifierImpl, FunctionDeclarationImpl, FunctionDeclarationOverloadImpl, FunctionTypeStructureImpl, FunctionWriterStyle, GetAccessorDeclarationImpl, ImportAttributeImpl, ImportDeclarationImpl, ImportManager, ImportSpecifierImpl, ImportTypeStructureImpl, IndexSignatureDeclarationImpl, IndexedAccessTypeStructureImpl, InferTypeStructureImpl, InterfaceDeclarationImpl, IntersectionTypeStructureImpl, JSDocImpl, JSDocTagImpl, JsxAttributeImpl, JsxElementImpl, JsxSelfClosingElementImpl, JsxSpreadAttributeImpl, LiteralTypeStructureImpl, MappedTypeStructureImpl, MemberedObjectTypeStructureImpl, MemberedTypeToClass, MethodDeclarationImpl, MethodDeclarationOverloadImpl, MethodSignatureImpl, ModuleDeclarationImpl, NumberTypeStructureImpl, ParameterDeclarationImpl, ParameterTypeStructureImpl, ParenthesesTypeStructureImpl, PrefixOperatorsTypeStructureImpl, PropertyAssignmentImpl, PropertyDeclarationImpl, PropertySignatureImpl, QualifiedNameTypeStructureImpl, SetAccessorDeclarationImpl, ShorthandPropertyAssignmentImpl, SourceFileImpl, SpreadAssignmentImpl, StringTypeStructureImpl, TemplateLiteralTypeStructureImpl, TupleTypeStructureImpl, TypeAliasDeclarationImpl, TypeArgumentedTypeStructureImpl, TypeMembersMap, TypeParameterDeclarationImpl, TypePredicateTypeStructureImpl, TypeStructureKind, UnionTypeStructureImpl, VariableDeclarationImpl, VariableStatementImpl, VoidTypeNodeToTypeStructureConsole, WriterTypeStructureImpl, forEachAugmentedStructureChild, getTypeAugmentedStructure, parseLiteralType };

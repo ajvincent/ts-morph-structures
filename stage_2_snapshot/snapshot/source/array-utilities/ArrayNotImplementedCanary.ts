@@ -8,7 +8,7 @@
  * When this file fails to compile, it means `ReadonlyArrayProxyHandler.#safeMembers` may need updating.
  */
 class ArrayNotImplementedCanary implements Omit<Array<unknown>, number> {
-  [Symbol.iterator](): IterableIterator<unknown> {
+  [Symbol.iterator](): ArrayIterator<unknown> {
     throw new Error("Function not implemented.");
   }
   get [Symbol.unscopables](): {
@@ -133,13 +133,13 @@ class ArrayNotImplementedCanary implements Omit<Array<unknown>, number> {
   ): unknown[] {
     throw new Error("Function not implemented.");
   }
-  entries(): IterableIterator<[number, unknown]> {
+  entries(): ArrayIterator<[number, unknown]> {
     throw new Error("Function not implemented.");
   }
-  keys(): IterableIterator<number> {
+  keys(): ArrayIterator<number> {
     throw new Error("Function not implemented.");
   }
-  values(): IterableIterator<unknown> {
+  values(): ArrayIterator<unknown> {
     throw new Error("Function not implemented.");
   }
   includes(searchElement: unknown, fromIndex?: number | undefined): boolean {
