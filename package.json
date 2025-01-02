@@ -9,15 +9,6 @@
     "dist/exports.d.ts"
   ],
   "type": "module",
-  "//": {
-    "debug": [
-      "Debugging this code requires Node 18.  Node 20 will fail to start running your code when using --inspect-brk and --import.",
-      "note to self: what about --inspect-wait, added in Node 20.15?  No, that doesn't fix it."
-    ],
-    "tsimp": [
-      "tsimp is currently showing tsc errors in stage_2_snapshot:jasmine, which bizarrely aren't breaking the build.  Deal with this another day."
-    ]
-  },
   "engines": {
     "node": ">=18.19"
   },
