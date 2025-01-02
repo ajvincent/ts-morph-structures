@@ -18,10 +18,7 @@ export default async function runESLint(
 
   // 4. Format the results.
   const formatter = await eslintRunner.loadFormatter();
-  const resultText = await formatter.format(results, {
-    cwd,
-    rulesMeta: {}
-  });
+  const resultText = await formatter.format(results);
 
   // 5. Output it.
   console.log(resultText);
