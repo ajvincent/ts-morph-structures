@@ -14,7 +14,7 @@ import {
 import {
   snapshotDir,
   stageDir
-} from "../constants.js";
+} from "../../pre-build/constants.js";
 
 export default async function doBundles(): Promise<void>
 {

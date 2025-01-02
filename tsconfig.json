@@ -4,6 +4,9 @@
     "module": "NodeNext",
     "target": "ES2022",
     "moduleResolution": "NodeNext",
+    "strict": true,
+    "sourceMap": true,
+    "declaration": false,
 
     "baseUrl": ".",
     "paths": {
@@ -13,6 +16,7 @@
       "#stage_two/snapshot/*": ["./stage_2_snapshot/snapshot/*"],
       "#stage_three/generation/*": ["./stage_3_generation/*"],
       "#utilities/*": ["./utilities/*"],
+      "#gulp-utilities/*": ["./gulp-utilities/*"]
     }
   },
 
