@@ -10,7 +10,7 @@ import {
 
 import runESLint from "#utilities/source/runEslint.js";
 
-import copySnapshot from "./build/copySnapshot.js";
+import copySnapshot from "./pre-build/copySnapshot.js";
 import structureToSyntax from "./build/structureToSyntax.js";
 import doBundles from "./build/rollup/bundle.js";
 

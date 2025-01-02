@@ -1,11 +1,11 @@
-import path from "path";
+import path from "node:path";
 
 import {
   chdir,
   cwd
 } from 'node:process';
 
-import { spawn } from 'child_process';
+import { fork } from 'node:child_process';
 
 import {
   projectDir,
@@ -19,7 +19,7 @@ import type {
 
 import {
   stageDir,
-} from "../constants.js";
+} from "../../pre-build/constants.js";
 
 export default
 async function runAPIDocumenter(): Promise<void>
@@ -35,10 +35,9 @@ async function runAPIDocumenter(): Promise<void>
     });
 
     // cwd is important for ts-node/tsimp hooks to run.
-    const apiDocumenter = spawn(
-      process.argv0,
+    const apiDocumenter = fork(
+      path.join(projectDir, "node_modules/@microsoft/api-documenter/bin/api-documenter"),
       [
-        path.join(projectDir, "node_modules/@microsoft/api-documenter/bin/api-documenter"),
         "markdown",
 
         "--input-folder",

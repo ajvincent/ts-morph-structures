@@ -22,31 +22,21 @@
     "node": ">=18.19"
   },
   "scripts": {
-    "build": "node --import ./register-hooks.js ./build.ts",
-    "clean": "node --import ./register-hooks.js ./clean.ts",
-    "debug": "node --inspect-brk ./register-hooks.js ./build.ts",
-    "build-stage-one": "TSMS_STAGE='one' node --import ./register-hooks.js ./build.ts",
-    "build-stage-two": "TSMS_STAGE='two' node --import ./register-hooks.js ./build.ts",
-    "build-stage-three": "TSMS_STAGE='three' node --import ./register-hooks.js ./build.ts",
-    "debug-stage-one": "TSMS_STAGE='one' node --inspect-brk --import ./register-hooks.js ./build.ts",
-    "debug-stage-two": "TSMS_STAGE='two' node --inspect-brk --import ./register-hooks.js ./build.ts",
-    "debug-stage-three": "TSMS_STAGE='three' node --inspect-brk --import ./register-hooks.js ./build.ts",
-    "use-cases": "TSMS_STAGE='use-cases' node ./register-hooks.js ./build.ts",
-    "debug-use-cases": "TSMS_STAGE='use-cases' node --inspect-brk ./register-hooks.js ./build.ts",
-    "is-repo-clean": "node --import ./register-hooks.js ./utilities/source/assertRepoIsClean.ts",
-    "diff-stages": "diff -p -U 8 -N -r ./stage_2_snapshot/snapshot/source ./stage_3_integration/snapshot/source",
-    "build-tsimp": "node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
-    "clean-tsimp": "node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./clean.ts",
-    "debug-tsimp": "node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
-    "build-stage-one-tsimp": "TSMS_STAGE='one' node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
-    "build-stage-two-tsimp": "TSMS_STAGE='two' node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
-    "build-stage-three-tsimp": "TSMS_STAGE='three' node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
-    "debug-stage-one-tsimp": "TSMS_STAGE='one' node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
-    "debug-stage-two-tsimp": "TSMS_STAGE='two' node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
-    "debug-stage-three-tsimp": "TSMS_STAGE='three' node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
-    "use-cases-tsimp": "TSMS_STAGE='use-cases' node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
-    "debug-use-cases-tsimp": "TSMS_STAGE='use-cases' node --inspect-brk --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./build.ts",
-    "is-repo-clean-tsimp": "node --import tsimp/import --import ./utilities/loader-hooks/subpath/registration.js ./utilities/source/assertRepoIsClean.ts"
+    "clean": "node ./gulp-utilities/cleanTSC_output.js",
+    "tsc-buildsystem": "tsc --project ./tsconfig-gulp.json",
+    "build": "npm run clean && npm run tsc-buildsystem && node --expose-gc ./node_modules/gulp/bin/gulp.js",
+    "debug": "npm run clean && npm run tsc-buildsystem && node --inspect-brk --expose-gc ./node_modules/gulp/bin/gulp.js",
+    "tasks": "npm run clean && npm run tsc-buildsystem && gulp --tasks",
+    "build-stage-one": "npm run clean && npm run tsc-buildsystem && node --expose-gc ./node_modules/gulp/bin/gulp.js stage_one",
+    "build-stage-two": "npm run clean && npm run tsc-buildsystem && node --expose-gc ./node_modules/gulp/bin/gulp.js stage_two",
+    "build-stage-three": "npm run clean && npm run tsc-buildsystem && node --expose-gc ./node_modules/gulp/bin/gulp.js stage_three",
+    "use-cases": "npm run clean && npm run tsc-buildsystem && node --expose-gc ./node_modules/gulp/bin/gulp.js use-cases",
+    "debug-stage-one": "npm run clean && npm run tsc-buildsystem && node --inspect-brk --expose-gc ./node_modules/gulp/bin/gulp.js stage_one",
+    "debug-stage-two": "npm run clean && npm run tsc-buildsystem && node --inspect-brk --expose-gc ./node_modules/gulp/bin/gulp.js stage_two",
+    "debug-stage-three": "npm run clean && npm run tsc-buildsystem && node --inspect-brk --expose-gc ./node_modules/gulp/bin/gulp.js stage_three",
+    "debug-use-cases": "npm run clean && npm run tsc-buildsystem && node --inspect-brk --expose-gc ./node_modules/gulp/bin/gulp.js use-cases",
+    "is-repo-clean": "npm run clean && npm run tsc-buildsystem && node ./gulp-utilities/assertRepoIsClean.js",
+    "diff-stages": "diff -p -U 8 -N -r ./stage_2_snapshot/snapshot/source ./stage_3_integration/snapshot/source"
   },
   "repository": {
     "type": "git",
@@ -74,6 +64,7 @@
     "@types/which": "^3.0.4",
     "chalk": "^5.3.0",
     "eslint": "^9.8.0",
+    "gulp": "^5.0.0",
     "jasmine": "^5.1.0",
     "prettier": "^3.3.2",
     "rollup": "^4.18.0",
@@ -86,6 +77,7 @@
     "which": "^4.0.0"
   },
   "dependencies": {
+    "@types/gulp": "^4.0.17",
     "mixin-decorators": "^1.0.1"
   },
   "peerDependencies": {
@@ -97,6 +89,7 @@
     "#stage_two/generation/*": "./stage_2_generation/*",
     "#stage_two/snapshot/*": "./stage_2_snapshot/snapshot/*",
     "#stage_three/generation/*": "./stage_3_generation/*",
-    "#utilities/*": "./utilities/*"
+    "#utilities/*": "./utilities/*",
+    "#gulp-utilities/*": "./gulp-utilities/*"
   }
 }

@@ -15,7 +15,7 @@ import { pathToModule } from "#utilities/source/AsyncSpecModules.js";
 
 import {
   stageDir
-} from "./constants.js";
+} from "../pre-build/constants.js";
 
 export default
 async function structureToSyntax(): Promise<void>

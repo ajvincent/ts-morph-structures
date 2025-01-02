@@ -1,0 +1,14 @@
+{
+  "files.exclude": {
+    "stage_*/**/*.js": { "when": "$(basename).ts"},
+    "stage_*/**/*.js.map": true,
+    "use-cases/**/*.js": { "when": "$(basename).ts"},
+    "use-cases/**/*.js.map": true,
+    "utilities/**/*.js": { "when": "$(basename).ts"},
+    "utilities/**/*.js.map": true,
+    "gulp-utilities/**/*.js": { "when": "$(basename).ts"},
+    "gulp-utilities/**/*.js.map": true,
+    "Gulpfile.js": true,
+    "Gulpfile.js.map": true,
+  }
+}

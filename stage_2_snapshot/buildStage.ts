@@ -11,7 +11,7 @@ import {
 import runJasmine from "#utilities/source/runJasmine.js";
 import runESLint from "#utilities/source/runEslint.js";
 
-import copySnapshot from "./build/copySnapshot.js";
+import copySnapshot from "./pre-build/copySnapshot.js";
 
 const BPSet = new BuildPromiseSet;
 
