@@ -1,3 +1,7 @@
+# Update: This repository is no longer maintained
+
+You want [the es-membrane monorepo](https://github.com/ajvincent/es-membrane/tree/master/projects/ts-morph-structures) instead.
+
 # ts-morph-structures: Structure classes for ts-morph
 
 The [ts-morph package](https://npmjs.com/package/ts-morph) has simplified [structure API's](https://ts-morph.com/manipulation/structures) for atomic operations on TypeScript nodes.  However, ts-morph doesn't provide implementations of those structures.  This project does, as a support tool for ts-morph, in the form of "structure classes".
