@@ -1,3 +1,7 @@
+# You are in the wrong place
+
+It's not your fault.  I moved the ts-morph-structures code to my [es-membrane monorepo](https://github.com/ajvincent/es-membrane/tree/master/projects/ts-morph-structures).  For the updated guide, you want https://ajvincent.github.io/es-membrane/ts-morph-structures/ .
+
 # Structure and Type Structure Classes for `ts-morph`
 
 In [`ts-morph`](https://ts-morph.com), structures represent the abstract syntax trees of source files and their descendant nodes... at least partially.  If you have a structure, you can create an equivalent node from it.
